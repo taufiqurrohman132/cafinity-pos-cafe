@@ -23,4 +23,7 @@ Route::view('/owner/dashboard', 'dashboard.owner.index')
 Route::view('/admin/dashboard', 'dashboard.admin.index')
     ->name('admin.dashboard');
 
+Route::view('/cashier/dashboard', 'dashboard.cashier.index')
+    ->name('cashier.dashboard');
+
 require __DIR__ . '/auth.php';
