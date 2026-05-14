@@ -13,8 +13,12 @@ class RoleMiddleware
      *
      * @param  Closure(Request): (Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
-    {
-        return $next($request);
-    }
+    // public function handle($request, Closure $next, ...$roles)
+    // {
+    //     if (! in_array(auth()->user()->role, $roles)) {
+    //         abort(403);
+    //     }
+
+    //     return $next($request);
+    // }
 }
