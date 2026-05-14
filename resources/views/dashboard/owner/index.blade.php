@@ -6,7 +6,7 @@
         {{-- Top Header --}}
         <div class="flex flex-col gap-4 lg:flex-row lg:items-center justify-between">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">Dashboard Owner</h1>
+                <h1 class="text-2xl font-bold text-gray-900">Dashboard Owner</h1>
                 <p class="text-gray-500 mt-1">Selamat datang kembali, Alex. Berikut ringkasan performa cafe Anda hari ini.
                 </p>
             </div>
@@ -50,7 +50,7 @@
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
                     <div class="flex justify-between items-center mb-6">
                         <div>
-                            <h2 class="text-lg font-bold">Ringkasan Penjualan</h2>
+                            <h3 class="text-lg font-bold">Ringkasan Penjualan</h3>
                             <p class="text-xs text-gray-400">Tren pendapatan realtime hari ini, 24 Mei 2024</p>
                         </div>
                         <span

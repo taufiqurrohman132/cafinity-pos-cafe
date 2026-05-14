@@ -19,5 +19,8 @@ Route::middleware('auth')->group(function () {
 
 Route::view('/owner/dashboard', 'dashboard.owner.index')
     ->name('owner.dashboard');
-    
+
+Route::view('/admin/dashboard', 'dashboard.admin.index')
+    ->name('admin.dashboard');
+
 require __DIR__ . '/auth.php';
