@@ -12,8 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ingredients', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->string('ingredient_id')->primary();
+            $table->string('nama');
+            $table->string('kategori');
+
+            $table->decimal('stok_saat_ini', 12, 2)->default(0);
+            $table->decimal('stok_minimum', 12, 2)->default(0);
+
+            $table->string('satuan');
+
+            $table->decimal('biaya_rata_rata', 12, 2)->default(0);
+
+            $table->enum('status', ['active', 'inactive']);
         });
     }
 

@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class RecipeIngredient extends Model
+class RecipeIngredient extends Pivot
 {
-    public function recipe()
-    {
-        return $this->belongsTo(Recipe::class);
-    }
+    protected $table = 'recipe_ingredients';
 
-    public function ingredient()
-    {
-        return $this->belongsTo(Ingredient::class);
-    }
+    protected $fillable = [
+        'recipe_id', 'inventory_id', 'qty', 'unit',
+    ];
+
+    protected $casts = [
+        'qty' => 'float',
+    ];
 }

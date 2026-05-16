@@ -12,8 +12,24 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaction_items', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->string('item_id')->primary();
+
+            $table->string('transaction_id');
+            $table->foreign('transaction_id')
+                ->references('transaction_id')
+                ->on('transactions')
+                ->cascadeOnDelete();
+
+            $table->string('menu_item_id');
+            $table->foreign('menu_item_id')
+                ->references('menu_item_id')
+                ->on('menu_items')
+                ->cascadeOnDelete();
+
+            $table->integer('qty');
+            $table->decimal('harga_satuan', 12, 2);
+            $table->decimal('subtotal', 12, 2);
+            $table->text('catatan')->nullable();
         });
     }
 

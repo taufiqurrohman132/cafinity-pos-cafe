@@ -9,3 +9,27 @@
         font-family: "Inter", sans-serif;
     }
 }
+
+/* ============================ */
+/* hide scrollbar default */
+/* ============================ */
+.scrollbar-auto::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollbar-auto::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollbar-auto::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0);
+    border-radius: 10px;
+    transition: background 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+/* saat scroll aktif */
+.scrollbar-auto.scrolling::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.6);
+    opacity: 1;
+}

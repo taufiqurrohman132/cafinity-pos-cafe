@@ -12,8 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notifications', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->string('notif_id')->primary();
+
+            $table->string('user_id');
+            $table->foreign('user_id')
+                ->references('user_id')
+                ->on('users')
+                ->cascadeOnDelete();
+
+            $table->enum('type', ['info', 'warning', 'success', 'error']);
+            $table->text('pesan');
+            $table->boolean('is_read')->default(false);
+
+            $table->dateTime('created_at')->nullable();
         });
     }
 

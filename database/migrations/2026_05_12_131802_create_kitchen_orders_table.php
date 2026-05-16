@@ -12,8 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kitchen_orders', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->string('kitchen_order_id')->primary();
+
+            $table->string('transaction_id');
+            $table->foreign('transaction_id')
+                ->references('transaction_id')
+                ->on('transactions')
+                ->cascadeOnDelete();
+
+            $table->enum('order_type', ['dine_in', 'takeaway']);
+            $table->string('meja')->nullable();
+            $table->enum('status', ['waiting', 'processing', 'done']);
+
+            $table->dateTime('created_at')->nullable();
         });
     }
 

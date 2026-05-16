@@ -12,8 +12,26 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->string('po_id')->primary();
+
+            $table->string('ingredient_id');
+            $table->foreign('ingredient_id')
+                ->references('ingredient_id')
+                ->on('ingredients')
+                ->cascadeOnDelete();
+
+            $table->string('user_id');
+            $table->foreign('user_id')
+                ->references('user_id')
+                ->on('users')
+                ->cascadeOnDelete();
+
+            $table->decimal('qty_pesan', 12, 2);
+            $table->string('satuan');
+
+            $table->enum('status', ['pending', 'approved', 'received', 'cancelled']);
+
+            $table->dateTime('created_at')->nullable();
         });
     }
 

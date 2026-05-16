@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,27 +11,28 @@
 
 <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
 
-<body class="bg-[#f6f7f8] text-gray-900">
+<body class="bg-[#f6f7f8] text-gray-900 overflow-hidden">
 
-<div class="min-h-screen flex">
+    <div class="h-screen flex">
 
-    {{-- Sidebar --}}
-    @include('layouts.sidebar')
+        {{-- Sidebar --}}
+        @include('layouts.sidebar')
 
-    {{-- Main Content --}}
-    <div class="flex-1 flex flex-col min-w-0">
+        {{-- Main Content --}}
+        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
 
-        {{-- Navbar --}}
-        @include('layouts.navbar')
+            {{-- Navbar --}}
+            @include('layouts.navbar')
 
-        {{-- Page Content --}}
-        <main class="flex-1 p-6 overflow-y-auto">
-            @yield('content')
-        </main>
+            {{-- Page Content --}}
+            <main class="flex-1 overflow-y-auto">
+                @yield('content')
+            </main>
+
+        </div>
 
     </div>
 
-</div>
-
 </body>
+
 </html>

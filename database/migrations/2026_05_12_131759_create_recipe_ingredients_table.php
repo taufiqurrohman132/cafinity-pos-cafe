@@ -13,7 +13,22 @@ return new class extends Migration
     {
         Schema::create('recipe_ingredients', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+
+            $table->string('recipe_id');
+            $table->foreign('recipe_id')
+                ->references('recipe_id')
+                ->on('recipes')
+                ->cascadeOnDelete();
+
+            $table->string('ingredient_id');
+            $table->foreign('ingredient_id')
+                ->references('ingredient_id')
+                ->on('ingredients')
+                ->cascadeOnDelete();
+
+            $table->decimal('qty', 12, 2);
+            $table->string('satuan');
+            $table->decimal('subtotal_biaya', 12, 2);
         });
     }
 

@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="space-y-6 p-4 md:p-6 bg-gray-50 min-h-screen">
+    <div class="h-full flex flex-col overflow-hidden">
 
 
-        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+        <div class="flex-1 grid grid-cols-1 xl:grid-cols-12 gap-3 min-h-0">
 
             {{-- Main Content (Left) --}}
-            <div class="xl:col-span-9 space-y-6">
+            <div class="xl:col-span-9 min-h-0 overflow-y-auto space-y-6 p-4 md:py-6 md:pl-6 bg-gray-50 scrollbar-auto">
 
                 {{-- Top Header --}}
                 <div class="flex flex-col gap-4 lg:flex-row lg:items-center justify-between">
@@ -255,7 +255,7 @@
 
 
             {{-- Sidebar (Right) --}}
-            <div class="xl:col-span-3 space-y-6">
+            <div class="xl:col-span-3 min-h-0 overflow-y-auto space-y-6 p-4 md:p-6 md:pl-0">
                 {{-- Quick Action --}}
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
                     <h4 class="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-4 flex items-center gap-2">

@@ -12,8 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('recipes', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->string('recipe_id')->primary();
+
+            $table->string('menu_item_id');
+            $table->foreign('menu_item_id')
+                ->references('menu_item_id')
+                ->on('menu_items')
+                ->cascadeOnDelete();
+
+            $table->decimal('total_hpp', 12, 2)->default(0);
+            $table->dateTime('last_sync')->nullable();
         });
     }
 

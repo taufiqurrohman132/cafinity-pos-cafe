@@ -3,25 +3,22 @@
     {{-- Search --}}
     <div class="w-[360px]">
 
-        <input
-            type="text"
-            placeholder="Search transactions, recipes, or menu..."
-            class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-500"
-        >
+        <input type="text" placeholder="Search transactions, recipes, or menu..."
+            class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-500">
 
     </div>
 
     {{-- Right Side --}}
     <div class="flex items-center gap-5">
 
-        <button class="text-gray-500 hover:text-black">
-            Notification
-        </button>
+        <a href="#" class="flex items-center gap-2 text-gray-500 hover:text-emerald-600 transition-colors font-medium">
+            <iconify-icon icon="solar:bell-bing-linear" class="text-xl"></iconify-icon>
+        </a>
 
-        <button class="text-gray-500 hover:text-black">
-            Settings
-        </button>
-
+        <a href="#"
+            class="flex items-center gap-2 text-gray-500 hover:text-emerald-600 transition-colors font-medium">
+            <iconify-icon icon="solar:settings-linear" class="text-xl"></iconify-icon>
+        </a>
         <div class="flex items-center gap-3 border-l pl-5">
 
             <div class="text-right">

@@ -2,17 +2,41 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Recipe extends Model
 {
+    use HasFactory;
+
+    protected $fillable = [
+        'menu_id', 'notes',
+    ];
+
     public function menu()
     {
-        return $this->belongsTo(MenuItem::class, 'menu_item_id');
+        return $this->belongsTo(Menu::class);
     }
 
     public function ingredients()
     {
-        return $this->hasMany(RecipeIngredient::class, 'recipe_id');
+        return $this->belongsToMany(Inventory::class, 'recipe_ingredients')
+                    ->withPivot('qty', 'unit')
+                    ->withTimestamps();
+    }
+
+    public function getTotalHppAttribute()
+    {
+        return $this->ingredients->sum(function ($item) {
+            return $item->pivot->qty * $item->price_per_unit;
+        });
+    }
+
+    public function getMarginAttribute()
+    {
+        $hpp = $this->total_hpp;
+        $price = $this->menu->price;
+        if ($price == 0) return 0;
+        return round((($price - $hpp) / $price) * 100, 1);
     }
 }

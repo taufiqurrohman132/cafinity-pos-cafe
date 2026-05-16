@@ -12,8 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('promotions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->string('promo_id')->primary();
+            $table->string('nama');
+
+            $table->enum('type', ['diskon_persen', 'diskon_nominal', 'bundle']);
+
+            $table->decimal('potongan', 12, 2)->default(0);
+
+            $table->dateTime('periode_mulai');
+            $table->dateTime('periode_selesai');
+
+            $table->enum('status', ['active', 'inactive']);
+
+            $table->integer('total_redemption')->default(0);
+            $table->decimal('total_revenue', 12, 2)->default(0);
         });
     }
 

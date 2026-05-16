@@ -17,6 +17,21 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            // POS fields
+            $table->enum('role', [
+                'owner',
+                'admin',
+                'cashier'
+            ])->default('cashier');
+
+            $table->enum('status', [
+                'active',
+                'inactive'
+            ])->default('active');
+
+            $table->timestamp('shift_terakhir')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });
