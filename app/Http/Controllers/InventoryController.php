@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 
 class InventoryController extends Controller
@@ -11,54 +12,55 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        //
+        $inventories = Inventory::with('supplier')->paginate(20);
+        return view('inventories.index', compact('inventories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('inventories.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        Inventory::create($request->validated());
+        return redirect()->route('inventories.index')->with('success', 'Item ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $inventory = Inventory::findOrFail($id);
+        return view('inventories.show', compact('inventory'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $inventory = Inventory::findOrFail($id);
+        return view('inventories.edit', compact('inventory'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        Inventory::findOrFail($id)->update($request->validated());
+        return redirect()->route('inventories.index')->with('success', 'Item diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        Inventory::findOrFail($id)->delete();
+        return redirect()->route('inventories.index')->with('success', 'Item dihapus.');
+    }
+
+    public function lowStock()
+    {
+        $inventories = Inventory::where('stock', '<=', DB::raw('min_stock'))->get();
+        return view('inventories.low-stock', compact('inventories'));
+    }
+
+    public function restock(Request $request, $id)
+    {
+        $inventory = Inventory::findOrFail($id);
+        $inventory->increment('stock', $request->qty);
+        return back()->with('success', 'Stok berhasil ditambah.');
     }
 }

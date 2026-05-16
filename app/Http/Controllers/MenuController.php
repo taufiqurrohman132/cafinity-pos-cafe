@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Menu;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 
@@ -12,66 +14,59 @@ class MenuController extends Controller
      */
     public function index()
     {
-        //
-        // $semuaMenu = MenuItem::all(); // 1. Ambil data dari database
-        // return view('menus.index', compact('semuaMenu')); // 2. Kirim data ke tampilan (blade)
-        return view('shared.menu-management.index'); // 2. Kirim data ke tampilan (blade)
+        $menus = Menu::with('category')->paginate(20);
+        return view('menus.index', compact('menus'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('menus.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-            // 1. Validasi inputan user
-        $request->validate(['nama_menu' => 'required', 'harga' => 'required']);
-
-        // 2. Simpan ke database
-        MenuItem::create($request->all());
-
-        // 3. Pindahkan halaman kembali ke daftar menu
-        return redirect()->route('menus.index');
+        Menu::create($request->validated());
+        return redirect()->route('menus.index')->with('success', 'Menu ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $menu = Menu::with('category', 'recipe')->findOrFail($id);
+        return view('menus.show', compact('menu'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $menu = Menu::findOrFail($id);
+        $categories = Category::all();
+        return view('menus.edit', compact('menu', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        Menu::findOrFail($id)->update($request->validated());
+        return redirect()->route('menus.index')->with('success', 'Menu diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
-    
+        Menu::findOrFail($id)->delete();
+        return redirect()->route('menus.index')->with('success', 'Menu dihapus.');
+    }
+
+    public function toggleStatus($id)
+    {
+        $menu = Menu::findOrFail($id);
+        $menu->update(['is_active' => !$menu->is_active]);
+        return back();
+    }
+
+    public function uploadImage(Request $request, $id)
+    {
+        $menu = Menu::findOrFail($id);
+        $path = $request->file('image')->store('menus', 'public');
+        $menu->update(['image' => $path]);
+        return back()->with('success', 'Gambar berhasil diupload.');
     }
 }
