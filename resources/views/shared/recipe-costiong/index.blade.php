@@ -87,7 +87,7 @@
                         <p class="text-[10px] font-semibold text-gray-400 mb-2">{{ $resep['kategori'] }}</p>
                         <div class="flex justify-between items-center">
                             <span class="text-[10px] text-gray-500">HPP: {{ $resep['hpp'] }}</span>
-                            <span class="text-[10px] font-bold text-gray-700">{{ $resep['harga'] }}</span>
+                            <span class="text-xs font-bold text-gray-700">{{ $resep['harga'] }}</span>
                         </div>
                     </div>
                 @endforeach
