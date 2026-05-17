@@ -6,26 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('kitchen_order_items', function (Blueprint $table) {
+        Schema::create('bundle_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kitchen_order_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('bundle_id')->constrained()->cascadeOnDelete();
             $table->foreignId('menu_id')->constrained()->cascadeOnDelete();
-            $table->unsignedInteger('qty');
-            $table->string('notes')->nullable();
+            $table->unsignedInteger('qty')->default(1);
             $table->timestamps();
+
+            $table->unique(['bundle_id', 'menu_id']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('kitchen_order_items');
+        Schema::dropIfExists('bundle_items');
     }
 };
