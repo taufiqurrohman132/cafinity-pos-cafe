@@ -33,8 +33,9 @@ class Inventory extends Model
     public function recipes()
     {
         return $this->belongsToMany(Recipe::class, 'recipe_ingredients')
-                    ->withPivot('qty', 'unit')
-                    ->withTimestamps();
+            ->using(RecipeIngredient::class)
+            ->withPivot('qty', 'unit')
+            ->withTimestamps();
     }
 
     public function purchaseOrderItems()
@@ -47,8 +48,24 @@ class Inventory extends Model
         return $this->hasMany(InventoryLog::class);
     }
 
-    public function isLowStock()
+    public function isLowStock(): bool
     {
         return $this->stock <= $this->min_stock;
+    }
+
+    public function adjustStock(float $qty, string $type, ?string $notes = null): void
+    {
+        $before = $this->stock;
+        $this->stock += $qty;
+        $this->save();
+
+        $this->logs()->create([
+            'user_id'      => auth()->id(),
+            'type'         => $type,
+            'qty'          => abs($qty),
+            'stock_before' => $before,
+            'stock_after'  => $this->stock,
+            'notes'        => $notes,
+        ]);
     }
 }

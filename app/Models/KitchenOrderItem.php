@@ -13,6 +13,10 @@ class KitchenOrderItem extends Model
         'kitchen_order_id', 'menu_id', 'qty', 'notes',
     ];
 
+    protected $casts = [
+        'qty' => 'integer',
+    ];
+
     public function kitchenOrder()
     {
         return $this->belongsTo(KitchenOrder::class);

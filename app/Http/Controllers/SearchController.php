@@ -2,21 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MenuItem;
+use App\Models\Menu;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class SearchController extends Controller
 {
-    //
-    public function index()
+    public function index(): View
     {
-        return view('search.index');
+        return view('shared.search.index');
     }
 
-    public function results(Request $request)
+    public function results(Request $request): View
     {
-        $query = $request->input('q');
-        $results = MenuItem::where('name', 'like', "%$query%")->get();
-        return view('search.results', compact('results', 'query'));
+        $query = $request->validate(['q' => 'nullable|string|max:255'])['q'] ?? '';
+
+        $results = Menu::with('category')
+            ->where('is_active', true)
+            ->when($query, fn ($q) => $q->where('name', 'like', "%{$query}%"))
+            ->limit(50)
+            ->get();
+
+        return view('shared.search.results', compact('results', 'query'));
     }
 }

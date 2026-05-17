@@ -11,14 +11,13 @@ class InventoryLog extends Model
 
     protected $fillable = [
         'inventory_id', 'user_id', 'type',
-        'qty_change', 'qty_before', 'qty_after',
-        'notes', 'source',
+        'qty', 'stock_before', 'stock_after', 'notes',
     ];
 
     protected $casts = [
-        'qty_change' => 'float',
-        'qty_before' => 'float',
-        'qty_after'  => 'float',
+        'qty'          => 'float',
+        'stock_before' => 'float',
+        'stock_after'  => 'float',
     ];
 
     public function inventory()

@@ -4,69 +4,102 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Menu;
-use App\Models\MenuItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class MenuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        $menus = Menu::with('category')->paginate(20);
-        return view('menus.index', compact('menus'));
+        $menus = Menu::with('category')->latest()->paginate(20);
+
+        return view('shared.menu-management.index', compact('menus'));
     }
 
-    public function create()
+    public function create(): View
     {
-        $categories = Category::all();
-        return view('menus.create', compact('categories'));
+        $categories = Category::where('is_active', true)->orderBy('name')->get();
+
+        return view('shared.menu-management.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
-        Menu::create($request->validated());
+        $data = $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price'       => 'required|integer|min:0',
+            'is_active'   => 'boolean',
+        ]);
+
+        $data['slug'] = Str::slug($data['name']).'-'.Str::random(4);
+
+        Menu::create($data);
+
         return redirect()->route('menus.index')->with('success', 'Menu ditambahkan.');
     }
 
-    public function show($id)
+    public function show(string $id): View
     {
-        $menu = Menu::with('category', 'recipe')->findOrFail($id);
-        return view('menus.show', compact('menu'));
+        $menu = Menu::with('category', 'recipe.ingredients')->findOrFail($id);
+
+        return view('shared.menu-management.show', compact('menu'));
     }
 
-    public function edit($id)
+    public function edit(string $id): View
     {
         $menu = Menu::findOrFail($id);
-        $categories = Category::all();
-        return view('menus.edit', compact('menu', 'categories'));
+        $categories = Category::where('is_active', true)->orderBy('name')->get();
+
+        return view('shared.menu-management.edit', compact('menu', 'categories'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
-        Menu::findOrFail($id)->update($request->validated());
+        $menu = Menu::findOrFail($id);
+
+        $data = $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price'       => 'required|integer|min:0',
+            'is_active'   => 'boolean',
+        ]);
+
+        if ($menu->name !== $data['name']) {
+            $data['slug'] = Str::slug($data['name']).'-'.Str::random(4);
+        }
+
+        $menu->update($data);
+
         return redirect()->route('menus.index')->with('success', 'Menu diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {
         Menu::findOrFail($id)->delete();
+
         return redirect()->route('menus.index')->with('success', 'Menu dihapus.');
     }
 
-    public function toggleStatus($id)
+    public function toggleStatus(string $id)
     {
         $menu = Menu::findOrFail($id);
-        $menu->update(['is_active' => !$menu->is_active]);
+        $menu->update(['is_active' => ! $menu->is_active]);
+
         return back();
     }
 
-    public function uploadImage(Request $request, $id)
+    public function uploadImage(Request $request, string $id)
     {
+        $request->validate(['image' => 'required|image|max:2048']);
+
         $menu = Menu::findOrFail($id);
         $path = $request->file('image')->store('menus', 'public');
         $menu->update(['image' => $path]);
+
         return back()->with('success', 'Gambar berhasil diupload.');
     }
 }

@@ -34,42 +34,23 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-
-/*
-|--------------------------------------------------------------------------
-| AUTHENTICATED ROUTES
-|--------------------------------------------------------------------------
-*/
-
 Route::middleware(['auth'])->group(function () {
-// SEMUA REUTE
-});
 
-    /*
-    |--------------------------------------------------------------------------
-    | DASHBOARD PER ROLE
-    |--------------------------------------------------------------------------
-    */
+    Route::get('/dashboard', function () {
+        return redirect()->route(auth()->user()->dashboardRoute());
+    })->name('dashboard');
 
-    Route::get('/owner/dashboard', [
-        OwnerDashboardController::class,
-        'index'
-    ])//->middleware('role:owner')
-      ->name('owner.dashboard');
+    Route::get('/owner/dashboard', [OwnerDashboardController::class, 'index'])
+        ->middleware('role:owner')
+        ->name('owner.dashboard');
 
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
+        ->middleware('role:admin')
+        ->name('admin.dashboard');
 
-    Route::get('/admin/dashboard', [
-        AdminDashboardController::class,
-        'index'
-    ])//->middleware('role:admin')
-      ->name('admin.dashboard');
-
-
-    Route::get('/cashier/dashboard', [
-        CashierDashboardController::class,
-        'index'
-    ])//->middleware('role:cashier')
-      ->name('cashier.dashboard');
+    Route::get('/cashier/dashboard', [CashierDashboardController::class, 'index'])
+        ->middleware('role:cashier')
+        ->name('cashier.dashboard');
 
 
 
@@ -108,7 +89,6 @@ Route::middleware(['auth'])->group(function () {
     */
 
     Route::prefix('notifications')
-        ->middleware('permission:view notifications')
         ->name('notifications.')
         ->group(function () {
 
@@ -137,7 +117,6 @@ Route::middleware(['auth'])->group(function () {
     */
 
     Route::prefix('search')
-        ->middleware('permission:use search')
         ->name('search.')
         ->group(function () {
 
@@ -161,7 +140,6 @@ Route::middleware(['auth'])->group(function () {
     */
 
     Route::prefix('settings')
-        ->middleware('permission:manage settings')
         ->name('settings.')
         ->group(function () {
 
@@ -313,7 +291,6 @@ Route::middleware(['auth'])->group(function () {
     */
 
     Route::prefix('recipe-costing')
-        ->middleware('permission:manage recipes')
         ->name('recipe.')
         ->group(function () {
 
@@ -379,8 +356,7 @@ Route::middleware(['auth'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // Route::resource('suppliers', SupplierController::class)
-    //     ->middleware('permission:manage suppliers');
+    Route::resource('suppliers', SupplierController::class);
 
 
 
@@ -390,11 +366,9 @@ Route::middleware(['auth'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('purchase-orders', PurchaseOrderController::class)
-        ->middleware('permission:manage purchase orders');
+    Route::resource('purchase-orders', PurchaseOrderController::class);
 
     Route::prefix('purchase-orders')
-        ->middleware('permission:manage purchase orders')
         ->name('purchase-orders.')
         ->group(function () {
 
@@ -423,7 +397,6 @@ Route::middleware(['auth'])->group(function () {
     */
 
     Route::prefix('kitchen-orders')
-        ->middleware('permission:manage kitchen')
         ->name('kitchen-orders.')
         ->group(function () {
 
@@ -461,19 +434,9 @@ Route::middleware(['auth'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('promotions', PromotionController::class)
-        ->middleware('permission:manage promotions');
+    Route::resource('promotions', PromotionController::class);
 
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | BUNDLES
-    |--------------------------------------------------------------------------
-    */
-
-    Route::resource('bundles', BundleController::class)
-        ->middleware('permission:manage promotions');
+    Route::resource('bundles', BundleController::class);
 
 
 
@@ -538,7 +501,6 @@ Route::middleware(['auth'])->group(function () {
     */
 
     Route::prefix('analytics')
-        ->middleware('permission:view analytics')
         ->name('analytics.')
         ->group(function () {
 
@@ -577,7 +539,6 @@ Route::middleware(['auth'])->group(function () {
     */
 
     Route::prefix('targets-goals')
-        ->middleware('permission:manage targets')
         ->name('targets-goals.')
         ->group(function () {
 
@@ -639,7 +600,6 @@ Route::middleware(['auth'])->group(function () {
     */
 
     Route::prefix('system-status')
-        ->middleware('permission:view system status')
         ->name('system-status.')
         ->group(function () {
 
@@ -659,7 +619,7 @@ Route::middleware(['auth'])->group(function () {
             ])->name('optimize');
         });
 
-
+});
 
 /*
 |--------------------------------------------------------------------------

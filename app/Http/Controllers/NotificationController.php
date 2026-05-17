@@ -2,27 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class NotificationController extends Controller
 {
-    //
-    public function index()
+    public function index(): View
     {
-        $notifications = Auth::user()->notifications()->paginate(20);
-        return view('notifications.index', compact('notifications'));
+        $notifications = Notification::where('user_id', auth()->id())
+            ->latest()
+            ->paginate(20);
+
+        return view('shared.notification.index', compact('notifications'));
     }
 
     public function readAll()
     {
-        Auth::user()->unreadNotifications->markAsRead();
-        return back();
+        Notification::where('user_id', auth()->id())
+            ->where('is_read', false)
+            ->update(['is_read' => true, 'read_at' => now()]);
+
+        return back()->with('success', 'Semua notifikasi ditandai dibaca.');
     }
 
-    public function read($id)
+    public function read(string $id)
     {
-        Auth::user()->notifications()->findOrFail($id)->markAsRead();
+        $notification = Notification::where('user_id', auth()->id())->findOrFail($id);
+        $notification->markAsRead();
+
         return back();
     }
 }

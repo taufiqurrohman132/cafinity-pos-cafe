@@ -6,36 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('transaction_items', function (Blueprint $table) {
-            $table->string('item_id')->primary();
-
-            $table->string('transaction_id');
-            $table->foreign('transaction_id')
-                ->references('transaction_id')
-                ->on('transactions')
-                ->cascadeOnDelete();
-
-            $table->string('menu_item_id');
-            $table->foreign('menu_item_id')
-                ->references('menu_item_id')
-                ->on('menu_items')
-                ->cascadeOnDelete();
-
-            $table->integer('qty');
-            $table->decimal('harga_satuan', 12, 2);
-            $table->decimal('subtotal', 12, 2);
-            $table->text('catatan')->nullable();
+            $table->id();
+            $table->foreignId('transaction_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('menu_id')->constrained()->cascadeOnDelete();
+            $table->unsignedInteger('qty')->default(1);
+            $table->unsignedInteger('price')->default(0);
+            $table->unsignedInteger('discount')->default(0);
+            $table->unsignedInteger('subtotal')->default(0);
+            $table->string('notes')->nullable();
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('transaction_items');

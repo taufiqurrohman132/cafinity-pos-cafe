@@ -19,8 +19,8 @@
             <nav class="p-4 space-y-1">
 
                 {{-- Dashboard --}}
-                <a href="{{ route('owner.dashboard') }}"
-                    class="{{ $baseClass }} {{ request()->routeIs('shared.owner.dashboard') ? $activeClass : $inactiveClass }}">
+                <a href="{{ route(auth()->user()?->dashboardRoute() ?? 'owner.dashboard') }}"
+                    class="{{ $baseClass }} {{ request()->routeIs('owner.dashboard', 'admin.dashboard', 'cashier.dashboard') ? $activeClass : $inactiveClass }}">
                     <iconify-icon icon="solar:home-2-linear" class="text-lg"></iconify-icon>
                     <span>Dashboard</span>
                 </a>
@@ -68,7 +68,7 @@
                 </a>
 
                 {{-- Users --}}
-                <a href="{{ route('users') }}"
+                <a href="{{ route('users.index') }}"
                     class="{{ $baseClass }} {{ request()->routeIs('users.*') ? $activeClass : $inactiveClass }}">
                     <iconify-icon icon="solar:users-group-rounded-linear" class="text-lg"></iconify-icon>
                     <span>Users</span>

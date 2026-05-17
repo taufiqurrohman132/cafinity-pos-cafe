@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('inventories', function (Blueprint $table) {
@@ -16,7 +13,7 @@ return new class extends Migration
             $table->foreignId('inventory_category_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('supplier_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
-            $table->string('unit'); // Liter, Kg, Botol, Pcs, Jerigen
+            $table->string('unit');
             $table->float('stock')->default(0);
             $table->float('min_stock')->default(0);
             $table->unsignedInteger('price_per_unit')->default(0);
@@ -24,11 +21,8 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('inventory_logs');
+        Schema::dropIfExists('inventories');
     }
 };

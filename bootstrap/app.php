@@ -11,8 +11,20 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // ASLI
+        // $middleware->alias([
+        //     'role' => \App\Http\Middleware\RoleMiddleware::class,
+        // ]);
+
+        // TAMBAHKAN BARIS INI:
+        // Ini akan menjalankan auto-login di setiap request halaman web sebelum dicek oleh middleware auth
+        $middleware->web(append: [
+            \App\Http\Middleware\DevAutoLogin::class,
+        ]);
+
+        // 2. TAMBAHKAN BARIS INI (Daftarkan alias untuk middleware role kamu):
         $middleware->alias([
-            'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'role' => \App\Http\Middleware\RoleMiddleware::class, // <-- Arahkan ke class middleware Role milikmu
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

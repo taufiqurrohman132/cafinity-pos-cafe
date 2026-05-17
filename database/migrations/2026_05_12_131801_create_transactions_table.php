@@ -6,40 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->string('transaction_id')->primary();
-            $table->string('invoice_no')->unique();
-
-            $table->string('kasir_id');
-            $table->foreign('kasir_id')
-                ->references('user_id')
-                ->on('users')
-                ->cascadeOnDelete();
-
-            $table->string('customer_name')->nullable();
-            $table->enum('order_type', ['dine_in', 'takeaway']);
-            $table->enum('payment_method', ['cash', 'qris', 'transfer', 'debit']);
-
-            $table->decimal('subtotal', 12, 2);
-            $table->decimal('pajak', 12, 2)->default(0);
-            $table->decimal('service_charge', 12, 2)->default(0);
-            $table->decimal('total', 12, 2);
-
-            $table->enum('status', ['pending', 'paid', 'cancelled']);
-            $table->text('catatan_internal')->nullable();
-
-            $table->dateTime('created_at')->nullable();
+            $table->id();
+            $table->foreignId('cashier_id')->constrained('users')->cascadeOnDelete();
+            $table->enum('status', ['pending', 'held', 'completed', 'cancelled', 'refunded'])->default('pending');
+            $table->unsignedInteger('total_amount')->default(0);
+            $table->unsignedInteger('discount')->default(0);
+            $table->unsignedInteger('tax')->default(0);
+            $table->string('payment_method')->nullable();
+            $table->unsignedInteger('paid_amount')->default(0);
+            $table->unsignedInteger('change_amount')->default(0);
+            $table->text('notes')->nullable();
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('transactions');

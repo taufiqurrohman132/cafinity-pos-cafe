@@ -22,5 +22,15 @@ class Promotion extends Model
         'is_active'    => 'boolean',
     ];
 
-    // type: percentage, fixed
+    public function isCurrentlyActive(): bool
+    {
+        if (! $this->is_active) {
+            return false;
+        }
+
+        $today = now()->toDateString();
+
+        return $today >= $this->start_date->toDateString()
+            && $today <= $this->end_date->toDateString();
+    }
 }

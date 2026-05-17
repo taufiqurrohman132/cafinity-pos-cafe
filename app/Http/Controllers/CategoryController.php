@@ -4,48 +4,75 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    //
-    public function index()
+    public function index(): View
     {
-        $categories = Category::withCount('menus')->paginate(20);
-        return view('categories.index', compact('categories'));
+        $categories = Category::withCount('menus')->latest()->paginate(20);
+
+        return view('shared.menu-management.categories', compact('categories'));
     }
 
-    public function create()
+    public function create(): View
     {
-        return view('categories.create');
+        return view('shared.menu-management.category-create');
     }
 
     public function store(Request $request)
     {
-        Category::create($request->validated());
+        $data = $request->validate([
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'is_active'   => 'boolean',
+        ]);
+
+        $data['slug'] = Str::slug($data['name']);
+
+        Category::create($data);
+
         return redirect()->route('categories.index')->with('success', 'Kategori ditambahkan.');
     }
 
-    public function show($id)
+    public function show(string $id): View
     {
         $category = Category::with('menus')->findOrFail($id);
-        return view('categories.show', compact('category'));
+
+        return view('shared.menu-management.category-show', compact('category'));
     }
 
-    public function edit($id)
+    public function edit(string $id): View
     {
         $category = Category::findOrFail($id);
-        return view('categories.edit', compact('category'));
+
+        return view('shared.menu-management.category-edit', compact('category'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
-        Category::findOrFail($id)->update($request->validated());
+        $category = Category::findOrFail($id);
+
+        $data = $request->validate([
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'is_active'   => 'boolean',
+        ]);
+
+        if ($category->name !== $data['name']) {
+            $data['slug'] = Str::slug($data['name']);
+        }
+
+        $category->update($data);
+
         return redirect()->route('categories.index')->with('success', 'Kategori diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {
         Category::findOrFail($id)->delete();
+
         return redirect()->route('categories.index')->with('success', 'Kategori dihapus.');
     }
 }

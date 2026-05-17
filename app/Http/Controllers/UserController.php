@@ -4,63 +4,102 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        $users = User::paginate(20);
-        return view('users.index', compact('users'));
+        $users = User::latest()->paginate(20);
+
+        return view('shared.user-management.index', compact('users'));
     }
 
-    public function create()
+    public function create(): View
     {
-        return view('users.create');
+        return view('shared.user-management.create');
     }
 
     public function store(Request $request)
     {
-        User::create([...$request->validated(), 'password' => bcrypt($request->password)]);
+        $data = $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'role'     => ['required', Rule::in(['owner', 'admin', 'cashier'])],
+            'status'   => ['nullable', Rule::in(['active', 'inactive'])],
+        ]);
+
+        $data['status'] = $data['status'] ?? 'active';
+
+        User::create($data);
+
         return redirect()->route('users.index')->with('success', 'User ditambahkan.');
     }
 
-    public function show($id)
+    public function show(string $id): View
     {
         $user = User::findOrFail($id);
-        return view('users.show', compact('user'));
+
+        return view('shared.user-management.show', compact('user'));
     }
 
-    public function edit($id)
+    public function edit(string $id): View
     {
         $user = User::findOrFail($id);
-        return view('users.edit', compact('user'));
+
+        return view('shared.user-management.edit', compact('user'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
-        User::findOrFail($id)->update($request->validated());
+        $user = User::findOrFail($id);
+
+        $data = $request->validate([
+            'name'   => 'required|string|max:255',
+            'email'  => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+            'role'   => ['required', Rule::in(['owner', 'admin', 'cashier'])],
+            'status' => ['required', Rule::in(['active', 'inactive'])],
+        ]);
+
+        if ($request->filled('password')) {
+            $request->validate(['password' => 'string|min:8|confirmed']);
+            $data['password'] = $request->password;
+        }
+
+        $user->update($data);
+
         return redirect()->route('users.index')->with('success', 'User diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        User::findOrFail($id)->delete();
+        $user = User::findOrFail($id);
+
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'Tidak dapat menghapus akun sendiri.');
+        }
+
+        $user->delete();
+
         return redirect()->route('users.index')->with('success', 'User dihapus.');
     }
 
-    public function resetPassword($id)
+    public function resetPassword(string $id)
     {
-        User::findOrFail($id)->update(['password' => bcrypt('password123')]);
+        User::findOrFail($id)->update(['password' => 'password123']);
+
         return back()->with('success', 'Password direset ke: password123');
     }
 
-    public function toggleStatus($id)
+    public function toggleStatus(string $id)
     {
         $user = User::findOrFail($id);
-        $user->update(['is_active' => !$user->is_active]);
+        $user->update([
+            'status' => $user->status === 'active' ? 'inactive' : 'active',
+        ]);
+
         return back();
     }
 }

@@ -1,174 +1,530 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 p-6 md:p-8">
-    <div class="max-w-6xl mx-auto space-y-6">
+    <div class="min-h-screen bg-[#f5f7f9]">
+        <div class="grid grid-cols-1 xl:grid-cols-12">
 
-        {{-- Header --}}
-        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-900">Katalog Menu</h1>
-                <p class="text-sm text-gray-400 mt-1">Kelola item menu, harga jual, dan pantau margin keuntungan Anda.</p>
-            </div>
-            <div class="flex items-center gap-4 sm:text-right">
-                <div class="hidden sm:block">
-                    <p class="text-xs text-gray-400 font-medium">Total Menu</p>
-                    <p class="text-2xl font-bold text-emerald-500">42</p>
+            {{-- MAIN CONTENT --}}
+            <div class="xl:col-span-9 p-5 md:p-7">
+
+                {{-- HEADER --}}
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900">
+                            Manajemen Inventaris
+                        </h1>
+                        <p class="text-gray-500 mt-1 text-[15px]">
+                            Lacak dan kelola stok bahan baku operasional kafe Anda secara real-time.
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <button
+                            class="h-11 px-5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition flex items-center gap-2 text-sm font-medium text-gray-700">
+
+                            <iconify-icon icon="mdi:filter-outline" class="text-lg"></iconify-icon>
+
+                            Filter
+                        </button>
+
+                        <button
+                            class="h-11 px-6 rounded-xl bg-[#22c55e] hover:bg-[#16a34a] transition text-white font-semibold flex items-center gap-2 shadow-sm">
+
+                            <iconify-icon icon="mdi:plus" class="text-lg"></iconify-icon>
+
+                            Tambah Bahan
+                        </button>
+                    </div>
                 </div>
-                <button class="flex items-center gap-2 px-5 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-semibold hover:bg-emerald-600 transition shadow-sm whitespace-nowrap">
-                    <iconify-icon icon="solar:add-circle-linear" class="text-lg"></iconify-icon>
-                    Tambah Menu
-                </button>
+
+                {{-- TOP STATS --}}
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-7">
+
+                    {{-- CARD --}}
+                    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm">
+                                    Total Nilai Inventaris
+                                </p>
+
+                                <h2 class="text-4xl font-bold text-gray-900 mt-4">
+                                    Rp 12.450.000
+                                </h2>
+
+                                <div class="flex items-center gap-2 mt-5 text-green-500 text-sm font-semibold">
+                                    <iconify-icon icon="mdi:arrow-top-right"></iconify-icon>
+                                    +2.4% dari bulan lalu
+                                </div>
+                            </div>
+
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center text-green-600 text-2xl">
+
+                                <iconify-icon icon="solar:box-outline"></iconify-icon>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- CARD --}}
+                    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm">
+                                    Peringatan Stok Rendah
+                                </p>
+
+                                <h2 class="text-4xl font-bold text-gray-900 mt-4">
+                                    3 Item
+                                </h2>
+
+                                <div class="flex items-center gap-2 mt-5 text-red-500 text-sm font-semibold">
+                                    <iconify-icon icon="mdi:arrow-bottom-right"></iconify-icon>
+                                    Perlu segera dipesan
+                                </div>
+                            </div>
+
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center text-orange-500 text-2xl">
+
+                                <iconify-icon icon="mdi:alert-outline"></iconify-icon>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- CARD --}}
+                    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm">
+                                    Saran Restock
+                                </p>
+
+                                <h2 class="text-4xl font-bold text-gray-900 mt-4">
+                                    5 Item
+                                </h2>
+
+                                <div class="text-gray-400 text-sm mt-5">
+                                    Berdasarkan tren penjualan
+                                </div>
+                            </div>
+
+                            <div class="text-gray-400 text-2xl">
+                                <iconify-icon icon="mdi:chevron-right"></iconify-icon>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                {{-- TABLE --}}
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+
+                    {{-- HEADER TABLE --}}
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+
+                            <h3 class="text-2xl font-bold text-gray-900">
+                                Daftar Bahan Baku
+                            </h3>
+
+                            <div class="relative">
+                                <iconify-icon icon="mdi:magnify"
+                                    class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></iconify-icon>
+
+                                <input type="text" placeholder="Cari bahan..."
+                                    class="w-full lg:w-[280px] h-11 rounded-xl border border-gray-200 bg-gray-50 pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {{-- TABLE --}}
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[900px]">
+
+                            <thead class="bg-[#fafafa] border-b border-gray-200">
+                                <tr class="text-left text-sm text-gray-500">
+                                    <th class="px-6 py-4 font-semibold">Nama Bahan</th>
+                                    <th class="px-6 py-4 font-semibold">Kategori</th>
+                                    <th class="px-6 py-4 font-semibold">Stok Saat Ini</th>
+                                    <th class="px-6 py-4 font-semibold">Satuan</th>
+                                    <th class="px-6 py-4 font-semibold">Biaya Rata-rata</th>
+                                    <th class="px-6 py-4 font-semibold">Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @php
+                                    $items = [
+                                        [
+                                            'icon' => 'S',
+                                            'name' => 'Susu UHT Full Cream',
+                                            'category' => 'Dairy',
+                                            'stock' => '42 / 40',
+                                            'percent' => 105,
+                                            'unit' => 'Liter',
+                                            'price' => 'Rp 18.500',
+                                            'status' => 'Aman',
+                                            'statusColor' => 'green',
+                                        ],
+                                        [
+                                            'icon' => 'B',
+                                            'name' => 'Biji Kopi Arabica (House Blend)',
+                                            'category' => 'Coffee Beans',
+                                            'stock' => '8.5 / 20',
+                                            'percent' => 43,
+                                            'unit' => 'Kg',
+                                            'price' => 'Rp 240.000',
+                                            'status' => 'Menipis',
+                                            'statusColor' => 'yellow',
+                                        ],
+                                        [
+                                            'icon' => 'S',
+                                            'name' => 'Sirup Vanilla Premium',
+                                            'category' => 'Syrups',
+                                            'stock' => '3 / 10',
+                                            'percent' => 30,
+                                            'unit' => 'Botol',
+                                            'price' => 'Rp 85.000',
+                                            'status' => 'Kritis',
+                                            'statusColor' => 'orange',
+                                        ],
+                                        [
+                                            'icon' => 'B',
+                                            'name' => 'Bubuk Cokelat Dark',
+                                            'category' => 'Powders',
+                                            'stock' => '12 / 10',
+                                            'percent' => 120,
+                                            'unit' => 'Kg',
+                                            'price' => 'Rp 125.000',
+                                            'status' => 'Aman',
+                                            'statusColor' => 'green',
+                                        ],
+                                        [
+                                            'icon' => 'P',
+                                            'name' => 'Paper Cup 12oz',
+                                            'category' => 'Packaging',
+                                            'stock' => '150 / 400',
+                                            'percent' => 38,
+                                            'unit' => 'Pcs',
+                                            'price' => 'Rp 1.200',
+                                            'status' => 'Menipis',
+                                            'statusColor' => 'yellow',
+                                        ],
+                                        [
+                                            'icon' => 'G',
+                                            'name' => 'Gula Cair (Fructose)',
+                                            'category' => 'Sweeteners',
+                                            'stock' => '0 / 4',
+                                            'percent' => 0,
+                                            'unit' => 'Jerigen',
+                                            'price' => 'Rp 110.000',
+                                            'status' => 'Habis',
+                                            'statusColor' => 'red',
+                                        ],
+                                    ];
+                                @endphp
+
+                                @foreach ($items as $item)
+                                    <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+
+                                        {{-- NAMA --}}
+                                        <td class="px-6 py-5">
+                                            <div class="flex items-center gap-4">
+
+                                                <div
+                                                    class="w-10 h-10 rounded-xl bg-green-100 text-green-600 font-bold flex items-center justify-center">
+
+                                                    {{ $item['icon'] }}
+
+                                                </div>
+
+                                                <div>
+                                                    <h4 class="font-semibold text-gray-900">
+                                                        {{ $item['name'] }}
+                                                    </h4>
+                                                </div>
+
+                                            </div>
+                                        </td>
+
+                                        {{-- KATEGORI --}}
+                                        <td class="px-6 py-5">
+                                            <span
+                                                class="px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">
+                                                {{ $item['category'] }}
+                                            </span>
+                                        </td>
+
+                                        {{-- STOK --}}
+                                        <td class="px-6 py-5">
+                                            <div class="space-y-2">
+                                                <div class="flex items-center justify-between text-sm">
+                                                    <span class="font-semibold text-gray-800">
+                                                        {{ $item['stock'] }}
+                                                    </span>
+
+                                                    <span class="text-gray-500">
+                                                        {{ $item['percent'] }}%
+                                                    </span>
+                                                </div>
+
+                                                <div class="w-[120px] h-2 rounded-full bg-green-100 overflow-hidden">
+                                                    <div class="h-full bg-green-500 rounded-full"
+                                                        style="width: {{ min($item['percent'], 100) }}%">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        {{-- SATUAN --}}
+                                        <td class="px-6 py-5 text-gray-700 font-medium">
+                                            {{ $item['unit'] }}
+                                        </td>
+
+                                        {{-- BIAYA --}}
+                                        <td class="px-6 py-5 text-gray-900 font-semibold">
+                                            {{ $item['price'] }}
+                                        </td>
+
+                                        {{-- STATUS --}}
+                                        <td class="px-6 py-5">
+
+                                            @if ($item['statusColor'] == 'green')
+                                                <span
+                                                    class="px-3 py-1 rounded-full bg-green-100 text-green-600 text-xs font-semibold">
+                                                    {{ $item['status'] }}
+                                                </span>
+                                            @elseif($item['statusColor'] == 'yellow')
+                                                <span
+                                                    class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-xs font-semibold">
+                                                    {{ $item['status'] }}
+                                                </span>
+                                            @elseif($item['statusColor'] == 'orange')
+                                                <span
+                                                    class="px-3 py-1 rounded-full bg-orange-100 text-orange-600 text-xs font-semibold">
+                                                    {{ $item['status'] }}
+                                                </span>
+                                            @else
+                                                <span
+                                                    class="px-3 py-1 rounded-full bg-red-100 text-red-600 text-xs font-semibold">
+                                                    {{ $item['status'] }}
+                                                </span>
+                                            @endif
+
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    {{-- FOOTER --}}
+                    <div
+                        class="p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4 text-sm text-gray-500">
+
+                        <p>
+                            Menampilkan 6 dari 48 jenis bahan baku
+                        </p>
+
+                        <div class="flex items-center gap-6">
+
+                            <button class="hover:text-green-600 transition">
+                                Unduh Laporan Stok (PDF)
+                            </button>
+
+                            <button class="hover:text-green-600 transition">
+                                Cetak Label Inventaris
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
+
+            {{-- SIDEBAR --}}
+            <div class="xl:col-span-3 border-l border-gray-200 bg-white p-5 md:p-6">
+
+                {{-- QUICK ACTION --}}
+                <div class="mb-8">
+                    <h3 class="text-sm font-bold text-gray-500 uppercase mb-4">
+                        AKSI CEPAT
+                    </h3>
+
+                    <div class="space-y-3">
+
+                        <button
+                            class="w-full bg-[#22c55e] hover:bg-[#16a34a] transition rounded-xl p-4 text-left text-white flex items-start gap-3">
+
+                            <div class="text-2xl">
+                                <iconify-icon icon="mdi:refresh"></iconify-icon>
+                            </div>
+
+                            <div>
+                                <h4 class="font-bold">
+                                    Penyesuaian Stok
+                                </h4>
+
+                                <p class="text-xs text-green-100 mt-1">
+                                    Input stok masuk/keluar manual
+                                </p>
+                            </div>
+
+                        </button>
+
+                        <button
+                            class="w-full border border-gray-200 rounded-xl p-4 text-left flex items-start gap-3 hover:bg-gray-50 transition">
+
+                            <div
+                                class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 text-xl">
+
+                                <iconify-icon icon="mdi:clipboard-check-outline"></iconify-icon>
+
+                            </div>
+
+                            <div>
+                                <h4 class="font-bold text-gray-800">
+                                    Stock Opname
+                                </h4>
+
+                                <p class="text-xs text-gray-400 mt-1">
+                                    Audit fisik vs sistem mingguan
+                                </p>
+                            </div>
+
+                        </button>
+
+                    </div>
+                </div>
+
+                {{-- LOG --}}
+                <div class="mb-8">
+
+                    <div class="flex items-center justify-between mb-5">
+                        <h3 class="text-sm font-bold text-gray-500 uppercase">
+                            LOG AKTIVITAS
+                        </h3>
+
+                        <button class="text-green-600 text-sm font-semibold">
+                            Semua
+                        </button>
+                    </div>
+
+                    <div class="space-y-5">
+
+                        <div>
+                            <div class="flex justify-between gap-3">
+                                <h4 class="font-bold text-gray-800 text-sm">
+                                    Penyesuaian Stok
+                                </h4>
+
+                                <span class="text-xs text-gray-400">
+                                    10 menit lalu
+                                </span>
+                            </div>
+
+                            <p class="text-sm text-gray-500 mt-1">
+                                Susu UHT: +12L oleh Budi (Admin)
+                            </p>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between gap-3">
+                                <h4 class="font-bold text-gray-800 text-sm">
+                                    Pengurangan Otomatis
+                                </h4>
+
+                                <span class="text-xs text-gray-400">
+                                    15 menit lalu
+                                </span>
+                            </div>
+
+                            <p class="text-sm text-gray-500 mt-1">
+                                Paper Cup: -1 Pcs oleh Santi (Kasir)
+                            </p>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between gap-3">
+                                <h4 class="font-bold text-gray-800 text-sm">
+                                    Low Stock Alert
+                                </h4>
+
+                                <span class="text-xs text-gray-400">
+                                    1 jam lalu
+                                </span>
+                            </div>
+
+                            <p class="text-sm text-gray-500 mt-1">
+                                Biji Kopi Arabica: 8.5 Kg tersisa
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {{-- TIPS --}}
+                <div class="bg-green-50 border border-green-100 rounded-2xl p-5">
+
+                    <div class="flex items-start gap-4">
+
+                        <div
+                            class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-2xl">
+
+                            <iconify-icon icon="mdi:alert-outline"></iconify-icon>
+
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-gray-800 mb-2">
+                                Tips Efisiensi
+                            </h4>
+
+                            <p class="text-sm leading-relaxed text-gray-600">
+                                Biji Kopi Arabica hampir mencapai titik kritis.
+                                Pastikan order ke supplier dilakukan sebelum pukul 15:00 hari ini.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
-        {{-- Toolbar: Search, Filter, View Toggle, & Tabs --}}
-        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-            <div class="flex items-center gap-3 flex-1">
-                {{-- Search --}}
-                <div class="relative flex-1 max-w-md">
-                    <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[15px]"></iconify-icon>
-                    <input type="text" placeholder="Cari menu..."
-                        class="w-full h-[42px] bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-4 text-[13px] outline-none focus:ring-2 focus:ring-emerald-200 focus:border-emerald-300 transition">
-                </div>
-                {{-- Filter Button --}}
-                <button class="flex items-center gap-2 h-[42px] px-4 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-600 hover:bg-gray-50 transition">
-                    <iconify-icon icon="solar:filter-linear" class="text-base"></iconify-icon>
-                    Filter
-                    <iconify-icon icon="solar:alt-arrow-down-linear" class="text-xs text-gray-400></iconify-icon>
-                </button>
-            </div>
+        {{-- FOOTER --}}
+        <div
+            class="h-14 border-t border-gray-200 bg-white flex flex-col lg:flex-row items-center justify-between px-6 text-sm text-gray-500">
 
-            <div class="flex items-center gap-4 self-end md:self-auto overflow-x-auto max-w-full no-scrollbar">
-                {{-- View Grid/List Toggles --}}
-                <div class="flex items-center bg-gray-50 border border-gray-200 p-1 rounded-xl shrink-0">
-                    <button class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-600">
-                        <iconify-icon icon="solar:widget-2-linear" class="text-lg"></iconify-icon>
-                    </button>
-                    <button class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-700 shadow-sm">
-                        <iconify-icon icon="solar:list-linear" class="text-lg"></iconify-icon>
-                    </button>
-                </div>
+            <p>
+                © 2024 Smart Cafe POS v2.4.0
+            </p>
 
-                {{-- Category Badges --}}
-                <div class="flex items-center gap-2 shrink-0">
-                    <button class="px-4 py-2 text-[13px] font-medium rounded-full bg-emerald-500 text-white shadow-sm transition">Semua</button>
-                    <button class="px-4 py-2 text-[13px] font-medium rounded-full bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 transition">Kopi</button>
-                    <button class="px-4 py-2 text-[13px] font-medium rounded-full bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 transition">Non-Kopi</button>
-                    <button class="px-4 py-2 text-[13px] font-medium rounded-full bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 transition">Makanan</button>
-                    <button class="px-4 py-2 text-[13px] font-medium rounded-full bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 transition">Snack</button>
-                </div>
-            </div>
-        </div>
+            <div class="flex items-center gap-6">
 
-        {{-- Table Card --}}
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="border-b border-gray-100 bg-gray-50/50">
-                            <th class="px-6 py-4 text-[12px] font-bold text-gray-400 uppercase tracking-wider w-20">Foto</th>
-                            <th class="px-6 py-4 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Nama Menu</th>
-                            <th class="px-6 py-4 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Kategori</th>
-                            <th class="px-6 py-4 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Harga Jual</th>
-                            <th class="px-6 py-4 text-[12px] font-bold text-gray-400 uppercase tracking-wider">HPP</th>
-                            <th class="px-6 py-4 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Margin</th>
-                            <th class="px-6 py-4 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-4 text-[12px] font-bold text-gray-400 uppercase tracking-wider text-right w-24">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-50">
-
-                        @php
-                        $menus = [
-                            ['nama' => 'Signature Espresso', 'kategori' => 'Kopi', 'icon' => 'solar:cup-hot-linear', 'harga' => 'Rp 28.000', 'hpp' => 'Rp 7.200', 'margin' => '74%', 'status' => 'Tersedia', 'img' => 'https://placehold.co/100x100/e2e8f0/64748b?text=Espresso'],
-                            ['nama' => 'Matcha Latte Ice', 'kategori' => 'Non-Kopi', 'icon' => 'solar:ice-cream-linear', 'harga' => 'Rp 32.000', 'hpp' => 'Rp 11.500', 'margin' => '64%', 'status' => 'Tersedia', 'img' => 'https://placehold.co/100x100/e2e8f0/64748b?text=Matcha'],
-                            ['nama' => 'Caramel Macchiato', 'kategori' => 'Kopi', 'icon' => 'solar:cup-hot-linear', 'harga' => 'Rp 35.000', 'hpp' => 'Rp 12.800', 'margin' => '63%', 'status' => 'Tersedia', 'img' => 'https://placehold.co/100x100/e2e8f0/64748b?text=Caramel'],
-                            ['nama' => 'Beef Lasagna', 'kategori' => 'Makanan', 'icon' => 'solar:plate-linear', 'harga' => 'Rp 45.000', 'hpp' => 'Rp 22.000', 'margin' => '51%', 'status' => 'Habis', 'img' => 'https://placehold.co/100x100/e2e8f0/64748b?text=Lasagna'],
-                            ['nama' => 'Croissant Almond', 'kategori' => 'Snack', 'icon' => 'solar:donut-linear', 'harga' => 'Rp 24.000', 'hpp' => 'Rp 9.800', 'margin' => '59%', 'status' => 'Tersedia', 'img' => 'https://placehold.co/100x100/e2e8f0/64748b?text=Croissant'],
-                            ['nama' => 'Red Velvet Latte', 'kategori' => 'Non-Kopi', 'icon' => 'solar:ice-cream-linear', 'harga' => 'Rp 30.000', 'hpp' => 'Rp 10.200', 'margin' => '66%', 'status' => 'Tersedia', 'img' => 'https://placehold.co/100x100/e2e8f0/64748b?text=Red+Velvet'],
-                        ];
-                        @endphp
-
-                        @foreach($menus as $menu)
-                        <tr class="hover:bg-gray-50/60 transition group">
-                            {{-- Foto --}}
-                            <td class="px-6 py-4">
-                                <img src="{{ $menu['img'] }}" alt="{{ $menu['nama'] }}" class="w-10 h-10 rounded-full object-cover border border-gray-100 shadow-sm">
-                            </td>
-
-                            {{-- Nama Menu --}}
-                            <td class="px-6 py-4 text-[14px] font-bold text-gray-800">
-                                {{ $menu['nama'] }}
-                            </td>
-
-                            {{-- Kategori --}}
-                            <td class="px-6 py-4 text-[13px] text-gray-500">
-                                <span class="flex items-center gap-1.5">
-                                    <iconify-icon icon="{{ $menu['icon'] }}" class="text-amber-500 text-sm"></iconify-icon>
-                                    {{ $menu['kategori'] }}
-                                </span>
-                            </td>
-
-                            {{-- Harga Jual --}}
-                            <td class="px-6 py-4 text-[13px] font-semibold text-gray-700">
-                                {{ $menu['harga'] }}
-                            </td>
-
-                            {{-- HPP --}}
-                            <td class="px-6 py-4 text-[13px] text-gray-400">
-                                {{ $menu['hpp'] }}
-                            </td>
-
-                            {{-- Margin --}}
-                            <td class="px-6 py-4 text-[13px] font-bold text-emerald-500">
-                                <span class="flex items-center gap-1">
-                                    {{ $menu['margin'] }}
-                                    <iconify-icon icon="solar:arrow-right-up-linear" class="text-xs"></iconify-icon>
-                                </span>
-                            </td>
-
-                            {{-- Status --}}
-                            <td class="px-6 py-4">
-                                @if($menu['status'] === 'Tersedia')
-                                    <span class="inline-flex items-center text-[12px] font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full">
-                                        Tersedia
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center text-[12px] font-semibold text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full">
-                                        Habis
-                                    </span>
-                                @endif
-                            </td>
-
-                            {{-- Aksi --}}
-                            <td class="px-6 py-4 text-right">
-                                <button class="opacity-0 group-hover:opacity-100 transition p-1 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
-                                    <iconify-icon icon="solar:pen-linear" class="text-base"></iconify-icon>
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-
-                    </tbody>
-                </table>
-            </div>
-
-            {{-- Pagination --}}
-            <div class="flex items-center justify-between px-6 py-4 border-t border-gray-100">
-                <span class="text-[13px] text-gray-400">Menampilkan <strong>6</strong> dari <strong>42</strong> menu</span>
                 <div class="flex items-center gap-2">
-                    <button class="px-4 py-2 text-[13px] font-semibold text-gray-400 bg-gray-50 border border-gray-200 rounded-xl hover:bg-gray-100 transition cursor-not-allowed" disabled>
-                        Sebelumnya
-                    </button>
-                    <button class="px-4 py-2 text-[13px] font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition">
-                        Berikutnya
-                    </button>
+                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                    System Online
                 </div>
+
+                <p>
+                    Support ID: #POS-8821
+                </p>
+
             </div>
-
         </div>
-
     </div>
-</div>
 @endsection

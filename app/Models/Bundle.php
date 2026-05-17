@@ -21,7 +21,13 @@ class Bundle extends Model
     public function menus()
     {
         return $this->belongsToMany(Menu::class, 'bundle_items')
-                    ->withPivot('qty')
-                    ->withTimestamps();
+            ->using(BundleItem::class)
+            ->withPivot('qty')
+            ->withTimestamps();
+    }
+
+    public function items()
+    {
+        return $this->hasMany(BundleItem::class);
     }
 }

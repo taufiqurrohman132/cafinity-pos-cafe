@@ -21,22 +21,27 @@ class Recipe extends Model
     public function ingredients()
     {
         return $this->belongsToMany(Inventory::class, 'recipe_ingredients')
-                    ->withPivot('qty', 'unit')
-                    ->withTimestamps();
+            ->using(RecipeIngredient::class)
+            ->withPivot('qty', 'unit')
+            ->withTimestamps();
     }
 
-    public function getTotalHppAttribute()
+    public function getTotalHppAttribute(): int
     {
-        return $this->ingredients->sum(function ($item) {
+        return (int) $this->ingredients->sum(function ($item) {
             return $item->pivot->qty * $item->price_per_unit;
         });
     }
 
-    public function getMarginAttribute()
+    public function getMarginAttribute(): float
     {
         $hpp = $this->total_hpp;
-        $price = $this->menu->price;
-        if ($price == 0) return 0;
+        $price = $this->menu?->price ?? 0;
+
+        if ($price === 0) {
+            return 0;
+        }
+
         return round((($price - $hpp) / $price) * 100, 1);
     }
 }
