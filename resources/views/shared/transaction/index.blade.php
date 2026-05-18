@@ -15,16 +15,24 @@
                     <iconify-icon icon="solar:download-linear"></iconify-icon>
                     Ekspor Laporan
                 </button>
-                <button class="flex items-center gap-2 px-4 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-semibold hover:bg-emerald-600 transition shadow-sm">
-                    <iconify-icon icon="solar:calendar-linear"></iconify-icon>
-                    Pilih Tanggal
-                </button>
+
+                {{-- Date Filter --}}
+                <form method="GET" action="{{ route('transactions.index') }}" id="date-form">
+                    @foreach(request()->except('date', 'page') as $key => $val)
+                        <input type="hidden" name="{{ $key }}" value="{{ $val }}">
+                    @endforeach
+                    <div class="relative">
+                        <input type="date" name="date" value="{{ request('date') }}"
+                            onchange="document.getElementById('date-form').submit()"
+                            class="appearance-none pl-10 pr-4 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-semibold cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-300 transition [color-scheme:dark]">
+                        <iconify-icon icon="solar:calendar-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-white text-base pointer-events-none"></iconify-icon>
+                    </div>
+                </form>
             </div>
         </div>
 
         {{-- Stat Cards --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
             <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4">
                 <div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-500 flex-shrink-0">
                     <iconify-icon icon="solar:card-linear" class="text-xl"></iconify-icon>
@@ -35,7 +43,6 @@
                 </div>
                 <span class="text-xs font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-lg flex-shrink-0">+12.5%</span>
             </div>
-
             <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4">
                 <div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-500 flex-shrink-0">
                     <iconify-icon icon="solar:cart-large-2-linear" class="text-xl"></iconify-icon>
@@ -46,7 +53,6 @@
                 </div>
                 <span class="text-xs font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-lg flex-shrink-0">+5.2%</span>
             </div>
-
             <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4">
                 <div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-500 flex-shrink-0">
                     <iconify-icon icon="solar:wallet-linear" class="text-xl"></iconify-icon>
@@ -57,7 +63,6 @@
                 </div>
                 <span class="text-xs font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-lg flex-shrink-0">2.1%</span>
             </div>
-
             <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4">
                 <div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-500 flex-shrink-0">
                     <iconify-icon icon="solar:restart-circle-linear" class="text-xl"></iconify-icon>
@@ -68,26 +73,100 @@
                 </div>
                 <span class="text-xs font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-lg flex-shrink-0">+0.5%</span>
             </div>
-
         </div>
 
         {{-- Table Card --}}
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
 
             {{-- Table Header --}}
-            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-                <h2 class="text-base font-bold text-gray-900">Daftar Transaksi</h2>
-                <div class="flex items-center gap-3">
-                    <div class="relative">
-                        <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[15px]"></iconify-icon>
-                        <input type="text" placeholder="Cari ID Invoice..."
-                            class="w-[220px] h-[38px] bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-4 text-[13px] outline-none focus:ring-2 focus:ring-emerald-200 focus:border-emerald-300 transition">
+            <form method="GET" action="{{ route('transactions.index') }}" id="filter-form">
+
+                {{-- Preserve date if set --}}
+                @if(request('date'))
+                    <input type="hidden" name="date" value="{{ request('date') }}">
+                @endif
+
+                <div class="flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-b border-gray-100">
+                    <h2 class="text-base font-bold text-gray-900">Daftar Transaksi</h2>
+
+                    <div class="flex flex-wrap items-center gap-2">
+
+                        {{-- Search --}}
+                        <div class="relative">
+                            <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[15px]"></iconify-icon>
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                placeholder="Cari ID Invoice..."
+                                class="w-[200px] h-[38px] bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-4 text-[13px] outline-none focus:ring-2 focus:ring-emerald-200 focus:border-emerald-300 transition">
+                        </div>
+
+                        {{-- Filter Status --}}
+                        <select name="status" onchange="document.getElementById('filter-form').submit()"
+                            class="h-[38px] bg-gray-50 border border-gray-200 rounded-xl px-3 text-[13px] text-gray-600 outline-none focus:ring-2 focus:ring-emerald-200 focus:border-emerald-300 transition cursor-pointer">
+                            <option value="">Semua Status</option>
+                            <option value="completed" {{ request('status') === 'completed' ? 'selected' : '' }}>Selesai</option>
+                            <option value="pending"   {{ request('status') === 'pending'   ? 'selected' : '' }}>Pending</option>
+                            <option value="cancelled" {{ request('status') === 'cancelled' ? 'selected' : '' }}>Dibatalkan</option>
+                            <option value="refunded"  {{ request('status') === 'refunded'  ? 'selected' : '' }}>Refund</option>
+                        </select>
+
+                        {{-- Filter Metode --}}
+                        <select name="method" onchange="document.getElementById('filter-form').submit()"
+                            class="h-[38px] bg-gray-50 border border-gray-200 rounded-xl px-3 text-[13px] text-gray-600 outline-none focus:ring-2 focus:ring-emerald-200 focus:border-emerald-300 transition cursor-pointer">
+                            <option value="">Semua Metode</option>
+                            <option value="cash"     {{ request('method') === 'cash'     ? 'selected' : '' }}>Cash</option>
+                            <option value="qris"     {{ request('method') === 'qris'     ? 'selected' : '' }}>QRIS</option>
+                            <option value="transfer" {{ request('method') === 'transfer' ? 'selected' : '' }}>Transfer</option>
+                            <option value="debit"    {{ request('method') === 'debit'    ? 'selected' : '' }}>Debit</option>
+                        </select>
+
+                        {{-- Search Button --}}
+                        <button type="submit"
+                            class="h-[38px] px-4 bg-emerald-500 text-white rounded-xl text-[13px] font-semibold hover:bg-emerald-600 transition">
+                            Cari
+                        </button>
+
+                        {{-- Reset --}}
+                        @if(request()->hasAny(['search', 'status', 'method', 'date']))
+                            <a href="{{ route('transactions.index') }}"
+                                class="h-[38px] px-3 bg-gray-100 text-gray-500 rounded-xl text-[13px] font-semibold hover:bg-gray-200 transition flex items-center gap-1">
+                                <iconify-icon icon="solar:close-circle-linear"></iconify-icon>
+                                Reset
+                            </a>
+                        @endif
+
                     </div>
-                    <button class="w-[38px] h-[38px] bg-gray-50 border border-gray-200 rounded-xl flex items-center justify-center text-gray-500 hover:bg-gray-100 transition">
-                        <iconify-icon icon="solar:filter-linear" class="text-[16px]"></iconify-icon>
-                    </button>
                 </div>
+            </form>
+
+            {{-- Active Filter Badges --}}
+            @if(request()->hasAny(['search', 'status', 'method', 'date']))
+            <div class="flex flex-wrap gap-2 px-6 py-3 bg-gray-50 border-b border-gray-100">
+                @if(request('search'))
+                    <span class="inline-flex items-center gap-1 text-[12px] font-medium text-gray-600 bg-white border border-gray-200 px-2.5 py-1 rounded-lg">
+                        <iconify-icon icon="solar:magnifer-linear" class="text-gray-400"></iconify-icon>
+                        {{ request('search') }}
+                    </span>
+                @endif
+                @if(request('status'))
+                    <span class="inline-flex items-center gap-1 text-[12px] font-medium text-gray-600 bg-white border border-gray-200 px-2.5 py-1 rounded-lg">
+                        <iconify-icon icon="solar:tag-linear" class="text-gray-400"></iconify-icon>
+                        Status: {{ ucfirst(request('status')) }}
+                    </span>
+                @endif
+                @if(request('method'))
+                    <span class="inline-flex items-center gap-1 text-[12px] font-medium text-gray-600 bg-white border border-gray-200 px-2.5 py-1 rounded-lg">
+                        <iconify-icon icon="solar:wallet-linear" class="text-gray-400"></iconify-icon>
+                        Metode: {{ ucfirst(request('method')) }}
+                    </span>
+                @endif
+                @if(request('date'))
+                    <span class="inline-flex items-center gap-1 text-[12px] font-medium text-gray-600 bg-white border border-gray-200 px-2.5 py-1 rounded-lg">
+                        <iconify-icon icon="solar:calendar-linear" class="text-gray-400"></iconify-icon>
+                        {{ \Carbon\Carbon::parse(request('date'))->translatedFormat('d F Y') }}
+                    </span>
+                @endif
             </div>
+            @endif
 
             {{-- Table --}}
             <div class="overflow-x-auto">
@@ -105,57 +184,43 @@
                     </thead>
                     <tbody class="divide-y divide-gray-50">
 
-                        @php
-                        $transactions = [
-                            ['id' => 'INV-2024-001', 'time' => '10:45 AM', 'kasir' => 'Rina S.', 'items' => '4 pcs', 'total' => 'Rp 155.000', 'metode' => 'Tunai', 'status' => 'Selesai'],
-                            ['id' => 'INV-2024-002', 'time' => '11:12 AM', 'kasir' => 'Budi H.', 'items' => '2 pcs', 'total' => 'Rp 82.000', 'metode' => 'QRIS', 'status' => 'Selesai'],
-                            ['id' => 'INV-2024-003', 'time' => '11:30 AM', 'kasir' => 'Rina S.', 'items' => '5 pcs', 'total' => 'Rp 210.000', 'metode' => 'Debit', 'status' => 'Pending'],
-                            ['id' => 'INV-2024-004', 'time' => '12:05 PM', 'kasir' => 'Budi H.', 'items' => '1 pcs', 'total' => 'Rp 45.000', 'metode' => 'Tunai', 'status' => 'Selesai'],
-                            ['id' => 'INV-2024-005', 'time' => '12:45 PM', 'kasir' => 'Rina S.', 'items' => '8 pcs', 'total' => 'Rp 320.000', 'metode' => 'QRIS', 'status' => 'Dibatalkan'],
-                            ['id' => 'INV-2024-006', 'time' => '01:20 PM', 'kasir' => 'Alex M.', 'items' => '3 pcs', 'total' => 'Rp 125.000', 'metode' => 'Tunai', 'status' => 'Selesai'],
-                            ['id' => 'INV-2024-007', 'time' => '01:55 PM', 'kasir' => 'Budi H.', 'items' => '2 pcs', 'total' => 'Rp 67.000', 'metode' => 'Debit', 'status' => 'Selesai'],
-                        ];
-                        @endphp
-
-                        @foreach($transactions as $trx)
+                        @forelse($transactions as $trx)
                         <tr class="hover:bg-gray-50/60 transition group">
-
                             <td class="px-6 py-4 text-[13px] font-semibold text-gray-800">
-                                {{ $trx['id'] }}
+                                {{ $trx->id }}
                             </td>
-
                             <td class="px-6 py-4 text-[13px] text-gray-500">
-                                {{ $trx['time'] }}
+                                {{ $trx->created_at->format('H:i') }}
                             </td>
-
                             <td class="px-6 py-4 text-[13px] text-gray-700 font-medium">
-                                {{ $trx['kasir'] }}
+                                {{ $trx->cashier->name ?? '-' }}
                             </td>
-
                             <td class="px-6 py-4 text-[13px] text-gray-500">
-                                {{ $trx['items'] }}
+                                {{ $trx->items->sum('qty') }} pcs
                             </td>
-
                             <td class="px-6 py-4 text-[13px] font-bold text-gray-900">
-                                {{ $trx['total'] }}
+                                Rp {{ number_format($trx->total_amount, 0, ',', '.') }}
                             </td>
-
                             <td class="px-6 py-4">
                                 <span class="text-[12px] font-semibold text-gray-600 bg-gray-100 px-2.5 py-1 rounded-lg">
-                                    {{ $trx['metode'] }}
+                                    {{ strtoupper($trx->payment_method) }}
                                 </span>
                             </td>
-
                             <td class="px-6 py-4">
-                                @if($trx['status'] === 'Selesai')
+                                @if($trx->status === 'completed')
                                     <span class="inline-flex items-center gap-1.5 text-[12px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full">
                                         <iconify-icon icon="solar:check-circle-linear" class="text-[13px]"></iconify-icon>
                                         Selesai
                                     </span>
-                                @elseif($trx['status'] === 'Pending')
+                                @elseif($trx->status === 'pending')
                                     <span class="inline-flex items-center gap-1.5 text-[12px] font-semibold text-amber-600 bg-amber-50 border border-amber-100 px-3 py-1 rounded-full">
                                         <iconify-icon icon="solar:clock-circle-linear" class="text-[13px]"></iconify-icon>
                                         Pending
+                                    </span>
+                                @elseif($trx->status === 'refunded')
+                                    <span class="inline-flex items-center gap-1.5 text-[12px] font-semibold text-blue-600 bg-blue-50 border border-blue-100 px-3 py-1 rounded-full">
+                                        <iconify-icon icon="solar:restart-circle-linear" class="text-[13px]"></iconify-icon>
+                                        Refund
                                     </span>
                                 @else
                                     <span class="inline-flex items-center gap-1.5 text-[12px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-3 py-1 rounded-full">
@@ -164,9 +229,20 @@
                                     </span>
                                 @endif
                             </td>
-
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="7" class="px-6 py-16 text-center">
+                                <div class="flex flex-col items-center gap-2 text-gray-400">
+                                    <iconify-icon icon="solar:inbox-linear" class="text-4xl"></iconify-icon>
+                                    <p class="text-sm font-medium">Tidak ada transaksi ditemukan</p>
+                                    @if(request()->hasAny(['search', 'status', 'method', 'date']))
+                                        <a href="{{ route('transactions.index') }}" class="text-xs text-emerald-500 hover:underline">Reset filter</a>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                        @endforelse
 
                     </tbody>
                 </table>
@@ -174,19 +250,36 @@
 
             {{-- Pagination --}}
             <div class="flex items-center justify-between px-6 py-4 border-t border-gray-100">
-                <span class="text-[13px] text-gray-400">Menampilkan 7 dari 128 transaksi</span>
+                <span class="text-[13px] text-gray-400">
+                    Menampilkan {{ $transactions->firstItem() ?? 0 }}–{{ $transactions->lastItem() ?? 0 }}
+                    dari {{ $transactions->total() }} transaksi
+                </span>
                 <div class="flex items-center gap-2">
-                    <button class="px-4 py-2 text-[13px] font-semibold text-gray-400 bg-gray-50 border border-gray-200 rounded-xl hover:bg-gray-100 transition cursor-not-allowed" disabled>
-                        Sebelumnya
-                    </button>
-                    <button class="px-4 py-2 text-[13px] font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition">
-                        Selanjutnya
-                    </button>
+                    @if($transactions->onFirstPage())
+                        <button class="px-4 py-2 text-[13px] font-semibold text-gray-400 bg-gray-50 border border-gray-200 rounded-xl cursor-not-allowed" disabled>
+                            Sebelumnya
+                        </button>
+                    @else
+                        <a href="{{ $transactions->previousPageUrl() }}"
+                           class="px-4 py-2 text-[13px] font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition">
+                            Sebelumnya
+                        </a>
+                    @endif
+
+                    @if($transactions->hasMorePages())
+                        <a href="{{ $transactions->nextPageUrl() }}"
+                           class="px-4 py-2 text-[13px] font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition">
+                            Selanjutnya
+                        </a>
+                    @else
+                        <button class="px-4 py-2 text-[13px] font-semibold text-gray-400 bg-gray-50 border border-gray-200 rounded-xl cursor-not-allowed" disabled>
+                            Selanjutnya
+                        </button>
+                    @endif
                 </div>
             </div>
 
         </div>
-
     </div>
 </div>
 @endsection

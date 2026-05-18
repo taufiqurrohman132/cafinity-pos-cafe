@@ -25,11 +25,11 @@ class TransactionController extends Controller
 
         $categories = Category::query()
             ->where('is_active', true)
-            ->whereHas('menus', fn ($q) => $q->where('is_active', true))
-            ->withCount(['menus' => fn ($q) => $q->where('is_active', true)])
+            ->whereHas('menus', fn($q) => $q->where('is_active', true))
+            ->withCount(['menus' => fn($q) => $q->where('is_active', true)])
             ->orderBy('name')
             ->get()
-            ->map(fn (Category $category) => [
+            ->map(fn(Category $category) => [
                 'id' => $category->id,
                 'name' => $category->name,
                 'slug' => $category->slug,
@@ -42,7 +42,7 @@ class TransactionController extends Controller
             ->with('category')
             ->orderBy('name')
             ->get()
-            ->map(fn (Menu $menu) => [
+            ->map(fn(Menu $menu) => [
                 'id' => $menu->id,
                 'category_id' => $menu->category_id,
                 'category_name' => $menu->category?->name,
@@ -61,9 +61,9 @@ class TransactionController extends Controller
             ->latest()
             ->limit(10)
             ->get()
-            ->map(fn (Transaction $tx) => [
+            ->map(fn(Transaction $tx) => [
                 'id' => $tx->id,
-                'label' => '#HOLD-'.str_pad((string) $tx->id, 4, '0', STR_PAD_LEFT),
+                'label' => '#HOLD-' . str_pad((string) $tx->id, 4, '0', STR_PAD_LEFT),
                 'total' => $tx->total_amount,
                 'items_count' => $tx->items->sum('qty'),
                 'time_ago' => $tx->created_at->diffForHumans(short: true),
@@ -260,9 +260,31 @@ class TransactionController extends Controller
         return back()->with('success', 'Transaksi dibatalkan.');
     }
 
-    public function history(): View
+    public function history(Request $request): View
     {
-        $transactions = Transaction::with('cashier')->latest()->paginate(20);
+        $query = Transaction::with(['cashier', 'items'])->latest();
+
+        // Search by invoice ID
+        if ($request->filled('search')) {
+            $query->where('id', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Filter by payment method
+        if ($request->filled('method')) {
+            $query->where('payment_method', $request->method);
+        }
+
+        // Filter by date
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        $transactions = $query->paginate(20)->withQueryString();
 
         return view('shared.transaction.index', compact('transactions'));
     }

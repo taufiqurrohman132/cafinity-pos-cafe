@@ -619,7 +619,12 @@ Route::middleware(['auth'])->group(function () {
             ])->name('optimize');
         });
 
-});
+        Route::get('/detail-antrean', [
+            \App\Http\Controllers\Dashboard\OwnerDashboardController::class,
+            'detailAntrean'
+        ])->name('detail.antrean');
+
+    });
 
 /*
 |--------------------------------------------------------------------------

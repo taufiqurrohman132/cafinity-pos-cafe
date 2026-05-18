@@ -80,26 +80,90 @@ class OwnerDashboardController extends Controller
                     ->implode(', ');
 
                 return [
-                    'id' => '#TRX-'.str_pad((string) $order->transaction_id, 4, '0', STR_PAD_LEFT),
-                    'items' => $itemsSummary ?: '-',
-                    'time_ago' => $order->created_at->diffForHumans(short: true),
-                    'status' => $order->status,
+                    'id'             => '#TRX-'.str_pad((string) $order->transaction_id, 4, '0', STR_PAD_LEFT),
+                    'transaction_id' => $order->transaction_id,
+                    'items'          => $itemsSummary ?: '-',
+                    'time_ago'       => $order->created_at->diffForHumans(short: true),
+                    'status'         => $order->status,
                 ];
             });
 
+        $currentTarget = Target::query()
+            ->where('type', 'revenue')
+            ->where('period', 'daily')
+            ->whereDate('start_date', '<=', $today)
+            ->whereDate('end_date', '>=', $today)
+            ->first();
+
         return view('dashboard.owner.index', [
-            'user' => auth()->user(),
-            'lastUpdated' => now()->format('H:i'),
-            'todayLabel' => $today->translatedFormat('d F Y'),
-            'stats' => $stats,
-            'salesChart' => $salesChart,
+            'user'           => auth()->user(),
+            'lastUpdated'    => now()->format('H:i'),
+            'todayLabel'     => $today->translatedFormat('d F Y'),
+            'stats'          => $stats,
+            'salesChart'     => $salesChart,
             'bestSellingMenus' => $bestSellingMenus,
-            'busyHours' => $busyHours,
-            'profitability' => $profitability,
-            'dailyGoal' => $dailyGoal,
-            'lowStockItems' => $lowStockItems,
-            'kitchenQueue' => $kitchenQueue,
+            'busyHours'      => $busyHours,
+            'profitability'  => $profitability,
+            'dailyGoal'      => $dailyGoal,
+            'currentTarget'  => $currentTarget,
+            'lowStockItems'  => $lowStockItems,
+            'kitchenQueue'   => $kitchenQueue,
+            'today'          => $today,
         ]);
+    }
+
+    /**
+     * Owner kitchen queue detail — maps KitchenOrder data to detail-antrean blade format.
+     */
+    public function detailAntrean(): View
+    {
+        $orders = KitchenOrder::with(['items.menu', 'transaction.cashier'])
+            ->whereIn('status', ['pending', 'preparing', 'ready', 'completed'])
+            ->orderByRaw("FIELD(status, 'preparing', 'pending', 'ready', 'completed')")
+            ->orderBy('created_at')
+            ->get()
+            ->map(function (KitchenOrder $ko) {
+                $statusMatch = match ($ko->status) {
+                    'preparing'  => ['label' => 'Memasak',  'done' => false],
+                    'pending'    => ['label' => 'Menunggu', 'done' => false],
+                    'ready'      => ['label' => 'Siap',     'done' => false],
+                    'completed'  => ['label' => 'Siap',     'done' => true],
+                    default      => ['label' => 'Menunggu', 'done' => false],
+                };
+
+                $actionLabel = match ($ko->status) {
+                    'pending'    => 'Mulai Memasak',
+                    'preparing'  => 'Tandai Siap',
+                    'ready'      => 'Telah Diambil',
+                    'completed'  => 'Telah Diambil',
+                    default      => 'Mulai Memasak',
+                };
+
+                return [
+                    'id'     => '#TRX-'.str_pad((string) $ko->transaction_id, 4, '0', STR_PAD_LEFT),
+                    'waktu'  => $ko->created_at->diffForHumans(short: true),
+                    'tipe'   => 'Dine-in',
+                    'meja'   => null,
+                    'status' => $statusMatch['label'],
+                    'done'   => $statusMatch['done'],
+                    'items'  => $ko->items->map(function (KitchenOrderItem $item) {
+                            return [
+                                'qty'   => $item->qty.'x',
+                                'nama'  => $item->menu->name ?? 'Menu',
+                                'note'  => $item->notes ?? null,
+                                'type'  => $item->menu?->category?->name
+                                    ? str_contains(strtolower($item->menu->category->name), 'minuman') ? 'drink' : 'food'
+                                    : 'food',
+                                'done'  => false,
+                            ];
+                        })
+                        ->all(),
+                    'actions' => [$actionLabel, ''],
+                ];
+            })
+            ->all();
+
+        return view('dashboard.owner.detail-antrean', compact('orders'));
     }
 
     private function sumRevenue($date): int

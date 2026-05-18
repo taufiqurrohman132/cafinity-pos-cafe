@@ -10,11 +10,28 @@ use Illuminate\View\View;
 
 class MenuController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $menus = Menu::with('category')->latest()->paginate(20);
+        $categories = Category::where('is_active', true)->orderBy('name')->get();
 
-        return view('shared.menu-management.index', compact('menus'));
+        $query = Menu::with('category')->latest();
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('is_active', $request->status === 'active');
+        }
+
+        $menus = $query->paginate(20)->withQueryString();
+        $totalMenus = Menu::count();
+
+        return view('shared.menu-management.index', compact('menus', 'categories', 'totalMenus'));
     }
 
     public function create(): View
@@ -34,7 +51,7 @@ class MenuController extends Controller
             'is_active'   => 'boolean',
         ]);
 
-        $data['slug'] = Str::slug($data['name']).'-'.Str::random(4);
+        $data['slug'] = Str::slug($data['name']) . '-' . Str::random(4);
 
         Menu::create($data);
 
@@ -69,7 +86,7 @@ class MenuController extends Controller
         ]);
 
         if ($menu->name !== $data['name']) {
-            $data['slug'] = Str::slug($data['name']).'-'.Str::random(4);
+            $data['slug'] = Str::slug($data['name']) . '-' . Str::random(4);
         }
 
         $menu->update($data);

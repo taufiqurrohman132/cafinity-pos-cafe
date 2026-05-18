@@ -230,7 +230,7 @@
                     'border-t border-gray-100' => !$order['done'],
                     'border-t border-gray-700' => $order['done'],
                 ])>
-                    @if (count($order['actions']) === 2)
+                    @if (count($order['actions']) === 2 && !empty($order['actions'][1]))
                         <button class="flex-1 py-2.5 text-sm font-semibold text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition">
                             {{ $order['actions'][0] }}
                         </button>

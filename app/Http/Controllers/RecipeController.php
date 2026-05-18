@@ -47,9 +47,10 @@ class RecipeController extends Controller
 
     public function show(string $id): View
     {
-        $recipe = Recipe::with(['menu', 'ingredients'])->findOrFail($id);
+        $recipe  = Recipe::with(['menu', 'ingredients'])->findOrFail($id);
+        $recipes = Recipe::with(['menu', 'ingredients'])->latest()->get();
 
-        return view('shared.recipe-costiong.show', compact('recipe'));
+        return view('shared.recipe-costiong.show', compact('recipe', 'recipes'));
     }
 
     public function update(Request $request, string $id)

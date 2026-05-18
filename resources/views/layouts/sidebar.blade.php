@@ -60,6 +60,13 @@
                     <span>Inventory</span>
                 </a>
 
+                {{-- Kitchen Orders --}}
+                <a href="{{ route('detail.antrean') }}"
+                    class="{{ $baseClass }} {{ request()->routeIs('detail.antrean') ? $activeClass : $inactiveClass }}">
+                    <iconify-icon icon="solar:stove-linear" class="text-lg"></iconify-icon>
+                    <span>Kitchen Queue</span>
+                </a>
+
                 {{-- Reports --}}
                 <a href="{{ route('reports.index') }}"
                     class="{{ $baseClass }} {{ request()->routeIs('reports.*') ? $activeClass : $inactiveClass }}">
