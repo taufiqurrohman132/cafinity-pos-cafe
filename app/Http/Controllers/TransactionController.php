@@ -2,25 +2,116 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\KitchenOrder;
 use App\Models\KitchenOrderItem;
 use App\Models\Menu;
+use App\Models\Promotion;
+use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class TransactionController extends Controller
 {
     public function pos(): View
     {
-        $menus = Menu::where('is_active', true)->with('category')->orderBy('name')->get();
+        $placeholderImage = 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=600&auto=format&fit=crop';
 
-        return view('shared.pos.index', compact('menus'));
+        $categories = Category::query()
+            ->where('is_active', true)
+            ->whereHas('menus', fn ($q) => $q->where('is_active', true))
+            ->withCount(['menus' => fn ($q) => $q->where('is_active', true)])
+            ->orderBy('name')
+            ->get()
+            ->map(fn (Category $category) => [
+                'id' => $category->id,
+                'name' => $category->name,
+                'slug' => $category->slug,
+                'icon' => $this->categoryIcon($category->name),
+                'menus_count' => $category->menus_count,
+            ]);
+
+        $menus = Menu::query()
+            ->where('is_active', true)
+            ->with('category')
+            ->orderBy('name')
+            ->get()
+            ->map(fn (Menu $menu) => [
+                'id' => $menu->id,
+                'category_id' => $menu->category_id,
+                'category_name' => $menu->category?->name,
+                'name' => $menu->name,
+                'description' => $menu->description,
+                'price' => $menu->price,
+                'image_url' => $menu->image
+                    ? Storage::disk('public')->url($menu->image)
+                    : $placeholderImage,
+            ]);
+
+        $heldOrders = Transaction::query()
+            ->where('status', 'held')
+            ->where('cashier_id', auth()->id())
+            ->with('items.menu')
+            ->latest()
+            ->limit(10)
+            ->get()
+            ->map(fn (Transaction $tx) => [
+                'id' => $tx->id,
+                'label' => '#HOLD-'.str_pad((string) $tx->id, 4, '0', STR_PAD_LEFT),
+                'total' => $tx->total_amount,
+                'items_count' => $tx->items->sum('qty'),
+                'time_ago' => $tx->created_at->diffForHumans(short: true),
+            ]);
+
+        $initialCart = [];
+        $resumedTransactionId = null;
+        $heldTransaction = session('held_transaction');
+
+        if ($heldTransaction instanceof Transaction) {
+            $heldTransaction->loadMissing('items.menu');
+            $resumedTransactionId = $heldTransaction->id;
+
+            foreach ($heldTransaction->items as $item) {
+                $initialCart[] = [
+                    'menu_id' => $item->menu_id,
+                    'name' => $item->menu?->name ?? 'Menu',
+                    'price' => $item->price,
+                    'qty' => $item->qty,
+                    'notes' => $item->notes ?? '',
+                ];
+            }
+
+            session()->forget('held_transaction');
+        }
+
+        $taxPercent = (int) (Setting::where('key', 'tax_percent')->value('value') ?? 10);
+
+        $activePromotions = Promotion::query()
+            ->where('is_active', true)
+            ->whereDate('start_date', '<=', today())
+            ->whereDate('end_date', '>=', today())
+            ->orderBy('name')
+            ->get(['id', 'name', 'type', 'value', 'min_purchase']);
+
+        return view('shared.pos.index', [
+            'categories' => $categories,
+            'menus' => $menus,
+            'heldOrders' => $heldOrders,
+            'initialCart' => $initialCart,
+            'resumedTransactionId' => $resumedTransactionId,
+            'taxPercent' => $taxPercent,
+            'activePromotions' => $activePromotions,
+            'cashierName' => auth()->user()->name,
+        ]);
     }
 
-    public function checkout(Request $request)
+    public function checkout(Request $request): JsonResponse|RedirectResponse
     {
         $data = $request->validate([
             'items'               => 'required|array|min:1',
@@ -32,6 +123,7 @@ class TransactionController extends Controller
             'payment_method'      => 'nullable|string|max:50',
             'paid_amount'         => 'nullable|integer|min:0',
             'notes'               => 'nullable|string',
+            'held_transaction_id' => 'nullable|exists:transactions,id',
         ]);
 
         $transaction = DB::transaction(function () use ($data) {
@@ -89,18 +181,28 @@ class TransactionController extends Controller
                 ]);
             }
 
+            if (! empty($data['held_transaction_id'])) {
+                Transaction::query()
+                    ->where('id', $data['held_transaction_id'])
+                    ->where('status', 'held')
+                    ->update(['status' => 'cancelled']);
+            }
+
             return $transaction;
         });
 
         if ($request->expectsJson()) {
-            return response()->json(['invoice' => $transaction->id]);
+            return response()->json([
+                'invoice' => $transaction->id,
+                'redirect' => route('transactions.show', $transaction->id),
+            ]);
         }
 
         return redirect()->route('transactions.show', $transaction->id)
             ->with('success', 'Transaksi berhasil.');
     }
 
-    public function hold(Request $request)
+    public function hold(Request $request): JsonResponse|RedirectResponse
     {
         $data = $request->validate([
             'items'           => 'required|array|min:1',
@@ -130,6 +232,13 @@ class TransactionController extends Controller
                 'qty'      => $item['qty'],
                 'price'    => $menu->price,
                 'subtotal' => $menu->price * $item['qty'],
+            ]);
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Transaksi di-hold.',
+                'transaction_id' => $transaction->id,
             ]);
         }
 
@@ -193,5 +302,18 @@ class TransactionController extends Controller
         $transaction->update(['status' => 'refunded']);
 
         return back()->with('success', 'Refund berhasil.');
+    }
+
+    private function categoryIcon(string $name): string
+    {
+        $lower = strtolower($name);
+
+        return match (true) {
+            str_contains($lower, 'kopi'), str_contains($lower, 'coffee') => 'solar:cup-hot-bold',
+            str_contains($lower, 'non') => 'solar:cup-star-linear',
+            str_contains($lower, 'makanan'), str_contains($lower, 'main') => 'solar:plate-linear',
+            str_contains($lower, 'snack'), str_contains($lower, 'cemilan') => 'solar:donut-linear',
+            default => 'solar:widget-linear',
+        };
     }
 }
