@@ -1,407 +1,262 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen bg-[#F6F8F4] p-4 md:p-8">
+<div class="min-h-screen bg-gray-50 p-4 md:p-6 space-y-6">
 
-        <div class="max-w-7xl mx-auto space-y-8">
+    {{-- BREADCRUMB + ACTIONS --}}
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 text-sm">
+            <a href="{{ route('menu.index') }}" class="flex items-center gap-1 text-green-600 hover:text-green-700 font-semibold transition">
+                <iconify-icon icon="mdi:chevron-left" class="text-base"></iconify-icon>
+                Kembali ke Menu
+            </a>
+            <span class="text-gray-300">/</span>
+            <span class="text-gray-500 font-medium">Es Kopi Susu Gula Aren</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <button class="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition">
+                <iconify-icon icon="mdi:share-variant-outline" class="text-base"></iconify-icon>
+                Bagikan
+            </button>
+            <button class="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 rounded-xl transition shadow-sm">
+                <iconify-icon icon="mdi:pencil-outline" class="text-base"></iconify-icon>
+                Edit Produk
+            </button>
+        </div>
+    </div>
 
-            {{-- Header --}}
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    {{-- PRODUCT HERO --}}
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div class="flex flex-col lg:flex-row gap-8">
 
+            {{-- Image --}}
+            <div class="relative flex-shrink-0">
+                <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090b?w=400&q=80"
+                    alt="Es Kopi Susu Gula Aren"
+                    class="w-full lg:w-72 h-64 lg:h-80 object-cover rounded-2xl">
+                <span class="absolute top-3 left-3 px-3 py-1 bg-green-600 text-white text-xs font-bold rounded-full shadow">
+                    Terlaris #1
+                </span>
+            </div>
+
+            {{-- Info --}}
+            <div class="flex-1 space-y-5">
+
+                {{-- Category & SKU --}}
+                <div class="flex items-center gap-3">
+                    <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Kopi & Susu</span>
+                    <span class="flex items-center gap-1.5 text-xs text-gray-400">
+                        <iconify-icon icon="mdi:barcode-scan" class="text-sm"></iconify-icon>
+                        SKU: Kopi-001
+                    </span>
+                </div>
+
+                {{-- Title & Desc --}}
                 <div>
-                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
-                        Promosi & Bundling
-                    </h1>
-
-                    <p class="text-sm text-gray-500 mt-1">
-                        Kelola kampanye pemasaran dan tingkatkan penjualan dengan penawaran menarik.
+                    <h1 class="text-3xl font-bold text-gray-900">Es Kopi Susu Gula Aren</h1>
+                    <p class="text-gray-400 mt-2 leading-relaxed">
+                        Perpaduan sempurna antara espresso house blend, susu segar berkualitas, dan gula
+                        aren asli yang memberikan cita rasa manis gurih yang otentik.
                     </p>
                 </div>
 
-                <button
-                    class="flex items-center justify-center gap-2 px-5 py-3 bg-emerald-500 text-white rounded-2xl text-sm font-bold hover:bg-emerald-600 transition shadow-sm">
+                {{-- Stat Cards --}}
+                <div class="grid grid-cols-2 gap-4">
 
-                    <iconify-icon icon="solar:add-circle-bold" class="text-xl"></iconify-icon>
+                    {{-- Harga Jual --}}
+                    <div class="bg-white border border-gray-100 rounded-2xl p-4 flex justify-between items-start">
+                        <div>
+                            <p class="text-xs text-gray-400 mb-1">Harga Jual</p>
+                            <p class="text-2xl font-bold text-gray-900">Rp 25.000</p>
+                            <p class="text-[10px] text-gray-400 mt-1">Harga standar outlet</p>
+                        </div>
+                        <div class="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 flex-shrink-0">
+                            <iconify-icon icon="mdi:currency-usd" class="text-lg"></iconify-icon>
+                        </div>
+                    </div>
 
-                    Buat Promo Baru
+                    {{-- HPP --}}
+                    <div class="bg-white border border-gray-100 rounded-2xl p-4 flex justify-between items-start">
+                        <div>
+                            <p class="text-xs text-gray-400 mb-1">HPP (COGS)</p>
+                            <p class="text-2xl font-bold text-gray-900">Rp 8.500</p>
+                            <p class="text-[10px] text-gray-400 mt-1">Biaya bahan baku per porsi</p>
+                        </div>
+                        <div class="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 flex-shrink-0">
+                            <iconify-icon icon="mdi:cart-outline" class="text-lg"></iconify-icon>
+                        </div>
+                    </div>
+
+                    {{-- Laba Bersih --}}
+                    <div class="bg-green-50 border border-green-100 rounded-2xl p-4 flex justify-between items-start">
+                        <div>
+                            <p class="text-xs text-gray-400 mb-1">Laba Bersih</p>
+                            <p class="text-2xl font-bold text-green-600">+Rp 16.500</p>
+                            <p class="text-[10px] text-green-500 font-semibold mt-1">12.4% vs bulan lalu</p>
+                        </div>
+                        <div class="w-9 h-9 rounded-xl bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                            <iconify-icon icon="mdi:trending-up" class="text-lg"></iconify-icon>
+                        </div>
+                    </div>
+
+                    {{-- Margin --}}
+                    <div class="bg-white border border-gray-100 rounded-2xl p-4 flex justify-between items-start">
+                        <div>
+                            <p class="text-xs text-gray-400 mb-1">Margin Profit</p>
+                            <p class="text-2xl font-bold text-gray-900">66%</p>
+                            <p class="text-[10px] text-gray-400 mt-1">Efisiensi biaya sangat baik</p>
+                        </div>
+                        <div class="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 flex-shrink-0">
+                            <iconify-icon icon="mdi:chart-donut" class="text-lg"></iconify-icon>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- TABS --}}
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm px-6">
+        <div class="flex items-center gap-6 overflow-x-auto">
+            @foreach (['Ringkasan Performa', 'Bahan Baku', 'Ulasan Pelanggan', 'Riwayat Perubahan'] as $tab)
+                <button @class([
+                    'py-4 text-sm font-semibold whitespace-nowrap border-b-2 transition',
+                    'border-green-600 text-green-600' => $tab === 'Ringkasan Performa',
+                    'border-transparent text-gray-400 hover:text-gray-600' => $tab !== 'Ringkasan Performa',
+                ])>{{ $tab }}</button>
+            @endforeach
+        </div>
+    </div>
+
+    {{-- TAB CONTENT --}}
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+
+        {{-- LEFT: Chart --}}
+        <div class="xl:col-span-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            <div class="flex items-start justify-between mb-4">
+                <div>
+                    <h3 class="font-bold text-gray-900">Tren Penjualan Mingguan</h3>
+                    <p class="text-xs text-gray-400 mt-0.5">Volume penjualan per hari (7 hari terakhir)</p>
+                </div>
+                <button class="px-4 py-2 text-xs font-semibold text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition">
+                    Detail Laporan
                 </button>
-
             </div>
 
-            {{-- Stats --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-
-                @php
-                    $stats = [
-                        [
-                            'label' => 'Total Redemptions',
-                            'value' => '981',
-                            'trend' => '+12% bulan ini',
-                            'icon' => 'solar:users-group-rounded-linear',
-                        ],
-                        [
-                            'label' => 'Estimasi Revenue',
-                            'value' => 'Rp 22.75M',
-                            'trend' => '+8.4% vs Mar',
-                            'icon' => 'solar:chart-2-linear',
-                        ],
-                        [
-                            'label' => 'Kampanye Aktif',
-                            'value' => '4',
-                            'trend' => '2 akan berakhir',
-                            'icon' => 'solar:tag-linear',
-                        ],
-                        [
-                            'label' => 'Efisiensi Promo',
-                            'value' => '18.5%',
-                            'trend' => '+1.2% peningkatan',
-                            'icon' => 'solar:calculator-minimalistic-linear',
-                        ],
-                    ];
-                @endphp
-
-                @foreach ($stats as $s)
-                    <div class="bg-white p-6 rounded-3xl border border-[#ECEEE7] shadow-sm">
-
-                        <div class="flex items-start justify-between mb-5">
-
-                            <div class="space-y-2">
-                                <p class="text-[11px] font-bold uppercase tracking-wider text-gray-400">
-                                    {{ $s['label'] }}
-                                </p>
-
-                                <h3 class="text-2xl font-bold tracking-tight text-gray-900">
-                                    {{ $s['value'] }}
-                                </h3>
-                            </div>
-
-                            <div
-                                class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">
-                                <iconify-icon icon="{{ $s['icon'] }}" class="text-[28px]"></iconify-icon>
-                            </div>
-
-                        </div>
-
-                        <div class="flex items-center gap-2 text-[11px] font-semibold text-emerald-600">
-                            <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon>
-                            {{ $s['trend'] }}
-                        </div>
-
-                    </div>
-                @endforeach
-
-            </div>
-
-            {{-- Highlight Promo --}}
-            <div class="space-y-4">
-
-                <div class="flex items-center gap-2 text-emerald-600">
-                    <iconify-icon icon="solar:graph-up-bold" class="text-lg"></iconify-icon>
-                    <h2 class="font-bold">Sorotan Minggu Ini</h2>
+            {{-- Chart --}}
+            <div class="relative h-56">
+                {{-- Y-axis labels --}}
+                <div class="absolute left-0 inset-y-0 flex flex-col justify-between text-[10px] text-gray-300 pr-2 pointer-events-none">
+                    <span>100</span>
+                    <span>75</span>
+                    <span>50</span>
+                    <span>25</span>
+                    <span>0</span>
                 </div>
 
-                <div
-                    class="bg-gradient-to-br from-emerald-50 to-white border border-emerald-100 rounded-[36px] p-8 relative overflow-hidden">
-
-                    {{-- Decorative --}}
-                    <div class="absolute -top-20 -right-20 w-72 h-72 bg-emerald-100 rounded-full blur-3xl opacity-40"></div>
-
-                    <div class="relative z-10 max-w-3xl">
-
-                        <div class="flex items-center justify-between flex-wrap gap-4 mb-8">
-
-                            <div
-                                class="flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-[0.2em]">
-                                <iconify-icon icon="solar:box-minimalistic-bold"></iconify-icon>
-                                Bundel Spesial
-                            </div>
-
-                            <span class="px-4 py-1.5 bg-emerald-500 text-white text-[10px] font-bold rounded-full">
-                                Kampanye Utama
-                            </span>
-
-                        </div>
-
-                        <h2 class="text-2xl sm:text-4xl font-bold text-gray-900 leading-tight tracking-tight">
-                            Weekend Bundle
-                        </h2>
-
-                        <p class="text-gray-500 mt-4 leading-relaxed max-w-2xl">
-                            Dapatkan diskon 10% untuk setiap pembelian kombinasi 1 Croissant dan 1 Kopi varian apapun di
-                            akhir pekan.
-                        </p>
-
-                        {{-- Stats --}}
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 py-8">
-
-                            <div>
-                                <p class="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-                                    Diskon
-                                </p>
-
-                                <p class="text-xl font-bold text-emerald-500 mt-2">
-                                    Diskon 10%
-                                </p>
-                            </div>
-
-                            <div>
-                                <p class="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-                                    Total Pendapatan
-                                </p>
-
-                                <p class="text-xl font-bold text-gray-800 mt-2">
-                                    Rp 4.260.000
-                                </p>
-                            </div>
-
-                            <div>
-                                <p class="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-                                    Penebusan
-                                </p>
-
-                                <p class="text-xl font-bold text-gray-800 mt-2">
-                                    142 <span class="text-sm text-gray-400 font-medium">Kali</span>
-                                </p>
-                            </div>
-
-                        </div>
-
-                        <div class="flex flex-wrap gap-3">
-
-                            <button
-                                class="px-6 py-3 bg-emerald-500 text-white rounded-2xl text-sm font-bold hover:bg-emerald-600 transition">
-                                Kelola Bundel
-                            </button>
-
-                            <button
-                                class="px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-2xl text-sm font-bold hover:bg-gray-50 transition">
-                                Lihat Analitik
-                            </button>
-
-                        </div>
-
-                    </div>
-
+                {{-- Grid lines --}}
+                <div class="absolute inset-y-0 left-6 right-0 flex flex-col justify-between pointer-events-none">
+                    @foreach ([0,1,2,3,4] as $line)
+                        <div class="border-t border-dashed border-gray-100 w-full"></div>
+                    @endforeach
                 </div>
 
+                {{-- SVG Line Chart --}}
+                <svg class="absolute inset-y-0 left-6 right-0 w-[calc(100%-1.5rem)] h-full" viewBox="0 0 600 200" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="salesGradient" x1="0" x2="0" y1="0" y2="1">
+                            <stop offset="0%" stop-color="#22c55e" stop-opacity="0.2"/>
+                            <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M0 140 C60 150, 80 145, 120 130 S200 120, 240 110 S320 105, 360 80 S440 30, 500 20 L560 30"
+                        fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M0 140 C60 150, 80 145, 120 130 S200 120, 240 110 S320 105, 360 80 S440 30, 500 20 L560 30 L560 200 L0 200 Z"
+                        fill="url(#salesGradient)"/>
+                </svg>
             </div>
 
-            @php
-                $campaigns = [
-                    [
-                        'name' => 'Weekend Bundle',
-                        'sub' => 'Croissant + Kopi',
-                        'disc' => '10%',
-                        'date' => '01 Mei 2024 - 31 Mei 2024',
-                        'red' => 142,
-                        'rev' => 'Rp 4.260.000',
-                        'status' => 'Aktif',
-                        'color' => 'emerald',
-                        'progress' => 'w-3/5',
-                    ],
-                    [
-                        'name' => 'Happy Hour Sore',
-                        'sub' => 'Semua Non-Coffee',
-                        'disc' => 'Rp 5.000',
-                        'date' => '05 Mei 2024 - 12 Mei 2024',
-                        'red' => 89,
-                        'rev' => 'Rp 2.150.000',
-                        'status' => 'Aktif',
-                        'color' => 'emerald',
-                        'progress' => 'w-2/5',
-                    ],
-                    [
-                        'name' => 'Promo Pelajar',
-                        'sub' => 'Menu Snack',
-                        'disc' => '15%',
-                        'date' => '10 Mei 2024 - 20 Mei 2024',
-                        'red' => 210,
-                        'rev' => 'Rp 3.840.000',
-                        'status' => 'Terjadwal',
-                        'color' => 'gray',
-                        'progress' => 'w-4/5',
-                    ],
-                    [
-                        'name' => 'Ramadhan Kareem',
-                        'sub' => 'Minimal Rp 50k',
-                        'disc' => 'Free Kurma',
-                        'date' => '01 Apr 2024 - 30 Apr 2024',
-                        'red' => 540,
-                        'rev' => 'Rp 12.500.000',
-                        'status' => 'Selesai',
-                        'color' => 'rose',
-                        'progress' => 'w-full',
-                    ],
-                    [
-                        'name' => 'Flash Sale Espresso',
-                        'sub' => 'Espresso Single',
-                        'disc' => '20%',
-                        'date' => '15 Mei 2024 - 15 Mei 2024',
-                        'red' => 0,
-                        'rev' => 'Rp 0',
-                        'status' => 'Terjadwal',
-                        'color' => 'gray',
-                        'progress' => 'w-0',
-                    ],
-                ];
-            @endphp
+            {{-- X-axis --}}
+            <div class="flex justify-between mt-2 pl-6 text-[10px] text-gray-400 font-medium">
+                <span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span>
+            </div>
 
-            {{-- Campaign Table --}}
-            <div class="bg-white rounded-[32px] border border-[#ECEEE7] shadow-sm overflow-hidden">
+            {{-- Legend --}}
+            <div class="flex items-center gap-4 mt-4 text-xs text-gray-500">
+                <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+                    Unit Terjual
+                </div>
+                <div class="flex items-center gap-1.5 text-green-600 font-semibold">
+                    <iconify-icon icon="mdi:trending-up" class="text-sm"></iconify-icon>
+                    +15.3% Pertumbuhan Mingguan
+                </div>
+            </div>
+        </div>
 
-                <div
-                    class="p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[#F1F3EE]">
+        {{-- RIGHT: Sidebar --}}
+        <div class="xl:col-span-4 space-y-5">
 
+            {{-- Status Bahan Baku --}}
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+                <h3 class="font-bold text-gray-900 flex items-center gap-2 mb-4">
+                    <iconify-icon icon="mdi:package-variant-closed" class="text-green-500"></iconify-icon>
+                    Status Bahan Baku
+                </h3>
+
+                <div class="space-y-3">
+                    @php
+                        $bahanBaku = [
+                            ['nama' => 'Biji Kopi Arabica', 'stok' => '1.2 kg', 'status' => 'Aman',    'color' => 'green'],
+                            ['nama' => 'Gula Aren Cair',    'stok' => '0.5 L',  'status' => 'Menipis', 'color' => 'red'],
+                            ['nama' => 'Susu UHT',          'stok' => '12 L',   'status' => 'Aman',    'color' => 'green'],
+                        ];
+                    @endphp
+
+                    @foreach ($bahanBaku as $bahan)
+                        <div class="flex items-center justify-between py-3 {{ !$loop->last ? 'border-b border-gray-50' : '' }}">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 flex-shrink-0">
+                                    <iconify-icon icon="mdi:package-variant-closed" class="text-sm"></iconify-icon>
+                                </div>
+                                <p class="text-sm font-medium text-gray-800">{{ $bahan['nama'] }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-bold text-gray-900">{{ $bahan['stok'] }}</p>
+                                <span @class([
+                                    'text-[10px] font-bold px-2 py-0.5 rounded-full',
+                                    'bg-green-100 text-green-600' => $bahan['color'] === 'green',
+                                    'bg-red-100 text-red-600'     => $bahan['color'] === 'red',
+                                ])>{{ $bahan['status'] }}</span>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <button class="w-full mt-3 py-2.5 text-xs font-bold text-green-600 bg-green-50 hover:bg-green-100 rounded-xl transition">
+                    Buat Pesanan Pembelian
+                </button>
+            </div>
+
+            {{-- Promo Aktif --}}
+            <div class="bg-gray-50 border border-gray-100 rounded-2xl p-5">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-white border border-gray-100 flex items-center justify-center text-green-500 flex-shrink-0 shadow-sm">
+                        <iconify-icon icon="mdi:coffee-outline" class="text-lg"></iconify-icon>
+                    </div>
                     <div>
-                        <h3 class="text-lg font-bold text-gray-800">
-                            Daftar Kampanye
-                        </h3>
-
-                        <p class="text-xs text-gray-400 mt-1">
-                            Semua promosi yang terdaftar dalam sistem.
-                        </p>
+                        <p class="text-sm font-bold text-gray-800">Promo Aktif</p>
+                        <p class="text-xs text-gray-500 mt-0.5 leading-relaxed">Weekend Bundle: 10% OFF dengan Croissant.</p>
+                        <button class="mt-2 text-xs font-semibold text-green-600 hover:text-green-700 transition">
+                            Lihat Pengaturan Promo →
+                        </button>
                     </div>
-
-                    {{-- Filter --}}
-                    <div class="flex p-1 bg-[#F7F8F5] rounded-2xl border border-[#ECEEE7]">
-
-                        <button class="px-4 py-2 bg-white rounded-xl shadow-sm text-xs font-bold text-gray-800">
-                            Semua
-                        </button>
-
-                        <button class="px-4 py-2 text-xs font-bold text-gray-400 hover:text-gray-700">
-                            Aktif
-                        </button>
-
-                        <button class="px-4 py-2 text-xs font-bold text-gray-400 hover:text-gray-700">
-                            Terjadwal
-                        </button>
-
-                    </div>
-
                 </div>
-
-                {{-- Table --}}
-                <div class="overflow-x-auto">
-
-                    <table class="w-full text-left border-collapse">
-
-                        <thead
-                            class="bg-[#FAFBF8] text-[10px] uppercase tracking-widest text-gray-400 border-b border-[#F1F3EE]">
-
-                            <tr>
-                                <th class="px-6 py-4">Nama Promo</th>
-                                <th class="px-6 py-4">Potongan</th>
-                                <th class="px-6 py-4">Periode</th>
-                                <th class="px-6 py-4">Penebusan</th>
-                                <th class="px-6 py-4">Revenue</th>
-                                <th class="px-6 py-4">Status</th>
-                                <th class="px-6 py-4 text-center">Aksi</th>
-                            </tr>
-
-                        </thead>
-
-                        <tbody class="divide-y divide-[#F1F3EE] text-sm">
-
-                            @foreach ($campaigns as $c)
-                                @php
-                                    $statusClass = match ($c['color']) {
-                                        'emerald' => 'bg-emerald-100 text-emerald-600',
-                                        'rose' => 'bg-rose-100 text-rose-600',
-                                        default => 'bg-gray-100 text-gray-600',
-                                    };
-                                @endphp
-
-                                <tr class="hover:bg-[#FAFBF8] transition">
-
-                                    <td class="px-6 py-5">
-                                        <p class="font-bold text-gray-800">
-                                            {{ $c['name'] }}
-                                        </p>
-
-                                        <p class="text-[11px] text-gray-400 mt-1">
-                                            {{ $c['sub'] }}
-                                        </p>
-                                    </td>
-
-                                    <td class="px-6 py-5 font-bold text-emerald-500">
-                                        {{ $c['disc'] }}
-                                    </td>
-
-                                    <td class="px-6 py-5 text-xs text-gray-500">
-                                        {{ $c['date'] }}
-                                    </td>
-
-                                    <td class="px-6 py-5">
-                                        <div class="flex items-center gap-3">
-
-                                            <span class="font-bold text-gray-700 w-8">
-                                                {{ $c['red'] }}
-                                            </span>
-
-                                            <div
-                                                class="hidden sm:block w-24 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                                                <div class="{{ $c['progress'] }} h-full bg-emerald-400"></div>
-                                            </div>
-
-                                        </div>
-                                    </td>
-
-                                    <td class="px-6 py-5 font-bold text-gray-800">
-                                        {{ $c['rev'] }}
-                                    </td>
-
-                                    <td class="px-6 py-5">
-
-                                        <span class="px-3 py-1 rounded-full text-[10px] font-bold {{ $statusClass }}">
-                                            {{ $c['status'] }}
-                                        </span>
-
-                                    </td>
-
-                                    <td class="px-6 py-5 text-center">
-
-                                        <button class="text-gray-400 hover:text-gray-700">
-                                            <iconify-icon icon="solar:menu-dots-bold" class="text-xl"></iconify-icon>
-                                        </button>
-
-                                    </td>
-
-                                </tr>
-                            @endforeach
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-            {{-- Insight Card --}}
-            <div
-                class="bg-gradient-to-br from-emerald-50 to-white rounded-[32px] border border-emerald-100 p-8 overflow-hidden relative">
-
-                <div class="absolute right-0 top-0 w-48 h-48 bg-emerald-100 rounded-full blur-3xl opacity-40"></div>
-
-                <div class="relative z-10">
-
-                    <p class="text-sm font-bold uppercase tracking-wider text-emerald-600 mb-3">
-                        Promo Insight
-                    </p>
-
-                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight tracking-tight">
-                        Promo bundling meningkatkan penjualan hingga 24%
-                    </h3>
-
-                    <p class="text-gray-500 mt-3 max-w-xl">
-                        Berdasarkan performa promosi selama 30 hari terakhir.
-                    </p>
-
-                </div>
-
             </div>
 
         </div>
     </div>
+
+</div>
 @endsection
