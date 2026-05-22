@@ -41,14 +41,14 @@
 
                 {{-- Menu Catalog --}}
                 <a href="{{ route('menus.index') }}"
-                    class="{{ $baseClass }} {{ request()->routeIs('menu.*') ? $activeClass : $inactiveClass }}">
+                    class="{{ $baseClass }} {{ request()->routeIs('menus.*') ? $activeClass : $inactiveClass }}"> {{-- FIXED: menu.* → menus.* --}}
                     <iconify-icon icon="tdesign:menu" class="text-lg"></iconify-icon>
                     <span>Menu Catalog</span>
                 </a>
 
                 {{-- Recipe Costing --}}
                 <a href="{{ route('recipe.index') }}"
-                    class="{{ $baseClass }} {{ request()->routeIs('recipes.*') ? $activeClass : $inactiveClass }}">
+                    class="{{ $baseClass }} {{ request()->routeIs('recipe.*') ? $activeClass : $inactiveClass }}"> {{-- FIXED: recipes.* → recipe.* --}}
                     <iconify-icon icon="solar:calculator-minimalistic-linear" class="text-lg"></iconify-icon>
                     <span>Recipe Costing</span>
                 </a>
@@ -61,9 +61,9 @@
                 </a>
 
                 {{-- Kitchen Orders --}}
-                <a href="{{ route('detail.antrean') }}"
-                    class="{{ $baseClass }} {{ request()->routeIs('detail.antrean') ? $activeClass : $inactiveClass }}">
-                    <iconify-icon icon="solar:stove-linear" class="text-lg"></iconify-icon>
+                <a href="{{ route('kitchen-orders.index') }}" {{-- FIXED: detail.antrean → kitchen-orders.index --}}
+                    class="{{ $baseClass }} {{ request()->routeIs('kitchen-orders.*') ? $activeClass : $inactiveClass }}">
+                    <iconify-icon icon="fa6-solid:kitchen-set" class="text-lg"></iconify-icon>
                     <span>Kitchen Queue</span>
                 </a>
 
@@ -83,13 +83,18 @@
 
             </nav>
         </div>
-        {{-- Logout --}}
-        <div class="p-4 border-t border-gray-200">
 
-            <button class="w-full text-left px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 transition">
+    </div>
+
+    {{-- Logout --}}  {{-- FIXED: tambah form POST logout yang benar --}}
+    <div class="p-4 border-t border-gray-200">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit"
+                class="w-full text-left px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 transition">
                 Sign Out
             </button>
-
-        </div>
+        </form>
+    </div>
 
 </aside>

@@ -17,89 +17,95 @@
             },
             csrf: @js(csrf_token()),
         })"
-        class="h-[calc(100vh-72px)] bg-gray-100 flex overflow-hidden">
+        class="h-[calc(100vh-72px)] bg-gradient-to-br from-[#fbfbfe] via-white to-[#dddbff]/30 flex overflow-hidden">
 
         {{-- PRODUCT AREA --}}
         <div class="flex-1 flex h-[calc(100vh-72px)] overflow-hidden">
 
             <div class="flex-1 p-5 flex flex-col overflow-hidden">
 
-                <div class="flex items-center justify-between mb-5 flex-shrink-0">
+                <div class="flex items-center justify-between mb-6 flex-shrink-0">
                     <div>
-                        <h1 class="text-[28px] font-bold text-gray-800">POS Transaksi</h1>
-                        <p class="text-[12px] text-gray-400 mt-0.5">Kasir: {{ $cashierName }}</p>
+                        <h1 class="text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#050316] to-[#2f27ce] tracking-tight">POS Transaksi</h1>
+                        <p class="text-[12px] font-medium text-[#2f27ce] mt-0.5">Kasir: <span class="text-[#050316] font-bold">{{ $cashierName }}</span></p>
                     </div>
 
                     <div class="relative w-[330px]">
                         <iconify-icon icon="solar:magnifer-linear"
-                            class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[18px]"></iconify-icon>
+                            class="absolute left-4 top-1/2 -translate-y-1/2 text-[#2f27ce] text-[18px]"></iconify-icon>
                         <input type="text" x-model="search" placeholder="Cari menu..."
-                            class="w-full h-[44px] rounded-xl bg-white border border-gray-200 pl-11 pr-4 text-[13px] outline-none focus:border-emerald-400">
+                            class="w-full h-[46px] rounded-xl bg-white border border-[#dddbff] pl-11 pr-4 text-[13px] outline-none focus:border-[#443dff] focus:ring-2 focus:ring-[#dddbff] transition-all font-semibold text-[#050316] placeholder-[#2f27ce]/50 shadow-sm">
                     </div>
                 </div>
 
                 <div class="flex flex-row gap-6 flex-1 overflow-hidden min-h-0">
 
                     {{-- Categories --}}
-                    <div class="w-[92px] overflow-y-auto flex flex-col gap-4 flex-shrink-0 scrollbar-auto">
+                    <div class="w-[92px] overflow-y-auto flex flex-col gap-4 flex-shrink-0 scrollbar-auto pb-4">
                         <button type="button" @click="selectedCategory = null"
                             :class="selectedCategory === null
-                                ? 'bg-emerald-500 text-white shadow-sm'
-                                : 'bg-white text-gray-500 hover:bg-green-100'"
-                            class="rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition">
-                            <div class="w-9 h-9 rounded-xl flex items-center justify-center"
-                                :class="selectedCategory === null ? 'bg-white/20' : 'bg-white shadow-sm'">
+                                ? 'bg-gradient-to-b from-[#443dff] to-[#2f27ce] text-white shadow-lg shadow-[#2f27ce]/30 border-none'
+                                : 'bg-white text-[#2f27ce] border border-[#dddbff] hover:bg-gradient-to-br hover:from-white hover:to-[#dddbff]/50 hover:text-[#050316] hover:border-[#443dff] hover:shadow-sm'"
+                            class="rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300">
+                            <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
+                                :class="selectedCategory === null ? 'bg-white/20' : 'bg-[#dddbff]/50'">
                                 <iconify-icon icon="solar:widget-bold" class="text-[18px]"></iconify-icon>
                             </div>
-                            <span class="text-[11px] font-semibold">Semua</span>
+                            <span class="text-[11px] font-extrabold tracking-wide">Semua</span>
                         </button>
 
                         <template x-for="cat in categories" :key="cat.id">
                             <button type="button" @click="selectedCategory = cat.id"
                                 :class="selectedCategory === cat.id
-                                    ? 'bg-emerald-500 text-white shadow-sm'
-                                    : 'bg-white text-gray-500 hover:bg-green-100'"
-                                class="rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition">
-                                <div class="w-9 h-9 rounded-xl flex items-center justify-center"
-                                    :class="selectedCategory === cat.id ? 'bg-white/20' : 'bg-white shadow-sm'">
+                                    ? 'bg-gradient-to-b from-[#443dff] to-[#2f27ce] text-white shadow-lg shadow-[#2f27ce]/30 border-none'
+                                    : 'bg-white text-[#2f27ce] border border-[#dddbff] hover:bg-gradient-to-br hover:from-white hover:to-[#dddbff]/50 hover:text-[#050316] hover:border-[#443dff] hover:shadow-sm'"
+                                class="rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300">
+                                <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
+                                    :class="selectedCategory === cat.id ? 'bg-white/20' : 'bg-[#dddbff]/50'">
                                     <iconify-icon :icon="cat.icon" class="text-[18px]"></iconify-icon>
                                 </div>
-                                <span class="text-[11px] font-medium text-center leading-tight px-1"
+                                <span class="text-[11px] font-bold text-center leading-tight px-1"
                                     x-text="cat.name"></span>
                             </button>
                         </template>
                     </div>
 
-                    {{-- Menu grid --}}
-                    <div class="flex-1 overflow-y-auto pr-1 scrollbar-auto">
+                   {{-- Menu grid --}}
+                    <div class="flex-1 overflow-y-auto pr-2 pb-4 scrollbar-auto p-1">
                         <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
                             <template x-for="menu in filteredMenus" :key="menu.id">
-                                <div
-                                    class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                                    <img :src="menu.image_url" :alt="menu.name"
-                                        class="w-full h-[120px] object-cover">
-                                    <div class="p-3 flex flex-col flex-1">
-                                        <div class="space-y-1">
-                                            <h3 class="text-[13px] font-semibold text-gray-800" x-text="menu.name"></h3>
-                                            <p class="text-[11px] text-gray-400 leading-relaxed line-clamp-2"
-                                                x-text="menu.description || menu.category_name"></p>
+                                <button type="button" @click="addToCart(menu)"
+                                    class="text-left bg-white rounded-2xl border-2 border-transparent shadow-sm hover:shadow-md hover:shadow-[#443dff]/20 hover:border-[#dddbff] focus:outline-none focus:ring-4 focus:ring-[#dddbff]/80 focus:border-[#443dff] active:scale-[0.97] transition-all duration-150 overflow-hidden flex flex-col group relative">
+                                    
+                                    <div class="absolute inset-0 bg-[#443dff]/5 opacity-0 group-active:opacity-100 transition-opacity duration-75 z-10 pointer-events-none"></div>
+
+                                    <div class="relative overflow-hidden h-[120px]">
+                                        <img :src="menu.image_url" :alt="menu.name"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-[#050316]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
+                                    </div>
+                                    
+                                    <div class="p-3.5 flex flex-col flex-1 bg-white z-20">
+                                        <div class="space-y-1 mb-3 flex-1">
+                                            <h3 class="text-[13px] font-extrabold text-[#050316] leading-snug line-clamp-2" x-text="menu.name"></h3>
+                                            <p class="text-[11px] font-medium text-gray-600 line-clamp-1"
+                                                x-text=" menu.description || menu.category_name "></p>
                                         </div>
-                                        <div class="mt-3 flex items-center justify-between">
-                                            <span class="text-emerald-500 font-bold text-[13px]"
+                                        <div class="flex items-center justify-between mt-auto">
+                                            <span class="text-[#443dff] font-black text-[14px]"
                                                 x-text="formatRupiah(menu.price)"></span>
-                                            <button type="button" @click="addToCart(menu)"
-                                                class="w-7 h-7 rounded-full bg-[#f5f6f8] flex items-center justify-center text-gray-500 hover:bg-emerald-500 hover:text-white transition">
-                                                <iconify-icon icon="solar:add-circle-linear"
-                                                    class="text-[18px]"></iconify-icon>
-                                            </button>
+                                            
+                                            <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#dddbff]/50 to-[#dddbff]/30 text-[#2f27ce] flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white group-focus:from-[#443dff] group-focus:to-[#2f27ce] group-focus:text-white transition-all duration-150 shadow-sm group-hover:shadow-[#443dff]/30">
+                                                <iconify-icon icon="solar:add-circle-bold" class="text-[20px]"></iconify-icon>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </button>
                             </template>
                         </div>
 
                         <p x-show="filteredMenus.length === 0"
-                            class="text-center text-gray-400 text-sm py-16 italic">
+                            class="text-center text-[#2f27ce] text-sm py-20 font-medium italic">
                             Tidak ada menu ditemukan.
                         </p>
                     </div>
@@ -108,28 +114,32 @@
         </div>
 
         {{-- CART --}}
-        <div class="w-[370px] bg-white border-l border-gray-100 shadow-xl flex flex-col h-[calc(100vh-72px)]">
+        <div class="w-[380px] bg-white border-l border-[#dddbff] shadow-[-10px_0_30px_rgba(47,39,206,0.08)] flex flex-col h-[calc(100vh-72px)] relative z-10">
 
-            <div class="h-[72px] border-b border-gray-100 px-5 flex items-center justify-between flex-shrink-0">
-                <div class="flex items-center gap-2">
-                    <iconify-icon icon="solar:cart-large-2-linear" class="text-emerald-500 text-[18px]"></iconify-icon>
-                    <h3 class="font-semibold text-[14px] text-gray-800">Pesanan Aktif</h3>
+            <div class="h-[76px] border-b border-[#dddbff] px-5 flex items-center justify-between flex-shrink-0 bg-white/80 backdrop-blur-md">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#dddbff] to-white border border-[#dddbff]/50 flex items-center justify-center">
+                        <iconify-icon icon="solar:cart-large-2-bold-duotone" class="text-[#443dff] text-[18px]"></iconify-icon>
+                    </div>
+                    <h3 class="font-extrabold text-[15px] text-[#050316] tracking-tight">Pesanan Aktif</h3>
                 </div>
-                <span class="text-[11px] font-semibold bg-emerald-100 text-emerald-600 px-2 py-1 rounded-full"
-                    x-text="cartItemCount + ' Items'"></span>
+                <span class="text-[11px] font-black bg-gradient-to-r from-[#443dff] to-[#2f27ce] text-white px-2.5 py-1 rounded-md shadow-sm"
+                    x-text="cartItemCount + ' Item'"></span>
             </div>
 
             {{-- Held orders --}}
-            <div x-show="heldOrders.length > 0" class="px-4 py-2 border-b border-gray-50 flex-shrink-0">
-                <p class="text-[10px] font-bold text-gray-400 uppercase mb-2">Tertahan</p>
-                <div class="flex gap-2 overflow-x-auto pb-1">
+            <div x-show="heldOrders.length > 0" class="px-5 py-3 border-b border-[#dddbff] flex-shrink-0 bg-gradient-to-b from-[#dddbff]/30 to-transparent">
+                <p class="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2.5 flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#443dff] animate-pulse"></span> Tertahan
+                </p>
+                <div class="flex gap-2.5 overflow-x-auto pb-1.5 scrollbar-hide">
                     <template x-for="held in heldOrders" :key="held.id">
                         <form :action="urls.resume.replace('__ID__', held.id)" method="POST" class="flex-shrink-0">
                             @csrf
                             <button type="submit"
-                                class="text-left px-3 py-2 rounded-xl bg-amber-50 border border-amber-100 hover:bg-amber-100 transition">
-                                <p class="text-[11px] font-bold text-amber-800" x-text="held.label"></p>
-                                <p class="text-[10px] text-amber-600"
+                                class="text-left px-3 py-2 rounded-xl bg-white border border-[#dddbff] shadow-sm hover:border-[#443dff] hover:shadow-[#dddbff]/40 transition-all">
+                                <p class="text-[11px] font-extrabold text-[#050316]" x-text="held.label"></p>
+                                <p class="text-[10px] font-medium text-[#443dff] mt-0.5"
                                     x-text="held.items_count + ' item · ' + formatRupiah(held.total)"></p>
                             </button>
                         </form>
@@ -138,35 +148,36 @@
             </div>
 
             {{-- Cart items --}}
-            <div class="flex-1 overflow-y-auto px-4 py-3 scrollbar-auto">
+            <div class="flex-1 overflow-y-auto px-5 py-4 scrollbar-auto">
                 <template x-if="cart.length === 0">
                     <div class="h-full flex flex-col items-center justify-center text-center px-4">
-                        <div class="w-20 h-20 rounded-full bg-[#f5f6f8] flex items-center justify-center mb-4">
-                            <iconify-icon icon="solar:cookie-linear" class="text-[34px] text-gray-300"></iconify-icon>
+                        <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#dddbff]/50 to-white border border-[#dddbff] flex items-center justify-center mb-4 shadow-inner">
+                            <iconify-icon icon="solar:cookie-bold-duotone" class="text-[38px] text-[#443dff]"></iconify-icon>
                         </div>
-                        <h4 class="text-[14px] font-medium text-gray-500">Keranjang masih kosong</h4>
+                        <h4 class="text-[14px] font-bold text-[#2f27ce]">Keranjang masih kosong</h4>
+                        <p class="text-[11px] text-[#2f27ce] mt-1">Pilih menu di sebelah kiri untuk menambahkan.</p>
                     </div>
                 </template>
 
-                <div class="space-y-3">
+                <div class="space-y-4">
                     <template x-for="(item, index) in cart" :key="item.menu_id + '-' + index">
-                        <div class="flex gap-3 items-start border-b border-gray-50 pb-3">
-                            <div class="flex-1 min-w-0">
-                                <p class="text-[13px] font-semibold text-gray-800 truncate" x-text="item.name"></p>
-                                <p class="text-[11px] text-gray-400" x-text="formatRupiah(item.price) + ' / item'"></p>
+                        <div class="flex gap-3 items-start pb-4 border-b border-[#dddbff]/50 last:border-0 last:pb-0">
+                            <div class="flex-1 min-w-0 pt-0.5">
+                                <p class="text-[13px] font-bold text-[#050316] truncate" x-text="item.name"></p>
+                                <p class="text-[11px] font-medium text-[#2f27ce] mt-0.5" x-text="formatRupiah(item.price) + ' / item'"></p>
                             </div>
-                            <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <div class="flex items-center gap-1 flex-shrink-0 bg-gradient-to-br from-[#dddbff]/40 to-[#dddbff]/10 rounded-lg p-1 border border-[#dddbff]">
                                 <button type="button" @click="decreaseQty(index)"
-                                    class="w-6 h-6 rounded-lg bg-gray-100 text-gray-600 text-sm font-bold">−</button>
-                                <span class="text-[13px] font-semibold w-5 text-center" x-text="item.qty"></span>
+                                    class="w-6 h-6 rounded-md bg-white border border-[#dddbff] text-[#2f27ce] text-sm font-bold hover:bg-[#dddbff] hover:text-[#050316] transition-colors shadow-sm">&minus;</button>
+                                <span class="text-[12px] font-extrabold w-6 text-center text-[#050316]" x-text="item.qty"></span>
                                 <button type="button" @click="increaseQty(index)"
-                                    class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 text-sm font-bold">+</button>
+                                    class="w-6 h-6 rounded-md bg-gradient-to-br from-[#443dff] to-[#2f27ce] border-none text-white text-sm font-bold hover:from-[#2f27ce] hover:to-[#050316] transition-colors shadow-sm">+</button>
                             </div>
-                            <div class="text-right flex-shrink-0">
-                                <p class="text-[13px] font-bold text-gray-800"
+                            <div class="text-right flex-shrink-0 flex flex-col items-end pt-0.5 ml-2">
+                                <p class="text-[13px] font-black text-[#443dff]"
                                     x-text="formatRupiah(item.price * item.qty)"></p>
                                 <button type="button" @click="removeFromCart(index)"
-                                    class="text-[10px] text-red-400 hover:text-red-600">Hapus</button>
+                                    class="text-[10px] font-bold text-red-400 hover:text-red-600 mt-1.5 transition-colors uppercase tracking-wider">Hapus</button>
                             </div>
                         </div>
                     </template>
@@ -174,39 +185,39 @@
             </div>
 
             {{-- Footer --}}
-            <div class="border-t border-gray-100 p-5 flex-shrink-0">
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between text-[13px] text-gray-500">
+            <div class="border-t border-[#dddbff] p-5 flex-shrink-0 bg-gradient-to-t from-[#dddbff]/30 to-transparent">
+                <div class="space-y-2.5">
+                    <div class="flex items-center justify-between text-[13px] font-medium text-[#2f27ce]">
                         <span>Subtotal</span>
-                        <span x-text="formatRupiah(subtotal)"></span>
+                        <span class="font-bold text-[#050316]" x-text="formatRupiah(subtotal)"></span>
                     </div>
-                    <div class="flex items-center justify-between text-[13px] text-gray-500">
+                    <div class="flex items-center justify-between text-[13px] font-medium text-[#2f27ce]">
                         <span x-text="'Pajak (' + taxPercent + '%)'"></span>
-                        <span x-text="formatRupiah(tax)"></span>
+                        <span class="font-bold text-[#050316]" x-text="formatRupiah(tax)"></span>
                     </div>
-                    <div x-show="discount > 0" class="flex items-center justify-between text-[13px] text-emerald-600">
+                    <div x-show="discount > 0" class="flex items-center justify-between text-[13px] font-extrabold text-[#443dff]">
                         <span>Diskon</span>
                         <span x-text="'- ' + formatRupiah(discount)"></span>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between mt-4 mb-4">
-                    <span class="font-bold text-gray-800">Total Tagihan</span>
-                    <span class="font-bold text-[22px] text-emerald-500" x-text="formatRupiah(total)"></span>
+                <div class="flex items-center justify-between mt-4 mb-5 pt-4 border-t border-[#dddbff] border-dashed">
+                    <span class="font-extrabold text-[#050316] uppercase tracking-wide text-sm">Total Tagihan</span>
+                    <span class="font-black text-[24px] text-transparent bg-clip-text bg-gradient-to-r from-[#2f27ce] to-[#443dff] drop-shadow-sm" x-text="formatRupiah(total)"></span>
                 </div>
 
-                <p x-show="errorMessage" class="text-[11px] text-red-500 mb-2" x-text="errorMessage"></p>
+                <p x-show="errorMessage" class="text-[11px] font-bold text-red-500 bg-red-50 p-2 rounded-lg border border-red-100 mb-3 text-center" x-text="errorMessage"></p>
 
-                <div class="flex gap-2">
+                <div class="flex gap-3">
                     <button type="button" @click="holdOrder()" :disabled="cart.length === 0 || loading"
-                        class="flex-1 h-[48px] rounded-xl border border-gray-200 text-gray-600 font-semibold text-[13px] hover:bg-gray-50 disabled:opacity-40 transition">
-                        Tahan
+                        class="flex-1 h-[52px] rounded-xl border border-[#2f27ce] text-[#2f27ce] font-bold text-[13px] hover:bg-gradient-to-br hover:from-[#dddbff] hover:to-white disabled:opacity-40 transition-all shadow-sm flex items-center justify-center gap-1.5 bg-white">
+                        <iconify-icon icon="solar:pause-circle-linear" class="text-lg"></iconify-icon> Tahan
                     </button>
                     <button type="button" @click="showPayment = true" :disabled="cart.length === 0 || loading"
-                        class="flex-[2] h-[48px] rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 transition text-white font-semibold flex items-center justify-center gap-2">
-                        <span x-show="!loading">Bayar Sekarang</span>
-                        <span x-show="loading">Memproses...</span>
-                        <iconify-icon x-show="!loading" icon="solar:arrow-right-linear" class="text-[18px]"></iconify-icon>
+                        class="flex-[2] h-[52px] rounded-xl bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] disabled:opacity-50 transition-all text-white font-extrabold flex items-center justify-center gap-2 shadow-lg shadow-[#2f27ce]/30 active:scale-[0.98]">
+                        <span x-show="!loading" class="text-[14px]">Bayar Sekarang</span>
+                        <span x-show="loading" class="text-[14px]">Memproses...</span>
+                        <iconify-icon x-show="!loading" icon="solar:arrow-right-linear" class="text-[20px]"></iconify-icon>
                     </button>
                 </div>
             </div>
@@ -214,39 +225,50 @@
 
         {{-- Payment modal --}}
         <div x-show="showPayment" x-cloak
-            class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-[#050316]/60 backdrop-blur-sm p-4 transition-opacity"
             @keydown.escape.window="showPayment = false">
             <div @click.outside="showPayment = false"
-                class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl">
-                <h3 class="text-lg font-bold text-gray-800 mb-1">Pembayaran</h3>
-                <p class="text-sm text-gray-500 mb-4">Total: <span class="font-bold text-emerald-600"
-                        x-text="formatRupiah(total)"></span></p>
+                class="bg-white rounded-2xl w-full max-w-md p-7 shadow-2xl border border-[#dddbff] transform transition-all">
+                
+                <div class="mb-6 border-b border-[#dddbff] pb-5">
+                    <h3 class="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#050316] to-[#2f27ce] tracking-tight">Selesaikan Pembayaran</h3>
+                    <div class="mt-2 flex justify-between items-end">
+                        <p class="text-sm font-medium text-[#2f27ce]">Total Tagihan</p>
+                        <p class="font-black text-2xl text-[#2f27ce]" x-text="formatRupiah(total)"></p>
+                    </div>
+                </div>
 
-                <label class="block text-xs font-semibold text-gray-500 mb-1">Metode Pembayaran</label>
+                <label class="block text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2">Metode Pembayaran</label>
                 <select x-model="paymentMethod"
-                    class="w-full mb-4 h-10 rounded-xl border border-gray-200 text-sm px-3">
-                    <option value="cash">Tunai</option>
-                    <option value="qris">QRIS</option>
-                    <option value="transfer">Transfer</option>
-                    <option value="debit">Debit</option>
+                    class="w-full mb-5 h-12 rounded-xl border border-[#dddbff] bg-gradient-to-r from-[#dddbff]/30 to-[#fbfbfe] text-sm font-bold text-[#050316] px-4 focus:outline-none focus:ring-2 focus:ring-[#443dff] focus:bg-white focus:border-[#443dff] transition-all cursor-pointer">
+                    <option value="cash">💵 Tunai (Cash)</option>
+                    <option value="qris">📱 QRIS</option>
+                    <option value="transfer">🏦 Transfer Bank</option>
+                    <option value="debit">💳 Kartu Debit/Kredit</option>
                 </select>
 
-                <label class="block text-xs font-semibold text-gray-500 mb-1">Jumlah Dibayar</label>
-                <input type="number" x-model.number="paidAmount" min="0" step="1000"
-                    class="w-full mb-4 h-10 rounded-xl border border-gray-200 text-sm px-3">
+                <label class="block text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2">Jumlah Dibayar</label>
+                <div class="relative mb-5">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-[#2f27ce]">Rp</span>
+                    <input type="number" x-model.number="paidAmount" min="0" step="1000"
+                        class="w-full h-12 rounded-xl border border-[#dddbff] bg-[#dddbff]/10 text-lg font-black text-[#050316] pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-[#443dff] focus:bg-white focus:border-[#443dff] transition-all placeholder-[#2f27ce]/40">
+                </div>
 
-                <p class="text-sm mb-4"
-                    :class="changeAmount >= 0 ? 'text-gray-600' : 'text-red-500'">
-                    Kembalian: <span class="font-bold" x-text="formatRupiah(Math.max(0, changeAmount))"></span>
-                </p>
+                <div class="bg-gradient-to-r from-[#dddbff]/50 to-[#dddbff]/20 p-4 rounded-xl border border-[#dddbff] mb-6 flex justify-between items-center">
+                    <p class="text-xs font-bold text-[#2f27ce] uppercase tracking-wide">Kembalian</p>
+                    <p class="text-lg font-black"
+                        :class="changeAmount >= 0 ? 'text-[#443dff]' : 'text-red-500'"
+                        x-text="changeAmount >= 0 ? formatRupiah(changeAmount) : 'Kurang ' + formatRupiah(Math.abs(changeAmount))">
+                    </p>
+                </div>
 
-                <div class="flex gap-2">
+                <div class="flex gap-3 mt-2">
                     <button type="button" @click="showPayment = false"
-                        class="flex-1 h-10 rounded-xl border text-sm font-semibold text-gray-600">Batal</button>
+                        class="flex-1 h-12 rounded-xl border border-[#dddbff] bg-white text-sm font-bold text-[#2f27ce] hover:bg-gradient-to-r hover:from-white hover:to-[#dddbff]/50 hover:text-[#050316] transition-colors">Batal</button>
                     <button type="button" @click="checkout()"
                         :disabled="loading || paidAmount < total"
-                        class="flex-1 h-10 rounded-xl bg-emerald-500 text-white text-sm font-semibold disabled:opacity-40">
-                        Konfirmasi
+                        class="flex-1 h-12 rounded-xl bg-gradient-to-r from-[#443dff] to-[#2f27ce] hover:from-[#2f27ce] hover:to-[#050316] text-white text-sm font-extrabold shadow-lg shadow-[#443dff]/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex justify-center items-center gap-2 active:scale-[0.98]">
+                        <iconify-icon icon="solar:check-circle-bold" class="text-[18px]"></iconify-icon> Konfirmasi
                     </button>
                 </div>
             </div>
