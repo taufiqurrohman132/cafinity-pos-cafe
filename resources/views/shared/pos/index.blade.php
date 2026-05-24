@@ -72,10 +72,10 @@
 
                    {{-- Menu grid --}}
                     <div class="flex-1 overflow-y-auto pr-2 pb-4 scrollbar-auto p-1">
-                        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 ">
                             <template x-for="menu in filteredMenus" :key="menu.id">
                                 <button type="button" @click="addToCart(menu)"
-                                    class="text-left bg-white rounded-2xl border-2 border-transparent shadow-sm hover:shadow-md hover:shadow-[#443dff]/20 hover:border-[#dddbff] focus:outline-none focus:ring-4 focus:ring-[#dddbff]/80 focus:border-[#443dff] active:scale-[0.97] transition-all duration-150 overflow-hidden flex flex-col group relative">
+                                    class="text-left bg-white rounded-2xl border-2 border-[#dddbff] shadow-sm hover:shadow-md hover:shadow-[#443dff]/20 hover:border-[#dddbff] focus:outline-none focus:ring-4 focus:ring-[#dddbff]/80 focus:border-[#443dff] active:scale-[0.97] transition-all duration-150 overflow-hidden flex flex-col group relative">
                                     
                                     <div class="absolute inset-0 bg-[#443dff]/5 opacity-0 group-active:opacity-100 transition-opacity duration-75 z-10 pointer-events-none"></div>
 

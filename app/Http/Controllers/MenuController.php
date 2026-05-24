@@ -14,7 +14,7 @@ class MenuController extends Controller
     {
         $categories = Category::where('is_active', true)->orderBy('name')->get();
 
-        $query = Menu::with('category')->latest();
+        $query = Menu::with(['category', 'recipe'])->latest();
 
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
