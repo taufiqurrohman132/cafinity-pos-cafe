@@ -19,6 +19,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SystemStatusController;
+use App\Http\Controllers\TargetController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -335,16 +336,15 @@ Route::middleware(['auth'])->group(function () {
     /*
     |--------------------------------------------------------------------------
     | TARGETS & GOALS
-    | View: resources/views/shared/target/index.blade.php
-    |         resources/views/shared/reports/targets-goals.blade.php
+    | View: resources/views/shared/targets-goals/index.blade.php
     |--------------------------------------------------------------------------
     */
 
     Route::prefix('targets-goals')->name('targets-goals.')->group(function () {
-        Route::get('/',         [ReportController::class, 'targetsGoals'])->name('index');
-        Route::post('/',        [ReportController::class, 'storeTarget'])->name('store');
-        Route::put('/{id}',     [ReportController::class, 'updateTarget'])->name('update');
-        Route::delete('/{id}',  [ReportController::class, 'destroyTarget'])->name('destroy');
+        Route::get('/',        [TargetController::class, 'index'])->name('index');
+        Route::post('/',       [TargetController::class, 'store'])->name('store');
+        Route::put('/{id}',    [TargetController::class, 'update'])->name('update');
+        Route::delete('/{id}', [TargetController::class, 'destroy'])->name('destroy');
     });
 
 
@@ -380,7 +380,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/cache-clear', [SystemStatusController::class, 'cacheClear'])->name('cache-clear');
         Route::post('/optimize',    [SystemStatusController::class, 'optimize'])->name('optimize');
     });
-
 });
 
 

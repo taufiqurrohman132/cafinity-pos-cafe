@@ -91,47 +91,5 @@ class ReportController extends Controller
         }, 200, $headers);
     }
 
-    public function targetsGoals(): View
-    {
-        $targets = Target::latest()->get();
-
-        return view('shared.reports.targets-goals', compact('targets'));
-    }
-
-    public function storeTarget(Request $request)
-    {
-        Target::create($request->validate([
-            'label'         => 'required|string|max:255',
-            'type'          => 'required|in:revenue,orders,profit',
-            'target_value'  => 'required|integer|min:1',
-            'current_value' => 'nullable|integer|min:0',
-            'period'        => 'required|in:daily,weekly,monthly',
-            'start_date'    => 'required|date',
-            'end_date'      => 'required|date|after_or_equal:start_date',
-        ]));
-
-        return back()->with('success', 'Target ditambahkan.');
-    }
-
-    public function updateTarget(Request $request, string $id)
-    {
-        Target::findOrFail($id)->update($request->validate([
-            'label'         => 'required|string|max:255',
-            'type'          => 'required|in:revenue,orders,profit',
-            'target_value'  => 'required|integer|min:1',
-            'current_value' => 'nullable|integer|min:0',
-            'period'        => 'required|in:daily,weekly,monthly',
-            'start_date'    => 'required|date',
-            'end_date'      => 'required|date|after_or_equal:start_date',
-        ]));
-
-        return back()->with('success', 'Target diperbarui.');
-    }
-
-    public function destroyTarget(string $id)
-    {
-        Target::findOrFail($id)->delete();
-
-        return back()->with('success', 'Target dihapus.');
-    }
+    
 }
