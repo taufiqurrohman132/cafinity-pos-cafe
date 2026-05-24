@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\BundleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Dashboard\AdminDashboardController;
@@ -303,34 +302,24 @@ Route::middleware(['auth'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
+    // Hapus block ANALYTICS yang lama, tambahkan ini ke dalam block REPORTS yang sudah ada:
+
     Route::prefix('reports')->name('reports.')->group(function () {
-        Route::get('/',                 [ReportController::class, 'index'])->name('index');
-        Route::get('/sales',            [ReportController::class, 'sales'])->name('sales');
-        Route::get('/inventory',        [ReportController::class, 'inventory'])->name('inventory');
-        Route::get('/daily',            [ReportController::class, 'daily'])->name('daily');
-        Route::get('/monthly',          [ReportController::class, 'monthly'])->name('monthly');
-        Route::get('/profit-loss',      [ReportController::class, 'profitLoss'])->name('profit-loss');
-        Route::get('/export/pdf',       [ReportController::class, 'exportPdf'])->name('export.pdf');
-        Route::get('/export/excel',     [ReportController::class, 'exportExcel'])->name('export.excel');
+        Route::get('/',                     [ReportController::class, 'index'])->name('index');
+        Route::get('/sales',                [ReportController::class, 'sales'])->name('sales');
+        Route::get('/inventory',            [ReportController::class, 'inventory'])->name('inventory');
+        Route::get('/daily',                [ReportController::class, 'daily'])->name('daily');
+        Route::get('/monthly',              [ReportController::class, 'monthly'])->name('monthly');
+        Route::get('/profit-loss',          [ReportController::class, 'profitLoss'])->name('profit-loss');
+        Route::get('/export/pdf',           [ReportController::class, 'exportPdf'])->name('export.pdf');
+        Route::get('/export/excel',         [ReportController::class, 'exportExcel'])->name('export.excel');
+
+        // Analytics endpoints (JSON)
+        Route::get('/analytics/aov',            [ReportController::class, 'aov'])->name('analytics.aov');
+        Route::get('/analytics/revenue',        [ReportController::class, 'revenue'])->name('analytics.revenue');
+        Route::get('/analytics/profit',         [ReportController::class, 'profit'])->name('analytics.profit');
+        Route::get('/analytics/best-selling',   [ReportController::class, 'bestSellingMenu'])->name('analytics.best-selling');
     });
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | ANALYTICS
-    | View: resources/views/shared/reports-analytics/index.blade.php
-    |--------------------------------------------------------------------------
-    */
-
-    Route::prefix('analytics')->name('analytics.')->group(function () {
-        Route::get('/',                     [AnalyticsController::class, 'index'])->name('index');
-        Route::get('/aov',                  [AnalyticsController::class, 'aov'])->name('aov');
-        Route::get('/revenue',              [AnalyticsController::class, 'revenue'])->name('revenue');
-        Route::get('/profit',               [AnalyticsController::class, 'profit'])->name('profit');
-        Route::get('/best-selling-menu',    [AnalyticsController::class, 'bestSellingMenu'])->name('best-selling-menu');
-    });
-
 
 
     /*
