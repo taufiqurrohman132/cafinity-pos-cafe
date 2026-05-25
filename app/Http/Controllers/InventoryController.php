@@ -10,11 +10,42 @@ use Illuminate\View\View;
 
 class InventoryController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $inventories = Inventory::with(['supplier', 'category'])->latest()->paginate(20);
+        $query = Inventory::with(['supplier', 'category'])->latest();
 
-        return view('shared.inventory.index', compact('inventories'));
+        // Search
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter status
+        if ($request->status === 'low') {
+            $query->whereColumn('stock', '<=', 'min_stock')->where('stock', '>', 0);
+        } elseif ($request->status === 'empty') {
+            $query->where('stock', 0);
+        } elseif ($request->status === 'safe') {
+            $query->whereColumn('stock', '>', 'min_stock');
+        }
+
+        $inventories   = $query->paginate(20);
+        $totalValue    = Inventory::sum(\DB::raw('stock * price_per_unit'));
+        $lowStockCount = Inventory::whereColumn('stock', '<=', 'min_stock')->where('stock', '>', 0)->count();
+        $restockCount  = Inventory::whereColumn('stock', '<=', \DB::raw('min_stock * 1.5'))->count();
+        $recentLogs    = \App\Models\InventoryLog::with(['inventory', 'user'])->latest()->limit(5)->get();
+        $criticalItem  = Inventory::whereColumn('stock', '<=', 'min_stock')
+            ->where('stock', '>', 0)
+            ->orderByRaw('stock / min_stock ASC')
+            ->first();
+
+        return view('shared.inventory.index', compact(
+            'inventories',
+            'totalValue',
+            'lowStockCount',
+            'restockCount',
+            'recentLogs',
+            'criticalItem'
+        ));
     }
 
     public function create(): View

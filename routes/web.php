@@ -200,6 +200,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('recipe-costing')->name('recipe.')->group(function () {
         Route::get('/',         [RecipeController::class, 'index'])->name('index');
         Route::post('/',        [RecipeController::class, 'store'])->name('store');
+        Route::get('/create',   [RecipeController::class, 'create'])->name('create');  // ← tambah ini
         Route::get('/{id}',     [RecipeController::class, 'show'])->name('show');
         Route::put('/{id}',     [RecipeController::class, 'update'])->name('update');
         Route::delete('/{id}',  [RecipeController::class, 'destroy'])->name('destroy');

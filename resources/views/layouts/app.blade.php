@@ -33,8 +33,7 @@
 
     {{-- Flash Toasts --}}
     @if (session('success') || session('error') || session('info') || session('warning'))
-        <div id="flash-toasts"
-            class="fixed top-4 right-4 z-[100] flex flex-col gap-2 pointer-events-none">
+        <div id="flash-toasts" class="fixed top-4 right-4 z-[100] flex flex-col gap-2 pointer-events-none">
             @if (session('success'))
                 <div data-dismiss
                     class="pointer-events-auto flex items-center gap-3 bg-white border border-green-200 rounded-xl px-4 py-3 shadow-lg min-w-[280px] max-w-sm animate-slide-in">
@@ -42,7 +41,8 @@
                         <iconify-icon icon="solar:check-circle-bold" class="text-green-600 text-lg"></iconify-icon>
                     </div>
                     <p class="flex-1 text-sm font-semibold text-green-700">{{ session('success') }}</p>
-                    <button class="text-gray-400 hover:text-gray-600 flex-shrink-0" onclick="this.closest('[data-dismiss]').remove()">
+                    <button class="text-gray-400 hover:text-gray-600 flex-shrink-0"
+                        onclick="this.closest('[data-dismiss]').remove()">
                         <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
                     </button>
                 </div>
@@ -54,7 +54,8 @@
                         <iconify-icon icon="solar:close-circle-bold" class="text-red-600 text-lg"></iconify-icon>
                     </div>
                     <p class="flex-1 text-sm font-semibold text-red-700">{{ session('error') }}</p>
-                    <button class="text-gray-400 hover:text-gray-600 flex-shrink-0" onclick="this.closest('[data-dismiss]').remove()">
+                    <button class="text-gray-400 hover:text-gray-600 flex-shrink-0"
+                        onclick="this.closest('[data-dismiss]').remove()">
                         <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
                     </button>
                 </div>
@@ -66,7 +67,8 @@
                         <iconify-icon icon="solar:info-circle-bold" class="text-blue-600 text-lg"></iconify-icon>
                     </div>
                     <p class="flex-1 text-sm font-semibold text-blue-700">{{ session('info') }}</p>
-                    <button class="text-gray-400 hover:text-gray-600 flex-shrink-0" onclick="this.closest('[data-dismiss]').remove()">
+                    <button class="text-gray-400 hover:text-gray-600 flex-shrink-0"
+                        onclick="this.closest('[data-dismiss]').remove()">
                         <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
                     </button>
                 </div>
@@ -78,7 +80,8 @@
                         <iconify-icon icon="solar:warning-circle-bold" class="text-amber-600 text-lg"></iconify-icon>
                     </div>
                     <p class="flex-1 text-sm font-semibold text-amber-700">{{ session('warning') }}</p>
-                    <button class="text-gray-400 hover:text-gray-600 flex-shrink-0" onclick="this.closest('[data-dismiss]').remove()">
+                    <button class="text-gray-400 hover:text-gray-600 flex-shrink-0"
+                        onclick="this.closest('[data-dismiss]').remove()">
                         <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
                     </button>
                 </div>
@@ -115,6 +118,7 @@
 
     </div>
 
+    @stack('scripts')
 </body>
 
 </html>
