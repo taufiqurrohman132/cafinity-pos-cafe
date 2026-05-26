@@ -18,11 +18,14 @@
                         <p class="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-wider">Total Menu</p>
                         <p class="text-2xl font-black text-[#443dff] leading-none mt-0.5">{{ $totalMenus }}</p>
                     </div>
-                    <a href="{{ route('menus.create') }}"
-                        class="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#443dff] to-[#2f27ce] hover:from-[#2f27ce] hover:to-[#050316] text-white rounded-xl text-sm font-extrabold transition-all shadow-lg shadow-[#443dff]/30 active:scale-[0.98] whitespace-nowrap">
+                    {{-- Ganti href jadi onclick --}}
+                    <button onclick="document.getElementById('menu-create-modal').showModal()"
+                        class="bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-[#2f27ce]/30 active:scale-[0.98]">
                         <iconify-icon icon="solar:add-circle-bold" class="text-lg"></iconify-icon>
                         Tambah Menu
-                    </a>
+                    </button>
+
+
                 </div>
             </div>
 
@@ -126,9 +129,8 @@
 
                             @forelse($menus as $menu)
                                 @php
-                                    $hpp = $menu->recipe ? $menu->recipe->cost ?? 0 : 0;
-                                    $margin =
-                                        $menu->price > 0 ? round((($menu->price - $hpp) / $menu->price) * 100) : 0;
+                                    $hpp = $menu->recipe ? $menu->recipe->total_hpp : 0;
+                                    $margin = $menu->recipe ? $menu->recipe->margin : 0;
                                 @endphp
                                 <tr class="hover:bg-[#dddbff]/10 transition-colors group cursor-pointer"
                                     onclick="window.location='{{ route('menus.show', $menu->id) }}'">
@@ -272,16 +274,53 @@
                         @endif
 
                         {{-- Page numbers --}}
-                        @foreach ($menus->getUrlRange(1, $menus->lastPage()) as $page => $url)
-                            <a href="{{ $url }}"
-                                class="w-9 h-9 flex items-center justify-center text-[12px] font-extrabold rounded-xl border transition-colors shadow-sm
-                                {{ $page === $menus->currentPage()
-                                    ? 'bg-gradient-to-r from-[#443dff] to-[#2f27ce] text-white border-[#443dff] shadow-[#443dff]/30'
-                                    : 'bg-white text-[#2f27ce] border-[#dddbff] hover:bg-[#dddbff] hover:text-[#050316]' }}">
-                                {{ $page }}
-                            </a>
-                        @endforeach
+                        {{-- Page numbers --}}
+                        @php
+                            $current = $menus->currentPage();
+                            $last = $menus->lastPage();
+                            $window = 2; // tampilkan 2 halaman di kiri & kanan current
 
+                            $pages = collect();
+
+                            // Selalu tampilkan halaman 1
+                            $pages->push(1);
+
+                            // Ellipsis kiri kalau current jauh dari awal
+                            if ($current - $window > 2) {
+                                $pages->push('...');
+                            }
+
+                            // Window sekitar current
+                            for ($i = max(2, $current - $window); $i <= min($last - 1, $current + $window); $i++) {
+                                $pages->push($i);
+                            }
+
+                            // Ellipsis kanan kalau current jauh dari akhir
+                            if ($current + $window < $last - 1) {
+                                $pages->push('...');
+                            }
+
+                            // Selalu tampilkan halaman terakhir (kalau lebih dari 1)
+                            if ($last > 1) {
+                                $pages->push($last);
+                            }
+                        @endphp
+
+                        @foreach ($pages as $page)
+                            @if ($page === '...')
+                                <span
+                                    class="w-9 h-9 flex items-center justify-center text-[12px] font-bold text-[#2f27ce]/40">…</span>
+                            @else
+                                <a href="{{ $menus->url($page) }}"
+                                    class="w-9 h-9 flex items-center justify-center text-[12px] font-extrabold rounded-xl border transition-colors shadow-sm
+            {{ $page === $current
+                ? 'bg-gradient-to-r from-[#443dff] to-[#2f27ce] text-white border-[#443dff] shadow-[#443dff]/30'
+                : 'bg-white text-[#2f27ce] border-[#dddbff] hover:bg-[#dddbff] hover:text-[#050316]' }}">
+                                    {{ $page }}
+                                </a>
+                            @endif
+                        @endforeach
+                        
                         @if ($menus->hasMorePages())
                             <a href="{{ $menus->nextPageUrl() }}"
                                 class="px-4 py-2 text-[12px] font-extrabold text-[#2f27ce] bg-white border border-[#dddbff] rounded-xl hover:bg-[#dddbff] hover:text-[#050316] transition-colors shadow-sm">Berikutnya</a>
@@ -295,4 +334,7 @@
             </div>
         </div>
     </div>
+
+    {{-- Di bawah div utama, sebelum @endsection --}}
+    <x-modal.create-menu :categories="$categories" />
 @endsection

@@ -49,9 +49,14 @@ class MenuController extends Controller
             'description' => 'nullable|string',
             'price'       => 'required|integer|min:0',
             'is_active'   => 'boolean',
+            'image'       => 'nullable|image|max:2048', // tambah ini
         ]);
 
         $data['slug'] = Str::slug($data['name']) . '-' . Str::random(4);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('menus', 'public');
+        }
 
         Menu::create($data);
 
