@@ -40,21 +40,32 @@ Route::middleware(['auth'])->group(function () {
         return redirect()->route(auth()->user()->dashboardRoute());
     })->name('dashboard');
 
+    // OWNER
     Route::get('/owner/dashboard', [OwnerDashboardController::class, 'index'])
         ->middleware('role:owner')
         ->name('owner.dashboard');
 
+    Route::get('/dashboard/owner/sales-chart', [OwnerDashboardController::class, 'salesChartData'])
+        ->middleware('role:owner')
+        ->name('owner.sales-chart');
+
+    // ADMIN
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
         ->middleware('role:admin')
         ->name('admin.dashboard');
 
+    // CASHIER
     Route::get('/cashier/dashboard', [CashierDashboardController::class, 'index'])
         ->middleware('role:cashier')
         ->name('cashier.dashboard');
 
+
+
     // detail-antrean (owner)
-    Route::get('/detail-antrean', [OwnerDashboardController::class, 'detailAntrean'])
-        ->name('detail.antrean');
+    // Yang benar — harus ke OwnerDashboardController@detailAntrean
+    // Ganti dengan ini:
+    // Route::get('/dashboard/owner/antrean', [KitchenOrderController::class, 'index'])
+    //     ->name('detail.antrean');
 
 
 

@@ -83,24 +83,23 @@
                 </form>
 
                 {{-- View Toggle --}}
-                <div class="flex items-center gap-3 border-l border-[#dddbff] pl-4">
-                    <div class="flex items-center bg-[#fbfbfe] border border-[#dddbff] p-1 rounded-xl shrink-0">
-                        <button
-                            class="w-8 h-8 rounded-lg flex items-center justify-center text-[#2f27ce]/50 hover:text-[#2f27ce] transition-colors">
-                            <iconify-icon icon="solar:widget-linear" class="text-lg"></iconify-icon>
-                        </button>
-                        <button
-                            class="w-8 h-8 rounded-lg bg-white border border-[#dddbff] flex items-center justify-center text-[#050316] shadow-sm">
-                            <iconify-icon icon="solar:list-bold" class="text-lg"></iconify-icon>
-                        </button>
-                    </div>
+                {{-- View Toggle --}}
+                <div class="flex items-center bg-[#fbfbfe] border border-[#dddbff] p-1 rounded-xl shrink-0">
+                    <button id="btn-grid" onclick="setView('grid')"
+                        class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors text-[#2f27ce]/50 hover:text-[#2f27ce]">
+                        <iconify-icon icon="solar:widget-linear" class="text-lg"></iconify-icon>
+                    </button>
+                    <button id="btn-list" onclick="setView('list')"
+                        class="w-8 h-8 rounded-lg bg-white border border-[#dddbff] flex items-center justify-center text-[#050316] shadow-sm">
+                        <iconify-icon icon="solar:list-bold" class="text-lg"></iconify-icon>
+                    </button>
                 </div>
 
             </div>
 
             {{-- TABLE CARD --}}
             <div class="bg-white rounded-2xl border border-[#dddbff] shadow-sm overflow-hidden">
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto" id="view-table">
                     <table class="w-full text-left min-w-[700px]">
                         <thead>
                             <tr class="bg-[#fbfbfe]/50 border-b border-[#dddbff]">
@@ -245,16 +244,98 @@
                                                     class="text-4xl text-[#443dff] block mx-auto"></iconify-icon>
                                             </div>
                                             <p class="text-sm font-bold text-[#050316]">Tidak ada menu ditemukan.</p>
-                                            <a href="{{ route('menus.create') }}"
-                                                class="mt-4 px-5 py-2 bg-gradient-to-r from-[#443dff] to-[#2f27ce] text-white text-xs font-extrabold rounded-xl shadow-md hover:from-[#2f27ce] hover:to-[#050316] transition-all">
-                                                + Tambah Menu Pertama
-                                            </a>
+                                            <button onclick="document.getElementById('menu-create-modal').showModal()"
+                                                class="bg-gradient-to-r text-xs from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white px-2 py-1 rounded-md font-bold transition-all flex items-center gap-2 shadow-lg shadow-[#2f27ce]/30 active:scale-[0.98]">
+                                                <iconify-icon icon="solar:add-circle-bold" class="text-xs"></iconify-icon>
+                                                Tambah Menu Pertama
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+
+                {{-- GRID VIEW --}}
+                <div id="view-grid"
+                    class="hidden p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+                    @forelse($menus as $menu)
+                        @php
+                            $hpp = $menu->recipe ? $menu->recipe->total_hpp : 0;
+                            $margin = $menu->recipe ? $menu->recipe->margin : 0;
+                        @endphp
+                        <div class="group bg-[#fbfbfe] border border-[#dddbff] rounded-2xl overflow-hidden hover:border-[#443dff] hover:shadow-md transition-all cursor-pointer"
+                            onclick="window.location='{{ route('menus.show', $menu->id) }}'">
+
+                            {{-- Foto --}}
+                            <div class="relative aspect-square overflow-hidden bg-[#dddbff]/20">
+                                <img src="{{ $menu->image ? Storage::url($menu->image) : 'https://placehold.co/200x200/dddbff/2f27ce?text=Menu' }}"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                {{-- Status badge --}}
+                                <div class="absolute top-2 right-2">
+                                    <form method="POST" action="{{ route('menus.toggle-status', $menu->id) }}"
+                                        onclick="event.stopPropagation()">
+                                        @csrf
+                                        <button type="submit"
+                                            class="px-2 py-0.5 rounded-full text-[10px] font-extrabold border transition-all
+                            {{ $menu->is_active
+                                ? 'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200'
+                                : 'bg-rose-100 text-rose-700 border-rose-200 hover:bg-rose-200' }}">
+                                            {{ $menu->is_active ? 'Tersedia' : 'Habis' }}
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            {{-- Info --}}
+                            <div class="p-3">
+                                <p class="font-extrabold text-[#050316] text-[12px] truncate">{{ $menu->name }}</p>
+                                <p class="text-[11px] text-[#2f27ce]/60 font-medium mt-0.5">
+                                    {{ $menu->category?->name ?? '-' }}</p>
+                                <p class="text-[13px] font-black text-[#443dff] mt-1.5">Rp
+                                    {{ number_format($menu->price, 0, ',', '.') }}</p>
+
+                                @if ($hpp > 0)
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold border mt-1
+                        {{ $margin >= 60 ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : ($margin >= 40 ? 'bg-amber-100 text-amber-700 border-amber-200' : 'bg-rose-100 text-rose-700 border-rose-200') }}">
+                                        Margin {{ $margin }}%
+                                    </span>
+                                @endif
+
+                                {{-- Aksi --}}
+                                <div class="flex items-center gap-1 mt-2 pt-2 border-t border-[#dddbff]/50 opacity-0 group-hover:opacity-100 transition-all"
+                                    onclick="event.stopPropagation()">
+                                    <a href="{{ route('menus.edit', $menu->id) }}"
+                                        class="flex-1 flex items-center justify-center gap-1 py-1.5 text-[11px] font-bold text-[#2f27ce] hover:text-[#443dff] hover:bg-[#dddbff]/50 rounded-lg transition-all">
+                                        <iconify-icon icon="solar:pen-new-square-linear" class="text-sm"></iconify-icon>
+                                        Edit
+                                    </a>
+                                    <form method="POST" action="{{ route('menus.destroy', $menu->id) }}"
+                                        onsubmit="return confirm('Hapus menu {{ addslashes($menu->name) }}?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="flex items-center justify-center gap-1 py-1.5 px-2 text-[11px] font-bold text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">
+                                            <iconify-icon icon="solar:trash-bin-trash-bold"
+                                                class="text-sm"></iconify-icon>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        {{-- empty state sama seperti table --}}
+                        <div class="col-span-full py-16 text-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-[#dddbff]/50 flex items-center justify-center mb-3 mx-auto">
+                                <iconify-icon icon="solar:plate-bold-duotone"
+                                    class="text-4xl text-[#443dff]"></iconify-icon>
+                            </div>
+                            <p class="text-sm font-bold text-[#050316]">Tidak ada menu ditemukan.</p>
+                        </div>
+                    @endforelse
                 </div>
 
                 {{-- PAGINATION --}}
@@ -312,15 +393,14 @@
                                     class="w-9 h-9 flex items-center justify-center text-[12px] font-bold text-[#2f27ce]/40">…</span>
                             @else
                                 <a href="{{ $menus->url($page) }}"
-                                    class="w-9 h-9 flex items-center justify-center text-[12px] font-extrabold rounded-xl border transition-colors shadow-sm
-            {{ $page === $current
-                ? 'bg-gradient-to-r from-[#443dff] to-[#2f27ce] text-white border-[#443dff] shadow-[#443dff]/30'
-                : 'bg-white text-[#2f27ce] border-[#dddbff] hover:bg-[#dddbff] hover:text-[#050316]' }}">
+                                    class="w-9 h-9 flex items-center justify-center text-[12px] font-extrabold rounded-xl border transition-colors shadow-sm {{ $page === $current
+                                        ? 'bg-gradient-to-r from-[#443dff] to-[#2f27ce] text-white border-[#443dff] shadow-[#443dff]/30'
+                                        : 'bg-white text-[#2f27ce] border-[#dddbff] hover:bg-[#dddbff] hover:text-[#050316]' }}">
                                     {{ $page }}
                                 </a>
                             @endif
                         @endforeach
-                        
+
                         @if ($menus->hasMorePages())
                             <a href="{{ $menus->nextPageUrl() }}"
                                 class="px-4 py-2 text-[12px] font-extrabold text-[#2f27ce] bg-white border border-[#dddbff] rounded-xl hover:bg-[#dddbff] hover:text-[#050316] transition-colors shadow-sm">Berikutnya</a>
@@ -338,3 +418,41 @@
     {{-- Di bawah div utama, sebelum @endsection --}}
     <x-modal.create-menu :categories="$categories" />
 @endsection
+
+@push('scripts')
+    <script>
+        function setView(mode) {
+            const table = document.getElementById('view-table');
+            const grid = document.getElementById('view-grid');
+            const btnList = document.getElementById('btn-list');
+            const btnGrid = document.getElementById('btn-grid');
+
+            const activeClass = ['bg-white', 'border', 'border-[#dddbff]', 'text-[#050316]', 'shadow-sm'];
+            const inactiveClass = ['text-[#2f27ce]/50'];
+
+            if (mode === 'grid') {
+                table.classList.add('hidden');
+                grid.classList.remove('hidden');
+                btnGrid.classList.add(...activeClass);
+                btnGrid.classList.remove(...inactiveClass);
+                btnList.classList.remove(...activeClass);
+                btnList.classList.add(...inactiveClass);
+            } else {
+                grid.classList.add('hidden');
+                table.classList.remove('hidden');
+                btnList.classList.add(...activeClass);
+                btnList.classList.remove(...inactiveClass);
+                btnGrid.classList.remove(...activeClass);
+                btnGrid.classList.add(...inactiveClass);
+            }
+
+            localStorage.setItem('menu-view', mode);
+        }
+
+        // Restore preference saat load
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('menu-view');
+            if (saved === 'grid') setView('grid');
+        });
+    </script>
+@endpush

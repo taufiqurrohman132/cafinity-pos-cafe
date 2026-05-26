@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\TransactionItem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use App\Models\KitchenOrderItem;
 
 class OwnerDashboardController extends Controller
 {
@@ -76,11 +77,11 @@ class OwnerDashboardController extends Controller
             ->get()
             ->map(function (KitchenOrder $order) {
                 $itemsSummary = $order->items
-                    ->map(fn ($item) => $item->qty.'x '.($item->menu->name ?? 'Menu'))
+                    ->map(fn($item) => $item->qty . 'x ' . ($item->menu->name ?? 'Menu'))
                     ->implode(', ');
 
                 return [
-                    'id'             => '#TRX-'.str_pad((string) $order->transaction_id, 4, '0', STR_PAD_LEFT),
+                    'id'             => '#TRX-' . str_pad((string) $order->transaction_id, 4, '0', STR_PAD_LEFT),
                     'transaction_id' => $order->transaction_id,
                     'items'          => $itemsSummary ?: '-',
                     'time_ago'       => $order->created_at->diffForHumans(short: true),
@@ -112,6 +113,96 @@ class OwnerDashboardController extends Controller
         ]);
     }
 
+    // OwnerDashboardController.php
+    public function salesChartData(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $period = $request->get('period', 'today');
+
+        $data = match ($period) {
+            '7days'   => $this->buildSalesChart7Days(),
+            '30days'  => $this->buildSalesChart30Days(),
+            'month'   => $this->buildSalesChartThisMonth(),
+            default   => $this->buildSalesChart(today()),
+        };
+
+        return response()->json($data);
+    }
+
+    private function buildSalesChart7Days(): array
+    {
+        $days = collect(range(6, 0))->map(fn($i) => today()->subDays($i));
+
+        $labels = $days->map(fn($d) => $d->format('d/m'))->all();
+        $values = $days->map(function ($day) {
+            $amount = (int) Transaction::query()
+                ->where('status', 'completed')
+                ->whereDate('created_at', $day)
+                ->sum('total_amount');
+
+            return ['amount' => $amount, 'height' => 0];
+        })->all();
+
+        $max = max(collect($values)->max('amount') ?: 1, 1);
+
+        foreach ($values as &$v) {
+            $v['height'] = (int) round(($v['amount'] / $max) * 100);
+        }
+
+        return compact('labels', 'values', 'max');
+    }
+
+    private function buildSalesChart30Days(): array
+    {
+        $days = collect(range(29, 0))->map(fn($i) => today()->subDays($i));
+
+        $labels = $days->map(fn($d) => $d->format('d/m'))->all();
+        $values = $days->map(function ($day) {
+            $amount = (int) Transaction::query()
+                ->where('status', 'completed')
+                ->whereDate('created_at', $day)
+                ->sum('total_amount');
+
+            return ['amount' => $amount, 'height' => 0];
+        })->all();
+
+        $max = max(collect($values)->max('amount') ?: 1, 1);
+
+        foreach ($values as &$v) {
+            $v['height'] = (int) round(($v['amount'] / $max) * 100);
+        }
+
+        return compact('labels', 'values', 'max');
+    }
+
+    private function buildSalesChartThisMonth(): array
+    {
+        $start = today()->startOfMonth();
+        $end   = today()->endOfMonth();
+        $days  = collect();
+
+        for ($d = $start->copy(); $d->lte($end); $d->addDay()) {
+            $days->push($d->copy());
+        }
+
+        $labels = $days->map(fn($d) => $d->format('d/m'))->all();
+        $values = $days->map(function ($day) {
+            $amount = (int) Transaction::query()
+                ->where('status', 'completed')
+                ->whereDate('created_at', $day)
+                ->sum('total_amount');
+
+            return ['amount' => $amount, 'height' => 0];
+        })->all();
+
+        $max = max(collect($values)->max('amount') ?: 1, 1);
+
+        foreach ($values as &$v) {
+            $v['height'] = (int) round(($v['amount'] / $max) * 100);
+        }
+
+        return compact('labels', 'values', 'max');
+    }
+
     /**
      * Owner kitchen queue detail — maps KitchenOrder data to detail-antrean blade format.
      */
@@ -140,23 +231,23 @@ class OwnerDashboardController extends Controller
                 };
 
                 return [
-                    'id'     => '#TRX-'.str_pad((string) $ko->transaction_id, 4, '0', STR_PAD_LEFT),
+                    'id'     => '#TRX-' . str_pad((string) $ko->transaction_id, 4, '0', STR_PAD_LEFT),
                     'waktu'  => $ko->created_at->diffForHumans(short: true),
                     'tipe'   => 'Dine-in',
                     'meja'   => null,
                     'status' => $statusMatch['label'],
                     'done'   => $statusMatch['done'],
                     'items'  => $ko->items->map(function (KitchenOrderItem $item) {
-                            return [
-                                'qty'   => $item->qty.'x',
-                                'nama'  => $item->menu->name ?? 'Menu',
-                                'note'  => $item->notes ?? null,
-                                'type'  => $item->menu?->category?->name
-                                    ? str_contains(strtolower($item->menu->category->name), 'minuman') ? 'drink' : 'food'
-                                    : 'food',
-                                'done'  => false,
-                            ];
-                        })
+                        return [
+                            'qty'   => $item->qty . 'x',
+                            'nama'  => $item->menu->name ?? 'Menu',
+                            'note'  => $item->notes ?? null,
+                            'type'  => $item->menu?->category?->name
+                                ? str_contains(strtolower($item->menu->category->name), 'minuman') ? 'drink' : 'food'
+                                : 'food',
+                            'done'  => false,
+                        ];
+                    })
                         ->all(),
                     'actions' => [$actionLabel, ''],
                 ];
@@ -185,7 +276,7 @@ class OwnerDashboardController extends Controller
     private function estimateHpp($date): int
     {
         return (int) TransactionItem::query()
-            ->whereHas('transaction', fn ($q) => $q
+            ->whereHas('transaction', fn($q) => $q
                 ->where('status', 'completed')
                 ->whereDate('created_at', $date))
             ->with('menu.recipe.ingredients')
@@ -256,7 +347,7 @@ class OwnerDashboardController extends Controller
         return Menu::with('category')
             ->whereIn('id', $menuIds)
             ->get()
-            ->sortByDesc(fn (Menu $menu) => $todaySales[$menu->id] ?? 0)
+            ->sortByDesc(fn(Menu $menu) => $todaySales[$menu->id] ?? 0)
             ->take(3)
             ->values()
             ->map(function (Menu $menu) use ($todaySales, $yesterdaySales) {
@@ -266,7 +357,7 @@ class OwnerDashboardController extends Controller
                 return [
                     'name' => $menu->name,
                     'category' => $menu->category?->name ?? '-',
-                    'sold' => $todayQty.' Porsi',
+                    'sold' => $todayQty . ' Porsi',
                     'trend' => $this->trendLabel($todayQty, $yesterdayQty),
                     'trend_type' => $this->trendType($todayQty, $yesterdayQty),
                     'emoji' => $this->menuEmoji($menu->name),
@@ -294,7 +385,7 @@ class OwnerDashboardController extends Controller
         ];
 
         $counts = collect($buckets)->map(function (array $bucket) use ($hourly) {
-            return collect($bucket['hours'])->sum(fn ($h) => (int) ($hourly[$h] ?? 0));
+            return collect($bucket['hours'])->sum(fn($h) => (int) ($hourly[$h] ?? 0));
         });
 
         $max = max($counts->max() ?: 1, 1);
@@ -324,8 +415,8 @@ class OwnerDashboardController extends Controller
                     'name' => $menu->name,
                     'price' => $this->rupiah($menu->price),
                     'hpp' => $this->rupiah($hpp),
-                    'profit' => '+ '.$this->rupiah($profit),
-                    'margin' => $margin.'%',
+                    'profit' => '+ ' . $this->rupiah($profit),
+                    'margin' => $margin . '%',
                     'margin_pct' => $margin,
                 ];
             })
@@ -369,7 +460,7 @@ class OwnerDashboardController extends Controller
 
     private function rupiah(int $amount): string
     {
-        return 'Rp '.number_format($amount, 0, ',', '.');
+        return 'Rp ' . number_format($amount, 0, ',', '.');
     }
 
     private function trendLabel(int|float $current, int|float $previous): string
@@ -380,7 +471,7 @@ class OwnerDashboardController extends Controller
 
         $change = (($current - $previous) / $previous) * 100;
 
-        return ($change >= 0 ? '+ ' : '- ').number_format(abs($change), 1).'%';
+        return ($change >= 0 ? '+ ' : '- ') . number_format(abs($change), 1) . '%';
     }
 
     private function trendType(int|float $current, int|float $previous): string

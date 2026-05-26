@@ -78,6 +78,8 @@ class RecipeController extends Controller
         ])->all();
 
         $recipe->ingredients()->sync($sync);
+        $recipe->load('ingredients'); // ← tambah ini
+        $recipe->recalculateHpp();   // ← tambah ini
 
         return redirect()->route('recipe.index', ['id' => $recipe->id])->with('success', 'Resep diperbarui.');
     }
@@ -106,6 +108,8 @@ class RecipeController extends Controller
         ])->all();
 
         $recipe->ingredients()->sync($sync);
+        $recipe->load('ingredients'); // ← tambah ini
+        $recipe->recalculateHpp();   // ← tambah ini
 
         return redirect()->route('recipe.index', ['id' => $recipe->id])->with('success', 'Resep ditambahkan.');
     }

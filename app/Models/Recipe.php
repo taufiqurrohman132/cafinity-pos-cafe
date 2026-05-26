@@ -10,7 +10,9 @@ class Recipe extends Model
     use HasFactory;
 
     protected $fillable = [
-        'menu_id', 'notes',
+        'menu_id',
+        'notes',
+        'total_hpp', // ← tambahkan ini
     ];
 
     public function menu()
@@ -26,22 +28,32 @@ class Recipe extends Model
             ->withTimestamps();
     }
 
-    public function getTotalHppAttribute(): int
+    // Hapus accessor getTotalHppAttribute() yang lama
+    // Ganti dengan method recalculate yang dipanggil saat data berubah
+
+    public function recalculateHpp(): void
     {
-        return (int) $this->ingredients->sum(function ($item) {
+        $hpp = (int) $this->ingredients->sum(function ($item) {
             return $item->pivot->qty * $item->price_per_unit;
         });
-    }
 
+        // Hapus baris dump ini kalau masih ada
+        // dump("ID: {$this->id}, HPP: {$hpp}");
+
+        \Illuminate\Support\Facades\DB::update(
+            "UPDATE recipes SET total_hpp = {$hpp} WHERE id = {$this->id}"
+        );
+
+        $this->total_hpp = $hpp;
+    }
+    
+    // getMarginAttribute tetap sama, total_hpp sekarang dari kolom DB
     public function getMarginAttribute(): float
     {
-        $hpp = $this->total_hpp;
         $price = $this->menu?->price ?? 0;
 
-        if ($price === 0) {
-            return 0;
-        }
+        if ($price === 0) return 0;
 
-        return round((($price - $hpp) / $price) * 100, 1);
+        return round((($price - $this->total_hpp) / $price) * 100, 1);
     }
 }
