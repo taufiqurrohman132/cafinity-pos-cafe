@@ -158,6 +158,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('transactions')->name('transactions.')->group(function () {
         Route::get('/',                 [TransactionController::class, 'history'])->name('index');
+        Route::get('/export',           [TransactionController::class, 'export'])->name('export'); // ← pindah ke sini
         Route::get('/{id}',             [TransactionController::class, 'show'])->name('show');
         Route::get('/{id}/invoice',     [TransactionController::class, 'invoice'])->name('invoice');
         Route::post('/{id}/print',      [TransactionController::class, 'print'])->name('print');

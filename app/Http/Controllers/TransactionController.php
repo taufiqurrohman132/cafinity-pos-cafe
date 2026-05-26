@@ -264,29 +264,41 @@ class TransactionController extends Controller
     {
         $query = Transaction::with(['cashier', 'items'])->latest();
 
-        // Search by invoice ID
         if ($request->filled('search')) {
             $query->where('id', 'like', '%' . $request->search . '%');
         }
-
-        // Filter by status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
-
-        // Filter by payment method
         if ($request->filled('method')) {
             $query->where('payment_method', $request->method);
         }
-
-        // Filter by date
         if ($request->filled('date')) {
             $query->whereDate('created_at', $request->date);
         }
 
         $transactions = $query->paginate(20)->withQueryString();
 
-        return view('shared.transaction.index', compact('transactions'));
+        // ── Stat Cards ──────────────────────────────────────────
+        $filterDate = $request->filled('date')
+            ? $request->date
+            : today()->toDateString();
+
+        $statsQuery = Transaction::whereDate('created_at', $filterDate);
+
+        $totalRevenue     = (clone $statsQuery)->where('status', 'completed')->sum('total_amount');
+        $totalTransactions = (clone $statsQuery)->whereIn('status', ['completed', 'pending'])->count();
+        $avgOrder         = $totalTransactions > 0 ? $totalRevenue / $totalTransactions : 0;
+        $totalRefundCancel = (clone $statsQuery)->whereIn('status', ['refunded', 'cancelled'])->count();
+        // ────────────────────────────────────────────────────────
+
+        return view('shared.transaction.index', compact(
+            'transactions',
+            'totalRevenue',
+            'totalTransactions',
+            'avgOrder',
+            'totalRefundCancel',
+        ));
     }
 
     public function show(string $id): View
@@ -337,5 +349,59 @@ class TransactionController extends Controller
             str_contains($lower, 'snack'), str_contains($lower, 'cemilan') => 'solar:donut-linear',
             default => 'solar:widget-linear',
         };
+    }
+
+    public function export(Request $request)
+    {
+        $query = Transaction::with(['cashier', 'items'])
+            ->when($request->filled('search'), fn($q) => $q->where('id', 'like', '%' . $request->search . '%'))
+            ->when($request->filled('status'), fn($q) => $q->where('status', $request->status))
+            ->when($request->filled('method'), fn($q) => $q->where('payment_method', $request->method))
+            ->when($request->filled('date'),   fn($q) => $q->whereDate('created_at', $request->date))
+            ->latest()
+            ->get();
+
+        $filename = 'transaksi_' . now()->format('Ymd_His') . '.csv';
+
+        $headers = [
+            'Content-Type'        => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ];
+
+        $callback = function () use ($query) {
+            $handle = fopen('php://output', 'w');
+
+            // BOM supaya Excel bisa baca UTF-8
+            fprintf($handle, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            // Header kolom
+            fputcsv($handle, [
+                'ID Invoice',
+                'Tanggal',
+                'Waktu',
+                'Kasir',
+                'Total Item',
+                'Total Tagihan',
+                'Metode Pembayaran',
+                'Status',
+            ]);
+
+            foreach ($query as $trx) {
+                fputcsv($handle, [
+                    $trx->id,
+                    $trx->created_at->format('d/m/Y'),
+                    $trx->created_at->format('H:i'),
+                    $trx->cashier->name ?? '-',
+                    $trx->items->sum('qty'),
+                    $trx->total_amount,
+                    strtoupper($trx->payment_method),
+                    $trx->status,
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }
