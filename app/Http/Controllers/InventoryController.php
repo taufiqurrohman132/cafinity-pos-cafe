@@ -13,6 +13,7 @@ class InventoryController extends Controller
 {
     use AuthorizesRequests;
 
+    
     public function index(Request $request): View
     {
 
