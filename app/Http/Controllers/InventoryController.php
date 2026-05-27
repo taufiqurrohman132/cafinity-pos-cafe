@@ -7,14 +7,15 @@ use App\Models\InventoryCategory;
 use App\Models\Supplier;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class InventoryController extends Controller
 {
     use AuthorizesRequests;
 
     
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
 
         $query = Inventory::with(['supplier', 'category'])->latest();
@@ -33,7 +34,7 @@ class InventoryController extends Controller
             $query->whereColumn('stock', '>', 'min_stock');
         }
 
-        $inventories   = $query->paginate(20);
+        $inventories   = $query->paginate(20)->withQueryString();
         $totalValue    = Inventory::sum(\DB::raw('stock * price_per_unit'));
         $lowStockCount = Inventory::whereColumn('stock', '<=', 'min_stock')->where('stock', '>', 0)->count();
         $restockCount  = Inventory::whereColumn('stock', '<=', \DB::raw('min_stock * 1.5'))->count();
@@ -43,7 +44,7 @@ class InventoryController extends Controller
             ->orderByRaw('stock / min_stock ASC')
             ->first();
 
-        return view('shared.inventory.index', compact(
+        return Inertia::render('Inventories/Index', compact(
             'inventories',
             'totalValue',
             'lowStockCount',

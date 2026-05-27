@@ -9,11 +9,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
+use Inertia\Inertia;
+use Inertia\Response;
+
 class MenuController extends Controller
 {
     use AuthorizesRequests;
     
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $categories = Category::where('is_active', true)->orderBy('name')->get();
 
@@ -34,7 +37,7 @@ class MenuController extends Controller
         $menus = $query->paginate(20)->withQueryString();
         $totalMenus = Menu::count();
 
-        return view('shared.menu-management.index', compact('menus', 'categories', 'totalMenus'));
+        return Inertia::render('Menus/Index', compact('menus', 'categories', 'totalMenus'));
     }
 
     public function create(): View

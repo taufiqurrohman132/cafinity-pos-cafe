@@ -13,6 +13,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ReportController extends Controller
@@ -20,7 +22,7 @@ class ReportController extends Controller
 
     use AuthorizesRequests;
 
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
 
         $this->authorize('view-reports');
@@ -328,7 +330,7 @@ class ReportController extends Controller
             ->values();
 
 
-        return view('shared.reports.index', compact(
+        return Inertia::render('Reports/Index', compact(
             'totalRevenue',
             'totalOrders',
             'avgTransaction',

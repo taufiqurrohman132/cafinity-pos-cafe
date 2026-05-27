@@ -1,6 +1,7 @@
 // Recipe/Index.jsx
 import { Head, Link, router, usePage } from '@inertiajs/react'
 import { useState } from 'react'
+import AppLayout from '@/Layouts/AppLayout'
 
 export default function RecipeIndex({ recipes, selectedRecipe, inventories, menus }) {
     const { url } = usePage()
@@ -100,7 +101,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
     const showWarning = selectedRecipe?.margin > 0 && selectedRecipe?.margin < 40
 
     return (
-        <>
+        <AppLayout>
             <Head title="Recipe Costing" />
 
             <div className="flex h-[calc(100vh-72px)] bg-[#fbfbfe] overflow-hidden">
@@ -203,12 +204,12 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                 </div>
                                 <div className="flex items-center gap-3">
                                     {menu?.id && (
-                                        <Link
+                                        <a
                                             href={route('menus.edit', menu.id)}
                                             className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#443dff] hover:to-[#2f27ce] rounded-xl transition-all shadow-md shadow-[#443dff]/30 active:scale-95"
                                         >
                                             Edit Menu
-                                        </Link>
+                                        </a>
                                     )}
                                 </div>
                             </div>
@@ -587,7 +588,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                     </div>
                 </div>
             )}
-        </>
+        </AppLayout>
     )
 }
 

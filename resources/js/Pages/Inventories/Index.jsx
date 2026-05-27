@@ -1,6 +1,7 @@
 // Inventories/Index.jsx
 import { Head, Link, router, usePage } from '@inertiajs/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import AppLayout from '@/Layouts/AppLayout'
 
 export default function InventoriesIndex({
     inventories,
@@ -15,6 +16,10 @@ export default function InventoriesIndex({
 
     const [search, setSearch] = useState(params.get('search') || '')
     const status = params.get('status') || ''
+
+    useEffect(() => {
+        setSearch(params.get('search') || '')
+    }, [url])
 
     function handleSearch(e) {
         e.preventDefault()
@@ -54,7 +59,7 @@ export default function InventoriesIndex({
     }
 
     return (
-        <>
+        <AppLayout>
             <Head title="Manajemen Inventaris" />
 
             <div className="min-h-screen bg-[#fbfbfe]">
@@ -80,13 +85,13 @@ export default function InventoriesIndex({
                                     <option value="low">Stok Rendah</option>
                                     <option value="empty">Habis</option>
                                 </select>
-                                <Link
+                                <a
                                     href={route('inventories.create')}
                                     className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-[#2f27ce] hover:bg-[#443dff] rounded-xl transition shadow-sm"
                                 >
                                     <span className="text-base">+</span>
                                     Tambah Bahan
-                                </Link>
+                                </a>
                             </div>
                         </div>
 
@@ -170,9 +175,9 @@ export default function InventoriesIndex({
                                                     <div className="flex flex-col items-center gap-2">
                                                         <span className="text-4xl">📦</span>
                                                         <p>Belum ada data inventaris.</p>
-                                                        <Link href={route('inventories.create')} className="text-[#2f27ce] font-semibold hover:underline text-xs">
+                                                        <a href={route('inventories.create')} className="text-[#2f27ce] font-semibold hover:underline text-xs">
                                                             + Tambah bahan pertama
-                                                        </Link>
+                                                        </a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -213,20 +218,20 @@ export default function InventoriesIndex({
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         <div className="flex items-center gap-2">
-                                                            <Link
+                                                            <a
                                                                 href={route('inventories.show', item.id)}
                                                                 className="w-8 h-8 rounded-lg bg-[#fbfbfe] border border-[#dddbff] flex items-center justify-center text-gray-500 hover:text-[#2f27ce] hover:border-[#2f27ce] transition"
                                                                 title="Detail"
                                                             >
                                                                 👁
-                                                            </Link>
-                                                            <Link
+                                                            </a>
+                                                            <a
                                                                 href={route('inventories.edit', item.id)}
                                                                 className="w-8 h-8 rounded-lg bg-[#fbfbfe] border border-[#dddbff] flex items-center justify-center text-gray-500 hover:text-[#2f27ce] hover:border-[#2f27ce] transition"
                                                                 title="Edit"
                                                             >
                                                                 ✏️
-                                                            </Link>
+                                                            </a>
                                                             <button
                                                                 onClick={() => handleDelete(item.id, item.name)}
                                                                 className="w-8 h-8 rounded-lg bg-[#fbfbfe] border border-[#dddbff] flex items-center justify-center text-gray-500 hover:text-red-500 hover:border-red-300 transition"
@@ -249,12 +254,12 @@ export default function InventoriesIndex({
                                     Menampilkan {inventories.from ?? 0}–{inventories.to ?? 0} dari {inventories.total} jenis bahan baku
                                 </p>
                                 <div className="flex items-center gap-4">
-                                    <Link href={route('reports.inventory')} className="text-xs font-semibold text-gray-500 hover:text-[#2f27ce] transition">
+                                    <a href={route('reports.inventory')} className="text-xs font-semibold text-gray-500 hover:text-[#2f27ce] transition">
                                         Unduh Laporan Stok
-                                    </Link>
+                                    </a>
                                     {/* Pagination */}
                                     <div className="flex items-center gap-1">
-                                        {inventories.links.map((link, i) => (
+                                        {inventories.links?.map((link, i) => (
                                             <Link
                                                 key={i}
                                                 href={link.url ?? '#'}
@@ -279,7 +284,7 @@ export default function InventoriesIndex({
                         <div>
                             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Aksi Cepat</h3>
                             <div className="space-y-3">
-                                <Link
+                                <a
                                     href={route('inventories.create')}
                                     className="w-full bg-[#2f27ce] hover:bg-[#443dff] transition rounded-xl p-4 text-left text-white flex items-center gap-3"
                                 >
@@ -288,8 +293,8 @@ export default function InventoriesIndex({
                                         <h4 className="text-sm font-bold">Tambah Bahan Baru</h4>
                                         <p className="text-xs text-[#dddbff] mt-0.5">Input item inventaris baru</p>
                                     </div>
-                                </Link>
-                                <Link
+                                </a>
+                                <a
                                     href={route('inventories.low-stock')}
                                     className="w-full border border-[#dddbff] rounded-xl p-4 text-left flex items-center gap-3 hover:bg-[#fbfbfe] transition"
                                 >
@@ -298,7 +303,7 @@ export default function InventoriesIndex({
                                         <h4 className="text-sm font-bold text-[#050316]">Stok Menipis</h4>
                                         <p className="text-xs text-gray-400 mt-0.5">Lihat semua item kritis</p>
                                     </div>
-                                </Link>
+                                </a>
                             </div>
                         </div>
 
@@ -336,9 +341,9 @@ export default function InventoriesIndex({
                                             <p className="text-xs text-gray-600 leading-relaxed">
                                                 <strong>{criticalItem.name}</strong> hampir habis (sisa {criticalItem.stock} {criticalItem.unit}). Segera lakukan restock sebelum kehabisan.
                                             </p>
-                                            <Link href={route('inventories.show', criticalItem.id)} className="inline-block mt-2 text-xs font-semibold text-[#2f27ce] hover:underline">
+                                            <a href={route('inventories.show', criticalItem.id)} className="inline-block mt-2 text-xs font-semibold text-[#2f27ce] hover:underline">
                                                 Lihat Detail →
-                                            </Link>
+                                            </a>
                                         </>
                                     ) : (
                                         <p className="text-xs text-gray-600 leading-relaxed">Semua stok dalam kondisi aman. Pantau terus secara berkala.</p>
@@ -361,6 +366,6 @@ export default function InventoriesIndex({
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     )
 }

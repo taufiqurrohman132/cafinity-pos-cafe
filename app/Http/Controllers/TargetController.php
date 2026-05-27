@@ -34,10 +34,128 @@ class TargetController extends Controller
             default   => [$today->copy(), $today->copy()],
         };
 
-        // (Semua query dan logika $target, $currentValue, $progress, dll. TETAP SAMA seperti aslinya)
-        // ... (sisipan logika query yang ada sebelumnya di sini) ...
+        // Target aktif
+        $target = Target::query()
+            ->where('type', 'revenue')
+            ->where('period', $dbPeriod)
+            ->whereDate('start_date', '<=', $today)
+            ->whereDate('end_date', '>=', $today)
+            ->first();
 
-        // UBAH BAGIAN RETURN INI:
+        // Revenue sesuai filter
+        $currentRevenue = (int) Transaction::query()
+            ->where('status', 'completed')
+            ->whereBetween('created_at', [
+                $startDate->copy()->startOfDay(),
+                $endDate->copy()->endOfDay(),
+            ])
+            ->sum('total_amount');
+
+        $targetValue = $target?->target_value ?? 0;
+
+        $currentValue = $target
+            ? max($target->current_value, $currentRevenue)
+            : $currentRevenue;
+
+        $progress = $targetValue > 0
+            ? min(100, round(($currentValue / $targetValue) * 100, 1))
+            : 0;
+
+        $remaining   = max(0, $targetValue - $currentValue);
+        $lastUpdated = now()->diffForHumans(short: false);
+        $avgHarian   = $this->avgDailyRevenue(30);
+
+        $hoursElapsed = max(
+            1,
+            now()->diffInHours(
+                $startDate->copy()->setTime(8, 0)
+            )
+        );
+
+        $estimasi = (int) round(
+            ($currentValue / $hoursElapsed) * 14
+        );
+
+        $trendEstimasi = $targetValue > 0
+            ? round((($estimasi - $targetValue) / $targetValue) * 100, 1)
+            : 0;
+
+        $history = $this->buildHistory(30);
+
+        // Top staff
+        $staffPerformance = Transaction::query()
+            ->where('status', 'completed')
+            ->whereBetween('created_at', [
+                $startDate->copy()->startOfDay(),
+                $endDate->copy()->endOfDay(),
+            ])
+            ->whereNotNull('cashier_id')
+            ->select(
+                'cashier_id',
+                DB::raw('SUM(total_amount) as total')
+            )
+            ->groupBy('cashier_id')
+            ->orderByDesc('total')
+            ->limit(3)
+            ->with('cashier')
+            ->get()
+            ->map(fn($row) => [
+                'name'  => $row->cashier?->name ?? 'Staf',
+                'role'  => $row->cashier?->role ?? '',
+                'total' => (int) $row->total,
+            ]);
+
+        $maxStaff = $staffPerformance->max('total') ?: 1;
+
+        // Metode pembayaran
+        $paymentMethods = Transaction::query()
+            ->where('status', 'completed')
+            ->whereBetween('created_at', [
+                $startDate->copy()->startOfDay(),
+                $endDate->copy()->endOfDay(),
+            ])
+            ->select(
+                'payment_method',
+                DB::raw('COUNT(*) as total')
+            )
+            ->groupBy('payment_method')
+            ->orderByDesc('total')
+            ->pluck('total', 'payment_method');
+
+        $totalTrx = $paymentMethods->sum() ?: 1;
+
+        $paymentSummary = $paymentMethods->map(
+            fn($count, $method) =>
+            strtoupper($method) .
+                ' (' .
+                round(($count / $totalTrx) * 100) .
+                '%)'
+        )->implode(', ');
+
+        // Jam tersibuk 7 hari terakhir
+        $peakHour = Transaction::query()
+            ->where('status', 'completed')
+            ->whereBetween('created_at', [
+                now()->subDays(7),
+                now(),
+            ])
+            ->select(
+                DB::raw('HOUR(created_at) as hour'),
+                DB::raw('COUNT(*) as total')
+            )
+            ->groupBy('hour')
+            ->orderByDesc('total')
+            ->first();
+
+        $peakLabel = $peakHour
+            ? sprintf(
+                '%02d:00 - %02d:00',
+                $peakHour->hour,
+                $peakHour->hour + 2
+            )
+            : '12:00 - 14:00';
+
+        $promoAktif = '-';
         return Inertia::render('TargetsGoals/Index', [
             'target'           => $target,
             'targetValue'      => $targetValue,

@@ -15,6 +15,10 @@ class Recipe extends Model
         'total_hpp', // ← tambahkan ini
     ];
 
+    protected $appends = [
+        'margin',
+    ];
+
     public function menu()
     {
         return $this->belongsTo(Menu::class);

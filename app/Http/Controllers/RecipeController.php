@@ -6,12 +6,13 @@ use App\Models\Inventory;
 use App\Models\Menu;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class RecipeController extends Controller
 {
     
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $recipes     = Recipe::with(['menu.category', 'ingredients'])->latest()->get();
         $inventories = Inventory::orderBy('name')->get();
@@ -23,16 +24,7 @@ class RecipeController extends Controller
         // Tambah ini — menu yang belum punya resep
         $menus = Menu::whereDoesntHave('recipe')->orderBy('name')->get();
 
-        $inventoriesJson = $inventories->map(function ($i) {
-            return [
-                'id'    => $i->id,
-                'name'  => $i->name,
-                'price' => $i->price_per_unit,
-                'unit'  => $i->unit,
-            ];
-        })->values()->toJson();
-
-        return view('shared.recipe-costiong.index', compact('recipes', 'selectedRecipe', 'inventories', 'inventoriesJson', 'menus'));
+        return Inertia::render('Recipe/Index', compact('recipes', 'selectedRecipe', 'inventories', 'menus'));
     }
 
     public function show(string $id)

@@ -1,6 +1,7 @@
 // Menus/Index.jsx
 import { Head, Link, router, usePage } from '@inertiajs/react'
 import { useState, useEffect } from 'react'
+import AppLayout from '@/Layouts/AppLayout'
 
 export default function MenusIndex({ menus, categories, totalMenus }) {
     const { url } = usePage()
@@ -14,6 +15,10 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
         if (saved === 'grid') setViewState('grid')
     }, [])
 
+    useEffect(() => {
+        setSearch(params.get('search') || '')
+    }, [url])
+
     function setView(mode) {
         setViewState(mode)
         localStorage.setItem('menu-view', mode)
@@ -25,7 +30,11 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
             status: params.get('status') || '',
             category: params.get('category') || '',
         }
-        router.get(route('menus.index'), { ...current, ...overrides }, { preserveState: true, replace: true })
+        const paramsObj = { ...current, ...overrides }
+        Object.keys(paramsObj).forEach(key => {
+            if (!paramsObj[key]) delete paramsObj[key]
+        })
+        router.get(route('menus.index'), paramsObj, { preserveState: true, replace: true })
     }
 
     function handleSearch(e) {
@@ -74,7 +83,7 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
     }
 
     return (
-        <>
+        <AppLayout>
             <Head title="Katalog Menu" />
 
             <div className="min-h-screen bg-[#fbfbfe] p-4 md:p-6">
@@ -95,12 +104,12 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                 <p className="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-wider">Total Menu</p>
                                 <p className="text-2xl font-black text-[#443dff] leading-none mt-0.5">{totalMenus}</p>
                             </div>
-                            <Link
+                            <a
                                 href={route('menus.create')}
                                 className="bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-[#2f27ce]/30 active:scale-[0.98]"
                             >
                                 + Tambah Menu
-                            </Link>
+                            </a>
                         </div>
                     </div>
 
@@ -112,7 +121,7 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
 
                                 {/* Search */}
                                 <form onSubmit={handleSearch} className="relative flex-1 max-w-xs">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2f27ce]/70 text-[15px]">🔍</span>
+                                    <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-[#2f27ce]/70 text-[18px]"></iconify-icon>
                                     <input
                                         type="text"
                                         value={search}
@@ -188,7 +197,7 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                         : 'text-[#2f27ce]/50 hover:text-[#2f27ce]'
                                 }`}
                             >
-                                ⊞
+                                <iconify-icon icon="solar:widget-linear" class="text-lg"></iconify-icon>
                             </button>
                             <button
                                 onClick={() => setView('list')}
@@ -198,7 +207,7 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                         : 'text-[#2f27ce]/50 hover:text-[#2f27ce]'
                                 }`}
                             >
-                                ☰
+                                <iconify-icon icon="solar:list-bold" class="text-lg"></iconify-icon>
                             </button>
                         </div>
                     </div>
@@ -224,7 +233,9 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                             <tr>
                                                 <td colSpan={8} className="px-6 py-16 text-center">
                                                     <div className="flex flex-col items-center justify-center gap-3">
-                                                        <div className="w-16 h-16 rounded-full bg-[#dddbff]/50 flex items-center justify-center text-4xl">🍽</div>
+                                                        <div className="w-16 h-16 rounded-full bg-[#dddbff]/50 flex items-center justify-center text-[#443dff]">
+                                                            <iconify-icon icon="solar:cookie-bold-duotone" class="text-3xl"></iconify-icon>
+                                                        </div>
                                                         <p className="text-sm font-bold text-[#050316]">Tidak ada menu ditemukan.</p>
                                                         <Link
                                                             href={route('menus.create')}
@@ -242,14 +253,16 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                                 <tr
                                                     key={menu.id}
                                                     className="hover:bg-[#dddbff]/10 transition-colors group cursor-pointer"
-                                                    onClick={() => router.visit(route('menus.show', menu.id))}
+                                                    onClick={() => window.location.href = route('menus.show', menu.id)}
                                                 >
                                                     {/* Foto */}
                                                     <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
-                                                        <img
-                                                            src={menu.image_url ?? `https://placehold.co/100x100/dddbff/2f27ce?text=Menu`}
-                                                            className="w-10 h-10 rounded-xl object-cover border border-[#dddbff] shadow-sm group-hover:scale-105 transition-transform duration-300"
-                                                        />
+                                                        <a href={route('menus.show', menu.id)}>
+                                                            <img
+                                                                src={menu.image_url ?? `https://placehold.co/100x100/dddbff/2f27ce?text=Menu`}
+                                                                className="w-10 h-10 rounded-xl object-cover border border-[#dddbff] shadow-sm group-hover:scale-105 transition-transform duration-300"
+                                                            />
+                                                        </a>
                                                     </td>
 
                                                     {/* Nama */}
@@ -267,7 +280,8 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                                     {/* Kategori */}
                                                     <td className="px-6 py-4">
                                                         <span className="flex items-center gap-1.5 text-[12px] font-bold text-[#2f27ce]">
-                                                            🏷 {menu.category?.name ?? '-'}
+                                                            <iconify-icon icon="solar:tag-linear" class="text-base text-[#443dff]"></iconify-icon>
+                                                            {menu.category?.name ?? '-'}
                                                         </span>
                                                     </td>
 
@@ -309,26 +323,26 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                                     {/* Aksi */}
                                                     <td className="px-6 py-4 text-right" onClick={(e) => e.stopPropagation()}>
                                                         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all">
-                                                            <Link
+                                                            <a
                                                                 href={route('menus.show', menu.id)}
                                                                 className="p-2 text-[#2f27ce] hover:text-[#443dff] rounded-xl hover:bg-[#dddbff]/50 inline-flex active:scale-95 transition-all"
                                                                 title="Lihat Detail"
                                                             >
-                                                                👁
-                                                            </Link>
-                                                            <Link
+                                                                <iconify-icon icon="solar:eye-linear" class="text-lg"></iconify-icon>
+                                                            </a>
+                                                            <a
                                                                 href={route('menus.edit', menu.id)}
                                                                 className="p-2 text-[#2f27ce] hover:text-[#443dff] rounded-xl hover:bg-[#dddbff]/50 inline-flex active:scale-95 transition-all"
                                                                 title="Edit"
                                                             >
-                                                                ✏️
-                                                            </Link>
+                                                                <iconify-icon icon="solar:pen-linear" class="text-lg"></iconify-icon>
+                                                            </a>
                                                             <button
                                                                 onClick={() => handleDelete(menu.id, menu.name)}
                                                                 className="p-2 text-rose-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 inline-flex active:scale-95 transition-all"
                                                                 title="Hapus"
                                                             >
-                                                                🗑
+                                                                <iconify-icon icon="solar:trash-bin-trash-linear" class="text-lg"></iconify-icon>
                                                             </button>
                                                         </div>
                                                     </td>
@@ -345,7 +359,9 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                             <div className="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
                                 {menus.data.length === 0 ? (
                                     <div className="col-span-full py-16 text-center">
-                                        <div className="w-16 h-16 rounded-full bg-[#dddbff]/50 flex items-center justify-center mb-3 mx-auto text-4xl">🍽</div>
+                                        <div className="w-16 h-16 rounded-full bg-[#dddbff]/50 flex items-center justify-center mb-3 mx-auto text-[#443dff]">
+                                            <iconify-icon icon="solar:cookie-bold-duotone" class="text-3xl"></iconify-icon>
+                                        </div>
                                         <p className="text-sm font-bold text-[#050316]">Tidak ada menu ditemukan.</p>
                                     </div>
                                 ) : menus.data.map((menu) => {
@@ -355,7 +371,7 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                         <div
                                             key={menu.id}
                                             className="group bg-[#fbfbfe] border border-[#dddbff] rounded-2xl overflow-hidden hover:border-[#443dff] hover:shadow-md transition-all cursor-pointer"
-                                            onClick={() => router.visit(route('menus.show', menu.id))}
+                                            onClick={() => window.location.href = route('menus.show', menu.id)}
                                         >
                                             {/* Foto */}
                                             <div className="relative aspect-square overflow-hidden bg-[#dddbff]/20">
@@ -396,17 +412,17 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                                     className="flex items-center gap-1 mt-2 pt-2 border-t border-[#dddbff]/50 opacity-0 group-hover:opacity-100 transition-all"
                                                     onClick={(e) => e.stopPropagation()}
                                                 >
-                                                    <Link
+                                                    <a
                                                         href={route('menus.edit', menu.id)}
                                                         className="flex-1 flex items-center justify-center gap-1 py-1.5 text-[11px] font-bold text-[#2f27ce] hover:text-[#443dff] hover:bg-[#dddbff]/50 rounded-lg transition-all"
                                                     >
-                                                        ✏️ Edit
-                                                    </Link>
+                                                        <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon> Edit
+                                                    </a>
                                                     <button
                                                         onClick={() => handleDelete(menu.id, menu.name)}
                                                         className="flex items-center justify-center gap-1 py-1.5 px-2 text-[11px] font-bold text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
                                                     >
-                                                        🗑
+                                                        <iconify-icon icon="solar:trash-bin-trash-linear" class="text-sm"></iconify-icon>
                                                     </button>
                                                 </div>
                                             </div>
@@ -441,7 +457,7 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                     ) : (
                                         <Link
                                             key={page}
-                                            href={menus.links.find(l => l.label == page)?.url ?? '#'}
+                                            href={menus.links?.find(l => l.label == page)?.url ?? '#'}
                                             className={`w-9 h-9 flex items-center justify-center text-[12px] font-extrabold rounded-xl border transition-colors shadow-sm ${
                                                 page === menus.current_page
                                                     ? 'bg-gradient-to-r from-[#443dff] to-[#2f27ce] text-white border-[#443dff] shadow-[#443dff]/30'
@@ -468,6 +484,6 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     )
 }
