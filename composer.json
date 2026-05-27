@@ -9,9 +9,11 @@
         "php": "^8.3",
         "blade-ui-kit/blade-heroicons": "^2.7",
         "hotwired/turbo-laravel": "^2.6",
+        "inertiajs/inertia-laravel": "^3.1",
         "laravel/framework": "^13.7",
         "laravel/tinker": "^3.0",
-        "spatie/laravel-permission": "^7.4"
+        "spatie/laravel-permission": "^7.4",
+        "tightenco/ziggy": "^2.6"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.7",

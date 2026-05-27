@@ -8,41 +8,49 @@ use Illuminate\View\View;
 
 class KitchenOrderController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): \Inertia\Response
     {
         $filter = $request->get('filter', 'all');
 
-        $query = KitchenOrder::with(['items.menu', 'transaction'])
+        $query = KitchenOrder::with(['items.menu.category', 'transaction'])
             ->whereIn('status', ['pending', 'preparing', 'ready'])
             ->latest();
 
         if ($filter !== 'all') {
-            $statusMap = [
-                'waiting'   => 'pending',
-                'preparing' => 'preparing',
-                'ready'     => 'ready',
-            ];
-            if (isset($statusMap[$filter])) {
-                $query->where('status', $statusMap[$filter]);
-            }
+            $query->where('status', $filter);
         }
 
-        $orders = $query->get();
+        $orders = $query->get()->map(fn($o) => [
+            'id'             => $o->id,
+            'transaction_id' => $o->transaction_id,
+            'status'         => $o->status,
+            'notes'          => $o->notes,
+            'created_at'     => $o->created_at->toIso8601String(),
+            'items'          => $o->items->map(fn($i) => [
+                'qty'   => $i->qty,
+                'notes' => $i->notes,
+                'menu'  => [
+                    'name'     => $i->menu?->name,
+                    'category' => ['name' => $i->menu?->category?->name],
+                ],
+            ]),
+        ]);
 
-        $stats = [
-            'active_orders'    => KitchenOrder::whereIn('status', ['pending', 'preparing'])->count(),
-            'late_orders'      => KitchenOrder::whereIn('status', ['pending', 'preparing'])
-                ->where('created_at', '<=', now()->subMinutes(15))
-                ->count(),
-            'completed_today'  => KitchenOrder::where('status', 'completed')
-                ->whereDate('completed_at', today())
-                ->count(),
-            'avg_cook_time'    => $this->getAvgCookTime(),
-        ];
+        $lateThreshold = now()->subMinutes(15);
 
-        return view('shared.kitchen-order.index', compact('orders', 'filter', 'stats'));
+        return Inertia::render('KitchenOrders/Index', [
+            'orders' => $orders,
+            'filter' => $filter,
+            'stats'  => [
+                'active_orders'   => KitchenOrder::whereIn('status', ['pending', 'preparing'])->count(),
+                'late_orders'     => KitchenOrder::whereIn('status', ['pending', 'preparing'])
+                    ->where('created_at', '<=', $lateThreshold)->count(),
+                'completed_today' => KitchenOrder::where('status', 'completed')
+                    ->whereDate('updated_at', today())->count(),
+                'avg_cook_time'   => $this->avgCookTime(),
+            ],
+        ]);
     }
-
     private function getAvgCookTime(): string
     {
         $avg = KitchenOrder::where('status', 'completed')

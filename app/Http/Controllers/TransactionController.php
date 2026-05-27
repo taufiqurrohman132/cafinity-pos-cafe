@@ -16,10 +16,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class TransactionController extends Controller
 {
-    public function pos(): View
+    // ── POS ───────────────────────────────────────────────────
+    public function pos(): Response
     {
         $placeholderImage = 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=600&auto=format&fit=crop';
 
@@ -29,12 +32,12 @@ class TransactionController extends Controller
             ->withCount(['menus' => fn($q) => $q->where('is_active', true)])
             ->orderBy('name')
             ->get()
-            ->map(fn(Category $category) => [
-                'id' => $category->id,
-                'name' => $category->name,
-                'slug' => $category->slug,
-                'icon' => $this->categoryIcon($category->name),
-                'menus_count' => $category->menus_count,
+            ->map(fn(Category $c) => [
+                'id'          => $c->id,
+                'name'        => $c->name,
+                'slug'        => $c->slug,
+                'icon'        => $this->categoryIcon($c->name),
+                'menus_count' => $c->menus_count,
             ]);
 
         $menus = Menu::query()
@@ -42,15 +45,15 @@ class TransactionController extends Controller
             ->with('category')
             ->orderBy('name')
             ->get()
-            ->map(fn(Menu $menu) => [
-                'id' => $menu->id,
-                'category_id' => $menu->category_id,
-                'category_name' => $menu->category?->name,
-                'name' => $menu->name,
-                'description' => $menu->description,
-                'price' => $menu->price,
-                'image_url' => $menu->image
-                    ? Storage::disk('public')->url($menu->image)
+            ->map(fn(Menu $m) => [
+                'id'            => $m->id,
+                'category_id'   => $m->category_id,
+                'category_name' => $m->category?->name,
+                'name'          => $m->name,
+                'description'   => $m->description,
+                'price'         => $m->price,
+                'image_url'     => $m->image
+                    ? Storage::disk('public')->url($m->image)
                     : $placeholderImage,
             ]);
 
@@ -62,16 +65,16 @@ class TransactionController extends Controller
             ->limit(10)
             ->get()
             ->map(fn(Transaction $tx) => [
-                'id' => $tx->id,
-                'label' => '#HOLD-' . str_pad((string) $tx->id, 4, '0', STR_PAD_LEFT),
-                'total' => $tx->total_amount,
+                'id'          => $tx->id,
+                'label'       => '#HOLD-' . str_pad((string) $tx->id, 4, '0', STR_PAD_LEFT),
+                'total'       => $tx->total_amount,
                 'items_count' => $tx->items->sum('qty'),
-                'time_ago' => $tx->created_at->diffForHumans(short: true),
+                'time_ago'    => $tx->created_at->diffForHumans(short: true),
             ]);
 
-        $initialCart = [];
+        $initialCart          = [];
         $resumedTransactionId = null;
-        $heldTransaction = session('held_transaction');
+        $heldTransaction      = session('held_transaction');
 
         if ($heldTransaction instanceof Transaction) {
             $heldTransaction->loadMissing('items.menu');
@@ -80,10 +83,10 @@ class TransactionController extends Controller
             foreach ($heldTransaction->items as $item) {
                 $initialCart[] = [
                     'menu_id' => $item->menu_id,
-                    'name' => $item->menu?->name ?? 'Menu',
-                    'price' => $item->price,
-                    'qty' => $item->qty,
-                    'notes' => $item->notes ?? '',
+                    'name'    => $item->menu?->name ?? 'Menu',
+                    'price'   => $item->price,
+                    'qty'     => $item->qty,
+                    'notes'   => $item->notes ?? '',
                 ];
             }
 
@@ -99,15 +102,20 @@ class TransactionController extends Controller
             ->orderBy('name')
             ->get(['id', 'name', 'type', 'value', 'min_purchase']);
 
-        return view('shared.pos.index', [
-            'categories' => $categories,
-            'menus' => $menus,
-            'heldOrders' => $heldOrders,
-            'initialCart' => $initialCart,
+        return Inertia::render('POS/Index', [
+            'categories'           => $categories,
+            'menus'                => $menus,
+            'heldOrders'           => $heldOrders,
+            'initialCart'          => $initialCart,
             'resumedTransactionId' => $resumedTransactionId,
-            'taxPercent' => $taxPercent,
-            'activePromotions' => $activePromotions,
-            'cashierName' => auth()->user()->name,
+            'taxPercent'           => $taxPercent,
+            'activePromotions'     => $activePromotions,
+            'cashierName'          => auth()->user()->name,
+            'urls'                 => [
+                'checkout' => route('pos.checkout'),
+                'hold'     => route('pos.hold'),
+                'resume'   => route('pos.resume', ['id' => '__ID__']),
+            ],
         ]);
     }
 
@@ -256,11 +264,11 @@ class TransactionController extends Controller
     public function cancel(string $id)
     {
         Transaction::findOrFail($id)->update(['status' => 'cancelled']);
-
         return back()->with('success', 'Transaksi dibatalkan.');
     }
 
-    public function history(Request $request): View
+    // ── HISTORY ───────────────────────────────────────────────
+    public function history(Request $request): Response
     {
         $query = Transaction::with(['cashier', 'items'])->latest();
 
@@ -279,75 +287,70 @@ class TransactionController extends Controller
 
         $transactions = $query->paginate(20)->withQueryString();
 
-        // ── Stat Cards ──────────────────────────────────────────
-        $filterDate = $request->filled('date')
-            ? $request->date
-            : today()->toDateString();
-
-        $statsQuery = Transaction::whereDate('created_at', $filterDate);
-
+        $filterDate       = $request->filled('date') ? $request->date : today()->toDateString();
+        $statsQuery       = Transaction::whereDate('created_at', $filterDate);
         $totalRevenue     = (clone $statsQuery)->where('status', 'completed')->sum('total_amount');
         $totalTransactions = (clone $statsQuery)->whereIn('status', ['completed', 'pending'])->count();
         $avgOrder         = $totalTransactions > 0 ? $totalRevenue / $totalTransactions : 0;
         $totalRefundCancel = (clone $statsQuery)->whereIn('status', ['refunded', 'cancelled'])->count();
-        // ────────────────────────────────────────────────────────
 
-        return view('shared.transaction.index', compact(
-            'transactions',
-            'totalRevenue',
-            'totalTransactions',
-            'avgOrder',
-            'totalRefundCancel',
-        ));
+        return Inertia::render('Transactions/Index', [
+            'transactions'      => $transactions,
+            'filters'           => $request->only(['search', 'status', 'method', 'date']),
+            'stats'             => [
+                'total_revenue'      => $totalRevenue,
+                'total_transactions' => $totalTransactions,
+                'avg_order'          => $avgOrder,
+                'total_refund_cancel' => $totalRefundCancel,
+            ],
+        ]);
     }
 
-    public function show(string $id): View
+
+    // ── SHOW ──────────────────────────────────────────────────
+    public function show(string $id): Response
     {
         $transaction = Transaction::with(['items.menu', 'cashier', 'kitchenOrder.items'])->findOrFail($id);
 
-        return view('shared.transaction.show', compact('transaction'));
+        return Inertia::render('Transactions/Show', [
+            'transaction' => $transaction,
+        ]);
     }
 
-    public function invoice(string $id): View
+    // ── INVOICE ───────────────────────────────────────────────
+    public function invoice(string $id): Response
     {
         $transaction = Transaction::with(['items.menu', 'cashier'])->findOrFail($id);
 
-        return view('shared.transaction.invoice', compact('transaction'));
+        return Inertia::render('Transactions/Invoice', [
+            'transaction' => $transaction,
+        ]);
     }
 
     public function print(string $id)
     {
         $transaction = Transaction::with('items.menu')->findOrFail($id);
-
-        return response()->json([
-            'status'      => 'printed',
-            'transaction' => $transaction,
-        ]);
+        return response()->json(['status' => 'printed', 'transaction' => $transaction]);
     }
-
     public function refund(string $id)
     {
         $transaction = Transaction::findOrFail($id);
-
         if ($transaction->status === 'refunded') {
             return back()->with('error', 'Transaksi sudah di-refund.');
         }
-
         $transaction->update(['status' => 'refunded']);
-
         return back()->with('success', 'Refund berhasil.');
     }
 
     private function categoryIcon(string $name): string
     {
         $lower = strtolower($name);
-
         return match (true) {
             str_contains($lower, 'kopi'), str_contains($lower, 'coffee') => 'solar:cup-hot-bold',
-            str_contains($lower, 'non') => 'solar:cup-star-linear',
+            str_contains($lower, 'non')                                  => 'solar:cup-star-linear',
             str_contains($lower, 'makanan'), str_contains($lower, 'main') => 'solar:plate-linear',
             str_contains($lower, 'snack'), str_contains($lower, 'cemilan') => 'solar:donut-linear',
-            default => 'solar:widget-linear',
+            default                                                       => 'solar:widget-linear',
         };
     }
 

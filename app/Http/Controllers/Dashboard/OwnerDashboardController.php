@@ -5,89 +5,43 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Inventory;
 use App\Models\KitchenOrder;
+use App\Models\KitchenOrderItem;
 use App\Models\Menu;
 use App\Models\Target;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-use App\Models\KitchenOrderItem;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class OwnerDashboardController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        $today = today();
+        $today     = today();
         $yesterday = today()->subDay();
 
-        $todayRevenue = $this->sumRevenue($today);
+        $todayRevenue    = $this->sumRevenue($today);
         $yesterdayRevenue = $this->sumRevenue($yesterday);
-        $todayOrders = $this->countOrders($today);
+        $todayOrders     = $this->countOrders($today);
         $yesterdayOrders = $this->countOrders($yesterday);
-        $todayHpp = $this->estimateHpp($today);
-        $yesterdayHpp = $this->estimateHpp($yesterday);
+        $todayHpp        = $this->estimateHpp($today);
+        $yesterdayHpp    = $this->estimateHpp($yesterday);
 
-        $todayProfit = max(0, $todayRevenue - $todayHpp);
+        $todayProfit    = max(0, $todayRevenue - $todayHpp);
         $yesterdayProfit = max(0, $yesterdayRevenue - $yesterdayHpp);
 
-        $avgTicket = $todayOrders > 0 ? (int) round($todayRevenue / $todayOrders) : 0;
-        $yesterdayAvgTicket = $yesterdayOrders > 0
-            ? (int) round($yesterdayRevenue / $yesterdayOrders)
-            : 0;
+        $avgTicket          = $todayOrders > 0 ? (int) round($todayRevenue / $todayOrders) : 0;
+        $yesterdayAvgTicket = $yesterdayOrders > 0 ? (int) round($yesterdayRevenue / $yesterdayOrders) : 0;
 
         $stats = [
-            'revenue' => [
-                'value' => $this->rupiah($todayRevenue),
-                'trend' => $this->trendLabel($todayRevenue, $yesterdayRevenue),
-                'trend_type' => $this->trendType($todayRevenue, $yesterdayRevenue),
-            ],
-            'profit' => [
-                'value' => $this->rupiah($todayProfit),
-                'trend' => $this->trendLabel($todayProfit, $yesterdayProfit),
-                'trend_type' => $this->trendType($todayProfit, $yesterdayProfit),
-            ],
-            'orders' => [
-                'value' => (string) $todayOrders,
-                'trend' => $this->trendLabel($todayOrders, $yesterdayOrders),
-                'trend_type' => $this->trendType($todayOrders, $yesterdayOrders),
-            ],
-            'avg_ticket' => [
-                'value' => $this->rupiah($avgTicket),
-                'trend' => $this->trendLabel($avgTicket, $yesterdayAvgTicket),
-                'trend_type' => $this->trendType($avgTicket, $yesterdayAvgTicket),
-            ],
+            'revenue'    => ['value' => $this->rupiah($todayRevenue),   'trend' => $this->trendLabel($todayRevenue, $yesterdayRevenue),     'trend_type' => $this->trendType($todayRevenue, $yesterdayRevenue)],
+            'profit'     => ['value' => $this->rupiah($todayProfit),    'trend' => $this->trendLabel($todayProfit, $yesterdayProfit),       'trend_type' => $this->trendType($todayProfit, $yesterdayProfit)],
+            'orders'     => ['value' => (string) $todayOrders,          'trend' => $this->trendLabel($todayOrders, $yesterdayOrders),       'trend_type' => $this->trendType($todayOrders, $yesterdayOrders)],
+            'avg_ticket' => ['value' => $this->rupiah($avgTicket),      'trend' => $this->trendLabel($avgTicket, $yesterdayAvgTicket),     'trend_type' => $this->trendType($avgTicket, $yesterdayAvgTicket)],
         ];
-
-        $salesChart = $this->buildSalesChart($today);
-        $bestSellingMenus = $this->bestSellingMenus($today, $yesterday);
-        $busyHours = $this->busyHours($today);
-        $profitability = $this->profitabilityAnalysis();
-        $dailyGoal = $this->dailyGoal($today, $todayRevenue);
-        $lowStockItems = Inventory::with('category')
-            ->whereColumn('stock', '<=', 'min_stock')
-            ->orderBy('stock')
-            ->limit(5)
-            ->get();
-
-        $kitchenQueue = KitchenOrder::with(['transaction', 'items.menu'])
-            ->whereIn('status', ['pending', 'preparing', 'ready'])
-            ->orderByRaw("FIELD(status, 'preparing', 'pending', 'ready')")
-            ->orderBy('created_at')
-            ->limit(5)
-            ->get()
-            ->map(function (KitchenOrder $order) {
-                $itemsSummary = $order->items
-                    ->map(fn($item) => $item->qty . 'x ' . ($item->menu->name ?? 'Menu'))
-                    ->implode(', ');
-
-                return [
-                    'id'             => '#TRX-' . str_pad((string) $order->transaction_id, 4, '0', STR_PAD_LEFT),
-                    'transaction_id' => $order->transaction_id,
-                    'items'          => $itemsSummary ?: '-',
-                    'time_ago'       => $order->created_at->diffForHumans(short: true),
-                    'status'         => $order->status,
-                ];
-            });
 
         $currentTarget = Target::query()
             ->where('type', 'revenue')
@@ -96,33 +50,56 @@ class OwnerDashboardController extends Controller
             ->whereDate('end_date', '>=', $today)
             ->first();
 
-        return view('dashboard.owner.index', [
-            'user'           => auth()->user(),
-            'lastUpdated'    => now()->format('H:i'),
-            'todayLabel'     => $today->translatedFormat('d F Y'),
-            'stats'          => $stats,
-            'salesChart'     => $salesChart,
-            'bestSellingMenus' => $bestSellingMenus,
-            'busyHours'      => $busyHours,
-            'profitability'  => $profitability,
-            'dailyGoal'      => $dailyGoal,
-            'currentTarget'  => $currentTarget,
-            'lowStockItems'  => $lowStockItems,
-            'kitchenQueue'   => $kitchenQueue,
-            'today'          => $today,
+        $lowStockItems = Inventory::with('category')
+            ->whereColumn('stock', '<=', 'min_stock')
+            ->orderBy('stock')
+            ->limit(5)
+            ->get()
+            ->map(fn($item) => [
+                'id'        => $item->id,
+                'name'      => $item->name,
+                'stock'     => $item->stock,
+                'min_stock' => $item->min_stock,
+                'unit'      => $item->unit,
+            ]);
+
+        $kitchenQueue = KitchenOrder::with(['transaction', 'items.menu'])
+            ->whereIn('status', ['pending', 'preparing', 'ready'])
+            ->orderByRaw("FIELD(status, 'preparing', 'pending', 'ready')")
+            ->orderBy('created_at')
+            ->limit(5)
+            ->get()
+            ->map(fn(KitchenOrder $order) => [
+                'id'       => '#TRX-' . str_pad((string) $order->transaction_id, 4, '0', STR_PAD_LEFT),
+                'items'    => $order->items->map(fn($i) => $i->qty . 'x ' . ($i->menu->name ?? 'Menu'))->implode(', ') ?: '-',
+                'time_ago' => $order->created_at->diffForHumans(short: true),
+                'status'   => $order->status,
+            ]);
+
+        return Inertia::render('Dashboard/Owner/Index', [
+            'user'             => auth()->user(),
+            'lastUpdated'      => now()->format('H:i'),
+            'stats'            => $stats,
+            'salesChart'       => $this->buildSalesChart($today),
+            'bestSellingMenus' => $this->bestSellingMenus($today, $yesterday),
+            'busyHours'        => $this->busyHours($today),
+            'profitability'    => $this->profitabilityAnalysis(),
+            'dailyGoal'        => $this->dailyGoal($today, $todayRevenue),
+            'currentTarget'    => $currentTarget,
+            'lowStockItems'    => $lowStockItems,
+            'kitchenQueue'     => $kitchenQueue,
         ]);
     }
 
-    // OwnerDashboardController.php
     public function salesChartData(Request $request): \Illuminate\Http\JsonResponse
     {
         $period = $request->get('period', 'today');
 
         $data = match ($period) {
-            '7days'   => $this->buildSalesChart7Days(),
-            '30days'  => $this->buildSalesChart30Days(),
-            'month'   => $this->buildSalesChartThisMonth(),
-            default   => $this->buildSalesChart(today()),
+            '7days'  => $this->buildSalesChart7Days(),
+            '30days' => $this->buildSalesChart30Days(),
+            'month'  => $this->buildSalesChartThisMonth(),
+            default  => $this->buildSalesChart(today()),
         };
 
         return response()->json($data);
