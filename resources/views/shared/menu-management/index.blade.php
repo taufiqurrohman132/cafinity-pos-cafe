@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+   
+    {{-- isi halaman --}}
     <div class="min-h-screen bg-[#fbfbfe] p-4 md:p-6">
         <div class="space-y-6 max-w-7xl mx-auto">
 

@@ -2,57 +2,89 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
+        // Reset cache spatie
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
+        // ── Buat Permissions ──────────────────────────────
+        $permissions = [
+            'manage-users',
+            'manage-menu',
+            'manage-orders',
+            'view-reports',
+            'manage-settings',
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
+        // ── Buat Roles & Assign Permissions ───────────────
+        $owner = Role::firstOrCreate(['name' => 'owner']);
+        $owner->givePermissionTo($permissions);
+
+        $admin = Role::firstOrCreate(['name' => 'admin']);
+        $admin->givePermissionTo(['manage-menu', 'manage-orders', 'view-reports']);
+
+        $kasir = Role::firstOrCreate(['name' => 'cashier']);
+        $kasir->givePermissionTo(['manage-orders']);
+
+        // ── Buat Users & Assign Role ───────────────────────
         $users = [
             [
-                'name' => 'Budi Santoso',
-                'email' => 'budi.s@smartcafe.id',
+                'name'     => 'Budi Santoso',
+                'email'    => 'budi.s@smartcafe.id',
                 'password' => Hash::make('password'),
-                'role' => 'owner'
+                'role'     => 'owner',
+                'status'   => 'active',
             ],
-
             [
-                'name' => 'Siti Aminah',
-                'email' => 'siti.a@smartcafe.id',
+                'name'     => 'Siti Aminah',
+                'email'    => 'siti.a@smartcafe.id',
                 'password' => Hash::make('password'),
-                'role' => 'admin'
+                'role'     => 'admin',
+                'status'   => 'active',
             ],
-
             [
-                'name' => 'Rizky Pratama',
-                'email' => 'rizky.p@smartcafe.id',
+                'name'     => 'Rizky Pratama',
+                'email'    => 'rizky.p@smartcafe.id',
                 'password' => Hash::make('password'),
-                'role' => 'cashier'
+                'role'     => 'cashier',
+                'status'   => 'active',
             ],
-
             [
-                'name' => 'Lina Marlina',
-                'email' => 'lina.m@smartcafe.id',
+                'name'     => 'Lina Marlina',
+                'email'    => 'lina.m@smartcafe.id',
                 'password' => Hash::make('password'),
-                'role' => 'cashier'
+                'role'     => 'cashier',
+                'status'   => 'pending',
             ],
-
             [
-                'name' => 'Adi Wijaya',
-                'email' => 'adi.w@smartcafe.id',
+                'name'     => 'Adi Wijaya',
+                'email'    => 'adi.w@smartcafe.id',
                 'password' => Hash::make('password'),
-                'role' => 'admin'
+                'role'     => 'admin',
+                'status'   => 'deactivated',
             ],
         ];
 
-        foreach ($users as $user) {
-            User::create($user);
+        foreach ($users as $userData) {
+            $user = User::updateOrCreate(
+                ['email' => $userData['email']],
+                $userData
+            );
+
+            // Assign Spatie role sesuai kolom role
+            $user->syncRoles([$userData['role']]);
         }
     }
 }

@@ -19,9 +19,11 @@
                     <div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
                         <div class="space-y-1">
                             <h2 class="text-2xl font-bold">Selamat Datang, Budi!</h2>
-                            <p class="text-emerald-50 text-sm">Shift pagi Anda telah berjalan selama 4 jam. Siap untuk melayani pelanggan berikutnya?</p>
+                            <p class="text-emerald-50 text-sm">Shift pagi Anda telah berjalan selama 4 jam. Siap untuk
+                                melayani pelanggan berikutnya?</p>
                         </div>
-                        <button class="bg-white text-emerald-600 px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-gray-50 transition-all shadow-sm whitespace-nowrap text-sm">
+                        <button
+                            class="bg-white text-emerald-600 px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-gray-50 transition-all shadow-sm whitespace-nowrap text-sm">
                             <iconify-icon icon="solar:play-circle-bold" class="text-lg"></iconify-icon>
                             BUKA POS SEKARANG
                         </button>
@@ -33,10 +35,13 @@
                     {{-- Total Transaksi --}}
                     <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
                         <div class="flex justify-between items-start mb-4">
-                            <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
+                            <div
+                                class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
                                 <iconify-icon icon="solar:bill-list-bold" class="text-xl"></iconify-icon>
                             </div>
-                            <span class="text-[10px] font-semibold px-2 py-1 bg-gray-50 rounded-lg border border-gray-100 text-gray-500">Hari Ini</span>
+                            <span
+                                class="text-[10px] font-semibold px-2 py-1 bg-gray-50 rounded-lg border border-gray-100 text-gray-500">Hari
+                                Ini</span>
                         </div>
                         <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">Total Transaksi</p>
                         <h3 class="text-2xl font-bold text-gray-800 mt-1">42 Pesanan</h3>
@@ -52,7 +57,9 @@
                             <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500">
                                 <iconify-icon icon="solar:wallet-bold" class="text-xl"></iconify-icon>
                             </div>
-                            <span class="text-[10px] font-semibold px-2 py-1 bg-gray-50 rounded-lg border border-gray-100 text-gray-500">Hari Ini</span>
+                            <span
+                                class="text-[10px] font-semibold px-2 py-1 bg-gray-50 rounded-lg border border-gray-100 text-gray-500">Hari
+                                Ini</span>
                         </div>
                         <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">Total Uang Tunai</p>
                         <h3 class="text-2xl font-bold text-gray-800 mt-1">Rp 2.450.000</h3>
@@ -68,7 +75,9 @@
                             <div class="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500">
                                 <iconify-icon icon="solar:clock-circle-bold" class="text-xl"></iconify-icon>
                             </div>
-                            <span class="text-[10px] font-semibold px-2 py-1 bg-gray-50 rounded-lg border border-gray-100 text-gray-500">Hari Ini</span>
+                            <span
+                                class="text-[10px] font-semibold px-2 py-1 bg-gray-50 rounded-lg border border-gray-100 text-gray-500">Hari
+                                Ini</span>
                         </div>
                         <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">Waktu Rata-Rata</p>
                         <h3 class="text-2xl font-bold text-gray-800 mt-1">4.5 Menit</h3>
@@ -87,7 +96,7 @@
                             Lihat Semua <iconify-icon icon="solar:alt-arrow-right-linear"></iconify-icon>
                         </a>
                     </div>
-                    
+
                     <div class="overflow-x-auto text-sm">
                         <table class="w-full text-left">
                             <thead class="bg-gray-50 text-gray-400 text-[11px] font-bold uppercase tracking-widest">
@@ -102,21 +111,25 @@
                             </thead>
                             <tbody class="divide-y divide-gray-50">
                                 @foreach ([1, 2, 3, 4, 5] as $item)
-                                <tr class="hover:bg-gray-50/50 transition">
-                                    <td class="px-6 py-4 font-semibold text-gray-600">TRX-9901</td>
-                                    <td class="px-6 py-4 text-gray-500">14:20</td>
-                                    <td class="px-6 py-4 text-gray-700">2x Cappuccino, 1x Croissant</td>
-                                    <td class="px-6 py-4 font-bold text-gray-800">Rp 85.000</td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-2 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-600">Success</span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex justify-center gap-3 text-gray-400">
-                                            <button class="hover:text-emerald-500"><iconify-icon icon="solar:printer-minimalistic-linear" class="text-lg"></iconify-icon></button>
-                                            <button class="hover:text-blue-500"><iconify-icon icon="solar:restart-linear" class="text-lg"></iconify-icon></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <tr class="hover:bg-gray-50/50 transition">
+                                        <td class="px-6 py-4 font-semibold text-gray-600">TRX-9901</td>
+                                        <td class="px-6 py-4 text-gray-500">14:20</td>
+                                        <td class="px-6 py-4 text-gray-700">2x Cappuccino, 1x Croissant</td>
+                                        <td class="px-6 py-4 font-bold text-gray-800">Rp 85.000</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="px-2 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-600">Success</span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex justify-center gap-3 text-gray-400">
+                                                <button class="hover:text-emerald-500"><iconify-icon
+                                                        icon="solar:printer-minimalistic-linear"
+                                                        class="text-lg"></iconify-icon></button>
+                                                <button class="hover:text-blue-500"><iconify-icon
+                                                        icon="solar:restart-linear" class="text-lg"></iconify-icon></button>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -154,7 +167,8 @@
                             <span class="font-bold text-gray-800">Rp 500.000</span>
                         </div>
                     </div>
-                    <button class="w-full border border-gray-100 py-2.5 rounded-xl text-[11px] font-bold text-gray-600 hover:bg-gray-50">
+                    <button
+                        class="w-full border border-gray-100 py-2.5 rounded-xl text-[11px] font-bold text-gray-600 hover:bg-gray-50">
                         Lihat Laporan Shift
                     </button>
                 </div>
@@ -166,7 +180,9 @@
                         <div class="flex gap-3">
                             <div class="w-1.5 h-1.5 rounded-full bg-orange-400 mt-1.5"></div>
                             <div>
-                                <h5 class="text-sm font-bold text-gray-700">Susu Full Cream <span class="ml-1 text-[8px] bg-gray-100 px-1 py-0.5 rounded text-gray-400 uppercase">Penting</span></h5>
+                                <h5 class="text-sm font-bold text-gray-700">Susu Full Cream <span
+                                        class="ml-1 text-[8px] bg-gray-100 px-1 py-0.5 rounded text-gray-400 uppercase">Penting</span>
+                                </h5>
                                 <p class="text-[11px] text-gray-400">Sisa 2 Karton (Min. 5)</p>
                             </div>
                         </div>
@@ -185,7 +201,8 @@
                 <div class="bg-red-50 p-6 rounded-3xl border border-red-100">
                     <h4 class="text-[10px] font-bold text-red-400 uppercase tracking-widest mb-3">Internal Memo</h4>
                     <p class="text-xs text-gray-600 italic leading-relaxed">
-                        "Promosi BOGO untuk menu Croissant berlaku hingga jam 4 sore hari ini. Pastikan informasikan ke pelanggan!"
+                        "Promosi BOGO untuk menu Croissant berlaku hingga jam 4 sore hari ini. Pastikan informasikan ke
+                        pelanggan!"
                     </p>
                     <p class="text-[10px] text-gray-400 mt-4 font-bold">— Admin Cafe</p>
                 </div>

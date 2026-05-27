@@ -311,7 +311,6 @@
         updateClock();
         setInterval(updateClock, 1000);
 
-        setTimeout(() => window.location.reload(), 30000);
     </script>
 
 @endsection

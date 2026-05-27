@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Menu;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class MenuController extends Controller
 {
+    use AuthorizesRequests;
+    
     public function index(Request $request): View
     {
         $categories = Category::where('is_active', true)->orderBy('name')->get();
@@ -36,6 +39,8 @@ class MenuController extends Controller
 
     public function create(): View
     {
+        $this->authorize('manage-menu');
+
         $categories = Category::where('is_active', true)->orderBy('name')->get();
 
         return view('shared.menu-management.create', compact('categories'));
@@ -43,6 +48,8 @@ class MenuController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('manage-menu');
+
         $data = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name'        => 'required|string|max:255',
@@ -72,6 +79,8 @@ class MenuController extends Controller
 
     public function edit(string $id): View
     {
+        $this->authorize('manage-menu');
+
         $menu = Menu::findOrFail($id);
         $categories = Category::where('is_active', true)->orderBy('name')->get();
 
@@ -80,6 +89,8 @@ class MenuController extends Controller
 
     public function update(Request $request, string $id)
     {
+        $this->authorize('manage-menu');
+
         $menu = Menu::findOrFail($id);
 
         $data = $request->validate([
@@ -101,6 +112,8 @@ class MenuController extends Controller
 
     public function destroy(string $id)
     {
+        $this->authorize('manage-menu');
+
         Menu::findOrFail($id)->delete();
 
         return redirect()->route('menus.index')->with('success', 'Menu dihapus.');
@@ -108,6 +121,8 @@ class MenuController extends Controller
 
     public function toggleStatus(string $id)
     {
+        $this->authorize('manage-menu');
+
         $menu = Menu::findOrFail($id);
         $menu->update(['is_active' => ! $menu->is_active]);
 
@@ -116,6 +131,8 @@ class MenuController extends Controller
 
     public function uploadImage(Request $request, string $id)
     {
+        $this->authorize('manage-menu');
+
         $request->validate(['image' => 'required|image|max:2048']);
 
         $menu = Menu::findOrFail($id);

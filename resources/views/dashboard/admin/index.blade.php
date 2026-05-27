@@ -129,7 +129,8 @@
                                     </div>
 
                                     {{-- Status --}}
-                                    <span class="px-2 py-1 rounded-full bg-emerald-100 text-emerald-600 text-[10px] font-bold">
+                                    <span
+                                        class="px-2 py-1 rounded-full bg-emerald-100 text-emerald-600 text-[10px] font-bold">
                                         Ready
                                     </span>
                                 </div>
@@ -160,7 +161,8 @@
                                     </div>
 
                                     {{-- Status --}}
-                                    <span class="px-2 py-1 rounded-full bg-orange-100 text-orange-500 text-[10px] font-bold">
+                                    <span
+                                        class="px-2 py-1 rounded-full bg-orange-100 text-orange-500 text-[10px] font-bold">
                                         Limited
                                     </span>
                                 </div>
@@ -191,7 +193,8 @@
                                     </div>
 
                                     {{-- Status --}}
-                                    <span class="px-2 py-1 rounded-full bg-emerald-100 text-emerald-600 text-[10px] font-bold">
+                                    <span
+                                        class="px-2 py-1 rounded-full bg-emerald-100 text-emerald-600 text-[10px] font-bold">
                                         Ready
                                     </span>
                                 </div>

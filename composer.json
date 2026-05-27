@@ -8,8 +8,10 @@
     "require": {
         "php": "^8.3",
         "blade-ui-kit/blade-heroicons": "^2.7",
+        "hotwired/turbo-laravel": "^2.6",
         "laravel/framework": "^13.7",
-        "laravel/tinker": "^3.0"
+        "laravel/tinker": "^3.0",
+        "spatie/laravel-permission": "^7.4"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.7",

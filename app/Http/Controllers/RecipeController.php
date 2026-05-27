@@ -10,6 +10,7 @@ use Illuminate\View\View;
 
 class RecipeController extends Controller
 {
+    
     public function index(Request $request): View
     {
         $recipes     = Recipe::with(['menu.category', 'ingredients'])->latest()->get();

@@ -3,6 +3,8 @@
 
 @section('content')
 
+  
+    {{-- isi halaman --}}
     <div class="flex h-[calc(100vh-72px)] bg-[#fbfbfe] overflow-hidden">
 
         {{-- ======================== SIDEBAR KIRI ======================== --}}

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="space-y-6 p-4 md:p-6 bg-[#fbfbfe] min-h-screen">
 
         {{-- ====== TOP HEADER ====== --}}

@@ -27,7 +27,9 @@ return new class extends Migration
 
             $table->enum('status', [
                 'active',
-                'inactive'
+                'inactive',
+                'pending',
+                'deactivated',
             ])->default('active');
 
             $table->timestamp('shift_terakhir')->nullable();

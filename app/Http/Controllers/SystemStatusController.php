@@ -9,6 +9,7 @@ use Illuminate\View\View;
 
 class SystemStatusController extends Controller
 {
+    
     public function index(): View
     {
         try {

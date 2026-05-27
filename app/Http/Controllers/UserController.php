@@ -3,22 +3,88 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function index(): View
-    {
-        $users = User::latest()->paginate(20);
 
-        return view('shared.user-management.index', compact('users'));
+    use AuthorizesRequests; // ← tambah ini
+
+    public function index(Request $request): mixed
+    {
+        $query = User::with('roles')
+            ->when(
+                $request->search,
+                fn($q) =>
+                $q->where('name', 'like', "%{$request->search}%")
+                    ->orWhere('email', 'like', "%{$request->search}%")
+                    ->orWhere('id', $request->search)
+            )
+            ->when(
+                $request->role,
+                fn($q) =>
+                $q->where('role', $request->role)
+            )
+            ->when(
+                $request->status,
+                fn($q) =>
+                $q->where('status', $request->status)
+            )
+            ->latest();
+
+        // ── Export CSV ──────────────────────────────────────
+        if ($request->export === 'csv') {
+            $this->authorize('manage-users');
+
+            $users = $query->get();
+
+            $filename = 'users_' . now()->format('Ymd_His') . '.csv';
+
+            $headers = [
+                'Content-Type'        => 'text/csv',
+                'Content-Disposition' => "attachment; filename={$filename}",
+            ];
+
+            $callback = function () use ($users) {
+                $file = fopen('php://output', 'w');
+
+                // Header kolom
+                fputcsv($file, ['ID', 'Nama', 'Email', 'Role', 'Status', 'Bergabung']);
+
+                foreach ($users as $user) {
+                    fputcsv($file, [
+                        $user->id,
+                        $user->name,
+                        $user->email,
+                        ucfirst($user->role),
+                        ucfirst($user->status),
+                        $user->created_at->format('d/m/Y H:i'),
+                    ]);
+                }
+
+                fclose($file);
+            };
+
+            return response()->stream($callback, 200, $headers);
+        }
+
+        // ── Normal view ─────────────────────────────────────
+        $users = $query->paginate(20)->withQueryString();
+        $roles = Role::all();
+
+        return view('shared.user-management.user-directory.index', compact('users', 'roles'));
     }
 
     public function create(): View
     {
-        return view('shared.user-management.create');
+        $roles = Role::all();
+
+        return view('shared.user-management.create', compact('roles'));
     }
 
     public function store(Request $request)
@@ -28,28 +94,33 @@ class UserController extends Controller
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
             'role'     => ['required', Rule::in(['owner', 'admin', 'cashier'])],
-            'status'   => ['nullable', Rule::in(['active', 'inactive'])],
+            'status'   => ['nullable', Rule::in(['active', 'inactive', 'pending', 'deactivated'])],
         ]);
 
-        $data['status'] = $data['status'] ?? 'active';
+        $data['status']   = $data['status'] ?? 'active';
+        $data['password'] = Hash::make($data['password']);
 
-        User::create($data);
+        $user = User::create($data);
 
-        return redirect()->route('users.index')->with('success', 'User ditambahkan.');
+        // Sync Spatie role
+        $user->syncRoles([$data['role']]);
+
+        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
     }
 
     public function show(string $id): View
     {
-        $user = User::findOrFail($id);
+        $user = User::with('roles', 'permissions')->findOrFail($id);
 
         return view('shared.user-management.show', compact('user'));
     }
 
     public function edit(string $id): View
     {
-        $user = User::findOrFail($id);
+        $user  = User::with('roles')->findOrFail($id);
+        $roles = Role::all();
 
-        return view('shared.user-management.edit', compact('user'));
+        return view('shared.user-management.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, string $id)
@@ -60,17 +131,20 @@ class UserController extends Controller
             'name'   => 'required|string|max:255',
             'email'  => ['required', 'email', Rule::unique('users')->ignore($user->id)],
             'role'   => ['required', Rule::in(['owner', 'admin', 'cashier'])],
-            'status' => ['required', Rule::in(['active', 'inactive'])],
+            'status' => ['required', Rule::in(['active', 'inactive', 'pending', 'deactivated'])],
         ]);
 
         if ($request->filled('password')) {
             $request->validate(['password' => 'string|min:8|confirmed']);
-            $data['password'] = $request->password;
+            $data['password'] = Hash::make($request->password);
         }
 
         $user->update($data);
 
-        return redirect()->route('users.index')->with('success', 'User diperbarui.');
+        // Sync Spatie role
+        $user->syncRoles([$data['role']]);
+
+        return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');
     }
 
     public function destroy(string $id)
@@ -83,12 +157,14 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User dihapus.');
+        return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
     }
 
     public function resetPassword(string $id)
     {
-        User::findOrFail($id)->update(['password' => 'password123']);
+        User::findOrFail($id)->update([
+            'password' => Hash::make('password123'),
+        ]);
 
         return back()->with('success', 'Password direset ke: password123');
     }
@@ -100,6 +176,6 @@ class UserController extends Controller
             'status' => $user->status === 'active' ? 'inactive' : 'active',
         ]);
 
-        return back();
+        return back()->with('success', 'Status user diperbarui.');
     }
 }

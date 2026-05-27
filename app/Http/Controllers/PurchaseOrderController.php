@@ -12,6 +12,7 @@ use Illuminate\View\View;
 
 class PurchaseOrderController extends Controller
 {
+    
     public function index(): View
     {
         $orders = PurchaseOrder::with(['supplier', 'user'])->latest()->paginate(20);
@@ -40,7 +41,7 @@ class PurchaseOrderController extends Controller
         ]);
 
         DB::transaction(function () use ($data) {
-            $total = collect($data['items'])->sum(fn ($item) => (int) ($item['qty'] * $item['price_per_unit']));
+            $total = collect($data['items'])->sum(fn($item) => (int) ($item['qty'] * $item['price_per_unit']));
 
             $order = PurchaseOrder::create([
                 'supplier_id'  => $data['supplier_id'],

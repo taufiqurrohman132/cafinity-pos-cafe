@@ -56,3 +56,11 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+| Nama          | Email                                               | Password | Role    |
+| ------------- | --------------------------------------------------- | -------- | ------- |
+| Budi Santoso  | [budi.s@smartcafe.id](mailto:budi.s@smartcafe.id)   | password | Owner   |
+| Siti Amina    | [siti.a@smartcafe.id](mailto:siti.a@smartcafe.id)   | password | Admin   |
+| Rizky Pratama | [rizky.p@smartcafe.id](mailto:rizky.p@smartcafe.id) | password | Cashier |
+| Lina Marlina  | [lina.m@smartcafe.id](mailto:lina.m@smartcafe.id)   | password | Cashier |
+| Adi Wijaya    | [adi.w@smartcafe.id](mailto:adi.w@smartcafe.id)     | password | Admin   |

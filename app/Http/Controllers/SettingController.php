@@ -8,6 +8,8 @@ use Illuminate\View\View;
 
 class SettingController extends Controller
 {
+    
+    
     public function index(): View
     {
         $settings = Setting::all()->keyBy('key');
@@ -55,7 +57,7 @@ class SettingController extends Controller
     {
         $data = $request->validate([
             'theme'       => 'nullable|in:light,dark',
-            'accent_color'=> 'nullable|string|max:20',
+            'accent_color' => 'nullable|string|max:20',
         ]);
 
         foreach ($data as $key => $value) {

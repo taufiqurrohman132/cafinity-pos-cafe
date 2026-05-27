@@ -1,11 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen bg-[#fbfbfe] font-inter text-[#050316] p-4 md:p-6">
-        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+    
+    <div class="min-h-screen bg-[#fbfbfe] font-inter text-[#050316]">
+        <div class="flex">
+
+
 
             {{-- ======================== MAIN CONTENT ======================== --}}
-            <div class="xl:col-span-9 space-y-6">
+            <div class="flex-1 p-6 space-y-6">
 
                 {{-- FLASH MESSAGE --}}
                 @if (session('success'))
@@ -41,10 +44,10 @@
                     <div>
                         <h1
                             class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#050316] to-[#2f27ce] tracking-tight">
-                            Daftar Pengguna
+                            Manajemen Pengguna
                         </h1>
-                        <p class="text-xs md:text-sm text-[#2f27ce]/70 font-medium mt-1">
-                            Kelola hak akses dan peran personel cafe Anda.
+                        <p class="text-sm text-[#2f27ce]/70 font-medium mt-1">
+                            Kelola akun, peran, dan izin akses staf kafe Anda.
                         </p>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
@@ -72,60 +75,79 @@
                     $totalPending = \App\Models\User::where('status', 'pending')->count();
                 @endphp
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="grid grid-cols-2 xl:grid-cols-4 gap-4">
 
                     <div
-                        class="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-6 hover:shadow-md transition-shadow duration-150 cursor-default">
+                        class="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 hover:shadow-md transition-shadow duration-150 cursor-default">
                         <div class="flex justify-between items-start">
                             <div>
-                                <p class="text-xs md:text-sm text-[#2f27ce]/70 font-medium">Kasir Aktif</p>
-                                <h2 class="text-2xl font-black text-[#443dff] mt-2">{{ $totalKasir }}</h2>
+                                <p class="text-xs text-[#2f27ce]/70 font-medium">Total Pengguna</p>
+                                <h2 class="text-2xl font-black text-[#443dff] mt-1">{{ $totalUser }}</h2>
                                 <div
-                                    class="flex items-center gap-1 mt-3 text-[#10b981] text-xs font-bold px-2 py-1 bg-[#ecfdf5] rounded-md inline-flex">
+                                    class="flex items-center gap-1 mt-2 text-[#10b981] text-[11px] font-bold px-2 py-1 bg-[#ecfdf5] rounded-md inline-flex">
                                     <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon>
+                                    +12% bulan ini
+                                </div>
+                            </div>
+                            <div
+                                class="w-10 h-10 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#2f27ce] text-xl flex-shrink-0">
+                                <iconify-icon icon="solar:users-group-two-rounded-linear"></iconify-icon>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 hover:shadow-md transition-shadow duration-150 cursor-default">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs text-[#2f27ce]/70 font-medium">Kasir Aktif</p>
+                                <h2 class="text-2xl font-black text-[#443dff] mt-1">{{ $totalKasir }}</h2>
+                                <div
+                                    class="flex items-center gap-1 mt-2 text-[#10b981] text-[11px] font-bold px-2 py-1 bg-[#ecfdf5] rounded-md inline-flex">
+                                    <iconify-icon icon="solar:check-circle-linear"></iconify-icon>
                                     Aktif bertugas
                                 </div>
                             </div>
                             <div
-                                class="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#2f27ce] text-xl flex-shrink-0">
+                                class="w-10 h-10 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#2f27ce] text-xl flex-shrink-0">
                                 <iconify-icon icon="solar:users-group-rounded-linear"></iconify-icon>
                             </div>
                         </div>
                     </div>
 
                     <div
-                        class="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-6 hover:shadow-md transition-shadow duration-150 cursor-default">
+                        class="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 hover:shadow-md transition-shadow duration-150 cursor-default">
                         <div class="flex justify-between items-start">
                             <div>
-                                <p class="text-xs md:text-sm text-[#2f27ce]/70 font-medium">Admin Sistem</p>
-                                <h2 class="text-2xl font-black text-[#443dff] mt-2">{{ $totalAdmin }}</h2>
+                                <p class="text-xs text-[#2f27ce]/70 font-medium">Admin Sistem</p>
+                                <h2 class="text-2xl font-black text-[#443dff] mt-1">{{ $totalAdmin }}</h2>
                                 <div
-                                    class="flex items-center gap-1 mt-3 text-[#443dff] text-xs font-bold px-2 py-1 bg-[#dddbff]/50 rounded-md inline-flex">
+                                    class="flex items-center gap-1 mt-2 text-[#443dff] text-[11px] font-bold px-2 py-1 bg-[#dddbff]/50 rounded-md inline-flex">
                                     <iconify-icon icon="solar:shield-check-linear"></iconify-icon>
                                     Pengguna aktif
                                 </div>
                             </div>
                             <div
-                                class="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#2f27ce] text-xl flex-shrink-0">
+                                class="w-10 h-10 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#2f27ce] text-xl flex-shrink-0">
                                 <iconify-icon icon="solar:shield-keyhole-linear"></iconify-icon>
                             </div>
                         </div>
                     </div>
 
                     <div
-                        class="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-6 hover:shadow-md transition-shadow duration-150 cursor-default">
+                        class="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 hover:shadow-md transition-shadow duration-150 cursor-default">
                         <div class="flex justify-between items-start">
                             <div>
-                                <p class="text-xs md:text-sm text-[#2f27ce]/70 font-medium">Menunggu Akses</p>
-                                <h2 class="text-2xl font-black text-[#443dff] mt-2">{{ $totalPending }}</h2>
+                                <p class="text-xs text-[#2f27ce]/70 font-medium">Menunggu Akses</p>
+                                <h2 class="text-2xl font-black text-[#443dff] mt-1">{{ $totalPending }}</h2>
                                 <div
-                                    class="flex items-center gap-1 mt-3 text-[#f59e0b] text-xs font-bold px-2 py-1 bg-[#fef3c7] rounded-md inline-flex">
+                                    class="flex items-center gap-1 mt-2 text-[#f59e0b] text-[11px] font-bold px-2 py-1 bg-[#fef3c7] rounded-md inline-flex">
                                     <iconify-icon icon="solar:info-circle-linear"></iconify-icon>
                                     Perlu persetujuan
                                 </div>
                             </div>
                             <div
-                                class="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#2f27ce] text-xl flex-shrink-0">
+                                class="w-10 h-10 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#2f27ce] text-xl flex-shrink-0">
                                 <iconify-icon icon="solar:clock-circle-linear"></iconify-icon>
                             </div>
                         </div>
@@ -144,14 +166,13 @@
                                 <iconify-icon icon="solar:magnifer-linear"
                                     class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2f27ce]/50 text-lg"></iconify-icon>
                                 <input type="text" name="search" value="{{ request('search') }}"
-                                    placeholder="Nama, email, atau ID..."
-                                    class="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl pl-11 pr-4 py-2.5 text-[13px] font-semibold text-[#050316] placeholder-[#2f27ce]/50 outline-none focus:ring-4 focus:ring-[#dddbff]/50 focus:border-[#443dff] transition-all shadow-sm">
+                                    placeholder="Cari nama, email, atau ID staf..."
+                                    class="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl pl-11 pr-4 py-2.5 text-[13px] font-semibold text-[#050316] placeholder-[#2f27ce]/40 outline-none focus:ring-4 focus:ring-[#dddbff]/50 focus:border-[#443dff] transition-all shadow-sm">
                             </div>
                             <div class="flex flex-wrap items-center gap-2">
-                                {{-- Filter Role --}}
                                 <select name="role"
                                     class="h-11 px-4 border border-[#dddbff] bg-white text-[#2f27ce] text-sm font-bold hover:bg-[#dddbff] hover:text-[#050316] transition-all rounded-xl cursor-pointer outline-none">
-                                    <option value="">Semua Role</option>
+                                    <option value="">Semua Peran</option>
                                     <option value="owner" {{ request('role') === 'owner' ? 'selected' : '' }}>Owner
                                     </option>
                                     <option value="admin" {{ request('role') === 'admin' ? 'selected' : '' }}>Admin
@@ -160,18 +181,18 @@
                                     </option>
                                 </select>
 
-                                {{-- Filter Status --}}
                                 <select name="status"
                                     class="h-11 px-4 border border-[#dddbff] bg-white text-[#2f27ce] text-sm font-bold hover:bg-[#dddbff] hover:text-[#050316] transition-all rounded-xl cursor-pointer outline-none">
                                     <option value="">Semua Status</option>
                                     <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>
                                         Active</option>
-                                    <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>
-                                        Inactive</option>
-                                    <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>
-                                        Pending</option>
+                                    <option value="inactive"
+                                        {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                    <option value="pending"
+                                        {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
                                     <option value="deactivated"
-                                        {{ request('status') === 'deactivated' ? 'selected' : '' }}>Deactivated</option>
+                                        {{ request('status') === 'deactivated' ? 'selected' : '' }}>Deactivated
+                                    </option>
                                 </select>
 
                                 <button type="submit"
@@ -192,8 +213,8 @@
                     @php
                         $roleStyles = [
                             'owner' => 'bg-[#443dff] text-white',
-                            'admin' => 'bg-[#dddbff]/50 text-[#2f27ce]',
-                            'cashier' => 'bg-[#dddbff]/50 text-[#2f27ce]',
+                            'admin' => 'bg-[#dddbff]/60 text-[#2f27ce]',
+                            'cashier' => 'bg-[#dddbff]/60 text-[#2f27ce]',
                         ];
                         $roleLabels = [
                             'owner' => 'Owner',
@@ -205,13 +226,13 @@
                                 'bg' => 'bg-[#ecfdf5]',
                                 'dot' => 'bg-[#10b981]',
                                 'text' => 'text-[#10b981]',
-                                'label' => 'Active',
+                                'label' => 'Aktif',
                             ],
                             'inactive' => [
                                 'bg' => 'bg-[#f3f4f6]',
                                 'dot' => 'bg-[#6b7280]',
                                 'text' => 'text-[#6b7280]',
-                                'label' => 'Inactive',
+                                'label' => 'Non-aktif',
                             ],
                             'pending' => [
                                 'bg' => 'bg-[#fef3c7]',
@@ -223,7 +244,7 @@
                                 'bg' => 'bg-[#fef2f2]',
                                 'dot' => 'bg-[#ef4444]',
                                 'text' => 'text-[#ef4444]',
-                                'label' => 'Deactivated',
+                                'label' => 'Dinonaktifkan',
                             ],
                         ];
                     @endphp
@@ -231,30 +252,35 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-left min-w-[640px]">
                             <thead>
-                                <tr class="border-b border-[#dddbff] bg-white">
+                                <tr class="border-b border-[#dddbff] bg-[#fbfbfe]/60">
                                     <th class="px-5 py-4 w-10">
                                         <input type="checkbox"
-                                            class="w-4 h-4 rounded border-[#dddbff] text-[#443dff] focus:ring-[#dddbff]/50 focus:ring-2 cursor-pointer transition-all">
+                                            class="w-4 h-4 rounded border-[#dddbff] text-[#443dff] focus:ring-[#dddbff]/50 focus:ring-2 cursor-pointer">
                                     </th>
-                                    <th class="px-5 py-4 text-xs font-bold text-[#2f27ce]/70">Nama Pengguna</th>
-                                    <th class="px-5 py-4 text-xs font-bold text-[#2f27ce]/70">Role</th>
-                                    <th class="px-5 py-4 text-xs font-bold text-[#2f27ce]/70">Bergabung</th>
-                                    <th class="px-5 py-4 text-xs font-bold text-[#2f27ce]/70">Status</th>
-                                    <th class="px-5 py-4 text-xs font-bold text-[#2f27ce]/70 text-right">Aksi</th>
+                                    <th class="px-5 py-4 text-xs font-bold text-[#2f27ce]/70 uppercase tracking-wider">
+                                        Nama & Email</th>
+                                    <th class="px-5 py-4 text-xs font-bold text-[#2f27ce]/70 uppercase tracking-wider">
+                                        Peran</th>
+                                    <th class="px-5 py-4 text-xs font-bold text-[#2f27ce]/70 uppercase tracking-wider">
+                                        Status</th>
+                                    <th class="px-5 py-4 text-xs font-bold text-[#2f27ce]/70 uppercase tracking-wider">
+                                        Aktivitas Terakhir</th>
+                                    <th
+                                        class="px-5 py-4 text-xs font-bold text-[#2f27ce]/70 uppercase tracking-wider text-right">
+                                        Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-[#dddbff]/50 text-sm bg-white">
 
                                 @forelse ($users as $user)
-                                    <tr class="hover:bg-[#dddbff]/20 transition-colors duration-150 group cursor-pointer">
+                                    <tr class="hover:bg-[#dddbff]/10 transition-colors duration-150 group">
 
-                                        {{-- Checkbox --}}
                                         <td class="px-5 py-4">
                                             <input type="checkbox" value="{{ $user->id }}"
-                                                class="w-4 h-4 rounded border-[#dddbff] text-[#443dff] focus:ring-[#dddbff]/50 focus:ring-2 cursor-pointer transition-all">
+                                                class="w-4 h-4 rounded border-[#dddbff] text-[#443dff] focus:ring-[#dddbff]/50 focus:ring-2 cursor-pointer">
                                         </td>
 
-                                        {{-- Nama --}}
+                                        {{-- Nama & Email --}}
                                         <td class="px-5 py-4">
                                             <div class="flex items-center gap-3">
                                                 <div
@@ -263,13 +289,13 @@
                                                 </div>
                                                 <div>
                                                     <p class="font-bold text-[#050316]">{{ $user->name }}</p>
-                                                    <p class="text-[11px] md:text-xs text-[#2f27ce]/70 font-medium">
+                                                    <p class="text-xs text-[#2f27ce]/60 font-medium">
                                                         {{ $user->email }}</p>
                                                 </div>
                                             </div>
                                         </td>
 
-                                        {{-- Role --}}
+                                        {{-- Peran --}}
                                         <td class="px-5 py-4">
                                             <span
                                                 class="px-3 py-1.5 rounded-lg text-xs font-bold {{ $roleStyles[$user->role] ?? 'bg-gray-100 text-gray-600' }}">
@@ -277,19 +303,19 @@
                                             </span>
                                         </td>
 
-                                        {{-- Bergabung --}}
-                                        <td class="px-5 py-4 font-medium text-[#2f27ce]/70 text-sm">
-                                            {{ $user->created_at->diffForHumans() }}
-                                        </td>
-
                                         {{-- Status --}}
                                         <td class="px-5 py-4">
                                             @php $s = $statusStyles[$user->status] ?? $statusStyles['inactive']; @endphp
                                             <span
-                                                class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md {{ $s['bg'] }} {{ $s['text'] }} text-xs font-bold">
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg {{ $s['bg'] }} {{ $s['text'] }} text-xs font-bold">
                                                 <span class="w-1.5 h-1.5 rounded-full {{ $s['dot'] }}"></span>
                                                 {{ $s['label'] }}
                                             </span>
+                                        </td>
+
+                                        {{-- Aktivitas Terakhir --}}
+                                        <td class="px-5 py-4 font-medium text-[#2f27ce]/60 text-sm">
+                                            {{ $user->updated_at->diffForHumans() }}
                                         </td>
 
                                         {{-- Aksi --}}
@@ -304,7 +330,6 @@
                                                 <div x-show="open" x-transition
                                                     class="absolute right-0 mt-1 w-48 bg-white border border-[#dddbff] rounded-xl shadow-xl z-20 overflow-hidden">
 
-                                                    {{-- Lihat Detail: semua role --}}
                                                     <a href="{{ route('users.show', $user->id) }}"
                                                         class="flex items-center gap-2 px-4 py-2.5 text-sm text-[#050316] font-semibold hover:bg-[#dddbff]/30 transition-colors">
                                                         <iconify-icon icon="solar:eye-linear"
@@ -312,7 +337,6 @@
                                                         Lihat Detail
                                                     </a>
 
-                                                    {{-- Edit, Toggle, Reset: hanya owner --}}
                                                     @can('manage-users')
                                                         <a href="{{ route('users.edit', $user->id) }}"
                                                             class="flex items-center gap-2 px-4 py-2.5 text-sm text-[#050316] font-semibold hover:bg-[#dddbff]/30 transition-colors">
@@ -358,7 +382,6 @@
                                                             </form>
                                                         @endif
                                                     @endcan
-
                                                 </div>
                                             </div>
                                         </td>
@@ -370,11 +393,12 @@
                                             <div class="flex flex-col items-center gap-3">
                                                 <div
                                                     class="w-14 h-14 rounded-2xl bg-[#dddbff]/30 flex items-center justify-center text-[#2f27ce]/30 text-3xl">
-                                                    <iconify-icon icon="solar:users-group-rounded-linear"></iconify-icon>
+                                                    <iconify-icon
+                                                        icon="solar:users-group-rounded-linear"></iconify-icon>
                                                 </div>
                                                 <p class="font-bold text-[#050316]">Tidak ada pengguna ditemukan</p>
-                                                <p class="text-sm text-[#2f27ce]/50">Coba ubah filter atau tambah pengguna
-                                                    baru.</p>
+                                                <p class="text-sm text-[#2f27ce]/50">Coba ubah filter atau tambah
+                                                    pengguna baru.</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -388,12 +412,12 @@
                     <div
                         class="flex flex-col sm:flex-row items-center justify-between px-5 py-4 border-t border-[#dddbff] bg-[#fbfbfe]/50 gap-4">
                         <p class="text-xs font-medium text-[#2f27ce]/70">
-                            Menampilkan <span class="font-bold text-[#050316]">{{ $users->firstItem() ?? 0 }}</span>–<span
+                            Menampilkan
+                            <span class="font-bold text-[#050316]">{{ $users->firstItem() ?? 0 }}</span>–<span
                                 class="font-bold text-[#050316]">{{ $users->lastItem() ?? 0 }}</span>
                             dari <span class="font-bold text-[#050316]">{{ $users->total() }}</span> pengguna
                         </p>
                         <div class="flex items-center gap-1.5">
-                            {{-- Previous --}}
                             @if ($users->onFirstPage())
                                 <span
                                     class="px-3 py-2 text-xs font-bold text-[#2f27ce]/40 bg-[#fbfbfe] border border-[#dddbff] rounded-xl cursor-not-allowed">Previous</span>
@@ -402,21 +426,19 @@
                                     class="px-3 py-2 text-xs font-bold text-[#2f27ce] bg-white border border-[#dddbff] rounded-xl hover:bg-[#dddbff] transition-all">Previous</a>
                             @endif
 
-                            {{-- Page Numbers --}}
                             @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
                                 <a href="{{ $url }}" @class([
                                     'w-9 h-9 flex items-center justify-center text-sm font-bold rounded-xl transition-all duration-150 active:scale-[0.95]',
                                     'bg-gradient-to-r from-[#2f27ce] to-[#443dff] text-white shadow-md shadow-[#2f27ce]/20' =>
                                         $page == $users->currentPage(),
-                                    'bg-white border border-[#dddbff] text-[#2f27ce] hover:bg-[#dddbff] hover:text-[#050316]' =>
+                                    'bg-white border border-[#dddbff] text-[#2f27ce] hover:bg-[#dddbff]' =>
                                         $page != $users->currentPage(),
                                 ])>{{ $page }}</a>
                             @endforeach
 
-                            {{-- Next --}}
                             @if ($users->hasMorePages())
                                 <a href="{{ $users->nextPageUrl() }}"
-                                    class="px-4 py-2 text-xs font-bold text-[#2f27ce] bg-white border border-[#dddbff] rounded-xl hover:bg-[#dddbff] transition-all duration-150">Next</a>
+                                    class="px-4 py-2 text-xs font-bold text-[#2f27ce] bg-white border border-[#dddbff] rounded-xl hover:bg-[#dddbff] transition-all">Next</a>
                             @else
                                 <span
                                     class="px-4 py-2 text-xs font-bold text-[#2f27ce]/40 bg-[#fbfbfe] border border-[#dddbff] rounded-xl cursor-not-allowed">Next</span>
@@ -426,96 +448,6 @@
 
                 </div>
             </div>
-
-            {{-- ======================== SIDEBAR ======================== --}}
-            <div class="xl:col-span-3 space-y-6">
-
-                {{-- RINGKASAN TIM --}}
-                <div class="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5">
-                    <h3 class="font-extrabold text-[#050316]">Ringkasan Tim</h3>
-                    <p class="text-xs text-[#2f27ce]/70 font-medium mt-0.5 mb-5">Status personel saat ini.</p>
-
-                    <div class="space-y-3">
-                        <div
-                            class="bg-[#dddbff]/30 border border-[#dddbff] rounded-xl p-4 flex items-center justify-between hover:bg-[#dddbff]/50 transition-colors duration-150">
-                            <div>
-                                <p class="text-[10px] font-bold text-[#2f27ce]/70 uppercase tracking-widest">Total Pengguna
-                                </p>
-                                <p class="text-2xl font-black text-[#443dff] mt-1">{{ $totalUser }}</p>
-                            </div>
-                            <div
-                                class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#443dff] shadow-sm">
-                                <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-xl"></iconify-icon>
-                            </div>
-                        </div>
-
-                        <div
-                            class="bg-[#ecfdf5] border border-[#10b981]/20 rounded-xl p-4 flex items-center justify-between hover:bg-[#10b981]/10 transition-colors duration-150">
-                            <div>
-                                <p class="text-[10px] font-bold text-[#10b981] uppercase tracking-widest">Status Aktif</p>
-                                <p class="text-2xl font-black text-[#050316] mt-1">{{ $totalActive }}</p>
-                            </div>
-                            <div
-                                class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#10b981] shadow-sm">
-                                <iconify-icon icon="solar:check-circle-linear" class="text-xl"></iconify-icon>
-                            </div>
-                        </div>
-
-                        <div
-                            class="bg-[#fef3c7] border border-[#f59e0b]/20 rounded-xl p-4 flex items-center justify-between hover:bg-[#f59e0b]/10 transition-colors duration-150">
-                            <div>
-                                <p class="text-[10px] font-bold text-[#f59e0b] uppercase tracking-widest">Menunggu Akses
-                                </p>
-                                <p class="text-2xl font-black text-[#050316] mt-1">{{ $totalPending }}</p>
-                            </div>
-                            <div
-                                class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#f59e0b] shadow-sm">
-                                <iconify-icon icon="solar:clock-square-linear" class="text-xl"></iconify-icon>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- AKTIVITAS TERAKHIR --}}
-                <div class="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5">
-                    <h3 class="font-extrabold text-[#050316] mb-5">Aktivitas Terakhir</h3>
-
-                    @php
-                        $logs = \App\Models\AuditLog::with('user')->latest()->take(4)->get();
-                    @endphp
-
-                    @if ($logs->isEmpty())
-                        <p class="text-sm text-[#2f27ce]/50 text-center py-4">Belum ada aktivitas.</p>
-                    @else
-                        <div
-                            class="space-y-4 relative before:absolute before:inset-0 before:ml-[5px] before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-[#dddbff] before:to-transparent">
-                            @foreach ($logs as $log)
-                                <div class="relative flex items-start gap-4">
-                                    <div
-                                        class="w-3 h-3 rounded-full bg-[#443dff] mt-1.5 flex-shrink-0 shadow-[0_0_0_4px_#fbfbfe] z-10">
-                                    </div>
-                                    <div
-                                        class="bg-[#fbfbfe] border border-[#dddbff] p-3 rounded-xl w-full hover:border-[#443dff] transition-colors duration-150 cursor-default">
-                                        <p class="text-xs font-bold text-[#050316]">{{ $log->user?->name ?? 'System' }}
-                                        </p>
-                                        <p class="text-[13px] text-[#2f27ce]/70 font-medium mt-0.5">{{ $log->action }}
-                                        </p>
-                                        <p class="text-[10px] font-bold text-[#443dff] mt-1.5 tracking-wider">
-                                            {{ $log->created_at->diffForHumans() }}</p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-
-                    <a href="#"
-                        class="w-full mt-5 py-2.5 flex items-center justify-center gap-1.5 text-sm font-bold text-[#443dff] hover:text-[#2f27ce] bg-[#dddbff]/30 hover:bg-[#dddbff] rounded-xl transition-colors duration-150 active:scale-[0.98]">
-                        Lihat Semua Log <iconify-icon icon="solar:alt-arrow-right-linear"></iconify-icon>
-                    </a>
-                </div>
-
-            </div>
-
         </div>
     </div>
 @endsection

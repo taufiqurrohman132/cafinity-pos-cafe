@@ -383,7 +383,7 @@
                     </div>
                     <div class="space-y-3">
                         @forelse ($kitchenQueue as $order)
-                            <a href="{{ route('detail.antrean') }}"
+                            <a href="{{ route('kitchen-orders.index') }}"
                                 class="block p-3 rounded-xl border border-[#dddbff] hover:bg-[#dddbff]/20 hover:border-[#443dff] hover:shadow-sm transition-all group relative overflow-hidden">
                                 @if ($order['status'] === 'preparing')
                                     <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-amber-400"></div>

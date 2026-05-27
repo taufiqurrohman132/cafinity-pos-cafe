@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Inventory;
 use App\Models\InventoryCategory;
 use App\Models\Supplier;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class InventoryController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(Request $request): View
     {
+
         $query = Inventory::with(['supplier', 'category'])->latest();
 
         // Search
@@ -50,6 +54,8 @@ class InventoryController extends Controller
 
     public function create(): View
     {
+        $this->authorize('manage-menu');
+
         $suppliers = Supplier::where('is_active', true)->orderBy('name')->get();
         $categories = InventoryCategory::orderBy('name')->get();
 
@@ -58,6 +64,8 @@ class InventoryController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('manage-menu');
+
         Inventory::create($request->validate([
             'name'                   => 'required|string|max:255',
             'unit'                   => 'required|string|max:50',
@@ -80,6 +88,8 @@ class InventoryController extends Controller
 
     public function edit(string $id): View
     {
+        $this->authorize('manage-menu');
+
         $inventory = Inventory::findOrFail($id);
         $suppliers = Supplier::where('is_active', true)->orderBy('name')->get();
         $categories = InventoryCategory::orderBy('name')->get();
@@ -89,6 +99,8 @@ class InventoryController extends Controller
 
     public function update(Request $request, string $id)
     {
+        $this->authorize('manage-menu');
+
         Inventory::findOrFail($id)->update($request->validate([
             'name'                   => 'required|string|max:255',
             'unit'                   => 'required|string|max:50',
@@ -104,6 +116,8 @@ class InventoryController extends Controller
 
     public function destroy(string $id)
     {
+        $this->authorize('manage-menu');
+
         Inventory::findOrFail($id)->delete();
 
         return redirect()->route('inventories.index')->with('success', 'Item dihapus.');
@@ -120,6 +134,8 @@ class InventoryController extends Controller
 
     public function restock(Request $request, string $id)
     {
+        $this->authorize('manage-menu');
+
         $data = $request->validate(['qty' => 'required|numeric|min:0.01']);
 
         $inventory = Inventory::findOrFail($id);

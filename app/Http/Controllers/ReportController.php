@@ -9,6 +9,7 @@ use App\Models\Target;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -16,12 +17,17 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ReportController extends Controller
 {
+
+    use AuthorizesRequests;
+
     public function index(Request $request): View
     {
 
+        $this->authorize('view-reports');
+
         $days        = (int) $request->get('days', 7);
         AuditLog::record('report.viewed', null, ['report' => 'index', 'days' => $days]);
-        
+
         $startDate   = $request->get('start_date') ? now()->parse($request->get('start_date'))->startOfDay() : now()->subDays($days - 1)->startOfDay();
         $endDate     = $request->get('end_date')   ? now()->parse($request->get('end_date'))->endOfDay()     : now()->endOfDay();
         $kasirId     = $request->get('kasir_id');
@@ -357,6 +363,8 @@ class ReportController extends Controller
 
     public function sales(): View
     {
+        $this->authorize('view-reports');
+
         AuditLog::record('report.viewed', null, ['report' => 'sales']);
 
         $data = Transaction::where('status', 'completed')
@@ -369,6 +377,8 @@ class ReportController extends Controller
 
     public function inventory(): View
     {
+        $this->authorize('view-reports');
+
         AuditLog::record('report.viewed', null, ['report' => 'inventory']);
 
         $data = Inventory::with(['category', 'supplier'])->get();
@@ -378,6 +388,8 @@ class ReportController extends Controller
 
     public function daily(): View
     {
+        $this->authorize('view-reports');
+
         AuditLog::record('report.viewed', null, ['report' => 'daily']);
 
         $data = Transaction::whereDate('created_at', today())
@@ -389,6 +401,8 @@ class ReportController extends Controller
 
     public function monthly(): View
     {
+        $this->authorize('view-reports');
+
         AuditLog::record('report.viewed', null, ['report' => 'monthly']);
 
         $data = Transaction::whereMonth('created_at', now()->month)
@@ -400,6 +414,8 @@ class ReportController extends Controller
 
     public function profitLoss(): View
     {
+        $this->authorize('view-reports');
+
         AuditLog::record('report.viewed', null, ['report' => 'profit-loss']);
 
         $revenue = Transaction::where('status', 'completed')->sum('total_amount');
@@ -461,11 +477,15 @@ class ReportController extends Controller
 
     public function exportPdf()
     {
+        $this->authorize('view-reports');
+
         return back()->with('info', 'Export PDF belum dikonfigurasi (DomPDF).');
     }
 
     public function exportExcel(): StreamedResponse
     {
+        $this->authorize('view-reports');
+
         $transactions = Transaction::where('status', 'completed')->latest()->get();
 
         $headers = [

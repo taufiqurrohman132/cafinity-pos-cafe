@@ -10,6 +10,7 @@ use Illuminate\View\View;
 
 class TargetController extends Controller
 {
+    
     public function index(Request $request): View
     {
         $today  = today();
