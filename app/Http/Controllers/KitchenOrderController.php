@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\KitchenOrder;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class KitchenOrderController extends Controller
 {
-    public function index(Request $request): \Inertia\Response
+    public function index(Request $request): Response
     {
         $filter = $request->get('filter', 'all');
 
@@ -47,7 +49,7 @@ class KitchenOrderController extends Controller
                     ->where('created_at', '<=', $lateThreshold)->count(),
                 'completed_today' => KitchenOrder::where('status', 'completed')
                     ->whereDate('updated_at', today())->count(),
-                'avg_cook_time'   => $this->avgCookTime(),
+                'avg_cook_time'   => $this->getAvgCookTime(),
             ],
         ]);
     }

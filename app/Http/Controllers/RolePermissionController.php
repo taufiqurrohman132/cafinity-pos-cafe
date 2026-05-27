@@ -8,21 +8,26 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class RolePermissionController extends Controller
 {
     /**
      * Display a listing of roles with their permissions.
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
+        // Ambil data roles beserta permissions-nya
         $roles = Role::with('permissions')
+            ->withCount('users')
             ->when($request->search, fn($q) => $q->where('name', 'like', "%{$request->search}%"))
-            ->paginate($request->per_page ?? 10);
+            ->get(); // Diubah menjadi ->get() demi kelancaran komponen tab-detail UI matrix
 
-        $permissions = Permission::all()->groupBy(fn($p) => explode('.', $p->name)[0]);
-
-        return view('shared.user-management.role-permission.index', compact('roles', 'permissions'));
+        return Inertia::render('UserManagement/RolePermission/Index', [
+            'roles' => $roles,
+            'filters' => $request->only(['search']),
+        ]);
     }
 
     /**
@@ -31,8 +36,8 @@ class RolePermissionController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'        => ['required', 'string', 'max:100', 'unique:roles,name'],
-            'permissions' => ['nullable', 'array'],
+            'name'         => ['required', 'string', 'max:100', 'unique:roles,name'],
+            'permissions'   => ['nullable', 'array'],
             'permissions.*' => ['exists:permissions,name'],
         ]);
 
@@ -46,14 +51,10 @@ class RolePermissionController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Role berhasil dibuat.',
-                'data'    => $role->load('permissions'),
-            ], 201);
+            return back()->with('success', "Role {$role->name} berhasil dibuat.");
         } catch (\Throwable $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return back()->with('error', $e->getMessage());
         }
     }
 
@@ -73,14 +74,10 @@ class RolePermissionController extends Controller
             $role->update(['name' => $validated['name']]);
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Role berhasil diperbarui.',
-                'data'    => $role->load('permissions'),
-            ]);
+            return back()->with('success', 'Role berhasil diperbarui.');
         } catch (\Throwable $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return back()->with('error', $e->getMessage());
         }
     }
 
@@ -91,27 +88,20 @@ class RolePermissionController extends Controller
     {
         $role = Role::findOrFail($id);
 
-        // Proteksi role super-admin / admin agar tidak bisa dihapus
         if (in_array($role->name, ['super-admin', 'admin'])) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Role ini tidak dapat dihapus.',
-            ], 403);
+            return back()->with('error', 'Role ini diproteksi dan tidak dapat dihapus.');
         }
 
         DB::beginTransaction();
         try {
-            $role->syncPermissions([]); // Lepas semua permission dulu
+            $role->syncPermissions([]);
             $role->delete();
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Role berhasil dihapus.',
-            ]);
+            return back()->with('success', 'Role berhasil dihapus.');
         } catch (\Throwable $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return back()->with('error', $e->getMessage());
         }
     }
 
@@ -123,7 +113,7 @@ class RolePermissionController extends Controller
         $role = Role::findOrFail($id);
 
         $validated = $request->validate([
-            'permissions'   => ['required', 'array'],
+            'permissions'   => ['present', 'array'], // present agar bisa mengosongkan permission
             'permissions.*' => ['exists:permissions,name'],
         ]);
 
@@ -132,14 +122,10 @@ class RolePermissionController extends Controller
             $role->syncPermissions($validated['permissions']);
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Permission role berhasil diperbarui.',
-                'data'    => $role->load('permissions'),
-            ]);
+            return back()->with('success', 'Hak akses role berhasil diperbarui.');
         } catch (\Throwable $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return back()->with('error', $e->getMessage());
         }
     }
 }

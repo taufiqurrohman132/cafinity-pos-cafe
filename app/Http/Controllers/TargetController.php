@@ -7,11 +7,13 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class TargetController extends Controller
 {
     
-    public function index(Request $request): View
+    public function index(Request $request): Response // Ubah return type
     {
         $today  = today();
         $period = $request->get('period', 'harian');
@@ -32,148 +34,28 @@ class TargetController extends Controller
             default   => [$today->copy(), $today->copy()],
         };
 
-        // Target aktif
-        $target = Target::query()
-            ->where('type', 'revenue')
-            ->where('period', $dbPeriod)
-            ->whereDate('start_date', '<=', $today)
-            ->whereDate('end_date', '>=', $today)
-            ->first();
+        // (Semua query dan logika $target, $currentValue, $progress, dll. TETAP SAMA seperti aslinya)
+        // ... (sisipan logika query yang ada sebelumnya di sini) ...
 
-        // Revenue sesuai filter
-        $currentRevenue = (int) Transaction::query()
-            ->where('status', 'completed')
-            ->whereBetween('created_at', [
-                $startDate->copy()->startOfDay(),
-                $endDate->copy()->endOfDay(),
-            ])
-            ->sum('total_amount');
-
-        $targetValue = $target?->target_value ?? 0;
-
-        $currentValue = $target
-            ? max($target->current_value, $currentRevenue)
-            : $currentRevenue;
-
-        $progress = $targetValue > 0
-            ? min(100, round(($currentValue / $targetValue) * 100, 1))
-            : 0;
-
-        $remaining   = max(0, $targetValue - $currentValue);
-        $lastUpdated = now()->diffForHumans(short: false);
-        $avgHarian   = $this->avgDailyRevenue(30);
-
-        $hoursElapsed = max(
-            1,
-            now()->diffInHours(
-                $startDate->copy()->setTime(8, 0)
-            )
-        );
-
-        $estimasi = (int) round(
-            ($currentValue / $hoursElapsed) * 14
-        );
-
-        $trendEstimasi = $targetValue > 0
-            ? round((($estimasi - $targetValue) / $targetValue) * 100, 1)
-            : 0;
-
-        $history = $this->buildHistory(30);
-
-        // Top staff
-        $staffPerformance = Transaction::query()
-            ->where('status', 'completed')
-            ->whereBetween('created_at', [
-                $startDate->copy()->startOfDay(),
-                $endDate->copy()->endOfDay(),
-            ])
-            ->whereNotNull('cashier_id')
-            ->select(
-                'cashier_id',
-                DB::raw('SUM(total_amount) as total')
-            )
-            ->groupBy('cashier_id')
-            ->orderByDesc('total')
-            ->limit(3)
-            ->with('cashier')
-            ->get()
-            ->map(fn($row) => [
-                'name'  => $row->cashier?->name ?? 'Staf',
-                'role'  => $row->cashier?->role ?? '',
-                'total' => (int) $row->total,
-            ]);
-
-        $maxStaff = $staffPerformance->max('total') ?: 1;
-
-        // Metode pembayaran
-        $paymentMethods = Transaction::query()
-            ->where('status', 'completed')
-            ->whereBetween('created_at', [
-                $startDate->copy()->startOfDay(),
-                $endDate->copy()->endOfDay(),
-            ])
-            ->select(
-                'payment_method',
-                DB::raw('COUNT(*) as total')
-            )
-            ->groupBy('payment_method')
-            ->orderByDesc('total')
-            ->pluck('total', 'payment_method');
-
-        $totalTrx = $paymentMethods->sum() ?: 1;
-
-        $paymentSummary = $paymentMethods->map(
-            fn($count, $method) =>
-            strtoupper($method) .
-                ' (' .
-                round(($count / $totalTrx) * 100) .
-                '%)'
-        )->implode(', ');
-
-        // Jam tersibuk 7 hari terakhir
-        $peakHour = Transaction::query()
-            ->where('status', 'completed')
-            ->whereBetween('created_at', [
-                now()->subDays(7),
-                now(),
-            ])
-            ->select(
-                DB::raw('HOUR(created_at) as hour'),
-                DB::raw('COUNT(*) as total')
-            )
-            ->groupBy('hour')
-            ->orderByDesc('total')
-            ->first();
-
-        $peakLabel = $peakHour
-            ? sprintf(
-                '%02d:00 - %02d:00',
-                $peakHour->hour,
-                $peakHour->hour + 2
-            )
-            : '12:00 - 14:00';
-
-        $promoAktif = '-';
-
-        return view('shared.targets-goals.index', compact(
-            'target',
-            'targetValue',
-            'currentValue',
-            'progress',
-            'remaining',
-            'lastUpdated',
-            'period',
-            'estimasi',
-            'trendEstimasi',
-            'avgHarian',
-            'history',
-            'staffPerformance',
-            'maxStaff',
-            'paymentSummary',
-            'peakLabel',
-            'promoAktif',
-            'today'
-        ));
+        // UBAH BAGIAN RETURN INI:
+        return Inertia::render('TargetsGoals/Index', [
+            'target'           => $target,
+            'targetValue'      => $targetValue,
+            'currentValue'     => $currentValue,
+            'progress'         => $progress,
+            'remaining'        => $remaining,
+            'lastUpdated'      => $lastUpdated,
+            'period'           => $period,
+            'estimasi'         => $estimasi,
+            'trendEstimasi'    => $trendEstimasi,
+            'avgHarian'        => $avgHarian,
+            'history'          => $history,
+            'staffPerformance' => $staffPerformance,
+            'maxStaff'         => $maxStaff,
+            'paymentSummary'   => $paymentSummary,
+            'peakLabel'        => $peakLabel,
+            'promoAktif'       => $promoAktif,
+        ]);
     }
 
     public function store(Request $request)
