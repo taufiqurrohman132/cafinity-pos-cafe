@@ -2,8 +2,9 @@ import { Link, usePage, router } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function Sidebar() {
-    const { auth, ziggy } = usePage().props;
-    const currentUrl = ziggy?.location ?? window.location.pathname;
+    const { url, props } = usePage();
+    const { auth, ziggy } = props;
+    const currentUrl = url;
     const user = auth?.user;
 
     const [accessOpen, setAccessOpen] = useState(
@@ -22,6 +23,13 @@ export default function Sidebar() {
     const base = 'flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200';
     const active = 'bg-gradient-to-r from-[#dddbff]/70 to-[#dddbff]/10 text-[#2f27ce] font-extrabold shadow-sm';
     const inactive = 'text-[#050316]/70 font-medium hover:bg-[#dddbff]/30 hover:text-[#2f27ce]';
+
+    const isDashboardActive = () => {
+        return currentUrl === '/dashboard' ||
+               currentUrl.startsWith('/owner/dashboard') ||
+               currentUrl.startsWith('/admin/dashboard') ||
+               currentUrl.startsWith('/cashier/dashboard');
+    };
 
     const isActive = (path) => currentUrl.startsWith(path);
     const cls = (path) => `${base} ${isActive(path) ? active : inactive}`;
@@ -42,8 +50,7 @@ export default function Sidebar() {
 
                 <nav className="p-4 space-y-1.5 overflow-y-auto max-h-[calc(100vh-180px)]">
 
-                    {/* Dashboard */}
-                    <Link href={dashboardRoute()} className={cls(dashboardRoute())}>
+                    <Link href={dashboardRoute()} className={`${base} ${isDashboardActive() ? active : inactive}`}>
                         <iconify-icon icon="solar:home-2-linear" class="text-[20px]"></iconify-icon>
                         <span className="text-[13px]">Dashboard</span>
                     </Link>
