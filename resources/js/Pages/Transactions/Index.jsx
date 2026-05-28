@@ -252,9 +252,13 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                                 <tbody className="divide-y divide-[#dddbff]/50">
                                     {transactions.data.length > 0 ? (
                                         transactions.data.map((trx) => (
-                                            <tr key={trx.id} className="hover:bg-gradient-to-r hover:from-[#dddbff]/10 hover:to-transparent transition-colors group">
+                                            <tr 
+                                                key={trx.id} 
+                                                onClick={() => router.get(route('transactions.show', trx.id))}
+                                                className="hover:bg-gradient-to-r hover:from-[#dddbff]/10 hover:to-transparent transition-colors group cursor-pointer"
+                                            >
                                                 <td className="px-6 py-4 text-[13px] font-extrabold text-[#050316]">
-                                                    <Link href={route('transactions.show', trx.id)} className="hover:text-[#443dff] transition-colors">
+                                                    <Link href={route('transactions.show', trx.id)} className="hover:text-[#443dff] transition-colors" onClick={(e) => e.stopPropagation()}>
                                                         {trx.id}
                                                     </Link>
                                                 </td>
