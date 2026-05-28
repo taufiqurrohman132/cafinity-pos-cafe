@@ -29,7 +29,7 @@ class InventoryLog extends Model
     protected $appends = ['created_at_diff'];
     public function getCreatedAtDiffAttribute()
     {
-        return $this->created_at->diffForHumans();
+        return $this->created_at ? $this->created_at->diffForHumans() : null;
     }
 
     public function inventory()
