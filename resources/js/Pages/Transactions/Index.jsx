@@ -61,7 +61,7 @@ export default function TransactionHistory({ transactions, filters, stats }) {
     };
 
     return (
-        <AppLayout>
+        <>
             <Head title="Riwayat Transaksi" />
 
             <div className="min-h-screen bg-[#fbfbfe] p-6 md:p-8">
@@ -356,6 +356,8 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }
+
+TransactionHistory.layout = (page) => <AppLayout>{page}</AppLayout>;

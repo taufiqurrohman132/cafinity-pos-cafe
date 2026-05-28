@@ -117,7 +117,7 @@ export default function RolePermissionIndex({ roles }) {
     };
 
     return (
-        <AppLayout>
+        <>
             <Head title="Roles & Permissions" />
 
             <div className="min-h-screen bg-[#fbfbfe] font-inter text-[#050316] p-4 md:p-6 space-y-6">
@@ -360,6 +360,8 @@ export default function RolePermissionIndex({ roles }) {
 
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }
+
+RolePermissionIndex.layout = (page) => <AppLayout>{page}</AppLayout>;

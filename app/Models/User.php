@@ -14,12 +14,25 @@ class User extends Authenticatable
     use HasFactory, Notifiable, HasRoles; // ← tambah HasRoles di sini
 
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'status', 'shift_terakhir',
+        'name',
+        'email',
+        'password',
+        'role',
+        'status',
+        'shift_terakhir',
     ];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
+
+    protected $appends = ['created_at_diff'];
+
+    public function getCreatedAtDiffAttribute()
+    {
+        return $this->created_at ? $this->created_at->diffForHumans() : null;
+    }
 
     protected function casts(): array
     {

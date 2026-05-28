@@ -101,7 +101,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
     const showWarning = selectedRecipe?.margin > 0 && selectedRecipe?.margin < 40
 
     return (
-        <AppLayout>
+        <>
             <Head title="Recipe Costing" />
 
             <div className="flex h-[calc(100vh-72px)] bg-[#fbfbfe] overflow-hidden">
@@ -588,9 +588,11 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                     </div>
                 </div>
             )}
-        </AppLayout>
+        </>
     )
 }
+
+RecipeIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
 
 // Sub-component baris ingredient (reusable untuk edit & create)
 function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove, canRemove }) {
@@ -642,3 +644,4 @@ function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove
         </div>
     )
 }
+

@@ -78,7 +78,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
     ];
 
     return (
-        <AppLayout>
+        <>
             <Head title="Antrean Dapur" />
 
             <div className="space-y-6 p-4 md:p-6 bg-[#fbfbfe] min-h-screen">
@@ -303,6 +303,9 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }
+
+
+KitchenOrdersIndex.layout = (page) => <AppLayout>{page}</AppLayout>;

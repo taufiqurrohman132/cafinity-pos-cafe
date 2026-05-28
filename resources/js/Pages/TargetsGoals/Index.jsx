@@ -109,7 +109,7 @@ export default function TargetPerforma({
     };
 
     return (
-        <AppLayout>
+        <>
             <Head title="Target & Performa" />
 
             <div className="space-y-6 p-4 md:p-6 bg-[#fbfbfe] min-h-screen">
@@ -378,6 +378,8 @@ export default function TargetPerforma({
             {/* Anda perlu membuat komponen modal React terpisah, contoh pemanggilannya: */}
             {/* <TargetModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} currentTarget={target} estimasi={progress || 74.2} /> */}
 
-        </AppLayout>
+        </>
     );
 }
+
+TargetPerforma.layout = (page) => <AppLayout>{page}</AppLayout>;

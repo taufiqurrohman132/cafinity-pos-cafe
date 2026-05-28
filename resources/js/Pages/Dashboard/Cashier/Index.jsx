@@ -3,7 +3,7 @@ import AppLayout from '@/Layouts/AppLayout';
 
 export default function CashierDashboard({ user, stats, recentTransactions, lowStockItems, shiftInfo }) {
     return (
-        <AppLayout>
+        <>
             <Head title="Dashboard Kasir" />
             <div className="space-y-6 p-4 md:p-6 bg-[#fbfbfe] min-h-screen">
                 <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
@@ -176,6 +176,9 @@ export default function CashierDashboard({ user, stats, recentTransactions, lowS
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }
+
+
+CashierDashboard.layout = (page) => <AppLayout>{page}</AppLayout>;

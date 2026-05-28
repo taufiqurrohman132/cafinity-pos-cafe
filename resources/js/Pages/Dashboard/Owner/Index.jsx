@@ -157,7 +157,7 @@ export default function OwnerDashboard({
     };
 
     return (
-        <AppLayout>
+        <>
             <Head title="Dashboard Owner" />
             <div className="space-y-6 p-4 md:p-6 bg-[#fbfbfe] min-h-screen">
 
@@ -458,6 +458,8 @@ export default function OwnerDashboard({
                     </div>
                 </div>
             )}
-        </AppLayout>
+        </>
     );
 }
+
+OwnerDashboard.layout = (page) => <AppLayout>{page}</AppLayout>;

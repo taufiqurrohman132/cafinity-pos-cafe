@@ -39,9 +39,9 @@ export default function InventoriesIndex({
         const percent = item.min_stock > 0 ? Math.min(100, Math.round((item.stock / item.min_stock) * 100)) : 100
         const color =
             item.stock === 0 ? 'red'
-            : item.stock <= item.min_stock ? 'orange'
-            : percent <= 75 ? 'yellow'
-            : 'blue'
+                : item.stock <= item.min_stock ? 'orange'
+                    : percent <= 75 ? 'yellow'
+                        : 'blue'
         const label = { red: 'Habis', orange: 'Kritis', yellow: 'Menipis', blue: 'Aman' }[color]
         const badgeCls = {
             blue: 'bg-[#dddbff] text-[#2f27ce]',
@@ -59,7 +59,7 @@ export default function InventoriesIndex({
     }
 
     return (
-        <AppLayout>
+        <>
             <Head title="Manajemen Inventaris" />
 
             <div className="min-h-screen bg-[#fbfbfe]">
@@ -263,11 +263,10 @@ export default function InventoriesIndex({
                                             <Link
                                                 key={i}
                                                 href={link.url ?? '#'}
-                                                className={`px-3 py-1 text-xs rounded-lg border transition ${
-                                                    link.active
+                                                className={`px-3 py-1 text-xs rounded-lg border transition ${link.active
                                                         ? 'bg-[#2f27ce] text-white border-[#2f27ce]'
                                                         : 'border-[#dddbff] text-gray-500 hover:border-[#2f27ce] hover:text-[#2f27ce]'
-                                                } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
+                                                    } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
                                                 dangerouslySetInnerHTML={{ __html: link.label }}
                                             />
                                         ))}
@@ -366,6 +365,8 @@ export default function InventoriesIndex({
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     )
 }
+
+InventoriesIndex.layout = (page) => <AppLayout>{page}</AppLayout>;

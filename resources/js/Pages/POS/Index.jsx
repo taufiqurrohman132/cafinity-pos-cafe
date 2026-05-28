@@ -155,7 +155,7 @@ export default function POS({
 
     // ── Render ────────────────────────────────────────────────
     return (
-        <AppLayout>
+        <>
             <Head title="POS Transaksi" />
 
             <div className="h-[calc(100vh-72px)] bg-gradient-to-br from-[#fbfbfe] via-white to-[#dddbff]/30 flex overflow-hidden">
@@ -472,6 +472,9 @@ export default function POS({
                     </div>
                 )}
             </div>
-        </AppLayout>
+        </>
     );
 }
+
+
+POS.layout = (page) => <AppLayout>{page}</AppLayout>;

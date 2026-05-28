@@ -3,7 +3,7 @@ import AppLayout from '@/Layouts/AppLayout';
 
 export default function AdminDashboard({ user, stats, stockMovement, menuSummary, hppAnalysis, activityLog }) {
     return (
-        <AppLayout>
+        <>
             <Head title="Dashboard Admin" />
             <div className="h-full flex flex-col overflow-hidden">
                 <div className="flex-1 grid grid-cols-1 xl:grid-cols-12 gap-3 min-h-0">
@@ -208,6 +208,9 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }
+
+
+AdminDashboard.layout = (page) => <AppLayout>{page}</AppLayout>;

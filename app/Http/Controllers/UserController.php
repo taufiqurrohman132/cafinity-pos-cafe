@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
+use Inertia\Inertia;
+use App\Models\AuditLog;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -25,37 +28,21 @@ class UserController extends Controller
                     ->orWhere('email', 'like', "%{$request->search}%")
                     ->orWhere('id', $request->search)
             )
-            ->when(
-                $request->role,
-                fn($q) =>
-                $q->where('role', $request->role)
-            )
-            ->when(
-                $request->status,
-                fn($q) =>
-                $q->where('status', $request->status)
-            )
+            ->when($request->role, fn($q) => $q->where('role', $request->role))
+            ->when($request->status, fn($q) => $q->where('status', $request->status))
             ->latest();
 
-        // ── Export CSV ──────────────────────────────────────
         if ($request->export === 'csv') {
             $this->authorize('manage-users');
-
             $users = $query->get();
-
             $filename = 'users_' . now()->format('Ymd_His') . '.csv';
-
             $headers = [
                 'Content-Type'        => 'text/csv',
                 'Content-Disposition' => "attachment; filename={$filename}",
             ];
-
             $callback = function () use ($users) {
                 $file = fopen('php://output', 'w');
-
-                // Header kolom
                 fputcsv($file, ['ID', 'Nama', 'Email', 'Role', 'Status', 'Bergabung']);
-
                 foreach ($users as $user) {
                     fputcsv($file, [
                         $user->id,
@@ -66,18 +53,42 @@ class UserController extends Controller
                         $user->created_at->format('d/m/Y H:i'),
                     ]);
                 }
-
                 fclose($file);
             };
-
             return response()->stream($callback, 200, $headers);
         }
 
-        // ── Normal view ─────────────────────────────────────
         $users = $query->paginate(20)->withQueryString();
-        $roles = Role::all();
 
-        return view('shared.user-management.user-directory.index', compact('users', 'roles'));
+        // stats
+        $totalKasir   = User::where('role', 'cashier')->where('status', 'active')->count();
+        $totalAdmin   = User::where('role', 'admin')->where('status', 'active')->count();
+        $totalUser    = User::count();
+        $totalActive  = User::where('status', 'active')->count();
+        $totalPending = User::where('status', 'pending')->count();
+
+        $logs = AuditLog::with('user')->latest()->take(4)->get()->map(fn($log) => [
+            'id'         => $log->id,
+            'user_name'  => $log->user?->name ?? 'System',
+            'action'     => $log->action,
+            'created_at' => $log->created_at->diffForHumans(),
+        ]);
+
+        return Inertia::render('UserManagement/Userdirectory/Index', [
+            'users'        => $users,
+            'stats' => [
+                'totalKasir'   => $totalKasir,
+                'totalAdmin'   => $totalAdmin,
+                'totalUser'    => $totalUser,
+                'totalActive'  => $totalActive,
+                'totalPending' => $totalPending,
+            ],
+            'logs'         => $logs,
+            'filters'      => $request->only(['search', 'role', 'status']),
+            'can' => [
+                'manage_users' => $request->user()->can('manage-users'),
+            ],
+        ]);
     }
 
     public function create(): View
@@ -151,7 +162,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        if ($user->id === auth()->id()) {
+        if ($user->id === Auth::id()) {
             return back()->with('error', 'Tidak dapat menghapus akun sendiri.');
         }
 

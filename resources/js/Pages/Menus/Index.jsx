@@ -83,7 +83,7 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
     }
 
     return (
-        <AppLayout>
+        <>
             <Head title="Katalog Menu" />
 
             <div className="min-h-screen bg-[#fbfbfe] p-4 md:p-6">
@@ -484,6 +484,8 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     )
 }
+
+MenusIndex.layout = (page) => <AppLayout>{page}</AppLayout>;

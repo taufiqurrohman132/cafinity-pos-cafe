@@ -404,7 +404,7 @@ export default function ReportsIndex({
     ];
 
     return (
-        <AppLayout>
+        <>
             <Head title="Laporan Bisnis" />
 
             <div className="space-y-6 p-4 md:p-6 bg-[#fbfbfe] min-h-screen">
@@ -989,6 +989,8 @@ export default function ReportsIndex({
                 payments={filterPayments}
                 days={days}
             />
-        </AppLayout>
+        </>
     );
 }
+
+ReportsIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
