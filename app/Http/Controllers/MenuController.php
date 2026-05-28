@@ -15,7 +15,7 @@ use Inertia\Response;
 class MenuController extends Controller
 {
     use AuthorizesRequests;
-    
+
     public function index(Request $request): Response
     {
         $categories = Category::where('is_active', true)->orderBy('name')->get();
@@ -59,7 +59,7 @@ class MenuController extends Controller
             'description' => 'nullable|string',
             'price'       => 'required|integer|min:0',
             'is_active'   => 'boolean',
-            'image'       => 'nullable|image|max:2048', // tambah ini
+            'image'       => 'nullable|image|max:2048',
         ]);
 
         $data['slug'] = Str::slug($data['name']) . '-' . Str::random(4);
@@ -73,11 +73,31 @@ class MenuController extends Controller
         return redirect()->route('menus.index')->with('success', 'Menu ditambahkan.');
     }
 
-    public function show(string $id): View
+    /**
+     * Sebelumnya: return view('shared.menu-management.show', ...)
+     * Sekarang: Inertia render ke Menus/Show
+     */
+    public function show(string $id): Response
     {
-        $menu = Menu::with('category', 'recipe.ingredients')->findOrFail($id);
+        $menu = Menu::with([
+            'category',
+            'recipe.ingredients', // pivot: quantity, cost
+            'activeBundle',       // relasi promo aktif
+        ])->findOrFail($id);
 
-        return view('shared.menu-management.show', compact('menu'));
+        // Append computed attributes ke dalam JSON
+        $menu->append(['hpp', 'profit_trend', 'is_best_seller']);
+
+        // Data penjualan mingguan — sesuaikan dengan implementasi sales Anda
+        // Contoh: ambil dari SalesLog atau hardcode sementara
+        $weeklySales  = null; // ganti dengan: SalesLog::weeklyFor($menu->id)
+        $weeklyGrowth = null; // ganti dengan: angka persentase pertumbuhan
+
+        return Inertia::render('Menus/Show', [
+            'menu'         => $menu,
+            'weeklySales'  => $weeklySales,
+            'weeklyGrowth' => $weeklyGrowth,
+        ]);
     }
 
     public function edit(string $id): View

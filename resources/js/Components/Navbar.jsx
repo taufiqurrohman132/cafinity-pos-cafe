@@ -1,4 +1,4 @@
-import { usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 
 export default function Navbar() {
     const { auth } = usePage().props;
@@ -22,10 +22,10 @@ export default function Navbar() {
             <div className="flex items-center gap-4">
 
                 {/* Notifications */}
-                <a href="#" className="w-10 h-10 rounded-xl flex items-center justify-center text-[#2f27ce] hover:bg-[#dddbff]/50 hover:text-[#443dff] transition-all relative">
+                <Link href="/notifications" className="w-10 h-10 rounded-xl flex items-center justify-center text-[#2f27ce] hover:bg-[#dddbff]/50 hover:text-[#443dff] transition-all relative">
                     <iconify-icon icon="solar:bell-bing-bold-duotone" class="text-[22px]"></iconify-icon>
                     <span className="absolute top-2 right-2.5 w-2 h-2 rounded-full bg-red-500 border-2 border-white"></span>
-                </a>
+                </Link>
 
                 {/* Settings */}
                 <a href="#" className="w-10 h-10 rounded-xl flex items-center justify-center text-[#2f27ce] hover:bg-[#dddbff]/50 hover:text-[#443dff] transition-all">

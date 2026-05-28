@@ -18,6 +18,24 @@ class Notification extends Model
         'read_at' => 'datetime',
     ];
 
+    protected $appends = ['time_ago', 'priority'];
+
+    public function getTimeAgoAttribute(): string
+    {
+        return $this->created_at ? $this->created_at->diffForHumans() : '';
+    }
+
+    public function getPriorityAttribute(): string
+    {
+        if ($this->type === 'payment_failed') {
+            return 'urgent';
+        }
+        if ($this->type === 'stock') {
+            return 'important';
+        }
+        return 'normal';
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

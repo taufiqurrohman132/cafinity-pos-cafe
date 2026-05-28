@@ -54,7 +54,11 @@ class Recipe extends Model
     // getMarginAttribute tetap sama, total_hpp sekarang dari kolom DB
     public function getMarginAttribute(): float
     {
-        $price = $this->menu?->price ?? 0;
+        if ($this->relationLoaded('menu')) {
+            $price = $this->menu?->price ?? 0;
+        } else {
+            $price = $this->menu()->value('price') ?? 0;
+        }
 
         if ($price === 0) return 0;
 
