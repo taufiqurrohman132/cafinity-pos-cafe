@@ -219,12 +219,12 @@ export default function OwnerDashboard({
                     </div>
                     <div className="flex flex-wrap items-center gap-3">
                         <div className="text-[13px] text-[#2f27ce] bg-white px-4 py-2.5 rounded-xl border border-[#dddbff] shadow-sm flex items-center gap-2 font-medium">
-                            <iconify-icon icon="material-symbols:avg-time-outline" class="text-lg text-[#443dff]"></iconify-icon>
+                            <iconify-icon icon="solar:clock-circle-linear" class="text-lg text-[#443dff]"></iconify-icon>
                             <span>Terakhir Update: <span className="font-bold text-[#050316]">{lastUpdated}</span></span>
                         </div>
                         <Link href="/pos"
                             className="bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-[#2f27ce]/30 active:scale-[0.98]">
-                            <iconify-icon icon="solar:card-2-bold" class="text-[18px]"></iconify-icon>
+                            <iconify-icon icon="solar:card-2-linear" class="text-[18px]"></iconify-icon>
                             Buka POS
                         </Link>
                     </div>
@@ -232,10 +232,10 @@ export default function OwnerDashboard({
 
                 {/* ====== STAT CARDS ====== */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <StatCard title="Pendapatan Hari Ini"  {...stats.revenue}    icon="solar:wallet-money-bold-duotone" iconBg="bg-[#dddbff]"    iconColor="text-[#443dff]" />
-                    <StatCard title="Estimasi Laba Bersih" {...stats.profit}     icon="solar:chart-2-bold-duotone"     iconBg="bg-emerald-100" iconColor="text-emerald-600" />
-                    <StatCard title="Total Pesanan"        {...stats.orders}     icon="solar:bag-5-bold-duotone"       iconBg="bg-[#dddbff]"    iconColor="text-[#443dff]" />
-                    <StatCard title="Rata-rata Tiket"      {...stats.avg_ticket} icon="solar:users-group-rounded-bold-duotone" iconBg="bg-[#dddbff]" iconColor="text-[#2f27ce]" />
+                    <StatCard title="Pendapatan Hari Ini"  {...stats.revenue}    icon="solar:wallet-money-linear" iconBg="bg-[#dddbff]"    iconColor="text-[#443dff]" />
+                    <StatCard title="Estimasi Laba Bersih" {...stats.profit}     icon="solar:chart-2-linear"     iconBg="bg-emerald-100" iconColor="text-emerald-600" />
+                    <StatCard title="Total Pesanan"        {...stats.orders}     icon="solar:bag-5-linear"       iconBg="bg-[#dddbff]"    iconColor="text-[#443dff]" />
+                    <StatCard title="Rata-rata Tiket"      {...stats.avg_ticket} icon="solar:users-group-rounded-linear" iconBg="bg-[#dddbff]" iconColor="text-[#2f27ce]" />
                 </div>
 
                 {/* ====== MAIN GRID ====== */}
@@ -391,7 +391,7 @@ export default function OwnerDashboard({
                         <div className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm">
                             <div className="flex justify-between items-center mb-5">
                                 <div className="flex items-center gap-2">
-                                    <iconify-icon icon="solar:box-minimalistic-bold-duotone" class="text-lg text-rose-500"></iconify-icon>
+                                    <iconify-icon icon="solar:box-minimalistic-linear" class="text-lg text-rose-500"></iconify-icon>
                                     <h3 className="text-sm font-extrabold text-[#050316]">Alert Stok Rendah</h3>
                                 </div>
                                 <span className="bg-rose-100 text-rose-700 text-[10px] px-2.5 py-1 rounded-md font-extrabold border border-rose-200">
@@ -454,7 +454,7 @@ export default function OwnerDashboard({
                                                     </p>
                                                     <div className="flex items-center gap-2 mt-1.5">
                                                         <span className="flex items-center gap-0.5 text-[10px] font-bold text-[#2f27ce]">
-                                                            <iconify-icon icon="solar:clock-circle-bold-duotone" class="text-[14px]"></iconify-icon>
+                                                            <iconify-icon icon="solar:clock-circle-linear" class="text-[14px]"></iconify-icon>
                                                             {order.time_ago}
                                                         </span>
                                                         <span className={`text-[9px] font-bold ${s.bg} ${s.text} px-2 py-0.5 rounded-md border`}>
@@ -493,12 +493,12 @@ export default function OwnerDashboard({
             {/* Target Modal */}
             {showTargetModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-                    <div className="bg-white rounded-2xl border border-[#dddbff] p-6 w-full max-w-sm shadow-xl relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#dddbff]/50 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
-                        <h3 className="font-extrabold text-base text-[#050316] mb-1 relative z-10 flex items-center gap-1.5">
-                            <iconify-icon icon="solar:target-bold-duotone" class="text-xl text-[#443dff]"></iconify-icon>
-                            {currentTarget ? 'Ubah Target Harian' : 'Set Target Harian'}
-                        </h3>
+                                                    <div className="bg-white rounded-2xl border border-[#dddbff] p-6 w-full max-w-sm shadow-xl relative overflow-hidden">
+                                                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#dddbff]/50 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                                                        <h3 className="font-extrabold text-base text-[#050316] mb-1 relative z-10 flex items-center gap-1.5">
+                                                            <iconify-icon icon="solar:target-linear" class="text-xl text-[#443dff]"></iconify-icon>
+                                                            {currentTarget ? 'Ubah Target Harian' : 'Set Target Harian'}
+                                                        </h3>
                         <p className="text-xs text-[#2f27ce]/70 mb-5 relative z-10">Tentukan target pendapatan operasional untuk hari ini.</p>
 
                         <form onSubmit={handleTargetSubmit} className="space-y-4 relative z-10">
