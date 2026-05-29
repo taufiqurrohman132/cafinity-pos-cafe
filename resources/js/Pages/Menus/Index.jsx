@@ -1,14 +1,132 @@
 // Menus/Index.jsx
-import { Head, Link, router, usePage } from '@inertiajs/react'
+import { Head, Link, router, usePage, useForm } from '@inertiajs/react'
 import { useState, useEffect } from 'react'
 import AppLayout from '@/Layouts/AppLayout'
 
-export default function MenusIndex({ menus, categories, totalMenus }) {
+export default function MenusIndex({ menus, categories, totalMenus, editMenu }) {
     const { url } = usePage()
     const params = new URLSearchParams(url.split('?')[1] || '')
 
     const [search, setSearch] = useState(params.get('search') || '')
     const [view, setViewState] = useState('list')
+
+    const [showCreateModal, setShowCreateModal] = useState(false)
+    const [showEditModal, setShowEditModal] = useState(false)
+    const [editMenuId, setEditMenuId] = useState(null)
+    const [imagePreview, setImagePreview] = useState(null)
+
+    // Form Tambah Menu
+    const createForm = useForm({
+        category_id: '',
+        name: '',
+        description: '',
+        price: '',
+        is_active: true,
+        image: null,
+        estimated_hpp: '',
+    })
+
+    // Form Edit Menu
+    const editForm = useForm({
+        category_id: '',
+        name: '',
+        description: '',
+        price: '',
+        is_active: true,
+        image: null,
+        estimated_hpp: '',
+    })
+
+    // Handle parameter query (?create=1 atau ?edit=id)
+    useEffect(() => {
+        if (params.get('create') === '1') {
+            setShowCreateModal(true)
+            window.history.replaceState({}, '', route('menus.index'))
+        }
+
+        const editId = params.get('edit')
+        if (editId) {
+            const targetMenu = editMenu || menus.data.find(m => m.id == editId)
+            if (targetMenu) {
+                openEditModal(targetMenu)
+            }
+            window.history.replaceState({}, '', route('menus.index'))
+        }
+    }, [url, editMenu])
+
+    const openEditModal = (menu) => {
+        setEditMenuId(menu.id)
+        editForm.setData({
+            category_id: menu.category_id ?? '',
+            name: menu.name ?? '',
+            description: menu.description ?? '',
+            price: menu.price ?? '',
+            is_active: !!menu.is_active,
+            image: null,
+            estimated_hpp: menu.hpp ?? menu.recipe?.total_hpp ?? '',
+        })
+        setImagePreview(menu.image_url ?? null)
+        setShowEditModal(true)
+    }
+
+    const handleCreateSubmit = (e) => {
+        e.preventDefault()
+        createForm.post(route('menus.store'), {
+            onSuccess: () => {
+                setShowCreateModal(false)
+                createForm.reset()
+                setImagePreview(null)
+            },
+        })
+    }
+
+    const handleEditSubmit = (e) => {
+        e.preventDefault()
+        if (editForm.data.image) {
+            // PHP cannot read files in multipart PUT requests, so spoof via POST with _method: 'PUT'
+            editForm.transform((data) => ({
+                ...data,
+                _method: 'PUT',
+            }))
+            editForm.post(route('menus.update', editMenuId), {
+                onSuccess: () => {
+                    setShowEditModal(false)
+                    editForm.reset()
+                    setEditMenuId(null)
+                    setImagePreview(null)
+                },
+                preserveScroll: true,
+            })
+        } else {
+            // Clean any transform
+            editForm.transform((data) => data)
+            editForm.put(route('menus.update', editMenuId), {
+                onSuccess: () => {
+                    setShowEditModal(false)
+                    editForm.reset()
+                    setEditMenuId(null)
+                    setImagePreview(null)
+                },
+                preserveScroll: true,
+            })
+        }
+    }
+
+    const handleCreateImageChange = (e) => {
+        const file = e.target.files[0]
+        if (file) {
+            createForm.setData('image', file)
+            setImagePreview(URL.createObjectURL(file))
+        }
+    }
+
+    const handleEditImageChange = (e) => {
+        const file = e.target.files[0]
+        if (file) {
+            editForm.setData('image', file)
+            setImagePreview(URL.createObjectURL(file))
+        }
+    }
 
     useEffect(() => {
         const saved = localStorage.getItem('menu-view')
@@ -104,12 +222,12 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                 <p className="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-wider">Total Menu</p>
                                 <p className="text-2xl font-black text-[#443dff] leading-none mt-0.5">{totalMenus}</p>
                             </div>
-                            <a
-                                href={route('menus.create')}
+                            <button
+                                onClick={() => setShowCreateModal(true)}
                                 className="bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-[#2f27ce]/30 active:scale-[0.98]"
                             >
                                 + Tambah Menu
-                            </a>
+                            </button>
                         </div>
                     </div>
 
@@ -237,12 +355,12 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                                             <iconify-icon icon="solar:cookie-bold-duotone" class="text-3xl"></iconify-icon>
                                                         </div>
                                                         <p className="text-sm font-bold text-[#050316]">Tidak ada menu ditemukan.</p>
-                                                        <Link
-                                                            href={route('menus.create')}
+                                                        <button
+                                                            onClick={() => setShowCreateModal(true)}
                                                             className="bg-gradient-to-r text-xs from-[#2f27ce] to-[#443dff] text-white px-3 py-1.5 rounded-lg font-bold"
                                                         >
                                                             + Tambah Menu Pertama
-                                                        </Link>
+                                                        </button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -330,13 +448,13 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                                             >
                                                                 <iconify-icon icon="solar:eye-linear" class="text-lg"></iconify-icon>
                                                             </a>
-                                                            <a
-                                                                href={route('menus.edit', menu.id)}
+                                                            <button
+                                                                onClick={() => openEditModal(menu)}
                                                                 className="p-2 text-[#2f27ce] hover:text-[#443dff] rounded-xl hover:bg-[#dddbff]/50 inline-flex active:scale-95 transition-all"
                                                                 title="Edit"
                                                             >
                                                                 <iconify-icon icon="solar:pen-linear" class="text-lg"></iconify-icon>
-                                                            </a>
+                                                            </button>
                                                             <button
                                                                 onClick={() => handleDelete(menu.id, menu.name)}
                                                                 className="p-2 text-rose-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 inline-flex active:scale-95 transition-all"
@@ -412,12 +530,12 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                                                     className="flex items-center gap-1 mt-2 pt-2 border-t border-[#dddbff]/50 opacity-0 group-hover:opacity-100 transition-all"
                                                     onClick={(e) => e.stopPropagation()}
                                                 >
-                                                    <a
-                                                        href={route('menus.edit', menu.id)}
+                                                    <button
+                                                        onClick={() => openEditModal(menu)}
                                                         className="flex-1 flex items-center justify-center gap-1 py-1.5 text-[11px] font-bold text-[#2f27ce] hover:text-[#443dff] hover:bg-[#dddbff]/50 rounded-lg transition-all"
                                                     >
                                                         <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon> Edit
-                                                    </a>
+                                                    </button>
                                                     <button
                                                         onClick={() => handleDelete(menu.id, menu.name)}
                                                         className="flex items-center justify-center gap-1 py-1.5 px-2 text-[11px] font-bold text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
@@ -484,6 +602,456 @@ export default function MenusIndex({ menus, categories, totalMenus }) {
                     </div>
                 </div>
             </div>
+
+              {/* Create Menu Modal */}
+            {showCreateModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
+                    <div className="bg-white rounded-3xl border border-[#dddbff] p-8 w-full max-w-xl shadow-xl relative my-8">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#dddbff]/40 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                        
+                        {/* Close button X */}
+                        <button
+                            onClick={() => {
+                                setShowCreateModal(false)
+                                createForm.reset()
+                                setImagePreview(null)
+                            }}
+                            className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-95"
+                        >
+                            <iconify-icon icon="material-symbols:close" class="text-xl"></iconify-icon>
+                        </button>
+
+                        <h3 className="font-extrabold text-xl text-[#050316] mb-1 relative z-10">
+                            Tambah Menu Baru
+                        </h3>
+                        <p className="text-xs text-[#2f27ce]/60 mb-8 relative z-10">
+                            Isi informasi dasar menu. Anda dapat mengatur resep detail di layar Recipe Costing.
+                        </p>
+
+                        <form onSubmit={handleCreateSubmit} className="space-y-5 relative z-10">
+                            {/* Row 1: Foto Menu */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                    Foto Menu
+                                </label>
+                                <div className="col-span-8 flex items-center gap-4">
+                                    <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-[#dddbff] bg-[#fbfbfe] flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm relative cursor-pointer hover:border-[#443dff] transition-colors group">
+                                        {imagePreview ? (
+                                            <img src={imagePreview} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <iconify-icon icon="solar:add-circle-linear" class="text-2xl text-[#2f27ce]/50 group-hover:text-[#443dff] transition-colors"></iconify-icon>
+                                        )}
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleCreateImageChange}
+                                            className="absolute inset-0 opacity-0 cursor-pointer"
+                                        />
+                                    </div>
+                                    <div className="text-[11px] text-[#2f27ce]/60 font-medium leading-relaxed max-w-[220px]">
+                                        Format JPG, PNG atau WebP.<br />Maksimal ukuran file 2MB.
+                                    </div>
+                                </div>
+                                {createForm.errors.image && (
+                                    <p className="col-start-5 col-span-8 text-[11px] text-rose-500 font-bold mt-1">
+                                        {createForm.errors.image}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* Row 2: Nama Menu */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                    Nama Menu
+                                </label>
+                                <div className="col-span-8">
+                                    <input
+                                        type="text"
+                                        required
+                                        value={createForm.data.name}
+                                        onChange={(e) => createForm.setData('name', e.target.value)}
+                                        placeholder="Contoh: Es Kopi Susu Gula Aren"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all font-semibold text-[#050316]"
+                                    />
+                                    {createForm.errors.name && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {createForm.errors.name}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 3: Kategori */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                    Kategori
+                                </label>
+                                <div className="col-span-8">
+                                    <select
+                                        required
+                                        value={createForm.data.category_id}
+                                        onChange={(e) => createForm.setData('category_id', e.target.value)}
+                                        className="w-full h-10 px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all cursor-pointer font-semibold text-[#050316]"
+                                    >
+                                        <option value="" disabled>-- Pilih Kategori --</option>
+                                        {categories.map((cat) => (
+                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                        ))}
+                                    </select>
+                                    {createForm.errors.category_id && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {createForm.errors.category_id}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 4: Harga Jual (Rp) */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                    Harga Jual (Rp)
+                                </label>
+                                <div className="col-span-8">
+                                    <input
+                                        type="number"
+                                        required
+                                        min="0"
+                                        value={createForm.data.price}
+                                        onChange={(e) => createForm.setData('price', e.target.value)}
+                                        placeholder="25000"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all font-bold text-[#443dff]"
+                                    />
+                                    {createForm.errors.price && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {createForm.errors.price}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 5: Estimasi HPP (Rp) */}
+                            <div className="grid grid-cols-12 gap-x-4 items-start">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider mt-2.5">
+                                    Estimasi HPP (Rp)
+                                </label>
+                                <div className="col-span-8">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={createForm.data.estimated_hpp}
+                                        onChange={(e) => createForm.setData('estimated_hpp', e.target.value)}
+                                        placeholder="8500"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all font-semibold text-[#050316]"
+                                    />
+                                    <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
+                                        *HPP akan diperbarui otomatis setelah resep dihubungkan.
+                                    </span>
+                                    {createForm.errors.estimated_hpp && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {createForm.errors.estimated_hpp}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 6: Deskripsi */}
+                            <div className="grid grid-cols-12 gap-x-4 items-start">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider mt-2.5">
+                                    Deskripsi
+                                </label>
+                                <div className="col-span-8">
+                                    <textarea
+                                        value={createForm.data.description}
+                                        onChange={(e) => createForm.setData('description', e.target.value)}
+                                        placeholder="Deskripsi singkat mengenai rasa, komposisi, atau detail penyajian..."
+                                        rows={2}
+                                        className="w-full px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all resize-none font-medium text-[#050316]"
+                                    />
+                                    {createForm.errors.description && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {createForm.errors.description}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 7: Status Aktif */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <div className="col-span-4"></div>
+                                <div className="col-span-8 flex items-center gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => createForm.setData('is_active', !createForm.data.is_active)}
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#443dff] focus:ring-offset-2 ${
+                                            createForm.data.is_active ? 'bg-[#443dff]' : 'bg-[#dddbff]'
+                                        }`}
+                                    >
+                                        <span
+                                            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                                                createForm.data.is_active ? 'translate-x-5' : 'translate-x-0'
+                                            }`}
+                                        />
+                                    </button>
+                                    <span
+                                        onClick={() => createForm.setData('is_active', !createForm.data.is_active)}
+                                        className="text-xs font-bold text-[#050316] cursor-pointer select-none"
+                                    >
+                                        Aktif & Tampilkan di POS
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex justify-end items-center gap-4 mt-8 pt-4 border-t border-[#dddbff]/30">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setShowCreateModal(false)
+                                        createForm.reset()
+                                        setImagePreview(null)
+                                    }}
+                                    className="px-6 py-2.5 text-xs font-extrabold text-[#2f27ce] hover:text-[#050316] transition-colors"
+                                >
+                                    Batal
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={createForm.processing}
+                                    className="bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-[#2f27ce]/20 disabled:opacity-50"
+                                >
+                                    {createForm.processing ? 'Menyimpan...' : 'Simpan Menu'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Edit Menu Modal */}
+            {showEditModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
+                    <div className="bg-white rounded-3xl border border-[#dddbff] p-8 w-full max-w-xl shadow-xl relative my-8">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#dddbff]/40 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                        
+                        {/* Close button X */}
+                        <button
+                            onClick={() => {
+                                setShowEditModal(false)
+                                editForm.reset()
+                                setEditMenuId(null)
+                                setImagePreview(null)
+                            }}
+                            className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-95"
+                        >
+                            <iconify-icon icon="material-symbols:close" class="text-xl"></iconify-icon>
+                        </button>
+
+                        <h3 className="font-extrabold text-xl text-[#050316] mb-1 relative z-10">
+                            Edit Detail Menu
+                        </h3>
+                        <p className="text-xs text-[#2f27ce]/60 mb-8 relative z-10">
+                            Ubah rincian informasi, harga jual, dan estimasi HPP menu hidangan.
+                        </p>
+
+                        <form onSubmit={handleEditSubmit} className="space-y-5 relative z-10">
+                            {/* Row 1: Foto Menu */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                    Foto Menu
+                                </label>
+                                <div className="col-span-8 flex items-center gap-4">
+                                    <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-[#dddbff] bg-[#fbfbfe] flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm relative cursor-pointer hover:border-[#443dff] transition-colors group">
+                                        {imagePreview ? (
+                                            <img src={imagePreview} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <iconify-icon icon="solar:add-circle-linear" class="text-2xl text-[#2f27ce]/50 group-hover:text-[#443dff] transition-colors"></iconify-icon>
+                                        )}
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleEditImageChange}
+                                            className="absolute inset-0 opacity-0 cursor-pointer"
+                                        />
+                                    </div>
+                                    <div className="text-[11px] text-[#2f27ce]/60 font-medium leading-relaxed max-w-[220px]">
+                                        Format JPG, PNG atau WebP.<br />Maksimal ukuran file 2MB.
+                                    </div>
+                                </div>
+                                {editForm.errors.image && (
+                                    <p className="col-start-5 col-span-8 text-[11px] text-rose-500 font-bold mt-1">
+                                        {editForm.errors.image}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* Row 2: Nama Menu */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                    Nama Menu
+                                </label>
+                                <div className="col-span-8">
+                                    <input
+                                        type="text"
+                                        required
+                                        value={editForm.data.name}
+                                        onChange={(e) => editForm.setData('name', e.target.value)}
+                                        placeholder="Contoh: Es Kopi Susu Gula Aren"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all font-semibold text-[#050316]"
+                                    />
+                                    {editForm.errors.name && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {editForm.errors.name}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 3: Kategori */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                    Kategori
+                                </label>
+                                <div className="col-span-8">
+                                    <select
+                                        required
+                                        value={editForm.data.category_id}
+                                        onChange={(e) => editForm.setData('category_id', e.target.value)}
+                                        className="w-full h-10 px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all cursor-pointer font-semibold text-[#050316]"
+                                    >
+                                        <option value="" disabled>-- Pilih Kategori --</option>
+                                        {categories.map((cat) => (
+                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                        ))}
+                                    </select>
+                                    {editForm.errors.category_id && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {editForm.errors.category_id}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 4: Harga Jual (Rp) */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                    Harga Jual (Rp)
+                                </label>
+                                <div className="col-span-8">
+                                    <input
+                                        type="number"
+                                        required
+                                        min="0"
+                                        value={editForm.data.price}
+                                        onChange={(e) => editForm.setData('price', e.target.value)}
+                                        placeholder="25000"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all font-bold text-[#443dff]"
+                                    />
+                                    {editForm.errors.price && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {editForm.errors.price}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 5: Estimasi HPP (Rp) */}
+                            <div className="grid grid-cols-12 gap-x-4 items-start">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider mt-2.5">
+                                    Estimasi HPP (Rp)
+                                </label>
+                                <div className="col-span-8">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={editForm.data.estimated_hpp}
+                                        onChange={(e) => editForm.setData('estimated_hpp', e.target.value)}
+                                        placeholder="8500"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all font-semibold text-[#050316]"
+                                    />
+                                    <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
+                                        *HPP akan diperbarui otomatis setelah resep dihubungkan.
+                                    </span>
+                                    {editForm.errors.estimated_hpp && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {editForm.errors.estimated_hpp}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 6: Deskripsi */}
+                            <div className="grid grid-cols-12 gap-x-4 items-start">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider mt-2.5">
+                                    Deskripsi
+                                </label>
+                                <div className="col-span-8">
+                                    <textarea
+                                        value={editForm.data.description}
+                                        onChange={(e) => editForm.setData('description', e.target.value)}
+                                        placeholder="Deskripsi..."
+                                        rows={2}
+                                        className="w-full px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all resize-none font-medium text-[#050316]"
+                                    />
+                                    {editForm.errors.description && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {editForm.errors.description}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 7: Status Aktif */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <div className="col-span-4"></div>
+                                <div className="col-span-8 flex items-center gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => editForm.setData('is_active', !editForm.data.is_active)}
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#443dff] focus:ring-offset-2 ${
+                                            editForm.data.is_active ? 'bg-[#443dff]' : 'bg-[#dddbff]'
+                                        }`}
+                                    >
+                                        <span
+                                            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                                                editForm.data.is_active ? 'translate-x-5' : 'translate-x-0'
+                                            }`}
+                                        />
+                                    </button>
+                                    <span
+                                        onClick={() => editForm.setData('is_active', !editForm.data.is_active)}
+                                        className="text-xs font-bold text-[#050316] cursor-pointer select-none"
+                                    >
+                                        Aktif & Tampilkan di POS
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex justify-end items-center gap-4 mt-8 pt-4 border-t border-[#dddbff]/30">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setShowEditModal(false)
+                                        editForm.reset()
+                                        setEditMenuId(null)
+                                        setImagePreview(null)
+                                    }}
+                                    className="px-6 py-2.5 text-xs font-extrabold text-[#2f27ce] hover:text-[#050316] transition-colors"
+                                >
+                                    Batal
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={editForm.processing}
+                                    className="bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-[#2f27ce]/20 disabled:opacity-50"
+                                >
+                                    {editForm.processing ? 'Menyimpan...' : 'Simpan Perubahan'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </>
     )
 }

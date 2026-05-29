@@ -283,11 +283,10 @@ class OwnerDashboardController extends Controller
         $values = [];
         $max = max($hourly->max() ?: 1, 1);
 
-        // Sebelum: $hour <= 20, akses $hourly[21] yang tidak pernah ada
-        // Sesudah: $hour <= 22, cover transaksi sampai jam 23
-        for ($hour = 8; $hour <= 22; $hour += 2) {
+        // Perulangan 24 jam penuh per jam (00:00 s.d 23:00) untuk detail waktu penjualan yang sangat akurat
+        for ($hour = 0; $hour <= 23; $hour++) {
             $labels[] = sprintf('%02d:00', $hour);
-            $bucket = (int) (($hourly[$hour] ?? 0) + ($hourly[$hour + 1] ?? 0));
+            $bucket = (int) ($hourly[$hour] ?? 0);
             $values[] = [
                 'amount' => $bucket,
                 'height' => (int) round(($bucket / $max) * 100),

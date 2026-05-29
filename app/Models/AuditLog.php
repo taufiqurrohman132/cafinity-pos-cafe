@@ -15,6 +15,23 @@ class AuditLog extends Model
         'metadata' => 'array',
     ];
 
+    protected $appends = ['created_at_human', 'event'];
+
+    public function getCreatedAtHumanAttribute(): string
+    {
+        return $this->created_at ? $this->created_at->diffForHumans() : '';
+    }
+
+    public function getEventAttribute(): string
+    {
+        return match($this->action) {
+            'menu.created' => 'Menu dibuat',
+            'menu.updated' => 'Detail menu diperbarui',
+            'menu.deleted' => 'Menu dihapus',
+            default => $this->action
+        };
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Head, Link, router } from "@inertiajs/react";
+import { useState, useEffect, useRef } from "react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
 import AppLayout from '@/Layouts/AppLayout'
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -65,83 +65,175 @@ function TabButton({ id, label, active, onClick }) {
 // ── chart (pure SVG, matches blade original) ──────────────────────────────────
 function WeeklyChart({ data = [40, 35, 55, 50, 70, 95, 90] }) {
     const labels = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
-    const maxVal = Math.max(...data) || 1;
-    const W = 100,
-        H = 100;
+    const canvasRef = useRef(null);
+    const chartRef = useRef(null);
+    const [chartLoaded, setChartLoaded] = useState(!!window.Chart);
 
-    const pts = data.map((v, i) => {
-        const x = (i / (data.length - 1)) * W;
-        const y = H - (v / maxVal) * H;
-        return `${x},${y}`;
-    });
-    const polyline = pts.join(" ");
-    const fill = `${polyline} ${W},${H} 0,${H}`;
+    useEffect(() => {
+        if (window.Chart) {
+            setChartLoaded(true);
+            return;
+        }
+
+        let script = document.querySelector('script[src*="chart.umd.min.js"]');
+        if (!script) {
+            script = document.createElement("script");
+            script.src = "https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js";
+            script.async = true;
+            document.head.appendChild(script);
+        }
+
+        const handleLoad = () => setChartLoaded(true);
+        script.addEventListener("load", handleLoad);
+        return () => {
+            script.removeEventListener("load", handleLoad);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!canvasRef.current || !window.Chart) return;
+
+        if (chartRef.current) chartRef.current.destroy();
+
+        chartRef.current = new window.Chart(canvasRef.current, {
+            type: "line",
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: "Unit Terjual",
+                        data: data,
+                        borderColor: "#443dff",
+                        backgroundColor: "rgba(68,61,255,0.08)",
+                        borderWidth: 2.5,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: "#443dff",
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => `${ctx.parsed.y} unit terjual`,
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            color: "#2f27ce",
+                            font: { weight: "bold", size: 11 },
+                        },
+                    },
+                    y: {
+                        grid: { color: "#dddbff", lineWidth: 0.8 },
+                        ticks: {
+                            color: "#2f27ce",
+                            font: { size: 10 },
+                            stepSize: 1,
+                        },
+                    },
+                },
+            },
+        });
+
+        return () => chartRef.current?.destroy();
+    }, [chartLoaded, data]);
 
     return (
-        <div className="mt-6 relative h-52 w-full">
-            <svg
-                viewBox="0 0 100 100"
-                preserveAspectRatio="none"
-                className="absolute inset-0 w-full h-full"
-            >
-                <defs>
-                    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop
-                            offset="0%"
-                            stopColor="#443dff"
-                            stopOpacity="0.15"
-                        />
-                        <stop
-                            offset="100%"
-                            stopColor="#443dff"
-                            stopOpacity="0"
-                        />
-                    </linearGradient>
-                </defs>
-                {[25, 50, 75, 100].map((g) => (
-                    <line
-                        key={g}
-                        x1="0"
-                        y1={100 - g}
-                        x2="100"
-                        y2={100 - g}
-                        stroke="#dddbff"
-                        strokeWidth="0.5"
-                        strokeDasharray="2,2"
-                    />
-                ))}
-                <polygon points={fill} fill="url(#areaGrad)" />
-                <polyline
-                    points={polyline}
-                    fill="none"
-                    stroke="#443dff"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                />
-                {data.map((v, i) => {
-                    const x = (i / (data.length - 1)) * W;
-                    const y = H - (v / maxVal) * H;
-                    return (
-                        <circle key={i} cx={x} cy={y} r="1.5" fill="#443dff" />
-                    );
-                })}
-            </svg>
-            {/* Y-axis */}
-            <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-[9px] font-bold text-[#2f27ce]/40 pr-2">
-                <span>{maxVal}</span>
-                <span>{Math.round(maxVal * 0.75)}</span>
-                <span>{Math.round(maxVal * 0.5)}</span>
-                <span>{Math.round(maxVal * 0.25)}</span>
-                <span>0</span>
-            </div>
+        <div className="mt-5 h-48 relative">
+            <canvas ref={canvasRef} />
         </div>
     );
 }
 
 // ── page ─────────────────────────────────────────────────────────────────────
-export default function Show({ menu, weeklySales, weeklyGrowth }) {
+export default function Show({ menu, categories = [], weeklySales, weeklyGrowth }) {
     const [tab, setTab] = useState("ringkasan");
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [imagePreview, setImagePreview] = useState(menu.image_url ?? null);
+
+    const editForm = useForm({
+        category_id: menu.category_id ?? '',
+        name: menu.name ?? '',
+        description: menu.description ?? '',
+        price: menu.price ?? '',
+        is_active: !!menu.is_active,
+        image: null,
+        estimated_hpp: menu.hpp ?? menu.recipe?.total_hpp ?? '',
+    });
+
+    useEffect(() => {
+        editForm.setData({
+            category_id: menu.category_id ?? '',
+            name: menu.name ?? '',
+            description: menu.description ?? '',
+            price: menu.price ?? '',
+            is_active: !!menu.is_active,
+            image: null,
+            estimated_hpp: menu.hpp ?? menu.recipe?.total_hpp ?? '',
+        });
+        setImagePreview(menu.image_url ?? null);
+    }, [menu]);
+
+    const handleEditSubmit = (e) => {
+        e.preventDefault()
+        if (editForm.data.image) {
+            // PHP cannot read files in multipart PUT requests, so spoof via POST with _method: 'PUT'
+            editForm.transform((data) => ({
+                ...data,
+                _method: 'PUT',
+            }))
+            editForm.post(route('menus.update', menu.id), {
+                onSuccess: () => {
+                    setShowEditModal(false)
+                    editForm.reset()
+                    setImagePreview(menu.image_url ?? null)
+                },
+                preserveScroll: true,
+            })
+        } else {
+            // Clean any transform
+            editForm.transform((data) => data)
+            editForm.put(route('menus.update', menu.id), {
+                onSuccess: () => {
+                    setShowEditModal(false)
+                    editForm.reset()
+                    setImagePreview(menu.image_url ?? null)
+                },
+                preserveScroll: true,
+            })
+        }
+    }
+
+    const handleEditImageChange = (e) => {
+        const file = e.target.files[0]
+        if (file) {
+            editForm.setData('image', file)
+            setImagePreview(URL.createObjectURL(file))
+        }
+    }
+
+    const handleShare = () => {
+        if (navigator.share) {
+            navigator.share({
+                title: menu.name,
+                text: menu.description || `Cek menu ${menu.name} di Cafinity!`,
+                url: window.location.href,
+            }).catch(() => {});
+        } else {
+            navigator.clipboard.writeText(window.location.href);
+            alert('Tautan halaman detail menu berhasil disalin ke papan klip!');
+        }
+    };
 
     const hpp = menu.hpp ?? 0;
     const laba = (menu.price ?? 0) - hpp;
@@ -179,15 +271,20 @@ export default function Show({ menu, weeklySales, weeklyGrowth }) {
                         </span>
                     </div>
                     <div className="flex items-center gap-3">
-                        <button className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#dddbff] text-sm font-bold text-[#2f27ce] bg-white hover:bg-[#dddbff] hover:text-[#050316] transition-all shadow-sm">
+                        <button
+                            type="button"
+                            onClick={handleShare}
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#dddbff] text-sm font-bold text-[#2f27ce] bg-white hover:bg-[#dddbff] hover:text-[#050316] transition-all shadow-sm"
+                        >
                             <Icon icon="solar:share-bold" /> Bagikan
                         </button>
-                        <Link
-                            href={route("menus.edit", menu.id)}
+                        <button
+                            type="button"
+                            onClick={() => setShowEditModal(true)}
                             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white text-sm font-bold transition-all shadow-lg shadow-[#443dff]/30"
                         >
                             <Icon icon="solar:pen-bold" /> Edit Produk
-                        </Link>
+                        </button>
                     </div>
                 </div>
 
@@ -197,9 +294,9 @@ export default function Show({ menu, weeklySales, weeklyGrowth }) {
 
                         {/* Image */}
                         <div className="relative w-full lg:w-72 h-64 lg:h-72 flex-shrink-0">
-                            {menu.image ? (
+                            {menu.image_url ? (
                                 <img
-                                    src={`/storage/${menu.image}`}
+                                    src={menu.image_url}
                                     alt={menu.name}
                                     className="w-full h-full object-cover rounded-2xl border border-[#dddbff]"
                                 />
@@ -351,12 +448,6 @@ export default function Show({ menu, weeklySales, weeklyGrowth }) {
 
                                 <WeeklyChart data={weeklySales ?? [40, 35, 55, 50, 70, 95, 90]} />
 
-                                {/* X-axis */}
-                                <div className="flex justify-between mt-2 text-[10px] font-extrabold text-[#2f27ce]/50 px-2">
-                                    {["Sen","Sel","Rab","Kam","Jum","Sab","Min"].map((l) => (
-                                        <span key={l}>{l}</span>
-                                    ))}
-                                </div>
 
                                 {/* Legend */}
                                 <div className="flex items-center gap-6 mt-4 text-xs font-bold text-[#2f27ce]">
@@ -401,13 +492,13 @@ export default function Show({ menu, weeklySales, weeklyGrowth }) {
                                                             {ing.name}
                                                         </td>
                                                         <td className="py-3 text-[#050316]/70 font-medium">
-                                                            {ing.pivot?.quantity}
+                                                            {ing.pivot?.qty}
                                                         </td>
                                                         <td className="py-3 text-[#050316]/70 font-medium">
                                                             {ing.unit}
                                                         </td>
                                                         <td className="py-3 text-right font-extrabold text-[#050316]">
-                                                            Rp {fmt(ing.pivot?.cost ?? 0)}
+                                                            Rp {fmt(ing.pivot?.qty * (ing.price_per_unit ?? 0))}
                                                         </td>
                                                     </tr>
                                                 ))
@@ -550,9 +641,11 @@ export default function Show({ menu, weeklySales, weeklyGrowth }) {
                                     ☕
                                 </div>
                                 <div>
-                                    <p className="text-xs font-extrabold text-[#050316]">Promo Aktif</p>
+                                    <p className="text-xs font-extrabold text-[#050316]">
+                                        {menu.active_bundle ? menu.active_bundle.name : "Promo Aktif"}
+                                    </p>
                                     <p className="text-[10px] font-medium text-[#2f27ce]/70 mt-0.5">
-                                        {menu.active_bundle?.description ?? "Tidak ada promo aktif saat ini."}
+                                        {menu.active_bundle ? menu.active_bundle.description : "Tidak ada promo aktif saat ini."}
                                     </p>
                                 </div>
                             </div>
@@ -575,17 +668,28 @@ export default function Show({ menu, weeklySales, weeklyGrowth }) {
                                 </p>
                                 <div className="space-y-2">
                                     {[
-                                        { href: route("menus.edit", menu.id),  icon: "solar:pen-bold",      label: "Edit Detail Menu" },
+                                        { onClick: () => setShowEditModal(true), icon: "solar:pen-bold",      label: "Edit Detail Menu" },
                                         { href: route("recipe.index"),          icon: "solar:notebook-bold", label: "Kelola Resep & HPP" },
                                         { href: route("bundles.index"),         icon: "solar:gift-bold",     label: "Buat Promo Bundle" },
                                     ].map((a) => (
-                                        <Link
-                                            key={a.label}
-                                            href={a.href}
-                                            className="flex items-center gap-2 w-full py-2.5 px-4 bg-white/10 hover:bg-white/20 rounded-xl text-white text-xs font-bold transition-all border border-white/10"
-                                        >
-                                            <Icon icon={a.icon} /> {a.label}
-                                        </Link>
+                                        a.href ? (
+                                            <Link
+                                                key={a.label}
+                                                href={a.href}
+                                                className="flex items-center gap-2 w-full py-2.5 px-4 bg-white/10 hover:bg-white/20 rounded-xl text-white text-xs font-bold transition-all border border-white/10"
+                                            >
+                                                <Icon icon={a.icon} /> {a.label}
+                                            </Link>
+                                        ) : (
+                                            <button
+                                                key={a.label}
+                                                type="button"
+                                                onClick={a.onClick}
+                                                className="flex items-center gap-2 w-full py-2.5 px-4 bg-white/10 hover:bg-white/20 rounded-xl text-white text-xs font-bold transition-all border border-white/10 text-left"
+                                            >
+                                                <Icon icon={a.icon} /> {a.label}
+                                            </button>
+                                        )
                                     ))}
                                 </div>
                             </div>
@@ -594,6 +698,230 @@ export default function Show({ menu, weeklySales, weeklyGrowth }) {
                     </div>
                 </div>
             </div>
+
+            {/* Edit Menu Modal */}
+            {showEditModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
+                    <div className="bg-white rounded-3xl border border-[#dddbff] p-8 w-full max-w-xl shadow-xl relative my-8">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#dddbff]/40 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                        
+                        {/* Close button X */}
+                        <button
+                            onClick={() => {
+                                setShowEditModal(false)
+                                editForm.reset()
+                                setImagePreview(menu.image_url ?? null)
+                            }}
+                            className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-95"
+                        >
+                            <iconify-icon icon="material-symbols:close" class="text-xl"></iconify-icon>
+                        </button>
+
+                        <h3 className="font-extrabold text-xl text-[#050316] mb-1 relative z-10">
+                            Edit Detail Menu
+                        </h3>
+                        <p className="text-xs text-[#2f27ce]/60 mb-8 relative z-10">
+                            Ubah rincian informasi, harga jual, dan estimasi HPP menu hidangan.
+                        </p>
+
+                        <form onSubmit={handleEditSubmit} className="space-y-5 relative z-10">
+                            {/* Row 1: Foto Menu */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                    Foto Menu
+                                </label>
+                                <div className="col-span-8 flex items-center gap-4">
+                                    <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-[#dddbff] bg-[#fbfbfe] flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm relative cursor-pointer hover:border-[#443dff] transition-colors group">
+                                        {imagePreview ? (
+                                            <img src={imagePreview} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <iconify-icon icon="solar:add-circle-linear" class="text-2xl text-[#2f27ce]/50 group-hover:text-[#443dff] transition-colors"></iconify-icon>
+                                        )}
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleEditImageChange}
+                                            className="absolute inset-0 opacity-0 cursor-pointer"
+                                        />
+                                    </div>
+                                    <div className="text-[11px] text-[#2f27ce]/60 font-medium leading-relaxed max-w-[220px]">
+                                        Format JPG, PNG atau WebP.<br />Maksimal ukuran file 2MB.
+                                    </div>
+                                </div>
+                                {editForm.errors.image && (
+                                    <p className="col-start-5 col-span-8 text-[11px] text-rose-500 font-bold mt-1">
+                                        {editForm.errors.image}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* Row 2: Nama Menu */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                    Nama Menu
+                                </label>
+                                <div className="col-span-8">
+                                    <input
+                                        type="text"
+                                        required
+                                        value={editForm.data.name}
+                                        onChange={(e) => editForm.setData('name', e.target.value)}
+                                        placeholder="Contoh: Es Kopi Susu Gula Aren"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all font-semibold text-[#050316]"
+                                    />
+                                    {editForm.errors.name && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {editForm.errors.name}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 3: Kategori */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                    Kategori
+                                </label>
+                                <div className="col-span-8">
+                                    <select
+                                        required
+                                        value={editForm.data.category_id}
+                                        onChange={(e) => editForm.setData('category_id', e.target.value)}
+                                        className="w-full h-10 px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all cursor-pointer font-semibold text-[#050316]"
+                                    >
+                                        <option value="" disabled>-- Pilih Kategori --</option>
+                                        {categories.map((cat) => (
+                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                        ))}
+                                    </select>
+                                    {editForm.errors.category_id && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {editForm.errors.category_id}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 4: Harga Jual (Rp) */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                    Harga Jual (Rp)
+                                </label>
+                                <div className="col-span-8">
+                                    <input
+                                        type="number"
+                                        required
+                                        min="0"
+                                        value={editForm.data.price}
+                                        onChange={(e) => editForm.setData('price', e.target.value)}
+                                        placeholder="25000"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all font-bold text-[#443dff]"
+                                    />
+                                    {editForm.errors.price && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {editForm.errors.price}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 5: Estimasi HPP (Rp) */}
+                            <div className="grid grid-cols-12 gap-x-4 items-start">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider mt-2.5">
+                                    Estimasi HPP (Rp)
+                                </label>
+                                <div className="col-span-8">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={editForm.data.estimated_hpp}
+                                        onChange={(e) => editForm.setData('estimated_hpp', e.target.value)}
+                                        placeholder="8500"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all font-semibold text-[#050316]"
+                                    />
+                                    <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
+                                        *HPP akan diperbarui otomatis setelah resep dihubungkan.
+                                    </span>
+                                    {editForm.errors.estimated_hpp && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {editForm.errors.estimated_hpp}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 6: Deskripsi */}
+                            <div className="grid grid-cols-12 gap-x-4 items-start">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider mt-2.5">
+                                    Deskripsi
+                                </label>
+                                <div className="col-span-8">
+                                    <textarea
+                                        value={editForm.data.description}
+                                        onChange={(e) => editForm.setData('description', e.target.value)}
+                                        placeholder="Deskripsi..."
+                                        rows={2}
+                                        className="w-full px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] focus:ring-4 focus:ring-[#dddbff]/30 transition-all resize-none font-medium text-[#050316]"
+                                    />
+                                    {editForm.errors.description && (
+                                        <p className="text-[11px] text-rose-500 font-bold mt-1">
+                                            {editForm.errors.description}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Row 7: Status Aktif */}
+                            <div className="grid grid-cols-12 gap-x-4 items-center">
+                                <div className="col-span-4"></div>
+                                <div className="col-span-8 flex items-center gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => editForm.setData('is_active', !editForm.data.is_active)}
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#443dff] focus:ring-offset-2 ${
+                                            editForm.data.is_active ? 'bg-[#443dff]' : 'bg-[#dddbff]'
+                                        }`}
+                                    >
+                                        <span
+                                            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                                                editForm.data.is_active ? 'translate-x-5' : 'translate-x-0'
+                                            }`}
+                                        />
+                                    </button>
+                                    <span
+                                        onClick={() => editForm.setData('is_active', !editForm.data.is_active)}
+                                        className="text-xs font-bold text-[#050316] cursor-pointer select-none"
+                                    >
+                                        Aktif & Tampilkan di POS
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex justify-end items-center gap-4 mt-8 pt-4 border-t border-[#dddbff]/30">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setShowEditModal(false)
+                                        editForm.reset()
+                                        setImagePreview(menu.image_url ?? null)
+                                    }}
+                                    className="px-6 py-2.5 text-xs font-extrabold text-[#2f27ce] hover:text-[#050316] transition-colors"
+                                >
+                                    Batal
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={editForm.processing}
+                                    className="bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-[#2f27ce]/20 disabled:opacity-50"
+                                >
+                                    {editForm.processing ? 'Menyimpan...' : 'Simpan Perubahan'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

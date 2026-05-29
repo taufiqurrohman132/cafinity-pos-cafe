@@ -58,6 +58,13 @@ class Menu extends Model
             ->where('is_active', true);
     }
 
+    public function audits()
+    {
+        return $this->hasMany(AuditLog::class, 'target_id')
+            ->where('target_type', self::class)
+            ->latest();
+    }
+
     public function getActiveBundleAttribute()
     {
         if ($this->relationLoaded('activeBundle')) {

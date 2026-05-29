@@ -37,6 +37,11 @@ class Recipe extends Model
 
     public function recalculateHpp(): void
     {
+        // Jika tidak ada bahan baku terdaftar, jangan menimpa estimasi HPP manual
+        if ($this->ingredients()->count() === 0) {
+            return;
+        }
+
         $hpp = (int) $this->ingredients->sum(function ($item) {
             return $item->pivot->qty * $item->price_per_unit;
         });
