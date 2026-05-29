@@ -5,18 +5,25 @@ import AppLayout from '@/Layouts/AppLayout';
 // ── Stat Card Component ──────────────────────────────────────────
 function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor }) {
     return (
-        <div className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-xl ${iconBg} flex items-center justify-center flex-shrink-0`}>
-                <iconify-icon icon={icon} class={`text-2xl ${iconColor}`}></iconify-icon>
-            </div>
-            <div className="flex-1 min-w-0">
-                <p className="text-xs font-bold text-[#2f27ce]/70 capitalize tracking-wide truncate">{title}</p>
-                <p className="text-xl font-extrabold text-[#050316] mt-0.5 truncate">{value}</p>
+        <div className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm hover:shadow-lg hover:shadow-[#2f27ce]/10 transition-all duration-300 group">
+            <div className="flex items-start justify-between mb-3">
+                <div className={`w-11 h-11 rounded-xl ${iconBg} flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
+                    <iconify-icon icon={icon} class={`text-2xl ${iconColor}`}></iconify-icon>
+                </div>
                 {trend && (
-                    <p className={`text-[11px] font-bold mt-0.5 ${trendType === 'up' ? 'text-emerald-500' : 'text-rose-500'}`}>
-                        {trendType === 'up' ? '▲' : '▼'} {trend} vs kemarin
-                    </p>
+                    <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full border ${
+                        trendType === 'up'
+                            ? 'bg-emerald-50 border-emerald-100 text-emerald-600'
+                            : 'bg-rose-50 border-rose-100 text-rose-600'
+                    }`}>
+                        <span>{trendType === 'up' ? '▲' : '▼'}</span>
+                        <span>{trend}</span>
+                    </span>
                 )}
+            </div>
+            <div className="mt-1">
+                <p className="text-sm text-[#2f27ce]/50 font-medium truncate">{title}</p>
+                <p className="text-xl md:text-2xl font-extrabold text-[#050316] mt-0.5 tracking-tight truncate">{value}</p>
             </div>
         </div>
     );
@@ -92,33 +99,47 @@ function SalesChart({ initialLabels, initialValues }) {
                 ))}
             </div>
 
-            {/* Chart */}
             {/* Chart Container */}
             <div className="overflow-x-auto pb-2 scrollbar-auto">
-                <div className="h-56 md:h-64 min-w-[550px] w-full flex items-end justify-between gap-1.5 px-2 relative pt-8">
-                    {loading && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-white/70 rounded-xl z-30">
-                            <iconify-icon icon="svg-spinners:ring-resize" class="text-3xl text-[#443dff]"></iconify-icon>
-                        </div>
-                    )}
-                    {chartData.values.length === 0 && !loading ? (
-                        <p className="w-full text-center text-[#2f27ce] italic text-sm py-16">Belum ada penjualan</p>
-                    ) : (
-                        chartData.values.map((point, i) => (
-                            <div key={i} className="flex-1 flex flex-col items-center gap-1 group cursor-pointer relative">
-                                <span className="absolute bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 text-[9px] font-extrabold text-white opacity-0 group-hover:opacity-100 transition-opacity bg-[#050316] px-2 py-0.5 rounded-md shadow-md whitespace-nowrap z-20 pointer-events-none">
-                                    Rp {point.amount?.toLocaleString('id-ID')}
-                                </span>
-                                <div
-                                    className="w-full bg-[#443dff] rounded-t-md transition-all duration-300 group-hover:bg-[#2f27ce] min-h-[4px] shadow-sm"
-                                    style={{ height: `${Math.max(point.height, 4)}%` }}
-                                ></div>
-                                <span className="text-[10px] font-bold text-[#2f27ce]/50 group-hover:text-[#050316] transition-colors whitespace-nowrap">
-                                    {chartData.labels[i]}
-                                </span>
+                <div className="h-56 md:h-64 min-w-[550px] w-full relative pt-8 px-2">
+                    {/* Background Grid Lines */}
+                    <div className="absolute inset-x-0 bottom-[24px] top-8 flex flex-col justify-between pointer-events-none z-0">
+                        <div className="border-t border-[#dddbff]/40 w-full"></div>
+                        <div className="border-t border-[#dddbff]/40 w-full"></div>
+                        <div className="border-t border-[#dddbff]/40 w-full"></div>
+                        <div className="border-t border-[#dddbff]/40 w-full"></div>
+                    </div>
+
+                    <div className="h-full w-full flex items-end justify-between gap-1.5 relative z-10">
+                        {loading && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-white/70 rounded-xl z-30">
+                                <iconify-icon icon="svg-spinners:ring-resize" class="text-3xl text-[#443dff]"></iconify-icon>
                             </div>
-                        ))
-                    )}
+                        )}
+                        {chartData.values.length === 0 && !loading ? (
+                            <p className="w-full text-center text-[#2f27ce] italic text-sm py-16">Belum ada penjualan</p>
+                        ) : (
+                            chartData.values.map((point, i) => (
+                                <div key={i} className="flex-1 flex flex-col items-center gap-1.5 group cursor-pointer relative h-full justify-end pb-[20px]">
+                                    {/* Tooltip */}
+                                    <span className="absolute bottom-[calc(100%-8px)] left-1/2 -translate-x-1/2 text-[10px] font-extrabold text-[#fbfbfe] opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 backdrop-blur-md bg-[#050316]/95 px-2.5 py-1 rounded-lg shadow-lg border border-white/10 whitespace-nowrap z-20 pointer-events-none">
+                                        Rp {point.amount?.toLocaleString('id-ID')}
+                                    </span>
+                                    {/* Bar */}
+                                    <div
+                                        className="w-full bg-gradient-to-t from-[#2f27ce] to-[#443dff] rounded-t-lg transition-all duration-300 group-hover:from-[#050316] group-hover:to-[#2f27ce] min-h-[4px] shadow-sm relative overflow-hidden"
+                                        style={{ height: `${Math.max(point.height, 4)}%` }}
+                                    >
+                                        <div className="absolute inset-x-0 top-0 h-[2px] bg-white/20"></div>
+                                    </div>
+                                    {/* Label */}
+                                    <span className="absolute bottom-0 text-[10px] font-extrabold text-[#2f27ce]/50 group-hover:text-[#050316] transition-colors whitespace-nowrap">
+                                        {chartData.labels[i]}
+                                    </span>
+                                </div>
+                            ))
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -256,54 +277,97 @@ export default function OwnerDashboard({
                             {/* Menu Terlaris */}
                             <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm">
                                 <div className="flex justify-between items-center mb-5">
-                                    <h3 className="font-extrabold text-[#050316] tracking-tight">Menu Terlaris</h3>
+                                    <div>
+                                        <h3 className="font-extrabold text-[#050316] tracking-tight">Menu Terlaris</h3>
+                                        <p className="text-[10px] text-[#2f27ce]/60 font-bold uppercase tracking-wider mt-0.5">Penjualan tertinggi hari ini</p>
+                                    </div>
                                     <Link href="/menus" className="text-xs text-[#443dff] font-extrabold hover:text-[#2f27ce] hover:underline transition-colors">
                                         Lihat Katalog
                                     </Link>
                                 </div>
-                                <div className="space-y-4">
+                                <div className="space-y-3">
                                     {bestSellingMenus.length === 0 ? (
                                         <p className="text-sm text-[#2f27ce] italic text-center py-4">Belum ada data penjualan menu hari ini.</p>
-                                    ) : bestSellingMenus.map((menu, i) => (
-                                        <div key={i} className="flex items-center justify-between p-2.5 hover:bg-[#dddbff]/20 rounded-xl transition-colors">
-                                            <div className="flex flex-wrap items-center gap-3">
-                                                <div className="w-12 h-12 bg-[#dddbff]/30 border border-[#dddbff] rounded-xl flex items-center justify-center text-2xl shadow-sm">
-                                                    {menu.emoji}
+                                    ) : bestSellingMenus.map((menu, i) => {
+                                        const rankColors = [
+                                            'bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-amber-200/50',
+                                            'bg-gradient-to-br from-slate-400 to-slate-600 text-white shadow-slate-200/50',
+                                            'bg-gradient-to-br from-amber-600 to-orange-700 text-white shadow-orange-200/50',
+                                        ][i] ?? 'bg-[#dddbff] text-[#2f27ce]';
+
+                                        return (
+                                            <div key={i} className="flex items-center justify-between p-3 hover:bg-[#dddbff]/10 border border-transparent hover:border-[#dddbff]/50 rounded-2xl transition-all duration-300 hover:shadow-sm">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="relative">
+                                                        <div className="w-12 h-12 bg-gradient-to-br from-[#dddbff]/10 to-[#dddbff]/30 border border-[#dddbff] rounded-xl flex items-center justify-center text-2xl shadow-sm">
+                                                            {menu.emoji}
+                                                        </div>
+                                                        <span className={`absolute -top-1.5 -left-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold shadow-md border border-white ${rankColors}`}>
+                                                            {i + 1}
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm font-extrabold text-[#050316] tracking-tight">{menu.name}</p>
+                                                        <p className="text-[10px] font-bold text-[#2f27ce]/60 uppercase tracking-wider">{menu.category}</p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <p className="text-sm font-extrabold text-[#050316]">{menu.name}</p>
-                                                    <p className="text-xs font-medium text-[#2f27ce]">{menu.category}</p>
+                                                <div className="text-right">
+                                                    <p className="text-sm font-extrabold text-[#050316] tracking-tight">{menu.sold}</p>
+                                                    <p className={`text-[10px] font-bold mt-0.5 ${menu.trend_type === 'up' ? 'text-emerald-500' : 'text-rose-500'}`}>
+                                                        {menu.trend_type === 'up' ? '▲' : '▼'} {menu.trend}
+                                                    </p>
                                                 </div>
                                             </div>
-                                            <div className="text-right">
-                                                <p className="text-sm font-extrabold text-[#050316]">{menu.sold}</p>
-                                                <p className={`text-[10px] font-bold ${menu.trend_type === 'up' ? 'text-emerald-500' : 'text-rose-500'}`}>
-                                                    {menu.trend} vs kemarin
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             </div>
 
                             {/* Jam Sibuk */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm">
-                                <h3 className="font-extrabold text-[#050316] tracking-tight mb-5">Jam Sibuk</h3>
-                                <div className="flex items-end justify-between h-40 pt-4 gap-2">
-                                    {busyHours.map((slot, i) => (
-                                        <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
-                                            <div
-                                                className="w-full bg-[#dddbff] rounded-t-md transition-all duration-300 group-hover:bg-[#443dff] min-h-[4px] shadow-sm"
-                                                style={{ height: `${Math.max(slot.height, 4)}%` }}
-                                                title={`${slot.count} transaksi`}
-                                            ></div>
-                                        </div>
-                                    ))}
+                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm flex flex-col justify-between">
+                                <div>
+                                    <h3 className="font-extrabold text-[#050316] tracking-tight">Jam Sibuk</h3>
+                                    <p className="text-[10px] text-[#2f27ce]/60 font-bold uppercase tracking-wider mt-0.5">Tingkat hunian transaksi harian</p>
                                 </div>
-                                <div className="flex justify-between mt-3 text-[10px] text-[#2f27ce] font-extrabold">
-                                    {busyHours.map((slot, i) => (
-                                        <span key={i}>{slot.label}</span>
-                                    ))}
+                                <div className="relative h-40 mt-6 pt-4 px-1">
+                                    {/* Background Grid Lines */}
+                                    <div className="absolute inset-x-0 bottom-[20px] top-4 flex flex-col justify-between pointer-events-none z-0">
+                                        <div className="border-t border-[#dddbff]/30 w-full"></div>
+                                        <div className="border-t border-[#dddbff]/30 w-full"></div>
+                                        <div className="border-t border-[#dddbff]/30 w-full"></div>
+                                    </div>
+                                    
+                                    <div className="h-full flex items-end justify-between gap-3 relative z-10">
+                                        {busyHours.map((slot, i) => {
+                                            const isPeak = slot.height >= 75;
+                                            const isMedium = slot.height >= 35 && slot.height < 75;
+                                            
+                                            let barGradient = 'from-[#dddbff]/60 to-[#443dff]/20';
+                                            if (isPeak) {
+                                                barGradient = 'from-[#2f27ce] to-[#443dff]';
+                                            } else if (isMedium) {
+                                                barGradient = 'from-[#443dff]/60 to-[#443dff]';
+                                            }
+
+                                            return (
+                                                <div key={i} className="flex-1 flex flex-col items-center gap-1.5 group cursor-pointer relative h-full justify-end pb-[20px]">
+                                                    {/* Tooltip */}
+                                                    <span className="absolute bottom-[calc(100%-8px)] left-1/2 -translate-x-1/2 text-[9px] font-extrabold text-[#fbfbfe] opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 backdrop-blur-md bg-[#050316]/95 px-2 py-0.5 rounded-md shadow-md whitespace-nowrap z-20 pointer-events-none">
+                                                        {slot.count} Transaksi
+                                                    </span>
+                                                    {/* Bar */}
+                                                    <div
+                                                        className={`w-full bg-gradient-to-t ${barGradient} rounded-t-md transition-all duration-300 group-hover:from-[#050316] group-hover:to-[#2f27ce] min-h-[4px] shadow-sm`}
+                                                        style={{ height: `${Math.max(slot.height, 4)}%` }}
+                                                    ></div>
+                                                    {/* Label */}
+                                                    <span className="absolute bottom-0 text-[10px] font-extrabold text-[#2f27ce]/50 group-hover:text-[#050316] transition-colors">
+                                                        {slot.label}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -335,12 +399,33 @@ export default function OwnerDashboard({
                                                 </td>
                                             </tr>
                                         ) : profitability.map((row, i) => (
-                                            <tr key={i} className="border-b border-[#dddbff]/50 last:border-0 hover:bg-[#dddbff]/10 transition-colors">
-                                                <td className="py-4 font-bold text-[#050316]">{row.name}</td>
-                                                <td className="py-4 font-medium text-[#050316]/70">{row.price}</td>
-                                                <td className="py-4 font-medium text-[#050316]/70">{row.hpp}</td>
+                                            <tr key={i} className="border-b border-[#dddbff]/30 last:border-0 hover:bg-[#dddbff]/10 transition-colors">
+                                                <td className="py-4 font-bold text-[#050316]">
+                                                    <div className="flex items-center gap-2">
+                                                        <span>{row.name}</span>
+                                                        {row.margin_pct >= 50 && (
+                                                            <span className="text-[9px] font-extrabold bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-0.5 rounded-md">
+                                                                High Margin
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                                <td className="py-4 font-semibold text-[#050316]/80">{row.price}</td>
+                                                <td className="py-4 font-medium text-[#2f27ce]/60">{row.hpp}</td>
                                                 <td className="py-4 text-emerald-600 font-extrabold">{row.profit}</td>
-                                                <td className="py-4 text-right font-extrabold text-[#050316]">{row.margin}</td>
+                                                <td className="py-4">
+                                                    <div className="flex items-center justify-end gap-3">
+                                                        <div className="w-16 bg-[#dddbff]/40 h-2 rounded-full overflow-hidden hidden sm:block">
+                                                            <div 
+                                                                className={`h-full rounded-full ${
+                                                                    row.margin_pct >= 50 ? 'bg-emerald-500' : 'bg-amber-400'
+                                                                }`} 
+                                                                style={{ width: `${row.margin_pct}%` }}
+                                                            ></div>
+                                                        </div>
+                                                        <span className="font-extrabold text-[#050316] text-right min-w-[32px]">{row.margin}</span>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -353,34 +438,34 @@ export default function OwnerDashboard({
                     <div className="xl:col-span-3 space-y-6">
 
                         {/* Goal Hari Ini */}
-                        <div className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-[#dddbff] rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                        <div className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm relative overflow-hidden hover:shadow-md transition-all duration-300">
+                            <div className="absolute top-0 right-0 w-28 h-28 bg-[#443dff]/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
                             <div className="relative z-10">
-                                <div className="flex justify-between items-center mb-4">
-                                    <h3 className="text-[11px] font-extrabold uppercase tracking-widest text-[#2f27ce]">Goal Hari Ini</h3>
-                                    <span className="text-[#443dff] font-extrabold text-sm">{dailyGoal.progress}%</span>
+                                <div className="flex justify-between items-center mb-3">
+                                    <h3 className="text-[10px] font-bold uppercase tracking-wider text-[#2f27ce]/70">Goal Hari Ini</h3>
+                                    <span className="text-[#2f27ce] font-extrabold text-xs bg-[#dddbff]/40 px-2 py-0.5 rounded-md">{dailyGoal.progress}%</span>
                                 </div>
-                                <div className="w-full bg-[#dddbff]/50 h-2.5 rounded-full overflow-hidden mb-3 shadow-inner">
-                                    <div className="bg-[#443dff] h-full transition-all duration-500 ease-out" style={{ width: `${dailyGoal.progress}%` }}></div>
+                                <div className="w-full bg-[#dddbff]/30 h-2.5 rounded-full overflow-hidden mb-4 border border-[#dddbff]/30">
+                                    <div className="bg-gradient-to-r from-[#2f27ce] to-[#443dff] h-full transition-all duration-700 ease-out rounded-full" style={{ width: `${dailyGoal.progress}%` }}></div>
                                 </div>
-                                <p className="text-[11px] font-medium text-[#2f27ce] leading-relaxed">
+                                <p className="text-[11px] font-medium text-[#2f27ce]/95 leading-relaxed">
                                     {dailyGoal.progress >= 100 ? (
-                                        <>Target <span className="font-extrabold text-[#050316]">{dailyGoal.target}</span> tercapai! 🎉</>
+                                        <span className="text-emerald-600 font-extrabold">Target {dailyGoal.target} tercapai! 🎉</span>
                                     ) : (
-                                        <>Tinggal <span className="font-extrabold text-[#050316]">{dailyGoal.remaining}</span> lagi untuk mencapai target {dailyGoal.target}
-                                            {dailyGoal.label && <span className="block mt-0.5 text-[#2f27ce]/70 italic">({dailyGoal.label})</span>}
+                                        <>Tinggal <span className="font-extrabold text-[#050316]">{dailyGoal.remaining}</span> lagi untuk mencapai target <span className="font-extrabold text-[#050316]">{dailyGoal.target}</span>
+                                            {dailyGoal.label && <span className="block mt-1 text-[10px] text-[#2f27ce]/60 italic font-bold">Label: {dailyGoal.label}</span>}
                                         </>
                                     )}
                                 </p>
                                 {(!currentTarget || dailyGoal.progress < 100) ? (
                                     <button onClick={() => setShowTargetModal(true)}
-                                        className="w-full mt-4 py-2.5 text-xs font-extrabold text-[#2f27ce] bg-[#dddbff]/30 rounded-xl border border-[#dddbff] hover:bg-[#dddbff] hover:text-[#050316] hover:border-[#443dff] transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                                        className="w-full mt-4 py-2.5 text-xs font-extrabold text-[#2f27ce] bg-[#dddbff]/20 rounded-xl border border-[#dddbff] hover:bg-[#dddbff] hover:text-[#050316] transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
                                         <iconify-icon icon="solar:target-linear" class="text-sm text-[#443dff]"></iconify-icon>
                                         {currentTarget ? 'Ubah Target' : 'Set Target Hari Ini'}
                                     </button>
                                 ) : (
                                     <Link href="/targets-goals"
-                                        className="block mt-4 w-full py-2.5 text-xs font-bold text-[#fbfbfe] bg-[#443dff] rounded-xl hover:bg-[#2f27ce] transition-colors text-center">
+                                        className="block mt-4 w-full py-2.5 text-xs font-bold text-[#fbfbfe] bg-[#443dff] rounded-xl hover:bg-[#2f27ce] transition-colors text-center shadow-md active:scale-[0.98]">
                                         Lihat Detail Target →
                                     </Link>
                                 )}
@@ -388,30 +473,31 @@ export default function OwnerDashboard({
                         </div>
 
                         {/* Alert Stok Rendah */}
-                        <div className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm">
+                        <div className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm hover:shadow-md transition-all duration-300">
                             <div className="flex justify-between items-center mb-5">
                                 <div className="flex items-center gap-2">
                                     <iconify-icon icon="solar:box-minimalistic-linear" class="text-lg text-rose-500"></iconify-icon>
                                     <h3 className="text-sm font-extrabold text-[#050316]">Alert Stok Rendah</h3>
                                 </div>
-                                <span className="bg-rose-100 text-rose-700 text-[10px] px-2.5 py-1 rounded-md font-extrabold border border-rose-200">
+                                <span className="bg-rose-50 text-rose-600 text-[10px] px-2.5 py-0.5 rounded-full font-bold border border-rose-100 flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-pulse"></span>
                                     {lowStockItems.length} Item
                                 </span>
                             </div>
-                            <div className="space-y-3">
+                            <div className="space-y-2.5">
                                 {lowStockItems.length === 0 ? (
                                     <p className="text-xs text-[#2f27ce] italic text-center py-2">Semua stok dalam kondisi aman.</p>
                                 ) : lowStockItems.map((item, i) => (
                                     <Link key={i} href={`/inventories/${item.id}`}
-                                        className="block p-3 bg-rose-50/80 rounded-xl border border-rose-200 hover:bg-rose-100 hover:border-rose-300 transition-all group">
+                                        className="block p-3 bg-rose-50/40 rounded-xl border border-rose-100 hover:bg-rose-50 hover:border-rose-300 hover:shadow-sm transition-all duration-200 group">
                                         <div className="flex justify-between items-center gap-2">
-                                            <div>
-                                                <p className="text-xs font-bold text-[#050316] group-hover:text-rose-900 transition-colors">{item.name}</p>
+                                            <div className="min-w-0">
+                                                <p className="text-xs font-bold text-[#050316] group-hover:text-rose-900 transition-colors truncate">{item.name}</p>
                                                 <p className="text-[10px] font-medium text-rose-500 mt-0.5">
                                                     Sisa <span className="font-bold">{item.stock} {item.unit}</span> (min {item.min_stock})
                                                 </p>
                                             </div>
-                                            <span className="text-[10px] font-bold text-rose-600 opacity-0 group-hover:opacity-100 transition flex-shrink-0 bg-white px-2 py-1 rounded-lg shadow-sm border border-rose-100">
+                                            <span className="text-[10px] font-bold text-rose-600 opacity-0 group-hover:opacity-100 transition-all duration-200 flex-shrink-0 bg-white px-2 py-1 rounded-lg shadow-sm border border-rose-100">
                                                 Detail →
                                             </span>
                                         </div>
@@ -419,17 +505,17 @@ export default function OwnerDashboard({
                                 ))}
                             </div>
                             <Link href="/inventories"
-                                className="block w-full mt-4 py-2.5 text-xs font-extrabold text-[#2f27ce] border border-[#dddbff] bg-[#fbfbfe] rounded-xl hover:bg-[#dddbff] hover:text-[#050316] text-center transition-colors">
+                                className="block w-full mt-4 py-2.5 text-xs font-extrabold text-[#2f27ce] border border-[#dddbff] bg-[#fbfbfe] rounded-xl hover:bg-[#dddbff]/50 hover:text-[#050316] text-center transition-colors">
                                 Manajemen Inventaris
                             </Link>
                         </div>
 
                         {/* Antrean Dapur */}
-                        <div className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm">
+                        <div className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm hover:shadow-md transition-all duration-300">
                             <div className="flex justify-between items-center mb-5">
                                 <h3 className="text-sm font-extrabold text-[#050316]">Antrean Dapur</h3>
                                 <div className="flex items-center gap-1.5">
-                                    <span className="flex items-center gap-1 text-[10px] font-bold text-[#2f27ce] bg-[#dddbff]/50 px-2 py-0.5 rounded-md">
+                                    <span className="flex items-center gap-1.5 text-[10px] font-bold text-[#2f27ce] bg-[#dddbff]/30 border border-[#dddbff]/50 px-2.5 py-0.5 rounded-full shadow-sm">
                                         <span className="w-1.5 h-1.5 bg-[#443dff] rounded-full animate-pulse"></span> Live
                                     </span>
                                     <Link href="/kitchen-orders" className="text-[10px] text-[#443dff] font-extrabold hover:text-[#2f27ce] hover:underline ml-1">
@@ -437,14 +523,14 @@ export default function OwnerDashboard({
                                     </Link>
                                 </div>
                             </div>
-                            <div className="space-y-3">
+                            <div className="space-y-2.5">
                                 {kitchenQueue.length === 0 ? (
                                     <p className="text-xs text-[#2f27ce] italic text-center py-2">Tidak ada pesanan di dapur saat ini.</p>
                                 ) : kitchenQueue.map((order, i) => {
                                     const s = statusLabel[order.status] ?? statusLabel.pending;
                                     return (
                                         <Link key={i} href="/kitchen-orders"
-                                            className="block p-3 rounded-xl border border-[#dddbff] hover:bg-[#dddbff]/20 hover:border-[#443dff] hover:shadow-sm transition-all group relative overflow-hidden">
+                                            className="block p-3 rounded-xl border border-[#dddbff] hover:bg-[#dddbff]/10 hover:border-[#443dff] hover:shadow-sm transition-all duration-200 group relative overflow-hidden">
                                             <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${statusColor[order.status] ?? statusColor.pending}`}></div>
                                             <div className="flex justify-between items-start gap-3 pl-3">
                                                 <div className="flex-1 min-w-0">
@@ -453,7 +539,7 @@ export default function OwnerDashboard({
                                                         <span className="font-medium text-[#2f27ce]">{order.items}</span>
                                                     </p>
                                                     <div className="flex items-center gap-2 mt-1.5">
-                                                        <span className="flex items-center gap-0.5 text-[10px] font-bold text-[#2f27ce]">
+                                                        <span className="flex items-center gap-0.5 text-[10px] font-bold text-[#2f27ce]/60">
                                                             <iconify-icon icon="solar:clock-circle-linear" class="text-[14px]"></iconify-icon>
                                                             {order.time_ago}
                                                         </span>

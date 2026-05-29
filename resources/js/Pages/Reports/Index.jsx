@@ -18,36 +18,27 @@ const trendClass = (type) =>
 // ── StatCard ─────────────────────────────────────────────────────────────────
 function StatCard({ title, value, trend, trendType, iconBg, iconColor, icon }) {
     return (
-        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 flex items-start gap-4">
-            <div
-                className={`w-11 h-11 rounded-xl ${iconBg} flex items-center justify-center flex-shrink-0`}
-            >
-                <iconify-icon
-                    icon={icon}
-                    class={`${iconColor} text-xl`}
-                ></iconify-icon>
+        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 hover:shadow-lg hover:shadow-[#2f27ce]/10 transition-all duration-300 group">
+            <div className="flex items-start justify-between mb-3">
+                <div className={`w-11 h-11 rounded-xl ${iconBg} flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
+                    <iconify-icon icon={icon} class={`${iconColor} text-xl`}></iconify-icon>
+                </div>
+                {trend && (
+                    <span className={`inline-flex items-center gap-1 text-xs font-bold border px-2 py-0.5 rounded-full ${trendClass(trendType)}`}>
+                        <iconify-icon
+                            icon={trendType === "up" ? "solar:arrow-up-bold" : "solar:arrow-down-bold"}
+                            class="text-[11px]"
+                        ></iconify-icon>
+                        {trend}
+                    </span>
+                )}
             </div>
-            <div className="flex-1 min-w-0">
-                <p className="text-xs font-bold text-[#2f27ce] uppercase tracking-wide truncate">
-                    {title}
-                </p>
-                <p className="text-xl font-extrabold text-[#050316] mt-0.5 truncate">
-                    {value}
-                </p>
-                <span
-                    className={`inline-flex items-center gap-1 text-xs font-bold border px-2 py-0.5 rounded-full mt-1.5 ${trendClass(trendType)}`}
-                >
-                    <iconify-icon
-                        icon={
-                            trendType === "up"
-                                ? "solar:arrow-up-bold"
-                                : "solar:arrow-down-bold"
-                        }
-                        class="text-[11px]"
-                    ></iconify-icon>
-                    {trend}
-                </span>
-            </div>
+            <p className="text-xs font-bold text-[#2f27ce] uppercase tracking-wide truncate">
+                {title}
+            </p>
+            <p className="text-xl font-extrabold text-[#050316] mt-0.5 truncate">
+                {value}
+            </p>
         </div>
     );
 }

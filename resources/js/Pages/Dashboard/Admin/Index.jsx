@@ -29,8 +29,8 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                 { title: 'Total SKU',        value: stats?.total_sku     ?? '0 Item',   icon: 'solar:box-bold-duotone',                       iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600', note: 'Item aktif di inventaris', noteColor: 'text-emerald-600' },
                                 { title: 'Nilai Inventaris', value: stats?.inventory_val ?? 'Rp 0',     icon: 'solar:chart-2-bold-duotone',                   iconBg: 'bg-[#dddbff]',   iconColor: 'text-[#443dff]',   note: null,                       noteColor: null },
                             ].map((card, i) => (
-                                <div key={i} className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm flex items-center gap-4">
-                                    <div className={`w-12 h-12 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0`}>
+                                <div key={i} className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-[#2f27ce]/10 transition-all duration-300 group">
+                                    <div className={`w-12 h-12 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
                                         <iconify-icon icon={card.icon} class={`text-2xl ${card.iconColor}`}></iconify-icon>
                                     </div>
                                     <div className="flex-1 min-w-0">

@@ -109,8 +109,8 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                 {/* ── Stat Cards ── */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
                     {statCards.map((card, i) => (
-                        <div key={i} className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 flex items-center gap-4">
-                            <div className={`w-11 h-11 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0`}>
+                        <div key={i} className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 flex items-center gap-4 hover:shadow-lg hover:shadow-[#2f27ce]/10 transition-all duration-300 group">
+                            <div className={`w-11 h-11 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
                                 <iconify-icon icon={card.icon} class={`text-[22px] ${card.iconColor}`} />
                             </div>
                             <div>

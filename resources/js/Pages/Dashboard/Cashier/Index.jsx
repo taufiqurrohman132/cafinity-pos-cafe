@@ -44,9 +44,9 @@ export default function CashierDashboard({ user, stats, recentTransactions, lowS
                                 { title: 'Total Pendapatan', value: stats?.total_cash     ?? 'Rp 0',       note: 'Pendapatan hari ini',    icon: 'solar:wallet-bold',      iconBg: 'bg-emerald-50',   iconColor: 'text-emerald-600' },
                                 { title: 'Waktu Rata-Rata', value: stats?.avg_time        ?? '0 Menit',    note: 'Kecepatan layanan',      icon: 'solar:clock-circle-bold',iconBg: 'bg-orange-50',    iconColor: 'text-orange-500' },
                             ].map((card, i) => (
-                                <div key={i} className="bg-white p-6 rounded-3xl border border-[#dddbff] shadow-sm">
+                                <div key={i} className="bg-white p-6 rounded-3xl border border-[#dddbff] shadow-sm hover:shadow-lg hover:shadow-[#2f27ce]/10 transition-all duration-300 group">
                                     <div className="flex justify-between items-start mb-4">
-                                        <div className={`w-10 h-10 ${card.iconBg} rounded-xl flex items-center justify-center ${card.iconColor}`}>
+                                        <div className={`w-10 h-10 ${card.iconBg} rounded-xl flex items-center justify-center ${card.iconColor} transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
                                             <iconify-icon icon={card.icon} class="text-xl"></iconify-icon>
                                         </div>
                                         <span className="text-[10px] font-bold px-2 py-1 bg-[#fbfbfe] rounded-lg border border-[#dddbff] text-[#2f27ce]">Hari Ini</span>

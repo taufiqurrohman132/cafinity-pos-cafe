@@ -42,7 +42,7 @@ export default function TransactionHistory({ transactions, filters, stats }) {
     const handleParamChange = (key, value) => {
         const newParams = { ...params, [key]: value };
         setParams(newParams);
-        
+
         if (['date', 'status', 'method'].includes(key)) {
             submitFilters(newParams);
         }
@@ -78,8 +78,8 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                             </p>
                         </div>
                         <div className="flex items-center gap-3">
-                            <a 
-                                href={route('transactions.export', params)} 
+                            <a
+                                href={route('transactions.export', params)}
                                 className="flex items-center gap-2 px-4 py-2.5 bg-white border border-[#dddbff] rounded-xl text-sm font-bold text-[#2f27ce] hover:bg-[#dddbff]/50 hover:text-[#050316] transition-all shadow-sm"
                             >
                                 <Icon icon="solar:download-linear" className="text-lg" />
@@ -88,11 +88,11 @@ export default function TransactionHistory({ transactions, filters, stats }) {
 
                             {/* Date Filter */}
                             <div className="relative">
-                                <input 
-                                    type="date" 
+                                <input
+                                    type="date"
                                     value={params.date}
                                     onChange={(e) => handleParamChange('date', e.target.value)}
-                                    className="appearance-none pl-10 pr-4 py-2.5 bg-gradient-to-r from-[#443dff] to-[#2f27ce] text-white rounded-xl text-sm font-bold cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#dddbff] focus:border-[#2f27ce] transition-all shadow-lg shadow-[#443dff]/30 [color-scheme:dark]" 
+                                    className="appearance-none pl-10 pr-4 py-2.5 bg-gradient-to-r from-[#443dff] to-[#2f27ce] text-white rounded-xl text-sm font-bold cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#dddbff] focus:border-[#2f27ce] transition-all shadow-lg shadow-[#443dff]/30 [color-scheme:dark]"
                                 />
                                 <Icon icon="solar:calendar-linear" className="absolute left-3 top-1/2 -translate-y-1/2 text-white text-base pointer-events-none" />
                             </div>
@@ -101,59 +101,54 @@ export default function TransactionHistory({ transactions, filters, stats }) {
 
                     {/* ====== STAT CARDS ====== */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 flex items-center gap-4 group hover:shadow-lg hover:shadow-[#443dff]/10 hover:border-[#443dff] transition-all">
-                            <div className="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] flex-shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all">
-                                <Icon icon="solar:card-linear" className="text-xl" />
+                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 group hover:shadow-lg hover:shadow-[#443dff]/10 hover:border-[#443dff] transition-all">
+                            <div className="flex items-start justify-between mb-3">
+                                <div className="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] flex-shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all">
+                                    <Icon icon="solar:card-linear" className="text-xl" />
+                                </div>
+                                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-lg flex-shrink-0">+12.5%</span>
                             </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Total Penjualan</p>
-                                <p className="text-xl font-black text-[#050316] leading-tight">
-                                    Rp {formatRp(stats.total_revenue)}
-                                </p>
-                            </div>
-                            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-lg flex-shrink-0">+12.5%</span>
+                            <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Total Penjualan</p>
+                            <p className="text-xl font-black text-[#050316] leading-tight mt-0.5">Rp {formatRp(stats.total_revenue)}</p>
                         </div>
-                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 flex items-center gap-4 group hover:shadow-lg hover:shadow-[#443dff]/10 hover:border-[#443dff] transition-all">
-                            <div className="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] flex-shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all">
-                                <Icon icon="solar:cart-large-2-linear" className="text-xl" />
+
+                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 group hover:shadow-lg hover:shadow-[#443dff]/10 hover:border-[#443dff] transition-all">
+                            <div className="flex items-start justify-between mb-3">
+                                <div className="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] flex-shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all">
+                                    <Icon icon="solar:cart-large-2-linear" className="text-xl" />
+                                </div>
+                                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-lg flex-shrink-0">+5.2%</span>
                             </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Jumlah Transaksi</p>
-                                <p className="text-xl font-black text-[#050316] leading-tight">
-                                    {stats.total_transactions}
-                                </p>
-                            </div>
-                            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-lg flex-shrink-0">+5.2%</span>
+                            <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Jumlah Transaksi</p>
+                            <p className="text-xl font-black text-[#050316] leading-tight mt-0.5">{stats.total_transactions}</p>
                         </div>
-                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 flex items-center gap-4 group hover:shadow-lg hover:shadow-[#443dff]/10 hover:border-[#443dff] transition-all">
-                            <div className="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] flex-shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all">
-                                <Icon icon="solar:wallet-linear" className="text-xl" />
+
+                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 group hover:shadow-lg hover:shadow-[#443dff]/10 hover:border-[#443dff] transition-all">
+                            <div className="flex items-start justify-between mb-3">
+                                <div className="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] flex-shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all">
+                                    <Icon icon="solar:wallet-linear" className="text-xl" />
+                                </div>
+                                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-lg flex-shrink-0">+2.1%</span>
                             </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Rata-rata Pesanan</p>
-                                <p className="text-xl font-black text-[#050316] leading-tight">
-                                    Rp {formatRp(stats.avg_order)}
-                                </p>
-                            </div>
-                            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-lg flex-shrink-0">2.1%</span>
+                            <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Rata-rata Pesanan</p>
+                            <p className="text-xl font-black text-[#050316] leading-tight mt-0.5">Rp {formatRp(stats.avg_order)}</p>
                         </div>
-                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 flex items-center gap-4 group hover:shadow-lg hover:shadow-[#443dff]/10 hover:border-[#443dff] transition-all">
-                            <div className="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] flex-shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all">
-                                <Icon icon="solar:restart-circle-linear" className="text-xl" />
+
+                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 group hover:shadow-lg hover:shadow-[#443dff]/10 hover:border-[#443dff] transition-all">
+                            <div className="flex items-start justify-between mb-3">
+                                <div className="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] flex-shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all">
+                                    <Icon icon="solar:restart-circle-linear" className="text-xl" />
+                                </div>
+                                <span className="text-[10px] font-bold text-rose-600 bg-rose-100 px-2 py-0.5 rounded-lg flex-shrink-0">+0.5%</span>
                             </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Refund / Batal</p>
-                                <p className="text-xl font-black text-[#050316] leading-tight">
-                                    {stats.total_refund_cancel}
-                                </p>
-                            </div>
-                            <span className="text-[10px] font-bold text-rose-600 bg-rose-100 px-2 py-0.5 rounded-lg flex-shrink-0">+0.5%</span>
+                            <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Refund / Batal</p>
+                            <p className="text-xl font-black text-[#050316] leading-tight mt-0.5">{stats.total_refund_cancel}</p>
                         </div>
                     </div>
 
                     {/* ====== TABLE CARD ====== */}
                     <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm overflow-hidden">
-                        
+
                         {/* Table Controls (Filters) */}
                         <form onSubmit={handleSearchSubmit}>
                             <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-b border-[#dddbff]/50">
@@ -162,17 +157,17 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                                 <div className="flex flex-wrap items-center gap-2">
                                     <div className="relative">
                                         <Icon icon="solar:magnifer-linear" className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2f27ce]/70 text-[15px]" />
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             value={params.search}
-                                            onChange={(e) => setParams({...params, search: e.target.value})}
-                                            placeholder="Cari ID Invoice..." 
-                                            className="w-[200px] h-[38px] bg-[#fbfbfe] border border-[#dddbff] rounded-xl pl-9 pr-4 text-[13px] font-semibold text-[#050316] placeholder-[#2f27ce]/50 outline-none focus:ring-4 focus:ring-[#dddbff]/50 focus:border-[#443dff] transition-all" 
+                                            onChange={(e) => setParams({ ...params, search: e.target.value })}
+                                            placeholder="Cari ID Invoice..."
+                                            className="w-[200px] h-[38px] bg-[#fbfbfe] border border-[#dddbff] rounded-xl pl-9 pr-4 text-[13px] font-semibold text-[#050316] placeholder-[#2f27ce]/50 outline-none focus:ring-4 focus:ring-[#dddbff]/50 focus:border-[#443dff] transition-all"
                                         />
                                     </div>
 
-                                    <select 
-                                        value={params.status} 
+                                    <select
+                                        value={params.status}
                                         onChange={(e) => handleParamChange('status', e.target.value)}
                                         className="h-[38px] bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-3 text-[13px] font-bold text-[#2f27ce] outline-none focus:ring-4 focus:ring-[#dddbff]/50 focus:border-[#443dff] transition-all cursor-pointer"
                                     >
@@ -183,8 +178,8 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                                         <option value="refunded">Refund</option>
                                     </select>
 
-                                    <select 
-                                        value={params.method} 
+                                    <select
+                                        value={params.method}
                                         onChange={(e) => handleParamChange('method', e.target.value)}
                                         className="h-[38px] bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-3 text-[13px] font-bold text-[#2f27ce] outline-none focus:ring-4 focus:ring-[#dddbff]/50 focus:border-[#443dff] transition-all cursor-pointer"
                                     >
@@ -252,8 +247,8 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                                 <tbody className="divide-y divide-[#dddbff]/50">
                                     {transactions.data.length > 0 ? (
                                         transactions.data.map((trx) => (
-                                            <tr 
-                                                key={trx.id} 
+                                            <tr
+                                                key={trx.id}
                                                 onClick={() => router.get(route('transactions.show', trx.id))}
                                                 className="hover:bg-[#dddbff]/20 active:bg-[#dddbff]/60 transition-all duration-200 group cursor-pointer"
                                             >
@@ -330,8 +325,8 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                             </span>
                             <div className="flex items-center gap-2">
                                 {transactions.prev_page_url ? (
-                                    <Link 
-                                        href={transactions.prev_page_url} 
+                                    <Link
+                                        href={transactions.prev_page_url}
                                         className="px-4 py-2 text-[12px] font-extrabold text-[#2f27ce] bg-gradient-to-r from-white to-[#dddbff]/30 border border-[#dddbff] rounded-xl hover:from-[#dddbff] hover:to-[#dddbff]/50 hover:text-[#050316] transition-all shadow-sm"
                                     >
                                         &larr; Sebelumnya
@@ -343,8 +338,8 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                                 )}
 
                                 {transactions.next_page_url ? (
-                                    <Link 
-                                        href={transactions.next_page_url} 
+                                    <Link
+                                        href={transactions.next_page_url}
                                         className="px-4 py-2 text-[12px] font-extrabold text-[#2f27ce] bg-gradient-to-r from-white to-[#dddbff]/30 border border-[#dddbff] rounded-xl hover:from-[#dddbff] hover:to-[#dddbff]/50 hover:text-[#050316] transition-all shadow-sm"
                                     >
                                         Selanjutnya &rarr;
