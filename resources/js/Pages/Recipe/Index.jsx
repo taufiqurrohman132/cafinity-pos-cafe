@@ -1,6 +1,6 @@
 // Recipe/Index.jsx
 import { Head, Link, router, usePage } from '@inertiajs/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AppLayout from '@/Layouts/AppLayout'
 
 export default function RecipeIndex({ recipes, selectedRecipe, inventories, menus }) {
@@ -16,6 +16,18 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
     const hargaJual = selectedRecipe?.menu?.price ?? 0
     const baseMargin = selectedRecipe?.margin ?? 0
     const [sliderVal, setSliderVal] = useState(0)
+    // reset slider & ingredients saat ganti resep
+    useEffect(() => {
+        setSliderVal(0)
+        setIngredients(
+            selectedRecipe?.ingredients?.map(b => ({
+                inventory_id: b.id,
+                qty: b.pivot.qty,
+                unit: b.pivot.unit,
+            })) ?? []
+        )
+        setEditNotes(selectedRecipe?.notes ?? '')
+    }, [selectedRecipe?.id])
 
     const hppBaru = baseHpp * (1 + sliderVal / 100)
     const marginBaru = hargaJual > 0 ? ((hargaJual - hppBaru) / hargaJual * 100) : 0
@@ -29,6 +41,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
             unit: b.pivot.unit,
         })) ?? []
     )
+    const [editNotes, setEditNotes] = useState(selectedRecipe?.notes ?? '')
 
     // Create modal state
     const [createForm, setCreateForm] = useState({
@@ -43,7 +56,10 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
 
     function handleEditSubmit(e) {
         e.preventDefault()
-        router.put(route('recipe.update', selectedRecipe.id), { ingredients }, {
+        router.put(route('recipe.update', selectedRecipe.id), {
+            notes: editNotes,
+            ingredients,
+        }, {
             onSuccess: () => setShowEditModal(false),
             preserveScroll: true,
         })
@@ -144,11 +160,10 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                     href={route('recipe.index', { id: resep.id })}
                                     className="block focus:outline-none focus:ring-2 focus:ring-[#443dff] rounded-xl"
                                 >
-                                    <div className={`p-4 rounded-xl cursor-pointer transition-all duration-200 group relative overflow-hidden ${
-                                        isActive
-                                            ? 'bg-gradient-to-br from-[#443dff] to-[#2f27ce] border-transparent shadow-lg shadow-[#443dff]/20'
-                                            : 'bg-white border border-[#dddbff] hover:border-[#443dff] hover:shadow-md'
-                                    }`}>
+                                    <div className={`p-4 rounded-xl cursor-pointer transition-all duration-200 group relative overflow-hidden ${isActive
+                                        ? 'bg-gradient-to-br from-[#443dff] to-[#2f27ce] border-transparent shadow-lg shadow-[#443dff]/20'
+                                        : 'bg-white border border-[#dddbff] hover:border-[#443dff] hover:shadow-md'
+                                        }`}>
                                         {isActive && (
                                             <div className="absolute top-0 right-0 w-16 h-16 bg-white opacity-5 rounded-full blur-xl -mr-5 -mt-5 pointer-events-none" />
                                         )}
@@ -156,9 +171,8 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                             <p className={`text-sm font-bold line-clamp-1 pr-2 ${isActive ? 'text-white' : 'text-[#050316] group-hover:text-[#443dff] transition-colors'}`}>
                                                 {resep.menu?.name ?? 'Menu Dihapus'}
                                             </p>
-                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${
-                                                isActive ? 'bg-[#050316]/20 text-white border border-white/10' : 'bg-[#dddbff]/50 text-[#2f27ce] border border-[#dddbff]'
-                                            }`}>
+                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${isActive ? 'bg-[#050316]/20 text-white border border-white/10' : 'bg-[#dddbff]/50 text-[#2f27ce] border border-[#dddbff]'
+                                                }`}>
                                                 {resep.margin}%
                                             </span>
                                         </div>
@@ -540,12 +554,13 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                         ))}
                                     </select>
                                 </div>
-                                <div>
+                                <div className="px-6 pt-4">
                                     <label className="text-[10px] font-bold text-[#2f27ce] uppercase tracking-wider">Catatan (opsional)</label>
                                     <textarea
-                                        value={createForm.notes}
-                                        onChange={(e) => setCreateForm(prev => ({ ...prev, notes: e.target.value }))}
+                                        value={editNotes}
+                                        onChange={(e) => setEditNotes(e.target.value)}
                                         rows={2}
+                                        placeholder="Contoh: versi summer, tanpa gula, dll..."
                                         className="mt-1 w-full px-3 py-2.5 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] transition-all resize-none"
                                     />
                                 </div>
@@ -608,7 +623,7 @@ function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove
                     <option value="" disabled>-- Pilih bahan --</option>
                     {inventories.map(inv => (
                         <option key={inv.id} value={inv.id}>
-                            {inv.name} (Rp {Number(inv.price_per_unit).toLocaleString('id-ID')}/{inv.unit})
+                            {inv.name} (Rp {Number(inv.price).toLocaleString('id-ID')}/{inv.unit})
                         </option>
                     ))}
                 </select>

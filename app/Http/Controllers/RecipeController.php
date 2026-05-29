@@ -11,20 +11,27 @@ use Inertia\Response;
 
 class RecipeController extends Controller
 {
-    
     public function index(Request $request): Response
     {
-        $recipes     = Recipe::with(['menu.category', 'ingredients'])->latest()->get();
-        $inventories = Inventory::orderBy('name')->get();
+        $recipes = Recipe::with(['menu.category', 'ingredients'])->latest()->get();
+        $inventories = Inventory::orderBy('name', 'asc')->get(['id', 'name', 'price_per_unit', 'unit']);
+        $menus = Menu::whereDoesntHave('recipe')->orderBy('name', 'asc')->get(['id', 'name', 'price']);
 
         $selectedRecipe = $request->filled('id')
-            ? $recipes->firstWhere('id', $request->id)
+            ? $recipes->where('id', $request->id)->first()
             : $recipes->first();
 
-        // Tambah ini — menu yang belum punya resep
-        $menus = Menu::whereDoesntHave('recipe')->orderBy('name')->get();
-
-        return Inertia::render('Recipe/Index', compact('recipes', 'selectedRecipe', 'inventories', 'menus'));
+        return Inertia::render('Recipe/Index', [
+            'recipes'        => $recipes,
+            'selectedRecipe' => $selectedRecipe,
+            'inventories'    => $inventories->map(fn($i) => [
+                'id'    => $i->id,
+                'name'  => $i->name,
+                'price' => $i->price_per_unit,
+                'unit'  => $i->unit,
+            ]),
+            'menus' => $menus,
+        ]);
     }
 
     public function show(string $id)
@@ -32,50 +39,7 @@ class RecipeController extends Controller
         return redirect()->route('recipe.index', ['id' => $id]);
     }
 
-    // TARUH DI SINI
-    public function create(): View
-    {
-        $menus = Menu::whereDoesntHave('recipe')->orderBy('name')->get();
-        $inventories = Inventory::orderBy('name')->get();
-
-        $inventoriesJson = $inventories->map(function ($i) {
-            return [
-                'id'    => $i->id,
-                'name'  => $i->name,
-                'price' => $i->price_per_unit,
-                'unit'  => $i->unit,
-            ];
-        })->values()->toJson();
-
-        return view('shared.recipe-costiong.create', compact('menus', 'inventories', 'inventoriesJson'));
-    }
-    public function update(Request $request, string $id)
-    {
-        $recipe = Recipe::findOrFail($id);
-
-        $data = $request->validate([
-            'notes'                      => 'nullable|string',
-            'ingredients'                => 'required|array|min:1',
-            'ingredients.*.inventory_id' => 'required|exists:inventories,id',
-            'ingredients.*.qty'          => 'required|numeric|min:0.01',
-            'ingredients.*.unit'         => 'required|string|max:50',
-        ]);
-
-        $recipe->update(['notes' => $data['notes'] ?? null]);
-
-        $sync = collect($data['ingredients'])->mapWithKeys(fn($row) => [
-            $row['inventory_id'] => [
-                'qty'  => $row['qty'],
-                'unit' => $row['unit'],
-            ],
-        ])->all();
-
-        $recipe->ingredients()->sync($sync);
-        $recipe->load('ingredients'); // ← tambah ini
-        $recipe->recalculateHpp();   // ← tambah ini
-
-        return redirect()->route('recipe.index', ['id' => $recipe->id])->with('success', 'Resep diperbarui.');
-    }
+    // create() tidak diperlukan lagi — modal ada di Index
 
     public function store(Request $request)
     {
@@ -94,18 +58,43 @@ class RecipeController extends Controller
         ]);
 
         $sync = collect($data['ingredients'])->mapWithKeys(fn($row) => [
-            $row['inventory_id'] => [
-                'qty'  => $row['qty'],
-                'unit' => $row['unit'],
-            ],
+            $row['inventory_id'] => ['qty' => $row['qty'], 'unit' => $row['unit']],
         ])->all();
 
         $recipe->ingredients()->sync($sync);
-        $recipe->load('ingredients'); // ← tambah ini
-        $recipe->recalculateHpp();   // ← tambah ini
+        $recipe->load('ingredients');
+        $recipe->recalculateHpp();
 
-        return redirect()->route('recipe.index', ['id' => $recipe->id])->with('success', 'Resep ditambahkan.');
+        return redirect()->route('recipe.index', ['id' => $recipe->id])
+            ->with('success', 'Resep ditambahkan.');
     }
+
+    public function update(Request $request, string $id)
+    {
+        $recipe = Recipe::findOrFail($id);
+
+        $data = $request->validate([
+            'notes'                      => 'nullable|string',
+            'ingredients'                => 'required|array|min:1',
+            'ingredients.*.inventory_id' => 'required|exists:inventories,id',
+            'ingredients.*.qty'          => 'required|numeric|min:0.01',
+            'ingredients.*.unit'         => 'required|string|max:50',
+        ]);
+
+        $recipe->update(['notes' => $data['notes'] ?? null]);
+
+        $sync = collect($data['ingredients'])->mapWithKeys(fn($row) => [
+            $row['inventory_id'] => ['qty' => $row['qty'], 'unit' => $row['unit']],
+        ])->all();
+
+        $recipe->ingredients()->sync($sync);
+        $recipe->load('ingredients');
+        $recipe->recalculateHpp();
+
+        return redirect()->route('recipe.index', ['id' => $recipe->id])
+            ->with('success', 'Resep diperbarui.');
+    }
+
     public function destroy(string $id)
     {
         Recipe::findOrFail($id)->delete();

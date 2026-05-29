@@ -10,7 +10,7 @@ function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor }) {
                 <iconify-icon icon={icon} class={`text-2xl ${iconColor}`}></iconify-icon>
             </div>
             <div className="flex-1 min-w-0">
-                <p className="text-xs font-bold text-[#2f27ce]/70 uppercase tracking-wide truncate">{title}</p>
+                <p className="text-xs font-bold text-[#2f27ce]/70 capitalize tracking-wide truncate">{title}</p>
                 <p className="text-xl font-extrabold text-[#050316] mt-0.5 truncate">{value}</p>
                 {trend && (
                     <p className={`text-[11px] font-bold mt-0.5 ${trendType === 'up' ? 'text-emerald-500' : 'text-rose-500'}`}>

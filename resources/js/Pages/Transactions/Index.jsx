@@ -106,7 +106,7 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                                 <Icon icon="solar:card-linear" className="text-xl" />
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-xs text-[#2f27ce] font-extrabold uppercase tracking-wide">Total Penjualan</p>
+                                <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Total Penjualan</p>
                                 <p className="text-xl font-black text-[#050316] leading-tight">
                                     Rp {formatRp(stats.total_revenue)}
                                 </p>
@@ -118,7 +118,7 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                                 <Icon icon="solar:cart-large-2-linear" className="text-xl" />
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-xs text-[#2f27ce] font-extrabold uppercase tracking-wide">Jumlah Transaksi</p>
+                                <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Jumlah Transaksi</p>
                                 <p className="text-xl font-black text-[#050316] leading-tight">
                                     {stats.total_transactions}
                                 </p>
@@ -130,7 +130,7 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                                 <Icon icon="solar:wallet-linear" className="text-xl" />
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-xs text-[#2f27ce] font-extrabold uppercase tracking-wide">Rata-rata Pesanan</p>
+                                <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Rata-rata Pesanan</p>
                                 <p className="text-xl font-black text-[#050316] leading-tight">
                                     Rp {formatRp(stats.avg_order)}
                                 </p>
@@ -142,7 +142,7 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                                 <Icon icon="solar:restart-circle-linear" className="text-xl" />
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-xs text-[#2f27ce] font-extrabold uppercase tracking-wide">Refund / Batal</p>
+                                <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Refund / Batal</p>
                                 <p className="text-xl font-black text-[#050316] leading-tight">
                                     {stats.total_refund_cancel}
                                 </p>
@@ -255,17 +255,17 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                                             <tr 
                                                 key={trx.id} 
                                                 onClick={() => router.get(route('transactions.show', trx.id))}
-                                                className="hover:bg-gradient-to-r hover:from-[#dddbff]/10 hover:to-transparent transition-colors group cursor-pointer"
+                                                className="hover:bg-[#dddbff]/20 active:bg-[#dddbff]/60 transition-all duration-200 group cursor-pointer"
                                             >
                                                 <td className="px-6 py-4 text-[13px] font-extrabold text-[#050316]">
-                                                    <Link href={route('transactions.show', trx.id)} className="hover:text-[#443dff] transition-colors" onClick={(e) => e.stopPropagation()}>
+                                                    <Link href={route('transactions.show', trx.id)} className="group-hover:text-[#443dff] hover:text-[#2f27ce] transition-colors" onClick={(e) => e.stopPropagation()}>
                                                         {trx.id}
                                                     </Link>
                                                 </td>
                                                 <td className="px-6 py-4 text-[13px] font-medium text-[#2f27ce]">
                                                     {formatTime(trx.created_at)}
                                                 </td>
-                                                <td className="px-6 py-4 text-[13px] text-[#050316] font-semibold">
+                                                <td className="px-6 py-4 text-[13px] text-[#050316] font-semibold group-hover:text-[#443dff] transition-colors">
                                                     {trx.cashier?.name || '-'}
                                                 </td>
                                                 <td className="px-6 py-4 text-[13px] font-medium text-[#2f27ce]">
