@@ -29,7 +29,7 @@
 
             {{-- Range Tanggal --}}
             <div>
-                <label class="text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2 block">Range Tanggal</label>
+                <label class="text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2 block">Range Tanggal</label>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="text-xs font-bold text-[#050316] mb-1 block">Dari</label>
@@ -58,7 +58,7 @@
 
             {{-- Filter Kategori Menu --}}
             <div>
-                <label class="text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2 block">Kategori Menu</label>
+                <label class="text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2 block">Kategori Menu</label>
                 <div class="relative">
                     <select name="kategori_id"
                         class="w-full h-11 rounded-xl border border-[#dddbff] focus:border-[#443dff] text-sm font-bold text-[#050316] px-4 pr-10 bg-[#fbfbfe] outline-none appearance-none transition-all">
@@ -75,7 +75,7 @@
 
             {{-- Filter Metode Pembayaran --}}
             <div>
-                <label class="text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2 block">Metode Pembayaran</label>
+                <label class="text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2 block">Metode Pembayaran</label>
                 <div class="flex flex-wrap gap-2">
                     <label class="cursor-pointer">
                         <input type="radio" name="payment_method" value="" class="sr-only peer"
@@ -102,7 +102,7 @@
 
             {{-- Filter Kasir --}}
             <div>
-                <label class="text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2 block">Kasir</label>
+                <label class="text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2 block">Kasir</label>
                 <div class="relative">
                     <select name="kasir_id"
                         class="w-full h-11 rounded-xl border border-[#dddbff] focus:border-[#443dff] text-sm font-bold text-[#050316] px-4 pr-10 bg-[#fbfbfe] outline-none appearance-none transition-all">

@@ -43,7 +43,7 @@
                                 class="text-[10px] font-semibold px-2 py-1 bg-gray-50 rounded-lg border border-gray-100 text-gray-500">Hari
                                 Ini</span>
                         </div>
-                        <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">Total Transaksi</p>
+                        <p class="text-gray-400 text-xs font-bold capitalize tracking-wider">Total Transaksi</p>
                         <h3 class="text-2xl font-bold text-gray-800 mt-1">42 Pesanan</h3>
                         <div class="flex items-center gap-1 mt-3 text-[10px] text-gray-400">
                             <iconify-icon icon="solar:info-circle-linear"></iconify-icon>
@@ -61,7 +61,7 @@
                                 class="text-[10px] font-semibold px-2 py-1 bg-gray-50 rounded-lg border border-gray-100 text-gray-500">Hari
                                 Ini</span>
                         </div>
-                        <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">Total Uang Tunai</p>
+                        <p class="text-gray-400 text-xs font-bold capitalize tracking-wider">Total Uang Tunai</p>
                         <h3 class="text-2xl font-bold text-gray-800 mt-1">Rp 2.450.000</h3>
                         <div class="flex items-center gap-1 mt-3 text-[10px] text-gray-400">
                             <iconify-icon icon="solar:info-circle-linear"></iconify-icon>
@@ -79,7 +79,7 @@
                                 class="text-[10px] font-semibold px-2 py-1 bg-gray-50 rounded-lg border border-gray-100 text-gray-500">Hari
                                 Ini</span>
                         </div>
-                        <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">Waktu Rata-Rata</p>
+                        <p class="text-gray-400 text-xs font-bold capitalize tracking-wider">Waktu Rata-Rata</p>
                         <h3 class="text-2xl font-bold text-gray-800 mt-1">4.5 Menit</h3>
                         <div class="flex items-center gap-1 mt-3 text-[10px] text-gray-400">
                             <iconify-icon icon="solar:info-circle-linear"></iconify-icon>
@@ -99,7 +99,7 @@
 
                     <div class="overflow-x-auto text-sm">
                         <table class="w-full text-left">
-                            <thead class="bg-gray-50 text-gray-400 text-[11px] font-bold uppercase tracking-widest">
+                            <thead class="bg-gray-50 text-gray-400 text-[11px] font-bold capitalize tracking-widest">
                                 <tr>
                                     <th class="px-6 py-3">ID Transaksi</th>
                                     <th class="px-6 py-3">Waktu</th>
@@ -152,7 +152,7 @@
 
                 {{-- Shift Info --}}
                 <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-4">
-                    <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Informasi Shift</h4>
+                    <h4 class="text-[10px] font-bold text-gray-400 capitalize tracking-widest">Informasi Shift</h4>
                     <div class="space-y-3 text-sm">
                         <div class="flex justify-between">
                             <span class="text-gray-500">Mulai Shift</span>
@@ -175,13 +175,13 @@
 
                 {{-- Stok --}}
                 <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-                    <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Stok Menipis</h4>
+                    <h4 class="text-[10px] font-bold text-gray-400 capitalize tracking-widest mb-4">Stok Menipis</h4>
                     <div class="space-y-4">
                         <div class="flex gap-3">
                             <div class="w-1.5 h-1.5 rounded-full bg-orange-400 mt-1.5"></div>
                             <div>
                                 <h5 class="text-sm font-bold text-gray-700">Susu Full Cream <span
-                                        class="ml-1 text-[8px] bg-gray-100 px-1 py-0.5 rounded text-gray-400 uppercase">Penting</span>
+                                        class="ml-1 text-[8px] bg-gray-100 px-1 py-0.5 rounded text-gray-400 capitalize">Penting</span>
                                 </h5>
                                 <p class="text-[11px] text-gray-400">Sisa 2 Karton (Min. 5)</p>
                             </div>
@@ -199,7 +199,7 @@
 
                 {{-- Memo --}}
                 <div class="bg-red-50 p-6 rounded-3xl border border-red-100">
-                    <h4 class="text-[10px] font-bold text-red-400 uppercase tracking-widest mb-3">Internal Memo</h4>
+                    <h4 class="text-[10px] font-bold text-red-400 capitalize tracking-widest mb-3">Internal Memo</h4>
                     <p class="text-xs text-gray-600 italic leading-relaxed">
                         "Promosi BOGO untuk menu Croissant berlaku hingga jam 4 sore hari ini. Pastikan informasikan ke
                         pelanggan!"

@@ -281,7 +281,7 @@ export default function InventoriesIndex({
 
                         {/* Aksi Cepat */}
                         <div>
-                            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Aksi Cepat</h3>
+                            <h3 className="text-xs font-bold text-gray-400 capitalize tracking-wider mb-3">Aksi Cepat</h3>
                             <div className="space-y-3">
                                 <a
                                     href={route('inventories.create')}
@@ -309,7 +309,7 @@ export default function InventoriesIndex({
                         {/* Log Aktivitas */}
                         <div>
                             <div className="flex items-center justify-between mb-3">
-                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Log Aktivitas</h3>
+                                <h3 className="text-xs font-bold text-gray-400 capitalize tracking-wider">Log Aktivitas</h3>
                                 <Link href={route('inventories.index')} className="text-xs font-semibold text-[#2f27ce] hover:text-[#443dff]">Semua</Link>
                             </div>
                             <div className="space-y-4">

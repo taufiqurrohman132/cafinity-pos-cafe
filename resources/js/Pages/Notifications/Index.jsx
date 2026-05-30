@@ -34,8 +34,8 @@ const COLOR_MAP = {
 };
 
 function PriorityBadge({ priority }) {
-    if (priority === "urgent")    return <span className="ml-2 text-[10px] bg-rose-500 text-white px-2 py-0.5 rounded-full uppercase">Urgent</span>;
-    if (priority === "important") return <span className="ml-2 text-[10px] bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full uppercase">Penting</span>;
+    if (priority === "urgent")    return <span className="ml-2 text-[10px] bg-rose-500 text-white px-2 py-0.5 rounded-full capitalize">Urgent</span>;
+    if (priority === "important") return <span className="ml-2 text-[10px] bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full capitalize">Penting</span>;
     return null;
 }
 
@@ -69,7 +69,7 @@ function NotifActions({ notification, onRead, onDelete }) {
                 <Icon icon="solar:trash-bin-minimalistic-linear" className="text-lg" />
             </button>
             <button className="hover:text-gray-600" title="Opsi lain">
-                <Icon icon="solar:menu-dots-bold" className="text-lg" />
+                <Icon icon="solar:menu-dots-linear" className="text-lg" />
             </button>
         </div>
     );

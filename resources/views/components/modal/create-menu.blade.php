@@ -27,7 +27,7 @@
 
             {{-- Foto Upload --}}
             <div>
-                <label class="text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2 block">Foto Menu <span class="font-medium normal-case text-[#2f27ce]/50">(opsional)</span></label>
+                <label class="text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2 block">Foto Menu <span class="font-medium normal-case text-[#2f27ce]/50">(opsional)</span></label>
                 <div class="flex items-center gap-4">
                     <div id="create-image-preview"
                         class="w-20 h-20 rounded-xl border-2 border-dashed border-[#dddbff] bg-[#fbfbfe] flex items-center justify-center overflow-hidden flex-shrink-0 transition-all">
@@ -50,12 +50,12 @@
             {{-- Nama & Kategori --}}
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label class="text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2 block">Nama Menu</label>
+                    <label class="text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2 block">Nama Menu</label>
                     <input type="text" name="name" required placeholder="contoh: Nasi Goreng Spesial"
                         class="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-[13px] font-semibold text-[#050316] placeholder-[#2f27ce]/30 focus:outline-none focus:ring-4 focus:ring-[#dddbff]/50 focus:border-[#443dff] transition-all">
                 </div>
                 <div>
-                    <label class="text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2 block">Kategori</label>
+                    <label class="text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2 block">Kategori</label>
                     <div class="relative">
                         <select name="category_id" required
                             class="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 pr-10 text-[13px] font-bold text-[#2f27ce] appearance-none focus:outline-none focus:ring-4 focus:ring-[#dddbff]/50 focus:border-[#443dff] transition-all cursor-pointer">
@@ -72,7 +72,7 @@
 
             {{-- Harga --}}
             <div>
-                <label class="text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2 block">Harga Jual</label>
+                <label class="text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2 block">Harga Jual</label>
                 <div class="flex items-center gap-3 border-2 border-[#dddbff] focus-within:border-[#443dff] rounded-xl px-5 py-3 transition-all bg-[#fbfbfe] focus-within:bg-white">
                     <span class="text-lg font-extrabold text-[#050316]">Rp</span>
                     <input type="number" name="price" required min="0" step="500" placeholder="0"
@@ -82,7 +82,7 @@
 
             {{-- Deskripsi --}}
             <div>
-                <label class="text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2 block">Deskripsi <span class="font-medium normal-case text-[#2f27ce]/50">(opsional)</span></label>
+                <label class="text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2 block">Deskripsi <span class="font-medium normal-case text-[#2f27ce]/50">(opsional)</span></label>
                 <textarea name="description" rows="2" placeholder="Deskripsi singkat menu..."
                     class="w-full bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 py-3 text-[13px] font-semibold text-[#050316] placeholder-[#2f27ce]/30 focus:outline-none focus:ring-4 focus:ring-[#dddbff]/50 focus:border-[#443dff] transition-all resize-none"></textarea>
             </div>

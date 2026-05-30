@@ -29,7 +29,7 @@
                 <iconify-icon icon="mdi:chef-hat"></iconify-icon>
             </div>
             <div>
-                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Pesanan Aktif</p>
+                <p class="text-[10px] font-bold text-gray-400 capitalize tracking-wider">Pesanan Aktif</p>
                 <p class="text-2xl font-bold text-gray-900 mt-0.5">12</p>
             </div>
         </div>
@@ -39,7 +39,7 @@
                 <iconify-icon icon="mdi:clock-outline"></iconify-icon>
             </div>
             <div>
-                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Rata-rata Masak</p>
+                <p class="text-[10px] font-bold text-gray-400 capitalize tracking-wider">Rata-rata Masak</p>
                 <p class="text-2xl font-bold text-gray-900 mt-0.5">8.5m</p>
             </div>
         </div>
@@ -49,7 +49,7 @@
                 <iconify-icon icon="mdi:alert-circle-outline"></iconify-icon>
             </div>
             <div>
-                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Pesanan Terlambat</p>
+                <p class="text-[10px] font-bold text-gray-400 capitalize tracking-wider">Pesanan Terlambat</p>
                 <p class="text-2xl font-bold text-gray-900 mt-0.5">2</p>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 <iconify-icon icon="mdi:check-circle-outline"></iconify-icon>
             </div>
             <div>
-                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Item Selesai (Hari Ini)</p>
+                <p class="text-[10px] font-bold text-gray-400 capitalize tracking-wider">Item Selesai (Hari Ini)</p>
                 <p class="text-2xl font-bold text-gray-900 mt-0.5">142</p>
             </div>
         </div>

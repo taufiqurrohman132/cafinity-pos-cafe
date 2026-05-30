@@ -26,14 +26,14 @@ function StatCard({ title, value, trend, trendType, iconBg, iconColor, icon }) {
                 {trend && (
                     <span className={`inline-flex items-center gap-1 text-xs font-bold border px-2 py-0.5 rounded-full ${trendClass(trendType)}`}>
                         <iconify-icon
-                            icon={trendType === "up" ? "solar:arrow-up-bold" : "solar:arrow-down-bold"}
+                            icon={trendType === "up" ? "solar:arrow-up-linear" : "solar:arrow-down-linear"}
                             class="text-[11px]"
                         ></iconify-icon>
                         {trend}
                     </span>
                 )}
             </div>
-            <p className="text-xs font-bold text-[#2f27ce] uppercase tracking-wide truncate">
+            <p className="text-xs font-bold text-[#2f27ce] capitalize tracking-wide truncate">
                 {title}
             </p>
             <p className="text-xl font-extrabold text-[#050316] mt-0.5 truncate">
@@ -210,7 +210,7 @@ function FilterModal({ open, onClose, kasir, kategori, payments, days }) {
                         onClick={onClose}
                         className="text-[#2f27ce] hover:text-[#050316] transition-colors"
                     >
-                        <iconify-icon icon="solar:close-circle-bold" class="text-xl" />
+                        <iconify-icon icon="solar:close-circle-linear" class="text-xl" />
                     </button>
                 </div>
 
@@ -369,27 +369,27 @@ export default function ReportsIndex({
     const navItems = [
         {
             label: "Laporan Penjualan",
-            icon: "solar:chart-2-bold-duotone",
+            icon: "solar:chart-2-linear",
             route: "reports.sales",
         },
         {
             label: "Laporan Harian",
-            icon: "solar:calendar-mark-bold-duotone",
+            icon: "solar:calendar-mark-linear",
             route: "reports.daily",
         },
         {
             label: "Laporan Bulanan",
-            icon: "solar:calendar-bold-duotone",
+            icon: "solar:calendar-linear",
             route: "reports.monthly",
         },
         {
             label: "Laba & Rugi",
-            icon: "solar:graph-up-bold-duotone",
+            icon: "solar:graph-up-linear",
             route: "reports.profit-loss",
         },
         {
             label: "Laporan Inventaris",
-            icon: "solar:box-bold-duotone",
+            icon: "solar:box-linear",
             route: "reports.inventory",
         },
     ];
@@ -415,7 +415,7 @@ export default function ReportsIndex({
                         {/* Period Filter */}
                         <div className="flex items-center gap-2 bg-white border border-[#dddbff] rounded-xl px-3 py-2 shadow-sm">
                             <iconify-icon
-                                icon="solar:calendar-bold-duotone"
+                                icon="solar:calendar-linear"
                                 class="text-[#443dff] text-lg"
                             />
                             <select
@@ -435,7 +435,7 @@ export default function ReportsIndex({
                             className="text-sm font-bold text-[#2f27ce] bg-white border border-[#dddbff] px-4 py-2.5 rounded-xl shadow-sm hover:bg-[#dddbff]/40 transition-all flex items-center gap-2"
                         >
                             <iconify-icon
-                                icon="solar:filter-bold-duotone"
+                                icon="solar:filter-linear"
                                 class="text-[#443dff]"
                             />
                             Filter
@@ -450,7 +450,7 @@ export default function ReportsIndex({
                             className="bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-[#2f27ce]/30 active:scale-[0.98]"
                         >
                             <iconify-icon
-                                icon="solar:export-bold"
+                                icon="solar:export-linear"
                                 class="text-[18px]"
                             />
                             Ekspor Laporan
@@ -619,13 +619,13 @@ export default function ReportsIndex({
                                     className="text-xs text-[#443dff] font-extrabold hover:text-[#2f27ce] hover:underline flex items-center gap-1 transition-colors"
                                 >
                                     Lihat Semua Menu
-                                    <iconify-icon icon="solar:arrow-right-bold" />
+                                    <iconify-icon icon="solar:arrow-right-linear" />
                                 </a>
                             </div>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left min-w-[600px]">
                                     <thead>
-                                        <tr className="text-xs text-[#2f27ce] border-b border-[#dddbff] uppercase tracking-wider">
+                                        <tr className="text-xs text-[#2f27ce] border-b border-[#dddbff] capitalize tracking-wider">
                                             <th className="pb-3 font-extrabold">Nama Menu</th>
                                             <th className="pb-3 font-extrabold">Kategori</th>
                                             <th className="pb-3 font-extrabold text-center">Qty Terjual</th>
@@ -770,7 +770,7 @@ export default function ReportsIndex({
                                                 <span className="text-2xl font-extrabold text-[#050316]">
                                                     {targetProgress}%
                                                 </span>
-                                                <span className="text-[10px] font-bold text-[#2f27ce] uppercase tracking-wide">
+                                                <span className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-wide">
                                                     Tercapai
                                                 </span>
                                             </div>
@@ -798,7 +798,7 @@ export default function ReportsIndex({
                                     <div className="flex flex-col items-center justify-center gap-3 py-6">
                                         <div className="w-14 h-14 rounded-2xl bg-[#dddbff]/50 border border-[#dddbff] flex items-center justify-center">
                                             <iconify-icon
-                                                icon="solar:target-bold-duotone"
+                                                icon="solar:target-linear"
                                                 class="text-2xl text-[#443dff]"
                                             />
                                         </div>
@@ -827,10 +827,10 @@ export default function ReportsIndex({
                             <div className="relative z-10">
                                 <div className="flex items-center gap-2 mb-3">
                                     <iconify-icon
-                                        icon="solar:stars-bold-duotone"
+                                        icon="solar:stars-linear"
                                         class="text-[#443dff] text-xl"
                                     />
-                                    <span className="text-xs font-extrabold text-[#443dff] uppercase tracking-widest">
+                                    <span className="text-xs font-extrabold text-[#443dff] capitalize tracking-widest">
                                         Insight AI Hari Ini
                                     </span>
                                 </div>
@@ -847,7 +847,7 @@ export default function ReportsIndex({
                                 >
                                     Lihat Analisis Detail
                                     <iconify-icon
-                                        icon="solar:arrow-right-bold"
+                                        icon="solar:arrow-right-linear"
                                         class="text-[12px]"
                                     />
                                 </a>
@@ -870,7 +870,7 @@ export default function ReportsIndex({
                                         >
                                             <div className="w-9 h-9 bg-[#dddbff]/50 rounded-xl flex items-center justify-center flex-shrink-0">
                                                 <iconify-icon
-                                                    icon="solar:document-bold-duotone"
+                                                    icon="solar:document-linear"
                                                     class="text-[#443dff] text-base"
                                                 />
                                             </div>
@@ -886,7 +886,7 @@ export default function ReportsIndex({
                                             </div>
 
                                             <iconify-icon
-                                                icon="solar:arrow-right-bold"
+                                                icon="solar:arrow-right-linear"
                                                 class="text-[#dddbff] group-hover:text-[#443dff] transition-colors text-sm flex-shrink-0"
                                             />
                                         </a>
@@ -894,7 +894,7 @@ export default function ReportsIndex({
                                 ) : (
                                     <div className="flex flex-col items-center gap-2 py-4">
                                         <iconify-icon
-                                            icon="solar:document-bold-duotone"
+                                            icon="solar:document-linear"
                                             class="text-[#dddbff] text-3xl"
                                         />
 
@@ -917,7 +917,7 @@ export default function ReportsIndex({
                                     className="flex flex-col items-center gap-2 p-3 rounded-xl border border-[#dddbff] hover:bg-[#dddbff]/30 hover:border-[#443dff] transition-all group"
                                 >
                                     <iconify-icon
-                                        icon="solar:share-bold-duotone"
+                                        icon="solar:share-linear"
                                         class="text-[#443dff] text-2xl group-hover:scale-110 transition-transform"
                                     />
                                     <span className="text-[11px] font-extrabold text-[#050316]">
@@ -929,7 +929,7 @@ export default function ReportsIndex({
                                     className="flex flex-col items-center gap-2 p-3 rounded-xl border border-[#dddbff] hover:bg-[#dddbff]/30 hover:border-[#443dff] transition-all group"
                                 >
                                     <iconify-icon
-                                        icon="solar:printer-bold-duotone"
+                                        icon="solar:printer-linear"
                                         class="text-[#443dff] text-2xl group-hover:scale-110 transition-transform"
                                     />
                                     <span className="text-[11px] font-extrabold text-[#050316]">
@@ -959,7 +959,7 @@ export default function ReportsIndex({
                                             {item.label}
                                         </span>
                                         <iconify-icon
-                                            icon="solar:arrow-right-bold"
+                                            icon="solar:arrow-right-linear"
                                             class="text-[#dddbff] group-hover:text-[#443dff] transition-colors text-xs ml-auto"
                                         />
                                     </a>

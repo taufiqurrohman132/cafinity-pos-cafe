@@ -64,7 +64,7 @@ export default function Invoice({ transaction }) {
                                 onClick={handlePrint}
                                 className="px-4 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-semibold hover:bg-emerald-600 transition shadow-sm inline-flex items-center gap-2"
                             >
-                                <Icon icon="solar:printer-minimalistic-bold" />
+                                <Icon icon="solar:printer-minimalistic-linear" />
                                 Cetak
                             </button>
                         </div>
@@ -100,7 +100,7 @@ export default function Invoice({ transaction }) {
                                             {["Item", "Qty", "Harga", "Subtotal"].map((h, i) => (
                                                 <th
                                                     key={h}
-                                                    className={`py-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider ${
+                                                    className={`py-3 text-[11px] font-bold text-gray-400 capitalize tracking-wider ${
                                                         i === 3 ? "text-right" : "text-left"
                                                     }`}
                                                 >

@@ -150,7 +150,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
 
                     {/* List */}
                     <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2">
-                        <p className="text-[10px] font-bold text-[#2f27ce] uppercase tracking-widest mb-3 pl-1">Terakhir Diupdate</p>
+                        <p className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-widest mb-3 pl-1">Terakhir Diupdate</p>
 
                         {filteredRecipes.map((resep) => {
                             const isActive = selectedRecipe?.id === resep.id
@@ -234,19 +234,19 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     <div className="bg-gradient-to-br from-[#dddbff]/50 to-white border border-[#dddbff] rounded-2xl p-6 shadow-sm relative overflow-hidden">
                                         <span className="absolute -right-4 -bottom-4 text-6xl opacity-10">💰</span>
-                                        <p className="text-[10px] font-bold text-[#2f27ce] uppercase tracking-widest mb-2">Total HPP</p>
+                                        <p className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-widest mb-2">Total HPP</p>
                                         <p className="text-2xl font-bold text-[#050316] relative z-10">
                                             Rp {Number(selectedRecipe.total_hpp).toLocaleString('id-ID')}
                                         </p>
                                     </div>
                                     <div className="bg-white border border-[#dddbff] rounded-2xl p-6 shadow-sm">
-                                        <p className="text-[10px] font-bold text-[#2f27ce] uppercase tracking-widest mb-2">Harga Jual</p>
+                                        <p className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-widest mb-2">Harga Jual</p>
                                         <p className="text-2xl font-bold text-[#050316]">
                                             Rp {Number(menu?.price ?? 0).toLocaleString('id-ID')}
                                         </p>
                                     </div>
                                     <div className="bg-white border border-[#dddbff] rounded-2xl p-6 shadow-sm">
-                                        <p className="text-[10px] font-bold text-[#2f27ce] uppercase tracking-widest mb-2">Margin Kotor</p>
+                                        <p className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-widest mb-2">Margin Kotor</p>
                                         <div className="flex items-center gap-2">
                                             <p className="text-2xl font-bold text-[#050316]">{selectedRecipe.margin}%</p>
                                             <span className="text-emerald-500 text-xl">📈</span>
@@ -273,7 +273,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                             <div className="overflow-x-auto">
                                                 <table className="w-full text-sm">
                                                     <thead>
-                                                        <tr className="text-[10px] font-bold text-[#2f27ce] uppercase tracking-wider border-b border-[#dddbff]/50 bg-[#fbfbfe]/50">
+                                                        <tr className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-wider border-b border-[#dddbff]/50 bg-[#fbfbfe]/50">
                                                             <th className="py-3 px-4 text-left">Nama Bahan</th>
                                                             <th className="py-3 px-4 text-left">Kuantitas</th>
                                                             <th className="py-3 px-4 text-left">Harga Satuan</th>
@@ -304,7 +304,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                                     </tbody>
                                                     <tfoot>
                                                         <tr className="border-t-2 border-[#dddbff]">
-                                                            <td colSpan={3} className="pt-4 px-4 text-xs font-bold text-[#2f27ce] uppercase tracking-wider text-right">
+                                                            <td colSpan={3} className="pt-4 px-4 text-xs font-bold text-[#2f27ce] capitalize tracking-wider text-right">
                                                                 Total Kalkulasi Biaya
                                                             </td>
                                                             <td className="pt-4 px-4 font-bold text-[#050316] text-base text-right">
@@ -334,13 +334,13 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                             </div>
                                             <div className="grid grid-cols-2 gap-4">
                                                 <div className="bg-[#fbfbfe] rounded-xl p-4 border border-[#dddbff]">
-                                                    <p className="text-[10px] font-bold text-[#2f27ce] uppercase tracking-wider mb-1">Laba Per Porsi</p>
+                                                    <p className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-wider mb-1">Laba Per Porsi</p>
                                                     <p className="text-xl font-bold text-[#443dff]">
                                                         Rp {Number(profitPerServing).toLocaleString('id-ID')}
                                                     </p>
                                                 </div>
                                                 <div className="bg-gradient-to-br from-[#050316] to-[#2f27ce] rounded-xl p-4 border border-[#2f27ce] shadow-lg shadow-[#2f27ce]/20">
-                                                    <p className="text-[10px] font-bold text-[#dddbff] uppercase tracking-wider mb-1">Rekomendasi Harga</p>
+                                                    <p className="text-[10px] font-bold text-[#dddbff] capitalize tracking-wider mb-1">Rekomendasi Harga</p>
                                                     <div className="flex items-center gap-2">
                                                         <p className="text-xl font-bold text-white">
                                                             Rp {Number(recommendedPrice).toLocaleString('id-ID')}
@@ -391,7 +391,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                                     </span>
                                                 </div>
                                                 <div className="flex justify-between items-center border-t border-[#dddbff]/50 pt-3">
-                                                    <span className="text-[10px] font-bold text-rose-500 uppercase tracking-wider">Impact on Profit</span>
+                                                    <span className="text-[10px] font-bold text-rose-500 capitalize tracking-wider">Impact on Profit</span>
                                                     <span className={`text-xs font-bold flex items-center gap-1 ${impactPersen >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
                                                         {impactPersen >= 0 ? '↗ +' : '↘ '}{impactPersen}%
                                                     </span>
@@ -427,7 +427,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                                 <div className="absolute -right-4 -top-4 w-16 h-16 bg-rose-500/10 rounded-full blur-xl" />
                                                 <div className="flex items-center gap-2 mb-3 relative z-10">
                                                     <span className="text-rose-500 text-xl">⚠️</span>
-                                                    <h3 className="text-xs font-bold text-rose-500 uppercase tracking-wider">Peringatan Margin</h3>
+                                                    <h3 className="text-xs font-bold text-rose-500 capitalize tracking-wider">Peringatan Margin</h3>
                                                 </div>
                                                 <p className="text-xs text-rose-800 leading-relaxed mb-4 relative z-10">
                                                     Margin pada <span className="font-bold">{menu?.name}</span> mendekati batas minimum 40%.
@@ -493,7 +493,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                             <div className="overflow-y-auto px-6 py-4 space-y-3">
                                 <div className="grid grid-cols-12 gap-3 px-1">
                                     {['Bahan', 'Qty', 'Satuan', ''].map((h, i) => (
-                                        <p key={i} className={`${i === 0 ? 'col-span-5' : i === 3 ? 'col-span-1' : 'col-span-3'} text-[10px] font-bold text-[#2f27ce] uppercase tracking-wider`}>{h}</p>
+                                        <p key={i} className={`${i === 0 ? 'col-span-5' : i === 3 ? 'col-span-1' : 'col-span-3'} text-[10px] font-bold text-[#2f27ce] capitalize tracking-wider`}>{h}</p>
                                     ))}
                                 </div>
                                 {ingredients.map((row, index) => (
@@ -541,7 +541,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                         <form onSubmit={handleCreateSubmit} className="flex flex-col flex-1 overflow-hidden">
                             <div className="overflow-y-auto px-6 py-4 space-y-4">
                                 <div>
-                                    <label className="text-[10px] font-bold text-[#2f27ce] uppercase tracking-wider">Menu</label>
+                                    <label className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-wider">Menu</label>
                                     <select
                                         value={createForm.menu_id}
                                         onChange={(e) => setCreateForm(prev => ({ ...prev, menu_id: e.target.value }))}
@@ -555,7 +555,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                     </select>
                                 </div>
                                 <div className="px-6 pt-4">
-                                    <label className="text-[10px] font-bold text-[#2f27ce] uppercase tracking-wider">Catatan (opsional)</label>
+                                    <label className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-wider">Catatan (opsional)</label>
                                     <textarea
                                         value={editNotes}
                                         onChange={(e) => setEditNotes(e.target.value)}
@@ -567,7 +567,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                 <div className="space-y-3">
                                     <div className="grid grid-cols-12 gap-3 px-1">
                                         {['Bahan', 'Qty', 'Satuan', ''].map((h, i) => (
-                                            <p key={i} className={`${i === 0 ? 'col-span-5' : i === 3 ? 'col-span-1' : 'col-span-3'} text-[10px] font-bold text-[#2f27ce] uppercase tracking-wider`}>{h}</p>
+                                            <p key={i} className={`${i === 0 ? 'col-span-5' : i === 3 ? 'col-span-1' : 'col-span-3'} text-[10px] font-bold text-[#2f27ce] capitalize tracking-wider`}>{h}</p>
                                         ))}
                                     </div>
                                     {createForm.ingredients.map((row, index) => (

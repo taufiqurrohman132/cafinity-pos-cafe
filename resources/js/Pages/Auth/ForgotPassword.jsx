@@ -21,7 +21,7 @@ export default function ForgotPassword({ status }) {
                     <div className="relative z-10 flex flex-col justify-between p-12 w-full">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center backdrop-blur-sm">
-                                <iconify-icon icon="solar:cup-hot-bold" class="text-xl text-white"></iconify-icon>
+                                <iconify-icon icon="solar:cup-hot-linear" class="text-xl text-white"></iconify-icon>
                             </div>
                             <span className="text-white font-extrabold text-lg tracking-tight">Cafinity POS</span>
                         </div>
@@ -52,7 +52,7 @@ export default function ForgotPassword({ status }) {
                             {/* Logo */}
                             <div className="text-center space-y-3">
                                 <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2f27ce] to-[#443dff] shadow-lg shadow-[#443dff]/30">
-                                    <iconify-icon icon="solar:lock-password-bold" class="text-2xl text-white"></iconify-icon>
+                                    <iconify-icon icon="solar:lock-password-linear" class="text-2xl text-white"></iconify-icon>
                                 </div>
                                 <div>
                                     <h2 className="text-2xl font-extrabold text-[#050316] tracking-tight">Reset Kata Sandi</h2>
@@ -72,7 +72,7 @@ export default function ForgotPassword({ status }) {
                             {/* Error */}
                             {errors.email && (
                                 <div className="bg-rose-50 border border-rose-200 rounded-xl px-4 py-3 flex items-start gap-2">
-                                    <iconify-icon icon="solar:danger-triangle-bold-duotone" class="text-rose-500 text-lg flex-shrink-0 mt-0.5"></iconify-icon>
+                                    <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-lg flex-shrink-0 mt-0.5"></iconify-icon>
                                     <p className="text-xs font-semibold text-rose-600">{errors.email}</p>
                                 </div>
                             )}
@@ -80,7 +80,7 @@ export default function ForgotPassword({ status }) {
                             {/* Form */}
                             <form onSubmit={submit} className="space-y-5">
                                 <div className="space-y-1.5">
-                                    <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wide">
+                                    <label className="block text-xs font-extrabold text-[#2f27ce] capitalize tracking-wide">
                                         Alamat Email
                                     </label>
                                     <div className="relative">
@@ -101,7 +101,7 @@ export default function ForgotPassword({ status }) {
                                 <button type="submit" disabled={processing}
                                     className="w-full h-12 rounded-xl bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white text-sm font-extrabold tracking-wide transition-all duration-200 shadow-lg shadow-[#443dff]/30 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
                                     {processing ? 'Mengirim...' : 'Kirim Tautan Reset'}
-                                    {!processing && <iconify-icon icon="solar:arrow-right-bold" class="text-base"></iconify-icon>}
+                                    {!processing && <iconify-icon icon="solar:arrow-right-linear" class="text-base"></iconify-icon>}
                                 </button>
 
                                 <div className="text-center">
@@ -116,7 +116,7 @@ export default function ForgotPassword({ status }) {
 
                     {/* Footer */}
                     <div className="px-8 py-5 border-t border-[#dddbff] text-center">
-                        <p className="text-[10px] font-bold text-[#2f27ce]/40 uppercase tracking-widest">
+                        <p className="text-[10px] font-bold text-[#2f27ce]/40 capitalize tracking-widest">
                             © {new Date().getFullYear()} Cafinity POS
                         </p>
                     </div>

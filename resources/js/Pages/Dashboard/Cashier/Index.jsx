@@ -31,7 +31,7 @@ export default function CashierDashboard({ user, stats, recentTransactions, lowS
                                 </div>
                                 <Link href="/pos"
                                     className="bg-white text-[#2f27ce] px-6 py-3 rounded-2xl font-extrabold flex items-center gap-2 hover:bg-[#dddbff] transition-all shadow-sm whitespace-nowrap text-sm">
-                                    <iconify-icon icon="solar:play-circle-bold" class="text-lg"></iconify-icon>
+                                    <iconify-icon icon="solar:play-circle-linear" class="text-lg"></iconify-icon>
                                     BUKA POS SEKARANG
                                 </Link>
                             </div>
@@ -40,9 +40,9 @@ export default function CashierDashboard({ user, stats, recentTransactions, lowS
                         {/* Stat Cards */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {[
-                                { title: 'Total Transaksi', value: stats?.total_orders    ?? '0 Pesanan',  note: 'Transaksi hari ini',     icon: 'solar:bill-list-bold',   iconBg: 'bg-[#dddbff]',    iconColor: 'text-[#443dff]' },
-                                { title: 'Total Pendapatan', value: stats?.total_cash     ?? 'Rp 0',       note: 'Pendapatan hari ini',    icon: 'solar:wallet-bold',      iconBg: 'bg-emerald-50',   iconColor: 'text-emerald-600' },
-                                { title: 'Waktu Rata-Rata', value: stats?.avg_time        ?? '0 Menit',    note: 'Kecepatan layanan',      icon: 'solar:clock-circle-bold',iconBg: 'bg-orange-50',    iconColor: 'text-orange-500' },
+                                { title: 'Total Transaksi', value: stats?.total_orders    ?? '0 Pesanan',  note: 'Transaksi hari ini',     icon: 'solar:bill-list-linear',   iconBg: 'bg-[#dddbff]',    iconColor: 'text-[#443dff]' },
+                                { title: 'Total Pendapatan', value: stats?.total_cash     ?? 'Rp 0',       note: 'Pendapatan hari ini',    icon: 'solar:wallet-linear',      iconBg: 'bg-emerald-50',   iconColor: 'text-emerald-600' },
+                                { title: 'Waktu Rata-Rata', value: stats?.avg_time        ?? '0 Menit',    note: 'Kecepatan layanan',      icon: 'solar:clock-circle-linear',iconBg: 'bg-orange-50',    iconColor: 'text-orange-500' },
                             ].map((card, i) => (
                                 <div key={i} className="bg-white p-6 rounded-3xl border border-[#dddbff] shadow-sm hover:shadow-lg hover:shadow-[#2f27ce]/10 transition-all duration-300 group">
                                     <div className="flex justify-between items-start mb-4">
@@ -51,7 +51,7 @@ export default function CashierDashboard({ user, stats, recentTransactions, lowS
                                         </div>
                                         <span className="text-[10px] font-bold px-2 py-1 bg-[#fbfbfe] rounded-lg border border-[#dddbff] text-[#2f27ce]">Hari Ini</span>
                                     </div>
-                                    <p className="text-[#2f27ce]/70 text-xs font-extrabold uppercase tracking-wider">{card.title}</p>
+                                    <p className="text-[#2f27ce]/70 text-xs font-extrabold capitalize tracking-wider">{card.title}</p>
                                     <h3 className="text-2xl font-extrabold text-[#050316] mt-1">{card.value}</h3>
                                     <p className="text-[10px] text-[#2f27ce]/50 mt-3 font-medium">{card.note}</p>
                                 </div>
@@ -68,7 +68,7 @@ export default function CashierDashboard({ user, stats, recentTransactions, lowS
                             </div>
                             <div className="overflow-x-auto text-sm">
                                 <table className="w-full text-left">
-                                    <thead className="bg-[#fbfbfe] text-[#2f27ce]/60 text-[11px] font-extrabold uppercase tracking-widest">
+                                    <thead className="bg-[#fbfbfe] text-[#2f27ce]/60 text-[11px] font-extrabold capitalize tracking-widest">
                                         <tr>
                                             <th className="px-6 py-3">ID</th>
                                             <th className="px-6 py-3">Waktu</th>
@@ -126,7 +126,7 @@ export default function CashierDashboard({ user, stats, recentTransactions, lowS
 
                         {/* Shift Info */}
                         <div className="bg-white p-6 rounded-3xl border border-[#dddbff] shadow-sm space-y-4">
-                            <h4 className="text-[10px] font-extrabold text-[#2f27ce]/60 uppercase tracking-widest">Informasi Shift</h4>
+                            <h4 className="text-[10px] font-extrabold text-[#2f27ce]/60 capitalize tracking-widest">Informasi Shift</h4>
                             <div className="space-y-3 text-sm">
                                 {[
                                     { label: 'Mulai Shift',  value: shiftInfo?.start    ?? '-' },
@@ -146,7 +146,7 @@ export default function CashierDashboard({ user, stats, recentTransactions, lowS
 
                         {/* Low Stock */}
                         <div className="bg-white p-6 rounded-3xl border border-[#dddbff] shadow-sm">
-                            <h4 className="text-[10px] font-extrabold text-[#2f27ce]/60 uppercase tracking-widest mb-4">Stok Menipis</h4>
+                            <h4 className="text-[10px] font-extrabold text-[#2f27ce]/60 capitalize tracking-widest mb-4">Stok Menipis</h4>
                             <div className="space-y-4">
                                 {(lowStockItems ?? []).length === 0 ? (
                                     <p className="text-xs text-[#2f27ce] italic">Semua stok aman.</p>
@@ -167,7 +167,7 @@ export default function CashierDashboard({ user, stats, recentTransactions, lowS
 
                         {/* Memo */}
                         <div className="bg-[#dddbff]/20 p-6 rounded-3xl border border-[#dddbff]">
-                            <h4 className="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-3">📌 Internal Memo</h4>
+                            <h4 className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-3">📌 Internal Memo</h4>
                             <p className="text-xs text-[#050316]/70 italic leading-relaxed">
                                 Informasikan promo dan penawaran aktif kepada pelanggan saat melayani.
                             </p>

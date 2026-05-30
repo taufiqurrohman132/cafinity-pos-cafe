@@ -247,7 +247,7 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-left min-w-[700px]">
                             <thead>
-                                <tr class="text-xs text-[#2f27ce] border-b border-[#dddbff] uppercase tracking-wider">
+                                <tr class="text-xs text-[#2f27ce] border-b border-[#dddbff] capitalize tracking-wider">
                                     <th class="pb-3 font-extrabold">Nama Menu</th>
                                     <th class="pb-3 font-extrabold">Harga Jual</th>
                                     <th class="pb-3 font-extrabold">Estimasi HPP</th>
@@ -289,7 +289,7 @@
                     </div>
                     <div class="relative z-10">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-[11px] font-extrabold uppercase tracking-widest text-[#2f27ce]">Goal Hari Ini
+                            <h3 class="text-[11px] font-extrabold capitalize tracking-widest text-[#2f27ce]">Goal Hari Ini
                             </h3>
                             <span class="text-[#443dff] font-extrabold text-sm">{{ $dailyGoal['progress'] }}%</span>
                         </div>

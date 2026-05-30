@@ -82,14 +82,14 @@ export default function Show({ transaction }) {
                                 href={route("transactions.invoice", transaction.id)}
                                 className="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 transition shadow-sm inline-flex items-center gap-2"
                             >
-                                <Icon icon="solar:printer-minimalistic-bold" />
+                                <Icon icon="solar:printer-minimalistic-linear" />
                                 Cetak
                             </Link>
                             <button
                                 onClick={handleRefund}
                                 className="px-4 py-2.5 bg-rose-500 text-white rounded-xl text-sm font-semibold hover:bg-rose-600 transition shadow-sm inline-flex items-center gap-2"
                             >
-                                <Icon icon="solar:refresh-circle-broken-bold" />
+                                <Icon icon="solar:refresh-circle-broken-linear" />
                                 Refund
                             </button>
                         </div>
@@ -134,7 +134,7 @@ export default function Show({ transaction }) {
                                         {["Menu", "Qty", "Harga", "Subtotal", "Catatan"].map((h) => (
                                             <th
                                                 key={h}
-                                                className="text-left px-6 py-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider"
+                                                className="text-left px-6 py-3 text-[11px] font-bold text-gray-400 capitalize tracking-wider"
                                             >
                                                 {h}
                                             </th>

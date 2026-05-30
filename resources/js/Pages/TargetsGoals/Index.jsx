@@ -146,8 +146,8 @@ export default function TargetPerforma({
                     <div className="absolute top-0 right-0 w-64 h-64 bg-[#dddbff]/30 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 mb-4">
-                            <Icon icon="solar:target-bold-duotone" className="text-xl text-[#443dff]" />
-                            <span className="text-sm font-extrabold text-[#443dff] uppercase tracking-widest">
+                            <Icon icon="solar:target-linear" className="text-xl text-[#443dff]" />
+                            <span className="text-sm font-extrabold text-[#443dff] capitalize tracking-widest">
                                 Target {period.charAt(0).toUpperCase() + period.slice(1)}
                             </span>
                             {target?.label && (
@@ -170,13 +170,13 @@ export default function TargetPerforma({
                             <div className="md:col-span-2 space-y-3">
                                 <div className="flex items-end justify-between gap-4">
                                     <div>
-                                        <p className="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-1">Tercapai</p>
+                                        <p className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-1">Tercapai</p>
                                         <p className="text-2xl font-extrabold text-[#443dff]">
                                             Rp {formatRp(currentValue)}
                                         </p>
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-1">Progress</p>
+                                        <p className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-1">Progress</p>
                                         <p className="text-2xl font-extrabold text-[#050316]">{progress}%</p>
                                     </div>
                                 </div>
@@ -203,7 +203,7 @@ export default function TargetPerforma({
                                 onClick={() => setIsModalOpen(true)}
                                 className="bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-lg shadow-[#2f27ce]/30 active:scale-[0.98]"
                             >
-                                <Icon icon="solar:pen-bold" className="text-sm" />
+                                <Icon icon="solar:pen-linear" className="text-sm" />
                                 {target ? 'Ubah Target' : 'Set Target'}
                             </button>
                             <Link
@@ -220,9 +220,9 @@ export default function TargetPerforma({
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
                     <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5">
                         <div className="flex items-start justify-between mb-3">
-                            <p className="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-widest leading-tight">Sisa Target</p>
+                            <p className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest leading-tight">Sisa Target</p>
                             <div className="w-9 h-9 rounded-xl bg-[#dddbff] flex items-center justify-center flex-shrink-0">
-                                <Icon icon="solar:wallet-bold-duotone" className="text-lg text-[#443dff]" />
+                                <Icon icon="solar:wallet-linear" className="text-lg text-[#443dff]" />
                             </div>
                         </div>
                         <p className="text-xl font-extrabold text-[#050316] leading-tight">
@@ -233,9 +233,9 @@ export default function TargetPerforma({
 
                     <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5">
                         <div className="flex items-start justify-between mb-3">
-                            <p className="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-widest leading-tight">Estimasi Penutupan</p>
+                            <p className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest leading-tight">Estimasi Penutupan</p>
                             <div className="w-9 h-9 rounded-xl bg-[#dddbff] flex items-center justify-center flex-shrink-0">
-                                <Icon icon="solar:graph-up-bold-duotone" className="text-lg text-[#443dff]" />
+                                <Icon icon="solar:graph-up-linear" className="text-lg text-[#443dff]" />
                             </div>
                         </div>
                         <p className="text-xl font-extrabold text-[#050316] leading-tight">
@@ -249,9 +249,9 @@ export default function TargetPerforma({
 
                     <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5">
                         <div className="flex items-start justify-between mb-3">
-                            <p className="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-widest leading-tight">Rata-rata Harian</p>
+                            <p className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest leading-tight">Rata-rata Harian</p>
                             <div className="w-9 h-9 rounded-xl bg-[#dddbff] flex items-center justify-center flex-shrink-0">
-                                <Icon icon="solar:chart-2-bold-duotone" className="text-lg text-[#443dff]" />
+                                <Icon icon="solar:chart-2-linear" className="text-lg text-[#443dff]" />
                             </div>
                         </div>
                         <p className="text-xl font-extrabold text-[#050316] leading-tight">
@@ -262,9 +262,9 @@ export default function TargetPerforma({
 
                     <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5">
                         <div className="flex items-start justify-between mb-3">
-                            <p className="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-widest leading-tight">Update Terakhir</p>
+                            <p className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest leading-tight">Update Terakhir</p>
                             <div className="w-9 h-9 rounded-xl bg-[#dddbff] flex items-center justify-center flex-shrink-0">
-                                <Icon icon="solar:calendar-bold-duotone" className="text-lg text-[#443dff]" />
+                                <Icon icon="solar:calendar-linear" className="text-lg text-[#443dff]" />
                             </div>
                         </div>
                         <p className="text-xl font-extrabold text-[#050316] leading-tight">Live</p>
@@ -306,7 +306,7 @@ export default function TargetPerforma({
                     <div className="xl:col-span-4 space-y-5">
                         <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5">
                             <h3 className="font-extrabold text-[#050316] tracking-tight mb-4 flex items-center gap-2 text-sm">
-                                <Icon icon="solar:graph-up-bold-duotone" className="text-[#443dff] text-lg" />
+                                <Icon icon="solar:graph-up-linear" className="text-[#443dff] text-lg" />
                                 Wawasan Performa
                             </h3>
 
@@ -361,7 +361,7 @@ export default function TargetPerforma({
 
                         <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 flex items-start gap-4">
                             <div className="w-10 h-10 rounded-xl bg-[#dddbff] flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <Icon icon="solar:card-bold-duotone" className="text-xl text-[#443dff]" />
+                                <Icon icon="solar:card-linear" className="text-xl text-[#443dff]" />
                             </div>
                             <div>
                                 <p className="text-xs font-extrabold text-[#050316] mb-1">Metode Pembayaran Terpopuler</p>

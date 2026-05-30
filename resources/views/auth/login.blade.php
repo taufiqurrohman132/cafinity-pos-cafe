@@ -118,7 +118,7 @@
 
                     {{-- Email --}}
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wide">
+                        <label class="block text-xs font-extrabold text-[#2f27ce] capitalize tracking-wide">
                             Email atau Nama Pengguna
                         </label>
                         <div class="relative">
@@ -142,7 +142,7 @@
                     {{-- Password --}}
                     <div class="space-y-1.5">
                         <div class="flex items-center justify-between">
-                            <label class="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wide">
+                            <label class="block text-xs font-extrabold text-[#2f27ce] capitalize tracking-wide">
                                 Kata Sandi
                             </label>
                             @if (Route::has('password.request'))
@@ -198,7 +198,7 @@
                 {{-- Divider --}}
                 <div class="flex items-center gap-3">
                     <div class="flex-1 h-px bg-[#dddbff]"></div>
-                    <span class="text-[10px] font-bold text-[#2f27ce]/50 uppercase tracking-widest">Aman & Terenkripsi</span>
+                    <span class="text-[10px] font-bold text-[#2f27ce]/50 capitalize tracking-widest">Aman & Terenkripsi</span>
                     <div class="flex-1 h-px bg-[#dddbff]"></div>
                 </div>
 
@@ -233,7 +233,7 @@
                 <span class="text-[#dddbff]">•</span>
                 <a href="#" class="hover:text-[#443dff] transition-colors">Hubungi Kami</a>
             </div>
-            <p class="text-[10px] font-bold text-[#2f27ce]/40 uppercase tracking-widest">
+            <p class="text-[10px] font-bold text-[#2f27ce]/40 capitalize tracking-widest">
                 © {{ date('Y') }} Devora POS
             </p>
         </div>

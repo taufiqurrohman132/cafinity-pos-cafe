@@ -52,9 +52,7 @@ class TransactionController extends Controller
                 'name'          => $m->name,
                 'description'   => $m->description,
                 'price'         => $m->price,
-                'image_url'     => $m->image
-                    ? Storage::disk('public')->url($m->image)
-                    : $placeholderImage,
+                'image_url'     => $m->image_url,
             ]);
 
         $heldOrders = Transaction::query()

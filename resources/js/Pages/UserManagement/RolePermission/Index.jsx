@@ -126,7 +126,7 @@ export default function RolePermissionIndex({ roles }) {
                 {flash.success && (
                     <div className="flex items-center gap-3 bg-white border border-[#dddbff] shadow-lg rounded-2xl px-5 py-3 max-w-xl transition-all">
                         <div className="w-7 h-7 rounded-full bg-[#ecfdf5] flex items-center justify-center text-[#10b981]">
-                            <Icon icon="solar:check-circle-bold" />
+                            <Icon icon="solar:check-circle-linear" />
                         </div>
                         <p className="text-[13px] font-bold text-[#050316]">{flash.success}</p>
                     </div>
@@ -246,7 +246,7 @@ export default function RolePermissionIndex({ roles }) {
 
                                         {/* Preset Cepat */}
                                         <div className="mt-4 pt-4 border-t border-[#dddbff] flex items-center gap-3 flex-wrap">
-                                            <p className="text-[10px] font-black text-[#2f27ce]/50 uppercase tracking-widest">Preset Cepat:</p>
+                                            <p className="text-[10px] font-black text-[#2f27ce]/50 capitalize tracking-widest">Preset Cepat:</p>
                                             <button type="button" onClick={() => applyPreset('read-only')} className="flex items-center gap-1.5 px-3 py-1.5 border border-[#dddbff] bg-[#fbfbfe] text-[#050316] text-xs font-bold hover:bg-[#dddbff] rounded-lg transition-all active:scale-[0.98]">
                                                 <Icon icon="solar:lock-keyhole-linear" className="text-sm" /> Read-Only
                                             </button>
@@ -271,14 +271,14 @@ export default function RolePermissionIndex({ roles }) {
                                                                 <th key={act} className="px-3 py-4 text-center">
                                                                     <div className="flex flex-col items-center gap-1">
                                                                         <Icon icon={act === 'view' ? "solar:eye-linear" : act === 'create' ? "solar:add-circle-linear" : act === 'edit' ? "solar:pen-linear" : act === 'delete' ? "solar:trash-bin-trash-linear" : "solar:upload-square-linear"} className="text-[#2f27ce]/60 text-base" />
-                                                                        <span className="text-[10px] font-black text-[#2f27ce]/60 uppercase tracking-wider">{act}</span>
+                                                                        <span className="text-[10px] font-black text-[#2f27ce]/60 capitalize tracking-wider">{act}</span>
                                                                     </div>
                                                                 </th>
                                                             ))}
                                                             <th className="px-3 py-4 text-center">
                                                                 <div className="flex flex-col items-center gap-1">
                                                                     <Icon icon="solar:check-square-linear" className="text-[#2f27ce]/60 text-base" />
-                                                                    <span className="text-[10px] font-black text-[#2f27ce]/60 uppercase tracking-wider">All</span>
+                                                                    <span className="text-[10px] font-black text-[#2f27ce]/60 capitalize tracking-wider">All</span>
                                                                 </div>
                                                             </th>
                                                         </tr>

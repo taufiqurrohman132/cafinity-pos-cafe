@@ -5,19 +5,19 @@ import AppLayout from '@/Layouts/AppLayout';
 const STATUS_CONFIG = {
     preparing: {
         badge: 'bg-[#443dff]/10 text-[#443dff] border-[#443dff]/20',
-        icon: 'solar:fire-bold-duotone',
+        icon: 'solar:fire-linear',
         label: 'Sedang Dimasak',
         card: 'bg-gradient-to-b from-[#eeeeff] to-white border-[#c4c0ff]',
     },
     pending: {
         badge: 'bg-amber-100 text-amber-700 border-amber-200',
-        icon: 'solar:clock-circle-bold-duotone',
+        icon: 'solar:clock-circle-linear',
         label: 'Menunggu',
         card: 'bg-gradient-to-b from-amber-50 to-white border-amber-200',
     },
     ready: {
         badge: 'bg-emerald-100 text-emerald-700 border-emerald-200',
-        icon: 'solar:check-circle-bold-duotone',
+        icon: 'solar:check-circle-linear',
         label: 'Siap Diambil',
         card: 'bg-gradient-to-b from-emerald-50 to-white border-emerald-200',
     },
@@ -71,10 +71,10 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
     ];
 
     const statCards = [
-        { label: 'Pesanan Aktif',    value: stats.active_orders,    icon: 'solar:clipboard-list-bold-duotone',  iconBg: 'bg-[#dddbff]',    iconColor: 'text-[#443dff]',   labelColor: 'text-[#2f27ce]' },
-        { label: 'Rata-rata Masak',  value: stats.avg_cook_time,    icon: 'solar:stopwatch-bold-duotone',       iconBg: 'bg-[#dddbff]',    iconColor: 'text-[#443dff]',   labelColor: 'text-[#2f27ce]' },
-        { label: 'Pesanan Terlambat',value: stats.late_orders,      icon: 'solar:danger-triangle-bold-duotone', iconBg: 'bg-rose-100',     iconColor: 'text-rose-500',    labelColor: 'text-rose-500' },
-        { label: 'Selesai Hari Ini', value: stats.completed_today,  icon: 'solar:check-circle-bold-duotone',   iconBg: 'bg-emerald-100',  iconColor: 'text-emerald-600', labelColor: 'text-emerald-600' },
+        { label: 'Pesanan Aktif',    value: stats.active_orders,    icon: 'solar:clipboard-list-linear',  iconBg: 'bg-[#dddbff]',    iconColor: 'text-[#443dff]',   labelColor: 'text-[#2f27ce]' },
+        { label: 'Rata-rata Masak',  value: stats.avg_cook_time,    icon: 'solar:stopwatch-linear',       iconBg: 'bg-[#dddbff]',    iconColor: 'text-[#443dff]',   labelColor: 'text-[#2f27ce]' },
+        { label: 'Pesanan Terlambat',value: stats.late_orders,      icon: 'solar:danger-triangle-linear', iconBg: 'bg-rose-100',     iconColor: 'text-rose-500',    labelColor: 'text-rose-500' },
+        { label: 'Selesai Hari Ini', value: stats.completed_today,  icon: 'solar:check-circle-linear',   iconBg: 'bg-emerald-100',  iconColor: 'text-emerald-600', labelColor: 'text-emerald-600' },
     ];
 
     return (
@@ -95,12 +95,12 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                     </div>
                     <div className="flex flex-wrap items-center gap-3">
                         <div className="text-[13px] text-[#2f27ce] bg-white px-4 py-2.5 rounded-xl border border-[#dddbff] shadow-sm flex items-center gap-2 font-medium">
-                            <iconify-icon icon="solar:clock-circle-bold-duotone" class="text-lg text-[#443dff]" />
+                            <iconify-icon icon="solar:clock-circle-linear" class="text-lg text-[#443dff]" />
                             <span>Sekarang: <LiveClock /></span>
                         </div>
                         <Link href={route('pos.index')}
                             className="bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-[#2f27ce]/30 active:scale-[0.98] text-[13px]">
-                            <iconify-icon icon="solar:card-2-bold" class="text-[18px]" />
+                            <iconify-icon icon="solar:card-2-linear" class="text-[18px]" />
                             Buka POS
                         </Link>
                     </div>
@@ -114,7 +114,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                                 <iconify-icon icon={card.icon} class={`text-[22px] ${card.iconColor}`} />
                             </div>
                             <div>
-                                <p className={`text-[10px] font-extrabold uppercase tracking-widest ${card.labelColor}`}>
+                                <p className={`text-[10px] font-extrabold capitalize tracking-widest ${card.labelColor}`}>
                                     {card.label}
                                 </p>
                                 <p className="text-2xl font-extrabold text-[#050316] leading-tight">{card.value}</p>
@@ -150,7 +150,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                     {orders.length === 0 ? (
                         <div className="col-span-full bg-white rounded-2xl border border-[#dddbff] shadow-sm p-14 text-center">
-                            <iconify-icon icon="solar:clipboard-list-bold-duotone" class="text-5xl text-[#dddbff]" />
+                            <iconify-icon icon="solar:clipboard-list-linear" class="text-5xl text-[#dddbff]" />
                             <p className="mt-3 text-sm font-bold text-[#2f27ce]">Tidak ada pesanan di dapur saat ini.</p>
                             <p className="text-xs text-[#2f27ce]/60 mt-1 font-medium">
                                 Pesanan baru akan muncul di sini secara otomatis.
@@ -172,7 +172,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                                                 #KO-{String(order.id).padStart(4, '0')}
                                             </span>
                                             {late && (
-                                                <span className="text-[9px] font-extrabold bg-rose-100 text-rose-600 border border-rose-200 px-2 py-0.5 rounded-md tracking-wide uppercase">
+                                                <span className="text-[9px] font-extrabold bg-rose-100 text-rose-600 border border-rose-200 px-2 py-0.5 rounded-md tracking-wide capitalize">
                                                     Terlambat
                                                 </span>
                                             )}
@@ -189,7 +189,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                                             Transaksi #{order.transaction_id}
                                         </span>
                                         <span className="flex items-center gap-1 text-[11px] font-semibold text-[#050316]/40 flex-shrink-0">
-                                            <iconify-icon icon="solar:clock-circle-bold-duotone" class="text-xs" />
+                                            <iconify-icon icon="solar:clock-circle-linear" class="text-xs" />
                                             {diffMin} menit lalu
                                         </span>
                                     </div>
@@ -197,7 +197,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                                     {/* Notes */}
                                     {order.notes && (
                                         <div className="flex items-start gap-1.5 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2">
-                                            <iconify-icon icon="solar:danger-triangle-bold-duotone" class="text-amber-500 text-sm flex-shrink-0 mt-0.5" />
+                                            <iconify-icon icon="solar:danger-triangle-linear" class="text-amber-500 text-sm flex-shrink-0 mt-0.5" />
                                             <p className="text-[11px] font-semibold text-amber-700 italic leading-relaxed">{order.notes}</p>
                                         </div>
                                     )}
@@ -223,7 +223,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                                                         )}
                                                     </div>
                                                     <iconify-icon
-                                                        icon={drink ? 'solar:cup-hot-bold-duotone' : 'solar:fire-bold-duotone'}
+                                                        icon={drink ? 'solar:cup-hot-linear' : 'solar:fire-linear'}
                                                         class={`text-sm flex-shrink-0 mt-0.5 ${drink ? 'text-sky-400' : 'text-rose-400'}`}
                                                     />
                                                 </div>
@@ -246,7 +246,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                                     {order.status === 'preparing' && (<>
                                         <Link href={route('kitchen-orders.show', order.id)}
                                             className="py-2.5 px-4 text-xs font-extrabold text-[#443dff] bg-white border border-[#dddbff] rounded-xl hover:bg-[#dddbff]/40 transition-colors flex items-center gap-1.5 flex-shrink-0">
-                                            <iconify-icon icon="solar:eye-bold-duotone" class="text-sm" />
+                                            <iconify-icon icon="solar:eye-linear" class="text-sm" />
                                             Detail
                                         </Link>
                                         <button
@@ -260,14 +260,14 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                                     {order.status === 'ready' && (<>
                                         <Link href={route('kitchen-orders.show', order.id)}
                                             className="py-2.5 px-4 text-xs font-extrabold text-[#443dff] bg-white border border-[#dddbff] rounded-xl hover:bg-[#dddbff]/40 transition-colors flex items-center gap-1.5 flex-shrink-0">
-                                            <iconify-icon icon="solar:eye-bold-duotone" class="text-sm" />
+                                            <iconify-icon icon="solar:eye-linear" class="text-sm" />
                                             Detail
                                         </Link>
                                         <button
                                             onClick={() => postAction(route('kitchen-orders.complete', order.id))}
                                             className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-[#443dff] to-[#2f27ce] hover:from-[#2f27ce] hover:to-[#050316] text-white rounded-xl transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
                                         >
-                                            <iconify-icon icon="solar:check-circle-bold" class="text-sm" />
+                                            <iconify-icon icon="solar:check-circle-linear" class="text-sm" />
                                             Telah Diambil
                                         </button>
                                     </>)}
@@ -281,7 +281,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                 <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
                     <div className="flex-1">
                         <p className="text-sm font-extrabold text-[#443dff] mb-2 flex items-center gap-2">
-                            <iconify-icon icon="solar:fire-bold-duotone" class="text-base" />
+                            <iconify-icon icon="solar:fire-linear" class="text-base" />
                             Tips Dapur Hari Ini
                         </p>
                         <p className="text-xs font-medium text-[#2f27ce] leading-relaxed">

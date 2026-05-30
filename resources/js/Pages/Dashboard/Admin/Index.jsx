@@ -24,17 +24,17 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                         {/* Stat Cards */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                             {[
-                                { title: 'Stok Rendah',      value: stats?.low_stock     ?? '0 Item',   icon: 'solar:box-minimalistic-bold-duotone',          iconBg: 'bg-rose-100',    iconColor: 'text-rose-600',    note: 'Segera Restock!',          noteColor: 'text-rose-500' },
-                                { title: 'PO Menunggu',      value: stats?.pending_po    ?? '0 Berkas', icon: 'solar:document-text-bold-duotone',             iconBg: 'bg-blue-100',    iconColor: 'text-blue-600',    note: 'Perlu persetujuan',        noteColor: 'text-blue-500' },
-                                { title: 'Total SKU',        value: stats?.total_sku     ?? '0 Item',   icon: 'solar:box-bold-duotone',                       iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600', note: 'Item aktif di inventaris', noteColor: 'text-emerald-600' },
-                                { title: 'Nilai Inventaris', value: stats?.inventory_val ?? 'Rp 0',     icon: 'solar:chart-2-bold-duotone',                   iconBg: 'bg-[#dddbff]',   iconColor: 'text-[#443dff]',   note: null,                       noteColor: null },
+                                { title: 'Stok Rendah',      value: stats?.low_stock     ?? '0 Item',   icon: 'solar:box-minimalistic-linear',          iconBg: 'bg-rose-100',    iconColor: 'text-rose-600',    note: 'Segera Restock!',          noteColor: 'text-rose-500' },
+                                { title: 'PO Menunggu',      value: stats?.pending_po    ?? '0 Berkas', icon: 'solar:document-text-linear',             iconBg: 'bg-blue-100',    iconColor: 'text-blue-600',    note: 'Perlu persetujuan',        noteColor: 'text-blue-500' },
+                                { title: 'Total SKU',        value: stats?.total_sku     ?? '0 Item',   icon: 'solar:box-linear',                       iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600', note: 'Item aktif di inventaris', noteColor: 'text-emerald-600' },
+                                { title: 'Nilai Inventaris', value: stats?.inventory_val ?? 'Rp 0',     icon: 'solar:chart-2-linear',                   iconBg: 'bg-[#dddbff]',   iconColor: 'text-[#443dff]',   note: null,                       noteColor: null },
                             ].map((card, i) => (
                                 <div key={i} className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-[#2f27ce]/10 transition-all duration-300 group">
                                     <div className={`w-12 h-12 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
                                         <iconify-icon icon={card.icon} class={`text-2xl ${card.iconColor}`}></iconify-icon>
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-xs font-bold text-[#2f27ce]/70 uppercase tracking-wide">{card.title}</p>
+                                        <p className="text-xs font-bold text-[#2f27ce]/70 capitalize tracking-wide">{card.title}</p>
                                         <p className="text-xl font-extrabold text-[#050316] mt-0.5">{card.value}</p>
                                         {card.note && <p className={`text-[11px] font-bold mt-0.5 ${card.noteColor}`}>{card.note}</p>}
                                     </div>
@@ -122,7 +122,7 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                 </Link>
                             </div>
                             <table className="w-full text-left">
-                                <thead className="bg-[#fbfbfe] text-[10px] uppercase text-[#2f27ce]/60 tracking-wider">
+                                <thead className="bg-[#fbfbfe] text-[10px] capitalize text-[#2f27ce]/60 tracking-wider">
                                     <tr>
                                         <th className="px-6 py-4 font-extrabold">Nama Menu</th>
                                         <th className="px-4 py-4 font-extrabold">HPP (Estimasi)</th>
@@ -160,13 +160,13 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
 
                         {/* Quick Actions */}
                         <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm">
-                            <h4 className="text-[10px] font-extrabold text-[#2f27ce]/60 tracking-widest uppercase mb-4">
+                            <h4 className="text-[10px] font-extrabold text-[#2f27ce]/60 tracking-widest capitalize mb-4">
                                 ⚡ Aksi Cepat
                             </h4>
                             <div className="space-y-3">
                                 <Link href="/inventories/create"
                                     className="w-full bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-sm transition">
-                                    <iconify-icon icon="solar:add-circle-bold" class="text-lg"></iconify-icon>
+                                    <iconify-icon icon="solar:add-circle-linear" class="text-lg"></iconify-icon>
                                     Input Stok Masuk
                                 </Link>
                                 <Link href="/inventories"
@@ -184,7 +184,7 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
 
                         {/* Activity Log */}
                         <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm">
-                            <h4 className="text-[10px] font-extrabold text-[#2f27ce]/60 tracking-widest uppercase mb-6">
+                            <h4 className="text-[10px] font-extrabold text-[#2f27ce]/60 tracking-widest capitalize mb-6">
                                 🕐 Log Aktivitas
                             </h4>
                             <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-[#dddbff]">

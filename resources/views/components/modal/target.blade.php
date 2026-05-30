@@ -57,7 +57,7 @@
             {{-- Target Nominal --}}
             <div>
                 <div class="flex items-center justify-between mb-2">
-                    <label class="text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest">Target Nominal
+                    <label class="text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-widest">Target Nominal
                         Pendapatan</label>
                     <span
                         class="text-[11px] font-extrabold text-[#443dff] bg-[#dddbff]/50 border border-[#dddbff] px-3 py-1 rounded-lg">Premium
@@ -85,7 +85,7 @@
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label
-                        class="flex items-center gap-1.5 text-xs font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2">
+                        class="flex items-center gap-1.5 text-xs font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2">
                         <iconify-icon icon="solar:shop-bold-duotone" class="text-[#443dff] text-base"></iconify-icon>
                         Pilih Outlet
                     </label>
@@ -109,7 +109,7 @@
                 </div>
                 <div>
                     <label
-                        class="flex items-center gap-1.5 text-xs font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2">
+                        class="flex items-center gap-1.5 text-xs font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2">
                         <iconify-icon icon="solar:calendar-bold-duotone"
                             class="text-[#443dff] text-base"></iconify-icon>
                         Waktu Pelaksanaan
@@ -134,7 +134,7 @@
                     </div>
                     <div class="text-right">
                         <span class="text-2xl font-extrabold text-[#050316]">{{ $estimasi }}%</span>
-                        <p class="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-widest">Kemungkinan
+                        <p class="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest">Kemungkinan
                             Tercapai</p>
                     </div>
                 </div>

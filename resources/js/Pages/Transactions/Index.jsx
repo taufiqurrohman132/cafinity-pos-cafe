@@ -3,6 +3,32 @@ import { Head, Link, router } from '@inertiajs/react';
 import { Icon } from '@iconify/react';
 import AppLayout from '@/Layouts/AppLayout'; // Sesuaikan path layout Anda
 
+function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor }) {
+    return (
+        <div className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm hover:shadow-lg hover:shadow-[#2f27ce]/10 transition-all duration-300 group">
+            <div className="flex items-start justify-between mb-3">
+                <div className={`w-11 h-11 rounded-xl ${iconBg} flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
+                    <iconify-icon icon={icon} class={`text-2xl ${iconColor}`}></iconify-icon>
+                </div>
+                {trend && (
+                    <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full border ${
+                        trendType === 'up'
+                            ? 'bg-emerald-50 border-emerald-100 text-emerald-600'
+                            : 'bg-rose-50 border-rose-100 text-rose-600'
+                    }`}>
+                        <span>{trendType === 'up' ? '▲' : '▼'}</span>
+                        <span>{trend}</span>
+                    </span>
+                )}
+            </div>
+            <div className="mt-1">
+                <p className="text-xs text-[#2f27ce]/50 font-extrabold capitalize tracking-wide truncate">{title}</p>
+                <p className="text-xl md:text-2xl font-black text-[#050316] mt-0.5 tracking-tight truncate">{value}</p>
+            </div>
+        </div>
+    );
+}
+
 export default function TransactionHistory({ transactions, filters, stats }) {
     // State lokal untuk form filter
     const [params, setParams] = useState({
@@ -100,50 +126,43 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                     </div>
 
                     {/* ====== STAT CARDS ====== */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 group hover:shadow-lg hover:shadow-[#443dff]/10 hover:border-[#443dff] transition-all">
-                            <div className="flex items-start justify-between mb-3">
-                                <div className="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] flex-shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all">
-                                    <Icon icon="solar:card-linear" className="text-xl" />
-                                </div>
-                                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-lg flex-shrink-0">+12.5%</span>
-                            </div>
-                            <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Total Penjualan</p>
-                            <p className="text-xl font-black text-[#050316] leading-tight mt-0.5">Rp {formatRp(stats.total_revenue)}</p>
-                        </div>
-
-                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 group hover:shadow-lg hover:shadow-[#443dff]/10 hover:border-[#443dff] transition-all">
-                            <div className="flex items-start justify-between mb-3">
-                                <div className="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] flex-shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all">
-                                    <Icon icon="solar:cart-large-2-linear" className="text-xl" />
-                                </div>
-                                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-lg flex-shrink-0">+5.2%</span>
-                            </div>
-                            <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Jumlah Transaksi</p>
-                            <p className="text-xl font-black text-[#050316] leading-tight mt-0.5">{stats.total_transactions}</p>
-                        </div>
-
-                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 group hover:shadow-lg hover:shadow-[#443dff]/10 hover:border-[#443dff] transition-all">
-                            <div className="flex items-start justify-between mb-3">
-                                <div className="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] flex-shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all">
-                                    <Icon icon="solar:wallet-linear" className="text-xl" />
-                                </div>
-                                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-lg flex-shrink-0">+2.1%</span>
-                            </div>
-                            <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Rata-rata Pesanan</p>
-                            <p className="text-xl font-black text-[#050316] leading-tight mt-0.5">Rp {formatRp(stats.avg_order)}</p>
-                        </div>
-
-                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-5 group hover:shadow-lg hover:shadow-[#443dff]/10 hover:border-[#443dff] transition-all">
-                            <div className="flex items-start justify-between mb-3">
-                                <div className="w-11 h-11 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] flex-shrink-0 group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all">
-                                    <Icon icon="solar:restart-circle-linear" className="text-xl" />
-                                </div>
-                                <span className="text-[10px] font-bold text-rose-600 bg-rose-100 px-2 py-0.5 rounded-lg flex-shrink-0">+0.5%</span>
-                            </div>
-                            <p className="text-xs text-[#2f27ce] font-extrabold capitalize tracking-wide">Refund / Batal</p>
-                            <p className="text-xl font-black text-[#050316] leading-tight mt-0.5">{stats.total_refund_cancel}</p>
-                        </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <StatCard
+                            title="Total Penjualan"
+                            value={`Rp ${formatRp(stats.total_revenue)}`}
+                            trend="+12.5%"
+                            trendType="up"
+                            icon="solar:card-linear"
+                            iconBg="bg-[#dddbff]"
+                            iconColor="text-[#443dff]"
+                        />
+                        <StatCard
+                            title="Jumlah Transaksi"
+                            value={stats.total_transactions}
+                            trend="+5.2%"
+                            trendType="up"
+                            icon="solar:cart-large-2-linear"
+                            iconBg="bg-[#dddbff]"
+                            iconColor="text-[#443dff]"
+                        />
+                        <StatCard
+                            title="Rata-rata Pesanan"
+                            value={`Rp ${formatRp(stats.avg_order)}`}
+                            trend="+2.1%"
+                            trendType="up"
+                            icon="solar:wallet-linear"
+                            iconBg="bg-[#dddbff]"
+                            iconColor="text-[#443dff]"
+                        />
+                        <StatCard
+                            title="Refund / Batal"
+                            value={stats.total_refund_cancel}
+                            trend="+0.5%"
+                            trendType="down"
+                            icon="solar:restart-circle-linear"
+                            iconBg="bg-rose-50"
+                            iconColor="text-rose-600"
+                        />
                     </div>
 
                     {/* ====== TABLE CARD ====== */}
@@ -196,7 +215,7 @@ export default function TransactionHistory({ transactions, filters, stats }) {
 
                                     {hasActiveFilters && (
                                         <button type="button" onClick={handleReset} className="h-[38px] px-3 bg-[#dddbff]/30 text-[#2f27ce] rounded-xl text-[13px] font-bold hover:bg-[#dddbff] hover:text-[#050316] transition-all flex items-center gap-1 border border-transparent hover:border-[#dddbff]">
-                                            <Icon icon="solar:close-circle-bold" className="text-[16px]" />
+                                            <Icon icon="solar:close-circle-linear" className="text-[16px]" />
                                             Reset
                                         </button>
                                     )}
@@ -235,13 +254,13 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                             <table className="w-full">
                                 <thead>
                                     <tr className="border-b border-[#dddbff] bg-gradient-to-r from-[#fbfbfe] to-[#dddbff]/20">
-                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-wider">ID Invoice</th>
-                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-wider">Waktu</th>
-                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-wider">Kasir</th>
-                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-wider">Item</th>
-                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-wider">Total Tagihan</th>
-                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-wider">Metode</th>
-                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-wider">Status</th>
+                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-wider">ID Invoice</th>
+                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-wider">Waktu</th>
+                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-wider">Kasir</th>
+                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-wider">Item</th>
+                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-wider">Total Tagihan</th>
+                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-wider">Metode</th>
+                                        <th className="text-left px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-wider">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#dddbff]/50">
@@ -279,19 +298,19 @@ export default function TransactionHistory({ transactions, filters, stats }) {
                                                 <td className="px-6 py-4">
                                                     {trx.status === 'completed' ? (
                                                         <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-700 bg-gradient-to-r from-emerald-100 to-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
-                                                            <Icon icon="solar:check-circle-bold" className="text-[13px]" /> Selesai
+                                                            <Icon icon="solar:check-circle-linear" className="text-[13px]" /> Selesai
                                                         </span>
                                                     ) : trx.status === 'pending' ? (
                                                         <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-amber-700 bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">
-                                                            <Icon icon="solar:clock-circle-bold" className="text-[13px]" /> Pending
+                                                            <Icon icon="solar:clock-circle-linear" className="text-[13px]" /> Pending
                                                         </span>
                                                     ) : trx.status === 'refunded' ? (
                                                         <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-[#2f27ce] bg-gradient-to-r from-[#dddbff] to-[#dddbff]/50 border border-[#dddbff] px-2.5 py-1 rounded-full">
-                                                            <Icon icon="solar:restart-circle-bold" className="text-[13px]" /> Refund
+                                                            <Icon icon="solar:restart-circle-linear" className="text-[13px]" /> Refund
                                                         </span>
                                                     ) : (
                                                         <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-rose-700 bg-gradient-to-r from-rose-100 to-rose-50 border border-rose-200 px-2.5 py-1 rounded-full">
-                                                            <Icon icon="solar:close-circle-bold" className="text-[13px]" /> Dibatalkan
+                                                            <Icon icon="solar:close-circle-linear" className="text-[13px]" /> Dibatalkan
                                                         </span>
                                                     )}
                                                 </td>

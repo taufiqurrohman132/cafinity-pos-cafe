@@ -3,6 +3,38 @@ import { Head, Link, router, usePage, useForm } from '@inertiajs/react'
 import { useState, useEffect } from 'react'
 import AppLayout from '@/Layouts/AppLayout'
 
+function MenuImage({ src, name, categoryName, isThumbnail = false }) {
+    const [hasError, setHasError] = useState(false);
+
+    const renderPlaceholder = () => {
+        const lower = (categoryName || '').toLowerCase();
+        let icon = 'solar:widget-linear';
+        if (lower.includes('kopi') || lower.includes('coffee')) icon = 'solar:cup-hot-linear';
+        else if (lower.includes('non')) icon = 'solar:cup-star-linear';
+        else if (lower.includes('makanan') || lower.includes('main')) icon = 'solar:plate-linear';
+        else if (lower.includes('snack') || lower.includes('cemilan')) icon = 'solar:donut-linear';
+
+        return (
+            <div className={`w-full h-full bg-[#dddbff]/30 flex items-center justify-center text-[#443dff] ${isThumbnail ? 'rounded-xl border border-[#dddbff] shadow-sm' : ''}`}>
+                <iconify-icon icon={icon} class={isThumbnail ? 'text-[20px]' : 'text-[48px]'}></iconify-icon>
+            </div>
+        );
+    };
+
+    if (!src || hasError) {
+        return renderPlaceholder();
+    }
+
+    return (
+        <img
+            src={src}
+            alt={name}
+            className={`w-full h-full object-cover transition-transform duration-300 ${isThumbnail ? 'rounded-xl border border-[#dddbff] shadow-sm group-hover:scale-105' : 'group-hover:scale-105'}`}
+            onError={() => setHasError(true)}
+        />
+    );
+}
+
 export default function MenusIndex({ menus, categories, totalMenus, editMenu }) {
     const { url } = usePage()
     const params = new URLSearchParams(url.split('?')[1] || '')
@@ -219,7 +251,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                         </div>
                         <div className="flex items-center gap-3">
                             <div className="hidden sm:block text-right mr-2">
-                                <p className="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-wider">Total Menu</p>
+                                <p className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-wider">Total Menu</p>
                                 <p className="text-2xl font-black text-[#443dff] leading-none mt-0.5">{totalMenus}</p>
                             </div>
                             <button
@@ -325,7 +357,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                                         : 'text-[#2f27ce]/50 hover:text-[#2f27ce]'
                                 }`}
                             >
-                                <iconify-icon icon="solar:list-bold" class="text-lg"></iconify-icon>
+                                <iconify-icon icon="solar:list-linear" class="text-lg"></iconify-icon>
                             </button>
                         </div>
                     </div>
@@ -340,7 +372,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                                     <thead>
                                         <tr className="bg-[#fbfbfe]/50 border-b border-[#dddbff]">
                                             {['Foto', 'Nama Menu', 'Kategori', 'Harga Jual', 'HPP', 'Margin', 'Status', 'Aksi'].map((h) => (
-                                                <th key={h} className="px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-wider">
+                                                <th key={h} className="px-6 py-3 text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-wider">
                                                     {h}
                                                 </th>
                                             ))}
@@ -352,7 +384,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                                                 <td colSpan={8} className="px-6 py-16 text-center">
                                                     <div className="flex flex-col items-center justify-center gap-3">
                                                         <div className="w-16 h-16 rounded-full bg-[#dddbff]/50 flex items-center justify-center text-[#443dff]">
-                                                            <iconify-icon icon="solar:cookie-bold-duotone" class="text-3xl"></iconify-icon>
+                                                            <iconify-icon icon="solar:cookie-linear" class="text-3xl"></iconify-icon>
                                                         </div>
                                                         <p className="text-sm font-bold text-[#050316]">Tidak ada menu ditemukan.</p>
                                                         <button
@@ -375,11 +407,8 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                                                 >
                                                     {/* Foto */}
                                                     <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
-                                                        <a href={route('menus.show', menu.id)}>
-                                                            <img
-                                                                src={menu.image_url ?? `https://placehold.co/100x100/dddbff/2f27ce?text=Menu`}
-                                                                className="w-10 h-10 rounded-xl object-cover border border-[#dddbff] shadow-sm group-hover:scale-105 transition-transform duration-300"
-                                                            />
+                                                        <a href={route('menus.show', menu.id)} className="block w-10 h-10 relative">
+                                                            <MenuImage src={menu.image_url} name={menu.name} categoryName={menu.category?.name} isThumbnail={true} />
                                                         </a>
                                                     </td>
 
@@ -478,7 +507,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                                 {menus.data.length === 0 ? (
                                     <div className="col-span-full py-16 text-center">
                                         <div className="w-16 h-16 rounded-full bg-[#dddbff]/50 flex items-center justify-center mb-3 mx-auto text-[#443dff]">
-                                            <iconify-icon icon="solar:cookie-bold-duotone" class="text-3xl"></iconify-icon>
+                                            <iconify-icon icon="solar:cookie-linear" class="text-3xl"></iconify-icon>
                                         </div>
                                         <p className="text-sm font-bold text-[#050316]">Tidak ada menu ditemukan.</p>
                                     </div>
@@ -493,10 +522,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                                         >
                                             {/* Foto */}
                                             <div className="relative aspect-square overflow-hidden bg-[#dddbff]/20">
-                                                <img
-                                                    src={menu.image_url ?? `https://placehold.co/200x200/dddbff/2f27ce?text=Menu`}
-                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                                />
+                                                <MenuImage src={menu.image_url} name={menu.name} categoryName={menu.category?.name} />
                                                 {/* Status toggle */}
                                                 <div className="absolute top-2 right-2" onClick={(e) => e.stopPropagation()}>
                                                     <button
@@ -631,7 +657,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                         <form onSubmit={handleCreateSubmit} className="space-y-5 relative z-10">
                             {/* Row 1: Foto Menu */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider">
                                     Foto Menu
                                 </label>
                                 <div className="col-span-8 flex items-center gap-4">
@@ -661,7 +687,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
                             {/* Row 2: Nama Menu */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider">
                                     Nama Menu
                                 </label>
                                 <div className="col-span-8">
@@ -683,7 +709,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
                             {/* Row 3: Kategori */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider">
                                     Kategori
                                 </label>
                                 <div className="col-span-8">
@@ -708,7 +734,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
                             {/* Row 4: Harga Jual (Rp) */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider">
                                     Harga Jual (Rp)
                                 </label>
                                 <div className="col-span-8">
@@ -731,7 +757,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
                             {/* Row 5: Estimasi HPP (Rp) */}
                             <div className="grid grid-cols-12 gap-x-4 items-start">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider mt-2.5">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider mt-2.5">
                                     Estimasi HPP (Rp)
                                 </label>
                                 <div className="col-span-8">
@@ -756,7 +782,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
                             {/* Row 6: Deskripsi */}
                             <div className="grid grid-cols-12 gap-x-4 items-start">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider mt-2.5">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider mt-2.5">
                                     Deskripsi
                                 </label>
                                 <div className="col-span-8">
@@ -856,7 +882,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                         <form onSubmit={handleEditSubmit} className="space-y-5 relative z-10">
                             {/* Row 1: Foto Menu */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider">
                                     Foto Menu
                                 </label>
                                 <div className="col-span-8 flex items-center gap-4">
@@ -886,7 +912,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
                             {/* Row 2: Nama Menu */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider">
                                     Nama Menu
                                 </label>
                                 <div className="col-span-8">
@@ -908,7 +934,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
                             {/* Row 3: Kategori */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider">
                                     Kategori
                                 </label>
                                 <div className="col-span-8">
@@ -933,7 +959,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
                             {/* Row 4: Harga Jual (Rp) */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider">
                                     Harga Jual (Rp)
                                 </label>
                                 <div className="col-span-8">
@@ -956,7 +982,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
                             {/* Row 5: Estimasi HPP (Rp) */}
                             <div className="grid grid-cols-12 gap-x-4 items-start">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider mt-2.5">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider mt-2.5">
                                     Estimasi HPP (Rp)
                                 </label>
                                 <div className="col-span-8">
@@ -981,7 +1007,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
                             {/* Row 6: Deskripsi */}
                             <div className="grid grid-cols-12 gap-x-4 items-start">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider mt-2.5">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider mt-2.5">
                                     Deskripsi
                                 </label>
                                 <div className="col-span-8">

@@ -223,7 +223,7 @@
                         </button>
                     </div>
                     <table class="w-full text-left">
-                        <thead class="bg-gray-50 text-[10px] uppercase text-gray-400 tracking-wider">
+                        <thead class="bg-gray-50 text-[10px] capitalize text-gray-400 tracking-wider">
                             <tr>
                                 <th class="px-6 py-4 font-semibold">Nama Menu</th>
                                 <th class="px-4 py-4 font-semibold">HPP (Estimasi)</th>
@@ -261,7 +261,7 @@
             <div class="xl:col-span-3 min-h-0 overflow-y-auto space-y-6 p-4 md:p-6 md:pl-0">
                 {{-- Quick Action --}}
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                    <h4 class="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-4 flex items-center gap-2">
+                    <h4 class="text-[10px] font-bold text-gray-400 tracking-widest capitalize mb-4 flex items-center gap-2">
                         <x-heroicon-o-bolt class="w-4 h-4" /> Aksi Cepat
                     </h4>
                     <div class="space-y-3">
@@ -282,7 +282,7 @@
 
                 {{-- Activity Log --}}
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                    <h4 class="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-6 flex items-center gap-2">
+                    <h4 class="text-[10px] font-bold text-gray-400 tracking-widest capitalize mb-6 flex items-center gap-2">
                         <x-heroicon-o-clock class="w-4 h-4" /> Log Aktivitas
                     </h4>
                     <div

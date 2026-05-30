@@ -279,7 +279,7 @@ export default function OwnerDashboard({
                                 <div className="flex justify-between items-center mb-5">
                                     <div>
                                         <h3 className="font-extrabold text-[#050316] tracking-tight">Menu Terlaris</h3>
-                                        <p className="text-[10px] text-[#2f27ce]/60 font-bold uppercase tracking-wider mt-0.5">Penjualan tertinggi hari ini</p>
+                                        <p className="text-[10px] text-[#2f27ce]/60 font-bold capitalize tracking-wider mt-0.5">Penjualan tertinggi hari ini</p>
                                     </div>
                                     <Link href="/menus" className="text-xs text-[#443dff] font-extrabold hover:text-[#2f27ce] hover:underline transition-colors">
                                         Lihat Katalog
@@ -299,8 +299,18 @@ export default function OwnerDashboard({
                                             <div key={i} className="flex items-center justify-between p-3 hover:bg-[#dddbff]/10 border border-transparent hover:border-[#dddbff]/50 rounded-2xl transition-all duration-300 hover:shadow-sm">
                                                 <div className="flex items-center gap-3">
                                                     <div className="relative">
-                                                        <div className="w-12 h-12 bg-gradient-to-br from-[#dddbff]/10 to-[#dddbff]/30 border border-[#dddbff] rounded-xl flex items-center justify-center text-2xl shadow-sm">
-                                                            {menu.emoji}
+                                                        <div className="w-12 h-12 bg-gradient-to-br from-[#dddbff]/10 to-[#dddbff]/30 border border-[#dddbff] rounded-xl flex items-center justify-center text-[#443dff] shadow-sm">
+                                                            <iconify-icon icon={(() => {
+                                                                const map = {
+                                                                    '☕': 'solar:cup-hot-linear',
+                                                                    '🍵': 'solar:cup-hot-linear',
+                                                                    '🥐': 'solar:croissant-linear',
+                                                                    '🍚': 'solar:bowl-linear',
+                                                                    '🍽️': 'solar:hamburger-linear',
+                                                                };
+                                                                const val = menu.emoji || '';
+                                                                return val.startsWith('solar:') ? val : (map[val] || 'solar:hamburger-linear');
+                                                            })()} class="text-2xl"></iconify-icon>
                                                         </div>
                                                         <span className={`absolute -top-1.5 -left-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold shadow-md border border-white ${rankColors}`}>
                                                             {i + 1}
@@ -308,7 +318,7 @@ export default function OwnerDashboard({
                                                     </div>
                                                     <div>
                                                         <p className="text-sm font-extrabold text-[#050316] tracking-tight">{menu.name}</p>
-                                                        <p className="text-[10px] font-bold text-[#2f27ce]/60 uppercase tracking-wider">{menu.category}</p>
+                                                        <p className="text-[10px] font-bold text-[#2f27ce]/60 capitalize tracking-wider">{menu.category}</p>
                                                     </div>
                                                 </div>
                                                 <div className="text-right">
@@ -327,7 +337,7 @@ export default function OwnerDashboard({
                             <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm flex flex-col justify-between">
                                 <div>
                                     <h3 className="font-extrabold text-[#050316] tracking-tight">Jam Sibuk</h3>
-                                    <p className="text-[10px] text-[#2f27ce]/60 font-bold uppercase tracking-wider mt-0.5">Tingkat hunian transaksi harian</p>
+                                    <p className="text-[10px] text-[#2f27ce]/60 font-bold capitalize tracking-wider mt-0.5">Tingkat hunian transaksi harian</p>
                                 </div>
                                 <div className="relative h-40 mt-6 pt-4 px-1">
                                     {/* Background Grid Lines */}
@@ -383,7 +393,7 @@ export default function OwnerDashboard({
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left min-w-[700px]">
                                     <thead>
-                                        <tr className="text-xs text-[#2f27ce] border-b border-[#dddbff] uppercase tracking-wider">
+                                        <tr className="text-xs text-[#2f27ce] border-b border-[#dddbff] capitalize tracking-wider">
                                             <th className="pb-3 font-extrabold">Nama Menu</th>
                                             <th className="pb-3 font-extrabold">Harga Jual</th>
                                             <th className="pb-3 font-extrabold">Estimasi HPP</th>
@@ -442,7 +452,7 @@ export default function OwnerDashboard({
                             <div className="absolute top-0 right-0 w-28 h-28 bg-[#443dff]/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
                             <div className="relative z-10">
                                 <div className="flex justify-between items-center mb-3">
-                                    <h3 className="text-[10px] font-bold uppercase tracking-wider text-[#2f27ce]/70">Goal Hari Ini</h3>
+                                    <h3 className="text-[10px] font-bold capitalize tracking-wider text-[#2f27ce]/70">Goal Hari Ini</h3>
                                     <span className="text-[#2f27ce] font-extrabold text-xs bg-[#dddbff]/40 px-2 py-0.5 rounded-md">{dailyGoal.progress}%</span>
                                 </div>
                                 <div className="w-full bg-[#dddbff]/30 h-2.5 rounded-full overflow-hidden mb-4 border border-[#dddbff]/30">
@@ -561,7 +571,7 @@ export default function OwnerDashboard({
                             className="block bg-gradient-to-br from-[#050316] via-[#2f27ce] to-[#443dff] p-6 rounded-2xl border border-[#2f27ce] relative overflow-hidden hover:shadow-lg hover:shadow-[#443dff]/30 transition-all duration-300 group">
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
                             <div className="relative z-10">
-                                <p className="text-[10px] font-extrabold text-[#dddbff] mb-1.5 tracking-widest">✨ PROMO AKHIR PEKAN?</p>
+                                <p className="text-[10px] font-extrabold text-[#dddbff] mb-1.5 tracking-widest flex items-center gap-1"><iconify-icon icon="solar:stars-linear" class="text-sm"></iconify-icon> PROMO AKHIR PEKAN</p>
                                 <p className="text-xs font-medium text-white leading-relaxed mb-4 pr-6">
                                     Buat paket bundling menu terlaris untuk meningkatkan penjualan akhir pekan Anda.
                                 </p>
@@ -569,7 +579,7 @@ export default function OwnerDashboard({
                                     Buat Sekarang <span className="group-hover:translate-x-1 transition-transform text-[#443dff]">→</span>
                                 </span>
                             </div>
-                            <span className="absolute -right-4 -bottom-4 text-6xl opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-500 transform">🎁</span>
+                            <iconify-icon icon="solar:gift-linear" class="absolute -right-4 -bottom-4 text-6xl opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-500 transform text-white"></iconify-icon>
                         </Link>
 
                     </div>
@@ -589,7 +599,7 @@ export default function OwnerDashboard({
 
                         <form onSubmit={handleTargetSubmit} className="space-y-4 relative z-10">
                             <div>
-                                <label className="text-[10px] font-bold text-[#2f27ce] uppercase tracking-wider block mb-1">Nama / Label Target</label>
+                                <label className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-wider block mb-1">Nama / Label Target</label>
                                 <input
                                     type="text"
                                     required
@@ -602,7 +612,7 @@ export default function OwnerDashboard({
                             </div>
 
                             <div>
-                                <label className="text-[10px] font-bold text-[#2f27ce] uppercase tracking-wider block mb-1">Target Pendapatan (Rp)</label>
+                                <label className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-wider block mb-1">Target Pendapatan (Rp)</label>
                                 <div className="relative">
                                     <span className="absolute left-3 top-2.5 text-sm font-bold text-[#2f27ce]/50">Rp</span>
                                     <input

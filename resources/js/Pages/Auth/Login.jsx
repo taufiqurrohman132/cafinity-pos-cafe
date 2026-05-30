@@ -30,7 +30,7 @@ export default function Login({ status, errors: serverErrors }) {
                         {/* Logo */}
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center backdrop-blur-sm">
-                                <iconify-icon icon="solar:cup-hot-bold" class="text-xl text-white"></iconify-icon>
+                                <iconify-icon icon="solar:cup-hot-linear" class="text-xl text-white"></iconify-icon>
                             </div>
                             <span className="text-white font-extrabold text-lg tracking-tight">Cafinity POS</span>
                         </div>
@@ -83,7 +83,7 @@ export default function Login({ status, errors: serverErrors }) {
                             {/* Logo */}
                             <div className="text-center space-y-3">
                                 <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2f27ce] to-[#443dff] shadow-lg shadow-[#443dff]/30">
-                                    <iconify-icon icon="solar:cup-hot-bold" class="text-2xl text-white"></iconify-icon>
+                                    <iconify-icon icon="solar:cup-hot-linear" class="text-2xl text-white"></iconify-icon>
                                 </div>
                                 <div>
                                     <h2 className="text-2xl font-extrabold text-[#050316] tracking-tight">Selamat Datang</h2>
@@ -96,7 +96,7 @@ export default function Login({ status, errors: serverErrors }) {
                             {/* Error */}
                             {Object.keys(errors).length > 0 && (
                                 <div className="bg-rose-50 border border-rose-200 rounded-xl px-4 py-3 flex items-start gap-2">
-                                    <iconify-icon icon="solar:danger-triangle-bold-duotone" class="text-rose-500 text-lg flex-shrink-0 mt-0.5"></iconify-icon>
+                                    <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-lg flex-shrink-0 mt-0.5"></iconify-icon>
                                     <div>
                                         {Object.values(errors).map((error, i) => (
                                             <p key={i} className="text-xs font-semibold text-rose-600">{error}</p>
@@ -117,7 +117,7 @@ export default function Login({ status, errors: serverErrors }) {
 
                                 {/* Email */}
                                 <div className="space-y-1.5">
-                                    <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wide">
+                                    <label className="block text-xs font-extrabold text-[#2f27ce] capitalize tracking-wide">
                                         Email atau Nama Pengguna
                                     </label>
                                     <div className="relative">
@@ -138,7 +138,7 @@ export default function Login({ status, errors: serverErrors }) {
                                 {/* Password */}
                                 <div className="space-y-1.5">
                                     <div className="flex items-center justify-between">
-                                        <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wide">
+                                        <label className="block text-xs font-extrabold text-[#2f27ce] capitalize tracking-wide">
                                             Kata Sandi
                                         </label>
                                         <a href="/forgot-password"
@@ -187,21 +187,21 @@ export default function Login({ status, errors: serverErrors }) {
                                 <button type="submit" disabled={processing}
                                     className="w-full h-12 rounded-xl bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white text-sm font-extrabold tracking-wide transition-all duration-200 shadow-lg shadow-[#443dff]/30 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
                                     {processing ? 'Memproses...' : 'Masuk ke Dashboard'}
-                                    {!processing && <iconify-icon icon="solar:arrow-right-bold" class="text-base"></iconify-icon>}
+                                    {!processing && <iconify-icon icon="solar:arrow-right-linear" class="text-base"></iconify-icon>}
                                 </button>
                             </form>
 
                             {/* Divider */}
                             <div className="flex items-center gap-3">
                                 <div className="flex-1 h-px bg-[#dddbff]"></div>
-                                <span className="text-[10px] font-bold text-[#2f27ce]/50 uppercase tracking-widest">Aman & Terenkripsi</span>
+                                <span className="text-[10px] font-bold text-[#2f27ce]/50 capitalize tracking-widest">Aman & Terenkripsi</span>
                                 <div className="flex-1 h-px bg-[#dddbff]"></div>
                             </div>
 
                             {/* Trust badges */}
                             <div className="flex items-center justify-center gap-6 text-[11px] font-semibold text-[#2f27ce]/60">
                                 <span className="flex items-center gap-1.5">
-                                    <iconify-icon icon="solar:shield-check-bold-duotone" class="text-sm text-[#443dff]"></iconify-icon>
+                                    <iconify-icon icon="solar:shield-check-linear" class="text-sm text-[#443dff]"></iconify-icon>
                                     Koneksi aman SSL 256-bit
                                 </span>
                             </div>
@@ -229,7 +229,7 @@ export default function Login({ status, errors: serverErrors }) {
                             <span className="text-[#dddbff]">•</span>
                             <a href="#" className="hover:text-[#443dff] transition-colors">Hubungi Kami</a>
                         </div>
-                        <p className="text-[10px] font-bold text-[#2f27ce]/40 uppercase tracking-widest">
+                        <p className="text-[10px] font-bold text-[#2f27ce]/40 capitalize tracking-widest">
                             © {new Date().getFullYear()} Cafinity POS
                         </p>
                     </div>

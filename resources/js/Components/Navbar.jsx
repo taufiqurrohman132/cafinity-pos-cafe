@@ -23,13 +23,13 @@ export default function Navbar() {
 
                 {/* Notifications */}
                 <Link href="/notifications" className="w-10 h-10 rounded-xl flex items-center justify-center text-[#2f27ce] hover:bg-[#dddbff]/50 hover:text-[#443dff] transition-all relative">
-                    <iconify-icon icon="solar:bell-bing-bold-duotone" class="text-[22px]"></iconify-icon>
+                    <iconify-icon icon="solar:bell-bing-linear" class="text-[22px]"></iconify-icon>
                     <span className="absolute top-2 right-2.5 w-2 h-2 rounded-full bg-red-500 border-2 border-white"></span>
                 </Link>
 
                 {/* Settings */}
                 <a href="#" className="w-10 h-10 rounded-xl flex items-center justify-center text-[#2f27ce] hover:bg-[#dddbff]/50 hover:text-[#443dff] transition-all">
-                    <iconify-icon icon="solar:settings-bold-duotone" class="text-[22px]"></iconify-icon>
+                    <iconify-icon icon="solar:settings-linear" class="text-[22px]"></iconify-icon>
                 </a>
 
                 {/* User Profile */}

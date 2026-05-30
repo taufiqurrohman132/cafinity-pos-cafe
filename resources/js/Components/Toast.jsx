@@ -17,10 +17,10 @@ export default function Toast({ flash }) {
     }, [flash]);
 
     const config = {
-        success: { border: 'border-green-200', icon: 'solar:check-circle-bold',   iconColor: 'text-green-600', bg: 'bg-green-100', text: 'text-green-700' },
-        error:   { border: 'border-red-200',   icon: 'solar:close-circle-bold',   iconColor: 'text-red-600',   bg: 'bg-red-100',   text: 'text-red-700' },
-        info:    { border: 'border-blue-200',  icon: 'solar:info-circle-bold',    iconColor: 'text-blue-600',  bg: 'bg-blue-100',  text: 'text-blue-700' },
-        warning: { border: 'border-amber-200', icon: 'solar:warning-circle-bold', iconColor: 'text-amber-600', bg: 'bg-amber-100', text: 'text-amber-700' },
+        success: { border: 'border-green-200', icon: 'solar:check-circle-linear',   iconColor: 'text-green-600', bg: 'bg-green-100', text: 'text-green-700' },
+        error:   { border: 'border-red-200',   icon: 'solar:close-circle-linear',   iconColor: 'text-red-600',   bg: 'bg-red-100',   text: 'text-red-700' },
+        info:    { border: 'border-blue-200',  icon: 'solar:info-circle-linear',    iconColor: 'text-blue-600',  bg: 'bg-blue-100',  text: 'text-blue-700' },
+        warning: { border: 'border-amber-200', icon: 'solar:warning-circle-linear', iconColor: 'text-amber-600', bg: 'bg-amber-100', text: 'text-amber-700' },
     };
 
     if (!toasts.length) return null;

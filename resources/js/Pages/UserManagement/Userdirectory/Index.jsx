@@ -259,7 +259,7 @@ export default function UsersIndex({ users, stats, logs, filters, can }) {
                                 ].map(item => (
                                     <div key={item.label} className={`border rounded-xl p-4 flex items-center justify-between ${item.bg}`}>
                                         <div>
-                                            <p className="text-[10px] font-bold text-[#2f27ce]/70 uppercase tracking-widest">{item.label}</p>
+                                            <p className="text-[10px] font-bold text-[#2f27ce]/70 capitalize tracking-widest">{item.label}</p>
                                             <p className={`text-2xl font-black mt-1 ${item.text}`}>{item.value}</p>
                                         </div>
                                         <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
@@ -310,7 +310,7 @@ function UserActions({ user, canManage, onToggle, onReset, onDelete }) {
                 onBlur={() => setTimeout(() => setOpen(false), 150)}
                 className="p-2 text-[#2f27ce]/50 hover:text-[#443dff] hover:bg-[#dddbff]/50 rounded-xl transition-all"
             >
-                <iconify-icon icon="solar:menu-dots-bold" class="text-lg"></iconify-icon>
+                <iconify-icon icon="solar:menu-dots-linear" class="text-lg"></iconify-icon>
             </button>
             {open && (
                 <div className="absolute right-0 mt-1 w-48 bg-white border border-[#dddbff] rounded-xl shadow-xl z-20 overflow-hidden">

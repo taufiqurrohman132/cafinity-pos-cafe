@@ -6,6 +6,39 @@ function formatRupiah(amount) {
     return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
 }
 
+function MenuImage({ src, name, categoryName }) {
+    const [hasError, setHasError] = useState(false);
+
+    const renderPlaceholder = () => {
+        const lower = (categoryName || '').toLowerCase();
+        let icon = 'solar:widget-linear';
+        if (lower.includes('kopi') || lower.includes('coffee')) icon = 'solar:cup-hot-linear';
+        else if (lower.includes('non')) icon = 'solar:cup-star-linear';
+        else if (lower.includes('makanan') || lower.includes('main')) icon = 'solar:plate-linear';
+        else if (lower.includes('snack') || lower.includes('cemilan')) icon = 'solar:donut-linear';
+
+        return (
+            <div className="w-full h-full bg-[#dddbff]/30 flex items-center justify-center text-[#443dff] group-hover:scale-105 transition-transform duration-200">
+                <iconify-icon icon={icon} class="text-[40px]"></iconify-icon>
+            </div>
+        );
+    };
+
+    if (!src || hasError) {
+        return renderPlaceholder();
+    }
+
+    return (
+        <img
+            src={src}
+            alt={name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+            onError={() => setHasError(true)}
+        />
+    );
+}
+
+
 export default function POS({
     menus,
     categories,
@@ -194,7 +227,7 @@ export default function POS({
                                     }`}
                                 >
                                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${selectedCategory === null ? 'bg-white/20' : 'bg-[#dddbff]/50'}`}>
-                                        <iconify-icon icon="solar:widget-bold" class="text-[18px]" />
+                                        <iconify-icon icon="solar:widget-linear" class="text-[18px]" />
                                     </div>
                                     <span className="text-[11px] font-extrabold tracking-wide">Semua</span>
                                 </button>
@@ -228,9 +261,7 @@ export default function POS({
                                         >
                                             <div className="absolute inset-0 bg-[#443dff]/5 opacity-0 group-active:opacity-100 transition-opacity duration-75 z-10 pointer-events-none" />
                                             <div className="relative overflow-hidden h-[120px]">
-                                                <img src={menu.image_url || '/images/menu_placeholder.png'} alt={menu.name}
-                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-                                                    onError={(e) => { e.target.onerror = null; e.target.src = '/images/menu_placeholder.png'; }} />
+                                                <MenuImage src={menu.image_url} name={menu.name} categoryName={menu.category_name} />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-[#050316]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
                                             </div>
                                             <div className="p-3.5 flex flex-col flex-1 bg-white z-20">
@@ -241,7 +272,7 @@ export default function POS({
                                                 <div className="flex items-center justify-between mt-auto">
                                                     <span className="text-[#443dff] font-black text-[14px]">{formatRupiah(menu.price)}</span>
                                                     <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#dddbff]/50 to-[#dddbff]/30 text-[#2f27ce] flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-[#443dff] group-hover:to-[#2f27ce] group-hover:text-white transition-all duration-150 shadow-sm">
-                                                        <iconify-icon icon="solar:add-circle-bold" class="text-[20px]" />
+                                                        <iconify-icon icon="solar:add-circle-linear" class="text-[20px]" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -265,7 +296,7 @@ export default function POS({
                     <div className="h-[76px] border-b border-[#dddbff] px-5 flex items-center justify-between flex-shrink-0 bg-white/80 backdrop-blur-md">
                         <div className="flex items-center gap-2.5">
                             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#dddbff] to-white border border-[#dddbff]/50 flex items-center justify-center">
-                                <iconify-icon icon="solar:cart-large-2-bold-duotone" class="text-[#443dff] text-[18px]" />
+                                <iconify-icon icon="solar:cart-large-2-linear" class="text-[#443dff] text-[18px]" />
                             </div>
                             <h3 className="font-extrabold text-[15px] text-[#050316] tracking-tight">Pesanan Aktif</h3>
                         </div>
@@ -277,7 +308,7 @@ export default function POS({
                     {/* Held orders */}
                     {heldOrders.length > 0 && (
                         <div className="px-5 py-3 border-b border-[#dddbff] flex-shrink-0 bg-gradient-to-b from-[#dddbff]/30 to-transparent">
-                            <p className="text-[10px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2.5 flex items-center gap-1">
+                            <p className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2.5 flex items-center gap-1">
                                 <span className="w-1.5 h-1.5 rounded-full bg-[#443dff] animate-pulse" /> Tertahan
                             </p>
                             <div className="flex gap-2.5 overflow-x-auto pb-1.5">
@@ -302,7 +333,7 @@ export default function POS({
                         {cart.length === 0 ? (
                             <div className="h-full flex flex-col items-center justify-center text-center px-4">
                                 <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#dddbff]/50 to-white border border-[#dddbff] flex items-center justify-center mb-4 shadow-inner">
-                                    <iconify-icon icon="solar:cookie-bold-duotone" class="text-[38px] text-[#443dff]" />
+                                    <iconify-icon icon="solar:cookie-linear" class="text-[38px] text-[#443dff]" />
                                 </div>
                                 <h4 className="text-[14px] font-bold text-[#2f27ce]">Keranjang masih kosong</h4>
                                 <p className="text-[11px] text-[#2f27ce] mt-1">Pilih menu di sebelah kiri untuk menambahkan.</p>
@@ -329,7 +360,7 @@ export default function POS({
                                         <div className="text-right flex-shrink-0 flex flex-col items-end pt-0.5 ml-2">
                                             <p className="text-[13px] font-black text-[#443dff]">{formatRupiah(item.price * item.qty)}</p>
                                             <button onClick={() => removeFromCart(index)}
-                                                className="text-[10px] font-bold text-red-400 hover:text-red-600 mt-1.5 transition-colors uppercase tracking-wider">
+                                                className="text-[10px] font-bold text-red-400 hover:text-red-600 mt-1.5 transition-colors capitalize tracking-wider">
                                                 Hapus
                                             </button>
                                         </div>
@@ -359,7 +390,7 @@ export default function POS({
                         </div>
 
                         <div className="flex items-center justify-between mt-4 mb-5 pt-4 border-t border-[#dddbff] border-dashed">
-                            <span className="font-extrabold text-[#050316] uppercase tracking-wide text-sm">Total Tagihan</span>
+                            <span className="font-extrabold text-[#050316] capitalize tracking-wide text-sm">Total Tagihan</span>
                             <span className="font-black text-[24px] text-transparent bg-clip-text bg-gradient-to-r from-[#2f27ce] to-[#443dff]">
                                 {formatRupiah(total)}
                             </span>
@@ -413,7 +444,7 @@ export default function POS({
                             </div>
                         </div>
 
-                        <label className="block text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2">
+                        <label className="block text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2">
                             Metode Pembayaran
                         </label>
                         <select
@@ -427,7 +458,7 @@ export default function POS({
                             <option value="debit">💳 Kartu Debit/Kredit</option>
                         </select>
 
-                        <label className="block text-[11px] font-extrabold text-[#2f27ce] uppercase tracking-widest mb-2">
+                        <label className="block text-[11px] font-extrabold text-[#2f27ce] capitalize tracking-widest mb-2">
                             Jumlah Dibayar
                         </label>
                         <div className="relative mb-5">
@@ -443,7 +474,7 @@ export default function POS({
                         </div>
 
                         <div className="bg-gradient-to-r from-[#dddbff]/50 to-[#dddbff]/20 p-4 rounded-xl border border-[#dddbff] mb-6 flex justify-between items-center">
-                            <p className="text-xs font-bold text-[#2f27ce] uppercase tracking-wide">Kembalian</p>
+                            <p className="text-xs font-bold text-[#2f27ce] capitalize tracking-wide">Kembalian</p>
                             <p className={`text-lg font-black ${changeAmount >= 0 ? 'text-[#443dff]' : 'text-red-500'}`}>
                                 {changeAmount >= 0
                                     ? formatRupiah(changeAmount)
@@ -461,7 +492,7 @@ export default function POS({
                                 disabled={loading || paidAmount < total}
                                 className="flex-1 h-12 rounded-xl bg-gradient-to-r from-[#443dff] to-[#2f27ce] hover:from-[#2f27ce] hover:to-[#050316] text-white text-sm font-extrabold shadow-lg shadow-[#443dff]/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex justify-center items-center gap-2 active:scale-[0.98]"
                             >
-                                <iconify-icon icon="solar:check-circle-bold" class="text-[18px]" />
+                                <iconify-icon icon="solar:check-circle-linear" class="text-[18px]" />
                                 Konfirmasi
                             </button>
                         </div>

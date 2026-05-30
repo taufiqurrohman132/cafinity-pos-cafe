@@ -26,6 +26,38 @@ function Icon({ icon, className = "" }) {
 }
 
 // ── sub-components ────────────────────────────────────────────────────────────
+function MenuImage({ src, name, categoryName }) {
+    const [hasError, setHasError] = useState(false);
+
+    const renderPlaceholder = () => {
+        const lower = (categoryName || '').toLowerCase();
+        let icon = 'solar:widget-linear';
+        if (lower.includes('kopi') || lower.includes('coffee')) icon = 'solar:cup-hot-linear';
+        else if (lower.includes('non')) icon = 'solar:cup-star-linear';
+        else if (lower.includes('makanan') || lower.includes('main')) icon = 'solar:plate-linear';
+        else if (lower.includes('snack') || lower.includes('cemilan')) icon = 'solar:donut-linear';
+
+        return (
+            <div className="w-full h-full bg-[#dddbff]/30 rounded-2xl border border-[#dddbff] flex items-center justify-center text-6xl text-[#443dff]">
+                <iconify-icon icon={icon} class="text-6xl"></iconify-icon>
+            </div>
+        );
+    };
+
+    if (!src || hasError) {
+        return renderPlaceholder();
+    }
+
+    return (
+        <img
+            src={src}
+            alt={name}
+            className="w-full h-full object-cover rounded-2xl border border-[#dddbff]"
+            onError={() => setHasError(true)}
+        />
+    );
+}
+
 function StatCard({ label, children, accent = false }) {
     return (
         <div
@@ -36,7 +68,7 @@ function StatCard({ label, children, accent = false }) {
             }`}
         >
             <p
-                className={`text-xs font-extrabold mb-1 uppercase tracking-wide ${
+                className={`text-xs font-extrabold mb-1 capitalize tracking-wide ${
                     accent ? "text-emerald-700" : "text-[#2f27ce]"
                 }`}
             >
@@ -262,7 +294,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                             href={route("menus.index")}
                             className="flex items-center gap-1.5 hover:text-[#050316] transition-colors font-bold"
                         >
-                            <Icon icon="solar:arrow-left-bold" className="text-base" />
+                            <Icon icon="solar:arrow-left-linear" className="text-base" />
                             Kembali ke Menu
                         </Link>
                         <span className="text-[#dddbff]">/</span>
@@ -276,14 +308,14 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                             onClick={handleShare}
                             className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#dddbff] text-sm font-bold text-[#2f27ce] bg-white hover:bg-[#dddbff] hover:text-[#050316] transition-all shadow-sm"
                         >
-                            <Icon icon="solar:share-bold" /> Bagikan
+                            <Icon icon="solar:share-linear" /> Bagikan
                         </button>
                         <button
                             type="button"
                             onClick={() => setShowEditModal(true)}
                             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white text-sm font-bold transition-all shadow-lg shadow-[#443dff]/30"
                         >
-                            <Icon icon="solar:pen-bold" /> Edit Produk
+                            <Icon icon="solar:pen-linear" /> Edit Produk
                         </button>
                     </div>
                 </div>
@@ -294,20 +326,10 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
 
                         {/* Image */}
                         <div className="relative w-full lg:w-72 h-64 lg:h-72 flex-shrink-0">
-                            {menu.image_url ? (
-                                <img
-                                    src={menu.image_url}
-                                    alt={menu.name}
-                                    className="w-full h-full object-cover rounded-2xl border border-[#dddbff]"
-                                />
-                            ) : (
-                                <div className="w-full h-full bg-[#dddbff]/30 rounded-2xl border border-[#dddbff] flex items-center justify-center text-6xl">
-                                    {menu.emoji ?? "☕"}
-                                </div>
-                            )}
+                            <MenuImage src={menu.image_url} name={menu.name} categoryName={menu.category?.name} />
                             {menu.is_best_seller && (
-                                <span className="absolute top-3 left-3 bg-[#443dff] text-white text-[10px] font-extrabold px-3 py-1.5 rounded-lg shadow-md tracking-wide">
-                                    🏆 Terlaris #1
+                                <span className="absolute top-3 left-3 bg-[#443dff] text-white text-[10px] font-extrabold px-3 py-1.5 rounded-lg shadow-md tracking-wide flex items-center gap-1">
+                                    <iconify-icon icon="solar:cup-linear" class="text-xs"></iconify-icon> Terlaris #1
                                 </span>
                             )}
                         </div>
@@ -320,7 +342,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                         {menu.category?.name ?? "Uncategorized"}
                                     </span>
                                     <span className="text-[11px] font-medium text-[#2f27ce]/60 flex items-center gap-1">
-                                        <Icon icon="solar:tag-bold-duotone" className="text-xs" />
+                                        <Icon icon="solar:tag-linear" className="text-xs" />
                                         SKU: {menu.sku ?? "N/A"}
                                     </span>
                                 </div>
@@ -340,7 +362,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                             Rp {fmt(menu.price)}
                                         </p>
                                         <div className="w-9 h-9 bg-[#dddbff]/50 rounded-xl flex items-center justify-center border border-[#dddbff]">
-                                            <Icon icon="solar:dollar-minimalistic-bold-duotone" className="text-lg text-[#443dff]" />
+                                            <Icon icon="solar:dollar-minimalistic-linear" className="text-lg text-[#443dff]" />
                                         </div>
                                     </div>
                                     <p className="text-[10px] text-[#2f27ce]/60 font-medium mt-1">
@@ -354,7 +376,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                             Rp {fmt(hpp)}
                                         </p>
                                         <div className="w-9 h-9 bg-[#dddbff]/50 rounded-xl flex items-center justify-center border border-[#dddbff]">
-                                            <Icon icon="solar:cart-bold-duotone" className="text-lg text-[#443dff]" />
+                                            <Icon icon="solar:cart-linear" className="text-lg text-[#443dff]" />
                                         </div>
                                     </div>
                                     <p className="text-[10px] text-[#2f27ce]/60 font-medium mt-1">
@@ -375,7 +397,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                             )}
                                         </div>
                                         <div className="w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center border border-emerald-200">
-                                            <Icon icon="solar:graph-up-bold-duotone" className="text-lg text-emerald-600" />
+                                            <Icon icon="solar:graph-up-linear" className="text-lg text-emerald-600" />
                                         </div>
                                     </div>
                                 </StatCard>
@@ -391,7 +413,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                             </p>
                                         </div>
                                         <div className="w-9 h-9 bg-[#dddbff]/50 rounded-xl flex items-center justify-center border border-[#dddbff]">
-                                            <Icon icon="solar:pie-chart-2-bold-duotone" className="text-lg text-[#443dff]" />
+                                            <Icon icon="solar:pie-chart-2-linear" className="text-lg text-[#443dff]" />
                                         </div>
                                     </div>
                                 </StatCard>
@@ -457,7 +479,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                     </span>
                                     {weeklyGrowth && (
                                         <span className="flex items-center gap-1.5 text-emerald-600">
-                                            <Icon icon="solar:graph-up-bold" />
+                                            <Icon icon="solar:graph-up-linear" />
                                             +{weeklyGrowth}% Pertumbuhan Mingguan
                                         </span>
                                     )}
@@ -474,7 +496,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left min-w-[500px]">
                                         <thead>
-                                            <tr className="text-xs text-[#2f27ce] border-b border-[#dddbff] uppercase tracking-wider">
+                                            <tr className="text-xs text-[#2f27ce] border-b border-[#dddbff] capitalize tracking-wider">
                                                 <th className="pb-3 font-extrabold">Bahan</th>
                                                 <th className="pb-3 font-extrabold">Qty</th>
                                                 <th className="pb-3 font-extrabold">Satuan</th>
@@ -570,7 +592,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                         {/* Status Bahan Baku */}
                         <div className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm">
                             <div className="flex items-center gap-2 mb-5">
-                                <Icon icon="solar:box-minimalistic-bold-duotone" className="text-xl text-[#443dff]" />
+                                <Icon icon="solar:box-minimalistic-linear" className="text-xl text-[#443dff]" />
                                 <h3 className="font-extrabold text-[#050316] tracking-tight">
                                     Status Bahan Baku
                                 </h3>
@@ -601,7 +623,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                             >
                                                 <div className="flex items-center gap-3">
                                                     <div className="w-8 h-8 rounded-lg bg-[#dddbff]/30 border border-[#dddbff] flex items-center justify-center">
-                                                        <Icon icon="solar:box-bold-duotone" className="text-sm text-[#443dff]" />
+                                                        <Icon icon="solar:box-linear" className="text-sm text-[#443dff]" />
                                                     </div>
                                                     <div>
                                                         <p className="text-xs font-extrabold text-[#050316]">
@@ -663,14 +685,14 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                 style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cubes.png')" }}
                             />
                             <div className="relative z-10">
-                                <p className="text-[10px] font-extrabold text-[#dddbff] mb-3 tracking-widest uppercase">
+                                <p className="text-[10px] font-extrabold text-[#dddbff] mb-3 tracking-widest capitalize">
                                     ⚡ Aksi Cepat
                                 </p>
                                 <div className="space-y-2">
                                     {[
-                                        { onClick: () => setShowEditModal(true), icon: "solar:pen-bold",      label: "Edit Detail Menu" },
-                                        { href: route("recipe.index"),          icon: "solar:notebook-bold", label: "Kelola Resep & HPP" },
-                                        { href: route("bundles.index"),         icon: "solar:gift-bold",     label: "Buat Promo Bundle" },
+                                        { onClick: () => setShowEditModal(true), icon: "solar:pen-linear",      label: "Edit Detail Menu" },
+                                        { href: route("recipe.index"),          icon: "solar:notebook-linear", label: "Kelola Resep & HPP" },
+                                        { href: route("bundles.index"),         icon: "solar:gift-linear",     label: "Buat Promo Bundle" },
                                     ].map((a) => (
                                         a.href ? (
                                             <Link
@@ -727,7 +749,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                         <form onSubmit={handleEditSubmit} className="space-y-5 relative z-10">
                             {/* Row 1: Foto Menu */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider">
                                     Foto Menu
                                 </label>
                                 <div className="col-span-8 flex items-center gap-4">
@@ -757,7 +779,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
 
                             {/* Row 2: Nama Menu */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider">
                                     Nama Menu
                                 </label>
                                 <div className="col-span-8">
@@ -779,7 +801,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
 
                             {/* Row 3: Kategori */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider">
                                     Kategori
                                 </label>
                                 <div className="col-span-8">
@@ -804,7 +826,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
 
                             {/* Row 4: Harga Jual (Rp) */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider">
                                     Harga Jual (Rp)
                                 </label>
                                 <div className="col-span-8">
@@ -827,7 +849,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
 
                             {/* Row 5: Estimasi HPP (Rp) */}
                             <div className="grid grid-cols-12 gap-x-4 items-start">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider mt-2.5">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider mt-2.5">
                                     Estimasi HPP (Rp)
                                 </label>
                                 <div className="col-span-8">
@@ -852,7 +874,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
 
                             {/* Row 6: Deskripsi */}
                             <div className="grid grid-cols-12 gap-x-4 items-start">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] uppercase tracking-wider mt-2.5">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-[#050316] capitalize tracking-wider mt-2.5">
                                     Deskripsi
                                 </label>
                                 <div className="col-span-8">
