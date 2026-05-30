@@ -103,7 +103,7 @@ export default function InventoriesIndex({
                                     value: `Rp ${totalValue.toLocaleString('id-ID')}`,
                                     sub: 'Nilai stok keseluruhan',
                                     subColor: 'text-green-500',
-                                    icon: '📦',
+                                    icon: 'solar:box-linear',
                                     iconBg: 'bg-[#dddbff] text-[#2f27ce]',
                                 },
                                 {
@@ -111,7 +111,7 @@ export default function InventoriesIndex({
                                     value: `${lowStockCount} Item`,
                                     sub: 'Perlu segera dipesan',
                                     subColor: 'text-red-500',
-                                    icon: '⚠️',
+                                    icon: 'solar:danger-triangle-linear',
                                     iconBg: 'bg-orange-100 text-orange-500',
                                 },
                                 {
@@ -119,7 +119,7 @@ export default function InventoriesIndex({
                                     value: `${restockCount} Item`,
                                     sub: 'Berdasarkan batas minimum stok',
                                     subColor: 'text-gray-400',
-                                    icon: '📈',
+                                    icon: 'solar:graph-up-linear',
                                     iconBg: 'bg-[#dddbff] text-[#2f27ce]',
                                 },
                             ].map((card) => (
@@ -130,8 +130,8 @@ export default function InventoriesIndex({
                                             <h2 className="text-2xl font-bold text-[#050316] mt-3">{card.value}</h2>
                                             <p className={`text-xs font-semibold mt-3 ${card.subColor}`}>{card.sub}</p>
                                         </div>
-                                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0 ${card.iconBg}`}>
-                                            {card.icon}
+                                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${card.iconBg}`}>
+                                            <iconify-icon icon={card.icon} class="text-xl"></iconify-icon>
                                         </div>
                                     </div>
                                 </div>
@@ -146,7 +146,7 @@ export default function InventoriesIndex({
                                 <h3 className="font-bold text-[#050316]">Daftar Bahan Baku</h3>
                                 <form onSubmit={handleSearch}>
                                     <div className="relative">
-                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
+                                        <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-base"></iconify-icon>
                                         <input
                                             type="text"
                                             value={search}
@@ -173,7 +173,7 @@ export default function InventoriesIndex({
                                             <tr>
                                                 <td colSpan={7} className="px-6 py-10 text-center text-gray-400 text-sm">
                                                     <div className="flex flex-col items-center gap-2">
-                                                        <span className="text-4xl">📦</span>
+                                                        <iconify-icon icon="solar:box-linear" class="text-4xl text-[#443dff]"></iconify-icon>
                                                         <p>Belum ada data inventaris.</p>
                                                         <a href={route('inventories.create')} className="text-[#2f27ce] font-semibold hover:underline text-xs">
                                                             + Tambah bahan pertama
@@ -223,21 +223,21 @@ export default function InventoriesIndex({
                                                                 className="w-8 h-8 rounded-lg bg-[#fbfbfe] border border-[#dddbff] flex items-center justify-center text-gray-500 hover:text-[#2f27ce] hover:border-[#2f27ce] transition"
                                                                 title="Detail"
                                                             >
-                                                                👁
+                                                                <iconify-icon icon="solar:eye-linear" class="text-lg"></iconify-icon>
                                                             </a>
                                                             <a
                                                                 href={route('inventories.edit', item.id)}
                                                                 className="w-8 h-8 rounded-lg bg-[#fbfbfe] border border-[#dddbff] flex items-center justify-center text-gray-500 hover:text-[#2f27ce] hover:border-[#2f27ce] transition"
                                                                 title="Edit"
                                                             >
-                                                                ✏️
+                                                                <iconify-icon icon="solar:pen-linear" class="text-lg"></iconify-icon>
                                                             </a>
                                                             <button
                                                                 onClick={() => handleDelete(item.id, item.name)}
                                                                 className="w-8 h-8 rounded-lg bg-[#fbfbfe] border border-[#dddbff] flex items-center justify-center text-gray-500 hover:text-red-500 hover:border-red-300 transition"
                                                                 title="Hapus"
                                                             >
-                                                                🗑
+                                                                <iconify-icon icon="solar:trash-bin-trash-linear" class="text-lg"></iconify-icon>
                                                             </button>
                                                         </div>
                                                     </td>
@@ -297,7 +297,9 @@ export default function InventoriesIndex({
                                     href={route('inventories.low-stock')}
                                     className="w-full border border-[#dddbff] rounded-xl p-4 text-left flex items-center gap-3 hover:bg-[#fbfbfe] transition"
                                 >
-                                    <div className="w-9 h-9 rounded-xl bg-[#dddbff] flex items-center justify-center text-[#2f27ce] text-lg flex-shrink-0">⚠️</div>
+                                    <div className="w-9 h-9 rounded-xl bg-[#dddbff] flex items-center justify-center text-[#2f27ce] text-lg flex-shrink-0">
+                                        <iconify-icon icon="solar:danger-triangle-linear" class="text-lg"></iconify-icon>
+                                    </div>
                                     <div>
                                         <h4 className="text-sm font-bold text-[#050316]">Stok Menipis</h4>
                                         <p className="text-xs text-gray-400 mt-0.5">Lihat semua item kritis</p>
@@ -332,7 +334,9 @@ export default function InventoriesIndex({
                         {/* Tips */}
                         <div className="bg-[#dddbff] border border-[#dddbff] rounded-2xl p-5">
                             <div className="flex items-start gap-3">
-                                <div className="w-9 h-9 rounded-xl bg-[#fbfbfe] flex items-center justify-center text-[#2f27ce] text-lg flex-shrink-0">💡</div>
+                                <div className="w-9 h-9 rounded-xl bg-[#fbfbfe] flex items-center justify-center text-[#2f27ce] flex-shrink-0">
+                                    <iconify-icon icon="solar:lightbulb-linear" class="text-lg"></iconify-icon>
+                                </div>
                                 <div>
                                     <h4 className="text-sm font-bold text-[#050316] mb-1">Tips Efisiensi</h4>
                                     {criticalItem ? (

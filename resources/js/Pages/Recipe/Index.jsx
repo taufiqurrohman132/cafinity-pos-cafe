@@ -137,7 +137,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                     {/* Search */}
                     <div className="px-4 pt-5 pb-2">
                         <div className="relative">
-                            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2f27ce]/70 text-sm">🔍</span>
+                            <iconify-icon icon="solar:magnifer-linear" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2f27ce]/70 text-sm"></iconify-icon>
                             <input
                                 type="text"
                                 value={search}
@@ -179,7 +179,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                         <p className={`text-[10px] font-semibold mb-2 relative z-10 ${isActive ? 'text-[#dddbff]' : 'text-[#2f27ce]/70'}`}>
                                             {(resep.menu?.category?.name ?? 'N/A').toUpperCase()}
                                         </p>
-                                        <div className={`flex justify-between items-center relative z-10 mt-2 pt-2 border-t ${isActive ? 'border-white/10' : 'border-[#dddbff]/50'}`}>
+                                        <div className={`flex justify-between items-center relative z-10 mt-2 pt-2 border-t ${isActive ? 'border-white/25' : 'border-[#dddbff]'}`}>
                                             <span className={`text-[10px] ${isActive ? 'text-[#dddbff]' : 'text-[#2f27ce]/70'}`}>
                                                 HPP: Rp {Number(resep.total_hpp).toLocaleString('id-ID')}
                                             </span>
@@ -213,7 +213,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                         </span>
                                     </div>
                                     <p className="text-xs text-[#2f27ce] flex items-center gap-1">
-                                        ℹ️ Terakhir disinkronisasi dengan harga inventory: 2 jam yang lalu
+                                        <iconify-icon icon="solar:info-circle-linear" class="text-sm text-[#2f27ce]"></iconify-icon> Terakhir disinkronisasi dengan harga inventory: 2 jam yang lalu
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-3">
@@ -233,7 +233,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                 {/* Stat Cards */}
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     <div className="bg-gradient-to-br from-[#dddbff]/50 to-white border border-[#dddbff] rounded-2xl p-6 shadow-sm relative overflow-hidden">
-                                        <span className="absolute -right-4 -bottom-4 text-6xl opacity-10">💰</span>
+                                        <iconify-icon icon="solar:wallet-money-linear" class="absolute -right-4 -bottom-4 text-6xl opacity-10 text-[#443dff]"></iconify-icon>
                                         <p className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-widest mb-2">Total HPP</p>
                                         <p className="text-2xl font-bold text-[#050316] relative z-10">
                                             Rp {Number(selectedRecipe.total_hpp).toLocaleString('id-ID')}
@@ -249,7 +249,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                         <p className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-widest mb-2">Margin Kotor</p>
                                         <div className="flex items-center gap-2">
                                             <p className="text-2xl font-bold text-[#050316]">{selectedRecipe.margin}%</p>
-                                            <span className="text-emerald-500 text-xl">📈</span>
+                                            <iconify-icon icon="solar:graph-up-linear" class="text-emerald-500 text-xl"></iconify-icon>
                                         </div>
                                     </div>
                                 </div>
@@ -265,9 +265,9 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                                 <h3 className="font-bold text-[#050316]">Komposisi Bahan Baku</h3>
                                                 <button
                                                     onClick={() => setShowEditModal(true)}
-                                                    className="flex items-center gap-1 text-xs font-semibold text-[#443dff] bg-[#dddbff]/30 px-3 py-1.5 rounded-lg border border-transparent hover:border-[#443dff] hover:bg-[#dddbff] transition-all"
+                                                    className="flex items-center gap-1.5 text-xs font-semibold text-[#443dff] bg-[#dddbff]/30 px-3 py-1.5 rounded-lg border border-transparent hover:border-[#443dff] hover:bg-[#dddbff] transition-all"
                                                 >
-                                                    ✏️ Edit Bahan
+                                                    <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon> Edit Bahan
                                                 </button>
                                             </div>
                                             <div className="overflow-x-auto">
@@ -358,7 +358,9 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                         {/* What-If Simulator */}
                                         <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-6">
                                             <div className="flex items-center gap-2 mb-4 border-b border-[#dddbff]/50 pb-4">
-                                                <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-500">📊</div>
+                                                <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-500">
+                                                    <iconify-icon icon="solar:chart-2-linear" class="text-lg"></iconify-icon>
+                                                </div>
                                                 <h3 className="text-sm font-bold text-[#050316]">Simulator "What-If"</h3>
                                             </div>
                                             <div className="flex justify-between items-center mb-3">
@@ -401,7 +403,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                                 onClick={() => setSliderVal(0)}
                                                 className="w-full mt-4 flex items-center justify-center gap-2 py-2 text-xs font-semibold text-[#050316] border border-[#dddbff] rounded-xl hover:bg-[#dddbff] transition-colors"
                                             >
-                                                🔄 Reset Simulasi
+                                                <iconify-icon icon="solar:restart-circle-linear" class="text-sm"></iconify-icon> Reset Simulasi
                                             </button>
                                         </div>
 
@@ -426,7 +428,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                             <div className="bg-rose-50 rounded-2xl border border-rose-100 shadow-sm p-5 relative overflow-hidden">
                                                 <div className="absolute -right-4 -top-4 w-16 h-16 bg-rose-500/10 rounded-full blur-xl" />
                                                 <div className="flex items-center gap-2 mb-3 relative z-10">
-                                                    <span className="text-rose-500 text-xl">⚠️</span>
+                                                    <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-xl"></iconify-icon>
                                                     <h3 className="text-xs font-bold text-rose-500 capitalize tracking-wider">Peringatan Margin</h3>
                                                 </div>
                                                 <p className="text-xs text-rose-800 leading-relaxed mb-4 relative z-10">
@@ -458,8 +460,8 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                         /* Empty State */
                         <div className="flex-1 flex items-center justify-center p-8">
                             <div className="text-center space-y-4 max-w-sm">
-                                <div className="w-24 h-24 bg-gradient-to-br from-[#dddbff] to-[#fbfbfe] border border-[#dddbff] rounded-full flex items-center justify-center mx-auto shadow-inner text-5xl">
-                                    📖
+                                <div className="w-24 h-24 bg-gradient-to-br from-[#dddbff] to-[#fbfbfe] border border-[#dddbff] rounded-full flex items-center justify-center mx-auto shadow-inner">
+                                    <iconify-icon icon="solar:notebook-linear" class="text-5xl text-[#443dff]"></iconify-icon>
                                 </div>
                                 <div>
                                     <h2 className="text-xl font-bold text-[#050316]">Belum ada resep</h2>
@@ -520,7 +522,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                 <div className="flex items-center gap-3">
                                     <button type="button" onClick={() => setShowEditModal(false)} className="px-5 py-2.5 text-sm font-semibold text-[#050316] border border-[#dddbff] rounded-xl hover:bg-[#dddbff] transition">Batal</button>
                                     <button type="submit" className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-[#443dff] to-[#2f27ce] rounded-xl transition shadow-lg shadow-[#443dff]/30 active:scale-95">
-                                        💾 Simpan
+                                        <iconify-icon icon="solar:diskette-linear" class="text-sm"></iconify-icon> Simpan
                                     </button>
                                 </div>
                             </div>
@@ -595,7 +597,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                 <div className="flex items-center gap-3">
                                     <button type="button" onClick={() => setShowCreateModal(false)} className="px-5 py-2.5 text-sm font-semibold text-[#050316] border border-[#dddbff] rounded-xl hover:bg-[#dddbff] transition">Batal</button>
                                     <button type="submit" className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-[#443dff] to-[#2f27ce] rounded-xl transition shadow-lg shadow-[#443dff]/30 active:scale-95">
-                                        💾 Simpan
+                                        <iconify-icon icon="solar:diskette-linear" class="text-sm"></iconify-icon> Simpan
                                     </button>
                                 </div>
                             </div>
@@ -653,7 +655,7 @@ function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove
                     disabled={!canRemove}
                     className="w-8 h-8 rounded-lg text-rose-400 hover:bg-rose-50 hover:text-rose-600 transition flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                    🗑
+                    <iconify-icon icon="solar:trash-bin-trash-linear" class="text-lg"></iconify-icon>
                 </button>
             </div>
         </div>
