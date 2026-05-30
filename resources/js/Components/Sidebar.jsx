@@ -10,6 +10,9 @@ export default function Sidebar() {
     const [accessOpen, setAccessOpen] = useState(
         currentUrl.includes('/users') || currentUrl.includes('/user-management') || currentUrl.includes('/roles')
     );
+    const [targetsOpen, setTargetsOpen] = useState(
+        currentUrl.includes('/targets-goals')
+    );
 
     const can = (permission) => user?.permissions?.includes(permission);
 
@@ -80,6 +83,11 @@ export default function Sidebar() {
                             <span className="text-[13px]">Menu Catalog</span>
                         </Link>
 
+                        <Link href="/promotions" className={cls('/promotions')}>
+                            <iconify-icon icon="solar:tag-linear" class="text-[20px]"></iconify-icon>
+                            <span className="text-[13px]">Promosi & Bundling</span>
+                        </Link>
+
                         <Link href="/recipe-costing" className={cls('/recipe-costing')}>
                             <iconify-icon icon="solar:calculator-minimalistic-linear" class="text-[20px]"></iconify-icon>
                             <span className="text-[13px]">Recipe Costing</span>
@@ -98,10 +106,34 @@ export default function Sidebar() {
 
                     {/* Owner Only */}
                     {can('manage-users') && <>
-                        <Link href="/targets-goals" className={cls('/targets-goals')}>
-                            <iconify-icon icon="solar:target-linear" class="text-[20px]"></iconify-icon>
-                            <span className="text-[13px]">Targets & Goals</span>
-                        </Link>
+                        {/* Targets & Goals Dropdown */}
+                        <div>
+                            <button
+                                onClick={() => setTargetsOpen(!targetsOpen)}
+                                className={`${base} w-full ${isActive('/targets-goals') ? active : inactive}`}
+                            >
+                                <iconify-icon icon="solar:target-linear" class="text-[20px]"></iconify-icon>
+                                <span className="text-[13px] flex-1 text-left">Targets & Goals</span>
+                                <iconify-icon
+                                    icon="solar:alt-arrow-down-linear"
+                                    class={`text-[14px] transition-transform duration-200 ${targetsOpen ? 'rotate-180' : ''}`}
+                                >
+                                </iconify-icon>
+                            </button>
+
+                            {targetsOpen && (
+                                <div className="mt-1 ml-4 pl-3 border-l border-[#dddbff] space-y-0.5">
+                                    <Link href="/targets-goals" className={`${base} ${currentUrl.split('?')[0] === '/targets-goals' ? active : inactive} py-2`}>
+                                        <iconify-icon icon="solar:chart-square-linear" class="text-[18px]"></iconify-icon>
+                                        <span className="text-[13px]">Ringkasan Target</span>
+                                    </Link>
+                                    <Link href="/targets-goals/aov" className={`${base} ${currentUrl.split('?')[0] === '/targets-goals/aov' ? active : inactive} py-2`}>
+                                        <iconify-icon icon="solar:graph-up-linear" class="text-[18px]"></iconify-icon>
+                                        <span className="text-[13px]">Analisis AOV</span>
+                                    </Link>
+                                </div>
+                            )}
+                        </div>
 
                         {/* Access Management Dropdown */}
                         <div>

@@ -72,6 +72,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/',       [TargetController::class, 'store'])->name('store');
             Route::put('/{id}',    [TargetController::class, 'update'])->name('update');
             Route::delete('/{id}', [TargetController::class, 'destroy'])->name('destroy');
+            Route::get('/aov',     [TargetController::class, 'aov'])->name('aov');
         });
     });
 
@@ -115,7 +116,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/profit-loss',        [ReportController::class, 'profitLoss'])->name('profit-loss');
             Route::get('/export/pdf',         [ReportController::class, 'exportPdf'])->name('export.pdf');
             Route::get('/export/excel',       [ReportController::class, 'exportExcel'])->name('export.excel');
-            Route::get('/analytics/aov',          [ReportController::class, 'aov'])->name('analytics.aov');
             Route::get('/analytics/revenue',      [ReportController::class, 'revenue'])->name('analytics.revenue');
             Route::get('/analytics/profit',       [ReportController::class, 'profit'])->name('analytics.profit');
             Route::get('/analytics/best-selling', [ReportController::class, 'bestSellingMenu'])->name('analytics.best-selling');

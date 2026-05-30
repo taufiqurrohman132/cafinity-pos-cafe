@@ -68,7 +68,9 @@ export default function TargetPerforma({
                 data: history.actuals,
                 borderColor: '#443dff',
                 backgroundColor: (context) => {
-                    const ctx = context.chart.ctx;
+                    const chart = context.chart;
+                    const ctx = chart?.ctx;
+                    if (!ctx) return 'rgba(68, 61, 255, 0.08)';
                     const gradient = ctx.createLinearGradient(0, 0, 0, 260);
                     gradient.addColorStop(0, 'rgba(68, 61, 255, 0.18)');
                     gradient.addColorStop(1, 'rgba(68, 61, 255, 0.00)');
@@ -231,7 +233,7 @@ export default function TargetPerforma({
                                 {target ? 'Ubah Target' : 'Set Target'}
                             </button>
                             <Link
-                                href={route('dashboard')}
+                                href={route('targets-goals.aov')}
                                 className="px-5 py-2.5 text-xs font-extrabold text-[#2f27ce] bg-white border border-[#dddbff] rounded-xl hover:bg-[#dddbff]/50 hover:text-[#050316] transition-colors"
                             >
                                 Lihat Detail AOV

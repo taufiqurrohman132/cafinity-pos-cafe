@@ -44,7 +44,7 @@ class BundleController extends Controller
             $bundle->menus()->sync($sync);
         }
 
-        return redirect()->route('bundles.index')->with('success', 'Bundle ditambahkan.');
+        return redirect()->route('promotions.index')->with('success', 'Bundle ditambahkan.');
     }
 
     public function show(string $id): View
@@ -85,13 +85,13 @@ class BundleController extends Controller
             $bundle->menus()->sync($sync);
         }
 
-        return redirect()->route('bundles.index')->with('success', 'Bundle diperbarui.');
+        return redirect()->route('promotions.index')->with('success', 'Bundle diperbarui.');
     }
 
     public function destroy(string $id)
     {
         Bundle::findOrFail($id)->delete();
 
-        return redirect()->route('bundles.index')->with('success', 'Bundle dihapus.');
+        return redirect()->route('promotions.index')->with('success', 'Bundle dihapus.');
     }
 }

@@ -1,6 +1,6 @@
 // resources/js/Pages/Reports/Index.jsx
 
-import { Head, router, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import AppLayout from "@/Layouts/AppLayout";
 import { useEffect, useRef, useState } from "react";
 import ModernDatePicker from "@/Components/ModernDatePicker";
@@ -892,8 +892,8 @@ export default function ReportsIndex({
                                     di hari Jumat malam. Pastikan stok biji kopi House Blend
                                     tersedia cukup untuk akhir pekan ini."
                                 </p>
-                                <a
-                                    href={route("reports.analytics.aov")}
+                                <Link
+                                    href={route("targets-goals.aov")}
                                     className="text-xs font-extrabold text-[#443dff] hover:text-[#2f27ce] hover:underline transition-colors flex items-center gap-1"
                                 >
                                     Lihat Analisis Detail
@@ -901,7 +901,7 @@ export default function ReportsIndex({
                                         icon="solar:arrow-right-linear"
                                         class="text-[12px]"
                                     />
-                                </a>
+                                </Link>
                             </div>
                         </div>
 
