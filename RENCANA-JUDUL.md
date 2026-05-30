@@ -159,3 +159,19 @@ Judul yang Lebih Tepat Sekarang
 "Rancang Bangun AI Agent Terintegrasi Multi-Platform untuk Otomasi Operasional Kafe pada Sistem Cafinity Berbasis Large Language Model"
 
 Novelty-nya: Agent yang bisa keluar dari sistem dan berinteraksi dengan WhatsApp, Google Workspace, Email — bukan sekadar fitur dalam aplikasi.
+
+
+Judul 1:
+"Pengembangan Sistem Manajemen Kafe Berbasis Web dengan Fitur QR Code Self-Ordering dan AI Agent untuk Otomasi Operasional Menggunakan Laravel dan React.js"
+→ Fokus pada sistem manajemen kafe secara keseluruhan. QR & AI Agent disebutkan sebagai fitur. Stack teknologi (Laravel + React) ikut masuk judul.
+
+Judul 2:
+"Rancang Bangun Sistem Point of Sale Terintegrasi QR Self-Order dan AI Agent Berbasis Large Language Model untuk Mendukung Efisiensi Operasional Kafe"
+→ Fokus pada POS (Point of Sale). Lebih sempit dari Judul 1. Menyebut LLM tapi tidak menyebut stack teknologi spesifik.
+
+Judul 3:
+"Rancang Bangun AI Agent Terintegrasi Multi-Platform untuk Otomasi Operasional Kafe pada Sistem Cafinity Berbasis Large Language Model"
+→ Fokus utama pada AI Agent-nya sendiri, bukan sistemnya. QR Self-Order tidak disebut. Menekankan aspek multi-platform (WhatsApp, Google, dll).
+
+Singkatnya:
+Fokus UtamaQR disebut?Stack disebut?Judul 1Sistem manajemen kafe✅✅Judul 2POS✅❌Judul 3AI Agent❌❌

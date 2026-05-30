@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
+import TargetModal from '@/Components/TargetModal';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -24,6 +25,29 @@ export default function TargetPerforma({
     maxStaff, paymentSummary, peakLabel, promoAktif
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showSuccessToast, setShowSuccessToast] = useState(false);
+    const [savedLabel, setSavedLabel] = useState('');
+
+    const handleSaveSuccess = (label) => {
+        setSavedLabel(label);
+        setShowSuccessToast(true);
+        setTimeout(() => {
+            setShowSuccessToast(false);
+        }, 5000);
+    };
+
+    const handleUndo = () => {
+        if (target?.id) {
+            router.delete(route('targets-goals.destroy', target.id), {
+                onSuccess: () => {
+                    setShowSuccessToast(false);
+                },
+                preserveScroll: true
+            });
+        } else {
+            setShowSuccessToast(false);
+        }
+    };
 
     // Format Rupiah helper
     const formatRp = (value) => new Intl.NumberFormat('id-ID').format(value);
@@ -375,8 +399,43 @@ export default function TargetPerforma({
             </div>
 
             {/* ====== SET TARGET MODAL ====== */}
-            {/* Anda perlu membuat komponen modal React terpisah, contoh pemanggilannya: */}
-            {/* <TargetModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} currentTarget={target} estimasi={progress || 74.2} /> */}
+            <TargetModal 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+                currentTarget={target} 
+                currentValue={currentValue}
+                avgHarian={avgHarian}
+                onSaveSuccess={handleSaveSuccess}
+                defaultPeriod={period}
+            />
+
+            {/* ====== CUSTOM TOAST NOTIFICATION (Mockup Style) ====== */}
+            {showSuccessToast && (
+                <div className="fixed bottom-6 right-6 z-[100] bg-white border border-[#dddbff] rounded-2xl p-4 shadow-xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-5 duration-300 max-w-sm">
+                    <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center flex-shrink-0">
+                        <Icon icon="solar:check-circle-linear" className="text-xl" />
+                    </div>
+                    <div className="flex-1 min-w-0 pr-2">
+                        <p className="text-xs font-extrabold text-[#050316]">Target Berhasil Disimpan!</p>
+                        <p className="text-[10px] text-[#2f27ce]/60 font-semibold truncate">Target {savedLabel} telah aktif.</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <button 
+                            onClick={handleUndo} 
+                            className="text-[10px] font-extrabold text-[#050316] hover:underline flex items-center gap-1 active:scale-95"
+                        >
+                            <Icon icon="solar:restart-linear" className="text-xs" />
+                            Urungkan
+                        </button>
+                        <button 
+                            onClick={() => setShowSuccessToast(false)} 
+                            className="text-[#2f27ce]/50 hover:text-[#443dff] active:scale-95 flex-shrink-0"
+                        >
+                            ✕
+                        </button>
+                    </div>
+                </div>
+            )}
 
         </>
     );

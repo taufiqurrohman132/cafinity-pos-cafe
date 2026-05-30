@@ -356,7 +356,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                     <div className="xl:col-span-4 space-y-6">
 
                                         {/* What-If Simulator */}
-                                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-6">
+                                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm p-6 transition-all duration-300 hover:shadow-md">
                                             <div className="flex items-center gap-2 mb-4 border-b border-[#dddbff]/50 pb-4">
                                                 <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-500">
                                                     <iconify-icon icon="solar:chart-2-linear" class="text-lg"></iconify-icon>
@@ -364,20 +364,26 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                                 <h3 className="text-sm font-bold text-[#050316]">Simulator "What-If"</h3>
                                             </div>
                                             <div className="flex justify-between items-center mb-3">
-                                                <p className="text-xs text-[#2f27ce]">Kenaikan Biaya Bahan (%)</p>
-                                                <span className="text-xs font-bold text-rose-500 bg-rose-50 px-2 py-0.5 rounded-md">
+                                                <p className="text-xs font-medium text-[#2f27ce]">Kenaikan Biaya Bahan</p>
+                                                <span className="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-100">
                                                     +{sliderVal}%
                                                 </span>
                                             </div>
-                                            <input
-                                                type="range"
-                                                min="0" max="50"
-                                                value={sliderVal}
-                                                onChange={(e) => setSliderVal(parseInt(e.target.value))}
-                                                className="w-full accent-[#443dff] mb-2 cursor-ew-resize h-1.5 bg-[#dddbff] rounded-lg appearance-none"
-                                            />
-                                            <p className="text-[10px] text-[#2f27ce]/70 italic mb-4">
-                                                *Simulasikan kenaikan harga pasar global pada resep ini untuk melihat dampaknya.
+                                            <div className="relative mb-3">
+                                                <input
+                                                    type="range"
+                                                    min="0"
+                                                    max="50"
+                                                    value={sliderVal}
+                                                    onChange={(e) => setSliderVal(parseInt(e.target.value))}
+                                                    className="custom-slider w-full cursor-ew-resize appearance-none"
+                                                    style={{
+                                                        background: `linear-gradient(to right, #443dff 0%, #443dff ${sliderVal * 2}%, #dddbff ${sliderVal * 2}%, #dddbff 100%)`
+                                                    }}
+                                                />
+                                            </div>
+                                            <p className="text-[10px] text-[#2f27ce]/70 italic mb-4 leading-normal">
+                                                *Simulasikan kenaikan harga pasar global pada resep ini untuk melihat dampaknya pada margin profit.
                                             </p>
                                             <div className="space-y-3 bg-[#fbfbfe] border border-[#dddbff] p-4 rounded-xl">
                                                 <div className="flex justify-between items-center">
@@ -393,7 +399,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                                     </span>
                                                 </div>
                                                 <div className="flex justify-between items-center border-t border-[#dddbff]/50 pt-3">
-                                                    <span className="text-[10px] font-bold text-rose-500 capitalize tracking-wider">Impact on Profit</span>
+                                                    <span className="text-[10px] font-bold text-rose-500 capitalize tracking-wider">Dampak pada Profit</span>
                                                     <span className={`text-xs font-bold flex items-center gap-1 ${impactPersen >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
                                                         {impactPersen >= 0 ? '↗ +' : '↘ '}{impactPersen}%
                                                     </span>
@@ -401,9 +407,9 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                             </div>
                                             <button
                                                 onClick={() => setSliderVal(0)}
-                                                className="w-full mt-4 flex items-center justify-center gap-2 py-2 text-xs font-semibold text-[#050316] border border-[#dddbff] rounded-xl hover:bg-[#dddbff] transition-colors"
+                                                className="w-full mt-4 flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-[#050316] border border-[#dddbff] rounded-xl hover:bg-[#dddbff]/50 active:scale-[0.98] transition-all"
                                             >
-                                                <iconify-icon icon="solar:restart-circle-linear" class="text-sm"></iconify-icon> Reset Simulasi
+                                                <iconify-icon icon="solar:restart-circle-linear" class="text-base"></iconify-icon> Reset Simulasi
                                             </button>
                                         </div>
 

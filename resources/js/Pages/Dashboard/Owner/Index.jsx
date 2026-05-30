@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Head, Link, usePage, useForm } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
+import TargetModal from '@/Components/TargetModal';
 
 // ── Stat Card Component ──────────────────────────────────────────
 function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor }) {
@@ -167,48 +168,6 @@ export default function OwnerDashboard({
     kitchenQueue,
 }) {
     const [showTargetModal, setShowTargetModal] = useState(false);
-
-    const todayStr = new Date().toLocaleDateString('sv-SE'); // YYYY-MM-DD local time
-
-    const { data, setData, post, processing, errors } = useForm({
-        label: currentTarget?.label ?? 'Target Harian',
-        type: 'revenue',
-        period: 'daily',
-        target_value: currentTarget?.target_value ?? '',
-        start_date: currentTarget?.start_date ?? todayStr,
-        end_date: currentTarget?.end_date ?? todayStr,
-    });
-
-    useEffect(() => {
-        if (currentTarget) {
-            setData({
-                label: currentTarget.label,
-                type: 'revenue',
-                period: 'daily',
-                target_value: currentTarget.target_value,
-                start_date: currentTarget.start_date,
-                end_date: currentTarget.end_date,
-            });
-        } else {
-            setData({
-                label: 'Target Harian',
-                type: 'revenue',
-                period: 'daily',
-                target_value: '',
-                start_date: todayStr,
-                end_date: todayStr,
-            });
-        }
-    }, [currentTarget, showTargetModal]);
-
-    const handleTargetSubmit = (e) => {
-        e.preventDefault();
-        post(route('targets-goals.store'), {
-            onSuccess: () => {
-                setShowTargetModal(false);
-            },
-        });
-    };
 
     const statusColor = {
         preparing: 'bg-amber-400',
@@ -586,68 +545,14 @@ export default function OwnerDashboard({
                 </div>
             </div>
 
-            {/* Target Modal */}
-            {showTargetModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-                                                    <div className="bg-white rounded-2xl border border-[#dddbff] p-6 w-full max-w-sm shadow-xl relative overflow-hidden">
-                                                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#dddbff]/50 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
-                                                        <h3 className="font-extrabold text-base text-[#050316] mb-1 relative z-10 flex items-center gap-1.5">
-                                                            <iconify-icon icon="solar:target-linear" class="text-xl text-[#443dff]"></iconify-icon>
-                                                            {currentTarget ? 'Ubah Target Harian' : 'Set Target Harian'}
-                                                        </h3>
-                        <p className="text-xs text-[#2f27ce]/70 mb-5 relative z-10">Tentukan target pendapatan operasional untuk hari ini.</p>
-
-                        <form onSubmit={handleTargetSubmit} className="space-y-4 relative z-10">
-                            <div>
-                                <label className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-wider block mb-1">Nama / Label Target</label>
-                                <input
-                                    type="text"
-                                    required
-                                    value={data.label}
-                                    onChange={(e) => setData('label', e.target.value)}
-                                    placeholder="Contoh: Target Normal, Target Libur"
-                                    className="w-full px-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] transition-all"
-                                />
-                                {errors.label && <p className="text-[11px] text-rose-500 font-bold mt-1">{errors.label}</p>}
-                            </div>
-
-                            <div>
-                                <label className="text-[10px] font-bold text-[#2f27ce] capitalize tracking-wider block mb-1">Target Pendapatan (Rp)</label>
-                                <div className="relative">
-                                    <span className="absolute left-3 top-2.5 text-sm font-bold text-[#2f27ce]/50">Rp</span>
-                                    <input
-                                        type="number"
-                                        required
-                                        min="1"
-                                        value={data.target_value}
-                                        onChange={(e) => setData('target_value', e.target.value)}
-                                        placeholder="e.g. 1500000"
-                                        className="w-full pl-9 pr-3 py-2 text-sm bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:border-[#443dff] transition-all font-semibold text-[#050316]"
-                                    />
-                                </div>
-                                {errors.target_value && <p className="text-[11px] text-rose-500 font-bold mt-1">{errors.target_value}</p>}
-                            </div>
-
-                            <div className="flex gap-3 pt-2">
-                                <button
-                                    type="button"
-                                    onClick={() => setShowTargetModal(false)}
-                                    className="flex-1 py-2.5 text-xs font-extrabold text-[#2f27ce] border border-[#dddbff] rounded-xl hover:bg-[#dddbff]/30 transition-colors"
-                                >
-                                    Batal
-                                </button>
-                                <button
-                                    type="submit"
-                                    disabled={processing}
-                                    className="flex-1 py-2.5 text-xs font-extrabold text-white bg-gradient-to-r from-[#2f27ce] to-[#443dff] rounded-xl hover:from-[#050316] hover:to-[#2f27ce] transition-all flex items-center justify-center gap-1.5 shadow-md shadow-[#2f27ce]/20 disabled:opacity-50"
-                                >
-                                    {processing ? 'Menyimpan...' : 'Simpan'}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+            {/* Reusable Target Modal */}
+            <TargetModal
+                isOpen={showTargetModal}
+                onClose={() => setShowTargetModal(false)}
+                currentTarget={currentTarget}
+                currentValue={parseInt(stats.revenue.value.replace(/[^0-9]/g, ''), 10) || 0}
+                defaultPeriod="daily"
+            />
         </>
     );
 }
