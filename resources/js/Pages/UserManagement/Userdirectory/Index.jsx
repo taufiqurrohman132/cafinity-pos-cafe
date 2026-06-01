@@ -1,11 +1,16 @@
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import { Head, Link, router, usePage, useForm } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
 import AppLayout from '@/Layouts/AppLayout';
 
 export default function UsersIndex({ users, stats, logs, filters, can }) {
     const [search, setSearch] = useState(filters.search || '');
     const [role, setRole]     = useState(filters.role || '');
     const [status, setStatus] = useState(filters.status || '');
+
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showDetailModal, setShowDetailModal] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
 
     function handleFilter(e) {
         e.preventDefault();
@@ -75,13 +80,13 @@ export default function UsersIndex({ users, stats, logs, filters, can }) {
                                         <iconify-icon icon="solar:download-square-linear" class="text-lg"></iconify-icon>
                                         Export CSV
                                     </a>
-                                    <Link
-                                        href={route('users.create')}
+                                    <button
+                                        onClick={() => setShowCreateModal(true)}
                                         className="flex items-center gap-2 bg-gradient-to-r from-[#2f27ce] to-[#443dff] text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-[#2f27ce]/30 transition-all"
                                     >
                                         <iconify-icon icon="solar:user-plus-rounded-linear" class="text-lg"></iconify-icon>
                                         Tambah Pengguna
-                                    </Link>
+                                    </button>
                                 </div>
                             )}
                         </div>
@@ -212,6 +217,8 @@ export default function UsersIndex({ users, stats, logs, filters, can }) {
                                                             onToggle={handleToggleStatus}
                                                             onReset={handleResetPassword}
                                                             onDelete={handleDelete}
+                                                            onEdit={(u) => { setSelectedUser(u); setShowEditModal(true); }}
+                                                            onShowDetail={(u) => { setSelectedUser(u); setShowDetailModal(true); }}
                                                         />
                                                     </td>
                                                 </tr>
@@ -293,6 +300,11 @@ export default function UsersIndex({ users, stats, logs, filters, can }) {
                     </div>
                 </div>
             </div>
+
+            {/* Modals */}
+            <CreateUserModal isOpen={showCreateModal} onClose={() => setShowCreateModal(false)} />
+            <EditUserModal isOpen={showEditModal} onClose={() => { setShowEditModal(false); setSelectedUser(null); }} user={selectedUser} />
+            <DetailUserModal isOpen={showDetailModal} onClose={() => { setShowDetailModal(false); setSelectedUser(null); }} user={selectedUser} />
         </>
     );
 }
@@ -300,11 +312,11 @@ export default function UsersIndex({ users, stats, logs, filters, can }) {
 UsersIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
 
 // ── Dropdown Aksi ────────────────────────────────────────────────
-function UserActions({ user, canManage, onToggle, onReset, onDelete }) {
+function UserActions({ user, canManage, onToggle, onReset, onDelete, onEdit, onShowDetail }) {
     const [open, setOpen] = useState(false);
 
     return (
-        <div className="relative inline-block">
+        <div className="relative inline-block text-left">
             <button
                 onClick={() => setOpen(!open)}
                 onBlur={() => setTimeout(() => setOpen(false), 150)}
@@ -314,35 +326,447 @@ function UserActions({ user, canManage, onToggle, onReset, onDelete }) {
             </button>
             {open && (
                 <div className="absolute right-0 mt-1 w-48 bg-white border border-[#dddbff] rounded-xl shadow-xl z-20 overflow-hidden">
-                    <Link href={route('users.show', user.id)}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#050316] font-semibold hover:bg-[#dddbff]/30">
+                    <button onClick={() => onShowDetail(user)}
+                        className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-[#050316] font-semibold hover:bg-[#dddbff]/30 text-left w-full">
                         <iconify-icon icon="solar:eye-linear" class="text-[#2f27ce]"></iconify-icon>
                         Lihat Detail
-                    </Link>
+                    </button>
                     {canManage && <>
-                        <Link href={route('users.edit', user.id)}
-                            className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#050316] font-semibold hover:bg-[#dddbff]/30">
+                        <button onClick={() => onEdit(user)}
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-[#050316] font-semibold hover:bg-[#dddbff]/30 text-left w-full">
                             <iconify-icon icon="solar:pen-linear" class="text-[#2f27ce]"></iconify-icon>
                             Edit Pengguna
-                        </Link>
+                        </button>
                         <button onClick={() => onToggle(user.id)}
-                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-[#050316] font-semibold hover:bg-[#dddbff]/30">
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-[#050316] font-semibold hover:bg-[#dddbff]/30 text-left w-full">
                             <iconify-icon icon="solar:shield-warning-linear" class="text-amber-500"></iconify-icon>
                             {user.status === 'active' ? 'Nonaktifkan' : 'Aktifkan'}
                         </button>
                         <button onClick={() => onReset(user.id)}
-                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-[#050316] font-semibold hover:bg-[#dddbff]/30">
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-[#050316] font-semibold hover:bg-[#dddbff]/30 text-left w-full">
                             <iconify-icon icon="solar:key-linear" class="text-[#2f27ce]"></iconify-icon>
                             Reset Password
                         </button>
                         <button onClick={() => onDelete(user.id, user.name)}
-                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 font-semibold hover:bg-[#fef2f2] border-t border-[#dddbff]">
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 font-semibold hover:bg-[#fef2f2] border-t border-[#dddbff] text-left w-full">
                             <iconify-icon icon="solar:trash-bin-trash-linear" class="text-red-500"></iconify-icon>
                             Hapus
                         </button>
                     </>}
                 </div>
             )}
+        </div>
+    );
+}
+
+// ── Modals Components ───────────────────────────────────────────
+
+// Modal Tambah Pengguna
+function CreateUserModal({ isOpen, onClose }) {
+    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
+        name: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+        role: 'cashier',
+        status: 'active',
+    });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        post(route('users.store'), {
+            onSuccess: () => {
+                reset();
+                onClose();
+            },
+        });
+    };
+
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#050316]/60 backdrop-blur-sm p-4">
+            <div className="bg-white rounded-2xl w-[480px] max-w-full p-6 border border-[#dddbff] shadow-2xl">
+                <div className="flex justify-between items-center pb-4 border-b border-[#dddbff]">
+                    <h3 className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#050316] to-[#2f27ce] tracking-tight">
+                        Tambah Pengguna Baru
+                    </h3>
+                    <button onClick={onClose} className="p-1 rounded-lg text-[#2f27ce]/60 hover:text-[#050316] hover:bg-[#dddbff]/30 transition-colors">
+                        <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
+                    </button>
+                </div>
+
+                <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+                    <div>
+                        <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wider mb-1.5">Nama Lengkap</label>
+                        <input
+                            type="text"
+                            value={data.name}
+                            onChange={e => setData('name', e.target.value)}
+                            required
+                            className="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-sm font-semibold text-[#050316] outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] transition-all"
+                            placeholder="Nama Lengkap"
+                        />
+                        {errors.name && <p className="text-xs text-red-500 font-bold mt-1">{errors.name}</p>}
+                    </div>
+
+                    <div>
+                        <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wider mb-1.5">Alamat Email</label>
+                        <input
+                            type="email"
+                            value={data.email}
+                            onChange={e => setData('email', e.target.value)}
+                            required
+                            className="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-sm font-semibold text-[#050316] outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] transition-all"
+                            placeholder="nama@email.com"
+                        />
+                        {errors.email && <p className="text-xs text-red-500 font-bold mt-1">{errors.email}</p>}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wider mb-1.5">Role / Peran</label>
+                            <select
+                                value={data.role}
+                                onChange={e => setData('role', e.target.value)}
+                                className="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-sm font-bold text-[#050316] outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] transition-all"
+                            >
+                                <option value="cashier">Kasir</option>
+                                <option value="admin">Admin</option>
+                                <option value="owner">Owner</option>
+                            </select>
+                            {errors.role && <p className="text-xs text-red-500 font-bold mt-1">{errors.role}</p>}
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wider mb-1.5">Status Awal</label>
+                            <select
+                                value={data.status}
+                                onChange={e => setData('status', e.target.value)}
+                                className="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-sm font-bold text-[#050316] outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] transition-all"
+                            >
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="pending">Pending</option>
+                                <option value="deactivated">Deactivated</option>
+                            </select>
+                            {errors.status && <p className="text-xs text-red-500 font-bold mt-1">{errors.status}</p>}
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wider mb-1.5">Password</label>
+                            <input
+                                type="password"
+                                value={data.password}
+                                onChange={e => setData('password', e.target.value)}
+                                required
+                                className="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-sm font-semibold text-[#050316] outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] transition-all"
+                                placeholder="Min. 8 karakter"
+                            />
+                            {errors.password && <p className="text-xs text-red-500 font-bold mt-1">{errors.password}</p>}
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wider mb-1.5">Konfirmasi</label>
+                            <input
+                                type="password"
+                                value={data.password_confirmation}
+                                onChange={e => setData('password_confirmation', e.target.value)}
+                                required
+                                className="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-sm font-semibold text-[#050316] outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] transition-all"
+                                placeholder="Ulangi password"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex gap-3 pt-4 border-t border-[#dddbff] mt-6">
+                        <button
+                            type="button"
+                            onClick={() => { clearErrors(); reset(); onClose(); }}
+                            className="flex-1 h-11 rounded-xl border border-[#dddbff] text-sm font-bold text-[#2f27ce] hover:bg-[#dddbff]/20 transition-all"
+                        >
+                            Batal
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={processing}
+                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white text-sm font-extrabold shadow-lg shadow-[#2f27ce]/25 disabled:opacity-50 transition-all"
+                        >
+                            {processing ? 'Menyimpan...' : 'Simpan'}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+}
+
+// Modal Edit Pengguna
+function EditUserModal({ isOpen, onClose, user }) {
+    const { data, setData, put, processing, errors, reset, clearErrors } = useForm({
+        name: '',
+        email: '',
+        role: '',
+        status: '',
+        password: '',
+        password_confirmation: '',
+    });
+
+    // Populate data when user changes
+    useEffect(() => {
+        if (user) {
+            setData({
+                name: user.name || '',
+                email: user.email || '',
+                role: user.role || 'cashier',
+                status: user.status || 'active',
+                password: '',
+                password_confirmation: '',
+            });
+        }
+    }, [user]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        put(route('users.update', user.id), {
+            onSuccess: () => {
+                reset();
+                onClose();
+            },
+        });
+    };
+
+    if (!isOpen || !user) return null;
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#050316]/60 backdrop-blur-sm p-4">
+            <div className="bg-white rounded-2xl w-[480px] max-w-full p-6 border border-[#dddbff] shadow-2xl">
+                <div className="flex justify-between items-center pb-4 border-b border-[#dddbff]">
+                    <h3 className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#050316] to-[#2f27ce] tracking-tight">
+                        Edit Profil Pengguna
+                    </h3>
+                    <button onClick={onClose} className="p-1 rounded-lg text-[#2f27ce]/60 hover:text-[#050316] hover:bg-[#dddbff]/30 transition-colors">
+                        <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
+                    </button>
+                </div>
+
+                <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+                    <div>
+                        <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wider mb-1.5">Nama Lengkap</label>
+                        <input
+                            type="text"
+                            value={data.name}
+                            onChange={e => setData('name', e.target.value)}
+                            required
+                            className="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-sm font-semibold text-[#050316] outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] transition-all"
+                        />
+                        {errors.name && <p className="text-xs text-red-500 font-bold mt-1">{errors.name}</p>}
+                    </div>
+
+                    <div>
+                        <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wider mb-1.5">Alamat Email</label>
+                        <input
+                            type="email"
+                            value={data.email}
+                            onChange={e => setData('email', e.target.value)}
+                            required
+                            className="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-sm font-semibold text-[#050316] outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] transition-all"
+                        />
+                        {errors.email && <p className="text-xs text-red-500 font-bold mt-1">{errors.email}</p>}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wider mb-1.5">Role / Peran</label>
+                            <select
+                                value={data.role}
+                                onChange={e => setData('role', e.target.value)}
+                                className="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-sm font-bold text-[#050316] outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] transition-all"
+                            >
+                                <option value="cashier">Kasir</option>
+                                <option value="admin">Admin</option>
+                                <option value="owner">Owner</option>
+                            </select>
+                            {errors.role && <p className="text-xs text-red-500 font-bold mt-1">{errors.role}</p>}
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wider mb-1.5">Status Akun</label>
+                            <select
+                                value={data.status}
+                                onChange={e => setData('status', e.target.value)}
+                                className="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-sm font-bold text-[#050316] outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] transition-all"
+                            >
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="pending">Pending</option>
+                                <option value="deactivated">Deactivated</option>
+                            </select>
+                            {errors.status && <p className="text-xs text-red-500 font-bold mt-1">{errors.status}</p>}
+                        </div>
+                    </div>
+
+                    <div className="border-t border-[#dddbff] pt-4 mt-2">
+                        <p className="text-xs text-[#2f27ce]/60 font-semibold mb-3">Isi hanya jika ingin mengubah password:</p>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wider mb-1.5">Password Baru</label>
+                                <input
+                                    type="password"
+                                    value={data.password}
+                                    onChange={e => setData('password', e.target.value)}
+                                    className="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-sm font-semibold text-[#050316] outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] transition-all"
+                                    placeholder="Min. 8 karakter"
+                                />
+                                {errors.password && <p className="text-xs text-red-500 font-bold mt-1">{errors.password}</p>}
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-extrabold text-[#2f27ce] uppercase tracking-wider mb-1.5">Konfirmasi</label>
+                                <input
+                                    type="password"
+                                    value={data.password_confirmation}
+                                    onChange={e => setData('password_confirmation', e.target.value)}
+                                    className="w-full h-11 bg-[#fbfbfe] border border-[#dddbff] rounded-xl px-4 text-sm font-semibold text-[#050316] outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] transition-all"
+                                    placeholder="Ulangi password"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex gap-3 pt-4 border-t border-[#dddbff] mt-6">
+                        <button
+                            type="button"
+                            onClick={() => { clearErrors(); reset(); onClose(); }}
+                            className="flex-1 h-11 rounded-xl border border-[#dddbff] text-sm font-bold text-[#2f27ce] hover:bg-[#dddbff]/20 transition-all"
+                        >
+                            Batal
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={processing}
+                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white text-sm font-extrabold shadow-lg shadow-[#2f27ce]/25 disabled:opacity-50 transition-all"
+                        >
+                            {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+}
+
+// Modal Detail Pengguna
+function DetailUserModal({ isOpen, onClose, user }) {
+    if (!isOpen || !user) return null;
+
+    // Define permissions based on role
+    const getPermissionsForRole = (role) => {
+        if (role === 'owner') {
+            return [
+                { name: 'Dashboard Owner', desc: 'Melihat grafik omzet harian/bulanan, laba kotor/bersih, dan pencapaian target harian.' },
+                { name: 'Manajemen Target', desc: 'Membuat, mengubah, dan menghapus target pendapatan, transaksi, atau profit.' },
+                { name: 'Direktori & Akses', desc: 'Mengatur peran karyawan, mengaktifkan/menonaktifkan user, dan mereset sandi.' },
+                { name: 'Laporan Finansial', desc: 'Mengekspor laporan penjualan, laporan laba rugi, dan analitik menu terlaris.' },
+            ];
+        } else if (role === 'admin') {
+            return [
+                { name: 'Kelola Menu & Kategori', desc: 'Menambah, mengubah harga, mengupload gambar menu, serta menonaktifkan item.' },
+                { name: 'Kelola Resep & HPP', desc: 'Menghitung HPP (Harga Pokok Penjualan) berdasarkan bahan baku yang terdaftar.' },
+                { name: 'Kontrol Inventori', desc: 'Melacak stok bahan baku, mencatat barang masuk, dan mengontrol supplier.' },
+                { name: 'Purchase Order (PO)', desc: 'Membuat permintaan pembelian ke supplier, menyetujui, dan menerima bahan.' },
+            ];
+        } else {
+            return [
+                { name: 'Akses POS Kasir', desc: 'Melakukan transaksi kasir, menahan pesanan (hold), dan memproses checkout.' },
+                { name: 'Riwayat Transaksi', desc: 'Melihat riwayat struk penjualan, mengekspor struk, dan melakukan refund.' },
+                { name: 'Daftar Kitchen Order', desc: 'Melihat antrean masakan di dapur, merubah status masak, dan menyelesaikannya.' },
+            ];
+        }
+    };
+
+    const permissions = getPermissionsForRole(user.role);
+
+    const roleLabels = { owner: 'Owner', admin: 'Admin', cashier: 'Kasir' };
+    const statusLabels = { active: 'Aktif', inactive: 'Tidak Aktif', pending: 'Menunggu', deactivated: 'Dinonaktifkan' };
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#050316]/60 backdrop-blur-sm p-4">
+            <div className="bg-white rounded-2xl w-[520px] max-w-full p-6 border border-[#dddbff] shadow-2xl animate-fade-in">
+                <div className="flex justify-between items-center pb-4 border-b border-[#dddbff]">
+                    <h3 className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#050316] to-[#2f27ce] tracking-tight">
+                        Detail Personel
+                    </h3>
+                    <button onClick={onClose} className="p-1 rounded-lg text-[#2f27ce]/60 hover:text-[#050316] hover:bg-[#dddbff]/30 transition-colors">
+                        <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
+                    </button>
+                </div>
+
+                <div className="mt-5 space-y-6">
+                    {/* Profil Singkat */}
+                    <div className="flex items-center gap-4 bg-[#fbfbfe] border border-[#dddbff] p-4 rounded-2xl">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#2f27ce] to-[#443dff] flex items-center justify-center text-white font-black text-2xl shadow-md">
+                            {user.name.substring(0, 2).toUpperCase()}
+                        </div>
+                        <div>
+                            <h4 className="text-lg font-black text-[#050316] leading-tight">{user.name}</h4>
+                            <p className="text-xs text-[#2f27ce] font-medium mt-1">{user.email}</p>
+                            <div className="flex items-center gap-2 mt-2.5">
+                                <span className="px-2.5 py-1 bg-[#443dff] text-white text-[10px] font-extrabold rounded-md uppercase tracking-wider">
+                                    {roleLabels[user.role] ?? user.role}
+                                </span>
+                                <span className="text-[10px] text-[#2f27ce]/60 font-semibold">
+                                    Status: <span className="font-bold text-[#050316]">{statusLabels[user.status] ?? user.status}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Metadata Tambahan */}
+                    <div className="grid grid-cols-2 gap-4 text-xs font-semibold text-[#2f27ce]/80">
+                        <div className="bg-[#fbfbfe] border border-[#dddbff]/70 p-3 rounded-xl">
+                            <span className="text-[9px] font-black text-[#2f27ce]/50 uppercase block mb-1">ID Personel</span>
+                            <span className="text-[#050316] font-extrabold">#USR-{String(user.id).padStart(4, '0')}</span>
+                        </div>
+                        <div className="bg-[#fbfbfe] border border-[#dddbff]/70 p-3 rounded-xl">
+                            <span className="text-[9px] font-black text-[#2f27ce]/50 uppercase block mb-1">Bergabung Sejak</span>
+                            <span className="text-[#050316] font-extrabold">{user.created_at_diff}</span>
+                        </div>
+                    </div>
+
+                    {/* Hak Akses / Permissions */}
+                    <div>
+                        <h5 className="text-xs font-extrabold text-[#2f27ce] uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                            <iconify-icon icon="solar:shield-keyhole-linear" class="text-base text-[#443dff]"></iconify-icon>
+                            Cakupan Hak Akses Peran
+                        </h5>
+                        <div className="space-y-2.5 max-h-48 overflow-y-auto pr-1">
+                            {permissions.map((perm, idx) => (
+                                <div key={idx} className="bg-[#fbfbfe] border border-[#dddbff]/50 p-3 rounded-xl flex gap-2.5 items-start">
+                                    <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <iconify-icon icon="solar:check-circle-linear" class="text-xs"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h6 className="text-xs font-extrabold text-[#050316]">{perm.name}</h6>
+                                        <p className="text-[11px] text-[#2f27ce]/70 font-medium leading-relaxed mt-0.5">{perm.desc}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="pt-4 border-t border-[#dddbff] mt-6">
+                    <button
+                        onClick={onClose}
+                        className="w-full h-11 bg-gradient-to-r from-[#dddbff] to-[#fbfbfe] border border-[#dddbff] text-sm font-bold text-[#050316] hover:bg-[#dddbff]/30 active:scale-[0.98] transition-all"
+                    >
+                        Tutup Detail
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }

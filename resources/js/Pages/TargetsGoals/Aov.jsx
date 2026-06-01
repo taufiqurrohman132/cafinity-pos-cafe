@@ -1,7 +1,7 @@
 // resources/js/Pages/TargetsGoals/Aov.jsx
 
 import React, { useEffect, useRef, useState } from "react";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import AppLayout from "@/Layouts/AppLayout";
 import { Icon } from "@iconify/react";
 
@@ -29,12 +29,12 @@ function AovTimeChart({ labels, data }) {
                     {
                         label: "AOV (IDR)",
                         data: data,
-                        borderColor: "#10b981", // Emerald green track line matching mockup
-                        backgroundColor: "rgba(16,185,129,0.06)",
+                        borderColor: "#443dff", // Purple matching user's theme
+                        backgroundColor: "rgba(68,61,255,0.06)",
                         borderWidth: 3,
                         fill: true,
                         tension: 0.4,
-                        pointBackgroundColor: "#10b981",
+                        pointBackgroundColor: "#443dff",
                         pointBorderColor: "#ffffff",
                         pointBorderWidth: 2,
                         pointRadius: 5,
@@ -80,6 +80,7 @@ function AovTimeChart({ labels, data }) {
 }
 
 export default function AovReport({
+    filters = {},
     overallAov,
     orderVolume,
     grossRevenue,
@@ -97,7 +98,9 @@ export default function AovReport({
     heatmapSlots,
     categoriesContribution,
 }) {
-    const [selectedPeriod, setSelectedPeriod] = useState("Bulan");
+    const [selectedPeriod, setSelectedPeriod] = useState(filters.period || "Bulan");
+    const [startDate, setStartDate] = useState(filters.start_date || "");
+    const [endDate, setEndDate] = useState(filters.end_date || "");
     const [lastUpdated, setLastUpdated] = useState("");
 
     // Dynamic calculations for insights
@@ -130,13 +133,50 @@ export default function AovReport({
         setLastUpdated(timeStr + " WIB");
     }, []);
 
+    // Sync state with filters on navigate
+    useEffect(() => {
+        if (filters.period) {
+            setSelectedPeriod(filters.period);
+        }
+        if (filters.start_date) setStartDate(filters.start_date);
+        if (filters.end_date) setEndDate(filters.end_date);
+    }, [filters]);
+
+    const handlePeriodChange = (period) => {
+        if (period === "Kustom") {
+            setSelectedPeriod("Kustom");
+            return;
+        }
+        setSelectedPeriod(period);
+        router.get(
+            route("targets-goals.aov"),
+            { period },
+            { preserveState: true, replace: true }
+        );
+    };
+
+    const handleCustomFilterSubmit = (e) => {
+        e.preventDefault();
+        if (!startDate || !endDate) return;
+        router.get(
+            route("targets-goals.aov"),
+            { period: "Kustom", start_date: startDate, end_date: endDate },
+            { preserveState: true, replace: true }
+        );
+    };
+
+    let periodDesc = "dari periode sebelumnya";
+    if (selectedPeriod === "Hari Ini") periodDesc = "dari kemarin";
+    else if (selectedPeriod === "Minggu") periodDesc = "dari minggu lalu";
+    else if (selectedPeriod === "Bulan") periodDesc = "dari bulan lalu";
+
     const statCards = [
         {
-            title: "Rerata Nilasi Tiket (AOV)",
+            title: "Rerata Nilai Tiket (AOV)",
             value: fmt(overallAov),
             trend: (aovTrend >= 0 ? "+" : "") + aovTrend + "%",
             trendType: aovTrend >= 0 ? "up" : "down",
-            desc: aovTrend >= 0 ? "Meningkat dari bulan lalu" : "Penurunan dibanding bulan lalu",
+            desc: (aovTrend >= 0 ? "Meningkat " : "Menurun ") + periodDesc,
             icon: "solar:graph-up-linear",
             iconBg: "bg-emerald-50 text-emerald-500",
         },
@@ -145,7 +185,7 @@ export default function AovReport({
             value: fmtNum(orderVolume),
             trend: (volumeTrend >= 0 ? "+" : "") + volumeTrend + "%",
             trendType: volumeTrend >= 0 ? "up" : "down",
-            desc: "Total pesanan diselesaikan",
+            desc: (volumeTrend >= 0 ? "Meningkat " : "Menurun ") + periodDesc,
             icon: "solar:cart-2-linear",
             iconBg: "bg-blue-50 text-[#443dff]",
         },
@@ -154,15 +194,15 @@ export default function AovReport({
             value: fmt(grossRevenue),
             trend: (revenueTrend >= 0 ? "+" : "") + revenueTrend + "%",
             trendType: revenueTrend >= 0 ? "up" : "down",
-            desc: "Total penjualan kotor",
+            desc: (revenueTrend >= 0 ? "Meningkat " : "Menurun ") + periodDesc,
             icon: "solar:wallet-linear",
             iconBg: "bg-amber-50 text-amber-500",
         },
         {
             title: "AOV Delivery",
             value: fmt(aovDelivery),
-            trend: "-2.1%", // Styled like mockup
-            trendType: "down",
+            trend: (aovTrend >= 0 ? "+" : "") + aovTrend + "%",
+            trendType: aovTrend >= 0 ? "up" : "down",
             desc: "Rerata pesanan online",
             icon: "solar:delivery-linear",
             iconBg: "bg-rose-50 text-rose-500",
@@ -201,14 +241,14 @@ export default function AovReport({
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-3 self-stretch md:self-auto">
+                    <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 self-stretch md:self-auto">
                         {/* Period Filter Tabs */}
                         <div className="bg-white border border-[#dddbff] p-1 rounded-xl flex items-center shadow-sm">
                             {["Hari Ini", "Minggu", "Bulan", "Kustom"].map((period) => (
                                 <button
                                     key={period}
                                     type="button"
-                                    onClick={() => setSelectedPeriod(period)}
+                                    onClick={() => handlePeriodChange(period)}
                                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                                         selectedPeriod === period
                                             ? "bg-[#443dff] text-white shadow-sm"
@@ -219,6 +259,33 @@ export default function AovReport({
                                 </button>
                             ))}
                         </div>
+
+                        {/* Custom Date Picker Form */}
+                        {selectedPeriod === "Kustom" && (
+                            <form onSubmit={handleCustomFilterSubmit} className="flex items-center gap-2 bg-white border border-[#dddbff] p-2 rounded-xl shadow-sm">
+                                <input
+                                    type="date"
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                    required
+                                    className="px-2 py-1 text-xs font-bold text-[#050316] border border-[#dddbff] rounded-lg outline-none focus:border-[#443dff] focus:ring-1 focus:ring-[#443dff] transition-all"
+                                />
+                                <span className="text-[10px] font-black text-[#2f27ce]/60 uppercase">s/d</span>
+                                <input
+                                    type="date"
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                    required
+                                    className="px-2 py-1 text-xs font-bold text-[#050316] border border-[#dddbff] rounded-lg outline-none focus:border-[#443dff] focus:ring-1 focus:ring-[#443dff] transition-all"
+                                />
+                                <button
+                                    type="submit"
+                                    className="bg-[#443dff] text-white px-3 py-1.5 rounded-lg text-xs font-extrabold hover:bg-[#2f27ce] active:scale-[0.98] transition-all shadow-sm"
+                                >
+                                    Terapkan
+                                </button>
+                            </form>
+                        )}
 
                         {/* Export Button */}
                         <button
@@ -277,8 +344,8 @@ export default function AovReport({
                                     Tren AOV Berdasarkan Waktu
                                 </h3>
                                 <div className="flex items-center gap-2">
-                                    <div className="flex items-center gap-1.5 text-xs font-bold text-[#10b981]">
-                                        <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]" />
+                                    <div className="flex items-center gap-1.5 text-xs font-bold text-[#443dff]">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-[#443dff]" />
                                         <span>AOV (IDR)</span>
                                     </div>
                                     <button className="text-xs text-[#2f27ce] hover:text-[#050316] p-1 transition-colors">
@@ -316,7 +383,7 @@ export default function AovReport({
                                     </div>
                                     <div className="w-full h-8 bg-[#fbfbfe] rounded-xl overflow-hidden border border-[#dddbff]/50 relative">
                                         <div 
-                                            className="h-full bg-[#050316] transition-all duration-500 rounded-l-xl" 
+                                            className="h-full bg-gradient-to-r from-[#443dff] to-[#2f27ce] transition-all duration-500 rounded-l-xl" 
                                             style={{ width: `${(aovDineIn / maxChannelAov) * 100}%` }}
                                         />
                                     </div>
@@ -330,7 +397,7 @@ export default function AovReport({
                                     </div>
                                     <div className="w-full h-8 bg-[#fbfbfe] rounded-xl overflow-hidden border border-[#dddbff]/50 relative">
                                         <div 
-                                            className="h-full bg-[#050316]/80 transition-all duration-500 rounded-l-xl" 
+                                            className="h-full bg-gradient-to-r from-[#443dff]/80 to-[#2f27ce]/80 transition-all duration-500 rounded-l-xl" 
                                             style={{ width: `${(aovDelivery / maxChannelAov) * 100}%` }}
                                         />
                                     </div>
@@ -344,7 +411,7 @@ export default function AovReport({
                                     </div>
                                     <div className="w-full h-8 bg-[#fbfbfe] rounded-xl overflow-hidden border border-[#dddbff]/50 relative">
                                         <div 
-                                            className="h-full bg-[#050316]/65 transition-all duration-500 rounded-l-xl" 
+                                            className="h-full bg-gradient-to-r from-[#443dff]/60 to-[#2f27ce]/60 transition-all duration-500 rounded-l-xl" 
                                             style={{ width: `${(aovTakeaway / maxChannelAov) * 100}%` }}
                                         />
                                     </div>
@@ -440,14 +507,14 @@ export default function AovReport({
                             {/* Heatmap Grid */}
                             <div className="grid grid-cols-4 gap-3 mb-6">
                                 {heatmapSlots.map((slot, idx) => {
-                                    let bgClass = "bg-[#f3f4f6] text-[#374151] border border-[#e5e7eb]";
+                                    let bgClass = "bg-[#fbfbfe] text-[#2f27ce]/60 border border-[#dddbff]/70";
                                     let isHigh = slot.level === "High";
                                     let isMed = slot.level === "Med";
 
                                     if (isHigh) {
-                                        bgClass = "bg-[#10b981] text-white shadow-sm shadow-[#10b981]/20";
+                                        bgClass = "bg-gradient-to-br from-[#443dff] to-[#2f27ce] text-white shadow-md shadow-[#443dff]/25";
                                     } else if (isMed) {
-                                        bgClass = "bg-[#a7f3d0] text-[#065f46] border border-[#6ee7b7]/30";
+                                        bgClass = "bg-[#dddbff] text-[#2f27ce] border border-[#b4b0ff]/50";
                                     }
 
                                     return (
@@ -462,7 +529,7 @@ export default function AovReport({
                                                 {slot.count}
                                                 {isHigh && <span role="img" aria-label="fire">🔥</span>}
                                             </span>
-                                            <span className={`text-[8px] font-bold ${isHigh ? 'text-white/90' : 'text-[#050316]/70'}`}>
+                                            <span className={`text-[8px] font-bold ${isHigh ? 'text-white/90' : 'text-[#2f27ce]/80'}`}>
                                                 {slot.level}
                                             </span>
                                         </div>
@@ -475,15 +542,15 @@ export default function AovReport({
                         <div className="border-t border-[#dddbff] pt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[9px] font-extrabold text-[#2f27ce]/70 uppercase tracking-widest">
                             <span className="text-[#050316]">LEGENDA INTENSITAS AOV</span>
                             <span className="flex items-center gap-1.5 normal-case tracking-normal">
-                                <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]" />
+                                <span className="w-2.5 h-2.5 rounded-full bg-[#443dff]" />
                                 &gt; Rp 90k
                             </span>
                             <span className="flex items-center gap-1.5 normal-case tracking-normal">
-                                <span className="w-2.5 h-2.5 rounded-full bg-[#a7f3d0] border border-[#6ee7b7]/30" />
+                                <span className="w-2.5 h-2.5 rounded-full bg-[#dddbff] border border-[#b4b0ff]/50" />
                                 Rp 70k - 90k
                             </span>
                             <span className="flex items-center gap-1.5 normal-case tracking-normal">
-                                <span className="w-2.5 h-2.5 rounded-full bg-[#f3f4f6] border border-[#e5e7eb]" />
+                                <span className="w-2.5 h-2.5 rounded-full bg-[#fbfbfe] border border-[#dddbff]/70" />
                                 &lt; Rp 70k
                             </span>
                         </div>

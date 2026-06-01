@@ -11,16 +11,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create(): Response
     {
-        return view('auth.register');
+        return Inertia::render('Auth/Register');
     }
 
     /**
@@ -39,10 +40,13 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
-            'password' => $request->password,
-            'role'     => 'cashier',
+            'password' => Hash::make($request->password),
+            'role'     => 'owner', // Default role for demo registration is owner
             'status'   => 'active',
         ]);
+
+        // Sync Spatie role
+        $user->syncRoles(['owner']);
 
         event(new Registered($user));
 

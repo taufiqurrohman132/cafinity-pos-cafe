@@ -91,11 +91,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function create(): View
+    public function create()
     {
-        $roles = Role::all();
-
-        return view('shared.user-management.create', compact('roles'));
+        return redirect()->route('users.index');
     }
 
     public function store(Request $request)
@@ -116,24 +114,24 @@ class UserController extends Controller
         // Sync Spatie role
         $user->syncRoles([$data['role']]);
 
+        // Audit Log
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action'  => "Menambahkan pengguna baru: {$user->name}",
+        ]);
+
         return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
     }
 
-    public function show(string $id): View
+    public function show(string $id)
     {
-        $user = User::with('roles', 'permissions')->findOrFail($id);
-
-        return view('shared.user-management.show', compact('user'));
+        return redirect()->route('users.index');
     }
 
-    public function edit(string $id): View
+    public function edit(string $id)
     {
-        $user  = User::with('roles')->findOrFail($id);
-        $roles = Role::all();
-
-        return view('shared.user-management.edit', compact('user', 'roles'));
+        return redirect()->route('users.index');
     }
-
     public function update(Request $request, string $id)
     {
         $user = User::findOrFail($id);
@@ -155,6 +153,12 @@ class UserController extends Controller
         // Sync Spatie role
         $user->syncRoles([$data['role']]);
 
+        // Audit Log
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action'  => "Memperbarui profil pengguna: {$user->name}",
+        ]);
+
         return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');
     }
 
@@ -166,15 +170,29 @@ class UserController extends Controller
             return back()->with('error', 'Tidak dapat menghapus akun sendiri.');
         }
 
+        $userName = $user->name;
         $user->delete();
+
+        // Audit Log
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action'  => "Menghapus pengguna: {$userName}",
+        ]);
 
         return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
     }
 
     public function resetPassword(string $id)
     {
-        User::findOrFail($id)->update([
+        $user = User::findOrFail($id);
+        $user->update([
             'password' => Hash::make('password123'),
+        ]);
+
+        // Audit Log
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action'  => "Mereset password pengguna: {$user->name}",
         ]);
 
         return back()->with('success', 'Password direset ke: password123');
@@ -185,6 +203,14 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->update([
             'status' => $user->status === 'active' ? 'inactive' : 'active',
+        ]);
+
+        $statusStr = $user->status === 'active' ? 'Mengaktifkan' : 'Menonaktifkan';
+
+        // Audit Log
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action'  => "{$statusStr} pengguna: {$user->name}",
         ]);
 
         return back()->with('success', 'Status user diperbarui.');

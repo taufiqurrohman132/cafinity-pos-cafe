@@ -191,6 +191,14 @@ export default function Login({ status, errors: serverErrors }) {
                                 </button>
                             </form>
 
+                            {/* Pendaftaran Akun */}
+                            <p className="text-xs text-center text-[#050316]/70 font-semibold mt-3">
+                                Belum memiliki akun?{' '}
+                                <a href="/register" className="text-[#443dff] hover:underline font-extrabold">
+                                    Daftar Akun Baru
+                                </a>
+                            </p>
+
                             {/* Divider */}
                             <div className="flex items-center gap-3">
                                 <div className="flex-1 h-px bg-[#dddbff]"></div>

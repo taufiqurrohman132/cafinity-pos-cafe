@@ -17,8 +17,8 @@ export default function Sidebar() {
     const can = (permission) => user?.permissions?.includes(permission);
 
     const dashboardRoute = () => {
-        if (user?.role === 'owner')   return '/owner/dashboard';
-        if (user?.role === 'admin')   return '/admin/dashboard';
+        if (user?.role === 'owner') return '/owner/dashboard';
+        if (user?.role === 'admin') return '/admin/dashboard';
         if (user?.role === 'cashier') return '/cashier/dashboard';
         return '/dashboard';
     };
@@ -29,9 +29,9 @@ export default function Sidebar() {
 
     const isDashboardActive = () => {
         return currentUrl === '/dashboard' ||
-               currentUrl.startsWith('/owner/dashboard') ||
-               currentUrl.startsWith('/admin/dashboard') ||
-               currentUrl.startsWith('/cashier/dashboard');
+            currentUrl.startsWith('/owner/dashboard') ||
+            currentUrl.startsWith('/admin/dashboard') ||
+            currentUrl.startsWith('/cashier/dashboard');
     };
 
     const isActive = (path) => currentUrl.startsWith(path);
@@ -162,17 +162,17 @@ export default function Sidebar() {
                             )}
                         </div>
 
-                        <Link href="/system-status" className={cls('/system-status')}>
+                        {/* <Link href="/system-status" className={cls('/system-status')}>
                             <iconify-icon icon="solar:server-square-linear" class="text-[20px]"></iconify-icon>
                             <span className="text-[13px]">System Status</span>
-                        </Link>
+                        </Link> */}
                     </>}
 
                     {/* Settings */}
-                    <Link href="/settings" className={cls('/settings')}>
+                    {/* <Link href="/settings" className={cls('/settings')}>
                         <iconify-icon icon="solar:settings-linear" class="text-[20px]"></iconify-icon>
                         <span className="text-[13px]">Settings</span>
-                    </Link>
+                    </Link> */}
 
                 </nav>
             </div>
