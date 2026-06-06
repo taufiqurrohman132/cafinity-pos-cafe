@@ -20,6 +20,10 @@ class User extends Authenticatable
         'role',
         'status',
         'shift_terakhir',
+        'two_fa_enabled',
+        'two_fa_method',
+        'two_fa_secret',
+        'last_login',
     ];
 
     protected $hidden = [
@@ -40,6 +44,8 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
             'shift_terakhir'    => 'datetime',
+            'two_fa_enabled'    => 'boolean',
+            'last_login'        => 'datetime',
         ];
     }
 
@@ -51,6 +57,11 @@ class User extends Authenticatable
     public function purchaseOrders()
     {
         return $this->hasMany(PurchaseOrder::class);
+    }
+
+    public function createdPurchaseOrders()
+    {
+        return $this->hasMany(PurchaseOrder::class, 'created_by');
     }
 
     public function appNotifications()
@@ -66,6 +77,21 @@ class User extends Authenticatable
     public function auditLogs()
     {
         return $this->hasMany(AuditLog::class);
+    }
+
+    public function userSessions()
+    {
+        return $this->hasMany(UserSession::class);
+    }
+
+    public function uploadedSupplierDocuments()
+    {
+        return $this->hasMany(SupplierDocument::class, 'uploaded_by');
+    }
+
+    public function poApprovals()
+    {
+        return $this->hasMany(PoApproval::class, 'approver_id');
     }
 
     public function isActive(): bool

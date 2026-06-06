@@ -23,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Recipe::observe(RecipeObserver::class); // ← tambahkan ini
 
+        // \URL::forceScheme('https');
+
         // Dynamic Gate Fallbacks mapping general permissions to granular module permissions
         \Illuminate\Support\Facades\Gate::before(function ($user, $ability) {
             if ($user->hasRole('owner')) {

@@ -10,14 +10,27 @@ class PurchaseOrder extends Model
     use HasFactory;
 
     protected $fillable = [
-        'supplier_id', 'user_id', 'status',
-        'total_amount', 'notes', 'ordered_at', 'received_at',
+        'supplier_id',
+        'user_id',
+        'po_number',
+        'delivery_date',
+        'delivery_location',
+        'reference_number',
+        'status',
+        'total_amount',
+        'notes',
+        'created_by',
+        'approved_at',
+        'ordered_at',
+        'received_at',
     ];
 
     protected $casts = [
-        'total_amount' => 'integer',
-        'ordered_at'   => 'datetime',
-        'received_at'  => 'datetime',
+        'total_amount'  => 'integer',
+        'delivery_date' => 'date',
+        'approved_at'   => 'datetime',
+        'ordered_at'    => 'datetime',
+        'received_at'   => 'datetime',
     ];
 
     // status: pending, approved, rejected, received
@@ -32,8 +45,18 @@ class PurchaseOrder extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
     public function items()
     {
         return $this->hasMany(PurchaseOrderItem::class);
+    }
+
+    public function approvals()
+    {
+        return $this->hasMany(PoApproval::class);
     }
 }

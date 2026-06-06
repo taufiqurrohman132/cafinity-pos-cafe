@@ -33,6 +33,10 @@ return new class extends Migration
             ])->default('active');
 
             $table->timestamp('shift_terakhir')->nullable();
+            $table->boolean('two_fa_enabled')->default(false);
+            $table->string('two_fa_method')->nullable();
+            $table->string('two_fa_secret')->nullable();
+            $table->timestamp('last_login')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

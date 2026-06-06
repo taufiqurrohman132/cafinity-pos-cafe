@@ -12,9 +12,15 @@ return new class extends Migration
             $table->id();
             $table->foreignId('supplier_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('po_number')->unique()->nullable();
+            $table->date('delivery_date')->nullable();
+            $table->string('delivery_location')->nullable();
+            $table->string('reference_number')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected', 'received'])->default('pending');
             $table->unsignedInteger('total_amount')->default(0);
             $table->text('notes')->nullable();
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->timestamp('approved_at')->nullable();
             $table->timestamp('ordered_at')->nullable();
             $table->timestamp('received_at')->nullable();
             $table->timestamps();

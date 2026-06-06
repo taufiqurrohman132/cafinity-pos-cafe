@@ -173,5 +173,28 @@ Judul 3:
 "Rancang Bangun AI Agent Terintegrasi Multi-Platform untuk Otomasi Operasional Kafe pada Sistem Cafinity Berbasis Large Language Model"
 → Fokus utama pada AI Agent-nya sendiri, bukan sistemnya. QR Self-Order tidak disebut. Menekankan aspek multi-platform (WhatsApp, Google, dll).
 
+JUDUL 4:
+Kalau mau lebih aman secara akademik, bisa diubah jadi:
+
+"Rancang Bangun Sistem Informasi Manajemen Kafe dengan AI Agent Terintegrasi Multi-Platform erbasis Large Language Model"B
+
+Coba beberapa opsi ini, masing-masing 12 kata:
+
+Opsi 1 — paling dekat dengan aslinya:
+
+"Rancang Bangun AI Agent Berbasis Large Language Model untuk Otomasi Operasional Kafe Multi-Platform"
+
+Opsi 2 — Cafinity tetap masuk:
+
+"Rancang Bangun Agentic AI Berbasis LLM untuk Otomasi Operasional Multi-Platform pada Sistem Manajemen Kafe Cafinity" ✅✅
+
+Opsi 3 — lebih natural:
+
+"Rancang Bangun Sistem AI Agent Terintegrasi Berbasis LLM untuk Otomasi Operasional Kafe Multi-Platform"
+
+Jadi judul sebelumnya masih valid:
+
+"Rancang Bangun AI Agent Multi-Platform Berbasis LLM untuk Otomasi Operasional Sistem Cafinity"
+
 Singkatnya:
 Fokus UtamaQR disebut?Stack disebut?Judul 1Sistem manajemen kafe✅✅Judul 2POS✅❌Judul 3AI Agent❌❌

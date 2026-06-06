@@ -10,11 +10,28 @@ class Supplier extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'phone', 'email', 'address', 'is_active',
+        'name',
+        'phone',
+        'email',
+        'address',
+        'city',
+        'province',
+        'category',
+        'payment_term',
+        'lead_time',
+        'min_order',
+        'status',
+        'rating',
+        'notes',
+        'code',
+        'is_active',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
+        'is_active'  => 'boolean',
+        'lead_time'  => 'integer',
+        'min_order'  => 'decimal:2',
+        'rating'     => 'decimal:2',
     ];
 
     public function inventories()
@@ -25,5 +42,15 @@ class Supplier extends Model
     public function purchaseOrders()
     {
         return $this->hasMany(PurchaseOrder::class);
+    }
+
+    public function contacts()
+    {
+        return $this->hasMany(SupplierContact::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(SupplierDocument::class);
     }
 }

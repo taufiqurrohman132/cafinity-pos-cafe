@@ -213,27 +213,27 @@ Berikut adalah detail skema tabel database berdasarkan berkas migrasi aktif pada
 
 Pembagian hak akses diatur ketat menggunakan middleware Spatie pada backend Laravel dan disinkronkan ke komponen UI React.
 
-| Modul / Fitur | Owner | Admin | Cashier |
-| :--- | :---: | :---: | :---: |
-| **Owner Dashboard** (Grafik Omzet & Profit) |  Ya  | Tidak | Tidak |
-| **Admin Dashboard** (Stok & Margin Menu) |  Ya  |  Ya  | Tidak |
-| **Cashier Dashboard** (Shift & Ringkasan Harian) |  Ya  |  Ya  |  Ya  |
-| **User Directory & Reset Password** (CRUD) |  Ya  | Tidak | Tidak |
-| **Role & Permission Matrix GUI** |  Ya  | Tidak | Tidak |
-| **Pembersihan Cache & Optimasi Sistem** |  Ya  | Tidak | Tidak |
-| **Pengaturan Target Bisnis** (*Targets & Goals*) |  Ya  | Tidak | Tidak |
-| **Katalog Menu & Kategori** (CRUD) |  Ya  |  Ya  | Tidak |
-| **Recipe Costing & HPP** (CRUD) |  Ya  |  Ya  | Tidak |
-| **Inventaris & Bahan Baku** (CRUD) |  Ya  |  Ya  | Tidak |
-| **Pemesanan Barang Supplier** (*Purchase Orders*) |  Ya  |  Ya  | Tidak |
-| **Supplier & Kategori Inventaris** (CRUD) |  Ya  |  Ya  | Tidak |
-| **Promosi & Bundling Menu** (CRUD) |  Ya  |  Ya  | Tidak |
-| **Laporan Bisnis & Ekspor Laba Rugi** (Excel/PDF) |  Ya  |  Ya  | Tidak |
-| **Point of Sale (POS)** (Checkout/Hold/Resume) |  Ya  |  Ya  |  Ya  |
-| **Riwayat Transaksi & Print Invoice** |  Ya  |  Ya  |  Ya  |
-| **Refund Transaksi** |  Ya  |  Ya  |  Ya  |
-| **Live Kitchen Queue** (Update Status Dapur) |  Ya  |  Ya  |  Ya  |
-| **Pengaturan Profil Akun** |  Ya  |  Ya  |  Ya  |
+| Modul / Fitur                                     | Owner | Admin | Cashier |
+| :--------------------------------------------------| :-----:| :-----:| :-------:|
+| **Owner Dashboard** (Grafik Omzet & Profit)       | Ya    | Tidak | Tidak   |
+| **Admin Dashboard** (Stok & Margin Menu)          | Ya    | Ya    | Tidak   |
+| **Cashier Dashboard** (Shift & Ringkasan Harian)  | Ya    | Ya    | Ya      |
+| **User Directory & Reset Password** (CRUD)        | Ya    | Tidak | Tidak   |
+| **Role & Permission Matrix GUI**                  | Ya    | Tidak | Tidak   |
+| **Pembersihan Cache & Optimasi Sistem**           | Ya    | Tidak | Tidak   |
+| **Pengaturan Target Bisnis** (*Targets & Goals*)  | Ya    | Tidak | Tidak   |
+| **Katalog Menu & Kategori** (CRUD)                | Ya    | Ya    | Tidak   |
+| **Recipe Costing & HPP** (CRUD)                   | Ya    | Ya    | Tidak   |
+| **Inventaris & Bahan Baku** (CRUD)                | Ya    | Ya    | Tidak   |
+| **Pemesanan Barang Supplier** (*Purchase Orders*) | Ya    | Ya    | Tidak   |
+| **Supplier & Kategori Inventaris** (CRUD)         | Ya    | Ya    | Tidak   |
+| **Promosi & Bundling Menu** (CRUD)                | Ya    | Ya    | Tidak   |
+| **Laporan Bisnis & Ekspor Laba Rugi** (Excel/PDF) | Ya    | Ya    | Tidak   |
+| **Point of Sale (POS)** (Checkout/Hold/Resume)    | Ya    | Ya    | Ya      |
+| **Riwayat Transaksi & Print Invoice**             | Ya    | Ya    | Ya      |
+| **Refund Transaksi**                              | Ya    | Ya    | Ya      |
+| **Live Kitchen Queue** (Update Status Dapur)      | Ya    | Ya    | Ya      |
+| **Pengaturan Profil Akun**                        | Ya    | Ya    | Ya      |
 
 ---
 
@@ -390,3 +390,25 @@ Setelah melakukan seeder database (`php artisan migrate:fresh --seed`), akun-aku
 | **Rizky Pratama** | rizky.p@smartcafe.id | `password` | **Cashier** (Point of Sale, Kasir, Dapur) |
 
 *Pintasan Cepat*: Di lingkungan lokal, Anda dapat langsung mengetikkan `http://127.0.0.1:8000/dev-login/owner` atau `/dev-login/admin` atau `/dev-login/cashier` di peramban untuk masuk secara instan tanpa memasukkan kredensial.
+
+
+1. System Overview Flowchart
+   └─ Gambaran besar Cafinity
+
+2. Feature Flowchart
+   ├─ POS & Kitchen Flow
+   ├─ Purchase Order Flow
+   ├─ Recipe Costing & HPP Flow
+   └─ AI Agent Flow
+
+3. User Flow
+   ├─ Pelanggan
+   ├─ Kasir
+   └─ Owner
+
+4. System Architecture Diagram
+   ├─ Frontend
+   ├─ Backend
+   ├─ Database
+   ├─ AI Agent
+   └─ External APIs

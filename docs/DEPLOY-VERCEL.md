@@ -56,3 +56,19 @@ Anda bisa melakukannya melalui terminal lokal Anda dengan menghubungkannya semen
 3. Kembalikan berkas `.env` lokal Anda ke pengaturan semula (mengarah ke Laragon) setelah selesai.
 
 Sekarang aplikasi demo Anda di Vercel akan terhubung ke database cloud dan siap diakses secara online oleh siapa saja!
+
+
+DEPLOY DARI LAPTOP SENDIRI
+Setup-nya Gampang Banget:
+1. Install Ngrok
+bash# Download di ngrok.com, atau pakai winget
+winget install ngrok
+2. Daftar akun gratis di ngrok.com → ambil authtoken
+3. Jalankan
+bash# Pastikan Laragon nyala dulu
+ngrok http 80
+4. Dapat URL kayak gini:
+https://abc123.ngrok-free.app  ← kasih ke kafe
+
+
+ngrok http --scheme=http 8000
