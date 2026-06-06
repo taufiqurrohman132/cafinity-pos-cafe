@@ -98,6 +98,16 @@ export default function Sidebar() {
                             <span className="text-[13px]">Inventory</span>
                         </Link>
 
+                        <Link href="/purchase-orders" className={cls('/purchase-orders')}>
+                            <iconify-icon icon="solar:clipboard-list-linear" class="text-[20px]"></iconify-icon>
+                            <span className="text-[13px]">Purchase Order</span>
+                        </Link>
+
+                        <Link href="/suppliers" className={cls('/suppliers')}>
+                            <iconify-icon icon="solar:shop-linear" class="text-[20px]"></iconify-icon>
+                            <span className="text-[13px]">Supplier</span>
+                        </Link>
+
                         <Link href="/reports" className={cls('/reports')}>
                             <iconify-icon icon="solar:chart-2-linear" class="text-[20px]"></iconify-icon>
                             <span className="text-[13px]">Reports</span>
@@ -169,10 +179,10 @@ export default function Sidebar() {
                     </>}
 
                     {/* Settings */}
-                    {/* <Link href="/settings" className={cls('/settings')}>
+                    <Link href="/settings" className={cls('/settings')}>
                         <iconify-icon icon="solar:settings-linear" class="text-[20px]"></iconify-icon>
                         <span className="text-[13px]">Settings</span>
-                    </Link> */}
+                    </Link>
 
                 </nav>
             </div>
