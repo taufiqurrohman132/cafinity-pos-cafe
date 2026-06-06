@@ -9,15 +9,15 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                 <div className="flex-1 grid grid-cols-1 xl:grid-cols-12 gap-3 min-h-0">
 
                     {/* Main Content */}
-                    <div className="xl:col-span-9 min-h-0 overflow-y-auto space-y-6 p-4 md:py-6 md:pl-6 bg-[#fbfbfe]">
+                    <div className="xl:col-span-9 min-h-0 overflow-y-auto space-y-6 p-4 md:py-6 md:pl-6 bg-brand-bg">
 
                         {/* Header */}
                         <div>
-                            <h1 className="text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#050316] to-[#2f27ce] tracking-tight">
+                            <h1 className="text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                                 Dashboard Admin
                             </h1>
-                            <p className="text-[#2f27ce] mt-1 text-sm font-medium">
-                                Selamat datang kembali, <span className="font-extrabold text-[#050316]">{user?.name}</span>.
+                            <p className="text-brand-primary mt-1 text-sm font-medium">
+                                Selamat datang kembali, <span className="font-extrabold text-brand-dark">{user?.name}</span>.
                             </p>
                         </div>
 
@@ -27,15 +27,15 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                 { title: 'Stok Rendah',      value: stats?.low_stock     ?? '0 Item',   icon: 'solar:box-minimalistic-linear',          iconBg: 'bg-rose-100',    iconColor: 'text-rose-600',    note: 'Segera Restock!',          noteColor: 'text-rose-500' },
                                 { title: 'PO Menunggu',      value: stats?.pending_po    ?? '0 Berkas', icon: 'solar:document-text-linear',             iconBg: 'bg-blue-100',    iconColor: 'text-blue-600',    note: 'Perlu persetujuan',        noteColor: 'text-blue-500' },
                                 { title: 'Total SKU',        value: stats?.total_sku     ?? '0 Item',   icon: 'solar:box-linear',                       iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600', note: 'Item aktif di inventaris', noteColor: 'text-emerald-600' },
-                                { title: 'Nilai Inventaris', value: stats?.inventory_val ?? 'Rp 0',     icon: 'solar:chart-2-linear',                   iconBg: 'bg-[#dddbff]',   iconColor: 'text-[#443dff]',   note: null,                       noteColor: null },
+                                { title: 'Nilai Inventaris', value: stats?.inventory_val ?? 'Rp 0',     icon: 'solar:chart-2-linear',                   iconBg: 'bg-brand-light',   iconColor: 'text-brand-secondary',   note: null,                       noteColor: null },
                             ].map((card, i) => (
-                                <div key={i} className="bg-white p-5 rounded-2xl border border-[#dddbff] shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-[#2f27ce]/10 transition-all duration-300 group">
+                                <div key={i} className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
                                     <div className={`w-12 h-12 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
                                         <iconify-icon icon={card.icon} class={`text-2xl ${card.iconColor}`}></iconify-icon>
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-xs font-bold text-[#2f27ce]/70 capitalize tracking-wide">{card.title}</p>
-                                        <p className="text-xl font-extrabold text-[#050316] mt-0.5">{card.value}</p>
+                                        <p className="text-xs font-bold text-brand-primary/70 capitalize tracking-wide">{card.title}</p>
+                                        <p className="text-xl font-extrabold text-brand-dark mt-0.5">{card.value}</p>
                                         {card.note && <p className={`text-[11px] font-bold mt-0.5 ${card.noteColor}`}>{card.note}</p>}
                                     </div>
                                 </div>
@@ -47,37 +47,37 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
 
                             {/* Stock Movement Chart */}
                             <div className="xl:col-span-8">
-                                <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm h-full flex flex-col">
+                                <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm h-full flex flex-col">
                                     <div className="flex justify-between items-center mb-6">
-                                        <h3 className="font-extrabold text-[#050316] tracking-tight">Pergerakan Stok</h3>
-                                        <span className="text-xs font-bold text-[#2f27ce] bg-[#dddbff]/50 border border-[#dddbff] px-3 py-1 rounded-lg">
+                                        <h3 className="font-extrabold text-brand-dark tracking-tight">Pergerakan Stok</h3>
+                                        <span className="text-xs font-bold text-brand-primary bg-brand-light/50 border border-brand-light px-3 py-1 rounded-lg">
                                             7 Hari Terakhir
                                         </span>
                                     </div>
-                                    <div className="flex flex-1 items-end justify-between h-48 gap-2 pt-4 border-b border-[#dddbff]">
+                                    <div className="flex flex-1 items-end justify-between h-48 gap-2 pt-4 border-b border-brand-light">
                                         {(stockMovement ?? [40,30,50,45,60,80,55].map((v,i) => ({ in: v, out: v-15, label: ['Sen','Sel','Rab','Kam','Jum','Sab','Min'][i] }))).map((slot, i) => (
                                             <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
                                                 <div className="w-full flex gap-1 items-end h-full">
-                                                    <div className="flex-1 bg-[#443dff] rounded-t-sm transition-all group-hover:bg-[#2f27ce]" style={{ height: `${slot.in}%` }}></div>
-                                                    <div className="flex-1 bg-[#dddbff] rounded-t-sm" style={{ height: `${slot.out}%` }}></div>
+                                                    <div className="flex-1 bg-brand-secondary rounded-t-sm transition-all group-hover:bg-brand-primary" style={{ height: `${slot.in}%` }}></div>
+                                                    <div className="flex-1 bg-brand-light rounded-t-sm" style={{ height: `${slot.out}%` }}></div>
                                                 </div>
-                                                <span className="text-[10px] text-[#2f27ce]/50 font-bold mt-2">{slot.label}</span>
+                                                <span className="text-[10px] text-brand-primary/50 font-bold mt-2">{slot.label}</span>
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="flex gap-4 mt-4 text-[10px] font-bold text-[#2f27ce] justify-center">
-                                        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#443dff]"></span> Stok Masuk</span>
-                                        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#dddbff]"></span> Stok Keluar</span>
+                                    <div className="flex gap-4 mt-4 text-[10px] font-bold text-brand-primary justify-center">
+                                        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-brand-secondary"></span> Stok Masuk</span>
+                                        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-brand-light"></span> Stok Keluar</span>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Menu Summary */}
                             <div className="xl:col-span-4">
-                                <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm h-full flex flex-col">
+                                <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm h-full flex flex-col">
                                     <div className="mb-6">
-                                        <h3 className="font-extrabold text-[#050316] tracking-tight">Ringkasan Menu</h3>
-                                        <p className="text-xs text-[#2f27ce]/70 mt-1">Status ketersediaan katalog menu</p>
+                                        <h3 className="font-extrabold text-brand-dark tracking-tight">Ringkasan Menu</h3>
+                                        <p className="text-xs text-brand-primary/70 mt-1">Status ketersediaan katalog menu</p>
                                     </div>
                                     <div className="space-y-5 flex-1">
                                         {(menuSummary ?? [
@@ -91,8 +91,8 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                                         <iconify-icon icon={item.icon} class="text-2xl"></iconify-icon>
                                                     </div>
                                                     <div>
-                                                        <h4 className="text-sm font-extrabold text-[#050316] leading-tight">{item.name}<br />{item.sub}</h4>
-                                                        <p className="text-xs text-[#2f27ce]/70 mt-1">{item.count}</p>
+                                                        <h4 className="text-sm font-extrabold text-brand-dark leading-tight">{item.name}<br />{item.sub}</h4>
+                                                        <p className="text-xs text-brand-primary/70 mt-1">{item.count}</p>
                                                     </div>
                                                 </div>
                                                 <span className={`px-2 py-1 rounded-full ${item.statusBg} ${item.statusColor} text-[10px] font-bold`}>
@@ -102,7 +102,7 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                         ))}
                                     </div>
                                     <Link href="/menus"
-                                        className="w-full mt-7 border border-[#dddbff] hover:bg-[#dddbff]/30 transition py-2.5 rounded-xl text-xs font-bold text-[#2f27ce] text-center block">
+                                        className="w-full mt-7 border border-brand-light hover:bg-brand-light/30 transition py-2.5 rounded-xl text-xs font-bold text-brand-primary text-center block">
                                         Kelola Menu Catalog
                                     </Link>
                                 </div>
@@ -110,19 +110,19 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                         </div>
 
                         {/* HPP Analysis */}
-                        <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm overflow-hidden">
-                            <div className="p-6 flex justify-between items-center border-b border-[#dddbff]">
+                        <div className="bg-white rounded-2xl border border-brand-light shadow-sm overflow-hidden">
+                            <div className="p-6 flex justify-between items-center border-b border-brand-light">
                                 <div>
-                                    <h3 className="font-extrabold text-[#050316] tracking-tight">Analisis HPP Resep</h3>
-                                    <p className="text-xs text-[#2f27ce]/70">Menu dengan margin kritis atau keuntungan tinggi</p>
+                                    <h3 className="font-extrabold text-brand-dark tracking-tight">Analisis HPP Resep</h3>
+                                    <p className="text-xs text-brand-primary/70">Menu dengan margin kritis atau keuntungan tinggi</p>
                                 </div>
                                 <Link href="/recipe-costing"
-                                    className="text-xs border border-[#dddbff] px-4 py-2 rounded-xl font-bold text-[#2f27ce] hover:bg-[#dddbff] transition">
+                                    className="text-xs border border-brand-light px-4 py-2 rounded-xl font-bold text-brand-primary hover:bg-brand-light transition">
                                     Detail Recipe Costing
                                 </Link>
                             </div>
                             <table className="w-full text-left">
-                                <thead className="bg-[#fbfbfe] text-[10px] capitalize text-[#2f27ce]/60 tracking-wider">
+                                <thead className="bg-brand-bg text-[10px] capitalize text-brand-primary/60 tracking-wider">
                                     <tr>
                                         <th className="px-6 py-4 font-extrabold">Nama Menu</th>
                                         <th className="px-4 py-4 font-extrabold">HPP (Estimasi)</th>
@@ -131,19 +131,19 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                         <th className="px-6 py-4 font-extrabold text-right">Status</th>
                                     </tr>
                                 </thead>
-                                <tbody className="text-sm divide-y divide-[#dddbff]/50">
+                                <tbody className="text-sm divide-y divide-brand-light/50">
                                     {(hppAnalysis ?? []).length === 0 ? (
-                                        <tr><td colSpan={5} className="px-6 py-8 text-center text-[#2f27ce] italic">Belum ada data HPP.</td></tr>
+                                        <tr><td colSpan={5} className="px-6 py-8 text-center text-brand-primary italic">Belum ada data HPP.</td></tr>
                                     ) : (hppAnalysis ?? []).map((row, i) => {
                                         const isLow = row.margin_pct < 40;
                                         return (
-                                            <tr key={i} className="hover:bg-[#dddbff]/10 transition">
-                                                <td className="px-6 py-4 font-extrabold text-[#050316]">{row.name}</td>
-                                                <td className="px-4 py-4 text-[#050316]/60">{row.hpp}</td>
-                                                <td className="px-4 py-4 text-[#050316]/60">{row.price}</td>
+                                            <tr key={i} className="hover:bg-brand-light/10 transition">
+                                                <td className="px-6 py-4 font-extrabold text-brand-dark">{row.name}</td>
+                                                <td className="px-4 py-4 text-brand-dark/60">{row.hpp}</td>
+                                                <td className="px-4 py-4 text-brand-dark/60">{row.price}</td>
                                                 <td className={`px-4 py-4 text-center font-extrabold ${isLow ? 'text-rose-500' : 'text-emerald-600'}`}>{row.margin}</td>
                                                 <td className="px-6 py-4 text-right">
-                                                    <span className={`px-2 py-1 text-[10px] rounded-full font-bold ${isLow ? 'bg-rose-100 text-rose-600' : 'bg-[#dddbff] text-[#2f27ce]'}`}>
+                                                    <span className={`px-2 py-1 text-[10px] rounded-full font-bold ${isLow ? 'bg-rose-100 text-rose-600' : 'bg-brand-light text-brand-primary'}`}>
                                                         {isLow ? 'Low Margin' : 'Normal'}
                                                     </span>
                                                 </td>
@@ -159,23 +159,23 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                     <div className="xl:col-span-3 min-h-0 overflow-y-auto space-y-6 p-4 md:p-6 md:pl-0">
 
                         {/* Quick Actions */}
-                        <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm">
-                            <h4 className="text-[10px] font-extrabold text-[#2f27ce]/60 tracking-widest capitalize mb-4">
+                        <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm">
+                            <h4 className="text-[10px] font-extrabold text-brand-primary/60 tracking-widest capitalize mb-4">
                                 ⚡ Aksi Cepat
                             </h4>
                             <div className="space-y-3">
                                 <Link href="/inventories/create"
-                                    className="w-full bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-sm transition">
+                                    className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-sm transition">
                                     <iconify-icon icon="solar:add-circle-linear" class="text-lg"></iconify-icon>
                                     Input Stok Masuk
                                 </Link>
                                 <Link href="/inventories"
-                                    className="w-full border border-[#dddbff] hover:bg-[#dddbff]/30 text-[#2f27ce] py-3 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2">
+                                    className="w-full border border-brand-light hover:bg-brand-light/30 text-brand-primary py-3 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2">
                                     <iconify-icon icon="solar:clipboard-list-linear" class="text-lg"></iconify-icon>
                                     Stock Opname
                                 </Link>
                                 <Link href="/reports"
-                                    className="w-full border border-[#dddbff] hover:bg-[#dddbff]/30 text-[#2f27ce] py-3 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2">
+                                    className="w-full border border-brand-light hover:bg-brand-light/30 text-brand-primary py-3 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2">
                                     <iconify-icon icon="solar:chart-2-linear" class="text-lg"></iconify-icon>
                                     Laporan Bulanan
                                 </Link>
@@ -183,25 +183,25 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                         </div>
 
                         {/* Activity Log */}
-                        <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm">
-                            <h4 className="text-[10px] font-extrabold text-[#2f27ce]/60 tracking-widest capitalize mb-6">
+                        <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm">
+                            <h4 className="text-[10px] font-extrabold text-brand-primary/60 tracking-widest capitalize mb-6">
                                 🕐 Log Aktivitas
                             </h4>
-                            <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-[#dddbff]">
+                            <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-brand-light">
                                 {(activityLog ?? []).length === 0 ? (
-                                    <p className="text-xs text-[#2f27ce] italic pl-8">Belum ada aktivitas hari ini.</p>
+                                    <p className="text-xs text-brand-primary italic pl-8">Belum ada aktivitas hari ini.</p>
                                 ) : (activityLog ?? []).map((log, i) => (
                                     <div key={i} className="relative pl-8">
                                         <span className={`absolute left-0 top-1 w-4 h-4 ${log.type === 'in' ? 'bg-emerald-500' : 'bg-rose-400'} border-4 border-white rounded-full`}></span>
                                         <div className="flex justify-between text-[10px] mb-1">
-                                            <span className="font-extrabold text-[#050316]">{log.action}</span>
-                                            <span className="text-[#2f27ce]/50">{log.time_ago}</span>
+                                            <span className="font-extrabold text-brand-dark">{log.action}</span>
+                                            <span className="text-brand-primary/50">{log.time_ago}</span>
                                         </div>
-                                        <p className="text-[11px] text-[#2f27ce]/70 leading-relaxed">{log.description}</p>
+                                        <p className="text-[11px] text-brand-primary/70 leading-relaxed">{log.description}</p>
                                     </div>
                                 ))}
                             </div>
-                            <a href="#" className="block text-center text-[#443dff] font-extrabold text-xs mt-6 hover:underline">
+                            <a href="#" className="block text-center text-brand-secondary font-extrabold text-xs mt-6 hover:underline">
                                 Lihat semua log →
                             </a>
                         </div>

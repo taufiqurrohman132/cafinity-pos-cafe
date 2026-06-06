@@ -89,17 +89,17 @@ export default function SupplierCreate() {
         <>
             <Head title="Tambah Supplier Baru" />
 
-            <div className="min-h-screen bg-[#fbfbfe] p-4 md:p-6 lg:p-8">
+            <div className="min-h-screen bg-brand-bg p-4 md:p-6 lg:p-8">
                 <div className="max-w-[1400px] mx-auto space-y-6">
                     
                     {/* Breadcrumbs & Header */}
                     <div className="space-y-1">
                         <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
-                            <Link href={route('suppliers.index')} className="hover:text-[#2f27ce] transition">Daftar Supplier</Link>
+                            <Link href={route('suppliers.index')} className="hover:text-brand-primary transition">Daftar Supplier</Link>
                             <iconify-icon icon="solar:alt-arrow-right-linear" class="text-[10px]"></iconify-icon>
                             <span className="text-gray-600">Tambah Supplier Baru</span>
                         </div>
-                        <h1 className="text-3xl font-black text-[#050316] tracking-tight mt-1">Tambah Supplier Baru</h1>
+                        <h1 className="text-3xl font-black text-brand-dark tracking-tight mt-1">Tambah Supplier Baru</h1>
                         <p className="text-gray-500 text-sm">Lengkapi informasi di bawah untuk mendaftarkan mitra bisnis baru ke sistem.</p>
                     </div>
 
@@ -109,9 +109,9 @@ export default function SupplierCreate() {
                         <div className="lg:col-span-8 space-y-6">
                             
                             {/* Card 1: Identitas Perusahaan */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-5">
-                                <h3 className="text-base font-extrabold text-[#050316] border-b border-[#dddbff]/40 pb-3 flex items-center gap-2">
-                                    <iconify-icon icon="solar:shop-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-5">
+                                <h3 className="text-base font-extrabold text-brand-dark border-b border-brand-light/40 pb-3 flex items-center gap-2">
+                                    <iconify-icon icon="solar:shop-linear" class="text-brand-primary text-lg"></iconify-icon>
                                     Identitas Perusahaan
                                 </h3>
 
@@ -122,7 +122,7 @@ export default function SupplierCreate() {
                                             type="text"
                                             value={data.name}
                                             onChange={(e) => setData('name', e.target.value)}
-                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                             placeholder="PT. Teknologi Maju Utama"
                                             required
                                         />
@@ -136,7 +136,7 @@ export default function SupplierCreate() {
                                                 type="text"
                                                 value={data.code}
                                                 disabled
-                                                className="w-full px-4 py-2.5 text-sm bg-gray-100 border border-[#dddbff] text-gray-500 rounded-xl font-mono cursor-not-allowed"
+                                                className="w-full px-4 py-2.5 text-sm bg-gray-100 border border-brand-light text-gray-500 rounded-xl font-mono cursor-not-allowed"
                                             />
                                         </div>
                                         <p className="text-[10px] text-gray-400 font-medium italic flex items-center gap-1">
@@ -149,9 +149,9 @@ export default function SupplierCreate() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Kategori Produk <span className="text-red-500">*</span></label>
-                                        <div className="flex flex-wrap items-center gap-1.5 p-2 bg-gray-50/50 border border-[#dddbff] rounded-xl min-h-[44px]">
+                                        <div className="flex flex-wrap items-center gap-1.5 p-2 bg-gray-50/50 border border-brand-light rounded-xl min-h-[44px]">
                                             {categoriesList.map(tag => (
-                                                <span key={tag} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#2f27ce]/5 text-[#2f27ce] border border-[#2f27ce]/10">
+                                                <span key={tag} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-brand-primary/5 text-brand-primary border border-brand-primary/10">
                                                     {tag}
                                                     <button type="button" onClick={() => handleRemoveCategory(tag)} className="hover:text-red-500 transition text-[10px] mt-0.5">
                                                         <iconify-icon icon="solar:close-circle-linear"></iconify-icon>
@@ -165,17 +165,17 @@ export default function SupplierCreate() {
                                                         type="text"
                                                         value={newCategoryInput}
                                                         onChange={(e) => setNewCategoryInput(e.target.value)}
-                                                        className="px-2 py-0.5 text-xs border border-[#dddbff] rounded bg-white focus:outline-none focus:ring-1 focus:ring-[#2f27ce] w-24"
+                                                        className="px-2 py-0.5 text-xs border border-brand-light rounded bg-white focus:outline-none focus:ring-1 focus:ring-brand-primary w-24"
                                                         placeholder="Kategori..."
                                                         autoFocus
                                                     />
-                                                    <button type="submit" className="text-xs font-bold text-[#2f27ce] hover:underline">Ok</button>
+                                                    <button type="submit" className="text-xs font-bold text-brand-primary hover:underline">Ok</button>
                                                 </form>
                                             ) : (
                                                 <button 
                                                     type="button" 
                                                     onClick={() => setShowCategoryInput(true)}
-                                                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold text-[#2f27ce] hover:bg-[#2f27ce]/5 transition"
+                                                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold text-brand-primary hover:bg-brand-primary/5 transition"
                                                 >
                                                     + Tambah
                                                 </button>
@@ -191,7 +191,7 @@ export default function SupplierCreate() {
                                                 type="button"
                                                 onClick={() => setData('status', data.status === 'active' ? 'inactive' : 'active')}
                                                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                                                    data.status === 'active' ? 'bg-[#2f27ce]' : 'bg-gray-200'
+                                                    data.status === 'active' ? 'bg-brand-primary' : 'bg-gray-200'
                                                 }`}
                                             >
                                                 <span 
@@ -209,9 +209,9 @@ export default function SupplierCreate() {
                             </div>
 
                             {/* Card 2: Informasi Kontak Utama */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-5">
-                                <h3 className="text-base font-extrabold text-[#050316] border-b border-[#dddbff]/40 pb-3 flex items-center gap-2">
-                                    <iconify-icon icon="solar:user-rounded-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-5">
+                                <h3 className="text-base font-extrabold text-brand-dark border-b border-brand-light/40 pb-3 flex items-center gap-2">
+                                    <iconify-icon icon="solar:user-rounded-linear" class="text-brand-primary text-lg"></iconify-icon>
                                     Informasi Kontak Utama
                                 </h3>
 
@@ -221,7 +221,7 @@ export default function SupplierCreate() {
                                         type="text"
                                         value={data.contact_name}
                                         onChange={(e) => setData('contact_name', e.target.value)}
-                                        className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                        className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                         placeholder="Hendra Wijaya"
                                         required
                                     />
@@ -239,7 +239,7 @@ export default function SupplierCreate() {
                                                 type="text"
                                                 value={data.contact_phone}
                                                 onChange={(e) => setData('contact_phone', e.target.value)}
-                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                                 placeholder="+62 812 3456 7890"
                                                 required
                                             />
@@ -258,7 +258,7 @@ export default function SupplierCreate() {
                                                 type="email"
                                                 value={data.contact_email}
                                                 onChange={(e) => setData('contact_email', e.target.value)}
-                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                                 placeholder="hendra.w@tekmajua.co.id"
                                                 required
                                             />
@@ -270,16 +270,16 @@ export default function SupplierCreate() {
                                 <button 
                                     type="button"
                                     onClick={() => alert('Fitur tambah kontak sekunder sedang disiapkan.')}
-                                    className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-[#2f27ce] border border-[#dddbff] hover:bg-[#2f27ce]/5 rounded-xl transition"
+                                    className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-brand-primary border border-brand-light hover:bg-brand-primary/5 rounded-xl transition"
                                 >
                                     + Tambah Kontak Sekunder
                                 </button>
                             </div>
 
                             {/* Card 3: Detail Logistik & Operasional */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-5">
-                                <h3 className="text-base font-extrabold text-[#050316] border-b border-[#dddbff]/40 pb-3 flex items-center gap-2">
-                                    <iconify-icon icon="solar:map-point-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-5">
+                                <h3 className="text-base font-extrabold text-brand-dark border-b border-brand-light/40 pb-3 flex items-center gap-2">
+                                    <iconify-icon icon="solar:map-point-linear" class="text-brand-primary text-lg"></iconify-icon>
                                     Detail Logistik &amp; Operasional
                                 </h3>
 
@@ -288,7 +288,7 @@ export default function SupplierCreate() {
                                     <textarea 
                                         value={data.address}
                                         onChange={(e) => setData('address', e.target.value)}
-                                        className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all min-h-[80px]"
+                                        className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all min-h-[80px]"
                                         placeholder="Jl. Industri No. 45, Kawasan Industri Jababeka, Cikarang"
                                         required
                                     />
@@ -302,7 +302,7 @@ export default function SupplierCreate() {
                                             type="text"
                                             value={data.city}
                                             onChange={(e) => setData('city', e.target.value)}
-                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                             placeholder="Bekasi"
                                             required
                                         />
@@ -314,7 +314,7 @@ export default function SupplierCreate() {
                                             type="text"
                                             value={data.province}
                                             onChange={(e) => setData('province', e.target.value)}
-                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                             placeholder="Jawa Barat"
                                             required
                                         />
@@ -329,7 +329,7 @@ export default function SupplierCreate() {
                                             type="text"
                                             value={data.payment_term}
                                             onChange={(e) => setData('payment_term', e.target.value)}
-                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                             placeholder="e.g. Net 30"
                                             required
                                         />
@@ -342,7 +342,7 @@ export default function SupplierCreate() {
                                                 type="number"
                                                 value={data.lead_time}
                                                 onChange={(e) => setData('lead_time', e.target.value)}
-                                                className="w-full px-4 py-2.5 pr-10 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                                className="w-full px-4 py-2.5 pr-10 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                                 min="0"
                                                 required
                                             />
@@ -359,7 +359,7 @@ export default function SupplierCreate() {
                                                 type="number"
                                                 value={data.min_order}
                                                 onChange={(e) => setData('min_order', e.target.value)}
-                                                className="w-full px-4 py-2.5 pr-10 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                                className="w-full px-4 py-2.5 pr-10 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                                 min="0"
                                                 required
                                             />
@@ -373,9 +373,9 @@ export default function SupplierCreate() {
                             </div>
 
                             {/* Card 4: Dokumen & Lampiran */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-5">
-                                <h3 className="text-base font-extrabold text-[#050316] border-b border-[#dddbff]/40 pb-3 flex items-center gap-2">
-                                    <iconify-icon icon="solar:document-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-5">
+                                <h3 className="text-base font-extrabold text-brand-dark border-b border-brand-light/40 pb-3 flex items-center gap-2">
+                                    <iconify-icon icon="solar:document-linear" class="text-brand-primary text-lg"></iconify-icon>
                                     Dokumen &amp; Lampiran
                                 </h3>
 
@@ -384,7 +384,7 @@ export default function SupplierCreate() {
                                     <textarea 
                                         value={data.notes}
                                         onChange={(e) => setData('notes', e.target.value)}
-                                        className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all min-h-[90px]"
+                                        className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all min-h-[90px]"
                                         placeholder="Informasi tambahan untuk tim procurement..."
                                     />
                                     {errors.notes && <p className="text-xs text-red-500 font-semibold">{errors.notes}</p>}
@@ -394,17 +394,17 @@ export default function SupplierCreate() {
                                     <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider block">Lampiran Dokumen (NPWP, SIUP, Kontrak)</label>
                                     
                                     {/* Drag & Drop Area */}
-                                    <div className="relative border-2 border-dashed border-[#dddbff] hover:border-[#2f27ce] rounded-2xl p-8 text-center bg-gray-50/30 hover:bg-[#2f27ce]/5 transition duration-150 cursor-pointer group flex flex-col items-center justify-center gap-2">
+                                    <div className="relative border-2 border-dashed border-brand-light hover:border-brand-primary rounded-2xl p-8 text-center bg-gray-50/30 hover:bg-brand-primary/5 transition duration-150 cursor-pointer group flex flex-col items-center justify-center gap-2">
                                         <input 
                                             type="file" 
                                             multiple
                                             onChange={handleFileUpload}
                                             className="absolute inset-0 opacity-0 cursor-pointer"
                                         />
-                                        <div className="w-12 h-12 rounded-full bg-[#2f27ce]/5 text-[#2f27ce] flex items-center justify-center group-hover:scale-110 transition duration-200">
+                                        <div className="w-12 h-12 rounded-full bg-brand-primary/5 text-brand-primary flex items-center justify-center group-hover:scale-110 transition duration-200">
                                             <iconify-icon icon="solar:upload-linear" class="text-2xl"></iconify-icon>
                                         </div>
-                                        <p className="text-xs font-extrabold text-[#2f27ce] mt-2">Klik atau geser file untuk upload</p>
+                                        <p className="text-xs font-extrabold text-brand-primary mt-2">Klik atau geser file untuk upload</p>
                                         <p className="text-[10px] text-gray-400 font-semibold">Format yang didukung: PDF, JPG, PNG (Maks 10MB per file)</p>
                                     </div>
 
@@ -412,7 +412,7 @@ export default function SupplierCreate() {
                                     {uploadedFiles.length > 0 && (
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                                             {uploadedFiles.map(file => (
-                                                <div key={file.name} className="p-3 border border-[#dddbff]/80 rounded-xl bg-white flex items-center justify-between shadow-sm">
+                                                <div key={file.name} className="p-3 border border-brand-light/80 rounded-xl bg-white flex items-center justify-between shadow-sm">
                                                     <div className="flex items-center gap-2.5 overflow-hidden">
                                                         <iconify-icon icon="solar:document-linear" class="text-gray-400 text-lg flex-shrink-0"></iconify-icon>
                                                         <div className="text-left overflow-hidden">
@@ -439,8 +439,8 @@ export default function SupplierCreate() {
                         <div className="lg:col-span-4 space-y-6">
                             
                             {/* Live Preview Summary Card */}
-                            <div className="bg-white rounded-2xl border border-[#dddbff]/80 shadow-sm overflow-hidden flex flex-col">
-                                <div className="h-1.5 bg-[#2f27ce]" />
+                            <div className="bg-white rounded-2xl border border-brand-light/80 shadow-sm overflow-hidden flex flex-col">
+                                <div className="h-1.5 bg-brand-primary" />
                                 <div className="p-6 space-y-6">
                                     {/* Card Header */}
                                     <div className="flex justify-between items-center text-xs">
@@ -456,7 +456,7 @@ export default function SupplierCreate() {
 
                                     {/* Name and Tags */}
                                     <div className="space-y-2 text-left">
-                                        <h3 className="text-lg font-black text-[#050316] leading-snug">
+                                        <h3 className="text-lg font-black text-brand-dark leading-snug">
                                             {data.name.trim() || 'Nama Supplier'}
                                         </h3>
                                         <div className="flex flex-wrap gap-1.5">
@@ -475,9 +475,9 @@ export default function SupplierCreate() {
                                     </div>
 
                                     {/* Contact Details with Icons */}
-                                    <div className="space-y-3 text-left border-t border-[#dddbff]/50 pt-4">
+                                    <div className="space-y-3 text-left border-t border-brand-light/50 pt-4">
                                         <div className="flex items-center gap-3 text-xs text-gray-600">
-                                            <div className="w-8 h-8 rounded-lg bg-[#2f27ce]/5 text-[#2f27ce] flex items-center justify-center flex-shrink-0">
+                                            <div className="w-8 h-8 rounded-lg bg-brand-primary/5 text-brand-primary flex items-center justify-center flex-shrink-0">
                                                 <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-sm"></iconify-icon>
                                             </div>
                                             <div>
@@ -487,7 +487,7 @@ export default function SupplierCreate() {
                                         </div>
 
                                         <div className="flex items-center gap-3 text-xs text-gray-600">
-                                            <div className="w-8 h-8 rounded-lg bg-[#2f27ce]/5 text-[#2f27ce] flex items-center justify-center flex-shrink-0">
+                                            <div className="w-8 h-8 rounded-lg bg-brand-primary/5 text-brand-primary flex items-center justify-center flex-shrink-0">
                                                 <iconify-icon icon="solar:phone-linear" class="text-sm"></iconify-icon>
                                             </div>
                                             <div>
@@ -497,7 +497,7 @@ export default function SupplierCreate() {
                                         </div>
 
                                         <div className="flex items-center gap-3 text-xs text-gray-600">
-                                            <div className="w-8 h-8 rounded-lg bg-[#2f27ce]/5 text-[#2f27ce] flex items-center justify-center flex-shrink-0">
+                                            <div className="w-8 h-8 rounded-lg bg-brand-primary/5 text-brand-primary flex items-center justify-center flex-shrink-0">
                                                 <iconify-icon icon="solar:map-point-linear" class="text-sm"></iconify-icon>
                                             </div>
                                             <div>
@@ -512,24 +512,24 @@ export default function SupplierCreate() {
                                     </div>
 
                                     {/* Lead Time & Min Order */}
-                                    <div className="grid grid-cols-2 gap-3 border-t border-[#dddbff]/50 pt-4">
-                                        <div className="bg-gray-50/50 border border-[#dddbff]/50 rounded-xl p-3 text-center">
+                                    <div className="grid grid-cols-2 gap-3 border-t border-brand-light/50 pt-4">
+                                        <div className="bg-gray-50/50 border border-brand-light/50 rounded-xl p-3 text-center">
                                             <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Lead Time</p>
-                                            <p className="text-sm font-black text-[#2f27ce] mt-1">{data.lead_time || '0'} Hari</p>
+                                            <p className="text-sm font-black text-brand-primary mt-1">{data.lead_time || '0'} Hari</p>
                                         </div>
-                                        <div className="bg-gray-50/50 border border-[#dddbff]/50 rounded-xl p-3 text-center">
+                                        <div className="bg-gray-50/50 border border-brand-light/50 rounded-xl p-3 text-center">
                                             <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Min. Order</p>
-                                            <p className="text-sm font-black text-[#2f27ce] mt-1">{data.min_order || '0'} Unit</p>
+                                            <p className="text-sm font-black text-brand-primary mt-1">{data.min_order || '0'} Unit</p>
                                         </div>
                                     </div>
 
                                     {/* Action Buttons */}
-                                    <div className="space-y-2 border-t border-[#dddbff]/50 pt-4">
+                                    <div className="space-y-2 border-t border-brand-light/50 pt-4">
                                         <button 
                                             type="button"
                                             onClick={handleSubmit}
                                             disabled={processing}
-                                            className="w-full py-3 px-4 bg-[#2f27ce] hover:bg-[#443dff] text-white text-xs font-bold rounded-xl transition duration-150 active:scale-95 shadow-sm disabled:opacity-60"
+                                            className="w-full py-3 px-4 bg-brand-primary hover:bg-brand-secondary text-white text-xs font-bold rounded-xl transition duration-150 active:scale-95 shadow-sm disabled:opacity-60"
                                         >
                                             Simpan &amp; Aktifkan
                                         </button>
@@ -537,7 +537,7 @@ export default function SupplierCreate() {
                                             <button 
                                                 type="button"
                                                 onClick={() => alert('Draf disimpan.')}
-                                                className="flex-1 py-2 text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 rounded-xl border border-[#dddbff] transition"
+                                                className="flex-1 py-2 text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 rounded-xl border border-brand-light transition"
                                             >
                                                 Simpan Draft
                                             </button>
@@ -553,8 +553,8 @@ export default function SupplierCreate() {
                             </div>
 
                             {/* Checklist Criteria Widget */}
-                            <div className="bg-white rounded-2xl border border-[#dddbff]/80 shadow-sm p-5 space-y-4">
-                                <h4 className="font-extrabold text-[#050316] text-xs uppercase tracking-wider border-b border-[#dddbff]/40 pb-2">
+                            <div className="bg-white rounded-2xl border border-brand-light/80 shadow-sm p-5 space-y-4">
+                                <h4 className="font-extrabold text-brand-dark text-xs uppercase tracking-wider border-b border-brand-light/40 pb-2">
                                     Persyaratan Checklist
                                 </h4>
                                 <div className="space-y-3 text-xs">
@@ -563,39 +563,39 @@ export default function SupplierCreate() {
                                             icon={hasBasicInfo ? "solar:check-circle-bold" : "solar:round-transfer-broken"} 
                                             class={`text-base ${hasBasicInfo ? 'text-emerald-500' : 'text-gray-300'}`}
                                         ></iconify-icon>
-                                        <span className={`font-semibold ${hasBasicInfo ? 'text-[#050316]' : 'text-gray-400'}`}>Informasi Identitas Dasar</span>
+                                        <span className={`font-semibold ${hasBasicInfo ? 'text-brand-dark' : 'text-gray-400'}`}>Informasi Identitas Dasar</span>
                                     </div>
                                     <div className="flex items-center gap-2.5">
                                         <iconify-icon 
                                             icon={hasPICInfo ? "solar:check-circle-bold" : "solar:round-transfer-broken"} 
                                             class={`text-base ${hasPICInfo ? 'text-emerald-500' : 'text-gray-300'}`}
                                         ></iconify-icon>
-                                        <span className={`font-semibold ${hasPICInfo ? 'text-[#050316]' : 'text-gray-400'}`}>Kontak Utama (PIC) Valid</span>
+                                        <span className={`font-semibold ${hasPICInfo ? 'text-brand-dark' : 'text-gray-400'}`}>Kontak Utama (PIC) Valid</span>
                                     </div>
                                     <div className="flex items-center gap-2.5">
                                         <iconify-icon 
                                             icon={hasDocuments ? "solar:check-circle-bold" : "solar:round-transfer-broken"} 
                                             class={`text-base ${hasDocuments ? 'text-emerald-500' : 'text-gray-300'}`}
                                         ></iconify-icon>
-                                        <span className={`font-semibold ${hasDocuments ? 'text-[#050316]' : 'text-gray-400'}`}>Dokumen Legal Terlampir</span>
+                                        <span className={`font-semibold ${hasDocuments ? 'text-brand-dark' : 'text-gray-400'}`}>Dokumen Legal Terlampir</span>
                                     </div>
                                     <div className="flex items-center gap-2.5">
                                         <iconify-icon 
                                             icon={hasLogisticsInfo ? "solar:check-circle-bold" : "solar:round-transfer-broken"} 
                                             class={`text-base ${hasLogisticsInfo ? 'text-emerald-500' : 'text-gray-300'}`}
                                         ></iconify-icon>
-                                        <span className={`font-semibold ${hasLogisticsInfo ? 'text-[#050316]' : 'text-gray-400'}`}>Lengkapi Detail Logistik</span>
+                                        <span className={`font-semibold ${hasLogisticsInfo ? 'text-brand-dark' : 'text-gray-400'}`}>Lengkapi Detail Logistik</span>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Help Banner Widget */}
-                            <div className="bg-[#2f27ce]/5 rounded-2xl border border-[#2f27ce]/10 p-5 flex gap-3 text-left">
-                                <div className="text-[#2f27ce] mt-0.5 flex-shrink-0">
+                            <div className="bg-brand-primary/5 rounded-2xl border border-brand-primary/10 p-5 flex gap-3 text-left">
+                                <div className="text-brand-primary mt-0.5 flex-shrink-0">
                                     <iconify-icon icon="solar:info-circle-linear" class="text-xl"></iconify-icon>
                                 </div>
                                 <div className="space-y-1">
-                                    <h5 className="text-xs font-black text-[#2f27ce] uppercase tracking-wider">Butuh bantuan?</h5>
+                                    <h5 className="text-xs font-black text-brand-primary uppercase tracking-wider">Butuh bantuan?</h5>
                                     <p className="text-xs text-gray-600 leading-relaxed font-semibold">
                                         Jika Anda kesulitan mendapatkan dokumen legal supplier, silakan hubungi tim Compliance di ekstensi 442.
                                     </p>

@@ -12,7 +12,7 @@ const TABS = [
 ];
 
 const STATS_CONFIG = [
-    { key: "unread",          label: "Belum Dibaca",   icon: "solar:bell-bing-linear",           colorClass: "bg-[#2f27ce]/10 text-[#2f27ce] border-[#2f27ce]/20" },
+    { key: "unread",          label: "Belum Dibaca",   icon: "solar:bell-bing-linear",           colorClass: "bg-brand-primary/10 text-brand-primary border-brand-primary/20" },
     { key: "urgent",          label: "Urgensi Tinggi",  icon: "solar:danger-triangle-linear",     colorClass: "bg-rose-50 text-rose-600 border-rose-100" },
     { key: "new_reviews",     label: "Ulasan Baru",    icon: "solar:star-linear",                colorClass: "bg-amber-50 text-amber-500 border-amber-100" },
     { key: "failed_payment",  label: "Gagal Bayar",    icon: "solar:card-send-linear",           colorClass: "bg-orange-50 text-orange-600 border-orange-100" },
@@ -26,7 +26,7 @@ const getNotifAvatarConfig = (type) => {
         },
         system: {
             icon: "solar:shield-warning-linear",
-            bg: "bg-[#2f27ce]/5 text-[#2f27ce] border border-[#2f27ce]/10"
+            bg: "bg-brand-primary/5 text-brand-primary border border-brand-primary/10"
         },
         review: {
             icon: "solar:chat-round-like-linear",
@@ -74,7 +74,7 @@ function NotifActions({ notification, onRead, onDelete }) {
             {!notification.is_read && (
                 <button
                     onClick={() => onRead(notification.id)}
-                    className="p-2 text-[#2f27ce] hover:text-[#443dff] hover:bg-[#dddbff]/40 rounded-xl transition-all duration-150"
+                    className="p-2 text-brand-primary hover:text-brand-secondary hover:bg-brand-light/40 rounded-xl transition-all duration-150"
                     title="Tandai dibaca"
                 >
                     <Icon icon="solar:check-read-linear" className="text-lg" />
@@ -99,14 +99,14 @@ function NotifCard({ notification, onRead, onDelete }) {
         <div
             className={`bg-white p-5 rounded-2xl border transition-all duration-200 flex gap-4 ${
                 isRead
-                    ? "border-[#dddbff]/60 opacity-65 hover:opacity-90"
-                    : "border-[#dddbff] shadow-sm border-l-4 border-l-[#2f27ce] hover:shadow-md"
+                    ? "border-brand-light/60 opacity-65 hover:opacity-90"
+                    : "border-brand-light shadow-sm border-l-4 border-l-brand-primary hover:shadow-md"
             }`}
         >
             {notification.avatar_url ? (
                 <img
                     src={notification.avatar_url}
-                    className="w-12 h-12 rounded-xl flex-shrink-0 border border-[#dddbff] object-cover"
+                    className="w-12 h-12 rounded-xl flex-shrink-0 border border-brand-light object-cover"
                     alt=""
                 />
             ) : (
@@ -118,13 +118,13 @@ function NotifCard({ notification, onRead, onDelete }) {
             <div className="flex-1 space-y-3 min-w-0">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
                     <div className="min-w-0">
-                        <h4 className="text-sm font-bold text-[#050316] flex items-center flex-wrap gap-1">
+                        <h4 className="text-sm font-bold text-brand-dark flex items-center flex-wrap gap-1">
                             {notification.title}
                             <PriorityBadge priority={notification.priority} />
                         </h4>
-                        <p className="text-sm text-[#050316]/70 mt-1 leading-relaxed break-words">{notification.body}</p>
+                        <p className="text-sm text-brand-dark/70 mt-1 leading-relaxed break-words">{notification.body}</p>
                     </div>
-                    <span className="text-[11px] font-bold text-[#2f27ce]/50 whitespace-nowrap sm:self-start">
+                    <span className="text-[11px] font-bold text-brand-primary/50 whitespace-nowrap sm:self-start">
                         {notification.time_ago}
                     </span>
                 </div>
@@ -133,7 +133,7 @@ function NotifCard({ notification, onRead, onDelete }) {
                     {notification.action_label && notification.action_url ? (
                         <a
                             href={notification.action_url}
-                            className="inline-flex items-center gap-1.5 bg-[#2f27ce] text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#050316] shadow-sm shadow-[#2f27ce]/10 transition-all duration-150 active:scale-[0.95]"
+                            className="inline-flex items-center gap-1.5 bg-brand-primary text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-brand-dark shadow-sm shadow-brand-primary/10 transition-all duration-150 active:scale-[0.95]"
                         >
                             {notification.action_label}
                             <Icon icon="solar:arrow-right-linear" className="text-sm" />
@@ -208,15 +208,15 @@ export default function Index({ notifications, stats }) {
         <>
             <Head title="Pusat Notifikasi" />
 
-            <div className="min-h-screen bg-[#fbfbfe] font-inter text-[#050316] p-4 md:p-6 space-y-6">
+            <div className="min-h-screen bg-brand-bg font-inter text-brand-dark p-4 md:p-6 space-y-6">
                 
                 {/* ── Header ── */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#050316] to-[#2f27ce] tracking-tight">
+                        <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                             Pusat Notifikasi
                         </h1>
-                        <p className="text-sm text-[#2f27ce]/70 font-medium mt-1">
+                        <p className="text-sm text-brand-primary/70 font-medium mt-1">
                             Pantau aktivitas operasional, ulasan pelanggan, dan status sistem secara real-time.
                         </p>
                     </div>
@@ -225,8 +225,8 @@ export default function Index({ notifications, stats }) {
                             onClick={() => setShowFilterPanel(!showFilterPanel)}
                             className={`flex items-center gap-2 px-4 py-2.5 bg-white border rounded-xl text-sm font-bold transition-all active:scale-[0.98] duration-150 ${
                                 showFilterPanel
-                                    ? 'border-[#2f27ce] text-[#2f27ce] shadow-sm shadow-[#2f27ce]/10'
-                                    : 'border-[#dddbff] text-[#050316] hover:bg-[#dddbff]/20'
+                                    ? 'border-brand-primary text-brand-primary shadow-sm shadow-brand-primary/10'
+                                    : 'border-brand-light text-brand-dark hover:bg-brand-light/20'
                             }`}
                         >
                             <Icon icon="solar:filter-linear" className="text-lg" />
@@ -234,7 +234,7 @@ export default function Index({ notifications, stats }) {
                         </button>
                         <button
                             onClick={handleReadAll}
-                            className="flex items-center gap-2 bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-[#2f27ce]/25 transition-all active:scale-[0.98] duration-150 whitespace-nowrap"
+                            className="flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-brand-primary/25 transition-all active:scale-[0.98] duration-150 whitespace-nowrap"
                         >
                             <Icon icon="solar:check-read-linear" className="text-lg" />
                             Tandai Semua Dibaca
@@ -244,14 +244,14 @@ export default function Index({ notifications, stats }) {
 
                 {/* ── Advanced Filter Panel ── */}
                 <div
-                    className={`bg-white border border-[#dddbff] shadow-sm rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-6 transition-all duration-300 ease-in-out overflow-hidden ${
+                    className={`bg-white border border-brand-light shadow-sm rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-6 transition-all duration-300 ease-in-out overflow-hidden ${
                         showFilterPanel
                             ? "max-h-[500px] opacity-100 p-5 mt-2 translate-y-0 scale-100 visible"
                             : "max-h-0 opacity-0 p-0 m-0 translate-y-[-10px] scale-95 invisible pointer-events-none"
                     }`}
                 >
                     <div className="space-y-2">
-                        <label className="block text-[10px] font-black text-[#2f27ce]/60 uppercase tracking-widest">
+                        <label className="block text-[10px] font-black text-brand-primary/60 uppercase tracking-widest">
                             Status Notifikasi
                         </label>
                         <div className="flex flex-wrap gap-2">
@@ -266,8 +266,8 @@ export default function Index({ notifications, stats }) {
                                     onClick={() => setFilterStatus(opt.id)}
                                     className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all active:scale-[0.97] ${
                                         filterStatus === opt.id
-                                            ? "border-[#2f27ce] bg-[#2f27ce] text-white shadow-sm"
-                                            : "border-[#dddbff] bg-[#fbfbfe] text-[#050316] hover:bg-[#dddbff]/30"
+                                            ? "border-brand-primary bg-brand-primary text-white shadow-sm"
+                                            : "border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/30"
                                     }`}
                                 >
                                     {opt.label}
@@ -277,7 +277,7 @@ export default function Index({ notifications, stats }) {
                     </div>
 
                     <div className="space-y-2">
-                        <label className="block text-[10px] font-black text-[#2f27ce]/60 uppercase tracking-widest">
+                        <label className="block text-[10px] font-black text-brand-primary/60 uppercase tracking-widest">
                             Tingkat Urgensi
                         </label>
                         <div className="flex flex-wrap gap-2">
@@ -293,8 +293,8 @@ export default function Index({ notifications, stats }) {
                                     onClick={() => setFilterPriority(opt.id)}
                                     className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all active:scale-[0.97] ${
                                         filterPriority === opt.id
-                                            ? "border-[#2f27ce] bg-[#2f27ce] text-white shadow-sm"
-                                            : "border-[#dddbff] bg-[#fbfbfe] text-[#050316] hover:bg-[#dddbff]/30"
+                                            ? "border-brand-primary bg-brand-primary text-white shadow-sm"
+                                            : "border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/30"
                                     }`}
                                 >
                                     {opt.label}
@@ -309,11 +309,11 @@ export default function Index({ notifications, stats }) {
                     {STATS_CONFIG.map(({ key, label, icon, colorClass }) => (
                         <div
                             key={key}
-                            className="bg-white p-5 rounded-2xl border border-[#dddbff] flex justify-between items-center shadow-sm hover:shadow-md transition-all duration-200"
+                            className="bg-white p-5 rounded-2xl border border-brand-light flex justify-between items-center shadow-sm hover:shadow-md transition-all duration-200"
                         >
                             <div className="space-y-1">
-                                <span className="text-[10px] font-black text-[#2f27ce]/50 uppercase tracking-widest">{label}</span>
-                                <p className="text-2xl font-black text-[#050316]">{stats[key] ?? 0}</p>
+                                <span className="text-[10px] font-black text-brand-primary/50 uppercase tracking-widest">{label}</span>
+                                <p className="text-2xl font-black text-brand-dark">{stats[key] ?? 0}</p>
                             </div>
                             <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${colorClass} flex-shrink-0`}>
                                 <Icon icon={icon} className="text-xl" />
@@ -340,7 +340,7 @@ export default function Index({ notifications, stats }) {
                 `}} />
 
                 {/* ── Tabs ── */}
-                <div className="flex flex-wrap items-center justify-between border-b border-[#dddbff] gap-4">
+                <div className="flex flex-wrap items-center justify-between border-b border-brand-light gap-4">
                     <div className="flex gap-6 md:gap-8">
                         {TABS.map((tab) => (
                             <button
@@ -348,15 +348,15 @@ export default function Index({ notifications, stats }) {
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`pb-4 text-sm font-extrabold transition-all duration-300 border-b-2 relative ${
                                     activeTab === tab.id
-                                        ? "text-[#2f27ce] border-[#2f27ce]"
-                                        : "text-[#050316]/50 border-transparent hover:text-[#050316]"
+                                        ? "text-brand-primary border-brand-primary"
+                                        : "text-brand-dark/50 border-transparent hover:text-brand-dark"
                                 }`}
                             >
                                 {tab.label}
                             </button>
                         ))}
                     </div>
-                    <span className="pb-4 text-xs text-[#050316]/50 font-bold">
+                    <span className="pb-4 text-xs text-brand-dark/50 font-bold">
                         Menampilkan {filtered.length} dari {notifications.total ?? 0} notifikasi
                     </span>
                 </div>
@@ -376,12 +376,12 @@ export default function Index({ notifications, stats }) {
                             />
                         ))
                     ) : (
-                        <div className="bg-white rounded-2xl border border-[#dddbff] p-12 text-center flex flex-col items-center justify-center shadow-sm">
-                            <div className="w-16 h-16 rounded-2xl bg-[#dddbff]/30 flex items-center justify-center text-[#2f27ce]/30 text-4xl mb-4">
+                        <div className="bg-white rounded-2xl border border-brand-light p-12 text-center flex flex-col items-center justify-center shadow-sm">
+                            <div className="w-16 h-16 rounded-2xl bg-brand-light/30 flex items-center justify-center text-brand-primary/30 text-4xl mb-4">
                                 <Icon icon="solar:bell-off-linear" />
                             </div>
-                            <p className="font-bold text-[#050316]">Tidak ada notifikasi.</p>
-                            <p className="text-sm text-[#2f27ce]/50 mt-1 font-medium">
+                            <p className="font-bold text-brand-dark">Tidak ada notifikasi.</p>
+                            <p className="text-sm text-brand-primary/50 mt-1 font-medium">
                                 Anda telah membaca semua notifikasi atau tidak ada data yang cocok dengan kriteria filter.
                             </p>
                         </div>
@@ -393,7 +393,7 @@ export default function Index({ notifications, stats }) {
                     <div className="flex justify-center pt-4">
                         <button
                             onClick={handleLoadMore}
-                            className="flex items-center gap-2 px-6 py-2.5 border border-[#dddbff] bg-white text-[#2f27ce] rounded-xl text-sm font-bold hover:bg-[#dddbff]/20 transition-all active:scale-[0.98]"
+                            className="flex items-center gap-2 px-6 py-2.5 border border-brand-light bg-white text-brand-primary rounded-xl text-sm font-bold hover:bg-brand-light/20 transition-all active:scale-[0.98]"
                         >
                             Muat Lebih Banyak
                             <Icon icon="solar:alt-arrow-down-linear" className="text-lg animate-bounce" />
@@ -403,24 +403,24 @@ export default function Index({ notifications, stats }) {
 
                 {/* ── Bottom Cards ── */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6">
-                    <div className="bg-[#dddbff]/10 p-5 rounded-2xl border border-[#dddbff] flex items-start gap-4">
-                        <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-[#2f27ce] border border-[#dddbff]/50 shadow-sm flex-shrink-0">
+                    <div className="bg-brand-light/10 p-5 rounded-2xl border border-brand-light flex items-start gap-4">
+                        <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-brand-primary border border-brand-light/50 shadow-sm flex-shrink-0">
                             <Icon icon="solar:cup-hot-linear" className="text-xl" />
                         </div>
                         <div>
-                            <h5 className="text-sm font-extrabold text-[#050316]">Tips Efisiensi</h5>
-                            <p className="text-xs text-[#050316]/60 mt-1 leading-relaxed font-medium">
+                            <h5 className="text-sm font-extrabold text-brand-dark">Tips Efisiensi</h5>
+                            <p className="text-xs text-brand-dark/60 mt-1 leading-relaxed font-medium">
                                 Aktifkan notifikasi mobile untuk mendapatkan peringatan stok kritis secara instan di manapun Anda berada.
                             </p>
                         </div>
                     </div>
-                    <div className="bg-[#dddbff]/10 p-5 rounded-2xl border border-[#dddbff] flex items-start gap-4">
-                        <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-[#2f27ce] border border-[#dddbff]/50 shadow-sm flex-shrink-0">
+                    <div className="bg-brand-light/10 p-5 rounded-2xl border border-brand-light flex items-start gap-4">
+                        <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-brand-primary border border-brand-light/50 shadow-sm flex-shrink-0">
                             <Icon icon="solar:refresh-circle-linear" className="text-xl" />
                         </div>
                         <div>
-                            <h5 className="text-sm font-extrabold text-[#050316]">Sinkronisasi Data</h5>
-                            <p className="text-xs text-[#050316]/60 mt-1 leading-relaxed font-medium">
+                            <h5 className="text-sm font-extrabold text-brand-dark">Sinkronisasi Data</h5>
+                            <p className="text-xs text-brand-dark/60 mt-1 leading-relaxed font-medium">
                                 Sistem melakukan sinkronisasi dengan inventory pusat setiap 15 menit. Terakhir diperbarui: 14:30 WIB.
                             </p>
                         </div>

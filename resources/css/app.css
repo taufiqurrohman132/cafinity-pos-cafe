@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
+:root {
+    --color-brand-primary: 47 39 206;    /* #2f27ce */
+    --color-brand-secondary: 68 61 255;  /* #443dff */
+    --color-brand-light: 221 219 255;    /* #dddbff */
+    --color-brand-bg: 251 251 254;       /* #fbfbfe */
+    --color-brand-dark: 5 3 22;          /* #050316 */
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -52,35 +60,35 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #443dff;
+    background: rgb(var(--color-brand-secondary));
     cursor: pointer;
     border: 3px solid #ffffff;
-    box-shadow: 0 2px 6px rgba(68, 61, 255, 0.4);
+    box-shadow: 0 2px 6px rgb(var(--color-brand-secondary) / 0.4);
     transition: transform 0.1s ease, background-color 0.15s;
 }
 .custom-slider::-webkit-slider-thumb:hover {
     transform: scale(1.2);
-    background: #2f27ce;
+    background: rgb(var(--color-brand-primary));
 }
 .custom-slider::-webkit-slider-thumb:active {
     transform: scale(0.95);
-    background: #050316;
+    background: rgb(var(--color-brand-dark));
 }
 .custom-slider::-moz-range-thumb {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #443dff;
+    background: rgb(var(--color-brand-secondary));
     cursor: pointer;
     border: 3px solid #ffffff;
-    box-shadow: 0 2px 6px rgba(68, 61, 255, 0.4);
+    box-shadow: 0 2px 6px rgb(var(--color-brand-secondary) / 0.4);
     transition: transform 0.1s ease, background-color 0.15s;
 }
 .custom-slider::-moz-range-thumb:hover {
     transform: scale(1.2);
-    background: #2f27ce;
+    background: rgb(var(--color-brand-primary));
 }
 .custom-slider::-moz-range-thumb:active {
     transform: scale(0.95);
-    background: #050316;
+    background: rgb(var(--color-brand-dark));
 }

@@ -18,12 +18,12 @@ export default function Login({ status, errors: serverErrors }) {
     return (
         <>
             <Head title="Login — Cafinity POS" />
-            <div className="min-h-screen flex bg-[#fbfbfe]">
+            <div className="min-h-screen flex bg-brand-bg">
 
                 {/* ====== KIRI: HERO ====== */}
                 <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#050316] via-[#2f27ce]/80 to-[#443dff]/60"></div>
-                    <div className="absolute inset-0 bg-[#050316]/50"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand-primary/80 to-brand-secondary/60"></div>
+                    <div className="absolute inset-0 bg-brand-dark/50"></div>
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
 
                     <div className="relative z-10 flex flex-col justify-between p-12 w-full">
@@ -46,7 +46,7 @@ export default function Login({ status, errors: serverErrors }) {
                                 <h1 className="text-4xl xl:text-5xl font-extrabold text-white leading-tight tracking-tight">
                                     Kelola Bisnis<br />Kafe Anda
                                 </h1>
-                                <h1 className="text-4xl xl:text-5xl font-extrabold leading-tight tracking-tight mt-1" style={{ color: '#dddbff' }}>
+                                <h1 className="text-4xl xl:text-5xl font-extrabold leading-tight tracking-tight mt-1" style={{ color: 'rgb(var(--color-brand-light))' }}>
                                     Lebih Efisien.
                                 </h1>
                             </div>
@@ -82,12 +82,12 @@ export default function Login({ status, errors: serverErrors }) {
 
                             {/* Logo */}
                             <div className="text-center space-y-3">
-                                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2f27ce] to-[#443dff] shadow-lg shadow-[#443dff]/30">
+                                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-primary to-brand-secondary shadow-lg shadow-brand-secondary/30">
                                     <iconify-icon icon="solar:cup-hot-linear" class="text-2xl text-white"></iconify-icon>
                                 </div>
                                 <div>
-                                    <h2 className="text-2xl font-extrabold text-[#050316] tracking-tight">Selamat Datang</h2>
-                                    <p className="text-sm font-medium text-[#2f27ce]/70 mt-1">
+                                    <h2 className="text-2xl font-extrabold text-brand-dark tracking-tight">Selamat Datang</h2>
+                                    <p className="text-sm font-medium text-brand-primary/70 mt-1">
                                         Silakan masuk ke akun Anda untuk mengelola operasional kafe.
                                     </p>
                                 </div>
@@ -117,12 +117,12 @@ export default function Login({ status, errors: serverErrors }) {
 
                                 {/* Email */}
                                 <div className="space-y-1.5">
-                                    <label className="block text-xs font-extrabold text-[#2f27ce] capitalize tracking-wide">
+                                    <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide">
                                         Email atau Nama Pengguna
                                     </label>
                                     <div className="relative">
                                         <iconify-icon icon="solar:letter-linear"
-                                            class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2f27ce]/50 text-lg pointer-events-none">
+                                            class="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 text-lg pointer-events-none">
                                         </iconify-icon>
                                         <input
                                             type="email"
@@ -130,7 +130,7 @@ export default function Login({ status, errors: serverErrors }) {
                                             onChange={e => setData('email', e.target.value)}
                                             placeholder="nama@kafeanda.com"
                                             required autoFocus autoComplete="email"
-                                            className={`w-full h-12 rounded-xl border bg-[#fbfbfe] text-sm pl-10 pr-4 text-[#050316] font-semibold placeholder:font-normal placeholder:text-[#2f27ce]/40 focus:outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-[#dddbff]'}`}
+                                            className={`w-full h-12 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-semibold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
                                         />
                                     </div>
                                 </div>
@@ -138,17 +138,17 @@ export default function Login({ status, errors: serverErrors }) {
                                 {/* Password */}
                                 <div className="space-y-1.5">
                                     <div className="flex items-center justify-between">
-                                        <label className="block text-xs font-extrabold text-[#2f27ce] capitalize tracking-wide">
+                                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide">
                                             Kata Sandi
                                         </label>
                                         <a href="/forgot-password"
-                                            className="text-xs font-extrabold text-[#443dff] hover:text-[#2f27ce] hover:underline transition-colors">
+                                            className="text-xs font-extrabold text-brand-secondary hover:text-brand-primary hover:underline transition-colors">
                                             Lupa kata sandi?
                                         </a>
                                     </div>
                                     <div className="relative">
                                         <iconify-icon icon="solar:lock-password-linear"
-                                            class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2f27ce]/50 text-lg pointer-events-none">
+                                            class="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 text-lg pointer-events-none">
                                         </iconify-icon>
                                         <input
                                             type={showPassword ? 'text' : 'password'}
@@ -156,11 +156,11 @@ export default function Login({ status, errors: serverErrors }) {
                                             onChange={e => setData('password', e.target.value)}
                                             placeholder="••••••••"
                                             required autoComplete="current-password"
-                                            className={`w-full h-12 rounded-xl border bg-[#fbfbfe] text-sm pl-10 pr-12 text-[#050316] font-semibold placeholder:font-normal placeholder:text-[#2f27ce]/40 focus:outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] focus:bg-white transition-shadow ${errors.password ? 'border-rose-300 bg-rose-50' : 'border-[#dddbff]'}`}
+                                            className={`w-full h-12 rounded-xl border bg-brand-bg text-sm pl-10 pr-12 text-brand-dark font-semibold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.password ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
                                         />
                                         <button type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#2f27ce]/50 hover:text-[#443dff] transition-colors">
+                                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 hover:text-brand-secondary transition-colors">
                                             <iconify-icon
                                                 icon={showPassword ? 'solar:eye-closed-linear' : 'solar:eye-linear'}
                                                 class="text-lg">
@@ -176,50 +176,50 @@ export default function Login({ status, errors: serverErrors }) {
                                         id="remember"
                                         checked={data.remember}
                                         onChange={e => setData('remember', e.target.checked)}
-                                        className="w-4 h-4 rounded border-[#dddbff] accent-[#443dff] cursor-pointer"
+                                        className="w-4 h-4 rounded border-brand-light accent-brand-secondary cursor-pointer"
                                     />
-                                    <label htmlFor="remember" className="text-xs font-semibold text-[#050316]/70 cursor-pointer select-none">
+                                    <label htmlFor="remember" className="text-xs font-semibold text-brand-dark/70 cursor-pointer select-none">
                                         Ingat saya di perangkat ini
                                     </label>
                                 </div>
 
                                 {/* Submit */}
                                 <button type="submit" disabled={processing}
-                                    className="w-full h-12 rounded-xl bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white text-sm font-extrabold tracking-wide transition-all duration-200 shadow-lg shadow-[#443dff]/30 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                                    className="w-full h-12 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold tracking-wide transition-all duration-200 shadow-lg shadow-brand-secondary/30 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
                                     {processing ? 'Memproses...' : 'Masuk ke Dashboard'}
                                     {!processing && <iconify-icon icon="solar:arrow-right-linear" class="text-base"></iconify-icon>}
                                 </button>
                             </form>
 
                             {/* Pendaftaran Akun */}
-                            <p className="text-xs text-center text-[#050316]/70 font-semibold mt-3">
+                            <p className="text-xs text-center text-brand-dark/70 font-semibold mt-3">
                                 Belum memiliki akun?{' '}
-                                <a href="/register" className="text-[#443dff] hover:underline font-extrabold">
+                                <a href="/register" className="text-brand-secondary hover:underline font-extrabold">
                                     Daftar Akun Baru
                                 </a>
                             </p>
 
                             {/* Divider */}
                             <div className="flex items-center gap-3">
-                                <div className="flex-1 h-px bg-[#dddbff]"></div>
-                                <span className="text-[10px] font-bold text-[#2f27ce]/50 capitalize tracking-widest">Aman & Terenkripsi</span>
-                                <div className="flex-1 h-px bg-[#dddbff]"></div>
+                                <div className="flex-1 h-px bg-brand-light"></div>
+                                <span className="text-[10px] font-bold text-brand-primary/50 capitalize tracking-widest">Aman & Terenkripsi</span>
+                                <div className="flex-1 h-px bg-brand-light"></div>
                             </div>
 
                             {/* Trust badges */}
-                            <div className="flex items-center justify-center gap-6 text-[11px] font-semibold text-[#2f27ce]/60">
+                            <div className="flex items-center justify-center gap-6 text-[11px] font-semibold text-brand-primary/60">
                                 <span className="flex items-center gap-1.5">
-                                    <iconify-icon icon="solar:shield-check-linear" class="text-sm text-[#443dff]"></iconify-icon>
+                                    <iconify-icon icon="solar:shield-check-linear" class="text-sm text-brand-secondary"></iconify-icon>
                                     Koneksi aman SSL 256-bit
                                 </span>
                             </div>
 
-                            <div className="flex items-center justify-center gap-5 text-[11px] font-semibold text-[#2f27ce]/60">
-                                <span className="flex items-center gap-1.5 cursor-pointer hover:text-[#443dff] transition-colors">
+                            <div className="flex items-center justify-center gap-5 text-[11px] font-semibold text-brand-primary/60">
+                                <span className="flex items-center gap-1.5 cursor-pointer hover:text-brand-secondary transition-colors">
                                     <iconify-icon icon="solar:question-circle-linear" class="text-sm"></iconify-icon>
                                     Bantuan
                                 </span>
-                                <span className="flex items-center gap-1.5 cursor-pointer hover:text-[#443dff] transition-colors">
+                                <span className="flex items-center gap-1.5 cursor-pointer hover:text-brand-secondary transition-colors">
                                     <iconify-icon icon="solar:global-linear" class="text-sm"></iconify-icon>
                                     Bahasa Indonesia
                                 </span>
@@ -229,15 +229,15 @@ export default function Login({ status, errors: serverErrors }) {
                     </div>
 
                     {/* Footer */}
-                    <div className="px-8 py-5 border-t border-[#dddbff] text-center space-y-2">
-                        <div className="flex items-center justify-center gap-4 text-[11px] font-semibold text-[#2f27ce]/60">
-                            <a href="#" className="hover:text-[#443dff] transition-colors">Syarat & Ketentuan</a>
-                            <span className="text-[#dddbff]">•</span>
-                            <a href="#" className="hover:text-[#443dff] transition-colors">Kebijakan Privasi</a>
-                            <span className="text-[#dddbff]">•</span>
-                            <a href="#" className="hover:text-[#443dff] transition-colors">Hubungi Kami</a>
+                    <div className="px-8 py-5 border-t border-brand-light text-center space-y-2">
+                        <div className="flex items-center justify-center gap-4 text-[11px] font-semibold text-brand-primary/60">
+                            <a href="#" className="hover:text-brand-secondary transition-colors">Syarat & Ketentuan</a>
+                            <span className="text-brand-light">•</span>
+                            <a href="#" className="hover:text-brand-secondary transition-colors">Kebijakan Privasi</a>
+                            <span className="text-brand-light">•</span>
+                            <a href="#" className="hover:text-brand-secondary transition-colors">Hubungi Kami</a>
                         </div>
-                        <p className="text-[10px] font-bold text-[#2f27ce]/40 capitalize tracking-widest">
+                        <p className="text-[10px] font-bold text-brand-primary/40 capitalize tracking-widest">
                             © {new Date().getFullYear()} Cafinity POS
                         </p>
                     </div>

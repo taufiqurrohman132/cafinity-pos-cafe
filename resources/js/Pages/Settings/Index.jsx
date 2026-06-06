@@ -187,19 +187,19 @@ export default function SettingsIndex({ settings }) {
         <>
             <Head title="Pengaturan Bisnis" />
 
-            <div className="min-h-screen bg-[#fbfbfe] p-4 md:p-6 lg:p-8">
+            <div className="min-h-screen bg-brand-bg p-4 md:p-6 lg:p-8">
                 <div className="max-w-[1450px] mx-auto space-y-6">
                     
                     {/* Header */}
                     <div className="text-left space-y-1">
-                        <h1 className="text-2xl md:text-3xl font-black text-[#050316] tracking-tight">Pengaturan Bisnis</h1>
+                        <h1 className="text-2xl md:text-3xl font-black text-brand-dark tracking-tight">Pengaturan Bisnis</h1>
                         <p className="text-gray-500 text-sm">Kelola identitas toko, kebijakan perpajakan, dan preferensi lokalisasi Anda di sini.</p>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                         
                         {/* ── LEFT COLUMN: SIDEBAR NAVIGATION TABS ── */}
-                        <div className="lg:col-span-3 space-y-2 bg-white p-4 rounded-2xl border border-[#dddbff]/80 shadow-sm text-left">
+                        <div className="lg:col-span-3 space-y-2 bg-white p-4 rounded-2xl border border-brand-light/80 shadow-sm text-left">
                             {[
                                 { id: 'profile', label: 'Profil Toko', icon: 'solar:shop-linear' },
                                 { id: 'operational', label: 'Jam Operasional', icon: 'solar:clock-circle-linear' },
@@ -218,7 +218,7 @@ export default function SettingsIndex({ settings }) {
                                     }}
                                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition ${
                                         activeTab === tab.id
-                                            ? 'bg-[#2f27ce] text-white shadow-sm'
+                                            ? 'bg-brand-primary text-white shadow-sm'
                                             : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                     }`}
                                 >
@@ -233,10 +233,10 @@ export default function SettingsIndex({ settings }) {
                             
                             {/* TAB 1: PROFIL TOKO */}
                             {activeTab === 'profile' && (
-                                <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-5 text-left animate-fadeIn">
+                                <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-5 text-left animate-fadeIn">
                                     <div>
-                                        <h3 className="text-base font-extrabold text-[#050316] flex items-center gap-2">
-                                            <iconify-icon icon="solar:shop-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                                        <h3 className="text-base font-extrabold text-brand-dark flex items-center gap-2">
+                                            <iconify-icon icon="solar:shop-linear" class="text-brand-primary text-lg"></iconify-icon>
                                             Informasi Dasar Toko
                                         </h3>
                                         <p className="text-xs text-gray-400 mt-1">Detail ini akan muncul pada struk belanja pelanggan.</p>
@@ -249,7 +249,7 @@ export default function SettingsIndex({ settings }) {
                                                 type="text"
                                                 value={cafeName}
                                                 onChange={(e) => { setCafeName(e.target.value); triggerChange(); }}
-                                                className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                                className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                                 placeholder="Nama Toko"
                                             />
                                         </div>
@@ -258,7 +258,7 @@ export default function SettingsIndex({ settings }) {
                                             <select 
                                                 value={cafeCategory}
                                                 onChange={(e) => { setCafeCategory(e.target.value); triggerChange(); }}
-                                                className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all cursor-pointer"
+                                                className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all cursor-pointer"
                                             >
                                                 <option value="Cafe & Restaurant">Cafe &amp; Restaurant</option>
                                                 <option value="Retail">Retail</option>
@@ -278,7 +278,7 @@ export default function SettingsIndex({ settings }) {
                                                 type="text"
                                                 value={cafeAddress}
                                                 onChange={(e) => { setCafeAddress(e.target.value); triggerChange(); }}
-                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                                 placeholder="Alamat"
                                             />
                                         </div>
@@ -295,7 +295,7 @@ export default function SettingsIndex({ settings }) {
                                                     type="text"
                                                     value={cafePhone}
                                                     onChange={(e) => { setCafePhone(e.target.value); triggerChange(); }}
-                                                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                                     placeholder="Telepon Toko"
                                                 />
                                             </div>
@@ -310,7 +310,7 @@ export default function SettingsIndex({ settings }) {
                                                     type="email"
                                                     value={cafeEmail}
                                                     onChange={(e) => { setCafeEmail(e.target.value); triggerChange(); }}
-                                                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                                     placeholder="Email Bisnis"
                                                 />
                                             </div>
@@ -321,10 +321,10 @@ export default function SettingsIndex({ settings }) {
 
                             {/* TAB 2: JAM OPERASIONAL */}
                             {activeTab === 'operational' && (
-                                <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-5 text-left animate-fadeIn">
+                                <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-5 text-left animate-fadeIn">
                                     <div>
-                                        <h3 className="text-base font-extrabold text-[#050316] flex items-center gap-2">
-                                            <iconify-icon icon="solar:clock-circle-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                                        <h3 className="text-base font-extrabold text-brand-dark flex items-center gap-2">
+                                            <iconify-icon icon="solar:clock-circle-linear" class="text-brand-primary text-lg"></iconify-icon>
                                             Jam Operasional
                                         </h3>
                                         <p className="text-xs text-gray-400 mt-1">Atur ketersediaan toko Anda di aplikasi pelanggan.</p>
@@ -334,13 +334,13 @@ export default function SettingsIndex({ settings }) {
                                         {Object.keys(operationalHours).map((day) => {
                                             const schedule = operationalHours[day];
                                             return (
-                                                <div key={day} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-2.5 border-b border-[#dddbff]/35 last:border-none">
+                                                <div key={day} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-2.5 border-b border-brand-light/35 last:border-none">
                                                     <div className="flex items-center gap-3 w-28 flex-shrink-0">
                                                         <button 
                                                             type="button"
                                                             onClick={() => handleHourToggle(day)}
                                                             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                                                                schedule.active ? 'bg-[#2f27ce]' : 'bg-gray-200'
+                                                                schedule.active ? 'bg-brand-primary' : 'bg-gray-200'
                                                             }`}
                                                         >
                                                             <span 
@@ -358,14 +358,14 @@ export default function SettingsIndex({ settings }) {
                                                                 type="time" 
                                                                 value={schedule.open}
                                                                 onChange={(e) => handleTimeChange(day, 'open', e.target.value)}
-                                                                className="px-3 py-1.5 border border-[#dddbff] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#2f27ce]"
+                                                                className="px-3 py-1.5 border border-brand-light rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary"
                                                             />
                                                             <span>sampai</span>
                                                             <input 
                                                                 type="time" 
                                                                 value={schedule.close}
                                                                 onChange={(e) => handleTimeChange(day, 'close', e.target.value)}
-                                                                className="px-3 py-1.5 border border-[#dddbff] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#2f27ce]"
+                                                                className="px-3 py-1.5 border border-brand-light rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-primary"
                                                             />
                                                         </div>
                                                     ) : (
@@ -384,10 +384,10 @@ export default function SettingsIndex({ settings }) {
 
                             {/* TAB 3: PENAGIHAN & PAJAK */}
                             {activeTab === 'billing' && (
-                                <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-5 text-left animate-fadeIn">
+                                <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-5 text-left animate-fadeIn">
                                     <div>
-                                        <h3 className="text-base font-extrabold text-[#050316] flex items-center gap-2">
-                                            <iconify-icon icon="solar:bill-list-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                                        <h3 className="text-base font-extrabold text-brand-dark flex items-center gap-2">
+                                            <iconify-icon icon="solar:bill-list-linear" class="text-brand-primary text-lg"></iconify-icon>
                                             Kebijakan Pajak &amp; Biaya
                                         </h3>
                                         <p className="text-xs text-gray-400 mt-1">Konfigurasi PPN dan biaya layanan standar.</p>
@@ -401,7 +401,7 @@ export default function SettingsIndex({ settings }) {
                                                     type="number"
                                                     value={taxRate}
                                                     onChange={(e) => { setTaxRate(e.target.value); triggerChange(); }}
-                                                    className="w-full px-4 py-2.5 pr-10 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                                    className="w-full px-4 py-2.5 pr-10 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                                     min="0"
                                                 />
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400 font-bold">%</span>
@@ -414,7 +414,7 @@ export default function SettingsIndex({ settings }) {
                                                     type="number"
                                                     value={serviceCharge}
                                                     onChange={(e) => { setServiceCharge(e.target.value); triggerChange(); }}
-                                                    className="w-full px-4 py-2.5 pr-10 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all"
+                                                    className="w-full px-4 py-2.5 pr-10 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                                                     min="0"
                                                 />
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400 font-bold">%</span>
@@ -423,7 +423,7 @@ export default function SettingsIndex({ settings }) {
                                     </div>
 
                                     {/* Tax Inclusive Switch */}
-                                    <div className="p-4 bg-gray-50/40 border border-[#dddbff]/60 rounded-xl flex items-center justify-between">
+                                    <div className="p-4 bg-gray-50/40 border border-brand-light/60 rounded-xl flex items-center justify-between">
                                         <div className="space-y-0.5">
                                             <h4 className="text-xs font-bold text-gray-700">Pajak Termasuk dalam Harga</h4>
                                             <p className="text-[10px] text-gray-400 font-medium">Aktifkan jika harga menu sudah termasuk PPN.</p>
@@ -432,7 +432,7 @@ export default function SettingsIndex({ settings }) {
                                             type="button"
                                             onClick={() => { setTaxInclusive(!taxInclusive); triggerChange(); }}
                                             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                                                taxInclusive ? 'bg-[#2f27ce]' : 'bg-gray-200'
+                                                taxInclusive ? 'bg-brand-primary' : 'bg-gray-200'
                                             }`}
                                         >
                                             <span 
@@ -447,10 +447,10 @@ export default function SettingsIndex({ settings }) {
 
                             {/* TAB 4: LOKALISASI */}
                             {activeTab === 'localization' && (
-                                <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-5 text-left animate-fadeIn">
+                                <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-5 text-left animate-fadeIn">
                                     <div>
-                                        <h3 className="text-base font-extrabold text-[#050316] flex items-center gap-2">
-                                            <iconify-icon icon="solar:global-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                                        <h3 className="text-base font-extrabold text-brand-dark flex items-center gap-2">
+                                            <iconify-icon icon="solar:global-linear" class="text-brand-primary text-lg"></iconify-icon>
                                             Lokalisasi &amp; Satuan
                                         </h3>
                                         <p className="text-xs text-gray-400 mt-1">Atur bahasa, mata uang, dan format waktu.</p>
@@ -466,7 +466,7 @@ export default function SettingsIndex({ settings }) {
                                                 <select 
                                                     value={currency} 
                                                     onChange={(e) => { setCurrency(e.target.value); triggerChange(); }}
-                                                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all cursor-pointer"
+                                                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all cursor-pointer"
                                                 >
                                                     <option value="IDR (Indonesian Rupiah)">IDR (Indonesian Rupiah)</option>
                                                     <option value="USD (US Dollar)">USD (US Dollar)</option>
@@ -483,7 +483,7 @@ export default function SettingsIndex({ settings }) {
                                                 <select 
                                                     value={timezone} 
                                                     onChange={(e) => { setTimezone(e.target.value); triggerChange(); }}
-                                                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all cursor-pointer"
+                                                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all cursor-pointer"
                                                 >
                                                     <option value="(GMT+07:00) Asia/Jakarta">(GMT+07:00) Asia/Jakarta</option>
                                                     <option value="(GMT+08:00) Asia/Makassar">(GMT+08:00) Asia/Makassar</option>
@@ -498,7 +498,7 @@ export default function SettingsIndex({ settings }) {
                                         <select 
                                             value={language} 
                                             onChange={(e) => { setLanguage(e.target.value); triggerChange(); }}
-                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-[#dddbff] rounded-xl focus:bg-white focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] transition-all cursor-pointer"
+                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all cursor-pointer"
                                         >
                                             <option value="Bahasa Indonesia (ID)">Bahasa Indonesia (ID)</option>
                                             <option value="English (US)">English (US)</option>
@@ -512,10 +512,10 @@ export default function SettingsIndex({ settings }) {
                                 <div className="space-y-6 text-left animate-fadeIn">
                                     
                                     {/* Card 1: Kebijakan Kata Sandi */}
-                                    <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-6">
+                                    <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-6">
                                         <div>
-                                            <h3 className="text-base font-extrabold text-[#050316] flex items-center gap-2">
-                                                <iconify-icon icon="solar:lock-keyhole-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                                            <h3 className="text-base font-extrabold text-brand-dark flex items-center gap-2">
+                                                <iconify-icon icon="solar:lock-keyhole-linear" class="text-brand-primary text-lg"></iconify-icon>
                                                 Kebijakan Kata Sandi
                                             </h3>
                                             <p className="text-xs text-gray-400 mt-1">Atur standar kompleksitas sandi untuk seluruh pengguna.</p>
@@ -536,7 +536,7 @@ export default function SettingsIndex({ settings }) {
                                                             max="32"
                                                             value={minPasswordLength}
                                                             onChange={(e) => { setMinPasswordLength(parseInt(e.target.value)); triggerChange(); }}
-                                                            className="w-full h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-[#2f27ce]"
+                                                            className="w-full h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-brand-primary"
                                                         />
                                                     </div>
                                                     <p className="text-[10px] text-gray-400 font-semibold">Tentukan jumlah karakter minimum yang diperlukan (8-32 karakter).</p>
@@ -560,7 +560,7 @@ export default function SettingsIndex({ settings }) {
                                                                         setPasswordComplexity(prev => ({ ...prev, [opt.id]: !prev[opt.id] }));
                                                                         triggerChange();
                                                                     }}
-                                                                    className="w-4 h-4 rounded text-[#2f27ce] border-[#dddbff] focus:ring-[#2f27ce]"
+                                                                    className="w-4 h-4 rounded text-brand-primary border-brand-light focus:ring-brand-primary"
                                                                 />
                                                                 {opt.label}
                                                             </label>
@@ -580,7 +580,7 @@ export default function SettingsIndex({ settings }) {
                                                             <select 
                                                                 value={passwordExpiry}
                                                                 onChange={(e) => { setPasswordExpiry(e.target.value); triggerChange(); }}
-                                                                className="w-full px-3 py-2 text-xs bg-gray-50/50 border border-[#dddbff] rounded-xl focus:ring-[#2f27ce]"
+                                                                className="w-full px-3 py-2 text-xs bg-gray-50/50 border border-brand-light rounded-xl focus:ring-brand-primary"
                                                             >
                                                                 <option value="30">Setiap 30 Hari</option>
                                                                 <option value="90">Setiap 90 Hari</option>
@@ -593,7 +593,7 @@ export default function SettingsIndex({ settings }) {
                                                             <select 
                                                                 value={preventOldPassword}
                                                                 onChange={(e) => { setPreventOldPassword(e.target.value); triggerChange(); }}
-                                                                className="w-full px-3 py-2 text-xs bg-gray-50/50 border border-[#dddbff] rounded-xl focus:ring-[#2f27ce]"
+                                                                className="w-full px-3 py-2 text-xs bg-gray-50/50 border border-brand-light rounded-xl focus:ring-brand-primary"
                                                             >
                                                                 <option value="3">3 Sandi Terakhir</option>
                                                                 <option value="5">5 Sandi Terakhir</option>
@@ -621,7 +621,7 @@ export default function SettingsIndex({ settings }) {
                                                                         setRequireRole2fa(prev => ({ ...prev, [role.id]: !prev[role.id] }));
                                                                         triggerChange();
                                                                     }}
-                                                                    className="w-4 h-4 rounded text-[#2f27ce] border-[#dddbff] focus:ring-[#2f27ce]"
+                                                                    className="w-4 h-4 rounded text-brand-primary border-brand-light focus:ring-brand-primary"
                                                                 />
                                                                 {role.label}
                                                             </label>
@@ -633,11 +633,11 @@ export default function SettingsIndex({ settings }) {
                                     </div>
 
                                     {/* Card 2: Autentikasi Dua Faktor (2FA) */}
-                                    <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-6">
-                                        <div className="flex items-center justify-between border-b border-[#dddbff]/40 pb-3">
+                                    <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-6">
+                                        <div className="flex items-center justify-between border-b border-brand-light/40 pb-3">
                                             <div>
-                                                <h3 className="text-base font-extrabold text-[#050316] flex items-center gap-2">
-                                                    <iconify-icon icon="solar:shield-keyhole-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                                                <h3 className="text-base font-extrabold text-brand-dark flex items-center gap-2">
+                                                    <iconify-icon icon="solar:shield-keyhole-linear" class="text-brand-primary text-lg"></iconify-icon>
                                                     Autentikasi Dua Faktor (2FA)
                                                 </h3>
                                                 <p className="text-xs text-gray-400 mt-1">Lapisan keamanan tambahan menggunakan kode verifikasi perangkat.</p>
@@ -648,7 +648,7 @@ export default function SettingsIndex({ settings }) {
                                                     type="button"
                                                     onClick={() => { setGlobal2fa(!global2fa); triggerChange(); }}
                                                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                                                        global2fa ? 'bg-[#2f27ce]' : 'bg-gray-200'
+                                                        global2fa ? 'bg-brand-primary' : 'bg-gray-200'
                                                     }`}
                                                 >
                                                     <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${global2fa ? 'translate-x-6' : 'translate-x-1'}`} />
@@ -658,9 +658,9 @@ export default function SettingsIndex({ settings }) {
 
                                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
                                             {/* Sub-card: Metode diizinkan */}
-                                            <div className="lg:col-span-4 p-4 border border-[#dddbff]/60 rounded-2xl bg-gray-50/20 text-left space-y-2 flex flex-col justify-between">
+                                            <div className="lg:col-span-4 p-4 border border-brand-light/60 rounded-2xl bg-gray-50/20 text-left space-y-2 flex flex-col justify-between">
                                                 <div className="space-y-1.5">
-                                                    <span className="inline-block px-2.5 py-0.5 bg-violet-50 text-[#2f27ce] border border-[#dddbff] text-[9px] font-black uppercase tracking-wider rounded-full">
+                                                    <span className="inline-block px-2.5 py-0.5 bg-violet-50 text-brand-primary border border-brand-light text-[9px] font-black uppercase tracking-wider rounded-full">
                                                         Direkomendasikan
                                                     </span>
                                                     <h4 className="text-xs font-black text-gray-800 pt-1">Metode yang Diizinkan</h4>
@@ -671,30 +671,30 @@ export default function SettingsIndex({ settings }) {
                                             </div>
 
                                             {/* Sub-card: Panduan */}
-                                            <div className="lg:col-span-4 p-4 border border-[#dddbff]/60 rounded-2xl bg-gray-50/20 text-left space-y-2 flex flex-col justify-between">
+                                            <div className="lg:col-span-4 p-4 border border-brand-light/60 rounded-2xl bg-gray-50/20 text-left space-y-2 flex flex-col justify-between">
                                                 <h4 className="text-xs font-black text-gray-800">Panduan Pendaftaran</h4>
                                                 <p className="text-[10px] text-gray-500 font-semibold leading-relaxed">
                                                     Berikan instruksi langkah-demi-langkah kepada staf Anda untuk aktivasi.
                                                 </p>
-                                                <a href="#" className="text-xs font-bold text-[#2f27ce] hover:underline flex items-center gap-1">
+                                                <a href="#" className="text-xs font-bold text-brand-primary hover:underline flex items-center gap-1">
                                                     Lihat Panduan
                                                     <iconify-icon icon="solar:export-linear" class="text-[10px]"></iconify-icon>
                                                 </a>
                                             </div>
 
                                             {/* Sub-card: Gauge register */}
-                                            <div className="lg:col-span-4 p-4 border border-[#dddbff]/60 rounded-2xl bg-[#2f27ce]/5 text-center flex flex-col items-center justify-between gap-3">
+                                            <div className="lg:col-span-4 p-4 border border-brand-light/60 rounded-2xl bg-brand-primary/5 text-center flex flex-col items-center justify-between gap-3">
                                                 <div className="flex items-center justify-center gap-3">
                                                     {/* Circular gauge */}
                                                     <div className="relative w-12 h-12 flex items-center justify-center flex-shrink-0">
                                                         <svg className="w-full h-full transform -rotate-90">
-                                                            <circle cx="24" cy="24" r="20" stroke="#dddbff" strokeWidth="4" fill="transparent" />
-                                                            <circle cx="24" cy="24" r="20" stroke="#2f27ce" strokeWidth="4" fill="transparent" 
+                                                            <circle cx="24" cy="24" r="20" stroke="rgb(var(--color-brand-light))" strokeWidth="4" fill="transparent" />
+                                                            <circle cx="24" cy="24" r="20" stroke="rgb(var(--color-brand-primary))" strokeWidth="4" fill="transparent" 
                                                                 strokeDasharray={`${2 * Math.PI * 20}`}
                                                                 strokeDashoffset={`${2 * Math.PI * 20 * (1 - 0.6)}`}
                                                             />
                                                         </svg>
-                                                        <span className="absolute text-[10px] font-black text-[#2f27ce]">60%</span>
+                                                        <span className="absolute text-[10px] font-black text-brand-primary">60%</span>
                                                     </div>
                                                     <div className="text-left">
                                                         <h5 className="text-xs font-extrabold text-gray-800">3 dari 5 Pengguna</h5>
@@ -704,7 +704,7 @@ export default function SettingsIndex({ settings }) {
                                                 <button 
                                                     type="button"
                                                     onClick={() => setShow2faModal(true)}
-                                                    className="w-full py-2 bg-[#2f27ce] hover:bg-[#443dff] text-white text-xs font-extrabold rounded-xl transition duration-150 active:scale-95 shadow-sm"
+                                                    className="w-full py-2 bg-brand-primary hover:bg-brand-secondary text-white text-xs font-extrabold rounded-xl transition duration-150 active:scale-95 shadow-sm"
                                                 >
                                                     Kelola per User
                                                 </button>
@@ -713,11 +713,11 @@ export default function SettingsIndex({ settings }) {
                                     </div>
 
                                     {/* Card 3: Sesi Aktif */}
-                                    <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-4">
-                                        <div className="flex items-center justify-between border-b border-[#dddbff]/40 pb-3">
+                                    <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-4">
+                                        <div className="flex items-center justify-between border-b border-brand-light/40 pb-3">
                                             <div>
-                                                <h3 className="text-base font-extrabold text-[#050316] flex items-center gap-2">
-                                                    <iconify-icon icon="solar:history-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                                                <h3 className="text-base font-extrabold text-brand-dark flex items-center gap-2">
+                                                    <iconify-icon icon="solar:history-linear" class="text-brand-primary text-lg"></iconify-icon>
                                                     Sesi Aktif
                                                 </h3>
                                                 <p className="text-xs text-gray-400 mt-1">Daftar perangkat yang saat ini masuk ke akun Anda.</p>
@@ -734,7 +734,7 @@ export default function SettingsIndex({ settings }) {
                                         <div className="overflow-x-auto">
                                             <table className="w-full text-left border-collapse text-xs">
                                                 <thead>
-                                                    <tr className="bg-gray-50/50 border-b border-[#dddbff]/60">
+                                                    <tr className="bg-gray-50/50 border-b border-brand-light/60">
                                                         <th className="px-5 py-3 text-[10px] font-black text-gray-400 uppercase tracking-wider">Perangkat &amp; Browser</th>
                                                         <th className="px-5 py-3 text-[10px] font-black text-gray-400 uppercase tracking-wider">Alamat IP</th>
                                                         <th className="px-5 py-3 text-[10px] font-black text-gray-400 uppercase tracking-wider">Lokasi</th>
@@ -742,7 +742,7 @@ export default function SettingsIndex({ settings }) {
                                                         <th className="px-5 py-3 text-[10px] font-black text-gray-400 uppercase tracking-wider text-right">Aksi</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody className="divide-y divide-[#dddbff]/40">
+                                                <tbody className="divide-y divide-brand-light/40">
                                                     {sessions.map(s => (
                                                         <tr key={s.id} className="hover:bg-gray-50/30 font-medium">
                                                             <td className="px-5 py-3.5">
@@ -780,7 +780,7 @@ export default function SettingsIndex({ settings }) {
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <p className="text-[10px] text-gray-400 font-semibold flex items-center gap-1 pt-2 border-t border-[#dddbff]/40">
+                                        <p className="text-[10px] text-gray-400 font-semibold flex items-center gap-1 pt-2 border-t border-brand-light/40">
                                             <iconify-icon icon="solar:info-circle-linear" class="text-xs"></iconify-icon>
                                             Kami merekomendasikan untuk mengakhiri sesi yang tidak dikenali segera.
                                         </p>
@@ -789,7 +789,7 @@ export default function SettingsIndex({ settings }) {
                             )}
 
                             {/* Bottom Actions Form Buttons */}
-                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[#dddbff]/40 pt-4 pb-6">
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-brand-light/40 pt-4 pb-6">
                                 <div className="text-xs text-amber-500 font-bold flex items-center gap-1.5">
                                     {hasUnsavedChanges && (
                                         <>
@@ -802,14 +802,14 @@ export default function SettingsIndex({ settings }) {
                                     <button 
                                         type="button"
                                         onClick={handleCancel}
-                                        className="px-6 py-2.5 text-xs font-bold text-gray-600 bg-white border border-[#dddbff] rounded-xl hover:bg-gray-50 transition active:scale-95 shadow-sm"
+                                        className="px-6 py-2.5 text-xs font-bold text-gray-600 bg-white border border-brand-light rounded-xl hover:bg-gray-50 transition active:scale-95 shadow-sm"
                                     >
                                         Batalkan
                                     </button>
                                     <button 
                                         type="button"
                                         onClick={handleSave}
-                                        className="px-7 py-2.5 text-xs font-bold text-white bg-[#2f27ce] hover:bg-[#443dff] rounded-xl transition active:scale-95 shadow-sm hover:shadow"
+                                        className="px-7 py-2.5 text-xs font-bold text-white bg-brand-primary hover:bg-brand-secondary rounded-xl transition active:scale-95 shadow-sm hover:shadow"
                                     >
                                         Simpan Perubahan
                                     </button>
@@ -826,9 +826,9 @@ export default function SettingsIndex({ settings }) {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fadeIn">
                     <div className="bg-white rounded-2xl max-w-6xl w-full mx-4 shadow-2xl border border-gray-100 overflow-hidden animate-slideUp">
                         {/* Modal Header */}
-                        <div className="px-6 py-5 border-b border-[#dddbff]/50 flex justify-between items-start">
+                        <div className="px-6 py-5 border-b border-brand-light/50 flex justify-between items-start">
                             <div className="flex gap-3 text-left">
-                                <div className="w-10 h-10 rounded-full bg-[#2f27ce]/5 text-[#2f27ce] flex items-center justify-center flex-shrink-0">
+                                <div className="w-10 h-10 rounded-full bg-brand-primary/5 text-brand-primary flex items-center justify-center flex-shrink-0">
                                     <iconify-icon icon="solar:shield-keyhole-linear" class="text-xl"></iconify-icon>
                                 </div>
                                 <div>
@@ -845,7 +845,7 @@ export default function SettingsIndex({ settings }) {
                         </div>
 
                         {/* Search & Filters */}
-                        <div className="px-6 py-4 bg-gray-50/50 border-b border-[#dddbff]/40 flex flex-col sm:flex-row gap-3">
+                        <div className="px-6 py-4 bg-gray-50/50 border-b border-brand-light/40 flex flex-col sm:flex-row gap-3">
                             <div className="relative flex-1">
                                 <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 flex items-center justify-center pointer-events-none">
                                     <iconify-icon icon="solar:magnifer-linear" class="text-base"></iconify-icon>
@@ -855,14 +855,14 @@ export default function SettingsIndex({ settings }) {
                                     placeholder="Cari nama atau email..."
                                     value={modalSearch}
                                     onChange={(e) => setModalSearch(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 text-xs bg-white border border-[#dddbff] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#2f27ce] focus:border-[#2f27ce] transition-all"
+                                    className="w-full pl-10 pr-4 py-2 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-1 focus:ring-brand-primary focus:border-brand-primary transition-all"
                                 />
                             </div>
 
                             <select 
                                 value={modalRoleFilter} 
                                 onChange={(e) => setModalRoleFilter(e.target.value)}
-                                className="px-3 py-2 text-xs bg-white border border-[#dddbff] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#2f27ce] focus:border-[#2f27ce] cursor-pointer"
+                                className="px-3 py-2 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-1 focus:ring-brand-primary focus:border-brand-primary cursor-pointer"
                             >
                                 <option value="">Semua Role</option>
                                 <option value="owner">Owner</option>
@@ -875,7 +875,7 @@ export default function SettingsIndex({ settings }) {
                             <select 
                                 value={modalStatusFilter} 
                                 onChange={(e) => setModalStatusFilter(e.target.value)}
-                                className="px-3 py-2 text-xs bg-white border border-[#dddbff] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#2f27ce] focus:border-[#2f27ce] cursor-pointer"
+                                className="px-3 py-2 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-1 focus:ring-brand-primary focus:border-brand-primary cursor-pointer"
                             >
                                 <option value="">Semua Status</option>
                                 <option value="terdaftar">Terdaftar</option>
@@ -887,13 +887,13 @@ export default function SettingsIndex({ settings }) {
                         <div className="overflow-y-auto max-h-[350px]">
                             <table className="w-full text-left border-collapse text-xs">
                                 <thead>
-                                    <tr className="bg-gray-50/50 border-b border-[#dddbff]/50">
+                                    <tr className="bg-gray-50/50 border-b border-brand-light/50">
                                         <th className="px-6 py-3.5 w-12 text-center">
                                             <input 
                                                 type="checkbox"
                                                 onChange={handleSelectAllUsers}
                                                 checked={selectedUserIds.length === filteredUsers.length && filteredUsers.length > 0}
-                                                className="w-4 h-4 rounded text-[#2f27ce] border-[#dddbff] focus:ring-[#2f27ce]"
+                                                className="w-4 h-4 rounded text-brand-primary border-brand-light focus:ring-brand-primary"
                                             />
                                         </th>
                                         <th className="px-6 py-3.5 font-bold text-gray-400 uppercase tracking-wider">Nama</th>
@@ -904,7 +904,7 @@ export default function SettingsIndex({ settings }) {
                                         <th className="px-6 py-3.5 font-bold text-gray-400 uppercase tracking-wider text-right">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-[#dddbff]/30">
+                                <tbody className="divide-y divide-brand-light/30">
                                     {filteredUsers.length === 0 ? (
                                         <tr>
                                             <td colSpan="7" className="px-6 py-8 text-center text-gray-400 font-medium">
@@ -919,11 +919,11 @@ export default function SettingsIndex({ settings }) {
                                                         type="checkbox"
                                                         checked={selectedUserIds.includes(user.id)}
                                                         onChange={() => handleSelectUser(user.id)}
-                                                        className="w-4 h-4 rounded text-[#2f27ce] border-[#dddbff] focus:ring-[#2f27ce]"
+                                                        className="w-4 h-4 rounded text-brand-primary border-brand-light focus:ring-brand-primary"
                                                     />
                                                 </td>
                                                 <td className="px-6 py-3 flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-full bg-violet-100 text-[#2f27ce] flex items-center justify-center font-bold text-[10px] border border-white flex-shrink-0">
+                                                    <div className="w-8 h-8 rounded-full bg-violet-100 text-brand-primary flex items-center justify-center font-bold text-[10px] border border-white flex-shrink-0">
                                                         {user.name.charAt(0)}
                                                     </div>
                                                     <div className="text-left overflow-hidden">
@@ -940,7 +940,7 @@ export default function SettingsIndex({ settings }) {
                                                     <span className="inline-flex items-center gap-1.5 font-bold text-gray-700">
                                                         <iconify-icon 
                                                             icon={user.method === 'None' ? 'solar:shield-warning-linear' : user.method === 'SMS' ? 'solar:letter-linear' : 'solar:shield-keyhole-linear'} 
-                                                            class={user.method === 'None' ? 'text-gray-300' : 'text-[#2f27ce]'}
+                                                            class={user.method === 'None' ? 'text-gray-300' : 'text-brand-primary'}
                                                         ></iconify-icon>
                                                         {user.method}
                                                     </span>
@@ -959,21 +959,21 @@ export default function SettingsIndex({ settings }) {
                                                     <div className="flex items-center justify-end gap-1.5">
                                                         <button 
                                                             onClick={() => alert(`Kirim pengingat pendaftaran 2FA ke ${user.name}`)}
-                                                            className="p-1 rounded bg-white border border-[#dddbff] text-gray-500 hover:text-[#2f27ce] hover:border-[#2f27ce] transition active:scale-95"
+                                                            className="p-1 rounded bg-white border border-brand-light text-gray-500 hover:text-brand-primary hover:border-brand-primary transition active:scale-95"
                                                             title="Kirim Pengingat"
                                                         >
                                                             <iconify-icon icon="solar:letter-linear" class="text-xs"></iconify-icon>
                                                         </button>
                                                         <button 
                                                             onClick={() => alert(`Reset kunci 2FA untuk ${user.name}`)}
-                                                            className="p-1 rounded bg-white border border-[#dddbff] text-gray-500 hover:text-red-500 hover:border-red-200 transition active:scale-95"
+                                                            className="p-1 rounded bg-white border border-brand-light text-gray-500 hover:text-red-500 hover:border-red-200 transition active:scale-95"
                                                             title="Reset 2FA"
                                                         >
                                                             <iconify-icon icon="solar:history-linear" class="text-xs"></iconify-icon>
                                                         </button>
                                                         <button 
                                                             onClick={() => alert(`Kelola hak akses/opsi 2FA untuk ${user.name}`)}
-                                                            className="p-1 rounded bg-white border border-[#dddbff] text-gray-500 hover:text-[#2f27ce] hover:border-[#2f27ce] transition active:scale-95"
+                                                            className="p-1 rounded bg-white border border-brand-light text-gray-500 hover:text-brand-primary hover:border-brand-primary transition active:scale-95"
                                                             title="Kelola User"
                                                         >
                                                             <iconify-icon icon="solar:user-plus-linear" class="text-xs"></iconify-icon>
@@ -988,7 +988,7 @@ export default function SettingsIndex({ settings }) {
                         </div>
 
                         {/* Modal Footer */}
-                        <div className="px-6 py-4 bg-gray-50/50 border-t border-[#dddbff]/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="px-6 py-4 bg-gray-50/50 border-t border-brand-light/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div className="text-xs font-bold text-gray-500 text-left">
                                 {selectedUserIds.length} User Terpilih <span className="text-gray-300 font-normal px-1">|</span> <span className="font-semibold text-gray-400">Pilih user untuk melakukan aksi massal</span>
                             </div>
@@ -999,7 +999,7 @@ export default function SettingsIndex({ settings }) {
                                         alert(`Mengirim pesan email pengingat masal ke ${selectedUserIds.length} user...`);
                                         setSelectedUserIds([]);
                                     }}
-                                    className="px-4 py-2 border border-[#dddbff] hover:bg-gray-50 bg-white text-gray-700 text-xs font-extrabold rounded-xl transition flex items-center gap-1.5 active:scale-95"
+                                    className="px-4 py-2 border border-brand-light hover:bg-gray-50 bg-white text-gray-700 text-xs font-extrabold rounded-xl transition flex items-center gap-1.5 active:scale-95"
                                 >
                                     <iconify-icon icon="solar:letter-linear" class="text-sm"></iconify-icon>
                                     Kirim Pengingat Masal

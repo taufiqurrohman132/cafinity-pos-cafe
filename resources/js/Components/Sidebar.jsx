@@ -24,8 +24,8 @@ export default function Sidebar() {
     };
 
     const base = 'flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200';
-    const active = 'bg-gradient-to-r from-[#dddbff]/70 to-[#dddbff]/10 text-[#2f27ce] font-extrabold shadow-sm';
-    const inactive = 'text-[#050316]/70 font-medium hover:bg-[#dddbff]/30 hover:text-[#2f27ce]';
+    const active = 'bg-gradient-to-r from-brand-light/70 to-brand-light/10 text-brand-primary font-extrabold shadow-sm';
+    const inactive = 'text-brand-dark/70 font-medium hover:bg-brand-light/30 hover:text-brand-primary';
 
     const isDashboardActive = () => {
         return currentUrl === '/dashboard' ||
@@ -42,11 +42,11 @@ export default function Sidebar() {
     };
 
     return (
-        <aside className="w-[260px] bg-[#fbfbfe] border-r border-[#dddbff] flex flex-col justify-between h-screen z-20">
+        <aside className="w-[260px] bg-brand-bg border-r border-brand-light flex flex-col justify-between h-screen z-20">
             <div>
                 {/* Logo */}
-                <div className="px-6 py-6 border-b border-[#dddbff]">
-                    <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#2f27ce] to-[#443dff] tracking-tight">
+                <div className="px-6 py-6 border-b border-brand-light">
+                    <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary tracking-tight">
                         Cafinity POS
                     </h1>
                 </div>
@@ -132,7 +132,7 @@ export default function Sidebar() {
                             </button>
 
                             {targetsOpen && (
-                                <div className="mt-1 ml-4 pl-3 border-l border-[#dddbff] space-y-0.5">
+                                <div className="mt-1 ml-4 pl-3 border-l border-brand-light space-y-0.5">
                                     <Link href="/targets-goals" className={`${base} ${currentUrl.split('?')[0] === '/targets-goals' ? active : inactive} py-2`}>
                                         <iconify-icon icon="solar:chart-square-linear" class="text-[18px]"></iconify-icon>
                                         <span className="text-[13px]">Ringkasan Target</span>
@@ -159,7 +159,7 @@ export default function Sidebar() {
                             </button>
 
                             {accessOpen && (
-                                <div className="mt-1 ml-4 pl-3 border-l border-[#dddbff] space-y-0.5">
+                                <div className="mt-1 ml-4 pl-3 border-l border-brand-light space-y-0.5">
                                     <Link href="/users" className={cls('/users')}>
                                         <iconify-icon icon="solar:users-group-rounded-linear" class="text-[18px]"></iconify-icon>
                                         <span className="text-[13px]">User Directory</span>
@@ -188,7 +188,7 @@ export default function Sidebar() {
             </div>
 
             {/* Logout */}
-            <div className="p-4 border-t border-[#dddbff] bg-[#fbfbfe]">
+            <div className="p-4 border-t border-brand-light bg-brand-bg">
                 <button
                     onClick={handleLogout}
                     className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-bold text-red-500 hover:bg-red-50 hover:text-red-600 active:scale-[0.98] transition-all duration-200">

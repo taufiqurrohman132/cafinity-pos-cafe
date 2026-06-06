@@ -150,7 +150,7 @@ export default function ModernDatePicker({
                 <button
                     type="button"
                     onClick={() => setIsOpen(!isOpen)}
-                    className="flex items-center gap-2.5 pl-4 pr-4 py-2.5 bg-gradient-to-r from-[#443dff] to-[#2f27ce] hover:from-[#2f27ce] hover:to-[#050316] text-white rounded-xl text-sm font-bold cursor-pointer transition-all shadow-lg shadow-[#443dff]/30 active:scale-[0.98] select-none"
+                    className="flex items-center gap-2.5 pl-4 pr-4 py-2.5 bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl text-sm font-bold cursor-pointer transition-all shadow-lg shadow-brand-secondary/30 active:scale-[0.98] select-none"
                 >
                     <Icon icon="solar:calendar-linear" className="text-base" />
                     <span>{getFormattedValue()}</span>
@@ -160,35 +160,35 @@ export default function ModernDatePicker({
                 <button
                     type="button"
                     onClick={() => setIsOpen(!isOpen)}
-                    className="w-full flex items-center justify-between border border-[#dddbff] rounded-xl px-3 py-2.5 text-sm text-[#050316] bg-white hover:border-[#443dff] transition-all cursor-pointer select-none"
+                    className="w-full flex items-center justify-between border border-brand-light rounded-xl px-3 py-2.5 text-sm text-brand-dark bg-white hover:border-brand-secondary transition-all cursor-pointer select-none"
                 >
-                    <span className={value ? "text-[#050316] font-bold" : "text-[#2f27ce]/50 font-medium"}>
+                    <span className={value ? "text-brand-dark font-bold" : "text-brand-primary/50 font-medium"}>
                         {getFormattedValue()}
                     </span>
-                    <Icon icon="solar:calendar-linear" className="text-[#443dff] text-base" />
+                    <Icon icon="solar:calendar-linear" className="text-brand-secondary text-base" />
                 </button>
             )}
 
             {isOpen && (
                 <div 
                     ref={dropdownRef}
-                    className={`absolute ${variant === 'gradient' ? 'right-0' : 'left-0'} mt-2 w-[290px] bg-white border border-[#dddbff] rounded-2xl shadow-2xl p-3.5 z-50 animate-in fade-in slide-in-from-top-2 duration-200`}
+                    className={`absolute ${variant === 'gradient' ? 'right-0' : 'left-0'} mt-2 w-[290px] bg-white border border-brand-light rounded-2xl shadow-2xl p-3.5 z-50 animate-in fade-in slide-in-from-top-2 duration-200`}
                 >
                     <div className="flex items-center justify-between mb-3.5">
                         <button
                             type="button"
                             onClick={handlePrevMonth}
-                            className="w-8 h-8 rounded-lg border border-[#dddbff] flex items-center justify-center text-[#2f27ce] hover:bg-[#dddbff]/30 hover:text-[#050316] transition-all"
+                            className="w-8 h-8 rounded-lg border border-brand-light flex items-center justify-center text-brand-primary hover:bg-brand-light/30 hover:text-brand-dark transition-all"
                         >
                             <Icon icon="solar:alt-arrow-left-linear" className="text-xs" />
                         </button>
-                        <span className="font-extrabold text-[12px] text-[#050316]">
+                        <span className="font-extrabold text-[12px] text-brand-dark">
                             {months[currentMonth]} {currentYear}
                         </span>
                         <button
                             type="button"
                             onClick={handleNextMonth}
-                            className="w-8 h-8 rounded-lg border border-[#dddbff] flex items-center justify-center text-[#2f27ce] hover:bg-[#dddbff]/30 hover:text-[#050316] transition-all"
+                            className="w-8 h-8 rounded-lg border border-brand-light flex items-center justify-center text-brand-primary hover:bg-brand-light/30 hover:text-brand-dark transition-all"
                         >
                             <Icon icon="solar:alt-arrow-right-linear" className="text-xs" />
                         </button>
@@ -196,7 +196,7 @@ export default function ModernDatePicker({
 
                     <div className="grid grid-cols-7 gap-1 text-center mb-1.5">
                         {daysOfWeek.map((day) => (
-                            <span key={day} className="text-[10px] font-extrabold text-[#2f27ce]/60 py-0.5">
+                            <span key={day} className="text-[10px] font-extrabold text-brand-primary/60 py-0.5">
                                 {day}
                             </span>
                         ))}
@@ -213,12 +213,12 @@ export default function ModernDatePicker({
                                     onClick={(e) => handleSelectDay(dayObj, e)}
                                     className={`h-8 w-8 rounded-lg text-xs font-bold transition-all flex items-center justify-center ${
                                         selected
-                                            ? 'bg-gradient-to-br from-[#443dff] to-[#2f27ce] text-white shadow-md shadow-[#443dff]/20'
+                                            ? 'bg-gradient-to-br from-brand-secondary to-brand-primary text-white shadow-md shadow-brand-secondary/20'
                                             : today
-                                            ? 'bg-[#dddbff]/60 text-[#2f27ce] border border-[#2f27ce]/20'
+                                            ? 'bg-brand-light/60 text-brand-primary border border-brand-primary/20'
                                             : dayObj.isCurrentMonth
-                                            ? 'text-[#050316] hover:bg-[#dddbff]/30 hover:text-[#2f27ce]'
-                                            : 'text-[#2f27ce]/30 hover:bg-[#dddbff]/10'
+                                            ? 'text-brand-dark hover:bg-brand-light/30 hover:text-brand-primary'
+                                            : 'text-brand-primary/30 hover:bg-brand-light/10'
                                     }`}
                                 >
                                     {dayObj.day}
@@ -227,7 +227,7 @@ export default function ModernDatePicker({
                         })}
                     </div>
 
-                    <div className="flex items-center justify-between border-t border-[#dddbff] mt-3.5 pt-3">
+                    <div className="flex items-center justify-between border-t border-brand-light mt-3.5 pt-3">
                         <button
                             type="button"
                             onClick={(e) => {
@@ -239,7 +239,7 @@ export default function ModernDatePicker({
                                 onChange(`${y}-${m}-${d}`);
                                 setIsOpen(false);
                             }}
-                            className="text-[10px] font-extrabold text-[#443dff] hover:text-[#2f27ce] transition-colors"
+                            className="text-[10px] font-extrabold text-brand-secondary hover:text-brand-primary transition-colors"
                         >
                             Hari Ini
                         </button>

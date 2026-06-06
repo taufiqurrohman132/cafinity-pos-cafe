@@ -26,12 +26,12 @@ export default function Register({ errors: serverErrors }) {
     return (
         <>
             <Head title="Pendaftaran Akun — Cafinity POS" />
-            <div className="min-h-screen flex bg-[#fbfbfe] font-inter">
+            <div className="min-h-screen flex bg-brand-bg font-inter">
 
                 {/* ====== KIRI: HERO ====== */}
                 <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#050316] via-[#2f27ce]/80 to-[#443dff]/60"></div>
-                    <div className="absolute inset-0 bg-[#050316]/50"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand-primary/80 to-brand-secondary/60"></div>
+                    <div className="absolute inset-0 bg-brand-dark/50"></div>
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
 
                     <div className="relative z-10 flex flex-col justify-between p-12 w-full">
@@ -54,7 +54,7 @@ export default function Register({ errors: serverErrors }) {
                                 <h1 className="text-4xl xl:text-5xl font-extrabold text-white leading-tight tracking-tight">
                                     Mulai Kelola<br />Kafe Anda
                                 </h1>
-                                <h1 className="text-4xl xl:text-5xl font-extrabold leading-tight tracking-tight mt-1" style={{ color: '#dddbff' }}>
+                                <h1 className="text-4xl xl:text-5xl font-extrabold leading-tight tracking-tight mt-1" style={{ color: 'rgb(var(--color-brand-light))' }}>
                                     Sekarang Juga.
                                 </h1>
                             </div>
@@ -77,12 +77,12 @@ export default function Register({ errors: serverErrors }) {
 
                             {/* Logo */}
                             <div className="text-center space-y-3">
-                                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2f27ce] to-[#443dff] shadow-lg shadow-[#443dff]/30">
+                                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-primary to-brand-secondary shadow-lg shadow-brand-secondary/30">
                                     <Icon icon="solar:user-plus-rounded-linear" className="text-2xl text-white" />
                                 </div>
                                 <div>
-                                    <h2 className="text-2xl font-extrabold text-[#050316] tracking-tight">Daftar Akun Baru</h2>
-                                    <p className="text-sm font-medium text-[#2f27ce]/70 mt-1">
+                                    <h2 className="text-2xl font-extrabold text-brand-dark tracking-tight">Daftar Akun Baru</h2>
+                                    <p className="text-sm font-medium text-brand-primary/70 mt-1">
                                         Buat akun Owner Anda untuk mulai mencoba fitur demo.
                                     </p>
                                 </div>
@@ -105,58 +105,58 @@ export default function Register({ errors: serverErrors }) {
 
                                 {/* Nama Lengkap */}
                                 <div className="space-y-1.5">
-                                    <label className="block text-xs font-extrabold text-[#2f27ce] capitalize tracking-wide">
+                                    <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide">
                                         Nama Lengkap
                                     </label>
                                     <div className="relative">
-                                        <Icon icon="solar:user-linear" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2f27ce]/50 text-lg pointer-events-none" />
+                                        <Icon icon="solar:user-linear" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 text-lg pointer-events-none" />
                                         <input
                                             type="text"
                                             value={data.name}
                                             onChange={e => setData('name', e.target.value)}
                                             placeholder="Nama Lengkap Anda"
                                             required autoFocus autoComplete="name"
-                                            className={`w-full h-11 rounded-xl border bg-[#fbfbfe] text-sm pl-10 pr-4 text-[#050316] font-semibold placeholder:font-normal placeholder:text-[#2f27ce]/40 focus:outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] focus:bg-white transition-shadow ${errors.name ? 'border-rose-300 bg-rose-50' : 'border-[#dddbff]'}`}
+                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-semibold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.name ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
                                         />
                                     </div>
                                 </div>
 
                                 {/* Email */}
                                 <div className="space-y-1.5">
-                                    <label className="block text-xs font-extrabold text-[#2f27ce] capitalize tracking-wide">
+                                    <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide">
                                         Alamat Email
                                     </label>
                                     <div className="relative">
-                                        <Icon icon="solar:letter-linear" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2f27ce]/50 text-lg pointer-events-none" />
+                                        <Icon icon="solar:letter-linear" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 text-lg pointer-events-none" />
                                         <input
                                             type="email"
                                             value={data.email}
                                             onChange={e => setData('email', e.target.value)}
                                             placeholder="nama@email.com"
                                             required autoComplete="username"
-                                            className={`w-full h-11 rounded-xl border bg-[#fbfbfe] text-sm pl-10 pr-4 text-[#050316] font-semibold placeholder:font-normal placeholder:text-[#2f27ce]/40 focus:outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-[#dddbff]'}`}
+                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-semibold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
                                         />
                                     </div>
                                 </div>
 
                                 {/* Password */}
                                 <div className="space-y-1.5">
-                                    <label className="block text-xs font-extrabold text-[#2f27ce] capitalize tracking-wide">
+                                    <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide">
                                         Kata Sandi
                                     </label>
                                     <div className="relative">
-                                        <Icon icon="solar:lock-password-linear" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2f27ce]/50 text-lg pointer-events-none" />
+                                        <Icon icon="solar:lock-password-linear" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 text-lg pointer-events-none" />
                                         <input
                                             type={showPassword ? 'text' : 'password'}
                                             value={data.password}
                                             onChange={e => setData('password', e.target.value)}
                                             placeholder="Min. 8 karakter"
                                             required autoComplete="new-password"
-                                            className={`w-full h-11 rounded-xl border bg-[#fbfbfe] text-sm pl-10 pr-12 text-[#050316] font-semibold placeholder:font-normal placeholder:text-[#2f27ce]/40 focus:outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] focus:bg-white transition-shadow ${errors.password ? 'border-rose-300 bg-rose-50' : 'border-[#dddbff]'}`}
+                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-12 text-brand-dark font-semibold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.password ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
                                         />
                                         <button type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#2f27ce]/50 hover:text-[#443dff] transition-colors">
+                                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 hover:text-brand-secondary transition-colors">
                                             <Icon icon={showPassword ? 'solar:eye-closed-linear' : 'solar:eye-linear'} className="text-lg" />
                                         </button>
                                     </div>
@@ -164,34 +164,34 @@ export default function Register({ errors: serverErrors }) {
 
                                 {/* Confirm Password */}
                                 <div className="space-y-1.5">
-                                    <label className="block text-xs font-extrabold text-[#2f27ce] capitalize tracking-wide">
+                                    <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide">
                                         Ulangi Kata Sandi
                                     </label>
                                     <div className="relative">
-                                        <Icon icon="solar:lock-password-linear" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#2f27ce]/50 text-lg pointer-events-none" />
+                                        <Icon icon="solar:lock-password-linear" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 text-lg pointer-events-none" />
                                         <input
                                             type={showPassword ? 'text' : 'password'}
                                             value={data.password_confirmation}
                                             onChange={e => setData('password_confirmation', e.target.value)}
                                             placeholder="Ulangi kata sandi"
                                             required autoComplete="new-password"
-                                            className={`w-full h-11 rounded-xl border bg-[#fbfbfe] text-sm pl-10 pr-12 text-[#050316] font-semibold placeholder:font-normal placeholder:text-[#2f27ce]/40 focus:outline-none focus:ring-2 focus:ring-[#dddbff] focus:border-[#443dff] focus:bg-white transition-shadow ${errors.password_confirmation ? 'border-rose-300 bg-rose-50' : 'border-[#dddbff]'}`}
+                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-12 text-brand-dark font-semibold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.password_confirmation ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
                                         />
                                     </div>
                                 </div>
 
                                 {/* Submit */}
                                 <button type="submit" disabled={processing}
-                                    className="w-full h-12 rounded-xl bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white text-sm font-extrabold tracking-wide transition-all duration-200 shadow-lg shadow-[#443dff]/30 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed pt-1">
+                                    className="w-full h-12 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold tracking-wide transition-all duration-200 shadow-lg shadow-brand-secondary/30 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed pt-1">
                                     {processing ? 'Mendaftar...' : 'Daftar Sebagai Owner'}
                                     {!processing && <Icon icon="solar:arrow-right-linear" className="text-base" />}
                                 </button>
                             </form>
 
                             {/* Back to Login */}
-                            <p className="text-xs text-center text-[#050316]/70 font-semibold mt-3">
+                            <p className="text-xs text-center text-brand-dark/70 font-semibold mt-3">
                                 Sudah memiliki akun?{' '}
-                                <a href="/login" className="text-[#443dff] hover:underline font-extrabold">
+                                <a href="/login" className="text-brand-secondary hover:underline font-extrabold">
                                     Masuk ke Dashboard
                                 </a>
                             </p>
@@ -200,13 +200,13 @@ export default function Register({ errors: serverErrors }) {
                     </div>
 
                     {/* Footer */}
-                    <div className="px-8 py-4 border-t border-[#dddbff] text-center space-y-2">
-                        <div className="flex items-center justify-center gap-4 text-[11px] font-semibold text-[#2f27ce]/60">
-                            <a href="#" className="hover:text-[#443dff] transition-colors">Syarat & Ketentuan</a>
-                            <span className="text-[#dddbff]">•</span>
-                            <a href="#" className="hover:text-[#443dff] transition-colors">Kebijakan Privasi</a>
+                    <div className="px-8 py-4 border-t border-brand-light text-center space-y-2">
+                        <div className="flex items-center justify-center gap-4 text-[11px] font-semibold text-brand-primary/60">
+                            <a href="#" className="hover:text-brand-secondary transition-colors">Syarat & Ketentuan</a>
+                            <span className="text-brand-light">•</span>
+                            <a href="#" className="hover:text-brand-secondary transition-colors">Kebijakan Privasi</a>
                         </div>
-                        <p className="text-[10px] font-bold text-[#2f27ce]/40 capitalize tracking-widest">
+                        <p className="text-[10px] font-bold text-brand-primary/40 capitalize tracking-widest">
                             © {new Date().getFullYear()} Cafinity POS
                         </p>
                     </div>

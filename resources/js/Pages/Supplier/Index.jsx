@@ -111,7 +111,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
         <>
             <Head title="Daftar Supplier" />
 
-            <div className="min-h-screen bg-[#fbfbfe]">
+            <div className="min-h-screen bg-brand-bg">
                 <div className="max-w-[1600px] mx-auto p-4 md:p-6 lg:p-8">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                         
@@ -121,13 +121,13 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                             {/* Header */}
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                 <div>
-                                    <h1 className="text-2xl md:text-3xl font-extrabold text-[#050316] tracking-tight">Daftar Supplier</h1>
+                                    <h1 className="text-2xl md:text-3xl font-extrabold text-brand-dark tracking-tight">Daftar Supplier</h1>
                                     <p className="text-gray-500 mt-1.5 text-sm md:text-base">Kelola dan pantau seluruh mitra supplier aktif dalam satu dashboard.</p>
                                 </div>
                                 <div className="flex items-center gap-3 self-end sm:self-auto">
                                     <Link 
                                         href={route('suppliers.create')}
-                                        className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#2f27ce] hover:bg-[#443dff] rounded-xl transition-all duration-200 shadow-sm hover:shadow active:scale-95"
+                                        className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-brand-primary hover:bg-brand-secondary rounded-xl transition-all duration-200 shadow-sm hover:shadow active:scale-95"
                                     >
                                         <iconify-icon icon="solar:user-plus-linear" class="text-lg"></iconify-icon>
                                         Tambah Supplier
@@ -138,40 +138,40 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                             {/* Stat Cards */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
                                 {/* Total Active */}
-                                <div className="bg-white p-5 rounded-2xl border border-[#dddbff]/80 shadow-sm flex justify-between items-start hover:shadow-md transition-all duration-200">
+                                <div className="bg-white p-5 rounded-2xl border border-brand-light/80 shadow-sm flex justify-between items-start hover:shadow-md transition-all duration-200">
                                     <div>
                                         <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Total Supplier Aktif</p>
-                                        <h3 className="text-3xl font-black text-[#050316] mt-2">{stats.total_active}</h3>
+                                        <h3 className="text-3xl font-black text-brand-dark mt-2">{stats.total_active}</h3>
                                         <p className="text-xs text-emerald-500 font-bold mt-2 flex items-center gap-0.5">
                                             <iconify-icon icon="solar:arrow-left-up-linear" class="rotate-45 text-sm font-bold"></iconify-icon>
                                             +8.2% <span className="text-gray-400 font-normal">vs bulan lalu</span>
                                         </p>
                                     </div>
-                                    <div className="w-10 h-10 rounded-xl bg-[#2f27ce]/10 text-[#2f27ce] flex items-center justify-center">
+                                    <div className="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center">
                                         <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-xl"></iconify-icon>
                                     </div>
                                 </div>
 
                                 {/* New Suppliers */}
-                                <div className="bg-white p-5 rounded-2xl border border-[#dddbff]/80 shadow-sm flex justify-between items-start hover:shadow-md transition-all duration-200">
+                                <div className="bg-white p-5 rounded-2xl border border-brand-light/80 shadow-sm flex justify-between items-start hover:shadow-md transition-all duration-200">
                                     <div>
                                         <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Supplier Baru Bulan Ini</p>
-                                        <h3 className="text-3xl font-black text-[#050316] mt-2">+{stats.new_this_month}</h3>
-                                        <p className="text-xs text-[#2f27ce] font-bold mt-2 flex items-center gap-0.5">
+                                        <h3 className="text-3xl font-black text-brand-dark mt-2">+{stats.new_this_month}</h3>
+                                        <p className="text-xs text-brand-primary font-bold mt-2 flex items-center gap-0.5">
                                             <iconify-icon icon="solar:calendar-add-linear" class="text-sm"></iconify-icon>
                                             Aktif bertambah
                                         </p>
                                     </div>
-                                    <div className="w-10 h-10 rounded-xl bg-violet-100 text-[#2f27ce] flex items-center justify-center">
+                                    <div className="w-10 h-10 rounded-xl bg-violet-100 text-brand-primary flex items-center justify-center">
                                         <iconify-icon icon="solar:add-circle-linear" class="text-xl"></iconify-icon>
                                     </div>
                                 </div>
 
                                 {/* Avg Lead Time */}
-                                <div className="bg-white p-5 rounded-2xl border border-[#dddbff]/80 shadow-sm flex justify-between items-start hover:shadow-md transition-all duration-200">
+                                <div className="bg-white p-5 rounded-2xl border border-brand-light/80 shadow-sm flex justify-between items-start hover:shadow-md transition-all duration-200">
                                     <div>
                                         <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Rata-rata Lead Time</p>
-                                        <h3 className="text-3xl font-black text-[#050316] mt-2">{stats.avg_lead_time} Hari</h3>
+                                        <h3 className="text-3xl font-black text-brand-dark mt-2">{stats.avg_lead_time} Hari</h3>
                                         <p className="text-xs text-red-500 font-bold mt-2 flex items-center gap-0.5">
                                             <iconify-icon icon="solar:arrow-left-down-linear" class="rotate-45 text-sm"></iconify-icon>
                                             -0.5 hari <span className="text-gray-400 font-normal">vs bulan lalu</span>
@@ -183,10 +183,10 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                 </div>
 
                                 {/* Global Performance Rating */}
-                                <div className="bg-white p-5 rounded-2xl border border-[#dddbff]/80 shadow-sm flex justify-between items-start hover:shadow-md transition-all duration-200">
+                                <div className="bg-white p-5 rounded-2xl border border-brand-light/80 shadow-sm flex justify-between items-start hover:shadow-md transition-all duration-200">
                                     <div>
                                         <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Skor Performa Global</p>
-                                        <h3 className="text-3xl font-black text-[#050316] mt-2">{stats.avg_rating}/5.0</h3>
+                                        <h3 className="text-3xl font-black text-brand-dark mt-2">{stats.avg_rating}/5.0</h3>
                                         <p className="text-xs text-emerald-500 font-bold mt-2 flex items-center gap-0.5">
                                             <iconify-icon icon="solar:graph-up-linear" class="text-sm"></iconify-icon>
                                             Stabil &amp; Prima
@@ -199,8 +199,8 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                             </div>
 
                             {/* Table Control and Search Bar */}
-                            <div className="bg-white rounded-2xl border border-[#dddbff]/80 shadow-sm overflow-hidden">
-                                <div className="p-4 md:p-5 border-b border-[#dddbff]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div className="bg-white rounded-2xl border border-brand-light/80 shadow-sm overflow-hidden">
+                                <div className="p-4 md:p-5 border-b border-brand-light/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                     
                                     {/* Left controls: search and filter trigger */}
                                     <div className="flex flex-wrap items-center gap-2 flex-1 max-w-xl">
@@ -213,7 +213,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                 placeholder="Cari supplier..."
                                                 value={search}
                                                 onChange={(e) => setSearch(e.target.value)}
-                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 hover:bg-gray-50 border border-[#dddbff]/70 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#2f27ce]/20 focus:border-[#2f27ce] transition-all"
+                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 hover:bg-gray-50 border border-brand-light/70 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all"
                                             />
                                         </form>
                                         
@@ -221,14 +221,14 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                             onClick={() => setShowFilterModal(!showFilterModal)}
                                             className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border rounded-xl transition-all ${
                                                 showFilterModal || status || category
-                                                    ? 'bg-[#2f27ce]/5 border-[#2f27ce] text-[#2f27ce]'
-                                                    : 'bg-white border-[#dddbff] text-gray-700 hover:bg-gray-50'
+                                                    ? 'bg-brand-primary/5 border-brand-primary text-brand-primary'
+                                                    : 'bg-white border-brand-light text-gray-700 hover:bg-gray-50'
                                             }`}
                                         >
                                             <iconify-icon icon="solar:filter-linear" class="text-base"></iconify-icon>
                                             Filter
                                             {(status || category) && (
-                                                <span className="w-2 h-2 rounded-full bg-[#2f27ce]"></span>
+                                                <span className="w-2 h-2 rounded-full bg-brand-primary"></span>
                                             )}
                                         </button>
                                     </div>
@@ -241,7 +241,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                 e.preventDefault();
                                                 alert('Fitur Unduh CSV sedang disiapkan.');
                                             }}
-                                            className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-[#dddbff] rounded-xl hover:bg-gray-50 active:scale-95 transition"
+                                            className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-gray-50 active:scale-95 transition"
                                         >
                                             <iconify-icon icon="solar:download-linear" class="text-base"></iconify-icon>
                                             Unduh CSV
@@ -249,63 +249,64 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                     </div>
                                 </div>
 
-                                {/* Advanced Filter Dropdown Popover */}
-                                {showFilterModal && (
-                                    <div className="p-5 bg-gray-50/50 border-b border-[#dddbff]/60 grid grid-cols-1 sm:grid-cols-3 gap-4 animate-fadeIn">
-                                        <div className="space-y-1.5">
-                                            <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Status</label>
-                                            <select 
-                                                value={status} 
-                                                onChange={(e) => setStatus(e.target.value)}
-                                                className="w-full px-3 py-2 text-sm bg-white border border-[#dddbff] rounded-xl focus:ring-[#2f27ce] focus:border-[#2f27ce]"
-                                            >
-                                                <option value="">Semua Status</option>
-                                                <option value="active">Aktif</option>
-                                                <option value="inactive">Nonaktif</option>
-                                                <option value="blacklist">Blacklist</option>
-                                            </select>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Kategori</label>
-                                            <select 
-                                                value={category} 
-                                                onChange={(e) => setCategory(e.target.value)}
-                                                className="w-full px-3 py-2 text-sm bg-white border border-[#dddbff] rounded-xl focus:ring-[#2f27ce] focus:border-[#2f27ce]"
-                                            >
-                                                <option value="">Semua Kategori</option>
-                                                {categories.map(cat => (
-                                                    <option key={cat} value={cat}>{cat}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div className="flex items-end gap-2">
-                                            <button 
-                                                onClick={handleFilterApply}
-                                                className="flex-1 px-4 py-2 text-sm font-semibold text-white bg-[#2f27ce] hover:bg-[#443dff] rounded-xl transition"
-                                            >
-                                                Terapkan
-                                            </button>
-                                            <button 
-                                                onClick={handleFilterReset}
-                                                className="px-4 py-2 text-sm font-semibold text-gray-600 bg-white border border-[#dddbff] rounded-xl hover:bg-gray-50 transition"
-                                            >
-                                                Reset
-                                            </button>
-                                        </div>
+                                <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 bg-gray-50/50 border-brand-light transition-all duration-300 ease-in-out overflow-hidden ${
+                                    showFilterModal 
+                                        ? 'max-h-[300px] opacity-100 p-5 border-b border-brand-light/60' 
+                                        : 'max-h-0 opacity-0 p-0 border-b-0 border-brand-light/0 pointer-events-none'
+                                }`}>
+                                    <div className="space-y-1.5">
+                                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Status</label>
+                                        <select 
+                                            value={status} 
+                                            onChange={(e) => setStatus(e.target.value)}
+                                            className="w-full px-3 py-2 text-sm bg-white border border-brand-light rounded-xl focus:ring-brand-primary focus:border-brand-primary"
+                                        >
+                                            <option value="">Semua Status</option>
+                                            <option value="active">Aktif</option>
+                                            <option value="inactive">Nonaktif</option>
+                                            <option value="blacklist">Blacklist</option>
+                                        </select>
                                     </div>
-                                )}
+                                    <div className="space-y-1.5">
+                                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Kategori</label>
+                                        <select 
+                                            value={category} 
+                                            onChange={(e) => setCategory(e.target.value)}
+                                            className="w-full px-3 py-2 text-sm bg-white border border-brand-light rounded-xl focus:ring-brand-primary focus:border-brand-primary"
+                                        >
+                                            <option value="">Semua Kategori</option>
+                                            {categories.map(cat => (
+                                                <option key={cat} value={cat}>{cat}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="flex items-end gap-2">
+                                        <button 
+                                            onClick={handleFilterApply}
+                                            className="flex-1 px-4 py-2 text-sm font-semibold text-white bg-brand-primary hover:bg-brand-secondary rounded-xl transition"
+                                        >
+                                            Terapkan
+                                        </button>
+                                        <button 
+                                            onClick={handleFilterReset}
+                                            className="px-4 py-2 text-sm font-semibold text-gray-600 bg-white border border-brand-light rounded-xl hover:bg-gray-50 transition"
+                                        >
+                                            Reset
+                                        </button>
+                                    </div>
+                                </div>
 
                                 {/* Supplier Table */}
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left border-collapse">
                                         <thead>
-                                            <tr className="bg-gray-50/50 border-b border-[#dddbff]/60">
+                                            <tr className="bg-gray-50/50 border-b border-brand-light/60">
                                                 <th className="px-6 py-4 w-12 text-center">
                                                     <input 
                                                         type="checkbox"
                                                         onChange={handleSelectAll}
                                                         checked={selectedIds.length === suppliers.data.length && suppliers.data.length > 0}
-                                                        className="w-4 h-4 rounded text-[#2f27ce] border-[#dddbff] focus:ring-[#2f27ce]"
+                                                        className="w-4 h-4 rounded text-brand-primary border-brand-light focus:ring-brand-primary"
                                                     />
                                                 </th>
                                                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Nama Supplier</th>
@@ -317,7 +318,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Aksi</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-[#dddbff]/40">
+                                        <tbody className="divide-y divide-brand-light/40">
                                             {suppliers.data.length === 0 ? (
                                                 <tr>
                                                     <td colSpan="8" className="px-6 py-12 text-center text-gray-500">
@@ -335,14 +336,14 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                                     type="checkbox"
                                                                     checked={selectedIds.includes(supplier.id)}
                                                                     onChange={() => handleSelectOne(supplier.id)}
-                                                                    className="w-4 h-4 rounded text-[#2f27ce] border-[#dddbff] focus:ring-[#2f27ce]"
+                                                                    className="w-4 h-4 rounded text-brand-primary border-brand-light focus:ring-brand-primary"
                                                                 />
                                                             </td>
                                                             <td className="px-6 py-4">
                                                                 <div className="flex flex-col">
                                                                     <Link 
                                                                         href={route('suppliers.show', supplier.id)}
-                                                                        className="font-bold text-[#2f27ce] hover:text-[#443dff] hover:underline text-sm md:text-base transition-colors"
+                                                                        className="font-bold text-brand-primary hover:text-brand-secondary hover:underline text-sm md:text-base transition-colors"
                                                                     >
                                                                         {supplier.name}
                                                                     </Link>
@@ -354,12 +355,12 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                             </td>
                                                             <td className="px-6 py-4">
                                                                 <div className="flex flex-col">
-                                                                    <span className="text-sm font-semibold text-[#050316]">{primaryContact?.name || '-'}</span>
+                                                                    <span className="text-sm font-semibold text-brand-dark">{primaryContact?.name || '-'}</span>
                                                                     <span className="text-xs text-gray-400 mt-0.5">{primaryContact?.position || 'Finance Manager'}</span>
                                                                 </div>
                                                             </td>
                                                             <td className="px-6 py-4">
-                                                                <span className="text-sm font-bold text-[#050316]">{supplier.lead_time} Hari</span>
+                                                                <span className="text-sm font-bold text-brand-dark">{supplier.lead_time} Hari</span>
                                                             </td>
                                                             <td className="px-6 py-4">
                                                                 <div className="flex items-center gap-1.5">
@@ -376,7 +377,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                                 <div className="flex items-center justify-end gap-2">
                                                                     <Link 
                                                                         href={route('suppliers.edit', supplier.id)}
-                                                                        className="p-1.5 rounded-lg border border-[#dddbff] text-gray-500 hover:text-[#2f27ce] hover:border-[#2f27ce] bg-white transition hover:shadow-sm"
+                                                                        className="p-1.5 rounded-lg border border-brand-light text-gray-500 hover:text-brand-primary hover:border-brand-primary bg-white transition hover:shadow-sm"
                                                                     >
                                                                         <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon>
                                                                     </Link>
@@ -398,7 +399,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
 
                                 {/* Pagination */}
                                 {suppliers.links && suppliers.links.length > 3 && (
-                                    <div className="px-6 py-4 border-t border-[#dddbff]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                    <div className="px-6 py-4 border-t border-brand-light/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                         <div className="text-xs text-gray-500">
                                             Menampilkan <span className="font-bold text-gray-700">{suppliers.from || 0}</span>-
                                             <span className="font-bold text-gray-700">{suppliers.to || 0}</span> dari <span className="font-bold text-gray-700">{suppliers.total || 0}</span> supplier
@@ -411,7 +412,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                             key={link.label}
                                                             href={link.url || '#'}
                                                             disabled={!link.url}
-                                                            className={`w-9 h-9 border border-[#dddbff] rounded-xl flex items-center justify-center transition-all ${
+                                                            className={`w-9 h-9 border border-brand-light rounded-xl flex items-center justify-center transition-all ${
                                                                 link.url ? 'bg-white hover:bg-gray-50 text-gray-500 active:scale-95' : 'bg-gray-50 text-gray-300 cursor-not-allowed'
                                                             }`}
                                                         >
@@ -425,7 +426,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                             key={link.label}
                                                             href={link.url || '#'}
                                                             disabled={!link.url}
-                                                            className={`w-9 h-9 border border-[#dddbff] rounded-xl flex items-center justify-center transition-all ${
+                                                            className={`w-9 h-9 border border-brand-light rounded-xl flex items-center justify-center transition-all ${
                                                                 link.url ? 'bg-white hover:bg-gray-50 text-gray-500 active:scale-95' : 'bg-gray-50 text-gray-300 cursor-not-allowed'
                                                             }`}
                                                         >
@@ -439,8 +440,8 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                         href={link.url || '#'}
                                                         className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold transition-all ${
                                                             link.active
-                                                                ? 'bg-[#2f27ce] text-white shadow'
-                                                                : 'bg-white border border-[#dddbff] text-gray-600 hover:bg-gray-50 active:scale-95'
+                                                                ? 'bg-brand-primary text-white shadow'
+                                                                : 'bg-white border border-brand-light text-gray-600 hover:bg-gray-50 active:scale-95'
                                                         }`}
                                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                                     />
@@ -456,23 +457,23 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                         <div className="lg:col-span-3 space-y-6">
                             
                             {/* Aktivitas Terbaru */}
-                            <div className="bg-white rounded-2xl border border-[#dddbff]/80 shadow-sm p-5 space-y-4">
+                            <div className="bg-white rounded-2xl border border-brand-light/80 shadow-sm p-5 space-y-4">
                                 <div className="flex items-center justify-between">
-                                    <h4 className="font-extrabold text-[#050316] text-sm md:text-base flex items-center gap-2">
-                                        <iconify-icon icon="solar:document-text-linear" class="text-lg text-[#2f27ce]"></iconify-icon>
+                                    <h4 className="font-extrabold text-brand-dark text-sm md:text-base flex items-center gap-2">
+                                        <iconify-icon icon="solar:document-text-linear" class="text-lg text-brand-primary"></iconify-icon>
                                         Aktivitas Terbaru
                                     </h4>
-                                    <a href="#" className="text-xs font-bold text-[#2f27ce] hover:underline">Lihat Semua</a>
+                                    <a href="#" className="text-xs font-bold text-brand-primary hover:underline">Lihat Semua</a>
                                 </div>
                                 <div className="space-y-4">
                                     {recent_activities.map((act) => (
                                         <div key={act.id} className="flex gap-3 text-xs">
-                                            <div className="w-6 h-6 rounded-full bg-violet-100 text-[#2f27ce] flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <div className="w-6 h-6 rounded-full bg-violet-100 text-brand-primary flex items-center justify-center flex-shrink-0 mt-0.5">
                                                 <iconify-icon icon="solar:bell-linear" class="text-xs"></iconify-icon>
                                             </div>
                                             <div className="space-y-1">
                                                 <p className="text-gray-600 leading-normal">
-                                                    <span className="font-bold text-[#050316]">{act.user_name}</span> {act.description}
+                                                    <span className="font-bold text-brand-dark">{act.user_name}</span> {act.description}
                                                 </p>
                                                 <span className="text-[10px] text-gray-400 block flex items-center gap-1">
                                                     <iconify-icon icon="solar:clock-circle-linear" class="text-[11px]"></iconify-icon>
@@ -485,12 +486,12 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                             </div>
 
                             {/* Tips Admin Widget */}
-                            <div className="bg-gradient-to-br from-[#2f27ce]/5 to-violet-50 rounded-2xl border border-[#2f27ce]/10 p-5 flex gap-3.5">
+                            <div className="bg-gradient-to-br from-brand-primary/5 to-violet-50 rounded-2xl border border-brand-primary/10 p-5 flex gap-3.5">
                                 <div className="text-amber-500 mt-0.5 flex-shrink-0">
                                     <iconify-icon icon="solar:lightbulb-linear" class="text-xl"></iconify-icon>
                                 </div>
                                 <div className="space-y-1">
-                                    <h5 className="text-xs font-black text-[#2f27ce] uppercase tracking-wider">Tips Admin</h5>
+                                    <h5 className="text-xs font-black text-brand-primary uppercase tracking-wider">Tips Admin</h5>
                                     <p className="text-xs text-gray-600 leading-relaxed font-medium">
                                         Supplier dengan rating di bawah 3.0 akan otomatis masuk ke daftar tinjauan mingguan.
                                     </p>
@@ -498,12 +499,12 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                             </div>
 
                             {/* Aksi Cepat */}
-                            <div className="bg-white rounded-2xl border border-[#dddbff]/80 shadow-sm p-5 space-y-4">
-                                <h4 className="font-extrabold text-[#050316] text-xs uppercase tracking-wider">Aksi Cepat</h4>
+                            <div className="bg-white rounded-2xl border border-brand-light/80 shadow-sm p-5 space-y-4">
+                                <h4 className="font-extrabold text-brand-dark text-xs uppercase tracking-wider">Aksi Cepat</h4>
                                 <div className="space-y-2.5">
                                     <Link 
                                         href={route('suppliers.create')}
-                                        className="w-full flex items-center justify-between px-4 py-3 border border-[#dddbff] hover:border-[#2f27ce] rounded-xl text-left bg-white text-xs font-bold text-gray-700 hover:text-[#2f27ce] transition duration-150 hover:shadow-sm"
+                                        className="w-full flex items-center justify-between px-4 py-3 border border-brand-light hover:border-brand-primary rounded-xl text-left bg-white text-xs font-bold text-gray-700 hover:text-brand-primary transition duration-150 hover:shadow-sm"
                                     >
                                         <span className="flex items-center gap-2">
                                             <iconify-icon icon="solar:add-circle-linear" class="text-base"></iconify-icon>
@@ -517,7 +518,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                             e.preventDefault();
                                             alert('Laporan performa Q4 sedang dibuat...');
                                         }}
-                                        className="w-full flex items-center justify-between px-4 py-3 border border-[#dddbff] hover:border-[#2f27ce] rounded-xl text-left bg-white text-xs font-bold text-gray-700 hover:text-[#2f27ce] transition duration-150 hover:shadow-sm"
+                                        className="w-full flex items-center justify-between px-4 py-3 border border-brand-light hover:border-brand-primary rounded-xl text-left bg-white text-xs font-bold text-gray-700 hover:text-brand-primary transition duration-150 hover:shadow-sm"
                                     >
                                         <span className="flex items-center gap-2">
                                             <iconify-icon icon="solar:document-linear" class="text-base"></iconify-icon>

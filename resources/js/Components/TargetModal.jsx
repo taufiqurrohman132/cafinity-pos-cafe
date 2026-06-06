@@ -192,29 +192,29 @@ export default function TargetModal({
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             {/* Backdrop with slide blur */}
             <div 
-                className="absolute inset-0 bg-[#050316]/50 backdrop-blur-sm transition-opacity duration-300"
+                className="absolute inset-0 bg-brand-dark/50 backdrop-blur-sm transition-opacity duration-300"
                 onClick={onClose}
             />
 
             {/* Modal Body */}
-            <div className="relative bg-white rounded-3xl border border-[#dddbff] shadow-2xl w-full max-w-2xl mx-4 flex flex-col max-h-[92vh] overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
+            <div className="relative bg-white rounded-3xl border border-brand-light shadow-2xl w-full max-w-2xl mx-4 flex flex-col max-h-[92vh] overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
                 
                 {/* Modal Header */}
                 <div className="px-8 pt-6 pb-4 flex items-start justify-between flex-shrink-0">
                     <div className="flex gap-3 items-start">
-                        <div className="w-10 h-10 rounded-xl bg-[#dddbff]/50 flex items-center justify-center text-[#443dff] mt-1 flex-shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-brand-light/50 flex items-center justify-center text-brand-secondary mt-1 flex-shrink-0">
                             <Icon icon="solar:target-linear" className="text-2xl" />
                         </div>
                         <div>
-                            <h3 className="text-xl font-extrabold text-[#050316] tracking-tight">Atur Target Performa</h3>
-                            <p className="text-xs text-[#2f27ce]/70 mt-1 font-medium">
+                            <h3 className="text-xl font-extrabold text-brand-dark tracking-tight">Atur Target Performa</h3>
+                            <p className="text-xs text-brand-primary/70 mt-1 font-medium">
                                 Tentukan objektif pendapatan untuk memaksimalkan ROI bisnis Anda.
                             </p>
                         </div>
                     </div>
                     <button 
                         onClick={onClose} 
-                        className="w-8 h-8 rounded-xl text-[#2f27ce]/50 hover:bg-[#dddbff]/50 hover:text-[#443dff] transition flex items-center justify-center border border-[#dddbff]/30 active:scale-95"
+                        className="w-8 h-8 rounded-xl text-brand-primary/50 hover:bg-brand-light/50 hover:text-brand-secondary transition flex items-center justify-center border border-brand-light/30 active:scale-95"
                     >
                         <Icon icon="solar:close-circle-linear" className="text-lg" />
                     </button>
@@ -226,10 +226,10 @@ export default function TargetModal({
                         
                         {/* Target Period Tab Switcher */}
                         <div>
-                            <label className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest block mb-2">
+                            <label className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest block mb-2">
                                 Periode Target
                             </label>
-                            <div className="inline-flex bg-[#fbfbfe] border border-[#dddbff] rounded-xl p-1 w-full sm:w-auto">
+                            <div className="inline-flex bg-brand-bg border border-brand-light rounded-xl p-1 w-full sm:w-auto">
                                 {['Harian', 'Mingguan', 'Bulanan'].map((p) => {
                                     const mapped = p === 'Harian' ? 'daily' : p === 'Mingguan' ? 'weekly' : 'monthly';
                                     const isActive = data.period === mapped;
@@ -240,8 +240,8 @@ export default function TargetModal({
                                             onClick={() => handlePeriodChange(p)}
                                             className={`px-6 py-2 text-xs font-bold rounded-lg transition-all ${
                                                 isActive
-                                                    ? 'bg-white text-[#2f27ce] shadow-sm border border-[#dddbff]'
-                                                    : 'text-[#2f27ce]/60 hover:text-[#2f27ce]'
+                                                    ? 'bg-white text-brand-primary shadow-sm border border-brand-light'
+                                                    : 'text-brand-primary/60 hover:text-brand-primary'
                                             }`}
                                         >
                                             {p}
@@ -254,22 +254,22 @@ export default function TargetModal({
                         {/* Nominal Input Field */}
                         <div className="space-y-2">
                             <div className="flex justify-between items-center">
-                                <label className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest">
+                                <label className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">
                                     Target Nominal Pendapatan
                                 </label>
-                                <span className="text-[9px] font-extrabold text-[#443dff] bg-[#dddbff]/40 border border-[#c4c0ff] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                                <span className="text-[9px] font-extrabold text-brand-secondary bg-brand-light/40 border border-[#c4c0ff] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                                     Premium Feature
                                 </span>
                             </div>
 
-                            <div className="flex items-center bg-white border-2 border-[#dddbff] focus-within:border-[#443dff] rounded-2xl px-5 py-3 transition-all">
-                                <span className="text-lg font-extrabold text-[#2f27ce]/60 mr-3">Rp</span>
+                            <div className="flex items-center bg-white border-2 border-brand-light focus-within:border-brand-secondary rounded-2xl px-5 py-3 transition-all">
+                                <span className="text-lg font-extrabold text-brand-primary/60 mr-3">Rp</span>
                                 <input
                                     type="text"
                                     value={formatRp(data.target_value)}
                                     onChange={(e) => setData('target_value', parseNumber(e.target.value))}
                                     required
-                                    className="w-full text-2xl font-extrabold text-[#050316] placeholder-[#dddbff] focus:outline-none bg-transparent"
+                                    className="w-full text-2xl font-extrabold text-brand-dark placeholder-brand-light focus:outline-none bg-transparent"
                                 />
                             </div>
 
@@ -280,7 +280,7 @@ export default function TargetModal({
                                         key={amount}
                                         type="button"
                                         onClick={() => handleQuickAdd(amount)}
-                                        className="px-3.5 py-2 text-[11px] font-bold text-[#2f27ce] bg-[#fbfbfe] border border-[#dddbff] hover:border-[#443dff] hover:bg-[#dddbff]/20 rounded-xl transition"
+                                        className="px-3.5 py-2 text-[11px] font-bold text-brand-primary bg-brand-bg border border-brand-light hover:border-brand-secondary hover:bg-brand-light/20 rounded-xl transition"
                                     >
                                         +{formatRp(amount)}
                                     </button>
@@ -295,23 +295,23 @@ export default function TargetModal({
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {/* Outlet Selection */}
                             <div className="relative">
-                                <label className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest block mb-2">
+                                <label className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest block mb-2">
                                     Pilih Outlet
                                 </label>
                                 <button
                                     type="button"
                                     onClick={() => setIsOutletDropdownOpen(!isOutletDropdownOpen)}
-                                    className="w-full flex items-center justify-between px-4 py-3 bg-[#fbfbfe] border border-[#dddbff] hover:border-[#443dff] rounded-xl text-left text-sm font-semibold text-[#050316] transition-all"
+                                    className="w-full flex items-center justify-between px-4 py-3 bg-brand-bg border border-brand-light hover:border-brand-secondary rounded-xl text-left text-sm font-semibold text-brand-dark transition-all"
                                 >
                                     <span className="flex items-center gap-2">
-                                        <Icon icon="solar:shop-linear" className="text-base text-[#2f27ce]/70" />
+                                        <Icon icon="solar:shop-linear" className="text-base text-brand-primary/70" />
                                         {selectedOutlet}
                                     </span>
-                                    <Icon icon="solar:alt-arrow-down-linear" className={`transition-transform duration-200 text-[#2f27ce]/70 ${isOutletDropdownOpen ? 'rotate-180' : ''}`} />
+                                    <Icon icon="solar:alt-arrow-down-linear" className={`transition-transform duration-200 text-brand-primary/70 ${isOutletDropdownOpen ? 'rotate-180' : ''}`} />
                                 </button>
 
                                 {isOutletDropdownOpen && (
-                                    <div className="absolute left-0 right-0 mt-2 bg-white border border-[#dddbff] rounded-2xl shadow-xl z-20 py-1 max-h-48 overflow-y-auto">
+                                    <div className="absolute left-0 right-0 mt-2 bg-white border border-brand-light rounded-2xl shadow-xl z-20 py-1 max-h-48 overflow-y-auto">
                                         {outlets.map((outlet) => (
                                             <button
                                                 key={outlet.id}
@@ -320,9 +320,9 @@ export default function TargetModal({
                                                     setSelectedOutlet(outlet.name);
                                                     setIsOutletDropdownOpen(false);
                                                 }}
-                                                className="w-full flex items-center gap-2 px-4 py-2.5 text-left text-xs font-semibold text-[#050316] hover:bg-[#dddbff]/30 transition"
+                                                className="w-full flex items-center gap-2 px-4 py-2.5 text-left text-xs font-semibold text-brand-dark hover:bg-brand-light/30 transition"
                                             >
-                                                <Icon icon="solar:shop-linear" className="text-sm text-[#2f27ce]/70" />
+                                                <Icon icon="solar:shop-linear" className="text-sm text-brand-primary/70" />
                                                 {outlet.name}
                                             </button>
                                         ))}
@@ -332,7 +332,7 @@ export default function TargetModal({
 
                             {/* Execution Date & Time */}
                             <div>
-                                <label className="text-[10px] font-extrabold text-[#2f27ce] capitalize tracking-widest block mb-2">
+                                <label className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest block mb-2">
                                     Waktu Pelaksanaan
                                 </label>
                                 <div className="grid grid-cols-12 gap-2">
@@ -359,19 +359,19 @@ export default function TargetModal({
                         </div>
 
                         {/* Estimasi Pencapaian Card (Premium View) */}
-                        <div className="bg-[#fbfbfe] border border-[#dddbff] rounded-3xl pt-5 px-5 pb-16 relative overflow-hidden">
+                        <div className="bg-brand-bg border border-brand-light rounded-3xl pt-5 px-5 pb-16 relative overflow-hidden">
                             
                             {/* Card Content Row 1 */}
                             <div className="flex justify-between items-start mb-4 relative z-10">
                                 <div>
-                                    <h4 className="text-sm font-extrabold text-[#050316]">Estimasi Pencapaian</h4>
-                                    <p className="text-[10px] text-[#2f27ce]/60 font-semibold mt-0.5">
+                                    <h4 className="text-sm font-extrabold text-brand-dark">Estimasi Pencapaian</h4>
+                                    <p className="text-[10px] text-brand-primary/60 font-semibold mt-0.5">
                                         Berdasarkan tren transaksi 30 hari terakhir
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-xl font-black text-[#050316] tracking-tight">{probability}%</p>
-                                    <p className="text-[8px] font-extrabold text-[#2f27ce]/60 tracking-wider mt-0.5">
+                                    <p className="text-xl font-black text-brand-dark tracking-tight">{probability}%</p>
+                                    <p className="text-[8px] font-extrabold text-brand-primary/60 tracking-wider mt-0.5">
                                         KEMUNGKINAN TERCAPAI
                                     </p>
                                 </div>
@@ -379,18 +379,18 @@ export default function TargetModal({
 
                             {/* Card Progress Row 2 */}
                             <div className="space-y-3 relative z-10">
-                                <div className="w-full bg-[#dddbff]/40 h-3 rounded-full overflow-hidden shadow-inner">
+                                <div className="w-full bg-brand-light/40 h-3 rounded-full overflow-hidden shadow-inner">
                                     <div
-                                        className="h-full bg-gradient-to-r from-[#050316] to-gray-700 rounded-full transition-all duration-700 ease-out"
+                                        className="h-full bg-gradient-to-r from-brand-dark to-gray-700 rounded-full transition-all duration-700 ease-out"
                                         style={{ width: `${progressPercent}%` }}
                                     />
                                 </div>
                                 
                                 {/* Clean Flex Labels under Progress Bar (Prevents text overlap) */}
-                                <div className="flex justify-between items-center text-[9px] font-extrabold text-[#2f27ce]/60 tracking-wider">
+                                <div className="flex justify-between items-center text-[9px] font-extrabold text-brand-primary/60 tracking-wider">
                                     <span>RP 0</span>
-                                    <div className="flex items-center gap-1.5 bg-[#443dff]/10 border border-[#c4c0ff] px-2.5 py-1 rounded-lg text-[#050316] font-black">
-                                        <span className={`w-1.5 h-1.5 rounded-full ${progressPercent >= 100 ? 'bg-emerald-500 animate-pulse' : 'bg-[#443dff]'}`}></span>
+                                    <div className="flex items-center gap-1.5 bg-brand-secondary/10 border border-[#c4c0ff] px-2.5 py-1 rounded-lg text-brand-dark font-black">
+                                        <span className={`w-1.5 h-1.5 rounded-full ${progressPercent >= 100 ? 'bg-emerald-500 animate-pulse' : 'bg-brand-secondary'}`}></span>
                                         <span>RP {formatRp(currentValue)} TERCAPAI</span>
                                     </div>
                                     <span>TARGET: RP {formatRp(data.target_value)}</span>
@@ -402,8 +402,8 @@ export default function TargetModal({
                                 <svg className="w-full h-full" viewBox="0 0 500 50" preserveAspectRatio="none">
                                     <defs>
                                         <linearGradient id="modalTargetAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stopColor="#443dff" stopOpacity="0.25" />
-                                            <stop offset="100%" stopColor="#443dff" stopOpacity="0.0" />
+                                            <stop offset="0%" stopColor="rgb(var(--color-brand-secondary))" stopOpacity="0.25" />
+                                            <stop offset="100%" stopColor="rgb(var(--color-brand-secondary))" stopOpacity="0.0" />
                                         </linearGradient>
                                     </defs>
                                     <path
@@ -413,7 +413,7 @@ export default function TargetModal({
                                     <path
                                         d="M0,42 C100,38 180,45 250,28 C320,10 400,22 500,14"
                                         fill="none"
-                                        stroke="#050316"
+                                        stroke="rgb(var(--color-brand-dark))"
                                         strokeWidth="2"
                                         strokeLinecap="round"
                                     />
@@ -423,8 +423,8 @@ export default function TargetModal({
                     </div>
 
                     {/* Modal Footer */}
-                    <div className="px-8 py-5 border-t border-[#dddbff] bg-[#fbfbfe]/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-shrink-0">
-                        <div className="flex items-center gap-2 text-[10px] font-extrabold text-[#2f27ce]/70">
+                    <div className="px-8 py-5 border-t border-brand-light bg-brand-bg/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-shrink-0">
+                        <div className="flex items-center gap-2 text-[10px] font-extrabold text-brand-primary/70">
                             <Icon icon="solar:info-circle-linear" className="text-sm" />
                             <span>Target akan aktif segera setelah disimpan.</span>
                         </div>
@@ -432,21 +432,21 @@ export default function TargetModal({
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="px-4 py-2.5 text-xs font-bold text-[#050316] hover:bg-[#dddbff]/50 rounded-xl transition"
+                                className="px-4 py-2.5 text-xs font-bold text-brand-dark hover:bg-brand-light/50 rounded-xl transition"
                             >
                                 Batal
                             </button>
                             <button
                                 type="button"
                                 onClick={(e) => handleSubmit(e, true)}
-                                className="px-4 py-2.5 text-xs font-bold text-[#050316] border border-[#dddbff] hover:bg-[#dddbff]/30 rounded-xl transition"
+                                className="px-4 py-2.5 text-xs font-bold text-brand-dark border border-brand-light hover:bg-brand-light/30 rounded-xl transition"
                             >
                                 Simpan Draft
                             </button>
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="px-5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] rounded-xl transition shadow-lg shadow-[#2f27ce]/25 active:scale-95 disabled:opacity-50"
+                                className="px-5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition shadow-lg shadow-brand-primary/25 active:scale-95 disabled:opacity-50"
                             >
                                 Simpan & Terapkan
                             </button>

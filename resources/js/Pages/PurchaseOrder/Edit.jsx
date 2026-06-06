@@ -151,7 +151,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
         <>
             <Head title={`Edit Pesanan Pembelian ${order.po_number}`} />
 
-            <div className="min-h-screen bg-[#fbfbfe] p-4 md:p-6">
+            <div className="min-h-screen bg-brand-bg p-4 md:p-6">
                 <div className="max-w-[1280px] mx-auto space-y-6">
 
                     {/* Header */}
@@ -159,12 +159,12 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                         <div className="flex items-center gap-4">
                             <Link 
                                 href={route('purchase-orders.show', order.id)} 
-                                className="w-10 h-10 rounded-full bg-white border border-[#dddbff] flex items-center justify-center text-gray-500 hover:text-[#2f27ce] hover:border-[#2f27ce] transition shadow-sm"
+                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition shadow-sm"
                             >
                                 <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
                             </Link>
                             <div>
-                                <h1 className="text-2xl font-extrabold text-[#050316] tracking-tight">Edit Pesanan Pembelian</h1>
+                                <h1 className="text-2xl font-extrabold text-brand-dark tracking-tight">Edit Pesanan Pembelian</h1>
                                 <p className="text-xs text-gray-500 mt-1">Ubah detail di bawah untuk memperbarui pesanan pembelian {order.po_number}.</p>
                             </div>
                         </div>
@@ -183,10 +183,10 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                         <div className="lg:col-span-8 space-y-6">
                             
                             {/* 1. Informasi Pemasok */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm space-y-4">
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
                                 <div className="flex items-center justify-between">
-                                    <h3 className="text-sm font-extrabold text-[#050316] flex items-center gap-2">
-                                        <iconify-icon icon="solar:users-group-rounded-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                                    <h3 className="text-sm font-extrabold text-brand-dark flex items-center gap-2">
+                                        <iconify-icon icon="solar:users-group-rounded-linear" class="text-brand-primary text-lg"></iconify-icon>
                                         Informasi Pemasok
                                     </h3>
                                 </div>
@@ -202,19 +202,19 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                                 value={searchSupplier}
                                                 onChange={(e) => setSearchSupplier(e.target.value)}
                                                 placeholder="Ketik nama pemasok..."
-                                                className="w-full h-11 pl-9 pr-4 text-xs bg-[#fbfbfe] border border-[#dddbff] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#dddbff]"
+                                                className="w-full h-11 pl-9 pr-4 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light"
                                             />
                                         </div>
 
                                         {/* Dropdown Suggestions */}
                                         {filteredSuppliers.length > 0 && (
-                                            <div className="absolute left-0 right-0 mt-1 bg-white border border-[#dddbff] rounded-xl shadow-lg z-30 max-h-60 overflow-y-auto">
+                                            <div className="absolute left-0 right-0 mt-1 bg-white border border-brand-light rounded-xl shadow-lg z-30 max-h-60 overflow-y-auto">
                                                 {filteredSuppliers.map((s) => (
                                                     <button 
                                                         key={s.id}
                                                         type="button"
                                                         onClick={() => handleSelectSupplier(s)}
-                                                        className="w-full text-left px-4 py-2.5 hover:bg-[#dddbff]/20 text-xs font-medium text-gray-700 transition"
+                                                        className="w-full text-left px-4 py-2.5 hover:bg-brand-light/20 text-xs font-medium text-gray-700 transition"
                                                     >
                                                         {s.name}
                                                     </button>
@@ -224,11 +224,11 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                     </div>
 
                                     {/* Contact Details box */}
-                                    <div className="md:col-span-6 bg-gray-50 border border-dashed border-[#dddbff] rounded-xl p-4 flex flex-col justify-center min-h-[90px]">
-                                        <span className="text-[10px] font-bold text-[#2f27ce]/60 uppercase tracking-wider block mb-1">Informasi Kontak</span>
+                                    <div className="md:col-span-6 bg-gray-50 border border-dashed border-brand-light rounded-xl p-4 flex flex-col justify-center min-h-[90px]">
+                                        <span className="text-[10px] font-bold text-brand-primary/60 uppercase tracking-wider block mb-1">Informasi Kontak</span>
                                         {selectedSupplier ? (
                                             <div className="text-xs space-y-1 text-gray-600">
-                                                <p className="font-bold text-[#050316]">{selectedSupplier.name}</p>
+                                                <p className="font-bold text-brand-dark">{selectedSupplier.name}</p>
                                                 <p><span className="font-semibold text-gray-400">Telp:</span> {selectedSupplier.phone || '-'}</p>
                                                 <p><span className="font-semibold text-gray-400">Email:</span> {selectedSupplier.email || '-'}</p>
                                                 <p><span className="font-semibold text-gray-400">Alamat:</span> {selectedSupplier.address || '-'}</p>
@@ -241,9 +241,9 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                             </div>
 
                             {/* 2. Detail Pesanan */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm space-y-4">
-                                <h3 class="text-sm font-extrabold text-[#050316] flex items-center gap-2 border-b border-[#dddbff]/50 pb-3">
-                                    <iconify-icon icon="solar:document-text-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
+                                <h3 class="text-sm font-extrabold text-brand-dark flex items-center gap-2 border-b border-brand-light/50 pb-3">
+                                    <iconify-icon icon="solar:document-text-linear" class="text-brand-primary text-lg"></iconify-icon>
                                     Detail Pesanan
                                 </h3>
 
@@ -255,7 +255,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                             type="text" 
                                             readOnly 
                                             value={order.po_number}
-                                            className="w-full h-11 text-xs bg-gray-50 border border-[#dddbff] rounded-xl px-4 text-gray-500 font-semibold focus:outline-none" 
+                                            className="w-full h-11 text-xs bg-gray-50 border border-brand-light rounded-xl px-4 text-gray-500 font-semibold focus:outline-none" 
                                         />
                                     </div>
 
@@ -266,7 +266,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                             type="text" 
                                             readOnly 
                                             value={new Date(order.created_at).toISOString().split('T')[0]}
-                                            className="w-full h-11 text-xs bg-gray-50 border border-[#dddbff] rounded-xl px-4 text-gray-500 font-semibold focus:outline-none" 
+                                            className="w-full h-11 text-xs bg-gray-50 border border-brand-light rounded-xl px-4 text-gray-500 font-semibold focus:outline-none" 
                                         />
                                     </div>
 
@@ -277,7 +277,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                             type="date"
                                             value={data.delivery_date}
                                             onChange={(e) => setData('delivery_date', e.target.value)}
-                                            className="w-full h-11 text-xs border border-[#dddbff] rounded-xl px-4 text-gray-700 focus:ring-2 focus:ring-[#dddbff] focus:outline-none bg-[#fbfbfe]" 
+                                            className="w-full h-11 text-xs border border-brand-light rounded-xl px-4 text-gray-700 focus:ring-2 focus:ring-brand-light focus:outline-none bg-brand-bg" 
                                         />
                                     </div>
                                 </div>
@@ -289,7 +289,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                         <select 
                                             value={data.delivery_location}
                                             onChange={(e) => setData('delivery_location', e.target.value)}
-                                            className="w-full h-11 text-xs border border-[#dddbff] rounded-xl px-4 text-gray-700 focus:ring-2 focus:ring-[#dddbff] focus:outline-none bg-[#fbfbfe]"
+                                            className="w-full h-11 text-xs border border-brand-light rounded-xl px-4 text-gray-700 focus:ring-2 focus:ring-brand-light focus:outline-none bg-brand-bg"
                                         >
                                             <option value="">Pilih Gudang atau Alamat...</option>
                                             <option value="Gudang Utama">Gudang Utama</option>
@@ -306,17 +306,17 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                             value={data.reference_number || ''}
                                             onChange={(e) => setData('reference_number', e.target.value)}
                                             placeholder="Masukkan nomor referensi internal..."
-                                            className="w-full h-11 text-xs border border-[#dddbff] rounded-xl px-4 text-gray-700 focus:ring-2 focus:ring-[#dddbff] focus:outline-none bg-[#fbfbfe]" 
+                                            className="w-full h-11 text-xs border border-brand-light rounded-xl px-4 text-gray-700 focus:ring-2 focus:ring-brand-light focus:outline-none bg-brand-bg" 
                                         />
                                     </div>
                                 </div>
                             </div>
 
                             {/* 3. Item Pesanan Table */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm space-y-4">
-                                <div className="flex items-center justify-between border-b border-[#dddbff]/50 pb-3">
-                                    <h3 class="text-sm font-extrabold text-[#050316] flex items-center gap-2">
-                                        <iconify-icon icon="solar:box-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
+                                <div className="flex items-center justify-between border-b border-brand-light/50 pb-3">
+                                    <h3 class="text-sm font-extrabold text-brand-dark flex items-center gap-2">
+                                        <iconify-icon icon="solar:box-linear" class="text-brand-primary text-lg"></iconify-icon>
                                         Item Pesanan
                                     </h3>
                                 </div>
@@ -324,7 +324,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left border-collapse min-w-[750px]">
                                         <thead>
-                                            <tr className="text-[10px] font-bold text-gray-400 bg-gray-50 border-b border-[#dddbff] uppercase">
+                                            <tr className="text-[10px] font-bold text-gray-400 bg-gray-50 border-b border-brand-light uppercase">
                                                 <th className="px-4 py-3">Produk / Item</th>
                                                 <th className="px-3 py-3">Deskripsi</th>
                                                 <th className="px-3 py-3 font-semibold text-center">Satuan</th>
@@ -335,7 +335,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                                 <th className="px-3 py-3 w-8"></th>
                                             </tr>
                                         </thead>
-                                        <tbody className="text-xs divide-y divide-[#dddbff]/50">
+                                        <tbody className="text-xs divide-y divide-brand-light/50">
                                             {data.items.map((row, idx) => (
                                                 <tr key={idx} className="align-middle">
                                                     {/* Select Item */}
@@ -343,7 +343,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                                         <select
                                                             value={row.inventory_id}
                                                             onChange={(e) => updateItemRow(idx, 'inventory_id', e.target.value)}
-                                                            className="w-full text-xs border border-[#dddbff] rounded-lg py-1.5 px-2.5 focus:ring-[#dddbff] focus:outline-none bg-[#fbfbfe]"
+                                                            className="w-full text-xs border border-brand-light rounded-lg py-1.5 px-2.5 focus:ring-brand-light focus:outline-none bg-brand-bg"
                                                         >
                                                             <option value="">Cari...</option>
                                                             {inventories.map((inv) => (
@@ -358,7 +358,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                                             value={row.description || ''}
                                                             onChange={(e) => updateItemRow(idx, 'description', e.target.value)}
                                                             placeholder="Deskripsi"
-                                                            className="w-full text-xs border border-[#dddbff] rounded-lg py-1.5 px-2 focus:ring-[#dddbff] focus:outline-none bg-[#fbfbfe]"
+                                                            className="w-full text-xs border border-brand-light rounded-lg py-1.5 px-2 focus:ring-brand-light focus:outline-none bg-brand-bg"
                                                         />
                                                     </td>
                                                     {/* Unit */}
@@ -368,7 +368,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                                             readOnly
                                                             value={row.unit || ''}
                                                             placeholder="Unit"
-                                                            className="w-16 text-xs bg-gray-50 border border-[#dddbff] rounded-lg py-1.5 px-2 text-gray-500 font-semibold focus:outline-none text-center"
+                                                            className="w-16 text-xs bg-gray-50 border border-brand-light rounded-lg py-1.5 px-2 text-gray-500 font-semibold focus:outline-none text-center"
                                                         />
                                                     </td>
                                                     {/* Qty */}
@@ -379,7 +379,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                                             step="0.01"
                                                             value={row.qty}
                                                             onChange={(e) => updateItemRow(idx, 'qty', Number(e.target.value))}
-                                                            className="w-16 text-xs border border-[#dddbff] rounded-lg py-1.5 px-2 focus:ring-[#dddbff] focus:outline-none text-center bg-[#fbfbfe]"
+                                                            className="w-16 text-xs border border-brand-light rounded-lg py-1.5 px-2 focus:ring-brand-light focus:outline-none text-center bg-brand-bg"
                                                         />
                                                     </td>
                                                     {/* Price */}
@@ -391,7 +391,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                                                 min="0"
                                                                 value={row.price_per_unit}
                                                                 onChange={(e) => updateItemRow(idx, 'price_per_unit', Number(e.target.value))}
-                                                                className="w-24 pl-7 pr-2 py-1.5 text-xs border border-[#dddbff] rounded-lg focus:ring-[#dddbff] focus:outline-none font-semibold text-right bg-[#fbfbfe]"
+                                                                className="w-24 pl-7 pr-2 py-1.5 text-xs border border-brand-light rounded-lg focus:ring-brand-light focus:outline-none font-semibold text-right bg-brand-bg"
                                                             />
                                                         </div>
                                                     </td>
@@ -431,7 +431,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                 <button 
                                     type="button" 
                                     onClick={addRow}
-                                    className="flex items-center gap-1 text-xs text-[#2f27ce] hover:text-[#443dff] font-bold transition pt-2"
+                                    className="flex items-center gap-1 text-xs text-brand-primary hover:text-brand-secondary font-bold transition pt-2"
                                 >
                                     <iconify-icon icon="solar:plus-circle-linear" class="text-lg"></iconify-icon>
                                     Tambah Baris Baru
@@ -439,9 +439,9 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                             </div>
 
                             {/* 4. Catatan & Ketentuan */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm space-y-3">
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-3">
                                 <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                                    <iconify-icon icon="solar:pen-linear" class="text-[#2f27ce] text-base"></iconify-icon>
+                                    <iconify-icon icon="solar:pen-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Catatan & Ketentuan
                                 </h3>
                                 <textarea 
@@ -449,7 +449,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                     onChange={(e) => setData('notes', e.target.value)}
                                     placeholder="Tambahkan catatan internal atau ketentuan khusus untuk pemasok..."
                                     rows="4" 
-                                    className="w-full text-xs border border-[#dddbff] rounded-xl p-4 focus:ring-2 focus:ring-[#dddbff] focus:outline-none bg-[#fbfbfe]"
+                                    className="w-full text-xs border border-brand-light rounded-xl p-4 focus:ring-2 focus:ring-brand-light focus:outline-none bg-brand-bg"
                                 />
                             </div>
 
@@ -459,10 +459,10 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                         <div className="lg:col-span-4 space-y-6">
                             
                             {/* 1. Ringkasan Biaya */}
-                            <div className="bg-white rounded-2xl border border-[#dddbff] shadow-sm overflow-hidden">
-                                <div className="h-1.5 bg-gradient-to-r from-[#2f27ce] to-[#443dff]"></div>
+                            <div className="bg-white rounded-2xl border border-brand-light shadow-sm overflow-hidden">
+                                <div className="h-1.5 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
                                 <div className="p-6 space-y-6">
-                                    <h3 className="font-extrabold text-[#050316] text-sm">Ringkasan Biaya</h3>
+                                    <h3 className="font-extrabold text-brand-dark text-sm">Ringkasan Biaya</h3>
                                     
                                     <div className="space-y-4 text-xs">
                                         <div className="flex justify-between items-center text-gray-500">
@@ -478,9 +478,9 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                             <span className="font-bold text-gray-900">{formatRupiah(calculateTax())}</span>
                                         </div>
 
-                                        <div className="flex justify-between items-center pt-2 border-t border-dashed border-[#dddbff]">
-                                            <span className="font-extrabold text-[#050316] text-sm">Total Keseluruhan</span>
-                                            <span className="text-xl font-extrabold text-[#2f27ce]">{formatRupiah(calculateTotal())}</span>
+                                        <div className="flex justify-between items-center pt-2 border-t border-dashed border-brand-light">
+                                            <span className="font-extrabold text-brand-dark text-sm">Total Keseluruhan</span>
+                                            <span className="text-xl font-extrabold text-brand-primary">{formatRupiah(calculateTotal())}</span>
                                         </div>
                                         <span className="text-[10px] text-gray-400 font-medium block text-right">Terhitung dalam mata uang IDR</span>
                                     </div>
@@ -489,7 +489,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                         <button 
                                             type="submit" 
                                             disabled={processing}
-                                            className="w-full bg-gradient-to-r from-[#2f27ce] to-[#443dff] hover:from-[#050316] hover:to-[#2f27ce] text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-xs transition shadow-sm active:scale-[0.98]"
+                                            className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-xs transition shadow-sm active:scale-[0.98]"
                                         >
                                             <iconify-icon icon="solar:check-circle-linear" class="text-base"></iconify-icon>
                                             Simpan Perubahan PO
@@ -497,7 +497,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                         
                                         <Link 
                                             href={route('purchase-orders.show', order.id)}
-                                            className="w-full border border-[#dddbff] hover:bg-gray-50 text-gray-500 py-2.5 rounded-xl font-bold text-xs text-center block transition"
+                                            className="w-full border border-brand-light hover:bg-gray-50 text-gray-500 py-2.5 rounded-xl font-bold text-xs text-center block transition"
                                         >
                                             Batal
                                         </Link>
@@ -506,7 +506,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                             </div>
 
                             {/* 2. Checklist Validasi */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm space-y-4">
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
                                 <div className="flex justify-between items-center">
                                     <h4 className="text-xs font-bold text-gray-900 tracking-wide">CHECKLIST VALIDASI</h4>
                                     <iconify-icon icon="solar:alt-arrow-down-linear" class="text-gray-400"></iconify-icon>

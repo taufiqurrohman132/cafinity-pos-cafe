@@ -132,13 +132,13 @@ export default function SupplierShow({ supplier }) {
         <>
             <Head title={`Detail Supplier - ${supplier.name}`} />
 
-            <div className="min-h-screen bg-[#fbfbfe] p-4 md:p-6 lg:p-8">
+            <div className="min-h-screen bg-brand-bg p-4 md:p-6 lg:p-8">
                 <div className="max-w-[1400px] mx-auto space-y-5">
                     
                     {/* Top Breadcrumb & Actions Bar */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#dddbff]/40 pb-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-light/40 pb-4">
                         <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
-                            <Link href={route('suppliers.index')} className="hover:text-[#2f27ce] transition">Daftar Supplier</Link>
+                            <Link href={route('suppliers.index')} className="hover:text-brand-primary transition">Daftar Supplier</Link>
                             <iconify-icon icon="solar:alt-arrow-right-linear" class="text-[10px]"></iconify-icon>
                             <span className="text-gray-600">Detail Supplier</span>
                         </div>
@@ -147,14 +147,14 @@ export default function SupplierShow({ supplier }) {
                         <div className="flex flex-wrap items-center gap-2">
                             <Link 
                                 href={route('suppliers.edit', supplier.id)}
-                                className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-[#dddbff] rounded-xl hover:bg-gray-50 active:scale-95 transition"
+                                className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-gray-50 active:scale-95 transition"
                             >
                                 <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon>
                                 Edit
                             </Link>
                             <button 
                                 onClick={() => alert('Mengekspor laporan ke PDF...')}
-                                className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-[#dddbff] rounded-xl hover:bg-gray-50 active:scale-95 transition"
+                                className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-gray-50 active:scale-95 transition"
                             >
                                 <iconify-icon icon="solar:document-linear" class="text-sm"></iconify-icon>
                                 Export PDF
@@ -202,7 +202,7 @@ export default function SupplierShow({ supplier }) {
                     {/* Title Header */}
                     <div className="space-y-1.5 text-left">
                         <div className="flex flex-wrap items-center gap-3">
-                            <h2 className="text-2xl md:text-3xl font-black text-[#050316] tracking-tight">{supplier.name}</h2>
+                            <h2 className="text-2xl md:text-3xl font-black text-brand-dark tracking-tight">{supplier.name}</h2>
                             {getStatusBadge(supplier.status)}
                         </div>
                         <p className="text-xs text-gray-500 font-medium">
@@ -219,9 +219,9 @@ export default function SupplierShow({ supplier }) {
                         <div className="lg:col-span-8 space-y-6">
                             
                             {/* Identitas Perusahaan */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-5 text-left">
-                                <h3 className="text-sm font-extrabold text-[#050316] border-b border-[#dddbff]/40 pb-3 flex items-center gap-2">
-                                    <iconify-icon icon="solar:shop-linear" class="text-[#2f27ce] text-base"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-5 text-left">
+                                <h3 className="text-sm font-extrabold text-brand-dark border-b border-brand-light/40 pb-3 flex items-center gap-2">
+                                    <iconify-icon icon="solar:shop-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Identitas Perusahaan
                                 </h3>
 
@@ -246,15 +246,15 @@ export default function SupplierShow({ supplier }) {
                             </div>
 
                             {/* Direktori Kontak */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-5 text-left">
-                                <div className="flex items-center justify-between border-b border-[#dddbff]/40 pb-3">
-                                    <h3 className="text-sm font-extrabold text-[#050316] flex items-center gap-2">
-                                        <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-[#2f27ce] text-base"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-5 text-left">
+                                <div className="flex items-center justify-between border-b border-brand-light/40 pb-3">
+                                    <h3 className="text-sm font-extrabold text-brand-dark flex items-center gap-2">
+                                        <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-brand-primary text-base"></iconify-icon>
                                         Direktori Kontak
                                     </h3>
                                     <button 
                                         onClick={() => alert('Menambahkan kontak PIC baru...')}
-                                        className="text-xs font-extrabold text-[#2f27ce] hover:underline"
+                                        className="text-xs font-extrabold text-brand-primary hover:underline"
                                     >
                                         + Tambah PIC
                                     </button>
@@ -263,9 +263,9 @@ export default function SupplierShow({ supplier }) {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {supplier.contacts && supplier.contacts.length > 0 ? (
                                         supplier.contacts.map(contact => (
-                                            <div key={contact.id} className="p-4 border border-[#dddbff]/60 rounded-2xl bg-gray-50/20 flex items-center justify-between shadow-sm relative group">
+                                            <div key={contact.id} className="p-4 border border-brand-light/60 rounded-2xl bg-gray-50/20 flex items-center justify-between shadow-sm relative group">
                                                 <div className="flex items-center gap-3 overflow-hidden">
-                                                    <div className="w-10 h-10 rounded-full bg-violet-100 text-[#2f27ce] flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-sm border border-white">
+                                                    <div className="w-10 h-10 rounded-full bg-violet-100 text-brand-primary flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-sm border border-white">
                                                         {contact.name.charAt(0)}
                                                     </div>
                                                     <div className="overflow-hidden">
@@ -277,7 +277,7 @@ export default function SupplierShow({ supplier }) {
                                                     {contact.email && (
                                                         <a 
                                                             href={`mailto:${contact.email}`}
-                                                            className="w-8 h-8 rounded-full border border-[#dddbff] bg-white text-gray-500 hover:text-[#2f27ce] hover:border-[#2f27ce] flex items-center justify-center transition hover:shadow-sm"
+                                                            className="w-8 h-8 rounded-full border border-brand-light bg-white text-gray-500 hover:text-brand-primary hover:border-brand-primary flex items-center justify-center transition hover:shadow-sm"
                                                             title={contact.email}
                                                         >
                                                             <iconify-icon icon="solar:letter-linear" class="text-sm"></iconify-icon>
@@ -286,7 +286,7 @@ export default function SupplierShow({ supplier }) {
                                                     {contact.phone && (
                                                         <a 
                                                             href={`tel:${contact.phone}`}
-                                                            className="w-8 h-8 rounded-full border border-[#dddbff] bg-white text-gray-500 hover:text-[#2f27ce] hover:border-[#2f27ce] flex items-center justify-center transition hover:shadow-sm"
+                                                            className="w-8 h-8 rounded-full border border-brand-light bg-white text-gray-500 hover:text-brand-primary hover:border-brand-primary flex items-center justify-center transition hover:shadow-sm"
                                                             title={contact.phone}
                                                         >
                                                             <iconify-icon icon="solar:phone-linear" class="text-sm"></iconify-icon>
@@ -296,9 +296,9 @@ export default function SupplierShow({ supplier }) {
                                             </div>
                                         ))
                                     ) : (
-                                        <div className="p-4 border border-[#dddbff]/60 rounded-2xl bg-gray-50/20 flex items-center justify-between shadow-sm relative">
+                                        <div className="p-4 border border-brand-light/60 rounded-2xl bg-gray-50/20 flex items-center justify-between shadow-sm relative">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-full bg-violet-100 text-[#2f27ce] flex items-center justify-center font-bold text-xs">
+                                                <div className="w-10 h-10 rounded-full bg-violet-100 text-brand-primary flex items-center justify-center font-bold text-xs">
                                                     PIC
                                                 </div>
                                                 <div>
@@ -312,9 +312,9 @@ export default function SupplierShow({ supplier }) {
                             </div>
 
                             {/* Alamat Utama & Pengiriman */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-4 text-left">
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-4 text-left">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-9 h-9 rounded-xl bg-violet-50 text-[#2f27ce] flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <div className="w-9 h-9 rounded-xl bg-violet-50 text-brand-primary flex items-center justify-center flex-shrink-0 mt-0.5">
                                         <iconify-icon icon="solar:map-point-linear" class="text-lg"></iconify-icon>
                                     </div>
                                     <div className="space-y-1 flex-1">
@@ -326,7 +326,7 @@ export default function SupplierShow({ supplier }) {
                                             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(supplier.address || '')}`}
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="text-xs font-bold text-[#2f27ce] hover:underline inline-flex items-center gap-1 mt-1.5"
+                                            className="text-xs font-bold text-brand-primary hover:underline inline-flex items-center gap-1 mt-1.5"
                                         >
                                             Lihat di Peta
                                             <iconify-icon icon="solar:export-linear" class="text-[11px]"></iconify-icon>
@@ -336,9 +336,9 @@ export default function SupplierShow({ supplier }) {
                             </div>
 
                             {/* Informasi Minimum Order */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-4 text-left">
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-4 text-left">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-9 h-9 rounded-xl bg-violet-50 text-[#2f27ce] flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <div className="w-9 h-9 rounded-xl bg-violet-50 text-brand-primary flex items-center justify-center flex-shrink-0 mt-0.5">
                                         <iconify-icon icon="solar:wallet-money-linear" class="text-lg"></iconify-icon>
                                     </div>
                                     <div className="space-y-1">
@@ -351,9 +351,9 @@ export default function SupplierShow({ supplier }) {
                             </div>
 
                             {/* Dokumen & Lampiran */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-4 text-left">
-                                <h3 className="text-sm font-extrabold text-[#050316] border-b border-[#dddbff]/40 pb-3 flex items-center gap-2">
-                                    <iconify-icon icon="solar:document-linear" class="text-[#2f27ce] text-base"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-4 text-left">
+                                <h3 className="text-sm font-extrabold text-brand-dark border-b border-brand-light/40 pb-3 flex items-center gap-2">
+                                    <iconify-icon icon="solar:document-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Dokumen &amp; Lampiran
                                 </h3>
 
@@ -363,7 +363,7 @@ export default function SupplierShow({ supplier }) {
                                         { name: 'Sertifikat_ISO_9001.pdf', date: '15 MAR 2023', size: '1.1 MB' },
                                         { name: 'Legalitas_Perusahaan.zip', date: '10 DES 2022', size: '5.8 MB' }
                                     ].map(doc => (
-                                        <div key={doc.name} className="p-3 border border-[#dddbff]/80 rounded-xl bg-white flex items-center justify-between shadow-sm">
+                                        <div key={doc.name} className="p-3 border border-brand-light/80 rounded-xl bg-white flex items-center justify-between shadow-sm">
                                             <div className="flex items-center gap-2.5 overflow-hidden">
                                                 <iconify-icon icon="solar:document-linear" class="text-gray-400 text-lg flex-shrink-0"></iconify-icon>
                                                 <div className="text-left overflow-hidden">
@@ -374,7 +374,7 @@ export default function SupplierShow({ supplier }) {
                                             <button 
                                                 type="button" 
                                                 onClick={() => alert(`Mengunduh berkas ${doc.name}...`)} 
-                                                className="text-[#2f27ce] hover:text-[#443dff] transition p-1 hover:bg-[#2f27ce]/5 rounded-lg flex-shrink-0"
+                                                className="text-brand-primary hover:text-brand-secondary transition p-1 hover:bg-brand-primary/5 rounded-lg flex-shrink-0"
                                             >
                                                 <iconify-icon icon="solar:download-linear" class="text-lg"></iconify-icon>
                                             </button>
@@ -388,9 +388,9 @@ export default function SupplierShow({ supplier }) {
                         <div className="lg:col-span-4 space-y-6">
                             
                             {/* Rating Performa Card */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-6 text-left">
-                                <h3 className="text-sm font-extrabold text-[#050316] border-b border-[#dddbff]/40 pb-2 flex items-center gap-2">
-                                    <iconify-icon icon="solar:ranking-linear" class="text-[#2f27ce] text-base"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-6 text-left">
+                                <h3 className="text-sm font-extrabold text-brand-dark border-b border-brand-light/40 pb-2 flex items-center gap-2">
+                                    <iconify-icon icon="solar:ranking-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Rating Performa
                                 </h3>
 
@@ -400,7 +400,7 @@ export default function SupplierShow({ supplier }) {
                                         <svg className="w-full h-full transform -rotate-90">
                                             <circle cx="48" cy="48" r="40" stroke="#f3f4f6" strokeWidth="8" fill="transparent" />
                                             <circle cx="48" cy="48" r="40" 
-                                                stroke={isCritical ? '#ef4444' : '#2f27ce'} 
+                                                stroke={isCritical ? '#ef4444' : 'rgb(var(--color-brand-primary))'} 
                                                 strokeWidth="8" 
                                                 fill="transparent" 
                                                 strokeDasharray={`${2 * Math.PI * 40}`}
@@ -427,14 +427,14 @@ export default function SupplierShow({ supplier }) {
                                 </div>
 
                                 {/* Progress Bars metrics */}
-                                <div className="space-y-4 pt-2 border-t border-[#dddbff]/40">
+                                <div className="space-y-4 pt-2 border-t border-brand-light/40">
                                     <div className="space-y-1.5">
                                         <div className="flex justify-between text-xs font-bold text-gray-600">
                                             <span>Ketepatan Waktu (Punctuality)</span>
                                             <span>{metrics.punctuality}%</span>
                                         </div>
                                         <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                                            <div className="h-full bg-[#2f27ce] rounded-full transition-all duration-500" style={{ width: `${metrics.punctuality}%` }} />
+                                            <div className="h-full bg-brand-primary rounded-full transition-all duration-500" style={{ width: `${metrics.punctuality}%` }} />
                                         </div>
                                     </div>
 
@@ -444,7 +444,7 @@ export default function SupplierShow({ supplier }) {
                                             <span>{metrics.quality}%</span>
                                         </div>
                                         <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                                            <div className="h-full bg-[#2f27ce] rounded-full transition-all duration-500" style={{ width: `${metrics.quality}%` }} />
+                                            <div className="h-full bg-brand-primary rounded-full transition-all duration-500" style={{ width: `${metrics.quality}%` }} />
                                         </div>
                                     </div>
 
@@ -456,7 +456,7 @@ export default function SupplierShow({ supplier }) {
                                         <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                                             <div className="h-full rounded-full transition-all duration-500" style={{ 
                                                 width: `${metrics.responsiveness}%`, 
-                                                backgroundColor: metrics.responsiveness < 50 ? '#ef4444' : '#2f27ce' 
+                                                backgroundColor: metrics.responsiveness < 50 ? '#ef4444' : 'rgb(var(--color-brand-primary))' 
                                             }} />
                                         </div>
                                     </div>
@@ -464,13 +464,13 @@ export default function SupplierShow({ supplier }) {
                             </div>
 
                             {/* Riwayat PO Terakhir */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-4 text-left">
-                                <div className="flex items-center justify-between border-b border-[#dddbff]/40 pb-2">
-                                    <h3 className="text-sm font-extrabold text-[#050316] flex items-center gap-2">
-                                        <iconify-icon icon="solar:document-text-linear" class="text-[#2f27ce] text-base"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-4 text-left">
+                                <div className="flex items-center justify-between border-b border-brand-light/40 pb-2">
+                                    <h3 className="text-sm font-extrabold text-brand-dark flex items-center gap-2">
+                                        <iconify-icon icon="solar:document-text-linear" class="text-brand-primary text-base"></iconify-icon>
                                         Riwayat PO Terakhir
                                     </h3>
-                                    <Link href={route('purchase-orders.index')} className="text-xs font-extrabold text-[#2f27ce] hover:underline">
+                                    <Link href={route('purchase-orders.index')} className="text-xs font-extrabold text-brand-primary hover:underline">
                                         Lihat Semua
                                     </Link>
                                 </div>
@@ -480,7 +480,7 @@ export default function SupplierShow({ supplier }) {
                                         supplier.purchase_orders.slice(0, 5).map(po => (
                                             <div key={po.id} className="flex justify-between items-center py-1 border-b border-gray-50 last:border-none">
                                                 <div className="flex flex-col text-left">
-                                                    <span className="font-extrabold text-[#2f27ce] hover:underline cursor-pointer">
+                                                    <span className="font-extrabold text-brand-primary hover:underline cursor-pointer">
                                                         {po.po_number || `PO-${po.id}`}
                                                     </span>
                                                     <span className="text-[10px] text-gray-400 font-semibold">
@@ -516,9 +516,9 @@ export default function SupplierShow({ supplier }) {
                             </div>
 
                             {/* Log Aktivitas */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-4 text-left">
-                                <h3 className="text-sm font-extrabold text-[#050316] border-b border-[#dddbff]/40 pb-2 flex items-center gap-2">
-                                    <iconify-icon icon="solar:bell-linear" class="text-[#2f27ce] text-base"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-4 text-left">
+                                <h3 className="text-sm font-extrabold text-brand-dark border-b border-brand-light/40 pb-2 flex items-center gap-2">
+                                    <iconify-icon icon="solar:bell-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Log Aktivitas
                                 </h3>
 
@@ -530,7 +530,7 @@ export default function SupplierShow({ supplier }) {
                                         { user: 'Alex Thompson', action: 'menambahkan PIC baru: Siti Aminah', time: '1 minggu yang lalu' }
                                     ].map((log, idx) => (
                                         <div key={idx} className="flex gap-2.5">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-[#2f27ce] flex-shrink-0 mt-1.5" />
+                                            <div className="w-1.5 h-1.5 rounded-full bg-brand-primary flex-shrink-0 mt-1.5" />
                                             <div className="space-y-0.5">
                                                 <p className="text-gray-600 leading-relaxed font-medium">
                                                     <span className="font-extrabold text-gray-800">{log.user}</span> {log.action}
@@ -543,16 +543,16 @@ export default function SupplierShow({ supplier }) {
 
                                 <button 
                                     onClick={() => alert('Memuat log aktivitas lebih lama...')}
-                                    className="w-full text-center text-xs font-bold text-gray-500 hover:text-gray-700 pt-2 border-t border-[#dddbff]/40 block"
+                                    className="w-full text-center text-xs font-bold text-gray-500 hover:text-gray-700 pt-2 border-t border-brand-light/40 block"
                                 >
                                     Muat Lebih Banyak
                                 </button>
                             </div>
 
                             {/* Kirim Catatan Cepat Widget */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff]/80 shadow-sm space-y-4 text-left">
-                                <h3 className="text-sm font-extrabold text-[#050316] flex items-center gap-2">
-                                    <iconify-icon icon="solar:letter-linear" class="text-[#2f27ce] text-base"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-4 text-left">
+                                <h3 className="text-sm font-extrabold text-brand-dark flex items-center gap-2">
+                                    <iconify-icon icon="solar:letter-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Kirim Catatan Cepat
                                 </h3>
 
@@ -560,7 +560,7 @@ export default function SupplierShow({ supplier }) {
                                     value={noteInput}
                                     onChange={(e) => setNoteInput(e.target.value)}
                                     placeholder="Tulis catatan internal atau pesan untuk PIC..."
-                                    className="w-full text-xs border border-[#dddbff] rounded-xl py-2 px-3 focus:ring-2 focus:ring-[#2f27ce]/10 focus:border-[#2f27ce] focus:outline-none min-h-[70px] bg-gray-50/50"
+                                    className="w-full text-xs border border-brand-light rounded-xl py-2 px-3 focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary focus:outline-none min-h-[70px] bg-gray-50/50"
                                 />
 
                                 <div className="flex items-center gap-2">
@@ -572,7 +572,7 @@ export default function SupplierShow({ supplier }) {
                                                 setNoteInput('');
                                             }
                                         }}
-                                        className="flex-1 py-2 px-3 bg-[#2f27ce] hover:bg-[#443dff] text-white text-xs font-extrabold rounded-xl transition duration-150 active:scale-95 shadow-sm"
+                                        className="flex-1 py-2 px-3 bg-brand-primary hover:bg-brand-secondary text-white text-xs font-extrabold rounded-xl transition duration-150 active:scale-95 shadow-sm"
                                     >
                                         Kirim Pesan
                                     </button>
@@ -584,7 +584,7 @@ export default function SupplierShow({ supplier }) {
                                                 setNoteInput('');
                                             }
                                         }}
-                                        className="py-2 px-4 bg-white border border-[#dddbff] text-gray-700 text-xs font-extrabold rounded-xl hover:bg-gray-50 transition"
+                                        className="py-2 px-4 bg-white border border-brand-light text-gray-700 text-xs font-extrabold rounded-xl hover:bg-gray-50 transition"
                                     >
                                         Simpan Catatan
                                     </button>

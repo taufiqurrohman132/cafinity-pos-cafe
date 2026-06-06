@@ -61,7 +61,7 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
         <>
             <Head title={`PO #${order.po_number || order.id}`} />
 
-            <div className="min-h-screen bg-[#fbfbfe] p-4 md:p-6">
+            <div className="min-h-screen bg-brand-bg p-4 md:p-6">
                 <div className="max-w-[1280px] mx-auto space-y-6">
 
                     {/* Top Header Actions Bar */}
@@ -69,13 +69,13 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                         <div className="flex items-center gap-4">
                             <Link 
                                 href={route('purchase-orders.index')} 
-                                className="w-10 h-10 rounded-full bg-white border border-[#dddbff] flex items-center justify-center text-gray-500 hover:text-[#2f27ce] hover:border-[#2f27ce] transition shadow-sm"
+                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition shadow-sm"
                             >
                                 <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
                             </Link>
                             <div>
                                 <div className="flex items-center gap-3">
-                                    <h1 className="text-2xl font-extrabold text-[#050316] tracking-tight">
+                                    <h1 className="text-2xl font-extrabold text-brand-dark tracking-tight">
                                         PO #{order.po_number || String(order.id).padStart(4, '0')}
                                     </h1>
                                     <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${statusMeta.bg} ${statusMeta.text} ${statusMeta.border} uppercase`}>
@@ -90,11 +90,11 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
 
                         {/* Top Actions */}
                         <div className="flex items-center gap-2.5 self-start md:self-center">
-                            <button className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-gray-700 bg-white border border-[#dddbff] rounded-xl hover:bg-[#fbfbfe] transition">
+                            <button className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition">
                                 <iconify-icon icon="solar:printer-linear" class="text-base"></iconify-icon>
                                 Cetak PDF
                             </button>
-                            <button className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-gray-700 bg-white border border-[#dddbff] rounded-xl hover:bg-[#fbfbfe] transition">
+                            <button className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition">
                                 <iconify-icon icon="solar:download-linear" class="text-base"></iconify-icon>
                                 Download
                             </button>
@@ -103,7 +103,7 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                                 <>
                                     <Link 
                                         href={route('purchase-orders.edit', order.id)}
-                                        className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-[#2f27ce] bg-[#dddbff]/50 border border-[#dddbff] rounded-xl hover:bg-[#dddbff] transition"
+                                        className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-brand-primary bg-brand-light/50 border border-brand-light rounded-xl hover:bg-brand-light transition"
                                     >
                                         <iconify-icon icon="solar:pen-linear" class="text-base"></iconify-icon>
                                         Edit
@@ -126,40 +126,40 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                         <div className="lg:col-span-8 space-y-6">
 
                             {/* 1. Informasi Pengiriman & Supplier Card */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm space-y-6">
-                                <h3 className="text-sm font-extrabold text-[#050316] flex items-center gap-2">
-                                    <iconify-icon icon="solar:delivery-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-6">
+                                <h3 className="text-sm font-extrabold text-brand-dark flex items-center gap-2">
+                                    <iconify-icon icon="solar:delivery-linear" class="text-brand-primary text-lg"></iconify-icon>
                                     Informasi Pengiriman & Supplier
                                 </h3>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {/* Supplier Card */}
-                                    <div className="bg-[#fbfbfe] border border-[#dddbff] rounded-xl p-4 flex gap-3.5">
-                                        <div className="w-10 h-10 rounded-lg bg-[#dddbff] text-[#2f27ce] flex items-center justify-center flex-shrink-0">
+                                    <div className="bg-brand-bg border border-brand-light rounded-xl p-4 flex gap-3.5">
+                                        <div className="w-10 h-10 rounded-lg bg-brand-light text-brand-primary flex items-center justify-center flex-shrink-0">
                                             <iconify-icon icon="solar:users-group-rounded-bold" class="text-xl"></iconify-icon>
                                         </div>
                                         <div className="text-xs space-y-1">
-                                            <span className="text-[10px] font-bold text-[#2f27ce]/60 uppercase tracking-wide block">SUPPLIER</span>
-                                            <p className="font-bold text-[#050316]">{order.supplier?.name || '-'}</p>
+                                            <span className="text-[10px] font-bold text-brand-primary/60 uppercase tracking-wide block">SUPPLIER</span>
+                                            <p className="font-bold text-brand-dark">{order.supplier?.name || '-'}</p>
                                             <p className="text-gray-500 leading-normal">{order.supplier?.address || '-'}</p>
                                         </div>
                                     </div>
 
                                     {/* Shipping Address Card */}
-                                    <div className="bg-[#fbfbfe] border border-[#dddbff] rounded-xl p-4 flex gap-3.5">
-                                        <div className="w-10 h-10 rounded-lg bg-[#dddbff] text-[#2f27ce] flex items-center justify-center flex-shrink-0">
+                                    <div className="bg-brand-bg border border-brand-light rounded-xl p-4 flex gap-3.5">
+                                        <div className="w-10 h-10 rounded-lg bg-brand-light text-brand-primary flex items-center justify-center flex-shrink-0">
                                             <iconify-icon icon="solar:map-point-bold" class="text-xl"></iconify-icon>
                                         </div>
                                         <div className="text-xs space-y-1">
-                                            <span className="text-[10px] font-bold text-[#2f27ce]/60 uppercase tracking-wide block">ALAMAT PENGIRIMAN</span>
-                                            <p className="font-bold text-[#050316]">{order.delivery_location || 'Gudang Utama - Jakarta Central'}</p>
+                                            <span className="text-[10px] font-bold text-brand-primary/60 uppercase tracking-wide block">ALAMAT PENGIRIMAN</span>
+                                            <p className="font-bold text-brand-dark">{order.delivery_location || 'Gudang Utama - Jakarta Central'}</p>
                                             <p className="text-gray-500 leading-normal">Jl. Gatot Subroto No. 45, Kuningan Timur, Setiabudi, Jakarta Selatan 12950</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Metadata metrics */}
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-2 border-t border-[#dddbff]/50">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-2 border-t border-brand-light/50">
                                     <div className="text-xs space-y-1">
                                         <span className="text-[10px] font-bold text-gray-400 uppercase flex items-center gap-1">
                                             <iconify-icon icon="solar:card-linear" class="text-base"></iconify-icon> ID Supplier
@@ -188,17 +188,17 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                             </div>
 
                             {/* 2. Rincian Barang & Jasa Table */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm space-y-4">
-                                <div className="flex items-center justify-between border-b border-[#dddbff]/50 pb-3">
-                                    <h3 class="text-sm font-extrabold text-[#050316] flex items-center gap-2">
-                                        <iconify-icon icon="solar:box-linear" class="text-[#2f27ce] text-lg"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
+                                <div className="flex items-center justify-between border-b border-brand-light/50 pb-3">
+                                    <h3 class="text-sm font-extrabold text-brand-dark flex items-center gap-2">
+                                        <iconify-icon icon="solar:box-linear" class="text-brand-primary text-lg"></iconify-icon>
                                         Rincian Barang & Jasa
                                     </h3>
                                     
                                     {order.status === 'approved' && (
                                         <button 
                                             onClick={handleReceive}
-                                            className="flex items-center gap-1.5 bg-[#2f27ce] hover:bg-[#443dff] text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm"
+                                            className="flex items-center gap-1.5 bg-brand-primary hover:bg-brand-secondary text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm"
                                         >
                                             <iconify-icon icon="solar:box-linear" class="text-base"></iconify-icon>
                                             Terima Barang
@@ -209,7 +209,7 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left min-w-[700px]">
                                         <thead>
-                                            <tr className="text-[10px] font-bold text-gray-400 bg-gray-50 border-b border-[#dddbff] uppercase">
+                                            <tr className="text-[10px] font-bold text-gray-400 bg-gray-50 border-b border-brand-light uppercase">
                                                 <th className="px-4 py-3">Informasi Item</th>
                                                 <th className="px-3 py-3 text-center">Qty Dipesan</th>
                                                 <th className="px-3 py-3 text-center">Qty Diterima</th>
@@ -219,7 +219,7 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                                                 <th className="px-4 py-3 text-right">Subtotal</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="text-xs divide-y divide-[#dddbff]/50">
+                                        <tbody className="text-xs divide-y divide-brand-light/50">
                                             {order.items?.map((item) => {
                                                 const itemName = item.inventory?.name || 'Item N/A'
                                                 const itemCode = item.inventory?.category?.name || 'Bahan Baku'
@@ -261,7 +261,7 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                                             })}
 
                                             {/* Cost Calculations */}
-                                            <tr className="bg-gray-50/50 font-bold border-t border-[#dddbff]">
+                                            <tr className="bg-gray-50/50 font-bold border-t border-brand-light">
                                                 <td colSpan="6" className="px-6 py-4 text-right text-gray-900 text-xs">Total Pembelian (Sebelum Pajak)</td>
                                                 <td className="px-4 py-4 text-right text-xs text-gray-900">
                                                     {formatRupiah(order.total_amount)}
@@ -274,8 +274,8 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                                                 </td>
                                             </tr>
                                             <tr className="bg-gray-50/50 font-bold">
-                                                <td colSpan="6" className="px-6 py-4 text-right text-[#2f27ce] text-xs">Total Pembayaran Keseluruhan</td>
-                                                <td className="px-4 py-4 text-right text-sm text-[#2f27ce] font-extrabold">
+                                                <td colSpan="6" className="px-6 py-4 text-right text-brand-primary text-xs">Total Pembayaran Keseluruhan</td>
+                                                <td className="px-4 py-4 text-right text-sm text-brand-primary font-extrabold">
                                                     {formatRupiah(order.total_amount * 1.11)}
                                                 </td>
                                             </tr>
@@ -284,7 +284,7 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                                 </div>
 
                                 {/* Terms & Notes under table */}
-                                <div className="pt-4 border-t border-[#dddbff]/50">
+                                <div className="pt-4 border-t border-brand-light/50">
                                     <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide block mb-1">CATATAN & SYARAT</span>
                                     <p className="text-[11px] text-gray-500 leading-normal italic bg-gray-50 p-4 rounded-xl border border-gray-100">
                                         {order.notes || "*Barang harap dikirimkan sebelum jam operasional gudang berakhir (17:00 WIB). Lampirkan surat jalan asli dan copy PO saat pengiriman."}
@@ -298,13 +298,13 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                         <div className="lg:col-span-4 space-y-6">
 
                             {/* 1. Status Persetujuan */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm space-y-6">
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-6">
                                 <h3 className="text-xs font-bold text-gray-900 flex items-center gap-2 uppercase tracking-wide">
-                                    <iconify-icon icon="solar:history-linear" class="text-[#2f27ce] text-base"></iconify-icon>
+                                    <iconify-icon icon="solar:history-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Status Persetujuan
                                 </h3>
 
-                                <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-[#dddbff]">
+                                <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-brand-light">
                                     
                                     {/* Creator ( Sarah Admin ) */}
                                     <div className="relative pl-8">
@@ -357,7 +357,7 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
 
                                 {/* Dynamic Approval Actions (Role-based, showing for Alex Manager or Admin) */}
                                 {order.status === 'pending' && (
-                                    <div className="pt-4 border-t border-[#dddbff]/50 space-y-2.5">
+                                    <div className="pt-4 border-t border-brand-light/50 space-y-2.5">
                                         <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide block">AKSI PERSETUJUAN (ROLE: OWNER / ADMIN)</span>
                                         
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -383,17 +383,17 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                             </div>
 
                             {/* 2. Jejak Audit & Aktivitas */}
-                            <div className="bg-white p-6 rounded-2xl border border-[#dddbff] shadow-sm space-y-6">
+                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-6">
                                 <h3 className="text-xs font-bold text-gray-900 flex items-center gap-2 uppercase tracking-wide">
-                                    <iconify-icon icon="solar:history-linear" class="text-[#2f27ce] text-base"></iconify-icon>
+                                    <iconify-icon icon="solar:history-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Jejak Audit & Aktivitas
                                 </h3>
 
-                                <div className="space-y-5 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-[#dddbff]">
+                                <div className="space-y-5 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-brand-light">
                                     {auditLogs && auditLogs.length > 0 ? (
                                         auditLogs.map((log) => (
                                             <div key={log.id} className="relative pl-8">
-                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-[#2f27ce] border-4 border-white rounded-full"></span>
+                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-brand-primary border-4 border-white rounded-full"></span>
                                                 <div className="flex justify-between items-start text-xs">
                                                     <div>
                                                         <p className="font-bold text-gray-900">{log.action}</p>
@@ -453,7 +453,7 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                                     )}
                                 </div>
                                 
-                                <a href="#" className="block text-center text-[#2f27ce] font-bold text-xs mt-6 hover:underline">
+                                <a href="#" className="block text-center text-brand-primary font-bold text-xs mt-6 hover:underline">
                                     Lihat Semua Aktivitas
                                 </a>
                             </div>
@@ -465,7 +465,7 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                 </div>
 
                 {/* Footer bar */}
-                <div className="border-t border-[#dddbff] bg-white px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-2 mt-6">
+                <div className="border-t border-brand-light bg-white px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-2 mt-6">
                     <p className="text-[10px] text-gray-400">© 2024 Purchase Order Management System</p>
                     <div className="flex items-center gap-4 text-[10px] text-gray-400">
                         <a href="#" className="hover:underline">Support</a>

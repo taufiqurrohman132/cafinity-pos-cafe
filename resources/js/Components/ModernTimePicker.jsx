@@ -83,20 +83,20 @@ export default function ModernTimePicker({
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex items-center justify-between border border-[#dddbff] rounded-xl px-3 py-2.5 text-sm text-[#050316] bg-white hover:border-[#443dff] transition-all cursor-pointer select-none"
+                className="w-full flex items-center justify-between border border-brand-light rounded-xl px-3 py-2.5 text-sm text-brand-dark bg-white hover:border-brand-secondary transition-all cursor-pointer select-none"
             >
-                <span className="font-bold text-[#050316]">
+                <span className="font-bold text-brand-dark">
                     {hour}:{minute}
                 </span>
-                <Icon icon="solar:clock-circle-linear" className="text-[#443dff] text-base" />
+                <Icon icon="solar:clock-circle-linear" className="text-brand-secondary text-base" />
             </button>
 
             {isOpen && (
                 <div 
                     ref={dropdownRef}
-                    className="absolute right-0 mt-2 w-[180px] bg-white border border-[#dddbff] rounded-2xl shadow-2xl p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-200"
+                    className="absolute right-0 mt-2 w-[180px] bg-white border border-brand-light rounded-2xl shadow-2xl p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-200"
                 >
-                    <div className="text-[10px] font-extrabold text-[#2f27ce]/60 tracking-wider mb-2 text-center border-b border-[#dddbff]/50 pb-1.5 flex justify-around">
+                    <div className="text-[10px] font-extrabold text-brand-primary/60 tracking-wider mb-2 text-center border-b border-brand-light/50 pb-1.5 flex justify-around">
                         <span>JAM</span>
                         <span>MENIT</span>
                     </div>
@@ -118,8 +118,8 @@ export default function ModernTimePicker({
                                         onClick={() => handleHourSelect(h)}
                                         className={`w-full py-1 text-xs font-bold rounded-lg transition-all text-center block ${
                                             isSelected
-                                                ? 'bg-gradient-to-br from-[#443dff] to-[#2f27ce] text-white shadow-sm'
-                                                : 'text-[#050316] hover:bg-[#dddbff]/30 hover:text-[#443dff]'
+                                                ? 'bg-gradient-to-br from-brand-secondary to-brand-primary text-white shadow-sm'
+                                                : 'text-brand-dark hover:bg-brand-light/30 hover:text-brand-secondary'
                                         }`}
                                     >
                                         {h}
@@ -144,8 +144,8 @@ export default function ModernTimePicker({
                                         onClick={() => handleMinuteSelect(m)}
                                         className={`w-full py-1 text-xs font-bold rounded-lg transition-all text-center block ${
                                             isSelected
-                                                ? 'bg-gradient-to-br from-[#443dff] to-[#2f27ce] text-white shadow-sm'
-                                                : 'text-[#050316] hover:bg-[#dddbff]/30 hover:text-[#443dff]'
+                                                ? 'bg-gradient-to-br from-brand-secondary to-brand-primary text-white shadow-sm'
+                                                : 'text-brand-dark hover:bg-brand-light/30 hover:text-brand-secondary'
                                         }`}
                                     >
                                         {m}
@@ -155,11 +155,11 @@ export default function ModernTimePicker({
                         </div>
                     </div>
 
-                    <div className="border-t border-[#dddbff] mt-2 pt-2 flex justify-center">
+                    <div className="border-t border-brand-light mt-2 pt-2 flex justify-center">
                         <button
                             type="button"
                             onClick={() => setIsOpen(false)}
-                            className="w-full text-center py-1 text-[10px] font-extrabold bg-[#443dff] text-white rounded-lg hover:bg-[#2f27ce] transition-colors"
+                            className="w-full text-center py-1 text-[10px] font-extrabold bg-brand-secondary text-white rounded-lg hover:bg-brand-primary transition-colors"
                         >
                             Selesai
                         </button>
