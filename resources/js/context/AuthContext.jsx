@@ -88,6 +88,15 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const updateUser = (updatedUser) => {
+        setUser(updatedUser);
+        if (localStorage.getItem('user')) {
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+        } else {
+            sessionStorage.setItem('user', JSON.stringify(updatedUser));
+        }
+    };
+
     const value = {
         user,
         token,
@@ -95,6 +104,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: !!token,
         login,
         logout,
+        updateUser,
     };
 
     return (

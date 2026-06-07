@@ -49,6 +49,8 @@ import UsersIndex from '../Pages/UserManagement/Userdirectory/Index';
 import RolePermissionIndex from '../Pages/UserManagement/RolePermission/Index';
 import SettingsIndex from '../Pages/Settings/Index';
 import NotificationsIndex from '../Pages/Notifications/Index';
+import SearchIndex from '../Pages/Search/Index';
+import ProfileEdit from '../Pages/Profile/Edit';
 
 // Skeletons
 import UsersSkeleton from '../Components/Skeletons/UsersSkeleton';
@@ -103,6 +105,8 @@ const AppRoutes = () => {
                 <Route path="/user-management/role-permission" element={<PageLoader component={RolePermissionIndex} apiPath="/user-management/role-permission" skeleton={RolePermissionSkeleton} />} />
                 <Route path="/settings" element={<SettingsIndex />} />
                 <Route path="/notifications" element={<PageLoader component={NotificationsIndex} apiPath="/notifications" skeleton={NotificationsSkeleton} />} />
+                <Route path="/search" element={<SearchIndex />} />
+                <Route path="/profile" element={<ProfileEdit />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/dashboard" replace />} />

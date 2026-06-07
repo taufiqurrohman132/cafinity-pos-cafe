@@ -35,6 +35,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/dashboard/sales-chart', [DashboardController::class, 'salesChart']);
 
+    // Profile
+    Route::put('/profile', [UserController::class, 'updateProfile']);
+
     // Menus & Categories
     Route::post('/menus/{id}/toggle-status', [MenuController::class, 'toggleStatus']);
     Route::post('/menus/{id}/upload-image', [MenuController::class, 'uploadImage']);

@@ -202,4 +202,49 @@ class UserController extends Controller
             'user' => $user
         ]);
     }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
+        $data = $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+        ]);
+
+        if ($request->filled('password')) {
+            $request->validate([
+                'current_password' => 'required|string',
+                'password'         => 'required|string|min:8|confirmed',
+            ]);
+
+            if (!Hash::check($request->current_password, $user->password)) {
+                return response()->json([
+                    'message' => 'Password saat ini salah.',
+                    'errors' => [
+                        'current_password' => ['Password saat ini tidak cocok dengan data kami.']
+                    ]
+                ], 422);
+            }
+
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $user->update($data);
+
+        AuditLog::create([
+            'user_id' => $user->id,
+            'action'  => "Memperbarui profil pribadi: {$user->name}",
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profil berhasil diperbarui.',
+            'user'    => $user
+        ]);
+    }
 }
+
