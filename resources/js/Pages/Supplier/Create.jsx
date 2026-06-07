@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import AppLayout from '@/Layouts/AppLayout';
 import { useForm } from '@/api/inertia-mock';
 import Head from '@/Components/Head';
 
@@ -93,7 +92,7 @@ export default function SupplierCreate() {
     const hasLogisticsInfo = data.address.trim() !== '' && data.city.trim() !== '' && data.province.trim() !== '' && data.lead_time > 0 && data.min_order > 0;
 
     return (
-        <AppLayout>
+        <>
             <Head title="Tambah Supplier Baru" />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6 lg:p-8">
@@ -614,6 +613,6 @@ export default function SupplierCreate() {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }

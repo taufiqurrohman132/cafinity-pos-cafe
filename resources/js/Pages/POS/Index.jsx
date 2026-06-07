@@ -1,8 +1,8 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Head from '@/Components/Head';
-import AppLayout from '@/Layouts/AppLayout';
 import client from '@/api/client';
+import POSSkeleton from '@/Components/Skeletons/POSSkeleton';
 
 function formatRupiah(amount) {
     return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
@@ -201,21 +201,16 @@ export default function POS() {
 
     if (loadingData && menus.length === 0) {
         return (
-            <AppLayout>
+            <>
                 <Head title="POS Transaksi" />
-                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
-                    <div className="flex flex-col items-center gap-3">
-                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-sm font-bold text-brand-primary">Memuat POS...</p>
-                    </div>
-                </div>
-            </AppLayout>
+                <POSSkeleton />
+            </>
         );
     }
 
     if (errorData && menus.length === 0) {
         return (
-            <AppLayout>
+            <>
                 <Head title="POS Transaksi" />
                 <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
                     <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
@@ -229,12 +224,12 @@ export default function POS() {
                         </button>
                     </div>
                 </div>
-            </AppLayout>
+            </>
         );
     }
 
     return (
-        <AppLayout>
+        <>
             <Head title="POS Transaksi" />
 
             <div className="h-[calc(100vh-72px)] bg-gradient-to-br from-brand-bg via-white to-brand-light/30 flex overflow-hidden">
@@ -551,8 +546,8 @@ export default function POS() {
                     </div>
                 </div>
             )}
-        </AppLayout>
+        </>
     );
 }
 
-// POS.layout = (page) => <AppLayout>{page}</AppLayout>;
+// POS.layout = (page) => <>{page}</>;

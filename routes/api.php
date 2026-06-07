@@ -44,11 +44,13 @@ Route::middleware('auth:sanctum')->group(function () {
     // Inventories
     Route::get('/inventories/low-stock/list', [InventoryController::class, 'lowStock']);
     Route::post('/inventories/{id}/restock', [InventoryController::class, 'restock']);
+    Route::post('/inventories/{id}/adjust', [InventoryController::class, 'adjust']);
     Route::get('/inventories/create', [InventoryController::class, 'create']);
     Route::get('/inventories/{id}/edit', [InventoryController::class, 'edit']);
     Route::apiResource('inventories', InventoryController::class);
 
     // Suppliers & Purchase Orders
+    Route::get('/suppliers/{id}/edit', [SupplierController::class, 'edit']);
     Route::apiResource('suppliers', SupplierController::class);
     Route::post('/purchase-orders/{id}/approve', [PurchaseOrderController::class, 'approve']);
     Route::post('/purchase-orders/{id}/reject', [PurchaseOrderController::class, 'reject']);
@@ -100,6 +102,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/kitchen-orders/{id}/prepare', [KitchenOrderController::class, 'prepare'])->name('kitchen-orders.prepare');
     Route::post('/kitchen-orders/{id}/ready', [KitchenOrderController::class, 'ready'])->name('kitchen-orders.ready');
     Route::post('/kitchen-orders/{id}/complete', [KitchenOrderController::class, 'complete'])->name('kitchen-orders.complete');
+    Route::post('/kitchen-orders/{id}/back', [KitchenOrderController::class, 'back'])->name('kitchen-orders.back');
     Route::apiResource('kitchen-orders', KitchenOrderController::class);
 
     // Users
@@ -109,7 +112,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Role Permissions
     Route::get('/user-management/role-permission', [RolePermissionController::class, 'index']);
+    Route::post('/user-management/role-permission', [RolePermissionController::class, 'store']);
     Route::put('/user-management/role-permission/{id}', [RolePermissionController::class, 'update']);
+    Route::delete('/user-management/role-permission/{id}', [RolePermissionController::class, 'destroy']);
+    Route::put('/user-management/role-permission/{id}/permissions', [RolePermissionController::class, 'updatePermissions']);
 
     // Notifications
     Route::post('/notifications/read-all', [NotificationController::class, 'readAll']);

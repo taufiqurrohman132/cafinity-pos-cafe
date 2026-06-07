@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import client from '../../../api/client';
 import { useAuth } from '../../../context/AuthContext';
-import AppLayout from '@/Layouts/AppLayout';
+import DashboardSkeleton from '@/Components/Skeletons/DashboardSkeleton';
 
 export default function CashierDashboard() {
     const { user } = useAuth();
@@ -24,6 +24,10 @@ export default function CashierDashboard() {
         fetchDashboard();
     }, []);
 
+    if (loading) {
+        return <DashboardSkeleton />;
+    }
+
     const stats = dashboardData?.stats || {
         total_orders: '0 Pesanan',
         total_cash: 'Rp 0',
@@ -41,7 +45,7 @@ export default function CashierDashboard() {
     const pageLoading = loading;
 
     return (
-        <AppLayout>
+        <>
             <div className="space-y-6 p-4 md:p-6 bg-brand-bg min-h-screen">
 
                 {/* Header */}
@@ -208,6 +212,6 @@ export default function CashierDashboard() {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }

@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import Head from '@/Components/Head'
-import AppLayout from '@/Layouts/AppLayout'
 import client from '@/api/client'
+import MenusSkeleton from '@/Components/Skeletons/MenusSkeleton'
 
 function MenuImage({ src, name, categoryName, isThumbnail = false }) {
     const [hasError, setHasError] = useState(false);
@@ -362,21 +362,16 @@ export default function MenusIndex() {
 
     if (loading && !menus) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Katalog Menu" />
-                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
-                    <div className="flex flex-col items-center gap-3">
-                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
-                    </div>
-                </div>
-            </AppLayout>
+                <MenusSkeleton />
+            </>
         )
     }
 
     if (error && !menus) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Katalog Menu" />
                 <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
                     <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
@@ -390,14 +385,14 @@ export default function MenusIndex() {
                         </button>
                     </div>
                 </div>
-            </AppLayout>
+            </>
         )
     }
 
     if (!menus) return null;
 
     return (
-        <AppLayout>
+        <>
             <Head title="Katalog Menu" />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6">
@@ -1242,8 +1237,8 @@ export default function MenusIndex() {
                     </div>
                 </div>
             )}
-        </AppLayout>
+        </>
     )
 }
 
-// MenusIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
+// MenusIndex.layout = (page) => <>{page}</>;

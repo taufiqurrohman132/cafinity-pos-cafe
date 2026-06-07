@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Head from '@/Components/Head';
-import AppLayout from '@/Layouts/AppLayout';
 import client from '@/api/client';
+import KitchenOrdersSkeleton from '@/Components/Skeletons/KitchenOrdersSkeleton';
 
 const STATUS_CONFIG = {
     preparing: {
@@ -110,21 +110,16 @@ export default function KitchenOrdersIndex() {
 
     if (loading && !orders) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Antrean Dapur" />
-                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
-                    <div className="flex flex-col items-center gap-3">
-                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
-                    </div>
-                </div>
-            </AppLayout>
+                <KitchenOrdersSkeleton />
+            </>
         );
     }
 
     if (error && !orders) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Antrean Dapur" />
                 <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
                     <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
@@ -138,7 +133,7 @@ export default function KitchenOrdersIndex() {
                         </button>
                     </div>
                 </div>
-            </AppLayout>
+            </>
         );
     }
 
@@ -152,7 +147,7 @@ export default function KitchenOrdersIndex() {
     ];
 
     return (
-        <AppLayout>
+        <>
             <Head title="Antrean Dapur" />
 
             <div className="space-y-6 p-4 md:p-6 bg-brand-bg min-h-screen">
@@ -318,11 +313,14 @@ export default function KitchenOrdersIndex() {
                                     )}
 
                                     {order.status === 'preparing' && (<>
-                                        <Link to={`/kitchen-orders/${order.id}`}
-                                            className="py-2.5 px-4 text-xs font-extrabold text-brand-secondary bg-white border border-brand-light rounded-xl hover:bg-brand-light/40 transition-colors flex items-center gap-1.5 flex-shrink-0">
-                                            <iconify-icon icon="solar:eye-linear" class="text-sm" />
-                                            Detail
-                                        </Link>
+                                        <button
+                                            onClick={() => postAction(`/kitchen-orders/${order.id}/back`)}
+                                            className="py-2.5 px-4 text-xs font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light/40 transition-colors flex items-center gap-1.5 flex-shrink-0"
+                                            title="Kembalikan Status"
+                                        >
+                                            <iconify-icon icon="solar:undo-left-round-linear" class="text-sm text-brand-secondary" />
+                                            Batal
+                                        </button>
                                         <button
                                             onClick={() => postAction(`/kitchen-orders/${order.id}/ready`)}
                                             className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md shadow-brand-primary/20 active:scale-[0.98]"
@@ -332,11 +330,14 @@ export default function KitchenOrdersIndex() {
                                     </>)}
 
                                     {order.status === 'ready' && (<>
-                                        <Link to={`/kitchen-orders/${order.id}`}
-                                            className="py-2.5 px-4 text-xs font-extrabold text-brand-secondary bg-white border border-brand-light rounded-xl hover:bg-brand-light/40 transition-colors flex items-center gap-1.5 flex-shrink-0">
-                                            <iconify-icon icon="solar:eye-linear" class="text-sm" />
-                                            Detail
-                                        </Link>
+                                        <button
+                                            onClick={() => postAction(`/kitchen-orders/${order.id}/back`)}
+                                            className="py-2.5 px-4 text-xs font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light/40 transition-colors flex items-center gap-1.5 flex-shrink-0"
+                                            title="Kembalikan Status"
+                                        >
+                                            <iconify-icon icon="solar:undo-left-round-linear" class="text-sm text-brand-secondary" />
+                                            Batal
+                                        </button>
                                         <button
                                             onClick={() => postAction(`/kitchen-orders/${order.id}/complete`)}
                                             className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
@@ -377,8 +378,8 @@ export default function KitchenOrdersIndex() {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }
 
-// KitchenOrdersIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
+// KitchenOrdersIndex.layout = (page) => <>{page}</>;

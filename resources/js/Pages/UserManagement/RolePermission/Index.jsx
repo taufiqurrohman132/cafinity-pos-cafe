@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Head, useForm, usePage, router } from '@inertiajs/react';
 import { Icon } from '@iconify/react';
-import AppLayout from '@/Layouts/AppLayout';
+import Head from '@/Components/Head';
+import client from '@/api/client';
 
-export default function RolePermissionIndex({ roles, logs }) {
-    const { flash = {} } = usePage().props;
-
-    // State untuk mendeteksi role aktif terpilih di panel kiri
-    const [selectedRoleId, setSelectedRoleId] = useState(roles[0]?.id || null);
-
-    // Modals state
+export default function RolePermissionIndex({ roles = [], logs = [] }) {
+    const [selectedRoleId, setSelectedRoleId] = useState(roles[0]?.id ?? null);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedRole, setSelectedRole] = useState(null);
+    const [permissions, setPermissions] = useState([]);
+    const [processing, setProcessing] = useState(false);
 
-    // Cari entitas objek role terpilih
     const currentRole = roles.find(r => r.id === selectedRoleId) || null;
 
-    // Definisikan peta struktur modul & aksi b-end Anda secara konsisten
     const modules = {
         'dashboard': 'Dashboard',
         'pos': 'Point of Sales (POS)',
@@ -30,19 +25,12 @@ export default function RolePermissionIndex({ roles, logs }) {
     };
     const actions = ['view', 'create', 'edit', 'delete', 'export'];
 
-    // Gunakan useForm hook dari Inertia untuk memproses update matrix
-    const { data, setData, put, processing } = useForm({
-        permissions: []
-    });
-
-    // Perbarui isi form array internal React setiap kali user berpindah pilihan tipe role
     useEffect(() => {
         if (currentRole) {
-            setData('permissions', currentRole.permissions.map(p => p.name));
+            setPermissions(currentRole.permissions?.map(p => p.name) ?? []);
         }
     }, [selectedRoleId, roles]);
 
-    // Pewarnaan indikator dot list role
     const getDotColor = (name) => {
         const colors = {
             'owner': 'bg-brand-secondary',
@@ -54,51 +42,36 @@ export default function RolePermissionIndex({ roles, logs }) {
         return colors[name.toLowerCase()] || 'bg-[#6b7280]';
     };
 
-    // Handler interaksi checkbox individual item matrix
     const handleCheckboxChange = (permName) => {
-        let updated = [...data.permissions];
-        if (updated.includes(permName)) {
-            updated = updated.filter(p => p !== permName);
-        } else {
-            updated.push(permName);
-        }
-        setData('permissions', updated);
+        setPermissions(prev =>
+            prev.includes(permName)
+                ? prev.filter(p => p !== permName)
+                : [...prev, permName]
+        );
     };
 
-    // Handler klik aksi tombol toggle "ALL" per baris modul
     const handleToggleRowAll = (moduleKey) => {
         const rowPermissions = actions.map(act => `${moduleKey}.${act}`);
-        const allChecked = rowPermissions.every(p => data.permissions.includes(p));
-
-        let updated = [...data.permissions];
+        const allChecked = rowPermissions.every(p => permissions.includes(p));
         if (allChecked) {
-            // Jika semua menyala, hapus semua permission khusus baris modul ini
-            updated = updated.filter(p => !rowPermissions.includes(p));
+            setPermissions(prev => prev.filter(p => !rowPermissions.includes(p)));
         } else {
-            // Jika ada yang mati, nyalakan semua yang belum ada di array
-            rowPermissions.forEach(p => {
-                if (!updated.includes(p)) updated.push(p);
-            });
+            setPermissions(prev => [...new Set([...prev, ...rowPermissions])]);
         }
-        setData('permissions', updated);
     };
 
-    // Preset Cepat: Mengubah status permission secara massal di sisi client sebelum disave
     const isPresetActive = (type) => {
         let targetList = [];
         if (type === 'read-only') {
             targetList = Object.keys(modules).map(m => `${m}.view`);
         } else if (type === 'full') {
-            Object.keys(modules).forEach(m => {
-                actions.forEach(a => targetList.push(`${m}.${a}`));
-            });
+            Object.keys(modules).forEach(m => actions.forEach(a => targetList.push(`${m}.${a}`)));
         } else if (type === 'pos') {
             targetList = ['pos.view', 'pos.create', 'pos.edit', 'transactions.view', 'transactions.create'];
         }
-
-        const currentSorted = [...data.permissions].sort();
-        const targetSorted = [...targetList].sort();
-        return currentSorted.length === targetSorted.length && currentSorted.every((val, index) => val === targetSorted[index]);
+        const a = [...permissions].sort();
+        const b = [...targetList].sort();
+        return a.length === b.length && a.every((v, i) => v === b[i]);
     };
 
     const applyPreset = (type) => {
@@ -106,40 +79,37 @@ export default function RolePermissionIndex({ roles, logs }) {
         if (type === 'read-only') {
             targetList = Object.keys(modules).map(m => `${m}.view`);
         } else if (type === 'full') {
-            Object.keys(modules).forEach(m => {
-                actions.forEach(a => targetList.push(`${m}.${a}`));
-            });
+            Object.keys(modules).forEach(m => actions.forEach(a => targetList.push(`${m}.${a}`)));
         } else if (type === 'pos') {
             targetList = ['pos.view', 'pos.create', 'pos.edit', 'transactions.view', 'transactions.create'];
         }
-
-        if (isPresetActive(type)) {
-            setData('permissions', []); // Kosongkan jika diklik kembali (toggle off)
-        } else {
-            setData('permissions', targetList); // Terapkan preset (toggle on)
-        }
+        setPermissions(isPresetActive(type) ? [] : targetList);
     };
 
-    // Submit perubahan matrix ke backend lewat Inertia Route
-    const submitPermissions = (e) => {
+    const submitPermissions = async (e) => {
         e.preventDefault();
-        put(route('user-management.role-permission.permissions.update', selectedRoleId), {
-            preserveScroll: true,
-        });
-    };
-
-    // Hapus role handler
-    const handleDeleteRole = (id, name) => {
-        if (confirm(`Hapus peran ${name}?`)) {
-            router.delete(route('user-management.role-permission.destroy', id), {
-                onSuccess: () => {
-                    if (selectedRoleId === id) setSelectedRoleId(roles[0]?.id || null);
-                }
-            });
+        setProcessing(true);
+        try {
+            await client.put(`/user-management/role-permission/${selectedRoleId}/permissions`, { permissions });
+            window.location.reload();
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setProcessing(false);
         }
     };
 
-    // Duplikat role handler
+    const handleDeleteRole = async (id, name) => {
+        if (!confirm(`Hapus peran ${name}?`)) return;
+        try {
+            await client.delete(`/user-management/role-permission/${id}`);
+            if (selectedRoleId === id) setSelectedRoleId(roles[0]?.id || null);
+            window.location.reload();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     const handleDuplicateRole = (role) => {
         setSelectedRole(role);
         setShowCreateModal(true);
@@ -190,8 +160,8 @@ export default function RolePermissionIndex({ roles, logs }) {
                                     key={role.id}
                                     onClick={() => setSelectedRoleId(role.id)}
                                     className={`rounded-2xl border p-4 cursor-pointer transition-all duration-150 group ${selectedRoleId === role.id
-                                            ? 'border-brand-primary bg-white shadow-md shadow-brand-primary/10 ring-1 ring-brand-primary'
-                                            : 'border-brand-light bg-white hover:border-brand-secondary/50 hover:shadow-sm'
+                                        ? 'border-brand-primary bg-white shadow-md shadow-brand-primary/10 ring-1 ring-brand-primary'
+                                        : 'border-brand-light bg-white hover:border-brand-secondary/50 hover:shadow-sm'
                                         }`}
                                 >
                                     <div className="flex items-start justify-between gap-2">
@@ -281,33 +251,30 @@ export default function RolePermissionIndex({ roles, logs }) {
                                             <button
                                                 type="button"
                                                 onClick={() => applyPreset('read-only')}
-                                                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg transition-all active:scale-[0.98] text-xs font-bold ${
-                                                    isPresetActive('read-only')
-                                                        ? 'border-brand-secondary bg-brand-secondary text-white shadow-md shadow-brand-secondary/25'
-                                                        : 'border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/50'
-                                                }`}
+                                                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg transition-all active:scale-[0.98] text-xs font-bold ${isPresetActive('read-only')
+                                                    ? 'border-brand-secondary bg-brand-secondary text-white shadow-md shadow-brand-secondary/25'
+                                                    : 'border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/50'
+                                                    }`}
                                             >
                                                 <Icon icon={isPresetActive('read-only') ? "solar:check-circle-linear" : "solar:lock-keyhole-linear"} className="text-sm" /> Read-Only
                                             </button>
                                             <button
                                                 type="button"
                                                 onClick={() => applyPreset('full')}
-                                                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg transition-all active:scale-[0.98] text-xs font-bold ${
-                                                    isPresetActive('full')
-                                                        ? 'border-brand-secondary bg-brand-secondary text-white shadow-md shadow-brand-secondary/25'
-                                                        : 'border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/50'
-                                                }`}
+                                                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg transition-all active:scale-[0.98] text-xs font-bold ${isPresetActive('full')
+                                                    ? 'border-brand-secondary bg-brand-secondary text-white shadow-md shadow-brand-secondary/25'
+                                                    : 'border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/50'
+                                                    }`}
                                             >
                                                 <Icon icon={isPresetActive('full') ? "solar:check-circle-linear" : "solar:lock-unlocked-linear"} className="text-sm" /> Full Access
                                             </button>
                                             <button
                                                 type="button"
                                                 onClick={() => applyPreset('pos')}
-                                                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg transition-all active:scale-[0.98] text-xs font-bold ${
-                                                    isPresetActive('pos')
-                                                        ? 'border-brand-secondary bg-brand-secondary text-white shadow-md shadow-brand-secondary/25'
-                                                        : 'border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/50'
-                                                }`}
+                                                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg transition-all active:scale-[0.98] text-xs font-bold ${isPresetActive('pos')
+                                                    ? 'border-brand-secondary bg-brand-secondary text-white shadow-md shadow-brand-secondary/25'
+                                                    : 'border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/50'
+                                                    }`}
                                             >
                                                 <Icon icon={isPresetActive('pos') ? "solar:check-circle-linear" : "solar:monitor-smartphone-linear"} className="text-sm" /> POS-Only Access
                                             </button>
@@ -341,7 +308,7 @@ export default function RolePermissionIndex({ roles, logs }) {
                                                     <tbody className="divide-y divide-brand-light/50">
                                                         {Object.entries(modules).map(([modKey, modLabel]) => {
                                                             const rowPermissions = actions.map(a => `${modKey}.${a}`);
-                                                            const isRowAllChecked = rowPermissions.every(p => data.permissions.includes(p));
+                                                            const isRowAllChecked = rowPermissions.every(p => permissions.includes(p));
 
                                                             return (
                                                                 <tr key={modKey} className="hover:bg-brand-light/10 transition-colors duration-100 group">
@@ -349,7 +316,7 @@ export default function RolePermissionIndex({ roles, logs }) {
 
                                                                     {actions.map(action => {
                                                                         const permName = `${modKey}.${action}`;
-                                                                        const isChecked = data.permissions.includes(permName);
+                                                                        const isChecked = permissions.includes(permName);
 
                                                                         return (
                                                                             <td key={action} className="px-3 py-4 text-center">
@@ -372,8 +339,8 @@ export default function RolePermissionIndex({ roles, logs }) {
                                                                             type="button"
                                                                             onClick={() => handleToggleRowAll(modKey)}
                                                                             className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all duration-150 mx-auto ${isRowAllChecked
-                                                                                    ? 'border-brand-secondary bg-brand-secondary text-white'
-                                                                                    : 'border-brand-light text-transparent hover:border-brand-secondary'
+                                                                                ? 'border-brand-secondary bg-brand-secondary text-white'
+                                                                                : 'border-brand-light text-transparent hover:border-brand-secondary'
                                                                                 }`}
                                                                         >
                                                                             <Icon icon="solar:check-read-linear" className="text-xs" />
@@ -447,39 +414,37 @@ export default function RolePermissionIndex({ roles, logs }) {
 
 // Modal Buat Peran Baru
 function CreateRoleModal({ isOpen, onClose, duplicateRole }) {
-    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
-        name: '',
-        description: '',
-        permissions: []
-    });
+    const [data, setDataState] = useState({ name: '', description: '' });
+    const [errors, setErrors] = useState({});
+    const [processing, setProcessing] = useState(false);
+
+    const setData = (key, value) => {
+        if (typeof key === 'object') return setDataState(prev => ({ ...prev, ...key }));
+        setDataState(prev => ({ ...prev, [key]: value }));
+    };
 
     useEffect(() => {
         if (isOpen) {
-            clearErrors();
-            if (duplicateRole) {
-                setData({
-                    name: `Copy of ${duplicateRole.name}`,
-                    description: `Duplikat dari peran ${duplicateRole.name}`,
-                    permissions: duplicateRole.permissions.map(p => p.name)
-                });
-            } else {
-                setData({
-                    name: '',
-                    description: '',
-                    permissions: []
-                });
-            }
+            setErrors({});
+            setDataState(duplicateRole ? {
+                name: `Copy of ${duplicateRole.name}`,
+                description: `Duplikat dari peran ${duplicateRole.name}`,
+            } : { name: '', description: '' });
         }
     }, [isOpen, duplicateRole]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        post(route('user-management.role-permission.store'), {
-            onSuccess: () => {
-                reset();
-                onClose();
-            }
-        });
+        setProcessing(true);
+        try {
+            await client.post('/user-management/role-permission', data);
+            onClose();
+            window.location.reload();
+        } catch (err) {
+            setErrors(err.response?.data?.errors ?? {});
+        } finally {
+            setProcessing(false);
+        }
     };
 
     if (!isOpen) return null;
@@ -525,7 +490,7 @@ function CreateRoleModal({ isOpen, onClose, duplicateRole }) {
                     <div className="flex gap-3 pt-4 border-t border-brand-light mt-6">
                         <button
                             type="button"
-                            onClick={() => { clearErrors(); reset(); onClose(); }}
+                            onClick={() => { setErrors({}); setDataState({ name: '', description: '' }); onClose(); }}
                             className="flex-1 h-11 rounded-xl border border-brand-light text-sm font-bold text-brand-primary hover:bg-brand-light/20 transition-all"
                         >
                             Batal
@@ -546,32 +511,38 @@ function CreateRoleModal({ isOpen, onClose, duplicateRole }) {
 
 // Modal Edit Detail Peran
 function EditRoleModal({ isOpen, onClose, role }) {
-    const { data, setData, put, processing, errors, reset, clearErrors } = useForm({
-        name: '',
-        description: '',
-    });
+    const [data, setDataState] = useState({ name: '', description: '' });
+    const [errors, setErrors] = useState({});
+    const [processing, setProcessing] = useState(false);
+
+    const setData = (key, value) => {
+        if (typeof key === 'object') return setDataState(prev => ({ ...prev, ...key }));
+        setDataState(prev => ({ ...prev, [key]: value }));
+    };
 
     useEffect(() => {
         if (role) {
-            clearErrors();
-            setData({
-                name: role.name || '',
-                description: role.description || '',
-            });
+            setErrors({});
+            setDataState({ name: role.name || '', description: role.description || '' });
         }
     }, [role]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        put(route('user-management.role-permission.update', role.id), {
-            onSuccess: () => {
-                reset();
-                onClose();
-            }
-        });
+        setProcessing(true);
+        try {
+            await client.put(`/user-management/role-permission/${role.id}`, data);
+            onClose();
+            window.location.reload();
+        } catch (err) {
+            setErrors(err.response?.data?.errors ?? {});
+        } finally {
+            setProcessing(false);
+        }
     };
 
     if (!isOpen || !role) return null;
+
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-brand-dark/60 backdrop-blur-sm p-4">
@@ -612,7 +583,7 @@ function EditRoleModal({ isOpen, onClose, role }) {
                     <div className="flex gap-3 pt-4 border-t border-brand-light mt-6">
                         <button
                             type="button"
-                            onClick={() => { clearErrors(); reset(); onClose(); }}
+                            onClick={() => { setErrors({}); onClose(); }}
                             className="flex-1 h-11 rounded-xl border border-brand-light text-sm font-bold text-brand-primary hover:bg-brand-light/20 transition-all"
                         >
                             Batal
@@ -631,4 +602,4 @@ function EditRoleModal({ isOpen, onClose, role }) {
     );
 }
 
-RolePermissionIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
+

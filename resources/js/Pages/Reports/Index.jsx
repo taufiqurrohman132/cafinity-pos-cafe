@@ -1,11 +1,9 @@
-// resources/js/Pages/Reports/Index.jsx
-
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import AppLayout from "@/Layouts/AppLayout";
 import { useEffect, useRef, useState } from "react";
 import ModernDatePicker from "@/Components/ModernDatePicker";
 import Head from "@/Components/Head";
 import client from "@/api/client";
+import ReportsSkeleton from "@/Components/Skeletons/ReportsSkeleton";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 const fmt = (n) =>
@@ -65,7 +63,7 @@ function PeriodDropdown({ value, onChange }) {
                             className={`w-full text-left px-4 py-2 text-xs font-bold transition-colors ${String(value) === opt.value
                                     ? "bg-brand-light/40 text-brand-secondary"
                                     : "text-brand-dark hover:bg-brand-light/20"
-                                }`}
+                                }}`}
                         >
                             {opt.label}
                         </button>
@@ -391,20 +389,30 @@ export default function ReportsIndex() {
     };
 
     useEffect(() => {
+        let isMounted = true;
         const fetchReports = async () => {
             setLoading(true);
             try {
                 const res = await client.get(`/reports${location.search}`);
-                setData(res.data);
-                setError(null);
+                if (isMounted) {
+                    setData(res.data);
+                    setError(null);
+                }
             } catch (err) {
-                console.error("Gagal memuat laporan:", err);
-                setError(err);
+                if (isMounted) {
+                    console.error("Gagal memuat laporan:", err);
+                    setError(err);
+                }
             } finally {
-                setLoading(false);
+                if (isMounted) {
+                    setLoading(false);
+                }
             }
         };
         fetchReports();
+        return () => {
+            isMounted = false;
+        };
     }, [location.search, refreshTrigger]);
 
     const handleExportExcel = async (e) => {
@@ -519,21 +527,16 @@ export default function ReportsIndex() {
 
     if (loading && !data) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Laporan Bisnis" />
-                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
-                    <div className="flex flex-col items-center gap-3">
-                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
-                    </div>
-                </div>
-            </AppLayout>
+                <ReportsSkeleton />
+            </>
         )
     }
 
     if (error && !data) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Laporan Bisnis" />
                 <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
                     <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
@@ -547,12 +550,12 @@ export default function ReportsIndex() {
                         </button>
                     </div>
                 </div>
-            </AppLayout>
+            </>
         )
     }
 
     return (
-        <AppLayout>
+        <>
             <Head title="Laporan Bisnis" />
 
             <div className="space-y-6 p-4 md:p-6 bg-brand-bg min-h-screen">
@@ -954,7 +957,7 @@ export default function ReportsIndex() {
                                     </div>
                                 )}
 
-                                <a href={route("targets-goals.index")}
+                                <a href="/targets-goals"
                                     className="mt-5 block w-full py-2.5 text-xs font-extrabold text-center text-brand-primary border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors">
                                     {targetRevenue > 0
                                         ? "Lihat Rincian Target"
@@ -988,7 +991,7 @@ export default function ReportsIndex() {
                                     tersedia cukup untuk akhir pekan ini."
                                 </p>
                                 <Link
-                                    href={route("targets-goals.aov")}
+                                    to="/targets-goals/aov"
                                     className="text-xs font-extrabold text-brand-secondary hover:text-brand-primary hover:underline transition-colors flex items-center gap-1"
                                 >
                                     Lihat Analisis Detail
@@ -1126,6 +1129,6 @@ export default function ReportsIndex() {
                 payments={filterPayments}
                 days={days}
             />
-        </AppLayout>
+        </>
     );
 }

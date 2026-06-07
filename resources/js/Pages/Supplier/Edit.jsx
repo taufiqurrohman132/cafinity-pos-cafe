@@ -1,19 +1,40 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AppLayout from '@/Layouts/AppLayout';
-import { useForm } from '@/api/inertia-mock';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import client from '@/api/client';
 import Head from '@/Components/Head';
+import SupplierEditSkeleton from '@/Components/Skeletons/SupplierEditSkeleton';
 
-export default function SupplierEdit({ supplier }) {
+export default function SupplierEdit() {
+    const { id } = useParams();
     const navigate = useNavigate();
-    const primaryContact = supplier.contacts?.find(c => c.is_primary) || supplier.contacts?.[0] || {};
 
-    // Parse categories from database comma-separated format
-    const initialCategories = supplier.category 
-        ? supplier.category.split(',').map(s => s.trim()).filter(s => s !== '') 
-        : ['Hardware', 'IT Services'];
+    const [dataState, setDataState] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const [categoriesList, setCategoriesList] = useState(initialCategories);
+    const fetchSupplier = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await client.get(`/suppliers/${id}/edit`);
+            setDataState(res.data);
+        } catch (err) {
+            console.error("Gagal memuat data supplier", err);
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchSupplier();
+    }, [id]);
+
+    const { supplier } = dataState ?? {};
+
+    const primaryContact = supplier?.contacts?.find(c => c.is_primary) || supplier?.contacts?.[0] || {};
+
+    const [categoriesList, setCategoriesList] = useState([]);
     const [newCategoryInput, setNewCategoryInput] = useState('');
     const [showCategoryInput, setShowCategoryInput] = useState(false);
 
@@ -23,25 +44,58 @@ export default function SupplierEdit({ supplier }) {
         { name: 'Profil_Bisnis_Digital.pdf', size: '4.1 MB' }
     ]);
 
-    const { data, setData, put, processing, errors } = useForm({
-        name: supplier.name || '',
-        code: supplier.code || '',
-        category: supplier.category || '',
-        phone: supplier.phone || '',
-        email: supplier.email || '',
-        address: supplier.address || '',
-        city: supplier.city || '',
-        province: supplier.province || '',
-        payment_term: supplier.payment_term || '',
-        lead_time: supplier.lead_time ?? 14,
-        min_order: supplier.min_order ? parseInt(supplier.min_order) : 50,
-        status: supplier.status || 'active',
-        notes: supplier.notes || '',
-        contact_name: primaryContact.name || '',
-        contact_phone: primaryContact.phone || '',
-        contact_email: primaryContact.email || '',
-        contact_position: primaryContact.position || 'Finance Manager',
+    const [formData, setFormData] = useState({
+        name: '',
+        code: '',
+        category: '',
+        phone: '',
+        email: '',
+        address: '',
+        city: '',
+        province: '',
+        payment_term: '',
+        lead_time: 14,
+        min_order: 50,
+        status: 'active',
+        notes: '',
+        contact_name: '',
+        contact_phone: '',
+        contact_email: '',
+        contact_position: 'Finance Manager',
     });
+
+    useEffect(() => {
+        if (supplier) {
+            setFormData({
+                name: supplier.name || '',
+                code: supplier.code || '',
+                category: supplier.category || '',
+                phone: supplier.phone || '',
+                email: supplier.email || '',
+                address: supplier.address || '',
+                city: supplier.city || '',
+                province: supplier.province || '',
+                payment_term: supplier.payment_term || '',
+                lead_time: supplier.lead_time ?? 14,
+                min_order: supplier.min_order ? parseInt(supplier.min_order) : 50,
+                status: supplier.status || 'active',
+                notes: supplier.notes || '',
+                contact_name: primaryContact.name || '',
+                contact_phone: primaryContact.phone || '',
+                contact_email: primaryContact.email || '',
+                contact_position: primaryContact.position || 'Finance Manager',
+            });
+            const initialCategories = supplier.category 
+                ? supplier.category.split(',').map(s => s.trim()).filter(s => s !== '') 
+                : ['Hardware', 'IT Services'];
+            setCategoriesList(initialCategories);
+        }
+    }, [supplier]);
+
+    const data = formData;
+    const setData = (key, value) => {
+        setFormData(prev => ({ ...prev, [key]: value }));
+    };
 
     // Sync categoriesList array to form category field
     useEffect(() => {
@@ -76,14 +130,48 @@ export default function SupplierEdit({ supplier }) {
         setUploadedFiles(uploadedFiles.filter(file => file.name !== fileName));
     };
 
-    const handleSubmit = (e) => {
+    const [processing, setProcessing] = useState(false);
+    const [errors, setErrors] = useState({});
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        put(`/suppliers/${supplier.id}`, {
-            onSuccess: () => {
-                navigate('/suppliers');
+        setProcessing(true);
+        setErrors({});
+        try {
+            await client.put(`/suppliers/${supplier.id}`, formData);
+            navigate('/suppliers');
+        } catch (err) {
+            console.error("Gagal memperbarui supplier:", err);
+            if (err.response && err.response.status === 422) {
+                setErrors(err.response.data.errors || {});
+            } else {
+                alert("Gagal memperbarui supplier.");
             }
-        });
+        } finally {
+            setProcessing(false);
+        }
     };
+
+    if (loading) {
+        return <SupplierEditSkeleton />;
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                    <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4"></iconify-icon>
+                    <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                    <p className="text-sm text-brand-primary/70 mb-6">
+                        Gagal memuat data supplier dari server. Silakan coba lagi.
+                    </p>
+                    <button onClick={fetchSupplier} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        Coba Lagi
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     // Checklist criteria calculation
     const hasBasicInfo = data.name.trim() !== '' && categoriesList.length > 0;
@@ -92,7 +180,7 @@ export default function SupplierEdit({ supplier }) {
     const hasLogisticsInfo = data.address.trim() !== '' && data.city.trim() !== '' && data.province.trim() !== '' && data.lead_time > 0 && data.min_order > 0;
 
     return (
-        <AppLayout>
+        <>
             <Head title={`Edit Supplier - ${supplier.name}`} />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6 lg:p-8">
@@ -606,6 +694,6 @@ export default function SupplierEdit({ supplier }) {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }

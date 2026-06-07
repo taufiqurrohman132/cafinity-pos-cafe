@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import AppLayout from "@/Layouts/AppLayout";
 import Head from "@/Components/Head";
 import client from "@/api/client";
 
@@ -44,7 +43,7 @@ export default function Invoice({ transaction }) {
     }
 
     return (
-        <AppLayout>
+        <>
             <Head title={`Invoice #${transaction.id}`} />
 
             <div className="min-h-screen bg-gray-50 p-6 md:p-8">
@@ -179,6 +178,6 @@ export default function Invoice({ transaction }) {
 
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }

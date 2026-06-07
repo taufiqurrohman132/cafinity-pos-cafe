@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import client from '../../../api/client';
 import { useAuth } from '../../../context/AuthContext';
-import AppLayout from '@/Layouts/AppLayout';
 import TargetModal from '@/Components/TargetModal';
+import DashboardSkeleton from '@/Components/Skeletons/DashboardSkeleton';
 
 // ── Stat Card Component ──────────────────────────────────────────
 function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor, loading }) {
@@ -184,22 +184,62 @@ export default function OwnerDashboard() {
     const { user } = useAuth();
     const [dashboardData, setDashboardData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [error, setError] = useState(null);
     const [showTargetModal, setShowTargetModal] = useState(false);
 
-    const fetchDashboard = async () => {
+    const fetchDashboard = async (silent = false) => {
+        if (!silent) {
+            setLoading(true);
+            setError(null);
+        } else {
+            setIsRefreshing(true);
+        }
         try {
             const res = await client.get('/dashboard');
             setDashboardData(res.data);
         } catch (e) {
             console.error('Failed to fetch owner dashboard data', e);
+            if (!silent) {
+                setError(e);
+            }
         } finally {
-            setLoading(false);
+            if (!silent) {
+                setLoading(false);
+            } else {
+                setIsRefreshing(false);
+            }
         }
     };
 
     useEffect(() => {
         fetchDashboard();
     }, []);
+
+    if (loading) {
+        return <DashboardSkeleton />;
+    }
+
+    if (error) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 bg-brand-bg text-center">
+                <div className="w-16 h-16 rounded-full bg-rose-50 flex items-center justify-center text-rose-500 mb-4 border border-rose-100 animate-bounce">
+                    <iconify-icon icon="solar:danger-circle-linear" class="text-3xl"></iconify-icon>
+                </div>
+                <h3 className="text-lg font-bold text-brand-dark mb-2">Gagal Memuat Dashboard</h3>
+                <p className="text-sm text-brand-primary/70 max-w-md mb-6">
+                    Terjadi kesalahan saat mengambil data dashboard dari server. Pastikan server Laravel Anda berjalan.
+                </p>
+                <button
+                    onClick={() => fetchDashboard()}
+                    className="px-6 py-2.5 bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-bold rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-2"
+                >
+                    <iconify-icon icon="solar:restart-linear" class="text-lg"></iconify-icon>
+                    Coba Lagi
+                </button>
+            </div>
+        );
+    }
 
     const statusColor = {
         preparing: 'bg-amber-400',
@@ -230,10 +270,60 @@ export default function OwnerDashboard() {
     const lowStockItems = dashboardData?.lowStockItems || [];
     const kitchenQueue = dashboardData?.kitchenQueue || [];
 
+    const exportDashboardSummary = () => {
+        if (!dashboardData) return;
+        
+        let csvContent = "";
+        
+        // 1. Stats Section
+        csvContent += "CAFINTY OWNER DASHBOARD SUMMARY\n";
+        csvContent += `Terakhir Update,${lastUpdated}\n\n`;
+        
+        csvContent += "METRIK UTAMA\n";
+        csvContent += "Metrik,Nilai,Tren\n";
+        csvContent += `Pendapatan Hari Ini,"${stats.revenue.value}","${stats.revenue.trend} (${stats.revenue.trend_type === 'up' ? 'Naik' : 'Turun'})"\n`;
+        csvContent += `Estimasi Laba Bersih,"${stats.profit.value}","${stats.profit.trend} (${stats.profit.trend_type === 'up' ? 'Naik' : 'Turun'})"\n`;
+        csvContent += `Total Pesanan,"${stats.orders.value}","${stats.orders.trend} (${stats.orders.trend_type === 'up' ? 'Naik' : 'Turun'})"\n`;
+        csvContent += `Rata-rata Tiket,"${stats.avg_ticket.value}","${stats.avg_ticket.trend} (${stats.avg_ticket.trend_type === 'up' ? 'Naik' : 'Turun'})"\n\n`;
+        
+        // 2. Best Selling Menus Section
+        csvContent += "MENU TERLARIS HARI INI\n";
+        csvContent += "Peringkat,Nama Menu,Kategori,Terjual,Tren\n";
+        bestSellingMenus.forEach((menu, index) => {
+            csvContent += `${index + 1},"${menu.name}","${menu.category}","${menu.sold}","${menu.trend} (${menu.trend_type === 'up' ? 'Naik' : 'Turun'})"\n`;
+        });
+        csvContent += "\n";
+        
+        // 3. Profitability Analysis Section
+        csvContent += "ANALISIS PROFITABILITAS (HIGH MARGIN)\n";
+        csvContent += "Nama Menu,Harga Jual,Estimasi HPP,Profit per Item,Margin (%)\n";
+        profitability.forEach((row) => {
+            csvContent += `"${row.name}","${row.price}","${row.hpp}","${row.profit}","${row.margin}"\n`;
+        });
+        csvContent += "\n";
+
+        // 4. Low Stock Alert Section
+        csvContent += "ALERT STOK RENDAH\n";
+        csvContent += "Nama Item,Stok Saat Ini,Batas Minimum,Satuan\n";
+        lowStockItems.forEach((item) => {
+            csvContent += `"${item.name}",${item.stock},${item.min_stock},"${item.unit}"\n`;
+        });
+
+        const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+        const blob = new Blob([bom, csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `dashboard-owner-summary-${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     const pageLoading = loading;
 
     return (
-        <AppLayout>
+        <>
             <div className="space-y-6 p-4 md:p-6 bg-brand-bg min-h-screen">
                 {/* ====== TOP HEADER ====== */}
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-center justify-between">
@@ -247,10 +337,29 @@ export default function OwnerDashboard() {
                         </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-3">
+                        <button 
+                            onClick={() => fetchDashboard(true)}
+                            disabled={isRefreshing}
+                            className="bg-white hover:bg-brand-light/50 text-brand-primary p-2.5 rounded-xl border border-brand-light shadow-sm transition-all flex items-center justify-center active:scale-95 disabled:opacity-50"
+                            title="Perbarui Data"
+                        >
+                            <iconify-icon 
+                                icon="solar:restart-linear" 
+                                class={`text-[18px] flex ${isRefreshing ? 'animate-spin text-brand-secondary' : ''}`}
+                            ></iconify-icon>
+                        </button>
                         <div className="text-[13px] text-brand-primary bg-white px-4 py-2.5 rounded-xl border border-brand-light shadow-sm flex items-center gap-2 font-medium">
                             <iconify-icon icon="solar:clock-circle-linear" class="text-lg text-brand-secondary"></iconify-icon>
                             <span>Terakhir Update: <span className="font-bold text-brand-dark">{lastUpdated}</span></span>
                         </div>
+                        <button
+                            type="button"
+                            onClick={exportDashboardSummary}
+                            className="bg-white hover:bg-brand-light/50 text-brand-primary px-4 py-2.5 rounded-xl border border-brand-light shadow-sm transition-all flex items-center gap-2 font-bold active:scale-95"
+                        >
+                            <iconify-icon icon="solar:export-linear" class="text-[18px] text-brand-secondary"></iconify-icon>
+                            Ekspor Ringkasan
+                        </button>
                         <Link to="/pos"
                             className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]">
                             <iconify-icon icon="solar:card-2-linear" class="text-[18px]"></iconify-icon>
@@ -660,7 +769,7 @@ export default function OwnerDashboard() {
                         </div>
 
                         {/* Promo Banner */}
-                        <Link to="/bundles"
+                        <Link to="/promotions"
                             className="block bg-gradient-to-br from-brand-dark via-brand-primary to-brand-secondary p-6 rounded-2xl border border-brand-primary relative overflow-hidden hover:shadow-lg hover:shadow-brand-secondary/30 transition-all duration-300 group">
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
                             <div className="relative z-10">
@@ -685,8 +794,8 @@ export default function OwnerDashboard() {
                 currentTarget={currentTarget}
                 currentValue={parseInt(stats.revenue.value.replace(/[^0-9]/g, ''), 10) || 0}
                 defaultPeriod="daily"
-                onSaveSuccess={fetchDashboard}
+                onSaveSuccess={() => fetchDashboard(true)}
             />
-        </AppLayout>
+        </>
     );
 }

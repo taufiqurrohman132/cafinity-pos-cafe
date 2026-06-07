@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import AppLayout from "@/Layouts/AppLayout";
 import Head from "@/Components/Head";
 import client from "@/api/client";
 
@@ -74,7 +73,7 @@ export default function Show({ transaction }) {
     }
 
     return (
-        <AppLayout>
+        <>
             <Head title={`Detail Transaksi #${transaction.id}`} />
 
             <div className="min-h-screen bg-gray-50 p-6 md:p-8">
@@ -232,6 +231,6 @@ export default function Show({ transaction }) {
 
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }

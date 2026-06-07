@@ -1,17 +1,18 @@
-import { Head, Link } from '@inertiajs/react';
-import AppLayout from '@/Layouts/AppLayout';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Head from '@/Components/Head';
 
-export default function InventoriesLowStock({ inventories }) {
+export default function InventoriesLowStock({ inventories = [] }) {
     return (
         <>
             <Head title="Stok Menipis" />
-            <div className="min-h-screen bg-brand-bg p-4 md:p-6">
+            <div className="min-h-screen bg-brand-bg p-4 md:p-6 animate-in fade-in duration-200">
                 <div className="max-w-4xl mx-auto space-y-6">
 
                     {/* Header */}
                     <div className="flex items-center gap-4">
-                        <Link href={route('inventories.index')}
-                            className="w-9 h-9 rounded-xl border border-brand-light bg-white flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition">
+                        <Link to="/inventories"
+                            className="w-9 h-9 rounded-xl border border-brand-light bg-white flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition active:scale-95">
                             <iconify-icon icon="mdi:arrow-left"></iconify-icon>
                         </Link>
                         <div>
@@ -52,9 +53,15 @@ export default function InventoriesLowStock({ inventories }) {
                                                     <span className="text-xs text-gray-400 ml-1">{item.unit}</span>
                                                 </td>
                                                 <td className="px-5 py-4 text-sm text-gray-500">{item.min_stock} {item.unit}</td>
-                                                <td className="px-5 py-4 text-sm text-gray-500">{item.supplier?.name ?? '-'}</td>
+                                                <td className="px-5 py-4 text-sm text-gray-500">
+                                                    {item.supplier ? (
+                                                        <Link to={`/suppliers/${item.supplier.id}`} className="text-brand-primary hover:underline hover:text-brand-secondary font-medium">
+                                                            {item.supplier.name}
+                                                        </Link>
+                                                    ) : '-'}
+                                                </td>
                                                 <td className="px-5 py-4">
-                                                    <Link href={route('inventories.show', item.id)}
+                                                    <Link to={`/inventories/${item.id}`}
                                                         className="text-xs font-bold text-brand-primary hover:underline">
                                                         Detail →
                                                     </Link>
@@ -71,5 +78,3 @@ export default function InventoriesLowStock({ inventories }) {
         </>
     );
 }
-
-InventoriesLowStock.layout = (page) => <AppLayout>{page}</AppLayout>;

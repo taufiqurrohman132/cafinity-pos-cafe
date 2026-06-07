@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import client from '../../../api/client';
 import { useAuth } from '../../../context/AuthContext';
-import AppLayout from '@/Layouts/AppLayout';
+import DashboardSkeleton from '@/Components/Skeletons/DashboardSkeleton';
 
 export default function AdminDashboard() {
     const { user } = useAuth();
@@ -24,6 +24,10 @@ export default function AdminDashboard() {
         fetchDashboard();
     }, []);
 
+    if (loading) {
+        return <DashboardSkeleton />;
+    }
+
     const stats = dashboardData?.stats || {
         low_stock: '0 Item',
         pending_po: '0 Berkas',
@@ -38,7 +42,7 @@ export default function AdminDashboard() {
     const pageLoading = loading;
 
     return (
-        <AppLayout>
+        <>
             <div className="h-full flex flex-col overflow-hidden min-h-screen">
                 <div className="flex-1 grid grid-cols-1 xl:grid-cols-12 gap-3 min-h-0">
 
@@ -278,6 +282,6 @@ export default function AdminDashboard() {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }

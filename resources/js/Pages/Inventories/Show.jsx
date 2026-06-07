@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Head from '@/Components/Head';
-import AppLayout from '@/Layouts/AppLayout';
 import client from '@/api/client';
+import InventoriesDetailSkeleton from '@/Components/Skeletons/InventoriesDetailSkeleton';
 
 export default function InventoriesShow() {
     const { id } = useParams();
     const [inventory, setInventory] = useState(null);
-    const [qty, setQty] = useState('');
-    const [restocking, setRestocking] = useState(false);
+    const [adjustQty, setAdjustQty] = useState('');
+    const [adjustType, setAdjustType] = useState('restock');
+    const [adjustDirection, setAdjustDirection] = useState('in');
+    const [adjustNotes, setAdjustNotes] = useState('');
+    const [processingAdjust, setProcessingAdjust] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -30,36 +33,53 @@ export default function InventoriesShow() {
         fetchInventory();
     }, [id, refreshTrigger]);
 
-    async function handleRestock(e) {
+    useEffect(() => {
+        if (adjustType === 'waste') {
+            setAdjustDirection('out');
+        } else if (adjustType === 'restock') {
+            setAdjustDirection('in');
+        }
+    }, [adjustType]);
+
+    async function handleAdjust(e) {
         e.preventDefault();
+        if (!adjustQty || parseFloat(adjustQty) <= 0) {
+            alert('Jumlah penyesuaian harus lebih besar dari 0.');
+            return;
+        }
+        setProcessingAdjust(true);
         try {
-            await client.post(`/inventories/${id}/restock`, { qty });
-            setQty('');
-            setRestocking(false);
+            await client.post(`/inventories/${id}/adjust`, {
+                qty: parseFloat(adjustQty),
+                type: adjustType,
+                direction: adjustDirection,
+                notes: adjustNotes
+            });
+            setAdjustQty('');
+            setAdjustNotes('');
+            setAdjustType('restock');
+            setAdjustDirection('in');
             setRefreshTrigger(prev => prev + 1);
         } catch (err) {
-            console.error("Gagal restock bahan baku:", err);
-            alert("Gagal restock bahan baku.");
+            console.error("Gagal menyesuaikan stok:", err);
+            alert("Gagal melakukan penyesuaian stok.");
+        } finally {
+            setProcessingAdjust(false);
         }
     }
 
     if (loading && !inventory) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Detail Bahan Baku" />
-                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
-                    <div className="flex flex-col items-center gap-3">
-                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
-                    </div>
-                </div>
-            </AppLayout>
+                <InventoriesDetailSkeleton />
+            </>
         );
     }
 
     if (error && !inventory) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Detail Bahan Baku" />
                 <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
                     <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
@@ -73,7 +93,7 @@ export default function InventoriesShow() {
                         </button>
                     </div>
                 </div>
-            </AppLayout>
+            </>
         );
     }
 
@@ -97,7 +117,7 @@ export default function InventoriesShow() {
     const stockLabel = { blue: 'Aman', yellow: 'Menipis', orange: 'Kritis', red: 'Habis' }[stockColor];
 
     return (
-        <AppLayout>
+        <>
             <Head title={`Detail — ${inventory.name}`} />
             <div className="min-h-screen bg-brand-bg p-4 md:p-6">
                 <div className="max-w-3xl mx-auto space-y-6">
@@ -131,12 +151,19 @@ export default function InventoriesShow() {
                                     {[
                                         { label: 'Kategori',  value: inventory.category?.name ?? '-' },
                                         { label: 'Satuan',    value: inventory.unit },
-                                        { label: 'Supplier',  value: inventory.supplier?.name ?? '-' },
+                                        { 
+                                            label: 'Supplier',  
+                                            value: inventory.supplier ? (
+                                                <Link to={`/suppliers/${inventory.supplier_id}`} className="text-brand-primary hover:underline hover:text-brand-secondary font-semibold">
+                                                    {inventory.supplier.name}
+                                                </Link>
+                                            ) : '-' 
+                                        },
                                         { label: 'Harga/Satuan', value: `Rp ${Number(inventory.price_per_unit).toLocaleString('id-ID')}` },
                                     ].map(item => (
                                         <div key={item.label}>
                                             <p className="text-xs text-gray-400 font-medium">{item.label}</p>
-                                            <p className="font-semibold text-brand-dark mt-0.5">{item.value}</p>
+                                            <div className="font-semibold text-brand-dark mt-0.5">{item.value}</div>
                                         </div>
                                     ))}
                                 </div>
@@ -190,43 +217,116 @@ export default function InventoriesShow() {
                                 </span>
                             </div>
 
-                            {/* Restock */}
-                            <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-6 space-y-3">
-                                <h3 className="font-bold text-brand-dark">Tambah Stok</h3>
-                                {restocking ? (
-                                    <form onSubmit={handleRestock} className="space-y-3">
+                            {/* Stock Adjustment Widget */}
+                            <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-6 space-y-4">
+                                <h3 className="font-bold text-brand-dark flex items-center gap-2">
+                                    <iconify-icon icon="solar:settings-minimalistic-linear" class="text-brand-secondary text-lg"></iconify-icon>
+                                    Penyesuaian Stok
+                                </h3>
+                                <form onSubmit={handleAdjust} className="space-y-4">
+                                    {/* Type Selection */}
+                                    <div>
+                                        <label className="block text-[10px] font-extrabold text-brand-primary/60 uppercase tracking-wider mb-1.5">Jenis Penyesuaian</label>
+                                        <div className="grid grid-cols-3 gap-1 bg-brand-bg border border-brand-light rounded-xl p-1">
+                                            {[
+                                                { label: 'Restock', value: 'restock' },
+                                                { label: 'Koreksi', value: 'adjustment' },
+                                                { label: 'Waste', value: 'waste' }
+                                            ].map(item => (
+                                                <button
+                                                    key={item.value}
+                                                    type="button"
+                                                    onClick={() => setAdjustType(item.value)}
+                                                    className={`py-1.5 text-xs font-bold rounded-lg transition-all ${
+                                                        adjustType === item.value 
+                                                            ? 'bg-white text-brand-primary shadow-sm border border-brand-light' 
+                                                            : 'text-brand-primary/60 hover:text-brand-primary'
+                                                    }`}
+                                                >
+                                                    {item.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Direction Selection */}
+                                    {adjustType !== 'waste' && (
+                                        <div>
+                                            <label className="block text-[10px] font-extrabold text-brand-primary/60 uppercase tracking-wider mb-1.5">Arah Stok</label>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setAdjustDirection('in')}
+                                                    className={`py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition-all ${
+                                                        adjustDirection === 'in'
+                                                            ? 'bg-emerald-50 border-emerald-200 text-emerald-600 shadow-sm'
+                                                            : 'bg-white border-brand-light text-brand-primary/60 hover:bg-brand-bg'
+                                                    }`}
+                                                >
+                                                    <iconify-icon icon="solar:arrow-left-down-linear"></iconify-icon>
+                                                    Masuk (+)
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setAdjustDirection('out')}
+                                                    className={`py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition-all ${
+                                                        adjustDirection === 'out'
+                                                            ? 'bg-rose-50 border-rose-200 text-rose-600 shadow-sm'
+                                                            : 'bg-white border-brand-light text-brand-primary/60 hover:bg-brand-bg'
+                                                    }`}
+                                                >
+                                                    <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon>
+                                                    Keluar (-)
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Quantity Input */}
+                                    <div>
+                                        <label className="block text-[10px] font-extrabold text-brand-primary/60 uppercase tracking-wider mb-1.5">Jumlah ({inventory.unit})</label>
                                         <input
                                             type="number"
-                                            value={qty}
-                                            onChange={e => setQty(e.target.value)}
-                                            placeholder="Jumlah..."
-                                            min="0.01" step="0.01"
-                                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                                            value={adjustQty}
+                                            onChange={e => setAdjustQty(e.target.value)}
+                                            placeholder="Masukkan kuantitas..."
+                                            min="0.01" step="0.01" required
+                                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary font-semibold text-brand-dark"
                                         />
-                                        <div className="flex gap-2">
-                                            <button type="submit"
-                                                className="flex-1 py-2.5 text-sm font-semibold text-white bg-brand-primary rounded-xl hover:bg-brand-secondary transition">
-                                                Tambah
-                                            </button>
-                                            <button type="button" onClick={() => setRestocking(false)}
-                                                className="flex-1 py-2.5 text-sm font-semibold text-gray-600 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition">
-                                                Batal
-                                            </button>
-                                        </div>
-                                    </form>
-                                ) : (
-                                    <button onClick={() => setRestocking(true)}
-                                        className="w-full py-2.5 text-sm font-semibold text-brand-primary border border-brand-light rounded-xl hover:bg-brand-light transition">
-                                        + Restock
+                                    </div>
+
+                                    {/* Notes Input */}
+                                    <div>
+                                        <label className="block text-[10px] font-extrabold text-brand-primary/60 uppercase tracking-wider mb-1.5">Keterangan</label>
+                                        <textarea
+                                            value={adjustNotes}
+                                            onChange={e => setAdjustNotes(e.target.value)}
+                                            placeholder={adjustType === 'waste' ? 'Susu tumpah, sayur layu, dll...' : 'Keterangan tambahan...'}
+                                            rows="2"
+                                            className="w-full p-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary resize-none font-medium text-brand-dark"
+                                        />
+                                    </div>
+
+                                    {/* Submit Button */}
+                                    <button
+                                        type="submit"
+                                        disabled={processingAdjust}
+                                        className={`w-full py-2.5 rounded-xl text-sm font-bold text-white transition-all shadow-md active:scale-[0.98] disabled:opacity-60 bg-gradient-to-r ${
+                                            adjustDirection === 'in' 
+                                                ? 'from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary' 
+                                                : 'from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700'
+                                        }`}
+                                    >
+                                        {processingAdjust ? 'Memproses...' : 'Simpan Penyesuaian'}
                                     </button>
-                                )}
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }
 
-// InventoriesShow.layout = (page) => <AppLayout>{page}</AppLayout>;
+// InventoriesShow.layout = (page) => <>{page}</>;

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Head from '@/Components/Head';
-import AppLayout from '@/Layouts/AppLayout';
 import InventoryForm from '@/Components/Inventories/InventoryForm';
 import client from '@/api/client';
+import InventoriesEditSkeleton from '@/Components/Skeletons/InventoriesEditSkeleton';
 
 export default function InventoriesCreate() {
     const navigate = useNavigate();
@@ -73,20 +73,15 @@ export default function InventoriesCreate() {
 
     if (loading) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Tambah Bahan Baku" />
-                <div className="min-h-screen bg-brand-bg flex items-center justify-center p-4">
-                    <div className="flex flex-col items-center gap-3">
-                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-sm font-bold text-brand-primary">Memuat Form...</p>
-                    </div>
-                </div>
-            </AppLayout>
+                <InventoriesEditSkeleton />
+            </>
         );
     }
 
     return (
-        <AppLayout>
+        <>
             <Head title="Tambah Bahan Baku" />
             <div className="min-h-screen bg-brand-bg p-4 md:p-6">
                 <div className="max-w-2xl mx-auto space-y-6">
@@ -125,6 +120,6 @@ export default function InventoriesCreate() {
                     </form>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }

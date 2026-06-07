@@ -1,10 +1,17 @@
-import { Head, Link, router, usePage, useForm } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
-import AppLayout from '@/Layouts/AppLayout';
+import { Link, useNavigate } from 'react-router-dom';
+import Head from '@/Components/Head';
+import client from '@/api/client';
 
-export default function UsersIndex({ users, stats, logs, filters, can }) {
+export default function UsersIndex({
+    users = { data: [], links: [], from: 0, to: 0, total: 0 },
+    stats = { totalKasir: 0, totalAdmin: 0, totalPending: 0, totalUser: 0, totalActive: 0 },
+    logs = [],
+    filters = {},
+    can = { manage_users: false },
+}) {
     const [search, setSearch] = useState(filters.search || '');
-    const [role, setRole]     = useState(filters.role || '');
+    const [role, setRole] = useState(filters.role || '');
     const [status, setStatus] = useState(filters.status || '');
 
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -12,44 +19,89 @@ export default function UsersIndex({ users, stats, logs, filters, can }) {
     const [showDetailModal, setShowDetailModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
+    const getRelativeUrl = (url) => {
+        if (!url) return '#';
+        try {
+            const parsed = new URL(url);
+            return `/users${parsed.search}`;
+        } catch (e) {
+            if (url.includes('?')) {
+                return `/users?${url.split('?')[1]}`;
+            }
+            return '/users';
+        }
+    };
+
+    const handleExportCsv = async (e) => {
+        if (e) e.preventDefault();
+        try {
+            const params = new URLSearchParams();
+            params.append('export', 'csv');
+            if (search) params.append('search', search);
+            if (role) params.append('role', role);
+            if (status) params.append('status', status);
+
+            const response = await client.get(`/users?${params.toString()}`, {
+                responseType: 'blob',
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `users-${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (err) {
+            console.error("Gagal mengekspor data pengguna:", err);
+            alert("Gagal mengekspor data pengguna.");
+        }
+    };
+
+    const navigate = useNavigate();
+
     function handleFilter(e) {
         e.preventDefault();
-        router.get(route('users.index'), { search, role, status }, {
-            preserveState: true,
-            replace: true,
-        });
+        const q = new URLSearchParams();
+        if (search) q.set('search', search);
+        if (role) q.set('role', role);
+        if (status) q.set('status', status);
+        navigate('/users?' + q.toString());
     }
 
     function handleReset() {
         setSearch(''); setRole(''); setStatus('');
-        router.get(route('users.index'));
+        navigate('/users');
     }
 
-    function handleToggleStatus(id) {
-        router.post(route('users.toggle-status', id), {}, { preserveScroll: true });
+    async function handleToggleStatus(id) {
+        await client.post(`/users/${id}/toggle-status`);
+        window.location.reload();
     }
 
-    function handleResetPassword(id) {
-        router.post(route('users.reset-password', id), {}, { preserveScroll: true });
+    async function handleResetPassword(id) {
+        if (!confirm('Reset password pengguna ini menjadi "password123"?')) return;
+        await client.post(`/users/${id}/reset-password`);
+        window.location.reload();
     }
 
-    function handleDelete(id, name) {
+    async function handleDelete(id, name) {
         if (!confirm(`Hapus pengguna ${name}?`)) return;
-        router.delete(route('users.destroy', id), { preserveScroll: true });
+        await client.delete(`/users/${id}`);
+        window.location.reload();
     }
 
     const roleStyles = {
-        owner:   'bg-brand-secondary text-white',
-        admin:   'bg-brand-light/50 text-brand-primary',
+        owner: 'bg-brand-secondary text-white',
+        admin: 'bg-brand-light/50 text-brand-primary',
         cashier: 'bg-brand-light/50 text-brand-primary',
     };
     const roleLabels = { owner: 'Owner', admin: 'Admin', cashier: 'Kasir' };
 
     const statusStyles = {
-        active:      { bg: 'bg-[#ecfdf5]',  dot: 'bg-[#10b981]', text: 'text-[#10b981]', label: 'Active' },
-        inactive:    { bg: 'bg-[#f3f4f6]',  dot: 'bg-[#6b7280]', text: 'text-[#6b7280]', label: 'Inactive' },
-        pending:     { bg: 'bg-[#fef3c7]',  dot: 'bg-[#f59e0b]', text: 'text-[#f59e0b]', label: 'Pending' },
-        deactivated: { bg: 'bg-[#fef2f2]',  dot: 'bg-[#ef4444]', text: 'text-[#ef4444]', label: 'Deactivated' },
+        active: { bg: 'bg-[#ecfdf5]', dot: 'bg-[#10b981]', text: 'text-[#10b981]', label: 'Active' },
+        inactive: { bg: 'bg-[#f3f4f6]', dot: 'bg-[#6b7280]', text: 'text-[#6b7280]', label: 'Inactive' },
+        pending: { bg: 'bg-[#fef3c7]', dot: 'bg-[#f59e0b]', text: 'text-[#f59e0b]', label: 'Pending' },
+        deactivated: { bg: 'bg-[#fef2f2]', dot: 'bg-[#ef4444]', text: 'text-[#ef4444]', label: 'Deactivated' },
     };
 
     return (
@@ -73,13 +125,13 @@ export default function UsersIndex({ users, stats, logs, filters, can }) {
                             </div>
                             {can.manage_users && (
                                 <div className="flex flex-wrap items-center gap-3">
-                                    <a
-                                        href={route('users.index', { export: 'csv', search, role, status })}
+                                    <button
+                                        onClick={handleExportCsv}
                                         className="flex items-center gap-2 px-4 py-2.5 border border-brand-light bg-white text-brand-primary text-sm font-bold hover:bg-brand-light rounded-xl transition-all"
                                     >
                                         <iconify-icon icon="solar:download-square-linear" class="text-lg"></iconify-icon>
                                         Export CSV
-                                    </a>
+                                    </button>
                                     <button
                                         onClick={() => setShowCreateModal(true)}
                                         className="flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-brand-primary/30 transition-all"
@@ -94,9 +146,9 @@ export default function UsersIndex({ users, stats, logs, filters, can }) {
                         {/* Stat Cards */}
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                             {[
-                                { label: 'Kasir Aktif',       value: stats.totalKasir,   sub: 'Aktif bertugas',     subColor: 'text-emerald-500', icon: 'solar:users-group-rounded-linear',  iconBg: 'bg-brand-light/50 text-brand-primary' },
-                                { label: 'Admin Sistem',      value: stats.totalAdmin,   sub: 'Pengguna aktif',     subColor: 'text-brand-secondary',   icon: 'solar:shield-keyhole-linear',       iconBg: 'bg-brand-light/50 text-brand-primary' },
-                                { label: 'Menunggu Akses',    value: stats.totalPending, sub: 'Perlu persetujuan',  subColor: 'text-amber-500',   icon: 'solar:clock-circle-linear',         iconBg: 'bg-brand-light/50 text-brand-primary' },
+                                { label: 'Kasir Aktif', value: stats.totalKasir, sub: 'Aktif bertugas', subColor: 'text-emerald-500', icon: 'solar:users-group-rounded-linear', iconBg: 'bg-brand-light/50 text-brand-primary' },
+                                { label: 'Admin Sistem', value: stats.totalAdmin, sub: 'Pengguna aktif', subColor: 'text-brand-secondary', icon: 'solar:shield-keyhole-linear', iconBg: 'bg-brand-light/50 text-brand-primary' },
+                                { label: 'Menunggu Akses', value: stats.totalPending, sub: 'Perlu persetujuan', subColor: 'text-amber-500', icon: 'solar:clock-circle-linear', iconBg: 'bg-brand-light/50 text-brand-primary' },
                             ].map(card => (
                                 <div key={card.label} className="bg-white rounded-2xl border border-brand-light shadow-sm p-6">
                                     <div className="flex justify-between items-start">
@@ -237,12 +289,11 @@ export default function UsersIndex({ users, stats, logs, filters, can }) {
                                     {users.links?.map((link, i) => (
                                         <Link
                                             key={i}
-                                            href={link.url ?? '#'}
-                                            className={`px-3 py-1.5 text-xs rounded-lg border transition ${
-                                                link.active
-                                                    ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-white border-brand-primary'
-                                                    : 'border-brand-light text-brand-primary hover:bg-brand-light'
-                                            } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
+                                            to={getRelativeUrl(link.url)}
+                                            className={`px-3 py-1.5 text-xs rounded-lg border transition ${link.active
+                                                ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-white border-brand-primary'
+                                                : 'border-brand-light text-brand-primary hover:bg-brand-light'
+                                                } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
                                     ))}
@@ -260,9 +311,9 @@ export default function UsersIndex({ users, stats, logs, filters, can }) {
                             <p className="text-xs text-brand-primary/70 font-medium mt-0.5 mb-5">Status personel saat ini.</p>
                             <div className="space-y-3">
                                 {[
-                                    { label: 'Total Pengguna', value: stats.totalUser,    bg: 'bg-brand-light/30 border-brand-light',         text: 'text-brand-secondary',  icon: 'solar:users-group-two-rounded-linear' },
-                                    { label: 'Status Aktif',   value: stats.totalActive,  bg: 'bg-[#ecfdf5] border-[#10b981]/20',          text: 'text-brand-dark',  icon: 'solar:check-circle-linear' },
-                                    { label: 'Menunggu Akses', value: stats.totalPending, bg: 'bg-[#fef3c7] border-[#f59e0b]/20',          text: 'text-brand-dark',  icon: 'solar:clock-square-linear' },
+                                    { label: 'Total Pengguna', value: stats.totalUser, bg: 'bg-brand-light/30 border-brand-light', text: 'text-brand-secondary', icon: 'solar:users-group-two-rounded-linear' },
+                                    { label: 'Status Aktif', value: stats.totalActive, bg: 'bg-[#ecfdf5] border-[#10b981]/20', text: 'text-brand-dark', icon: 'solar:check-circle-linear' },
+                                    { label: 'Menunggu Akses', value: stats.totalPending, bg: 'bg-[#fef3c7] border-[#f59e0b]/20', text: 'text-brand-dark', icon: 'solar:clock-square-linear' },
                                 ].map(item => (
                                     <div key={item.label} className={`border rounded-xl p-4 flex items-center justify-between ${item.bg}`}>
                                         <div>
@@ -308,8 +359,6 @@ export default function UsersIndex({ users, stats, logs, filters, can }) {
         </>
     );
 }
-
-UsersIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
 
 // ── Dropdown Aksi ────────────────────────────────────────────────
 function UserActions({ user, canManage, onToggle, onReset, onDelete, onEdit, onShowDetail }) {
@@ -363,23 +412,26 @@ function UserActions({ user, canManage, onToggle, onReset, onDelete, onEdit, onS
 
 // Modal Tambah Pengguna
 function CreateUserModal({ isOpen, onClose }) {
-    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
-        role: 'cashier',
-        status: 'active',
+    const [data, setDataState] = useState({
+        name: '', email: '', password: '', password_confirmation: '', role: 'cashier', status: 'active',
     });
+    const [errors, setErrors] = useState({});
+    const [processing, setProcessing] = useState(false);
 
-    const handleSubmit = (e) => {
+    const setData = (key, value) => setDataState(prev => ({ ...prev, [key]: value }));
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        post(route('users.store'), {
-            onSuccess: () => {
-                reset();
-                onClose();
-            },
-        });
+        setProcessing(true);
+        try {
+            await client.post('/users', data);
+            onClose();
+            window.location.reload();
+        } catch (err) {
+            setErrors(err.response?.data?.errors ?? {});
+        } finally {
+            setProcessing(false);
+        }
     };
 
     if (!isOpen) return null;
@@ -505,37 +557,37 @@ function CreateUserModal({ isOpen, onClose }) {
 
 // Modal Edit Pengguna
 function EditUserModal({ isOpen, onClose, user }) {
-    const { data, setData, put, processing, errors, reset, clearErrors } = useForm({
-        name: '',
-        email: '',
-        role: '',
-        status: '',
-        password: '',
-        password_confirmation: '',
+    const [data, setDataState] = useState({
+        name: '', email: '', role: '', status: '', password: '', password_confirmation: '',
     });
+    const [errors, setErrors] = useState({});
+    const [processing, setProcessing] = useState(false);
 
-    // Populate data when user changes
+    const setData = (key, value) => setDataState(prev => ({ ...prev, [key]: value }));
+
     useEffect(() => {
         if (user) {
-            setData({
-                name: user.name || '',
-                email: user.email || '',
-                role: user.role || 'cashier',
-                status: user.status || 'active',
-                password: '',
-                password_confirmation: '',
+            setErrors({});
+            setDataState({
+                name: user.name || '', email: user.email || '',
+                role: user.role || 'cashier', status: user.status || 'active',
+                password: '', password_confirmation: '',
             });
         }
     }, [user]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        put(route('users.update', user.id), {
-            onSuccess: () => {
-                reset();
-                onClose();
-            },
-        });
+        setProcessing(true);
+        try {
+            await client.put(`/users/${user.id}`, data);
+            onClose();
+            window.location.reload();
+        } catch (err) {
+            setErrors(err.response?.data?.errors ?? {});
+        } finally {
+            setProcessing(false);
+        }
     };
 
     if (!isOpen || !user) return null;

@@ -114,4 +114,25 @@ class KitchenOrderController extends Controller
             'order' => $order
         ]);
     }
+
+    public function back(string $id)
+    {
+        $order = KitchenOrder::findOrFail($id);
+        if ($order->status === 'preparing') {
+            $order->update([
+                'status'      => 'pending',
+                'prepared_at' => null,
+            ]);
+        } elseif ($order->status === 'ready') {
+            $order->update([
+                'status' => 'preparing',
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status pesanan berhasil dikembalikan.',
+            'order' => $order
+        ]);
+    }
 }

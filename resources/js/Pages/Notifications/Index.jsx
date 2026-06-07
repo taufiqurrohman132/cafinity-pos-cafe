@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Head from "@/Components/Head";
 import { Icon } from "@iconify/react";
-import AppLayout from "@/Layouts/AppLayout";
 import client from "@/api/client";
 
 // ── helpers ───────────────────────────────────────────────────────────────────
@@ -304,7 +303,7 @@ export default function Index({ notifications: initialNotifications, stats: init
     }, [notifications.data, activeTab, filterStatus, filterPriority]);
 
     return (
-        <AppLayout>
+        <>
             <Head title="Pusat Notifikasi" />
 
             <div className="min-h-screen bg-brand-bg font-inter text-brand-dark p-4 md:p-6 space-y-6">
@@ -527,6 +526,6 @@ export default function Index({ notifications: initialNotifications, stats: init
                 </div>
 
             </div>
-        </AppLayout>
+        </>
     );
 }

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import AppLayout from '@/Layouts/AppLayout';
 import Head from '@/Components/Head';
 import client from '@/api/client';
 
@@ -130,7 +129,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
     };
 
     return (
-        <AppLayout>
+        <>
             <Head title="Daftar Supplier" />
 
             <div className="min-h-screen bg-brand-bg">
@@ -553,6 +552,6 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import AppLayout from '@/Layouts/AppLayout';
 import Head from '@/Components/Head';
 import client from '@/api/client';
 
@@ -144,7 +143,7 @@ export default function SupplierShow({ supplier }) {
     };
 
     return (
-        <AppLayout>
+        <>
             <Head title={`Detail Supplier - ${supplier.name}`} />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6 lg:p-8">
@@ -610,6 +609,6 @@ export default function SupplierShow({ supplier }) {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }

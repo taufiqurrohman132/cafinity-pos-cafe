@@ -29,12 +29,24 @@ const getBrandColor = (varName, fallback, opacity = 1) => {
 };
 
 // Anda dapat mengganti ini dengan komponen Layout standar Anda
-import AppLayout from '@/Layouts/AppLayout';
 
 export default function TargetPerforma({
-    target, targetValue, currentValue, progress, remaining, lastUpdated,
-    period, estimasi, trendEstimasi, avgHarian, history, staffPerformance,
-    maxStaff, paymentSummary, peakLabel, promoAktif
+    target = null,
+    targetValue = 0,
+    currentValue = 0,
+    progress = 0,
+    remaining = 0,
+    lastUpdated = '-',
+    period = 'harian',
+    estimasi = 0,
+    trendEstimasi = 0,
+    avgHarian = 0,
+    history = { labels: [], actuals: [], targets: [] },  // ← ini paling penting
+    staffPerformance = [],                                // ← ini juga
+    maxStaff = 1,
+    paymentSummary = '',
+    peakLabel = '-',
+    promoAktif = '-',
 }) {
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -149,7 +161,7 @@ export default function TargetPerforma({
     };
 
     return (
-        <AppLayout>
+        <>
             <Head title="Target & Performa" />
 
             <div className="space-y-6 p-4 md:p-6 bg-brand-bg min-h-screen">
@@ -453,6 +465,6 @@ export default function TargetPerforma({
                 </div>
             )}
 
-        </AppLayout>
+        </>
     );
 }

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AppLayout from "@/Layouts/AppLayout";
 import Head from "@/Components/Head";
 import { Icon } from "@iconify/react";
 
@@ -82,22 +81,22 @@ function AovTimeChart({ labels, data }) {
 
 export default function AovReport({
     filters = {},
-    overallAov,
-    orderVolume,
-    grossRevenue,
-    aovTrend,
-    volumeTrend,
-    revenueTrend,
-    aovDineIn,
-    aovDelivery,
-    aovTakeaway,
-    countDineIn,
-    countDelivery,
-    countTakeaway,
-    chartLabels,
-    chartData,
-    heatmapSlots,
-    categoriesContribution,
+    overallAov = 0,
+    orderVolume = 0,
+    grossRevenue = 0,
+    aovTrend = 0,
+    volumeTrend = 0,
+    revenueTrend = 0,
+    aovDineIn = 0,
+    aovDelivery = 0,
+    aovTakeaway = 0,
+    countDineIn = 0,
+    countDelivery = 0,
+    countTakeaway = 0,
+    chartLabels = [],
+    chartData = [],
+    heatmapSlots = [],      // ← ini yang crash
+    categoriesContribution = [],  // ← ini juga
 }) {
     const navigate = useNavigate();
     const [selectedPeriod, setSelectedPeriod] = useState(filters.period || "Bulan");
@@ -208,7 +207,7 @@ export default function AovReport({
     };
 
     return (
-        <AppLayout>
+        <>
             <Head title="Laporan Rata-rata Nilai Tiket (AOV)" />
 
             <div className="flex flex-col gap-6 py-6 px-8 max-w-7xl mx-auto bg-brand-bg min-h-[calc(100vh-72px)]">
@@ -560,6 +559,6 @@ export default function AovReport({
                     </span>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }

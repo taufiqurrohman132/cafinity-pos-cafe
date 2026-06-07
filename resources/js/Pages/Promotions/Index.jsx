@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Head from '@/Components/Head';
-import AppLayout from '@/Layouts/AppLayout';
 import { Icon } from '@iconify/react';
 import {
     Chart as ChartJS,
@@ -14,6 +13,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import client from '@/api/client';
+import PromotionsSkeleton from '@/Components/Skeletons/PromotionsSkeleton';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler, Legend);
 
@@ -320,21 +320,16 @@ export default function PromotionsIndex() {
 
     if (loading) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Promosi & Bundling" />
-                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
-                    <div className="flex flex-col items-center gap-3">
-                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
-                    </div>
-                </div>
-            </AppLayout>
+                <PromotionsSkeleton />
+            </>
         );
     }
 
     if (error) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Promosi & Bundling" />
                 <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
                     <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
@@ -348,12 +343,12 @@ export default function PromotionsIndex() {
                         </button>
                     </div>
                 </div>
-            </AppLayout>
+            </>
         );
     }
 
     return (
-        <AppLayout>
+        <>
             <Head title="Promosi & Bundling" />
 
             <div className="flex-1 overflow-y-auto bg-brand-bg min-h-screen px-6 py-6 space-y-6">
@@ -885,8 +880,8 @@ export default function PromotionsIndex() {
                     </button>
                 </div>
             )}
-        </AppLayout>
+        </>
     );
 }
 
-// PromotionsIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
+// PromotionsIndex.layout = (page) => <>{page}</>;

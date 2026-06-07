@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import Head from '@/Components/Head'
-import AppLayout from '@/Layouts/AppLayout'
 import client from '@/api/client'
+import PurchaseOrderShowSkeleton from '@/Components/Skeletons/PurchaseOrderShowSkeleton'
 
 export default function PurchaseOrderShow() {
     const { id } = useParams()
@@ -114,21 +114,16 @@ export default function PurchaseOrderShow() {
 
     if (loading && !order) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Detail Purchase Order" />
-                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
-                    <div className="flex flex-col items-center gap-3">
-                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-sm font-bold text-brand-primary">Memuat Detail...</p>
-                    </div>
-                </div>
-            </AppLayout>
+                <PurchaseOrderShowSkeleton />
+            </>
         )
     }
 
     if (error && !order) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Detail Purchase Order" />
                 <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
                     <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
@@ -142,12 +137,12 @@ export default function PurchaseOrderShow() {
                         </button>
                     </div>
                 </div>
-            </AppLayout>
+            </>
         )
     }
 
     return (
-        <AppLayout>
+        <>
             <Head title={`PO #${order.po_number || order.id}`} />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6">
@@ -563,8 +558,8 @@ export default function PurchaseOrderShow() {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     )
 }
 
-// PurchaseOrderShow.layout = (page) => <AppLayout>{page}</AppLayout>;
+// PurchaseOrderShow.layout = (page) => <>{page}</>;

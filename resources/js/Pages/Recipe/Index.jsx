@@ -1,9 +1,9 @@
 // Recipe/Index.jsx
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import AppLayout from '@/Layouts/AppLayout'
 import Head from '@/Components/Head'
 import client from '@/api/client'
+import RecipeSkeleton from '@/Components/Skeletons/RecipeSkeleton'
 
 export default function RecipeIndex() {
     const location = useLocation()
@@ -153,21 +153,16 @@ export default function RecipeIndex() {
 
     if (loading && recipes.length === 0) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Recipe Costing" />
-                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
-                    <div className="flex flex-col items-center gap-3">
-                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
-                    </div>
-                </div>
-            </AppLayout>
+                <RecipeSkeleton />
+            </>
         )
     }
 
     if (error && recipes.length === 0) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Recipe Costing" />
                 <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
                     <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
@@ -181,12 +176,12 @@ export default function RecipeIndex() {
                         </button>
                     </div>
                 </div>
-            </AppLayout>
+            </>
         )
     }
 
     return (
-        <AppLayout>
+        <>
             <Head title="Recipe Costing" />
 
             <div className="flex h-[calc(100vh-72px)] bg-brand-bg overflow-hidden">
@@ -680,7 +675,7 @@ export default function RecipeIndex() {
                     </div>
                 </div>
             )}
-        </AppLayout>
+        </>
     )
 }
 

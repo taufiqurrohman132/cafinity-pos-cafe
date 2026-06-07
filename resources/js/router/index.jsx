@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from '../Components/ProtectedRoute';
 import PageLoader from '../Components/PageLoader';
+import AppLayout from '../Layouts/AppLayout';
 
 // Auth Pages
 import Login from '../Pages/Auth/Login';
@@ -49,306 +50,61 @@ import RolePermissionIndex from '../Pages/UserManagement/RolePermission/Index';
 import SettingsIndex from '../Pages/Settings/Index';
 import NotificationsIndex from '../Pages/Notifications/Index';
 
+// Skeletons
+import UsersSkeleton from '../Components/Skeletons/UsersSkeleton';
+import RolePermissionSkeleton from '../Components/Skeletons/RolePermissionSkeleton';
+import SupplierSkeleton from '../Components/Skeletons/SupplierSkeleton';
+import SupplierFormSkeleton from '../Components/Skeletons/SupplierFormSkeleton';
+import SupplierDetailSkeleton from '../Components/Skeletons/SupplierDetailSkeleton';
+import TransactionsDetailSkeleton from '../Components/Skeletons/TransactionsDetailSkeleton';
+import TransactionsInvoiceSkeleton from '../Components/Skeletons/TransactionsInvoiceSkeleton';
+import TargetsGoalsSkeleton from '../Components/Skeletons/TargetsGoalsSkeleton';
+import NotificationsSkeleton from '../Components/Skeletons/NotificationsSkeleton';
+import InventoriesLowStockSkeleton from '../Components/Skeletons/InventoriesLowStockSkeleton';
+
 const AppRoutes = () => {
     return (
         <Routes>
-            {/* Public Route */}
+            {/* Public - tanpa AppLayout */}
             <Route path="/login" element={<Login />} />
 
-            {/* Protected Routes */}
-            <Route 
-                path="/dashboard" 
-                element={
-                    <ProtectedRoute>
-                        <DashboardRedirect />
-                    </ProtectedRoute>
-                } 
-            />
+            {/* Semua yang butuh sidebar - pakai AppLayout sebagai parent */}
+            <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
+                <Route path="/dashboard" element={<DashboardRedirect />} />
+                <Route path="/owner/dashboard" element={<OwnerDashboard />} />
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="/cashier/dashboard" element={<CashierDashboard />} />
+                <Route path="/pos" element={<POS />} />
+                <Route path="/transactions" element={<TransactionsIndex />} />
+                <Route path="/transactions/:id" element={<PageLoader component={TransactionsShow} apiPath="/transactions/:id" skeleton={TransactionsDetailSkeleton} />} />
+                <Route path="/transactions/:id/invoice" element={<PageLoader component={TransactionsInvoice} apiPath="/transactions/:id/invoice" skeleton={TransactionsInvoiceSkeleton} />} />
+                <Route path="/kitchen-orders" element={<KitchenOrdersIndex />} />
+                <Route path="/menus" element={<MenusIndex />} />
+                <Route path="/menus/:id" element={<MenusShow />} />
+                <Route path="/promotions" element={<PromotionsIndex />} />
+                <Route path="/recipe-costing" element={<RecipeIndex />} />
+                <Route path="/inventories" element={<InventoriesIndex />} />
+                <Route path="/inventories/create" element={<InventoriesCreate />} />
+                <Route path="/inventories/:id" element={<InventoriesShow />} />
+                <Route path="/inventories/:id/edit" element={<InventoriesEdit />} />
+                <Route path="/inventories/low-stock/list" element={<PageLoader component={InventoriesLowStock} apiPath="/inventories/low-stock/list" skeleton={InventoriesLowStockSkeleton} />} />
+                <Route path="/purchase-orders" element={<PurchaseOrderIndex />} />
+                <Route path="/purchase-orders/create" element={<PurchaseOrderCreate />} />
+                <Route path="/purchase-orders/:id" element={<PurchaseOrderShow />} />
+                <Route path="/purchase-orders/:id/edit" element={<PurchaseOrderEdit />} />
+                <Route path="/suppliers" element={<PageLoader component={SupplierIndex} apiPath="/suppliers" skeleton={SupplierSkeleton} />} />
+                <Route path="/suppliers/create" element={<SupplierCreate />} />
+                <Route path="/suppliers/:id" element={<PageLoader component={SupplierShow} apiPath="/suppliers/:id" skeleton={SupplierDetailSkeleton} />} />
+                <Route path="/suppliers/:id/edit" element={<SupplierEdit />} />
+                <Route path="/reports" element={<ReportsIndex />} />
+                <Route path="/targets-goals" element={<PageLoader component={TargetsGoalsIndex} apiPath="/targets-goals" skeleton={TargetsGoalsSkeleton} />} />
+                <Route path="/targets-goals/aov" element={<PageLoader component={TargetsGoalsAov} apiPath="/targets-goals/aov" skeleton={TargetsGoalsSkeleton} />} />
+                <Route path="/users" element={<PageLoader component={UsersIndex} apiPath="/users" skeleton={UsersSkeleton} />} />
+                <Route path="/user-management/role-permission" element={<PageLoader component={RolePermissionIndex} apiPath="/user-management/role-permission" skeleton={RolePermissionSkeleton} />} />
+                <Route path="/settings" element={<SettingsIndex />} />
+                <Route path="/notifications" element={<PageLoader component={NotificationsIndex} apiPath="/notifications" skeleton={NotificationsSkeleton} />} />
+            </Route>
 
-            {/* Dashboards */}
-            <Route 
-                path="/owner/dashboard" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner']}>
-                        <OwnerDashboard />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/admin/dashboard" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <AdminDashboard />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/cashier/dashboard" 
-                element={
-                    <ProtectedRoute allowedRoles={['cashier']}>
-                        <CashierDashboard />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* POS & Transactions */}
-            <Route 
-                path="/pos" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin', 'cashier']}>
-                        <POS />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/transactions" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin', 'cashier']}>
-                        <TransactionsIndex />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/transactions/:id" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin', 'cashier']}>
-                        <PageLoader component={TransactionsShow} apiPath="/transactions/:id" />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/transactions/:id/invoice" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin', 'cashier']}>
-                        <PageLoader component={TransactionsInvoice} apiPath="/transactions/:id/invoice" />
-                    </ProtectedRoute>
-                } 
-            />
-
-            <Route 
-                path="/kitchen-orders" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin', 'cashier']}>
-                        <KitchenOrdersIndex />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* Menu Catalog */}
-            <Route 
-                path="/menus" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <MenusIndex />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/menus/:id" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={MenusShow} apiPath="/menus/:id" />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* Promotions */}
-            <Route 
-                path="/promotions" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PromotionsIndex />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* Recipe Costing */}
-            <Route 
-                path="/recipe-costing" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <RecipeIndex />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* Inventories */}
-            <Route 
-                path="/inventories" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <InventoriesIndex />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/inventories/create" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <InventoriesCreate />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/inventories/:id" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <InventoriesShow />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/inventories/:id/edit" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <InventoriesEdit />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/inventories/low-stock/list" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={InventoriesLowStock} apiPath="/inventories/low-stock/list" />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* Purchase Orders */}
-            <Route 
-                path="/purchase-orders" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PurchaseOrderIndex />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/purchase-orders/create" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PurchaseOrderCreate />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/purchase-orders/:id" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PurchaseOrderShow />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/purchase-orders/:id/edit" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PurchaseOrderEdit />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* Suppliers */}
-            <Route 
-                path="/suppliers" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={SupplierIndex} apiPath="/suppliers" />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/suppliers/create" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={SupplierCreate} apiPath="/suppliers/create" />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/suppliers/:id" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={SupplierShow} apiPath="/suppliers/:id" />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/suppliers/:id/edit" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={SupplierEdit} apiPath="/suppliers/:id/edit" />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* Reports */}
-            <Route 
-                path="/reports" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <ReportsIndex />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* Targets & Goals */}
-            <Route 
-                path="/targets-goals" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner']}>
-                        <PageLoader component={TargetsGoalsIndex} apiPath="/targets-goals" />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/targets-goals/aov" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner']}>
-                        <PageLoader component={TargetsGoalsAov} apiPath="/targets-goals/aov" />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* Access & User Management */}
-            <Route 
-                path="/users" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner']}>
-                        <PageLoader component={UsersIndex} apiPath="/users" />
-                    </ProtectedRoute>
-                } 
-            />
-            <Route 
-                path="/user-management/role-permission" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner']}>
-                        <PageLoader component={RolePermissionIndex} apiPath="/user-management/role-permission" />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* Settings */}
-            <Route 
-                path="/settings" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <SettingsIndex />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* Notifications */}
-            <Route 
-                path="/notifications" 
-                element={
-                    <ProtectedRoute allowedRoles={['owner', 'admin', 'cashier']}>
-                        <PageLoader component={NotificationsIndex} apiPath="/notifications" />
-                    </ProtectedRoute>
-                } 
-            />
-
-            {/* Fallback routing */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
     );

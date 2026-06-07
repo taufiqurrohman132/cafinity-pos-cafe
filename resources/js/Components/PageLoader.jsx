@@ -4,7 +4,7 @@ import client from '../api/client';
 
 export const PageDataContext = React.createContext(null);
 
-export default function PageLoader({ component: Component, apiPath }) {
+export default function PageLoader({ component: Component, apiPath, skeleton: SkeletonComponent }) {
     const params = useParams();
     const location = useLocation();
     const navigate = useNavigate();
@@ -54,11 +54,53 @@ export default function PageLoader({ component: Component, apiPath }) {
     }, [resolvedPath, location.search, navigate]);
 
     if (loading) {
+        if (SkeletonComponent) {
+            return <SkeletonComponent />;
+        }
         return (
-            <div className="min-h-screen flex items-center justify-center bg-brand-bg">
-                <div className="flex flex-col items-center gap-3">
-                    <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
+            <div className="p-4 md:p-6 space-y-6">
+                {/* Header skeleton */}
+                <div className="flex justify-between items-center">
+                    <div className="space-y-2">
+                        <div className="w-48 h-7 rounded-xl bg-brand-light animate-pulse" />
+                        <div className="w-72 h-4 rounded-lg bg-brand-light/60 animate-pulse" />
+                    </div>
+                    <div className="w-32 h-10 rounded-xl bg-brand-light animate-pulse" />
+                </div>
+
+                {/* Stat cards skeleton */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {[...Array(4)].map((_, i) => (
+                        <div key={i} className="bg-white rounded-2xl border border-brand-light p-5 space-y-3 animate-pulse">
+                            <div className="flex justify-between">
+                                <div className="w-11 h-11 rounded-xl bg-brand-light" />
+                                <div className="w-12 h-5 rounded-full bg-brand-light" />
+                            </div>
+                            <div className="w-24 h-3 rounded bg-brand-light" />
+                            <div className="w-32 h-6 rounded bg-brand-light" />
+                        </div>
+                    ))}
+                </div>
+
+                {/* Main content skeleton */}
+                <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+                    <div className="xl:col-span-9 bg-white rounded-2xl border border-brand-light p-6 animate-pulse space-y-4">
+                        <div className="w-40 h-5 rounded bg-brand-light" />
+                        <div className="w-full h-48 rounded-xl bg-brand-light/60" />
+                        <div className="space-y-3">
+                            {[...Array(5)].map((_, i) => (
+                                <div key={i} className="w-full h-10 rounded-xl bg-brand-light/40" />
+                            ))}
+                        </div>
+                    </div>
+                    <div className="xl:col-span-3 space-y-4">
+                        {[...Array(3)].map((_, i) => (
+                            <div key={i} className="bg-white rounded-2xl border border-brand-light p-5 animate-pulse space-y-3">
+                                <div className="w-28 h-4 rounded bg-brand-light" />
+                                <div className="w-full h-20 rounded-xl bg-brand-light/60" />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         );

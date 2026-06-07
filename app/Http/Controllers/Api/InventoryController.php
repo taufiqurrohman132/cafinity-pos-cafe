@@ -19,6 +19,10 @@ class InventoryController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
+        if ($request->filled('category_id')) {
+            $query->where('inventory_category_id', $request->category_id);
+        }
+
         if ($request->status === 'low') {
             $query->whereColumn('stock', '<=', 'min_stock')->where('stock', '>', 0);
         } elseif ($request->status === 'empty') {
@@ -37,13 +41,16 @@ class InventoryController extends Controller
             ->orderByRaw('stock / min_stock ASC')
             ->first();
 
+        $categories = InventoryCategory::orderBy('name')->get(['id', 'name']);
+
         return response()->json([
             'inventories'   => $inventories,
             'totalValue'    => $totalValue,
             'lowStockCount' => $lowStockCount,
             'restockCount'  => $restockCount,
             'recentLogs'    => $recentLogs,
-            'criticalItem'  => $criticalItem
+            'criticalItem'  => $criticalItem,
+            'categories'    => $categories
         ]);
     }
 
@@ -144,6 +151,34 @@ class InventoryController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Stok berhasil ditambah.',
+            'inventory' => $inventory
+        ]);
+    }
+
+    public function adjust(Request $request, string $id)
+    {
+        $data = $request->validate([
+            'qty'       => 'required|numeric|min:0.01',
+            'type'      => 'required|in:restock,adjustment,waste',
+            'direction' => 'required|in:in,out',
+            'notes'     => 'nullable|string|max:255'
+        ]);
+
+        $inventory = Inventory::findOrFail($id);
+        
+        $qty = (float) $data['qty'];
+        if ($data['direction'] === 'out') {
+            $qty = -abs($qty);
+        }
+
+        $type = $data['type'];
+        $notes = $data['notes'] ?: null;
+
+        $inventory->adjustStock($qty, $type, $notes);
+
+        return response()->json([
+            'success'   => true,
+            'message'   => 'Stok berhasil disesuaikan.',
             'inventory' => $inventory
         ]);
     }

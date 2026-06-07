@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Head from '@/Components/Head';
 import { Icon } from '@iconify/react';
-import AppLayout from '@/Layouts/AppLayout'; // Sesuaikan path layout Anda
+ // Sesuaikan path layout Anda
 import ModernDatePicker from '@/Components/ModernDatePicker';
 import client from '@/api/client';
+import TransactionsSkeleton from '@/Components/Skeletons/TransactionsSkeleton';
 
 function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor }) {
     return (
@@ -175,21 +176,16 @@ export default function TransactionHistory() {
 
     if (loading && !transactions) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Riwayat Transaksi" />
-                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
-                    <div className="flex flex-col items-center gap-3">
-                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
-                    </div>
-                </div>
-            </AppLayout>
+                <TransactionsSkeleton />
+            </>
         );
     }
 
     if (error && !transactions) {
         return (
-            <AppLayout>
+            <>
                 <Head title="Riwayat Transaksi" />
                 <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
                     <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
@@ -203,12 +199,12 @@ export default function TransactionHistory() {
                         </button>
                     </div>
                 </div>
-            </AppLayout>
+            </>
         );
     }
 
     return (
-        <AppLayout>
+        <>
             <Head title="Riwayat Transaksi" />
 
             <div className="min-h-screen bg-brand-bg p-6 md:p-8">
@@ -494,8 +490,8 @@ export default function TransactionHistory() {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }
 
-// TransactionHistory.layout = (page) => <AppLayout>{page}</AppLayout>;
+// TransactionHistory.layout = (page) => <>{page}</>;
