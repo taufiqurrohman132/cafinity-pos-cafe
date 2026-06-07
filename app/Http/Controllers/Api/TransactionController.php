@@ -182,7 +182,7 @@ class TransactionController extends Controller
             if (!empty($data['held_transaction_id'])) {
                 Transaction::query()
                     ->where('id', $data['held_transaction_id'])
-                    ->where('status', 'held')
+                    ->whereIn('status', ['held', 'pending'])
                     ->update(['status' => 'cancelled']);
             }
 
@@ -242,11 +242,11 @@ class TransactionController extends Controller
     {
         $transaction = Transaction::with('items.menu')->findOrFail($id);
         $transaction->update(['status' => 'pending']);
-        session(['held_transaction' => $transaction]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Transaksi dilanjutkan.'
+            'message' => 'Transaksi dilanjutkan.',
+            'transaction' => $transaction
         ]);
     }
 

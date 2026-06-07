@@ -190,7 +190,7 @@ class TransactionController extends Controller
             if (! empty($data['held_transaction_id'])) {
                 Transaction::query()
                     ->where('id', $data['held_transaction_id'])
-                    ->where('status', 'held')
+                    ->whereIn('status', ['held', 'pending'])
                     ->update(['status' => 'cancelled']);
             }
 

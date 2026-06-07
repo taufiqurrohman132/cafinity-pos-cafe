@@ -8,6 +8,20 @@ function formatRupiah(amount) {
     return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
 }
 
+function getQuickCashSuggestions(totalAmount) {
+    const suggestions = [totalAmount];
+    const addIfGreater = (val) => {
+        if (val > totalAmount && !suggestions.includes(val)) {
+            suggestions.push(val);
+        }
+    };
+    const denominations = [10000, 20000, 50000, 100000];
+    denominations.forEach(d => addIfGreater(d));
+    const roundedUp = Math.ceil(totalAmount / 10000) * 10000;
+    addIfGreater(roundedUp);
+    return suggestions.sort((a, b) => a - b).slice(0, 4);
+}
+
 function MenuImage({ src, name, categoryName }) {
     const [hasError, setHasError] = useState(false);
 
@@ -47,7 +61,9 @@ export default function POS() {
     const [menus, setMenus] = useState([]);
     const [categories, setCategories] = useState([]);
     const [heldOrders, setHeldOrders] = useState([]);
-    const [initialCart, setInitialCart] = useState([]);
+    const [localHeldOrders, setLocalHeldOrders] = useState([]);
+    const [hasLoadedHeldOrders, setHasLoadedHeldOrders] = useState(false);
+    const [isInitialized, setIsInitialized] = useState(false);
     const [resumedTransactionId, setResumedTransactionId] = useState(null);
     const [taxPercent, setTaxPercent] = useState(10);
     const [activePromotions, setActivePromotions] = useState([]);
@@ -75,12 +91,20 @@ export default function POS() {
             setMenus(res.data.menus || []);
             setCategories(res.data.categories || []);
             setHeldOrders(res.data.heldOrders || []);
-            setInitialCart(res.data.initialCart || []);
-            setResumedTransactionId(res.data.resumedTransactionId);
             setTaxPercent(res.data.taxPercent ?? 10);
             setActivePromotions(res.data.activePromotions || []);
             setCashierName(res.data.cashierName || '');
             setUrls(res.data.urls || {});
+
+            if (!isInitialized) {
+                if (res.data.initialCart && res.data.initialCart.length > 0) {
+                    setCart(res.data.initialCart);
+                }
+                if (res.data.resumedTransactionId) {
+                    setResumedTransactionId(res.data.resumedTransactionId);
+                }
+                setIsInitialized(true);
+            }
         } catch (err) {
             console.error("Gagal memuat data POS:", err);
             setErrorData(err);
@@ -94,8 +118,77 @@ export default function POS() {
     }, [refreshTrigger]);
 
     useEffect(() => {
-        setCart(initialCart ?? []);
-    }, [initialCart]);
+        if (!hasLoadedHeldOrders && heldOrders.length > 0) {
+            setLocalHeldOrders(heldOrders.map(h => ({ ...h, isEntering: false, isExiting: false })));
+            setHasLoadedHeldOrders(true);
+            return;
+        }
+        if (heldOrders.length === 0 && localHeldOrders.length === 0) {
+            return;
+        }
+
+        setLocalHeldOrders(prev => {
+            const next = [];
+            const heldMap = new Map(heldOrders.map(h => [h.id, h]));
+            const prevMap = new Map(prev.map(p => [p.id, p]));
+            const unionIds = new Set([
+                ...prev.map(p => p.id),
+                ...heldOrders.map(h => h.id)
+            ]);
+
+            for (const id of unionIds) {
+                const isNew = heldMap.has(id);
+                const wasOld = prevMap.has(id);
+
+                if (isNew && !wasOld) {
+                    const item = heldMap.get(id);
+                    next.push({
+                        ...item,
+                        isEntering: true,
+                        isExiting: false,
+                    });
+                } else if (!isNew && wasOld) {
+                    const item = prevMap.get(id);
+                    next.push({
+                        ...item,
+                        isExiting: true,
+                    });
+                } else if (isNew && wasOld) {
+                    const item = heldMap.get(id);
+                    const prevItem = prevMap.get(id);
+                    next.push({
+                        ...item,
+                        isEntering: prevItem.isEntering,
+                        isExiting: prevItem.isExiting,
+                    });
+                }
+            }
+            return next;
+        });
+
+        if (heldOrders.length > 0) {
+            setHasLoadedHeldOrders(true);
+        }
+
+        const enterTimeout = setTimeout(() => {
+            setLocalHeldOrders(prev =>
+                prev.map(item => item.isEntering ? { ...item, isEntering: false } : item)
+            );
+        }, 50);
+
+        const exitTimeout = setTimeout(() => {
+            setLocalHeldOrders(prev =>
+                prev.filter(item => !item.isExiting)
+            );
+        }, 300);
+
+        return () => {
+            clearTimeout(enterTimeout);
+            clearTimeout(exitTimeout);
+        };
+    }, [heldOrders]);
+
+    // Cart is initialized once on mount inside fetchPOSData
 
     const filteredMenus = useMemo(() => {
         const q = search.trim().toLowerCase();
@@ -189,13 +282,35 @@ export default function POS() {
     };
 
     const resumeOrder = async (heldId) => {
+        if (cart.length > 0) {
+            const confirmResume = window.confirm(
+                "Keranjang Anda saat ini tidak kosong. Melanjutkan transaksi tertahan ini akan menimpa keranjang saat ini. Apakah Anda ingin melanjutkan?"
+            );
+            if (!confirmResume) return;
+        }
         setErrorMessage('');
+        setLocalHeldOrders(prev =>
+            prev.map(item => item.id === heldId ? { ...item, isExiting: true } : item)
+        );
+        await new Promise(resolve => setTimeout(resolve, 300));
         try {
             const url = (urls.resume || '/api/pos/resume/__ID__').replace('__ID__', heldId).replace(/^\/api/, '');
-            await client.post(url);
+            const res = await client.post(url);
+            if (res.data.transaction) {
+                const formattedItems = (res.data.transaction.items || []).map(item => ({
+                    menu_id: item.menu_id,
+                    name: item.menu?.name ?? 'Menu',
+                    price: item.price,
+                    qty: item.qty,
+                    notes: item.notes ?? '',
+                }));
+                setCart(formattedItems);
+                setResumedTransactionId(res.data.transaction.id);
+            }
             setRefreshTrigger(prev => prev + 1);
         } catch (e) {
             setErrorMessage(e.response?.data?.message || e.message || 'Terjadi kesalahan.');
+            setRefreshTrigger(prev => prev + 1);
         }
     };
 
@@ -353,22 +468,28 @@ export default function POS() {
                     </div>
 
                     {/* Held orders */}
-                    {heldOrders.length > 0 && (
-                        <div className="px-5 py-3 border-b border-brand-light flex-shrink-0 bg-gradient-to-b from-brand-light/30 to-transparent">
+                    {localHeldOrders.length > 0 && (
+                        <div className={`px-5 py-3 border-b border-brand-light flex-shrink-0 bg-gradient-to-b from-brand-light/30 to-transparent held-order-container ${
+                            localHeldOrders.filter(h => !h.isExiting).length === 0 ? 'collapsed' : ''
+                        }`}>
                             <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest mb-2.5 flex items-center gap-1">
                                 <span className="w-1.5 h-1.5 rounded-full bg-brand-secondary animate-pulse" /> Tertahan
                             </p>
                             <div className="flex gap-2.5 overflow-x-auto pb-1.5">
-                                {heldOrders.map(held => (
+                                {localHeldOrders.map(held => (
                                     <button
                                         key={held.id}
                                         onClick={() => resumeOrder(held.id)}
-                                        className="text-left px-3 py-2 rounded-xl bg-white border border-brand-light shadow-sm hover:border-brand-secondary transition-all flex-shrink-0"
+                                        className={`text-left px-3 py-2 rounded-xl bg-white border border-brand-light shadow-sm hover:border-brand-secondary flex-shrink-0 transition-all duration-300 ease-in-out held-order-item ${
+                                            held.isEntering ? 'entering' : ''
+                                        } ${held.isExiting ? 'exiting' : ''}`}
                                     >
-                                        <p className="text-[11px] font-extrabold text-brand-dark">{held.label}</p>
-                                        <p className="text-[10px] font-medium text-brand-secondary mt-0.5">
-                                            {held.items_count} item · {formatRupiah(held.total)}
-                                        </p>
+                                        <div className={`transition-opacity duration-300 ${held.isEntering || held.isExiting ? 'opacity-0' : 'opacity-100'}`}>
+                                            <p className="text-[11px] font-extrabold text-brand-dark">{held.label}</p>
+                                            <p className="text-[10px] font-medium text-brand-secondary mt-0.5 whitespace-nowrap">
+                                                {held.items_count} item · {formatRupiah(held.total)}
+                                            </p>
+                                        </div>
                                     </button>
                                 ))}
                             </div>
@@ -376,45 +497,49 @@ export default function POS() {
                     )}
 
                     {/* Cart items */}
-                    <div className="flex-1 overflow-y-auto px-5 py-4">
-                        {cart.length === 0 ? (
-                            <div className="h-full flex flex-col items-center justify-center text-center px-4">
-                                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-light/50 to-white border border-brand-light flex items-center justify-center mb-4 shadow-inner">
-                                    <iconify-icon icon="solar:cookie-linear" class="text-[38px] text-brand-secondary" />
-                                </div>
-                                <h4 className="text-[14px] font-bold text-brand-primary">Keranjang masih kosong</h4>
-                                <p className="text-[11px] text-brand-primary mt-1">Pilih menu di sebelah kiri untuk menambahkan.</p>
+                    <div className="flex-1 overflow-y-auto px-5 py-4 relative scrollbar-auto">
+                        {/* Empty Cart Placeholder */}
+                        <div className={`absolute inset-0 flex flex-col items-center justify-center text-center px-9 cart-empty-state ${
+                            cart.length === 0 ? '' : 'hidden-state'
+                        }`}>
+                            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-light/50 to-white border border-brand-light flex items-center justify-center mb-4 shadow-inner">
+                                <iconify-icon icon="solar:cookie-linear" class="text-[38px] text-brand-secondary" />
                             </div>
-                        ) : (
-                            <div className="space-y-4">
-                                {cart.map((item, index) => (
-                                    <div key={`${item.menu_id}-${index}`} className="flex gap-3 items-start pb-4 border-b border-brand-light/50 last:border-0 last:pb-0">
-                                        <div className="flex-1 min-w-0 pt-0.5">
-                                            <p className="text-[13px] font-bold text-brand-dark truncate">{item.name}</p>
-                                            <p className="text-[11px] font-medium text-brand-primary mt-0.5">{formatRupiah(item.price)} / item</p>
-                                        </div>
-                                        <div className="flex items-center gap-1 flex-shrink-0 bg-gradient-to-br from-brand-light/40 to-brand-light/10 rounded-lg p-1 border border-brand-light">
-                                            <button onClick={() => decreaseQty(index)}
-                                                className="w-6 h-6 rounded-md bg-white border border-brand-light text-brand-primary text-sm font-bold hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm flex items-center justify-center">
-                                                &minus;
-                                            </button>
-                                            <span className="text-[12px] font-extrabold w-6 text-center text-brand-dark">{item.qty}</span>
-                                            <button onClick={() => increaseQty(index)}
-                                                className="w-6 h-6 rounded-md bg-gradient-to-br from-brand-secondary to-brand-primary text-white text-sm font-bold hover:from-brand-primary hover:to-brand-dark transition-colors shadow-sm flex items-center justify-center">
-                                                +
-                                            </button>
-                                        </div>
-                                        <div className="text-right flex-shrink-0 flex flex-col items-end pt-0.5 ml-2">
-                                            <p className="text-[13px] font-black text-brand-secondary">{formatRupiah(item.price * item.qty)}</p>
-                                            <button onClick={() => removeFromCart(index)}
-                                                className="text-[10px] font-bold text-red-400 hover:text-red-600 mt-1.5 transition-colors capitalize tracking-wider">
-                                                Hapus
-                                            </button>
-                                        </div>
+                            <h4 className="text-[14px] font-bold text-brand-primary">Keranjang masih kosong</h4>
+                            <p className="text-[11px] text-brand-primary mt-1">Pilih menu di sebelah kiri untuk menambahkan.</p>
+                        </div>
+
+                        {/* Active Cart Items */}
+                        <div className={`space-y-4 cart-active-state ${
+                            cart.length > 0 ? '' : 'hidden-state'
+                        }`}>
+                            {cart.map((item, index) => (
+                                <div key={`${item.menu_id}-${index}`} className="flex gap-3 items-start pb-4 border-b border-brand-light/50 last:border-0 last:pb-0 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                                    <div className="flex-1 min-w-0 pt-0.5">
+                                        <p className="text-[13px] font-bold text-brand-dark truncate">{item.name}</p>
+                                        <p className="text-[11px] font-medium text-brand-primary mt-0.5">{formatRupiah(item.price)} / item</p>
                                     </div>
-                                ))}
-                            </div>
-                        )}
+                                    <div className="flex items-center gap-1 flex-shrink-0 bg-gradient-to-br from-brand-light/40 to-brand-light/10 rounded-lg p-1 border border-brand-light">
+                                        <button onClick={() => decreaseQty(index)}
+                                            className="w-6 h-6 rounded-md bg-white border border-brand-light text-brand-primary text-sm font-bold hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm flex items-center justify-center">
+                                            &minus;
+                                        </button>
+                                        <span className="text-[12px] font-extrabold w-6 text-center text-brand-dark">{item.qty}</span>
+                                        <button onClick={() => increaseQty(index)}
+                                            className="w-6 h-6 rounded-md bg-gradient-to-br from-brand-secondary to-brand-primary text-white text-sm font-bold hover:from-brand-primary hover:to-brand-dark transition-colors shadow-sm flex items-center justify-center">
+                                            +
+                                        </button>
+                                    </div>
+                                    <div className="text-right flex-shrink-0 flex flex-col items-end pt-0.5 ml-2">
+                                        <p className="text-[13px] font-black text-brand-secondary">{formatRupiah(item.price * item.qty)}</p>
+                                        <button onClick={() => removeFromCart(index)}
+                                            className="text-[10px] font-bold text-red-400 hover:text-red-600 mt-1.5 transition-colors capitalize tracking-wider">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
                     {/* Footer */}
@@ -508,7 +633,7 @@ export default function POS() {
                         <label className="block text-[11px] font-extrabold text-brand-primary capitalize tracking-widest mb-2">
                             Jumlah Dibayar
                         </label>
-                        <div className="relative mb-5">
+                        <div className="relative mb-3">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-brand-primary">Rp</span>
                             <input
                                 type="number"
@@ -518,6 +643,22 @@ export default function POS() {
                                 step={1000}
                                 className="w-full h-12 rounded-xl border border-brand-light bg-brand-light/10 text-lg font-black text-brand-dark pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:bg-white focus:border-brand-secondary transition-all"
                             />
+                        </div>
+                        <div className="flex gap-2 flex-wrap mb-5">
+                            {getQuickCashSuggestions(total).map((cash) => (
+                                <button
+                                    key={cash}
+                                    type="button"
+                                    onClick={() => setPaidAmount(cash)}
+                                    className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-95 ${
+                                        paidAmount === cash
+                                            ? 'bg-brand-primary text-white border-brand-primary shadow-sm'
+                                            : 'bg-brand-light/30 text-brand-primary border-brand-light hover:bg-brand-light/75'
+                                    }`}
+                                >
+                                    {cash === total ? 'Pas' : formatRupiah(cash)}
+                                </button>
+                            ))}
                         </div>
 
                         <div className="bg-gradient-to-r from-brand-light/50 to-brand-light/20 p-4 rounded-xl border border-brand-light mb-6 flex justify-between items-center">
