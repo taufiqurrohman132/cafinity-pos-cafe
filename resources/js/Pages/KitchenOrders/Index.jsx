@@ -1,6 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
+import { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import Head from '@/Components/Head';
 import AppLayout from '@/Layouts/AppLayout';
+import { PageDataContext } from '@/Components/PageLoader';
+import client from '@/api/client';
 
 const STATUS_CONFIG = {
     preparing: {
@@ -53,14 +56,21 @@ function LiveClock() {
 }
 
 export default function KitchenOrdersIndex({ orders, stats, filter }) {
+    const { reload } = useContext(PageDataContext);
+
     // Auto-refresh setiap 30 detik
     useEffect(() => {
-        const id = setInterval(() => router.reload({ only: ['orders', 'stats'] }), 30000);
+        const id = setInterval(() => reload(), 30000);
         return () => clearInterval(id);
-    }, []);
+    }, [reload]);
 
-    const postAction = (url) => {
-        router.post(url, {}, { preserveScroll: true });
+    const postAction = async (url) => {
+        try {
+            await client.post(url);
+            reload();
+        } catch (e) {
+            console.error('Failed to perform kitchen order action', e);
+        }
     };
 
     const FILTER_TABS = [
@@ -78,7 +88,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
     ];
 
     return (
-        <>
+        <AppLayout>
             <Head title="Antrean Dapur" />
 
             <div className="space-y-6 p-4 md:p-6 bg-brand-bg min-h-screen">
@@ -98,7 +108,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                             <iconify-icon icon="solar:clock-circle-linear" class="text-lg text-brand-secondary" />
                             <span>Sekarang: <LiveClock /></span>
                         </div>
-                        <Link href={route('pos.index')}
+                        <Link to="/pos"
                             className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98] text-[13px]">
                             <iconify-icon icon="solar:card-2-linear" class="text-[18px]" />
                             Buka POS
@@ -129,7 +139,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                         {FILTER_TABS.map(tab => (
                             <Link
                                 key={tab.key}
-                                href={route('kitchen-orders.index', { filter: tab.key })}
+                                to={tab.key === 'all' ? '/kitchen-orders' : `/kitchen-orders?filter=${tab.key}`}
                                 className={`px-4 py-1.5 text-xs font-bold rounded-lg border transition-all ${
                                     filter === tab.key
                                         ? 'bg-brand-primary text-white border-brand-primary shadow-sm'
@@ -244,7 +254,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                                     )}
 
                                     {order.status === 'preparing' && (<>
-                                        <Link href={route('kitchen-orders.show', order.id)}
+                                        <Link to={`/kitchen-orders/${order.id}`}
                                             className="py-2.5 px-4 text-xs font-extrabold text-brand-secondary bg-white border border-brand-light rounded-xl hover:bg-brand-light/40 transition-colors flex items-center gap-1.5 flex-shrink-0">
                                             <iconify-icon icon="solar:eye-linear" class="text-sm" />
                                             Detail
@@ -258,7 +268,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                                     </>)}
 
                                     {order.status === 'ready' && (<>
-                                        <Link href={route('kitchen-orders.show', order.id)}
+                                        <Link to={`/kitchen-orders/${order.id}`}
                                             className="py-2.5 px-4 text-xs font-extrabold text-brand-secondary bg-white border border-brand-light rounded-xl hover:bg-brand-light/40 transition-colors flex items-center gap-1.5 flex-shrink-0">
                                             <iconify-icon icon="solar:eye-linear" class="text-sm" />
                                             Detail
@@ -292,20 +302,20 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-3 flex-shrink-0">
-                        <Link href={route('targets-goals.index')}
-                            className="px-5 py-2.5 text-xs font-extrabold text-brand-primary bg-brand-light/30 border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors">
-                            Lihat Target Harian
-                        </Link>
-                        <Link href={route('dashboard')}
-                            className="px-5 py-2.5 text-xs font-extrabold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition-all shadow-sm shadow-brand-primary/20">
-                            Laporan Performa
-                        </Link>
+                        <Link to="/targets-goals"
+                                className="px-5 py-2.5 text-xs font-extrabold text-brand-primary bg-brand-light/30 border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors">
+                                Lihat Target Harian
+                            </Link>
+                            <Link to="/dashboard"
+                                className="px-5 py-2.5 text-xs font-extrabold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition-all shadow-sm shadow-brand-primary/20">
+                                Laporan Performa
+                            </Link>
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
 
 
-KitchenOrdersIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
+// KitchenOrdersIndex.layout = (page) => <AppLayout>{page}</AppLayout>;

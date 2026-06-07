@@ -10,4 +10,11 @@ export default defineConfig({
         }),
         react(),
     ],
+    resolve: {
+        alias: {
+            '@inertiajs/react': '/resources/js/api/inertia-mock.jsx',
+            '@': '/resources/js',
+        },
+    },
 });
+

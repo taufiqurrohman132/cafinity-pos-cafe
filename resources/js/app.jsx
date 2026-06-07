@@ -1,17 +1,15 @@
 import '../css/app.css';
-
 import { createRoot } from 'react-dom/client';
-import { createInertiaApp } from '@inertiajs/react';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { route } from 'ziggy-js';
+import React from 'react';
+import AppRoot from './AppRoot.jsx';
+
 window.route = route;
 
-createInertiaApp({
-    resolve: name => resolvePageComponent(
-        `./Pages/${name}.jsx`,
-        import.meta.glob('./Pages/**/*.jsx')
-    ),
-    setup({ el, App, props }) {
-        createRoot(el).render(<App {...props} />);
-    },
-});
+const container = document.getElementById('app');
+const root = createRoot(container);
+root.render(
+    <React.StrictMode>
+        <AppRoot />
+    </React.StrictMode>
+);

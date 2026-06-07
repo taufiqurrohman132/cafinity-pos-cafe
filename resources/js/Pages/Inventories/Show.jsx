@@ -1,18 +1,83 @@
-import { Head, Link, router } from '@inertiajs/react';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import Head from '@/Components/Head';
 import AppLayout from '@/Layouts/AppLayout';
-import { useState } from 'react';
+import client from '@/api/client';
 
-export default function InventoriesShow({ inventory }) {
+export default function InventoriesShow() {
+    const { id } = useParams();
+    const [inventory, setInventory] = useState(null);
     const [qty, setQty] = useState('');
     const [restocking, setRestocking] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-    function handleRestock(e) {
+    useEffect(() => {
+        const fetchInventory = async () => {
+            setLoading(true);
+            try {
+                setError(null);
+                const res = await client.get(`/inventories/${id}`);
+                setInventory(res.data.inventory);
+            } catch (err) {
+                console.error("Gagal mengambil data inventaris:", err);
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchInventory();
+    }, [id, refreshTrigger]);
+
+    async function handleRestock(e) {
         e.preventDefault();
-        router.post(route('inventories.restock', inventory.id), { qty }, {
-            preserveScroll: true,
-            onSuccess: () => { setQty(''); setRestocking(false); },
-        });
+        try {
+            await client.post(`/inventories/${id}/restock`, { qty });
+            setQty('');
+            setRestocking(false);
+            setRefreshTrigger(prev => prev + 1);
+        } catch (err) {
+            console.error("Gagal restock bahan baku:", err);
+            alert("Gagal restock bahan baku.");
+        }
     }
+
+    if (loading && !inventory) {
+        return (
+            <AppLayout>
+                <Head title="Detail Bahan Baku" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
+
+    if (error && !inventory) {
+        return (
+            <AppLayout>
+                <Head title="Detail Bahan Baku" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat data detail bahan baku dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
+
+    if (!inventory) return null;
 
     const percent = inventory.min_stock > 0
         ? Math.min(100, Math.round((inventory.stock / inventory.min_stock) * 100))
@@ -32,7 +97,7 @@ export default function InventoriesShow({ inventory }) {
     const stockLabel = { blue: 'Aman', yellow: 'Menipis', orange: 'Kritis', red: 'Habis' }[stockColor];
 
     return (
-        <>
+        <AppLayout>
             <Head title={`Detail — ${inventory.name}`} />
             <div className="min-h-screen bg-brand-bg p-4 md:p-6">
                 <div className="max-w-3xl mx-auto space-y-6">
@@ -40,7 +105,7 @@ export default function InventoriesShow({ inventory }) {
                     {/* Header */}
                     <div className="flex items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
-                            <Link href={route('inventories.index')}
+                            <Link to="/inventories"
                                 className="w-9 h-9 rounded-xl border border-brand-light bg-white flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition">
                                 <iconify-icon icon="mdi:arrow-left"></iconify-icon>
                             </Link>
@@ -49,7 +114,7 @@ export default function InventoriesShow({ inventory }) {
                                 <p className="text-gray-500 text-sm mt-0.5">Detail bahan baku</p>
                             </div>
                         </div>
-                        <Link href={route('inventories.edit', inventory.id)}
+                        <Link to={`/inventories/${inventory.id}/edit`}
                             className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-brand-primary hover:bg-brand-secondary rounded-xl transition shadow-sm">
                             <iconify-icon icon="solar:pen-linear"></iconify-icon>
                             Edit
@@ -160,8 +225,8 @@ export default function InventoriesShow({ inventory }) {
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
 
-InventoriesShow.layout = (page) => <AppLayout>{page}</AppLayout>;
+// InventoriesShow.layout = (page) => <AppLayout>{page}</AppLayout>;

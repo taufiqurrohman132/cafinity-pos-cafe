@@ -9,9 +9,8 @@
     @routes
     @viteReactRefresh
     @vite(['resources/css/app.css', 'resources/js/app.jsx'])
-    @inertiaHead
 </head>
 <body class="bg-[#f6f7f8] text-gray-900 overflow-hidden">
-    @inertia
+    <div id="app"></div>
 </body>
 </html>

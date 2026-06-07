@@ -1,8 +1,8 @@
-import { Link, usePage } from '@inertiajs/react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
-    const { auth } = usePage().props;
-    const user = auth?.user;
+    const { user } = useAuth();
 
     return (
         <header className="h-[72px] bg-white/80 backdrop-blur-md border-b border-brand-light px-6 flex items-center justify-between sticky top-0 z-30">

@@ -6,12 +6,13 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles; // ← tambah ini
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasRoles; // ← tambah HasRoles di sini
+    use HasFactory, Notifiable, HasRoles, HasApiTokens; // ← tambah HasRoles di sini
 
     protected $fillable = [
         'name',
@@ -36,6 +37,15 @@ class User extends Authenticatable
     public function getCreatedAtDiffAttribute()
     {
         return $this->created_at ? $this->created_at->diffForHumans() : null;
+    }
+
+    public function toArray()
+    {
+        $attributes = parent::toArray();
+        $attributes['permissions'] = method_exists($this, 'getAllPermissions')
+            ? $this->getAllPermissions()->pluck('name')->toArray()
+            : [];
+        return $attributes;
     }
 
     protected function casts(): array

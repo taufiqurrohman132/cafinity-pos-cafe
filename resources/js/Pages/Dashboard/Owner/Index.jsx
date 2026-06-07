@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Head, Link, usePage } from '@inertiajs/react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import client from '../../../api/client';
+import { useAuth } from '../../../context/AuthContext';
 import AppLayout from '@/Layouts/AppLayout';
 import TargetModal from '@/Components/TargetModal';
 
@@ -53,6 +55,13 @@ function SalesChart({ initialLabels, initialValues }) {
         values: initialValues,
     });
 
+    // Update internal chart data when initial data updates from dashboard fetch
+    useEffect(() => {
+        if (activePeriod === 'today') {
+            setChartData({ labels: initialLabels, values: initialValues });
+        }
+    }, [initialLabels, initialValues]);
+
     const pills = [
         { label: 'Hari Ini', value: 'today' },
         { label: '7 Hari',   value: '7days' },
@@ -78,11 +87,8 @@ function SalesChart({ initialLabels, initialValues }) {
 
         setLoading(true);
         try {
-            const res = await fetch(`/dashboard/owner/sales-chart?period=${period}`, {
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-            });
-            const data = await res.json();
-            setChartData(data);
+            const res = await client.get(`/dashboard/sales-chart?period=${period}`);
+            setChartData(res.data);
         } catch (e) {
             console.error(e);
         } finally {
@@ -132,12 +138,7 @@ function SalesChart({ initialLabels, initialValues }) {
                                 const height = heights[i % heights.length];
                                 return (
                                     <div key={i} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end pb-[20px] animate-pulse">
-                                        {/* Skeleton Bar */}
-                                        <div
-                                            className="w-full bg-brand-light rounded-t-lg"
-                                            style={{ height: `${height}%` }}
-                                        ></div>
-                                        {/* Skeleton Label */}
+                                        <div className="w-full bg-brand-light rounded-t-lg" style={{ height: `${height}%` }}></div>
                                         <div className="h-2 w-8 bg-brand-light/60 rounded mt-1"></div>
                                     </div>
                                 );
@@ -179,25 +180,25 @@ function SalesChart({ initialLabels, initialValues }) {
 }
 
 // ── Main Dashboard ───────────────────────────────────────────────
-export default function OwnerDashboard({
-    user,
-    lastUpdated,
-    stats,
-    salesChart,
-    bestSellingMenus,
-    busyHours,
-    profitability,
-    dailyGoal,
-    currentTarget,
-    lowStockItems,
-    kitchenQueue,
-}) {
+export default function OwnerDashboard() {
+    const { user } = useAuth();
+    const [dashboardData, setDashboardData] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [showTargetModal, setShowTargetModal] = useState(false);
-    const [pageLoading, setPageLoading] = useState(true);
+
+    const fetchDashboard = async () => {
+        try {
+            const res = await client.get('/dashboard');
+            setDashboardData(res.data);
+        } catch (e) {
+            console.error('Failed to fetch owner dashboard data', e);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const timer = setTimeout(() => setPageLoading(false), 650);
-        return () => clearTimeout(timer);
+        fetchDashboard();
     }, []);
 
     const statusColor = {
@@ -212,11 +213,28 @@ export default function OwnerDashboard({
         pending:   { bg: 'bg-brand-light border-brand-light', text: 'text-brand-primary', label: 'Menunggu' },
     };
 
-    return (
-        <>
-            <Head title="Dashboard Owner" />
-            <div className="space-y-6 p-4 md:p-6 bg-brand-bg min-h-screen">
+    // Fallbacks while initial load
+    const stats = dashboardData?.stats || {
+        revenue: { value: 'Rp 0', trend: '0%', trend_type: 'up' },
+        profit: { value: 'Rp 0', trend: '0%', trend_type: 'up' },
+        orders: { value: '0', trend: '0%', trend_type: 'up' },
+        avg_ticket: { value: 'Rp 0', trend: '0%', trend_type: 'up' },
+    };
+    const lastUpdated = dashboardData?.lastUpdated || '--:--';
+    const salesChart = dashboardData?.salesChart || { labels: [], values: [] };
+    const bestSellingMenus = dashboardData?.bestSellingMenus || [];
+    const busyHours = dashboardData?.busyHours || [];
+    const profitability = dashboardData?.profitability || [];
+    const dailyGoal = dashboardData?.dailyGoal || { progress: 0, remaining: 'Rp 0', target: 'Rp 0', label: '' };
+    const currentTarget = dashboardData?.currentTarget || null;
+    const lowStockItems = dashboardData?.lowStockItems || [];
+    const kitchenQueue = dashboardData?.kitchenQueue || [];
 
+    const pageLoading = loading;
+
+    return (
+        <AppLayout>
+            <div className="space-y-6 p-4 md:p-6 bg-brand-bg min-h-screen">
                 {/* ====== TOP HEADER ====== */}
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-center justify-between">
                     <div>
@@ -233,7 +251,7 @@ export default function OwnerDashboard({
                             <iconify-icon icon="solar:clock-circle-linear" class="text-lg text-brand-secondary"></iconify-icon>
                             <span>Terakhir Update: <span className="font-bold text-brand-dark">{lastUpdated}</span></span>
                         </div>
-                        <Link href="/pos"
+                        <Link to="/pos"
                             className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]">
                             <iconify-icon icon="solar:card-2-linear" class="text-[18px]"></iconify-icon>
                             Buka POS
@@ -251,10 +269,8 @@ export default function OwnerDashboard({
 
                 {/* ====== MAIN GRID ====== */}
                 <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-
                     {/* ===== LEFT CONTENT ===== */}
                     <div className="xl:col-span-9 space-y-6">
-
                         {/* Sales Chart */}
                         <SalesChart
                             initialLabels={salesChart.labels}
@@ -263,7 +279,6 @@ export default function OwnerDashboard({
 
                         {/* Menu Terlaris & Jam Sibuk */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
                             {/* Menu Terlaris */}
                             <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm">
                                 <div className="flex justify-between items-center mb-5">
@@ -271,7 +286,7 @@ export default function OwnerDashboard({
                                         <h3 className="font-extrabold text-brand-dark tracking-tight">Menu Terlaris</h3>
                                         <p className="text-[10px] text-brand-primary/60 font-bold capitalize tracking-wider mt-0.5">Penjualan tertinggi hari ini</p>
                                     </div>
-                                    <Link href="/menus" className="text-xs text-brand-secondary font-extrabold hover:text-brand-primary hover:underline transition-colors">
+                                    <Link to="/menus" className="text-xs text-brand-secondary font-extrabold hover:text-brand-primary hover:underline transition-colors">
                                         Lihat Katalog
                                     </Link>
                                 </div>
@@ -403,7 +418,7 @@ export default function OwnerDashboard({
                         <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm">
                             <div className="flex justify-between items-center mb-5">
                                 <h3 className="font-extrabold text-brand-dark tracking-tight">Analisis Profitabilitas</h3>
-                                <Link href="/recipe-costing" className="text-xs font-bold border border-brand-light text-brand-primary px-4 py-1.5 rounded-lg hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm">
+                                <Link to="/recipe-costing" className="text-xs font-bold border border-brand-light text-brand-primary px-4 py-1.5 rounded-lg hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm">
                                     Detail HPP
                                 </Link>
                             </div>
@@ -488,7 +503,6 @@ export default function OwnerDashboard({
 
                     {/* ===== RIGHT SIDEBAR ===== */}
                     <div className="xl:col-span-3 space-y-6">
-
                         {/* Goal Hari Ini */}
                         <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm relative overflow-hidden hover:shadow-md transition-all duration-300">
                             <div className="absolute top-0 right-0 w-28 h-28 bg-brand-secondary/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
@@ -531,7 +545,7 @@ export default function OwnerDashboard({
                                                 {currentTarget ? 'Ubah Target' : 'Set Target Hari Ini'}
                                             </button>
                                         ) : (
-                                            <Link href="/targets-goals"
+                                            <Link to="/targets-goals"
                                                 className="block mt-4 w-full py-2.5 text-xs font-bold text-brand-bg bg-brand-secondary rounded-xl hover:bg-brand-primary transition-colors text-center shadow-md active:scale-[0.98]">
                                                 Lihat Detail Target →
                                             </Link>
@@ -567,7 +581,7 @@ export default function OwnerDashboard({
                                 ) : lowStockItems.length === 0 ? (
                                     <p className="text-xs text-brand-primary italic text-center py-2">Semua stok dalam kondisi aman.</p>
                                 ) : lowStockItems.map((item, i) => (
-                                    <Link key={i} href={`/inventories/${item.id}`}
+                                    <Link key={i} to={`/inventories/${item.id}`}
                                         className="block p-3 bg-rose-50/40 rounded-xl border border-rose-100 hover:bg-rose-50 hover:border-rose-300 hover:shadow-sm transition-all duration-200 group">
                                         <div className="flex justify-between items-center gap-2">
                                             <div className="min-w-0">
@@ -583,7 +597,7 @@ export default function OwnerDashboard({
                                     </Link>
                                 ))}
                             </div>
-                            <Link href="/inventories"
+                            <Link to="/inventories"
                                 className="block w-full mt-4 py-2.5 text-xs font-extrabold text-brand-primary border border-brand-light bg-brand-bg rounded-xl hover:bg-brand-light/50 hover:text-brand-dark text-center transition-colors">
                                 Manajemen Inventaris
                             </Link>
@@ -597,7 +611,7 @@ export default function OwnerDashboard({
                                     <span className="flex items-center gap-1.5 text-[10px] font-bold text-brand-primary bg-brand-light/30 border border-brand-light/50 px-2.5 py-0.5 rounded-full shadow-sm">
                                         <span className="w-1.5 h-1.5 bg-brand-secondary rounded-full animate-pulse"></span> Live
                                     </span>
-                                    <Link href="/kitchen-orders" className="text-[10px] text-brand-secondary font-extrabold hover:text-brand-primary hover:underline ml-1">
+                                    <Link to="/kitchen-orders" className="text-[10px] text-brand-secondary font-extrabold hover:text-brand-primary hover:underline ml-1">
                                         Lihat semua →
                                     </Link>
                                 </div>
@@ -618,7 +632,7 @@ export default function OwnerDashboard({
                                 ) : kitchenQueue.map((order, i) => {
                                     const s = statusLabel[order.status] ?? statusLabel.pending;
                                     return (
-                                        <Link key={i} href="/kitchen-orders"
+                                        <Link key={i} to="/kitchen-orders"
                                             className="block p-3 rounded-xl border border-brand-light hover:bg-brand-light/10 hover:border-brand-secondary hover:shadow-sm transition-all duration-200 group relative overflow-hidden">
                                             <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${statusColor[order.status] ?? statusColor.pending}`}></div>
                                             <div className="flex justify-between items-start gap-3 pl-3">
@@ -646,7 +660,7 @@ export default function OwnerDashboard({
                         </div>
 
                         {/* Promo Banner */}
-                        <Link href="/bundles"
+                        <Link to="/bundles"
                             className="block bg-gradient-to-br from-brand-dark via-brand-primary to-brand-secondary p-6 rounded-2xl border border-brand-primary relative overflow-hidden hover:shadow-lg hover:shadow-brand-secondary/30 transition-all duration-300 group">
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
                             <div className="relative z-10">
@@ -660,7 +674,6 @@ export default function OwnerDashboard({
                             </div>
                             <iconify-icon icon="solar:gift-linear" class="absolute -right-4 -bottom-4 text-6xl opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-500 transform text-white"></iconify-icon>
                         </Link>
-
                     </div>
                 </div>
             </div>
@@ -672,9 +685,8 @@ export default function OwnerDashboard({
                 currentTarget={currentTarget}
                 currentValue={parseInt(stats.revenue.value.replace(/[^0-9]/g, ''), 10) || 0}
                 defaultPeriod="daily"
+                onSaveSuccess={fetchDashboard}
             />
-        </>
+        </AppLayout>
     );
 }
-
-OwnerDashboard.layout = (page) => <AppLayout>{page}</AppLayout>;

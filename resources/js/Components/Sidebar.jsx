@@ -1,11 +1,12 @@
-import { Link, usePage, router } from '@inertiajs/react';
+import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+
 
 export default function Sidebar() {
-    const { url, props } = usePage();
-    const { auth, ziggy } = props;
-    const currentUrl = url;
-    const user = auth?.user;
+    const location = useLocation();
+    const currentUrl = location.pathname;
+    const { user, logout } = useAuth();
 
     const [accessOpen, setAccessOpen] = useState(
         currentUrl.includes('/users') || currentUrl.includes('/user-management') || currentUrl.includes('/roles')
@@ -38,7 +39,7 @@ export default function Sidebar() {
     const cls = (path) => `${base} ${isActive(path) ? active : inactive}`;
 
     const handleLogout = () => {
-        router.post('/logout');
+        logout();
     };
 
     return (
@@ -53,62 +54,62 @@ export default function Sidebar() {
 
                 <nav className="p-4 space-y-1.5 overflow-y-auto max-h-[calc(100vh-180px)]">
 
-                    <Link href={dashboardRoute()} className={`${base} ${isDashboardActive() ? active : inactive}`}>
+                    <Link to={dashboardRoute()} className={`${base} ${isDashboardActive() ? active : inactive}`}>
                         <iconify-icon icon="solar:home-2-linear" class="text-[20px]"></iconify-icon>
                         <span className="text-[13px]">Dashboard</span>
                     </Link>
 
                     {/* POS */}
-                    <Link href="/pos" className={cls('/pos')}>
+                    <Link to="/pos" className={cls('/pos')}>
                         <iconify-icon icon="solar:card-2-linear" class="text-[20px]"></iconify-icon>
                         <span className="text-[13px]">Point of Sale</span>
                     </Link>
 
                     {/* Transactions */}
-                    <Link href="/transactions" className={cls('/transactions')}>
+                    <Link to="/transactions" className={cls('/transactions')}>
                         <iconify-icon icon="solar:clock-circle-linear" class="text-[20px]"></iconify-icon>
                         <span className="text-[13px]">Transactions</span>
                     </Link>
 
                     {/* Kitchen Queue */}
-                    <Link href="/kitchen-orders" className={cls('/kitchen-orders')}>
+                    <Link to="/kitchen-orders" className={cls('/kitchen-orders')}>
                         <iconify-icon icon="solar:chef-hat-linear" class="text-[20px]"></iconify-icon>
                         <span className="text-[13px]">Kitchen Queue</span>
                     </Link>
 
                     {/* Owner & Admin */}
                     {can('manage-menu') && <>
-                        <Link href="/menus" className={cls('/menus')}>
+                        <Link to="/menus" className={cls('/menus')}>
                             <iconify-icon icon="solar:clipboard-list-linear" class="text-[20px]"></iconify-icon>
                             <span className="text-[13px]">Menu Catalog</span>
                         </Link>
 
-                        <Link href="/promotions" className={cls('/promotions')}>
+                        <Link to="/promotions" className={cls('/promotions')}>
                             <iconify-icon icon="solar:tag-linear" class="text-[20px]"></iconify-icon>
                             <span className="text-[13px]">Promosi & Bundling</span>
                         </Link>
 
-                        <Link href="/recipe-costing" className={cls('/recipe-costing')}>
+                        <Link to="/recipe-costing" className={cls('/recipe-costing')}>
                             <iconify-icon icon="solar:calculator-minimalistic-linear" class="text-[20px]"></iconify-icon>
                             <span className="text-[13px]">Recipe Costing</span>
                         </Link>
 
-                        <Link href="/inventories" className={cls('/inventories')}>
+                        <Link to="/inventories" className={cls('/inventories')}>
                             <iconify-icon icon="solar:box-linear" class="text-[20px]"></iconify-icon>
                             <span className="text-[13px]">Inventory</span>
                         </Link>
 
-                        <Link href="/purchase-orders" className={cls('/purchase-orders')}>
+                        <Link to="/purchase-orders" className={cls('/purchase-orders')}>
                             <iconify-icon icon="solar:clipboard-list-linear" class="text-[20px]"></iconify-icon>
                             <span className="text-[13px]">Purchase Order</span>
                         </Link>
 
-                        <Link href="/suppliers" className={cls('/suppliers')}>
+                        <Link to="/suppliers" className={cls('/suppliers')}>
                             <iconify-icon icon="solar:shop-linear" class="text-[20px]"></iconify-icon>
                             <span className="text-[13px]">Supplier</span>
                         </Link>
 
-                        <Link href="/reports" className={cls('/reports')}>
+                        <Link to="/reports" className={cls('/reports')}>
                             <iconify-icon icon="solar:chart-2-linear" class="text-[20px]"></iconify-icon>
                             <span className="text-[13px]">Reports</span>
                         </Link>
@@ -133,11 +134,11 @@ export default function Sidebar() {
 
                             {targetsOpen && (
                                 <div className="mt-1 ml-4 pl-3 border-l border-brand-light space-y-0.5">
-                                    <Link href="/targets-goals" className={`${base} ${currentUrl.split('?')[0] === '/targets-goals' ? active : inactive} py-2`}>
+                                    <Link to="/targets-goals" className={`${base} ${currentUrl.split('?')[0] === '/targets-goals' ? active : inactive} py-2`}>
                                         <iconify-icon icon="solar:chart-square-linear" class="text-[18px]"></iconify-icon>
                                         <span className="text-[13px]">Ringkasan Target</span>
                                     </Link>
-                                    <Link href="/targets-goals/aov" className={`${base} ${currentUrl.split('?')[0] === '/targets-goals/aov' ? active : inactive} py-2`}>
+                                    <Link to="/targets-goals/aov" className={`${base} ${currentUrl.split('?')[0] === '/targets-goals/aov' ? active : inactive} py-2`}>
                                         <iconify-icon icon="solar:graph-up-linear" class="text-[18px]"></iconify-icon>
                                         <span className="text-[13px]">Analisis AOV</span>
                                     </Link>
@@ -160,11 +161,11 @@ export default function Sidebar() {
 
                             {accessOpen && (
                                 <div className="mt-1 ml-4 pl-3 border-l border-brand-light space-y-0.5">
-                                    <Link href="/users" className={cls('/users')}>
+                                    <Link to="/users" className={cls('/users')}>
                                         <iconify-icon icon="solar:users-group-rounded-linear" class="text-[18px]"></iconify-icon>
                                         <span className="text-[13px]">User Directory</span>
                                     </Link>
-                                    <Link href="/user-management/role-permission" className={cls('/user-management/role-permission')}>
+                                    <Link to="/user-management/role-permission" className={cls('/user-management/role-permission')}>
                                         <iconify-icon icon="solar:shield-user-linear" class="text-[18px]"></iconify-icon>
                                         <span className="text-[13px]">Roles & Permissions</span>
                                     </Link>
@@ -172,14 +173,14 @@ export default function Sidebar() {
                             )}
                         </div>
 
-                        {/* <Link href="/system-status" className={cls('/system-status')}>
+                        {/* <Link to="/system-status" className={cls('/system-status')}>
                             <iconify-icon icon="solar:server-square-linear" class="text-[20px]"></iconify-icon>
                             <span className="text-[13px]">System Status</span>
                         </Link> */}
                     </>}
 
                     {/* Settings */}
-                    <Link href="/settings" className={cls('/settings')}>
+                    <Link to="/settings" className={cls('/settings')}>
                         <iconify-icon icon="solar:settings-linear" class="text-[20px]"></iconify-icon>
                         <span className="text-[13px]">Settings</span>
                     </Link>

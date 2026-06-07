@@ -1,11 +1,45 @@
-import { Head, Link } from '@inertiajs/react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import client from '../../../api/client';
+import { useAuth } from '../../../context/AuthContext';
 import AppLayout from '@/Layouts/AppLayout';
 
-export default function AdminDashboard({ user, stats, stockMovement, menuSummary, hppAnalysis, activityLog }) {
+export default function AdminDashboard() {
+    const { user } = useAuth();
+    const [dashboardData, setDashboardData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const fetchDashboard = async () => {
+        try {
+            const res = await client.get('/dashboard');
+            setDashboardData(res.data);
+        } catch (e) {
+            console.error('Failed to fetch admin dashboard data', e);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchDashboard();
+    }, []);
+
+    const stats = dashboardData?.stats || {
+        low_stock: '0 Item',
+        pending_po: '0 Berkas',
+        total_sku: '0 Item',
+        inventory_val: 'Rp 0',
+    };
+    const stockMovement = dashboardData?.stockMovement || [];
+    const menuSummary = dashboardData?.menuSummary || [];
+    const hppAnalysis = dashboardData?.hppAnalysis || [];
+    const activityLog = dashboardData?.activityLog || [];
+
+    const pageLoading = loading;
+
     return (
-        <>
-            <Head title="Dashboard Admin" />
-            <div className="h-full flex flex-col overflow-hidden">
+        <AppLayout>
+            <div className="h-full flex flex-col overflow-hidden min-h-screen">
                 <div className="flex-1 grid grid-cols-1 xl:grid-cols-12 gap-3 min-h-0">
 
                     {/* Main Content */}
@@ -24,10 +58,10 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                         {/* Stat Cards */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                             {[
-                                { title: 'Stok Rendah',      value: stats?.low_stock     ?? '0 Item',   icon: 'solar:box-minimalistic-linear',          iconBg: 'bg-rose-100',    iconColor: 'text-rose-600',    note: 'Segera Restock!',          noteColor: 'text-rose-500' },
-                                { title: 'PO Menunggu',      value: stats?.pending_po    ?? '0 Berkas', icon: 'solar:document-text-linear',             iconBg: 'bg-blue-100',    iconColor: 'text-blue-600',    note: 'Perlu persetujuan',        noteColor: 'text-blue-500' },
-                                { title: 'Total SKU',        value: stats?.total_sku     ?? '0 Item',   icon: 'solar:box-linear',                       iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600', note: 'Item aktif di inventaris', noteColor: 'text-emerald-600' },
-                                { title: 'Nilai Inventaris', value: stats?.inventory_val ?? 'Rp 0',     icon: 'solar:chart-2-linear',                   iconBg: 'bg-brand-light',   iconColor: 'text-brand-secondary',   note: null,                       noteColor: null },
+                                { title: 'Stok Rendah',      value: stats.low_stock,     icon: 'solar:box-minimalistic-linear',          iconBg: 'bg-rose-100',    iconColor: 'text-rose-600',    note: 'Segera Restock!',          noteColor: 'text-rose-500' },
+                                { title: 'PO Menunggu',      value: stats.pending_po,    icon: 'solar:document-text-linear',             iconBg: 'bg-blue-100',    iconColor: 'text-blue-600',    note: 'Perlu persetujuan',        noteColor: 'text-blue-500' },
+                                { title: 'Total SKU',        value: stats.total_sku,     icon: 'solar:box-linear',                       iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600', note: 'Item aktif di inventaris', noteColor: 'text-emerald-600' },
+                                { title: 'Nilai Inventaris', value: stats.inventory_val, icon: 'solar:chart-2-linear',                   iconBg: 'bg-brand-light',   iconColor: 'text-brand-secondary',   note: null,                       noteColor: null },
                             ].map((card, i) => (
                                 <div key={i} className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
                                     <div className={`w-12 h-12 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
@@ -55,7 +89,16 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                         </span>
                                     </div>
                                     <div className="flex flex-1 items-end justify-between h-48 gap-2 pt-4 border-b border-brand-light">
-                                        {(stockMovement ?? [40,30,50,45,60,80,55].map((v,i) => ({ in: v, out: v-15, label: ['Sen','Sel','Rab','Kam','Jum','Sab','Min'][i] }))).map((slot, i) => (
+                                        {pageLoading ? (
+                                            Array.from({ length: 7 }).map((_, i) => (
+                                                <div key={i} className="flex-1 flex flex-col items-center gap-1 h-full justify-end animate-pulse">
+                                                    <div className="w-full bg-brand-light rounded-t-sm" style={{ height: '40%' }}></div>
+                                                    <span className="h-2 w-6 bg-brand-light/60 rounded mt-2"></span>
+                                                </div>
+                                            ))
+                                        ) : stockMovement.length === 0 ? (
+                                            <p className="w-full text-center text-brand-primary italic text-xs py-16">Belum ada data pergerakan stok</p>
+                                        ) : stockMovement.map((slot, i) => (
                                             <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
                                                 <div className="w-full flex gap-1 items-end h-full">
                                                     <div className="flex-1 bg-brand-secondary rounded-t-sm transition-all group-hover:bg-brand-primary" style={{ height: `${slot.in}%` }}></div>
@@ -80,11 +123,20 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                         <p className="text-xs text-brand-primary/70 mt-1">Status ketersediaan katalog menu</p>
                                     </div>
                                     <div className="space-y-5 flex-1">
-                                        {(menuSummary ?? [
-                                            { icon: 'solar:cup-hot-linear',  iconBg: 'bg-emerald-50', iconColor: 'text-emerald-500', name: 'Minuman',      sub: '(Coffee/Non)', count: '0 Item Aktif', status: 'Ready',   statusBg: 'bg-emerald-100', statusColor: 'text-emerald-600' },
-                                            { icon: 'solar:chef-hat-linear', iconBg: 'bg-orange-50',  iconColor: 'text-orange-400',  name: 'Makanan',      sub: 'Utama',        count: '0 Item Aktif', status: 'Limited', statusBg: 'bg-orange-100',  statusColor: 'text-orange-500' },
-                                            { icon: 'solar:cookie-linear',   iconBg: 'bg-rose-50',    iconColor: 'text-rose-500',    name: 'Snack &',      sub: 'Pastry',       count: '0 Item Aktif', status: 'Ready',   statusBg: 'bg-emerald-100', statusColor: 'text-emerald-600' },
-                                        ]).map((item, i) => (
+                                        {pageLoading ? (
+                                            Array.from({ length: 3 }).map((_, i) => (
+                                                <div key={i} className="flex items-center justify-between animate-pulse">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="w-12 h-12 rounded-2xl bg-brand-light"></div>
+                                                        <div className="space-y-2">
+                                                            <div className="h-4 bg-brand-light rounded w-20"></div>
+                                                            <div className="h-3 bg-brand-light/60 rounded w-16"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="h-5 bg-brand-light rounded-full w-12"></div>
+                                                </div>
+                                            ))
+                                        ) : menuSummary.map((item, i) => (
                                             <div key={i} className="flex items-center justify-between">
                                                 <div className="flex items-center gap-4">
                                                     <div className={`w-12 h-12 rounded-2xl ${item.iconBg} ${item.iconColor} flex items-center justify-center`}>
@@ -101,7 +153,7 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                             </div>
                                         ))}
                                     </div>
-                                    <Link href="/menus"
+                                    <Link to="/menus"
                                         className="w-full mt-7 border border-brand-light hover:bg-brand-light/30 transition py-2.5 rounded-xl text-xs font-bold text-brand-primary text-center block">
                                         Kelola Menu Catalog
                                     </Link>
@@ -116,7 +168,7 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                     <h3 className="font-extrabold text-brand-dark tracking-tight">Analisis HPP Resep</h3>
                                     <p className="text-xs text-brand-primary/70">Menu dengan margin kritis atau keuntungan tinggi</p>
                                 </div>
-                                <Link href="/recipe-costing"
+                                <Link to="/recipe-costing"
                                     className="text-xs border border-brand-light px-4 py-2 rounded-xl font-bold text-brand-primary hover:bg-brand-light transition">
                                     Detail Recipe Costing
                                 </Link>
@@ -132,9 +184,19 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                     </tr>
                                 </thead>
                                 <tbody className="text-sm divide-y divide-brand-light/50">
-                                    {(hppAnalysis ?? []).length === 0 ? (
+                                    {pageLoading ? (
+                                        Array.from({ length: 3 }).map((_, i) => (
+                                            <tr key={i} className="animate-pulse">
+                                                <td className="px-6 py-4"><div className="h-4 bg-brand-light rounded w-32"></div></td>
+                                                <td className="px-4 py-4"><div className="h-4 bg-brand-light/60 rounded w-16"></div></td>
+                                                <td className="px-4 py-4"><div className="h-4 bg-brand-light rounded w-16"></div></td>
+                                                <td className="px-4 py-4"><div className="h-4 bg-brand-light rounded w-10 mx-auto"></div></td>
+                                                <td className="px-6 py-4"><div className="h-5 bg-brand-light rounded w-16 ml-auto"></div></td>
+                                            </tr>
+                                        ))
+                                    ) : hppAnalysis.length === 0 ? (
                                         <tr><td colSpan={5} className="px-6 py-8 text-center text-brand-primary italic">Belum ada data HPP.</td></tr>
-                                    ) : (hppAnalysis ?? []).map((row, i) => {
+                                    ) : hppAnalysis.map((row, i) => {
                                         const isLow = row.margin_pct < 40;
                                         return (
                                             <tr key={i} className="hover:bg-brand-light/10 transition">
@@ -164,17 +226,17 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                 ⚡ Aksi Cepat
                             </h4>
                             <div className="space-y-3">
-                                <Link href="/inventories/create"
+                                <Link to="/inventories/create"
                                     className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-sm transition">
                                     <iconify-icon icon="solar:add-circle-linear" class="text-lg"></iconify-icon>
                                     Input Stok Masuk
                                 </Link>
-                                <Link href="/inventories"
+                                <Link to="/inventories"
                                     className="w-full border border-brand-light hover:bg-brand-light/30 text-brand-primary py-3 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2">
                                     <iconify-icon icon="solar:clipboard-list-linear" class="text-lg"></iconify-icon>
                                     Stock Opname
                                 </Link>
-                                <Link href="/reports"
+                                <Link to="/reports"
                                     className="w-full border border-brand-light hover:bg-brand-light/30 text-brand-primary py-3 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2">
                                     <iconify-icon icon="solar:chart-2-linear" class="text-lg"></iconify-icon>
                                     Laporan Bulanan
@@ -188,9 +250,17 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                                 🕐 Log Aktivitas
                             </h4>
                             <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-brand-light">
-                                {(activityLog ?? []).length === 0 ? (
+                                {pageLoading ? (
+                                    Array.from({ length: 3 }).map((_, i) => (
+                                        <div key={i} className="relative pl-8 animate-pulse space-y-1">
+                                            <span className="absolute left-0 top-1 w-4 h-4 bg-brand-light border-4 border-white rounded-full"></span>
+                                            <div className="h-3 bg-brand-light rounded w-20"></div>
+                                            <div className="h-3 bg-brand-light/60 rounded w-32"></div>
+                                        </div>
+                                    ))
+                                ) : activityLog.length === 0 ? (
                                     <p className="text-xs text-brand-primary italic pl-8">Belum ada aktivitas hari ini.</p>
-                                ) : (activityLog ?? []).map((log, i) => (
+                                ) : activityLog.map((log, i) => (
                                     <div key={i} className="relative pl-8">
                                         <span className={`absolute left-0 top-1 w-4 h-4 ${log.type === 'in' ? 'bg-emerald-500' : 'bg-rose-400'} border-4 border-white rounded-full`}></span>
                                         <div className="flex justify-between text-[10px] mb-1">
@@ -208,9 +278,6 @@ export default function AdminDashboard({ user, stats, stockMovement, menuSummary
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
-
-
-AdminDashboard.layout = (page) => <AppLayout>{page}</AppLayout>;

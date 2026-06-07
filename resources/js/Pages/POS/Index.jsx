@@ -1,6 +1,9 @@
-import { useState, useMemo, useEffect } from 'react';
-import { Head } from '@inertiajs/react';
+import { useState, useMemo, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Head from '@/Components/Head';
 import AppLayout from '@/Layouts/AppLayout';
+import { PageDataContext } from '@/Components/PageLoader';
+import client from '@/api/client';
 
 function formatRupiah(amount) {
     return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
@@ -40,16 +43,19 @@ function MenuImage({ src, name, categoryName }) {
 
 
 export default function POS({
-    menus,
-    categories,
-    heldOrders,
-    initialCart,
-    resumedTransactionId,
-    taxPercent,
-    activePromotions,
-    cashierName,
-    urls,
+    menus = [],
+    categories = [],
+    heldOrders = [],
+    initialCart = [],
+    resumedTransactionId = null,
+    taxPercent = 10,
+    activePromotions = [],
+    cashierName = '',
+    urls = {},
 }) {
+    const navigate = useNavigate();
+    const { reload } = useContext(PageDataContext);
+
     const [search, setSearch] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [cart, setCart] = useState(initialCart ?? []);
@@ -58,6 +64,10 @@ export default function POS({
     const [paidAmount, setPaidAmount] = useState(0);
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        setCart(initialCart ?? []);
+    }, [initialCart]);
 
     const filteredMenus = useMemo(() => {
         const q = search.trim().toLowerCase();
@@ -123,20 +133,11 @@ export default function POS({
         setLoading(true);
         setErrorMessage('');
         try {
-            const res = await fetch(urls.checkout, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify(buildPayload()),
-            });
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.message || 'Checkout gagal');
-            window.location.href = data.redirect;
+            const endpoint = (urls.checkout || '/api/pos/checkout').replace(/^\/api/, '');
+            const res = await client.post(endpoint, buildPayload());
+            navigate(res.data.redirect);
         } catch (e) {
-            setErrorMessage(e.message || 'Terjadi kesalahan saat checkout.');
+            setErrorMessage(e.response?.data?.message || e.message || 'Terjadi kesalahan saat checkout.');
         } finally {
             setLoading(false);
         }
@@ -147,42 +148,31 @@ export default function POS({
         setLoading(true);
         setErrorMessage('');
         try {
-            const res = await fetch(urls.hold, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({ items: buildPayload().items }),
-            });
-            if (!res.ok) {
-                const data = await res.json();
-                throw new Error(data.message || 'Gagal menahan pesanan');
-            }
-            window.location.reload();
+            const endpoint = (urls.hold || '/api/pos/hold').replace(/^\/api/, '');
+            await client.post(endpoint, { items: buildPayload().items });
+            setCart([]);
+            setShowPayment(false);
+            reload();
         } catch (e) {
-            setErrorMessage(e.message || 'Terjadi kesalahan.');
+            setErrorMessage(e.response?.data?.message || e.message || 'Terjadi kesalahan.');
         } finally {
             setLoading(false);
         }
     };
 
     const resumeOrder = async (heldId) => {
-        const url = urls.resume.replace('__ID__', heldId);
-        const res = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            },
-        });
-        if (res.ok) window.location.reload();
+        setErrorMessage('');
+        try {
+            const url = (urls.resume || '/api/pos/resume/__ID__').replace('__ID__', heldId).replace(/^\/api/, '');
+            await client.post(url);
+            reload();
+        } catch (e) {
+            setErrorMessage(e.response?.data?.message || e.message || 'Terjadi kesalahan.');
+        }
     };
 
     return (
-        <>
+        <AppLayout>
             <Head title="POS Transaksi" />
 
             <div className="h-[calc(100vh-72px)] bg-gradient-to-br from-brand-bg via-white to-brand-light/30 flex overflow-hidden">
@@ -499,8 +489,8 @@ export default function POS({
                     </div>
                 </div>
             )}
-        </>
+        </AppLayout>
     );
 }
 
-POS.layout = (page) => <AppLayout>{page}</AppLayout>;
+// POS.layout = (page) => <AppLayout>{page}</AppLayout>;

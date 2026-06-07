@@ -70,47 +70,41 @@ FASE 3 — Setup React Router & Struktur Frontend (1-2 hari)
     → biarkan React Router yang handle frontend routing
 
 FASE 4 — Migrasi Halaman Satu Per Satu (1-2 minggu)
-Urutan migrasi dari yang paling simpel:
-4.1 Login Page
-    → hapus Inertia props
-    → pakai useAuth hook
-    → POST ke /api/auth/login
 
-4.2 Dashboard
-    → buat GET /api/dashboard di Laravel
-    → pindah logic dari DashboardController ke DashboardService
-    → fetch data pakai axios di useEffect / React Query
-
-4.3 Menu Catalog
-    → GET /api/menus
-    → POST /api/menus
-    → PUT /api/menus/{id}
-    → DELETE /api/menus/{id}
-
-4.4 Inventory
-    → GET /api/inventory
-    → POST /api/inventory
-    → dll
-
-4.5 Recipe Costing
-    → GET /api/recipes
-    → GET /api/recipes/{id}
-    → PUT /api/recipes/{id}
-
-4.6 POS / Transaksi
-    → GET /api/transactions
-    → POST /api/transactions
-    → ini yang paling kompleks, kerjain terakhir
-
-4.7 Reports
-    → GET /api/reports/sales
-    → GET /api/reports/profit
-    → dll
-
-4.8 Users Management
-    → GET /api/users
-    → POST /api/users
-    → dll
+- **Urutan migrasi dari yang paling simpel:**
+  - [ ] **4.1 Login Page**
+    - [ ] hapus Inertia props
+    - [ ] pakai `useAuth` hook
+    - [ ] POST ke `/api/auth/login`
+  - [ ] **4.2 Dashboard**
+    - [ ] buat GET `/api/dashboard` di Laravel
+    - [ ] pindah logic dari `DashboardController` ke `DashboardService`
+    - [ ] fetch data pakai axios di `useEffect` / React Query
+  - [ ] **4.3 Menu Catalog**
+    - [ ] GET `/api/menus`
+    - [ ] POST `/api/menus`
+    - [ ] PUT `/api/menus/{id}`
+    - [ ] DELETE `/api/menus/{id}`
+  - [ ] **4.4 Inventory**
+    - [ ] GET `/api/inventory`
+    - [ ] POST `/api/inventory`
+    - [ ] dll
+  - [ ] **4.5 Recipe Costing**
+    - [ ] GET `/api/recipes`
+    - [ ] GET `/api/recipes/{id}`
+    - [ ] PUT `/api/recipes/{id}`
+  - [ ] **4.6 POS / Transaksi**
+    - [ ] GET `/api/transactions`
+    - [ ] POST `/api/transactions`
+    - [ ] (ini yang paling kompleks, kerjain terakhir)
+  - [ ] **4.7 Reports**
+    - [ ] GET `/api/reports/sales`
+    - [ ] GET `/api/reports/profit`
+    - [ ] dll
+  - [ ] **4.8 Users Management**
+    - [ ] GET `/api/users`
+    - [ ] POST `/api/users`
+    - [ ] dll
 
 FASE 5 — Cleanup & Finishing (2-3 hari)
 5.1 Hapus semua sisa Inertia

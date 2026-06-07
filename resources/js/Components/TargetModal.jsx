@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useForm } from '@inertiajs/react';
 import { Icon } from '@iconify/react';
+import client from '../api/client';
 import ModernDatePicker from '@/Components/ModernDatePicker';
 import ModernTimePicker from '@/Components/ModernTimePicker';
 
@@ -24,8 +24,8 @@ export default function TargetModal({
         monthly: 'monthly'
     };
 
-    // Form setup using Inertia useForm
-    const { data, setData, post, put, processing, errors, reset, transform } = useForm({
+    // Form setup using React state
+    const [data, setDataState] = useState({
         label: '',
         type: 'revenue',
         period: 'daily',
@@ -34,6 +34,21 @@ export default function TargetModal({
         start_date: new Date().toISOString().split('T')[0],
         end_date: new Date().toISOString().split('T')[0],
     });
+
+    const [processing, setProcessing] = useState(false);
+    const [errors, setErrors] = useState({});
+
+    // Custom setData to mimic Inertia's API
+    const setData = (keyOrObject, value) => {
+        if (typeof keyOrObject === 'object') {
+            setDataState(prev => {
+                const updates = typeof keyOrObject === 'function' ? keyOrObject(prev) : keyOrObject;
+                return { ...prev, ...updates };
+            });
+        } else {
+            setDataState(prev => ({ ...prev, [keyOrObject]: value }));
+        }
+    };
 
     const [selectedOutlet, setSelectedOutlet] = useState('Jakarta Selatan');
     const [executionTime, setExecutionTime] = useState('08:00');
@@ -62,7 +77,7 @@ export default function TargetModal({
     useEffect(() => {
         if (isOpen) {
             if (currentTarget) {
-                setData({
+                setDataState({
                     label: currentTarget.label || '',
                     type: currentTarget.type || 'revenue',
                     period: currentTarget.period || 'daily',
@@ -85,7 +100,7 @@ export default function TargetModal({
                 else if (mappedPeriod === 'monthly') daysToAdd = 30;
                 end.setDate(start.getDate() + daysToAdd);
 
-                setData({
+                setDataState({
                     label: '',
                     type: 'revenue',
                     period: mappedPeriod,
@@ -154,32 +169,37 @@ export default function TargetModal({
     };
 
     // Submit form (Save & Apply)
-    const handleSubmit = (e, isDraft = false) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setProcessing(true);
+        setErrors({});
         
         // Dynamically set label based on selected outlet if empty
         const finalLabel = data.label || `Target ${selectedOutlet}`;
-        
-        transform((data) => ({
+        const payload = {
             ...data,
             label: finalLabel,
             current_value: data.current_value || 0,
-        }));
-
-        const options = {
-            onSuccess: (page) => {
-                if (onSaveSuccess) {
-                    onSaveSuccess(finalLabel);
-                }
-                onClose();
-            },
-            preserveScroll: true
         };
 
-        if (currentTarget?.id) {
-            put(route('targets-goals.update', currentTarget.id), options);
-        } else {
-            post(route('targets-goals.store'), options);
+        try {
+            if (currentTarget?.id) {
+                await client.put(`/targets-goals/${currentTarget.id}`, payload);
+            } else {
+                await client.post('/targets-goals', payload);
+            }
+            if (onSaveSuccess) {
+                onSaveSuccess(finalLabel);
+            }
+            onClose();
+        } catch (error) {
+            if (error.response && error.response.status === 422) {
+                setErrors(error.response.data.errors || {});
+            } else {
+                setErrors({ target_value: ['Gagal menyimpan target.'] });
+            }
+        } finally {
+            setProcessing(false);
         }
     };
 
@@ -192,7 +212,7 @@ export default function TargetModal({
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             {/* Backdrop with slide blur */}
             <div 
-                className="absolute inset-0 bg-brand-dark/50 backdrop-blur-sm transition-opacity duration-300"
+                className="absolute inset-0 bg-[#2a1b15]/50 backdrop-blur-sm transition-opacity duration-300"
                 onClick={onClose}
             />
 
@@ -221,7 +241,7 @@ export default function TargetModal({
                 </div>
 
                 {/* Modal Form Scroll Area */}
-                <form onSubmit={(e) => handleSubmit(e, false)} className="flex flex-col flex-1 overflow-hidden">
+                <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
                     <div className="overflow-y-auto px-8 py-2 space-y-5 flex-1">
                         
                         {/* Target Period Tab Switcher */}
@@ -287,7 +307,7 @@ export default function TargetModal({
                                 ))}
                             </div>
                             {errors.target_value && (
-                                <p className="text-xs text-rose-500 font-medium">{errors.target_value}</p>
+                                <p className="text-xs text-rose-500 font-medium">{errors.target_value[0]}</p>
                             )}
                         </div>
 
@@ -353,7 +373,7 @@ export default function TargetModal({
                                     </div>
                                 </div>
                                 {errors.start_date && (
-                                    <p className="text-xs text-rose-500 font-medium mt-1">{errors.start_date}</p>
+                                    <p className="text-xs text-rose-500 font-medium mt-1">{errors.start_date[0]}</p>
                                 )}
                             </div>
                         </div>
@@ -389,7 +409,7 @@ export default function TargetModal({
                                 {/* Clean Flex Labels under Progress Bar (Prevents text overlap) */}
                                 <div className="flex justify-between items-center text-[9px] font-extrabold text-brand-primary/60 tracking-wider">
                                     <span>RP 0</span>
-                                    <div className="flex items-center gap-1.5 bg-brand-secondary/10 border border-[#c4c0ff] px-2.5 py-1 rounded-lg text-brand-dark font-black">
+                                    <div className="flex items-center gap-1.5 bg-[#4d3227]/10 border border-[#4d3227]/30 px-2.5 py-1 rounded-lg text-brand-dark font-black">
                                         <span className={`w-1.5 h-1.5 rounded-full ${progressPercent >= 100 ? 'bg-emerald-500 animate-pulse' : 'bg-brand-secondary'}`}></span>
                                         <span>RP {formatRp(currentValue)} TERCAPAI</span>
                                     </div>
@@ -402,8 +422,8 @@ export default function TargetModal({
                                 <svg className="w-full h-full" viewBox="0 0 500 50" preserveAspectRatio="none">
                                     <defs>
                                         <linearGradient id="modalTargetAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stopColor="rgb(var(--color-brand-secondary))" stopOpacity="0.25" />
-                                            <stop offset="100%" stopColor="rgb(var(--color-brand-secondary))" stopOpacity="0.0" />
+                                            <stop offset="0%" stopColor="#4d3227" stopOpacity="0.25" />
+                                            <stop offset="100%" stopColor="#4d3227" stopOpacity="0.0" />
                                         </linearGradient>
                                     </defs>
                                     <path
@@ -413,7 +433,7 @@ export default function TargetModal({
                                     <path
                                         d="M0,42 C100,38 180,45 250,28 C320,10 400,22 500,14"
                                         fill="none"
-                                        stroke="rgb(var(--color-brand-dark))"
+                                        stroke="#4d3227"
                                         strokeWidth="2"
                                         strokeLinecap="round"
                                     />
@@ -435,13 +455,6 @@ export default function TargetModal({
                                 className="px-4 py-2.5 text-xs font-bold text-brand-dark hover:bg-brand-light/50 rounded-xl transition"
                             >
                                 Batal
-                            </button>
-                            <button
-                                type="button"
-                                onClick={(e) => handleSubmit(e, true)}
-                                className="px-4 py-2.5 text-xs font-bold text-brand-dark border border-brand-light hover:bg-brand-light/30 rounded-xl transition"
-                            >
-                                Simpan Draft
                             </button>
                             <button
                                 type="submit"

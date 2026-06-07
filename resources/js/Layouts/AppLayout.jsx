@@ -1,10 +1,9 @@
-import { usePage } from '@inertiajs/react';
 import Sidebar from '@/Components/Sidebar';
 import Navbar from '@/Components/Navbar';
 import Toast from '@/Components/Toast';
 
 export default function AppLayout({ children }) {
-    const { flash } = usePage().props;
+    const flash = {};
 
     return (
         <div className="h-screen flex overflow-hidden">

@@ -1,184 +1,213 @@
-import { Head, Link } from '@inertiajs/react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import client from '../../../api/client';
+import { useAuth } from '../../../context/AuthContext';
 import AppLayout from '@/Layouts/AppLayout';
 
-export default function CashierDashboard({ user, stats, recentTransactions, lowStockItems, shiftInfo }) {
+export default function CashierDashboard() {
+    const { user } = useAuth();
+    const [dashboardData, setDashboardData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const fetchDashboard = async () => {
+        try {
+            const res = await client.get('/dashboard');
+            setDashboardData(res.data);
+        } catch (e) {
+            console.error('Failed to fetch cashier dashboard data', e);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchDashboard();
+    }, []);
+
+    const stats = dashboardData?.stats || {
+        total_orders: '0 Pesanan',
+        total_cash: 'Rp 0',
+        avg_time: '—',
+    };
+    const recentTransactions = dashboardData?.recentTransactions || [];
+    const lowStockItems = dashboardData?.lowStockItems || [];
+    const shiftInfo = dashboardData?.shiftInfo || {
+        shift: 'Pagi',
+        start: '08:00',
+        duration: '0 Menit',
+        balance: 'Rp 500.000',
+    };
+
+    const pageLoading = loading;
+
     return (
-        <>
-            <Head title="Dashboard Kasir" />
+        <AppLayout>
             <div className="space-y-6 p-4 md:p-6 bg-brand-bg min-h-screen">
-                <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
 
-                    {/* Main Content */}
-                    <div className="xl:col-span-9 space-y-6">
+                {/* Header */}
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center justify-between">
+                    <div>
+                        <h1 className="text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                            Kasir POS
+                        </h1>
+                        <p className="text-brand-primary mt-1 text-sm font-medium">
+                            Selamat bertugas, <span className="font-extrabold text-brand-dark">{user?.name}</span>. Shift Anda hari ini berjalan dengan lancar.
+                        </p>
+                    </div>
+                    <Link to="/pos"
+                        className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98] w-fit">
+                        <iconify-icon icon="solar:card-2-linear" class="text-[18px]"></iconify-icon>
+                        Buka Layar Transaksi (POS)
+                    </Link>
+                </div>
 
-                        {/* Header */}
-                        <div>
-                            <h1 className="text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
-                                Dashboard Kasir
-                            </h1>
-                            <p className="text-sm font-medium text-brand-primary">Pantau performa harian dan kelola transaksi dengan cepat.</p>
-                        </div>
+                {/* Grid Info Utama */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-                        {/* Welcome Banner */}
-                        <div className="relative bg-gradient-to-r from-brand-primary to-brand-secondary rounded-3xl p-8 text-white overflow-hidden shadow-lg">
-                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
-                            <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
-                                <div className="space-y-1">
-                                    <h2 className="text-2xl font-extrabold">Selamat Datang, {user?.name}!</h2>
-                                    <p className="text-white/70 text-sm">
-                                        {shiftInfo?.duration ? `Shift Anda telah berjalan selama ${shiftInfo.duration}.` : 'Siap untuk melayani pelanggan hari ini?'}
-                                    </p>
-                                </div>
-                                <Link href="/pos"
-                                    className="bg-white text-brand-primary px-6 py-3 rounded-2xl font-extrabold flex items-center gap-2 hover:bg-brand-light transition-all shadow-sm whitespace-nowrap text-sm">
-                                    <iconify-icon icon="solar:play-circle-linear" class="text-lg"></iconify-icon>
-                                    BUKA POS SEKARANG
-                                </Link>
-                            </div>
-                        </div>
+                    {/* Left: Stats & History */}
+                    <div className="lg:col-span-8 space-y-6">
 
                         {/* Stat Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                             {[
-                                { title: 'Total Transaksi', value: stats?.total_orders    ?? '0 Pesanan',  note: 'Transaksi hari ini',     icon: 'solar:bill-list-linear',   iconBg: 'bg-brand-light',    iconColor: 'text-brand-secondary' },
-                                { title: 'Total Pendapatan', value: stats?.total_cash     ?? 'Rp 0',       note: 'Pendapatan hari ini',    icon: 'solar:wallet-linear',      iconBg: 'bg-emerald-50',   iconColor: 'text-emerald-600' },
-                                { title: 'Waktu Rata-Rata', value: stats?.avg_time        ?? '0 Menit',    note: 'Kecepatan layanan',      icon: 'solar:clock-circle-linear',iconBg: 'bg-orange-50',    iconColor: 'text-orange-500' },
+                                { title: 'Hari Ini (Pesanan)', value: stats.total_orders, icon: 'solar:bag-5-linear', iconBg: 'bg-brand-light', iconColor: 'text-brand-secondary' },
+                                { title: 'Hari Ini (Omset Tunai)', value: stats.total_cash, icon: 'solar:wallet-money-linear', iconBg: 'bg-emerald-50', iconColor: 'text-emerald-600' },
+                                { title: 'Rata-rata Waktu Dapur', value: stats.avg_time, icon: 'solar:clock-circle-linear', iconBg: 'bg-blue-50', iconColor: 'text-blue-600' },
                             ].map((card, i) => (
-                                <div key={i} className="bg-white p-6 rounded-3xl border border-brand-light shadow-sm hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div className={`w-10 h-10 ${card.iconBg} rounded-xl flex items-center justify-center ${card.iconColor} transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
-                                            <iconify-icon icon={card.icon} class="text-xl"></iconify-icon>
-                                        </div>
-                                        <span className="text-[10px] font-bold px-2 py-1 bg-brand-bg rounded-lg border border-brand-light text-brand-primary">Hari Ini</span>
+                                <div key={i} className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
+                                    <div className={`w-12 h-12 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
+                                        <iconify-icon icon={card.icon} class={`text-2xl ${card.iconColor}`}></iconify-icon>
                                     </div>
-                                    <p className="text-brand-primary/70 text-xs font-extrabold capitalize tracking-wider">{card.title}</p>
-                                    <h3 className="text-2xl font-extrabold text-brand-dark mt-1">{card.value}</h3>
-                                    <p className="text-[10px] text-brand-primary/50 mt-3 font-medium">{card.note}</p>
+                                    <div>
+                                        <p className="text-xs font-bold text-brand-primary/70 capitalize tracking-wide">{card.title}</p>
+                                        <p className="text-lg font-extrabold text-brand-dark mt-0.5">{card.value}</p>
+                                    </div>
                                 </div>
                             ))}
                         </div>
 
-                        {/* Recent Transactions */}
-                        <div className="bg-white rounded-3xl border border-brand-light shadow-sm overflow-hidden">
-                            <div className="p-6 flex justify-between items-center">
-                                <h3 className="font-extrabold text-brand-dark tracking-tight">Transaksi Terakhir</h3>
-                                <Link href="/transactions" className="text-brand-secondary font-extrabold text-xs flex items-center gap-1 hover:underline">
-                                    Lihat Semua <iconify-icon icon="solar:alt-arrow-right-linear"></iconify-icon>
+                        {/* Riwayat Transaksi Shift */}
+                        <div className="bg-white rounded-2xl border border-brand-light shadow-sm overflow-hidden">
+                            <div className="p-6 flex justify-between items-center border-b border-brand-light">
+                                <div>
+                                    <h3 className="font-extrabold text-brand-dark tracking-tight">Riwayat Transaksi Shift Ini</h3>
+                                    <p className="text-xs text-brand-primary/70 mt-0.5">Daftar transaksi penjualan tunai & cashless Anda hari ini</p>
+                                </div>
+                                <Link to="/transactions" className="text-xs border border-brand-light px-4 py-2 rounded-xl font-bold text-brand-primary hover:bg-brand-light transition">
+                                    Semua Riwayat
                                 </Link>
                             </div>
-                            <div className="overflow-x-auto text-sm">
-                                <table className="w-full text-left">
-                                    <thead className="bg-brand-bg text-brand-primary/60 text-[11px] font-extrabold capitalize tracking-widest">
-                                        <tr>
-                                            <th className="px-6 py-3">ID</th>
-                                            <th className="px-6 py-3">Waktu</th>
-                                            <th className="px-6 py-3">Pesanan</th>
-                                            <th className="px-6 py-3">Total</th>
-                                            <th className="px-6 py-3">Status</th>
-                                            <th className="px-6 py-3 text-center">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-brand-light/50">
-                                        {(recentTransactions ?? []).length === 0 ? (
-                                            <tr><td colSpan={6} className="px-6 py-8 text-center text-brand-primary italic">Belum ada transaksi hari ini.</td></tr>
-                                        ) : (recentTransactions ?? []).map((trx, i) => (
+                            <table className="w-full text-left">
+                                <thead className="bg-brand-bg text-[10px] capitalize text-brand-primary/60 tracking-wider">
+                                    <tr>
+                                        <th className="px-6 py-4 font-extrabold">No. TRX</th>
+                                        <th className="px-4 py-4 font-extrabold">Waktu</th>
+                                        <th className="px-4 py-4 font-extrabold">Item Belanja</th>
+                                        <th className="px-4 py-4 font-extrabold">Total Pembayaran</th>
+                                        <th className="px-6 py-4 font-extrabold text-right">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-sm divide-y divide-brand-light/50">
+                                    {pageLoading ? (
+                                        Array.from({ length: 3 }).map((_, i) => (
+                                            <tr key={i} className="animate-pulse">
+                                                <td className="px-6 py-4"><div className="h-4 bg-brand-light rounded w-16"></div></td>
+                                                <td className="px-4 py-4"><div className="h-4 bg-brand-light/60 rounded w-12"></div></td>
+                                                <td className="px-4 py-4"><div className="h-4 bg-brand-light rounded w-40"></div></td>
+                                                <td className="px-4 py-4"><div className="h-4 bg-brand-light rounded w-20"></div></td>
+                                                <td className="px-6 py-4"><div className="h-5 bg-brand-light rounded w-16 ml-auto"></div></td>
+                                            </tr>
+                                        ))
+                                    ) : recentTransactions.length === 0 ? (
+                                        <tr><td colSpan={5} className="px-6 py-8 text-center text-brand-primary italic">Belum ada transaksi shift ini.</td></tr>
+                                    ) : recentTransactions.map((row, i) => {
+                                        const isCompleted = row.status === 'completed';
+                                        return (
                                             <tr key={i} className="hover:bg-brand-light/10 transition">
-                                                <td className="px-6 py-4 font-bold text-brand-primary">{trx.id}</td>
-                                                <td className="px-6 py-4 text-brand-dark/60">{trx.time}</td>
-                                                <td className="px-6 py-4 text-brand-dark/80">{trx.items}</td>
-                                                <td className="px-6 py-4 font-extrabold text-brand-dark">{trx.total}</td>
-                                                <td className="px-6 py-4">
-                                                    <span className={`px-2 py-1 rounded-full text-[10px] font-bold ${trx.status === 'completed' ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}`}>
-                                                        {trx.status === 'completed' ? 'Sukses' : 'Gagal'}
+                                                <td className="px-6 py-4 font-extrabold text-brand-dark">{row.id}</td>
+                                                <td className="px-4 py-4 text-brand-dark/60">{row.time}</td>
+                                                <td className="px-4 py-4 text-brand-dark/60 max-w-xs truncate">{row.items}</td>
+                                                <td className="px-4 py-4 text-brand-dark font-extrabold">{row.total}</td>
+                                                <td className="px-6 py-4 text-right">
+                                                    <span className={`px-2 py-1 text-[10px] rounded-full font-bold ${
+                                                        isCompleted ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-600'
+                                                    }`}>
+                                                        {isCompleted ? 'Selesai' : 'Pending'}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-4">
-                                                    <div className="flex justify-center gap-3 text-brand-primary/40">
-                                                        <button className="hover:text-brand-secondary">
-                                                            <iconify-icon icon="solar:printer-minimalistic-linear" class="text-lg"></iconify-icon>
-                                                        </button>
-                                                        <button className="hover:text-brand-secondary">
-                                                            <iconify-icon icon="solar:restart-linear" class="text-lg"></iconify-icon>
-                                                        </button>
-                                                    </div>
-                                                </td>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
-                    {/* Sidebar */}
-                    <div className="xl:col-span-3 space-y-6">
+                    {/* Right: Shift & Inventory Alert */}
+                    <div className="lg:col-span-4 space-y-6">
 
-                        {/* Profile */}
-                        <div className="bg-white p-4 rounded-3xl border border-brand-light shadow-sm flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-secondary to-brand-primary flex items-center justify-center text-white font-extrabold text-lg shadow-md">
-                                {user?.name?.charAt(0).toUpperCase()}
-                            </div>
-                            <div>
-                                <h4 className="font-extrabold text-brand-dark text-sm">{user?.name}</h4>
-                                <p className="text-[11px] text-brand-primary">Cashier • {shiftInfo?.shift ?? 'Shift Aktif'}</p>
+                        {/* Shift Informasi */}
+                        <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
+                            <h3 className="font-extrabold text-brand-dark tracking-tight">Sesi Aktif & Shift</h3>
+                            <div className="space-y-3.5 divide-y divide-brand-light/50">
+                                <div className="flex justify-between items-center pt-3 first:pt-0">
+                                    <span className="text-xs font-semibold text-brand-primary/80">Sesi Shift</span>
+                                    <span className="text-xs font-extrabold text-brand-dark bg-brand-light/50 border px-3 py-1 rounded-lg">Shift {shiftInfo.shift}</span>
+                                </div>
+                                <div className="flex justify-between items-center pt-3">
+                                    <span className="text-xs font-semibold text-brand-primary/80">Mulai Shift</span>
+                                    <span className="text-xs font-bold text-brand-dark">{shiftInfo.start} WIB</span>
+                                </div>
+                                <div className="flex justify-between items-center pt-3">
+                                    <span className="text-xs font-semibold text-brand-primary/80">Durasi Bekerja</span>
+                                    <span className="text-xs font-bold text-brand-dark">{shiftInfo.duration}</span>
+                                </div>
+                                <div className="flex justify-between items-center pt-3">
+                                    <span className="text-xs font-semibold text-brand-primary/80">Saldo Awal Kas</span>
+                                    <span className="text-xs font-extrabold text-brand-dark">{shiftInfo.balance}</span>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Shift Info */}
-                        <div className="bg-white p-6 rounded-3xl border border-brand-light shadow-sm space-y-4">
-                            <h4 className="text-[10px] font-extrabold text-brand-primary/60 capitalize tracking-widest">Informasi Shift</h4>
-                            <div className="space-y-3 text-sm">
-                                {[
-                                    { label: 'Mulai Shift',  value: shiftInfo?.start    ?? '-' },
-                                    { label: 'Durasi',       value: shiftInfo?.duration ?? '-' },
-                                    { label: 'Saldo Awal',   value: shiftInfo?.balance  ?? '-' },
-                                ].map((row, i) => (
-                                    <div key={i} className="flex justify-between">
-                                        <span className="text-brand-primary/70">{row.label}</span>
-                                        <span className="font-extrabold text-brand-dark">{row.value}</span>
-                                    </div>
-                                ))}
+                        {/* Inventory Stok Tipis */}
+                        <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm">
+                            <div className="flex justify-between items-center mb-5">
+                                <h3 className="font-extrabold text-brand-dark tracking-tight">Alert Stok Tipis</h3>
+                                <span className="bg-rose-50 text-rose-600 text-[10px] px-2.5 py-0.5 rounded-full font-bold border border-rose-100 flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-pulse"></span>
+                                    {lowStockItems.length} Item
+                                </span>
                             </div>
-                            <button className="w-full border border-brand-light py-2.5 rounded-xl text-[11px] font-bold text-brand-primary hover:bg-brand-light/30 transition">
-                                Lihat Laporan Shift
-                            </button>
-                        </div>
-
-                        {/* Low Stock */}
-                        <div className="bg-white p-6 rounded-3xl border border-brand-light shadow-sm">
-                            <h4 className="text-[10px] font-extrabold text-brand-primary/60 capitalize tracking-widest mb-4">Stok Menipis</h4>
-                            <div className="space-y-4">
-                                {(lowStockItems ?? []).length === 0 ? (
-                                    <p className="text-xs text-brand-primary italic">Semua stok aman.</p>
-                                ) : (lowStockItems ?? []).map((item, i) => (
-                                    <div key={i} className="flex gap-3">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 flex-shrink-0"></div>
-                                        <div>
-                                            <h5 className="text-sm font-extrabold text-brand-dark">{item.name}</h5>
-                                            <p className="text-[11px] text-brand-primary/60">Sisa {item.stock} {item.unit} (Min. {item.min_stock})</p>
+                            <div className="space-y-3">
+                                {pageLoading ? (
+                                    Array.from({ length: 3 }).map((_, i) => (
+                                        <div key={i} className="p-3 border border-brand-light rounded-xl animate-pulse space-y-2">
+                                            <div className="flex justify-between">
+                                                <div className="h-3 bg-brand-light rounded w-24"></div>
+                                                <div className="h-3 bg-brand-light rounded w-12"></div>
+                                            </div>
+                                            <div className="h-3 bg-brand-light/60 rounded w-32"></div>
+                                        </div>
+                                    ))
+                                ) : lowStockItems.length === 0 ? (
+                                    <p className="text-xs text-brand-primary italic text-center py-2">Semua stok bahan aman.</p>
+                                ) : lowStockItems.map((item, i) => (
+                                    <div key={i} className="p-3 bg-rose-50/40 rounded-xl border border-rose-100">
+                                        <div className="flex justify-between items-center">
+                                            <div>
+                                                <p className="text-xs font-bold text-brand-dark">{item.name}</p>
+                                                <p className="text-[10px] font-medium text-rose-500 mt-0.5">
+                                                    Sisa <span className="font-bold">{item.stock} {item.unit}</span> (min {item.min_stock})
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-                            <Link href="/inventories" className="block text-brand-secondary font-extrabold text-[11px] mt-6 hover:underline">
-                                Kelola Inventaris →
-                            </Link>
-                        </div>
-
-                        {/* Memo */}
-                        <div className="bg-brand-light/20 p-6 rounded-3xl border border-brand-light">
-                            <h4 className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest mb-3">📌 Internal Memo</h4>
-                            <p className="text-xs text-brand-dark/70 italic leading-relaxed">
-                                Informasikan promo dan penawaran aktif kepada pelanggan saat melayani.
-                            </p>
-                            <p className="text-[10px] text-brand-primary/50 mt-4 font-bold">— Management</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
-
-
-CashierDashboard.layout = (page) => <AppLayout>{page}</AppLayout>;
