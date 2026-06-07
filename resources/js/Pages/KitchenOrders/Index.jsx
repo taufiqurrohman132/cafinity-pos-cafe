@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Head from '@/Components/Head';
 import client from '@/api/client';
+import { useNotifications } from '@/context/NotificationContext';
 import KitchenOrdersSkeleton from '@/Components/Skeletons/KitchenOrdersSkeleton';
 
 const STATUS_CONFIG = {
@@ -56,12 +57,16 @@ function LiveClock() {
 
 export default function KitchenOrdersIndex() {
     const location = useLocation();
+    const { triggerLocalNotif } = useNotifications();
     const [orders, setOrders] = useState(null);
     const [stats, setStats] = useState(null);
     const [filter, setFilter] = useState('all');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+    const prevOrderIdsRef = useRef(new Set());
+    const isFirstLoadRef = useRef(true);
 
     // Fetch data whenever location.search or refreshTrigger changes
     useEffect(() => {
@@ -70,9 +75,34 @@ export default function KitchenOrdersIndex() {
             try {
                 setError(null);
                 const res = await client.get(`/kitchen-orders${location.search}`);
-                setOrders(res.data.orders);
+                const fetchedOrders = res.data.orders || [];
+                setOrders(fetchedOrders);
                 setStats(res.data.stats);
                 setFilter(res.data.filter || 'all');
+
+                const fetchedIds = fetchedOrders.map(o => o.id);
+
+                if (isFirstLoadRef.current) {
+                    prevOrderIdsRef.current = new Set(fetchedIds);
+                    isFirstLoadRef.current = false;
+                } else {
+                    let hasNew = false;
+                    fetchedIds.forEach(id => {
+                        if (!prevOrderIdsRef.current.has(id)) {
+                            hasNew = true;
+                        }
+                    });
+
+                    if (hasNew) {
+                        triggerLocalNotif(
+                            "Antrean Dapur Baru",
+                            "Pesanan hidangan baru telah masuk ke antrean dapur. Silakan mulai memasak!",
+                            "info",
+                            "kitchen_order"
+                        );
+                    }
+                    prevOrderIdsRef.current = new Set(fetchedIds);
+                }
             } catch (err) {
                 console.error("Gagal mengambil data antrean dapur:", err);
                 setError(err);
@@ -83,11 +113,11 @@ export default function KitchenOrdersIndex() {
         fetchOrders();
     }, [location.search, refreshTrigger]);
 
-    // Auto-refresh setiap 30 detik
+    // Auto-refresh setiap 5 detik agar real-time
     useEffect(() => {
         const id = setInterval(() => {
             setRefreshTrigger(prev => prev + 1);
-        }, 30000);
+        }, 5000);
         return () => clearInterval(id);
     }, []);
 

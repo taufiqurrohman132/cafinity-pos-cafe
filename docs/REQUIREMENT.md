@@ -21,3 +21,9 @@ All requested pages, components, and backend features have been fully implemente
 * **Modal CRUD**: Integrated a "Kelola Kategori" management modal directly within [Index.jsx](file:///c:/laragon/www/cafinity-app-laravel/resources/js/Pages/Menus/Index.jsx).
 * **Feature Scope**: Allows creating, reading, updating, and deleting categories via the backend category controller API.
 * **Reactive UI**: Refreshes filters, local tab listings, and menus when categories change.
+
+## 5. Real-Time Notification System
+* **Dynamic Auditory Alerts**: Added synthesized audio chimes using the browser's Web Audio API for checkout success (`success`), new order alerts in kitchen (`kitchen_order`), and warnings/errors (`warning`). Requires no external sound assets.
+* **Global Toast Overlays**: Wrapped the application in a custom [NotificationContext.jsx](file:///c:/laragon/www/cafinity-app-laravel/resources/js/context/NotificationContext.jsx) linked into [AppLayout.jsx](file:///c:/laragon/www/cafinity-app-laravel/resources/js/Layouts/AppLayout.jsx) to display sliding, color-coded toast cards for all events.
+* **POS & Checkout Integrations**: POS checkout now sounds a success chime, checks active recipe ingredient levels, decrements inventory stock, and automatically dispatches `LowStockAlert` and `OrderCreated` broadcast events.
+* **Kitchen Queue Integrations**: Reduced kitchen orders polling to 5s to achieve a highly responsive real-time order addition. Incoming orders play a double bell audio alert and update the kitchen queue. Marking an order "Ready" creates a database notification that instantly alerts the POS cashier.

@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Head from '@/Components/Head';
 import client from '@/api/client';
+import { useNotifications } from '@/context/NotificationContext';
 import POSSkeleton from '@/Components/Skeletons/POSSkeleton';
 
 function formatRupiah(amount) {
@@ -57,6 +58,7 @@ function MenuImage({ src, name, categoryName }) {
 
 export default function POS() {
     const navigate = useNavigate();
+    const { playChime } = useNotifications();
 
     const [menus, setMenus] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -256,8 +258,10 @@ export default function POS() {
         try {
             const endpoint = (urls.checkout || '/api/pos/checkout').replace(/^\/api/, '');
             const res = await client.post(endpoint, buildPayload());
+            playChime('success');
             navigate(res.data.redirect);
         } catch (e) {
+            playChime('error');
             setErrorMessage(e.response?.data?.message || e.message || 'Terjadi kesalahan saat checkout.');
         } finally {
             setLoading(false);

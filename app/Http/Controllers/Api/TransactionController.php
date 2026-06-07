@@ -11,6 +11,10 @@ use App\Models\Promotion;
 use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
+use App\Models\User;
+use App\Models\Notification;
+use App\Events\OrderCreated;
+use App\Events\LowStockTriggered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -179,6 +183,36 @@ class TransactionController extends Controller
                 ]);
             }
 
+            // Reduce inventory stock based on recipes
+            foreach ($lineItems as $line) {
+                $menu = Menu::with('recipe.ingredients')->find($line['menu_id']);
+                if ($menu && $menu->recipe) {
+                    foreach ($menu->recipe->ingredients as $ingredient) {
+                        $qtyNeeded = $ingredient->pivot->qty * $line['qty'];
+                        $wasLow = $ingredient->isLowStock();
+                        
+                        // Pass negative quantity to adjustStock to decrement
+                        $ingredient->adjustStock(-$qtyNeeded, 'out', "Order #{$transaction->id}");
+                        
+                        // Check if now low stock
+                        if (!$wasLow && $ingredient->isLowStock()) {
+                            event(new LowStockTriggered($ingredient));
+                            
+                            $admins = User::whereIn('role', ['owner', 'admin'])->get();
+                            foreach ($admins as $admin) {
+                                Notification::create([
+                                    'user_id' => $admin->id,
+                                    'title'   => 'Stok Bahan Baku Menipis',
+                                    'body'    => "Bahan baku {$ingredient->name} tersisa {$ingredient->stock} {$ingredient->unit} (minimum {$ingredient->min_stock} {$ingredient->unit}).",
+                                    'type'    => 'stock',
+                                    'is_read' => false,
+                                ]);
+                            }
+                        }
+                    }
+                }
+            }
+
             if (!empty($data['held_transaction_id'])) {
                 Transaction::query()
                     ->where('id', $data['held_transaction_id'])
@@ -188,6 +222,12 @@ class TransactionController extends Controller
 
             return $transaction;
         });
+
+        // Broadcast to Kitchen
+        $kitchenOrder = KitchenOrder::where('transaction_id', $transaction->id)->first();
+        if ($kitchenOrder) {
+            event(new OrderCreated($kitchenOrder));
+        }
 
         return response()->json([
             'success' => true,

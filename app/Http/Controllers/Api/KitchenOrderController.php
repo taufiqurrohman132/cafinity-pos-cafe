@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\KitchenOrder;
+use App\Events\OrderReady;
 use Illuminate\Http\Request;
 
 class KitchenOrderController extends Controller
@@ -92,6 +93,19 @@ class KitchenOrderController extends Controller
     {
         $order = KitchenOrder::findOrFail($id);
         $order->update(['status' => 'ready']);
+
+        event(new OrderReady($order));
+
+        $order->loadMissing('transaction');
+        if ($order->transaction && $order->transaction->cashier_id) {
+            \App\Models\Notification::create([
+                'user_id' => $order->transaction->cashier_id,
+                'title'   => 'Pesanan Siap Diambil',
+                'body'    => "Pesanan untuk Invoice #{$order->transaction_id} telah siap disajikan oleh dapur.",
+                'type'    => 'system',
+                'is_read' => false,
+            ]);
+        }
 
         return response()->json([
             'success' => true,

@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useNotifications } from '../context/NotificationContext';
 import client from '../api/client';
 
 export default function Navbar() {
     const { user } = useAuth();
+    const { unreadCount } = useNotifications();
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -153,7 +155,11 @@ export default function Navbar() {
                 {/* Notifications */}
                 <Link to="/notifications" className="w-10 h-10 rounded-xl flex items-center justify-center text-brand-primary hover:bg-brand-light/50 hover:text-brand-secondary transition-all relative">
                     <iconify-icon icon="solar:bell-bing-linear" class="text-[22px]"></iconify-icon>
-                    <span className="absolute top-2 right-2.5 w-2 h-2 rounded-full bg-red-500 border-2 border-white"></span>
+                    {unreadCount > 0 && (
+                        <span className="absolute top-1 right-1.5 min-w-[16px] h-4 bg-red-500 text-white text-[9px] font-black rounded-full flex items-center justify-center px-1 border border-white">
+                            {unreadCount}
+                        </span>
+                    )}
                 </Link>
 
                 {/* Settings */}
