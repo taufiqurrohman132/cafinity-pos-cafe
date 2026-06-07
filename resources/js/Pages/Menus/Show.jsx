@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { Head, Link, router, useForm } from "@inertiajs/react";
-import AppLayout from '@/Layouts/AppLayout'
+import { Link, useParams } from "react-router-dom";
+import Head from '@/Components/Head';
+import AppLayout from '@/Layouts/AppLayout';
+import client from '@/api/client';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 function fmt(n) {
@@ -188,71 +190,128 @@ function WeeklyChart({ data = [40, 35, 55, 50, 70, 95, 90] }) {
 }
 
 // ── page ─────────────────────────────────────────────────────────────────────
-export default function Show({ menu, categories = [], weeklySales, weeklyGrowth }) {
+export default function Show() {
+    const { id } = useParams();
+    const [menu, setMenu] = useState(null);
+    const [categories, setCategories] = useState([]);
+    const [weeklySales, setWeeklySales] = useState([]);
+    const [weeklyGrowth, setWeeklyGrowth] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+
     const [tab, setTab] = useState("ringkasan");
     const [showEditModal, setShowEditModal] = useState(false);
-    const [imagePreview, setImagePreview] = useState(menu.image_url ?? null);
 
-    const editForm = useForm({
-        category_id: menu.category_id ?? '',
-        name: menu.name ?? '',
-        description: menu.description ?? '',
-        price: menu.price ?? '',
-        is_active: !!menu.is_active,
+    // Edit form states
+    const [formData, setFormData] = useState({
+        category_id: '',
+        name: '',
+        description: '',
+        price: '',
+        is_active: false,
         image: null,
-        estimated_hpp: menu.hpp ?? menu.recipe?.total_hpp ?? '',
+        estimated_hpp: '',
     });
+    const [imagePreview, setImagePreview] = useState(null);
+    const [processing, setProcessing] = useState(false);
+    const [errors, setErrors] = useState({});
 
+    // Fetch data
     useEffect(() => {
-        editForm.setData({
-            category_id: menu.category_id ?? '',
-            name: menu.name ?? '',
-            description: menu.description ?? '',
-            price: menu.price ?? '',
-            is_active: !!menu.is_active,
-            image: null,
-            estimated_hpp: menu.hpp ?? menu.recipe?.total_hpp ?? '',
-        });
-        setImagePreview(menu.image_url ?? null);
+        const fetchMenuData = async () => {
+            setLoading(true);
+            try {
+                setError(null);
+                const res = await client.get(`/menus/${id}`);
+                setMenu(res.data.menu);
+                setCategories(res.data.categories || []);
+                setWeeklySales(res.data.weeklySales || []);
+                setWeeklyGrowth(res.data.weeklyGrowth || 0);
+            } catch (err) {
+                console.error("Gagal memuat data menu:", err);
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchMenuData();
+    }, [id, refreshTrigger]);
+
+    // Update form data when menu changes
+    useEffect(() => {
+        if (menu) {
+            setFormData({
+                category_id: menu.category_id ?? '',
+                name: menu.name ?? '',
+                description: menu.description ?? '',
+                price: menu.price ?? '',
+                is_active: !!menu.is_active,
+                image: null,
+                estimated_hpp: menu.hpp ?? menu.recipe?.total_hpp ?? '',
+            });
+            setImagePreview(menu.image_url ?? null);
+        }
     }, [menu]);
 
-    const handleEditSubmit = (e) => {
-        e.preventDefault()
-        if (editForm.data.image) {
-            // PHP cannot read files in multipart PUT requests, so spoof via POST with _method: 'PUT'
-            editForm.transform((data) => ({
-                ...data,
-                _method: 'PUT',
-            }))
-            editForm.post(route('menus.update', menu.id), {
-                onSuccess: () => {
-                    setShowEditModal(false)
-                    editForm.reset()
-                    setImagePreview(menu.image_url ?? null)
-                },
-                preserveScroll: true,
-            })
-        } else {
-            // Clean any transform
-            editForm.transform((data) => data)
-            editForm.put(route('menus.update', menu.id), {
-                onSuccess: () => {
-                    setShowEditModal(false)
-                    editForm.reset()
-                    setImagePreview(menu.image_url ?? null)
-                },
-                preserveScroll: true,
-            })
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        setProcessing(true);
+        setErrors({});
+        try {
+            if (formData.image) {
+                const dataObj = new FormData();
+                dataObj.append('_method', 'PUT');
+                dataObj.append('category_id', formData.category_id);
+                dataObj.append('name', formData.name);
+                dataObj.append('description', formData.description || '');
+                dataObj.append('price', formData.price);
+                dataObj.append('is_active', formData.is_active ? '1' : '0');
+                dataObj.append('image', formData.image);
+                if (formData.estimated_hpp !== undefined && formData.estimated_hpp !== null && formData.estimated_hpp !== '') {
+                    dataObj.append('estimated_hpp', formData.estimated_hpp);
+                }
+                
+                await client.post(`/menus/${menu.id}`, dataObj, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+            } else {
+                await client.put(`/menus/${menu.id}`, {
+                    category_id: formData.category_id,
+                    name: formData.name,
+                    description: formData.description || '',
+                    price: formData.price,
+                    is_active: !!formData.is_active,
+                    estimated_hpp: formData.estimated_hpp !== undefined && formData.estimated_hpp !== null && formData.estimated_hpp !== '' ? formData.estimated_hpp : '',
+                });
+            }
+            setShowEditModal(false);
+            setRefreshTrigger(prev => prev + 1);
+        } catch (err) {
+            console.error("Gagal memperbarui menu:", err);
+            if (err.response && err.response.status === 422) {
+                const validationErrors = {};
+                Object.entries(err.response.data.errors || {}).forEach(([key, messages]) => {
+                    validationErrors[key] = Array.isArray(messages) ? messages[0] : messages;
+                });
+                setErrors(validationErrors);
+            } else {
+                alert("Terjadi kesalahan saat menyimpan perubahan menu.");
+            }
+        } finally {
+            setProcessing(false);
         }
-    }
+    };
 
     const handleEditImageChange = (e) => {
-        const file = e.target.files[0]
+        const file = e.target.files[0];
         if (file) {
-            editForm.setData('image', file)
-            setImagePreview(URL.createObjectURL(file))
+            setFormData(prev => ({ ...prev, image: file }));
+            setImagePreview(URL.createObjectURL(file));
         }
-    }
+    };
 
     const handleShare = () => {
         if (navigator.share) {
@@ -261,14 +320,48 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                 text: menu.description || `Cek menu ${menu.name} di Cafinity!`,
                 url: window.location.href,
             }).catch(() => {});
-        } else {
-            navigator.clipboard.writeText(window.location.href);
-            alert('Tautan halaman detail menu berhasil disalin ke papan klip!');
         }
     };
 
+    if (loading && !menu) {
+        return (
+            <AppLayout>
+                <Head title="Detail Menu" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
+
+    if (error && !menu) {
+        return (
+            <AppLayout>
+                <Head title="Detail Menu" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat data detail menu dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
+
+    if (!menu) return null;
+
     const hpp = menu.hpp ?? 0;
     const laba = (menu.price ?? 0) - hpp;
+
     const margin =
         menu.price > 0 ? Math.round(((menu.price - hpp) / menu.price) * 100) : 0;
 
@@ -282,7 +375,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
     }
 
     return (
-        <>
+        <AppLayout>
             <Head title={menu.name} />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6">
@@ -291,7 +384,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2 text-sm text-brand-primary font-medium">
                         <Link
-                            href={route("menus.index")}
+                            to="/menus"
                             className="flex items-center gap-1.5 hover:text-brand-dark transition-colors font-bold"
                         >
                             <Icon icon="solar:arrow-left-linear" className="text-base" />
@@ -461,7 +554,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                         </p>
                                     </div>
                                     <Link
-                                        href={route("reports.index")}
+                                        to="/reports"
                                         className="text-xs font-bold border border-brand-light text-brand-primary px-4 py-2 rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors"
                                     >
                                         Detail Laporan
@@ -649,7 +742,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                 )}
                             </div>
                             <Link
-                                href={route("inventories.index")}
+                                to="/inventories"
                                 className="block w-full mt-4 py-2.5 text-xs font-extrabold text-brand-secondary border border-brand-light bg-brand-bg rounded-xl hover:bg-brand-light hover:text-brand-dark text-center transition-colors"
                             >
                                 Buat Pesanan Pembelian
@@ -672,7 +765,7 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                 </div>
                             </div>
                             <Link
-                                href={route("bundles.index")}
+                                to="/promotions"
                                 className="block mt-3 text-xs font-extrabold text-brand-secondary hover:text-brand-primary transition-colors hover:underline"
                             >
                                 Lihat Pengaturan Promo →
@@ -691,13 +784,13 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                 <div className="space-y-2">
                                     {[
                                         { onClick: () => setShowEditModal(true), icon: "solar:pen-linear",      label: "Edit Detail Menu" },
-                                        { href: route("recipe.index"),          icon: "solar:notebook-linear", label: "Kelola Resep & HPP" },
-                                        { href: route("bundles.index"),         icon: "solar:gift-linear",     label: "Buat Promo Bundle" },
+                                        { href: "/recipe-costing",          icon: "solar:notebook-linear", label: "Kelola Resep & HPP" },
+                                        { href: "/promotions",         icon: "solar:gift-linear",     label: "Buat Promo Bundle" },
                                     ].map((a) => (
                                         a.href ? (
                                             <Link
                                                 key={a.label}
-                                                href={a.href}
+                                                to={a.href}
                                                 className="flex items-center gap-2 w-full py-2.5 px-4 bg-white/10 hover:bg-white/20 rounded-xl text-white text-xs font-bold transition-all border border-white/10"
                                             >
                                                 <Icon icon={a.icon} /> {a.label}
@@ -730,9 +823,18 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                         {/* Close button X */}
                         <button
                             onClick={() => {
-                                setShowEditModal(false)
-                                editForm.reset()
-                                setImagePreview(menu.image_url ?? null)
+                                setShowEditModal(false);
+                                setFormData({
+                                    category_id: menu.category_id ?? '',
+                                    name: menu.name ?? '',
+                                    description: menu.description ?? '',
+                                    price: menu.price ?? '',
+                                    is_active: !!menu.is_active,
+                                    image: null,
+                                    estimated_hpp: menu.hpp ?? menu.recipe?.total_hpp ?? '',
+                                });
+                                setErrors({});
+                                setImagePreview(menu.image_url ?? null);
                             }}
                             className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-95"
                         >
@@ -770,9 +872,9 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                         Format JPG, PNG atau WebP.<br />Maksimal ukuran file 2MB.
                                     </div>
                                 </div>
-                                {editForm.errors.image && (
+                                {errors.image && (
                                     <p className="col-start-5 col-span-8 text-[11px] text-rose-500 font-bold mt-1">
-                                        {editForm.errors.image}
+                                        {errors.image}
                                     </p>
                                 )}
                             </div>
@@ -786,14 +888,14 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                     <input
                                         type="text"
                                         required
-                                        value={editForm.data.name}
-                                        onChange={(e) => editForm.setData('name', e.target.value)}
+                                        value={formData.name}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                                         placeholder="Contoh: Es Kopi Susu Gula Aren"
                                         className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
                                     />
-                                    {editForm.errors.name && (
+                                    {errors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
-                                            {editForm.errors.name}
+                                            {errors.name}
                                         </p>
                                     )}
                                 </div>
@@ -807,8 +909,8 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                 <div className="col-span-8">
                                     <select
                                         required
-                                        value={editForm.data.category_id}
-                                        onChange={(e) => editForm.setData('category_id', e.target.value)}
+                                        value={formData.category_id}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, category_id: e.target.value }))}
                                         className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all cursor-pointer font-semibold text-brand-dark"
                                     >
                                         <option value="" disabled>-- Pilih Kategori --</option>
@@ -816,9 +918,9 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                             <option key={cat.id} value={cat.id}>{cat.name}</option>
                                         ))}
                                     </select>
-                                    {editForm.errors.category_id && (
+                                    {errors.category_id && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
-                                            {editForm.errors.category_id}
+                                            {errors.category_id}
                                         </p>
                                     )}
                                 </div>
@@ -834,14 +936,14 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                         type="number"
                                         required
                                         min="0"
-                                        value={editForm.data.price}
-                                        onChange={(e) => editForm.setData('price', e.target.value)}
+                                        value={formData.price}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
                                         placeholder="25000"
                                         className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-secondary"
                                     />
-                                    {editForm.errors.price && (
+                                    {errors.price && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
-                                            {editForm.errors.price}
+                                            {errors.price}
                                         </p>
                                     )}
                                 </div>
@@ -856,17 +958,17 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                     <input
                                         type="number"
                                         min="0"
-                                        value={editForm.data.estimated_hpp}
-                                        onChange={(e) => editForm.setData('estimated_hpp', e.target.value)}
+                                        value={formData.estimated_hpp}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, estimated_hpp: e.target.value }))}
                                         placeholder="8500"
                                         className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
                                     />
                                     <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
                                         *HPP akan diperbarui otomatis setelah resep dihubungkan.
                                     </span>
-                                    {editForm.errors.estimated_hpp && (
+                                    {errors.estimated_hpp && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
-                                            {editForm.errors.estimated_hpp}
+                                            {errors.estimated_hpp}
                                         </p>
                                     )}
                                 </div>
@@ -879,15 +981,15 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                 </label>
                                 <div className="col-span-8">
                                     <textarea
-                                        value={editForm.data.description}
-                                        onChange={(e) => editForm.setData('description', e.target.value)}
+                                        value={formData.description}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                                         placeholder="Deskripsi..."
                                         rows={2}
                                         className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all resize-none font-medium text-brand-dark"
                                     />
-                                    {editForm.errors.description && (
+                                    {errors.description && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
-                                            {editForm.errors.description}
+                                            {errors.description}
                                         </p>
                                     )}
                                 </div>
@@ -899,19 +1001,19 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                 <div className="col-span-8 flex items-center gap-3">
                                     <button
                                         type="button"
-                                        onClick={() => editForm.setData('is_active', !editForm.data.is_active)}
+                                        onClick={() => setFormData(prev => ({ ...prev, is_active: !prev.is_active }))}
                                         className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${
-                                            editForm.data.is_active ? 'bg-brand-secondary' : 'bg-brand-light'
+                                            formData.is_active ? 'bg-brand-secondary' : 'bg-brand-light'
                                         }`}
                                     >
                                         <span
                                             className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                                editForm.data.is_active ? 'translate-x-5' : 'translate-x-0'
+                                                formData.is_active ? 'translate-x-5' : 'translate-x-0'
                                             }`}
                                         />
                                     </button>
                                     <span
-                                        onClick={() => editForm.setData('is_active', !editForm.data.is_active)}
+                                        onClick={() => setFormData(prev => ({ ...prev, is_active: !prev.is_active }))}
                                         className="text-xs font-bold text-brand-dark cursor-pointer select-none"
                                     >
                                         Aktif & Tampilkan di POS
@@ -924,9 +1026,18 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        setShowEditModal(false)
-                                        editForm.reset()
-                                        setImagePreview(menu.image_url ?? null)
+                                        setShowEditModal(false);
+                                        setFormData({
+                                            category_id: menu.category_id ?? '',
+                                            name: menu.name ?? '',
+                                            description: menu.description ?? '',
+                                            price: menu.price ?? '',
+                                            is_active: !!menu.is_active,
+                                            image: null,
+                                            estimated_hpp: menu.hpp ?? menu.recipe?.total_hpp ?? '',
+                                        });
+                                        setErrors({});
+                                        setImagePreview(menu.image_url ?? null);
                                     }}
                                     className="px-6 py-2.5 text-xs font-extrabold text-brand-primary hover:text-brand-dark transition-colors"
                                 >
@@ -934,19 +1045,16 @@ export default function Show({ menu, categories = [], weeklySales, weeklyGrowth 
                                 </button>
                                 <button
                                     type="submit"
-                                    disabled={editForm.processing}
+                                    disabled={processing}
                                     className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-primary/20 disabled:opacity-50"
                                 >
-                                    {editForm.processing ? 'Menyimpan...' : 'Simpan Perubahan'}
+                                    {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
             )}
-        </>
+        </AppLayout>
     );
 }
-
-
-Show.layout = (page) => <AppLayout>{page}</AppLayout>;

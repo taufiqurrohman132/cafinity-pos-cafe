@@ -1,7 +1,9 @@
 // Menus/Index.jsx
-import { Head, Link, router, usePage, useForm } from '@inertiajs/react'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import Head from '@/Components/Head'
 import AppLayout from '@/Layouts/AppLayout'
+import client from '@/api/client'
 
 function MenuImage({ src, name, categoryName, isThumbnail = false }) {
     const [hasError, setHasError] = useState(false);
@@ -35,12 +37,92 @@ function MenuImage({ src, name, categoryName, isThumbnail = false }) {
     );
 }
 
-export default function MenusIndex({ menus, categories, totalMenus, editMenu }) {
-    const { url } = usePage()
-    const params = new URLSearchParams(url.split('?')[1] || '')
+// Custom form hook mimicking Inertia's useForm API
+function useForm(initialValues) {
+    const [data, setDataState] = useState(initialValues);
+    const [errors, setErrors] = useState({});
+    const [processing, setProcessing] = useState(false);
+    const [transformFn, setTransformFn] = useState(() => (d) => d);
+
+    const setData = (keyOrObj, value) => {
+        if (typeof keyOrObj === 'object' && keyOrObj !== null) {
+            setDataState(prev => ({ ...prev, ...keyOrObj }));
+        } else {
+            setDataState(prev => ({ ...prev, [keyOrObj]: value }));
+        }
+    };
+
+    const reset = () => {
+        setDataState(initialValues);
+        setErrors({});
+        setProcessing(false);
+    };
+
+    const transform = (fn) => {
+        setTransformFn(() => fn);
+    };
+
+    const submit = async (method, url, options = {}) => {
+        setProcessing(true);
+        setErrors({});
+        try {
+            const submitData = transformFn(data);
+            let res;
+            const hasFile = Object.values(submitData).some(val => val instanceof File);
+            const headers = hasFile ? { 'Content-Type': 'multipart/form-data' } : {};
+
+            if (method.toLowerCase() === 'post') {
+                res = await client.post(url, submitData, { headers });
+            } else if (method.toLowerCase() === 'put') {
+                res = await client.put(url, submitData, { headers });
+            }
+
+            if (options.onSuccess) {
+                options.onSuccess(res);
+            }
+        } catch (err) {
+            console.error(err);
+            if (err.response && err.response.data && err.response.data.errors) {
+                const formattedErrors = {};
+                Object.entries(err.response.data.errors).forEach(([k, v]) => {
+                    formattedErrors[k] = Array.isArray(v) ? v[0] : v;
+                });
+                setErrors(formattedErrors);
+            } else {
+                alert("Terjadi kesalahan.");
+            }
+        } finally {
+            setProcessing(false);
+        }
+    };
+
+    return {
+        data,
+        setData,
+        errors,
+        processing,
+        transform,
+        reset,
+        post: (url, options) => submit('post', url, options),
+        put: (url, options) => submit('put', url, options),
+    };
+}
+
+export default function MenusIndex() {
+    const location = useLocation()
+    const navigate = useNavigate()
+    const params = new URLSearchParams(location.search)
+
+    const [menus, setMenus] = useState(null)
+    const [categories, setCategories] = useState([])
+    const [totalMenus, setTotalMenus] = useState(0)
+    const [editMenu, setEditMenu] = useState(null)
 
     const [search, setSearch] = useState(params.get('search') || '')
     const [view, setViewState] = useState('list')
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+    const [refreshTrigger, setRefreshTrigger] = useState(0)
 
     const [showCreateModal, setShowCreateModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
@@ -69,22 +151,43 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
         estimated_hpp: '',
     })
 
+    // Fetch catalog data
+    useEffect(() => {
+        const fetchMenus = async () => {
+            setLoading(true)
+            try {
+                setError(null)
+                const res = await client.get(`/menus${location.search}`)
+                setMenus(res.data.menus)
+                setCategories(res.data.categories || [])
+                setTotalMenus(res.data.totalMenus || 0)
+                setEditMenu(res.data.editMenu || null)
+            } catch (err) {
+                console.error("Gagal mengambil data katalog menu:", err)
+                setError(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchMenus()
+    }, [location.search, refreshTrigger])
+
     // Handle parameter query (?create=1 atau ?edit=id)
     useEffect(() => {
         if (params.get('create') === '1') {
             setShowCreateModal(true)
-            window.history.replaceState({}, '', route('menus.index'))
+            navigate('/menus', { replace: true })
         }
 
         const editId = params.get('edit')
         if (editId) {
-            const targetMenu = editMenu || menus.data.find(m => m.id == editId)
+            const targetMenu = editMenu || menus?.data?.find(m => m.id == editId)
             if (targetMenu) {
                 openEditModal(targetMenu)
             }
-            window.history.replaceState({}, '', route('menus.index'))
+            navigate('/menus', { replace: true })
         }
-    }, [url, editMenu])
+    }, [location.search, editMenu, menus])
 
     const openEditModal = (menu) => {
         setEditMenuId(menu.id)
@@ -103,11 +206,12 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
     const handleCreateSubmit = (e) => {
         e.preventDefault()
-        createForm.post(route('menus.store'), {
+        createForm.post('/menus', {
             onSuccess: () => {
                 setShowCreateModal(false)
                 createForm.reset()
                 setImagePreview(null)
+                setRefreshTrigger(prev => prev + 1)
             },
         })
     }
@@ -115,31 +219,29 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
     const handleEditSubmit = (e) => {
         e.preventDefault()
         if (editForm.data.image) {
-            // PHP cannot read files in multipart PUT requests, so spoof via POST with _method: 'PUT'
             editForm.transform((data) => ({
                 ...data,
                 _method: 'PUT',
             }))
-            editForm.post(route('menus.update', editMenuId), {
+            editForm.post(`/menus/${editMenuId}`, {
                 onSuccess: () => {
                     setShowEditModal(false)
                     editForm.reset()
                     setEditMenuId(null)
                     setImagePreview(null)
+                    setRefreshTrigger(prev => prev + 1)
                 },
-                preserveScroll: true,
             })
         } else {
-            // Clean any transform
             editForm.transform((data) => data)
-            editForm.put(route('menus.update', editMenuId), {
+            editForm.put(`/menus/${editMenuId}`, {
                 onSuccess: () => {
                     setShowEditModal(false)
                     editForm.reset()
                     setEditMenuId(null)
                     setImagePreview(null)
+                    setRefreshTrigger(prev => prev + 1)
                 },
-                preserveScroll: true,
             })
         }
     }
@@ -167,11 +269,24 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
     useEffect(() => {
         setSearch(params.get('search') || '')
-    }, [url])
+    }, [location.search])
 
     function setView(mode) {
         setViewState(mode)
         localStorage.setItem('menu-view', mode)
+    }
+
+    const getRelativeUrl = (url) => {
+        if (!url) return '#'
+        try {
+            const parsed = new URL(url)
+            return `/menus${parsed.search}`
+        } catch (e) {
+            if (url.includes('?')) {
+                return `/menus?${url.split('?')[1]}`
+            }
+            return '/menus'
+        }
     }
 
     function filter(overrides = {}) {
@@ -184,7 +299,8 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
         Object.keys(paramsObj).forEach(key => {
             if (!paramsObj[key]) delete paramsObj[key]
         })
-        router.get(route('menus.index'), paramsObj, { preserveState: true, replace: true })
+        const qs = new URLSearchParams(paramsObj).toString()
+        navigate(`/menus${qs ? '?' + qs : ''}`, { replace: true })
     }
 
     function handleSearch(e) {
@@ -196,13 +312,25 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
         filter({ status: e.target.value, page: 1 })
     }
 
-    function handleDelete(id, name) {
+    async function handleDelete(id, name) {
         if (!confirm(`Hapus menu ${name}? Tindakan ini tidak bisa dibatalkan.`)) return
-        router.delete(route('menus.destroy', id), { preserveScroll: true })
+        try {
+            await client.delete(`/menus/${id}`)
+            setRefreshTrigger(prev => prev + 1)
+        } catch (err) {
+            console.error("Gagal menghapus menu:", err)
+            alert("Gagal menghapus menu.")
+        }
     }
 
-    function handleToggleStatus(id) {
-        router.post(route('menus.toggle-status', id), {}, { preserveScroll: true })
+    async function handleToggleStatus(id) {
+        try {
+            await client.post(`/menus/${id}/toggle-status`)
+            setRefreshTrigger(prev => prev + 1)
+        } catch (err) {
+            console.error("Gagal mengubah status menu:", err)
+            alert("Gagal mengubah status menu.")
+        }
     }
 
     function getMarginStyle(margin) {
@@ -232,8 +360,44 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
         return pages
     }
 
+    if (loading && !menus) {
+        return (
+            <AppLayout>
+                <Head title="Katalog Menu" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
+    if (error && !menus) {
+        return (
+            <AppLayout>
+                <Head title="Katalog Menu" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat data katalog menu dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
+    if (!menus) return null;
+
     return (
-        <>
+        <AppLayout>
             <Head title="Katalog Menu" />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6">
@@ -301,7 +465,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
 
                                 {(params.get('search') || params.get('status') || params.get('category')) && (
                                     <Link
-                                        href={route('menus.index')}
+                                        to="/menus"
                                         className="h-10 px-3 bg-brand-light/30 text-brand-primary rounded-xl text-[13px] font-bold hover:bg-brand-light hover:text-brand-dark transition-all flex items-center border border-transparent hover:border-brand-light"
                                     >
                                         Reset
@@ -403,13 +567,13 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                                                 <tr
                                                     key={menu.id}
                                                     className="hover:bg-brand-light/10 transition-colors group cursor-pointer"
-                                                    onClick={() => window.location.href = route('menus.show', menu.id)}
+                                                    onClick={() => navigate(`/menus/${menu.id}`)}
                                                 >
                                                     {/* Foto */}
                                                     <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
-                                                        <a href={route('menus.show', menu.id)} className="block w-10 h-10 relative">
+                                                        <Link to={`/menus/${menu.id}`} className="block w-10 h-10 relative">
                                                             <MenuImage src={menu.image_url} name={menu.name} categoryName={menu.category?.name} isThumbnail={true} />
-                                                        </a>
+                                                        </Link>
                                                     </td>
 
                                                     {/* Nama */}
@@ -470,13 +634,13 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                                                     {/* Aksi */}
                                                     <td className="px-6 py-4 text-right" onClick={(e) => e.stopPropagation()}>
                                                         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all">
-                                                            <a
-                                                                href={route('menus.show', menu.id)}
+                                                            <Link
+                                                                to={`/menus/${menu.id}`}
                                                                 className="p-2 text-brand-primary hover:text-brand-secondary rounded-xl hover:bg-brand-light/50 inline-flex active:scale-95 transition-all"
                                                                 title="Lihat Detail"
                                                             >
                                                                 <iconify-icon icon="solar:eye-linear" class="text-lg"></iconify-icon>
-                                                            </a>
+                                                            </Link>
                                                             <button
                                                                 onClick={() => openEditModal(menu)}
                                                                 className="p-2 text-brand-primary hover:text-brand-secondary rounded-xl hover:bg-brand-light/50 inline-flex active:scale-95 transition-all"
@@ -518,7 +682,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                                         <div
                                             key={menu.id}
                                             className="group bg-brand-bg border border-brand-light rounded-2xl overflow-hidden hover:border-brand-secondary hover:shadow-md transition-all cursor-pointer"
-                                            onClick={() => window.location.href = route('menus.show', menu.id)}
+                                            onClick={() => navigate(`/menus/${menu.id}`)}
                                         >
                                             {/* Foto */}
                                             <div className="relative aspect-square overflow-hidden bg-brand-light/20">
@@ -589,7 +753,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                                         Sebelumnya
                                     </button>
                                 ) : (
-                                    <Link href={menus.prev_page_url} className="px-4 py-2 text-[12px] font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm">
+                                    <Link to={getRelativeUrl(menus.prev_page_url)} className="px-4 py-2 text-[12px] font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm">
                                         Sebelumnya
                                     </Link>
                                 )}
@@ -601,7 +765,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                                     ) : (
                                         <Link
                                             key={page}
-                                            href={menus.links?.find(l => l.label == page)?.url ?? '#'}
+                                            to={getRelativeUrl(menus.links?.find(l => l.label == page)?.url)}
                                             className={`w-9 h-9 flex items-center justify-center text-[12px] font-extrabold rounded-xl border transition-colors shadow-sm ${
                                                 page === menus.current_page
                                                     ? 'bg-gradient-to-r from-brand-secondary to-brand-primary text-white border-brand-secondary shadow-brand-secondary/30'
@@ -619,7 +783,7 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                                         Berikutnya
                                     </button>
                                 ) : (
-                                    <Link href={menus.next_page_url} className="px-4 py-2 text-[12px] font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm">
+                                    <Link to={getRelativeUrl(menus.next_page_url)} className="px-4 py-2 text-[12px] font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm">
                                         Berikutnya
                                     </Link>
                                 )}
@@ -1078,8 +1242,8 @@ export default function MenusIndex({ menus, categories, totalMenus, editMenu }) 
                     </div>
                 </div>
             )}
-        </>
+        </AppLayout>
     )
 }
 
-MenusIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
+// MenusIndex.layout = (page) => <AppLayout>{page}</AppLayout>;

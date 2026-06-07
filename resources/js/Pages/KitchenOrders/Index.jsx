@@ -1,8 +1,7 @@
-import { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Head from '@/Components/Head';
 import AppLayout from '@/Layouts/AppLayout';
-import { PageDataContext } from '@/Components/PageLoader';
 import client from '@/api/client';
 
 const STATUS_CONFIG = {
@@ -55,21 +54,50 @@ function LiveClock() {
     return <span className="font-bold text-brand-dark">{time}</span>;
 }
 
-export default function KitchenOrdersIndex({ orders, stats, filter }) {
-    const { reload } = useContext(PageDataContext);
+export default function KitchenOrdersIndex() {
+    const location = useLocation();
+    const [orders, setOrders] = useState(null);
+    const [stats, setStats] = useState(null);
+    const [filter, setFilter] = useState('all');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+    // Fetch data whenever location.search or refreshTrigger changes
+    useEffect(() => {
+        const fetchOrders = async () => {
+            setLoading(true);
+            try {
+                setError(null);
+                const res = await client.get(`/kitchen-orders${location.search}`);
+                setOrders(res.data.orders);
+                setStats(res.data.stats);
+                setFilter(res.data.filter || 'all');
+            } catch (err) {
+                console.error("Gagal mengambil data antrean dapur:", err);
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchOrders();
+    }, [location.search, refreshTrigger]);
 
     // Auto-refresh setiap 30 detik
     useEffect(() => {
-        const id = setInterval(() => reload(), 30000);
+        const id = setInterval(() => {
+            setRefreshTrigger(prev => prev + 1);
+        }, 30000);
         return () => clearInterval(id);
-    }, [reload]);
+    }, []);
 
     const postAction = async (url) => {
         try {
             await client.post(url);
-            reload();
+            setRefreshTrigger(prev => prev + 1);
         } catch (e) {
             console.error('Failed to perform kitchen order action', e);
+            alert('Gagal melakukan aksi dapur.');
         }
     };
 
@@ -79,6 +107,42 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
         { key: 'preparing', label: 'Memasak' },
         { key: 'ready',     label: 'Siap' },
     ];
+
+    if (loading && !orders) {
+        return (
+            <AppLayout>
+                <Head title="Antrean Dapur" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
+
+    if (error && !orders) {
+        return (
+            <AppLayout>
+                <Head title="Antrean Dapur" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat data antrean dapur dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
+
+    if (!orders || !stats) return null;
 
     const statCards = [
         { label: 'Pesanan Aktif',    value: stats.active_orders,    icon: 'solar:clipboard-list-linear',  iconBg: 'bg-brand-light',    iconColor: 'text-brand-secondary',   labelColor: 'text-brand-primary' },
@@ -246,7 +310,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                                 <div className="px-5 pb-5 flex gap-2.5">
                                     {order.status === 'pending' && (
                                         <button
-                                            onClick={() => postAction(route('kitchen-orders.prepare', order.id))}
+                                            onClick={() => postAction(`/kitchen-orders/${order.id}/prepare`)}
                                             className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md shadow-brand-primary/20 active:scale-[0.98]"
                                         >
                                             Mulai Memasak
@@ -260,7 +324,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                                             Detail
                                         </Link>
                                         <button
-                                            onClick={() => postAction(route('kitchen-orders.ready', order.id))}
+                                            onClick={() => postAction(`/kitchen-orders/${order.id}/ready`)}
                                             className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md shadow-brand-primary/20 active:scale-[0.98]"
                                         >
                                             Siap Diambil
@@ -274,7 +338,7 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
                                             Detail
                                         </Link>
                                         <button
-                                            onClick={() => postAction(route('kitchen-orders.complete', order.id))}
+                                            onClick={() => postAction(`/kitchen-orders/${order.id}/complete`)}
                                             className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
                                         >
                                             <iconify-icon icon="solar:check-circle-linear" class="text-sm" />
@@ -316,6 +380,5 @@ export default function KitchenOrdersIndex({ orders, stats, filter }) {
         </AppLayout>
     );
 }
-
 
 // KitchenOrdersIndex.layout = (page) => <AppLayout>{page}</AppLayout>;

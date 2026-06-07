@@ -125,12 +125,11 @@ const AppRoutes = () => {
                 } 
             />
 
-            {/* Kitchen Queue */}
             <Route 
                 path="/kitchen-orders" 
                 element={
                     <ProtectedRoute allowedRoles={['owner', 'admin', 'cashier']}>
-                        <PageLoader component={KitchenOrdersIndex} apiPath="/kitchen-orders" />
+                        <KitchenOrdersIndex />
                     </ProtectedRoute>
                 } 
             />
@@ -140,7 +139,7 @@ const AppRoutes = () => {
                 path="/menus" 
                 element={
                     <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={MenusIndex} apiPath="/menus" />
+                        <MenusIndex />
                     </ProtectedRoute>
                 } 
             />
