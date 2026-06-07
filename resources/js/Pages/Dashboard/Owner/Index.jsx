@@ -4,7 +4,21 @@ import AppLayout from '@/Layouts/AppLayout';
 import TargetModal from '@/Components/TargetModal';
 
 // ── Stat Card Component ──────────────────────────────────────────
-function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor }) {
+function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor, loading }) {
+    if (loading) {
+        return (
+            <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm animate-pulse">
+                <div className="flex items-start justify-between mb-3">
+                    <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0"></div>
+                    <div className="w-16 h-5 bg-brand-light rounded-full"></div>
+                </div>
+                <div className="mt-1 space-y-2">
+                    <div className="h-4 bg-brand-light/60 rounded w-1/2"></div>
+                    <div className="h-7 bg-brand-light rounded w-3/4"></div>
+                </div>
+            </div>
+        );
+    }
     return (
         <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
             <div className="flex items-start justify-between mb-3">
@@ -112,12 +126,23 @@ function SalesChart({ initialLabels, initialValues }) {
                     </div>
 
                     <div className="h-full w-full flex items-end justify-between gap-1.5 relative z-10">
-                        {loading && (
-                            <div className="absolute inset-0 flex items-center justify-center bg-white/70 rounded-xl z-30">
-                                <iconify-icon icon="svg-spinners:ring-resize" class="text-3xl text-brand-secondary"></iconify-icon>
-                            </div>
-                        )}
-                        {chartData.values.length === 0 && !loading ? (
+                        {loading ? (
+                            Array.from({ length: activePeriod === '7days' ? 7 : (activePeriod === '30days' || activePeriod === 'month') ? 15 : (initialLabels.length || 12) }).map((_, i) => {
+                                const heights = [35, 60, 45, 80, 50, 70, 40, 55, 90, 65, 30, 75, 45, 85, 60];
+                                const height = heights[i % heights.length];
+                                return (
+                                    <div key={i} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end pb-[20px] animate-pulse">
+                                        {/* Skeleton Bar */}
+                                        <div
+                                            className="w-full bg-brand-light rounded-t-lg"
+                                            style={{ height: `${height}%` }}
+                                        ></div>
+                                        {/* Skeleton Label */}
+                                        <div className="h-2 w-8 bg-brand-light/60 rounded mt-1"></div>
+                                    </div>
+                                );
+                            })
+                        ) : chartData.values.length === 0 ? (
                             <p className="w-full text-center text-brand-primary italic text-sm py-16">Belum ada penjualan</p>
                         ) : (
                             chartData.values.map((point, i) => (
@@ -168,6 +193,12 @@ export default function OwnerDashboard({
     kitchenQueue,
 }) {
     const [showTargetModal, setShowTargetModal] = useState(false);
+    const [pageLoading, setPageLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setPageLoading(false), 650);
+        return () => clearTimeout(timer);
+    }, []);
 
     const statusColor = {
         preparing: 'bg-amber-400',
@@ -212,10 +243,10 @@ export default function OwnerDashboard({
 
                 {/* ====== STAT CARDS ====== */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <StatCard title="Pendapatan Hari Ini"  {...stats.revenue}    icon="solar:wallet-money-linear" iconBg="bg-brand-light"    iconColor="text-brand-secondary" />
-                    <StatCard title="Estimasi Laba Bersih" {...stats.profit}     icon="solar:chart-2-linear"     iconBg="bg-emerald-100" iconColor="text-emerald-600" />
-                    <StatCard title="Total Pesanan"        {...stats.orders}     icon="solar:bag-5-linear"       iconBg="bg-brand-light"    iconColor="text-brand-secondary" />
-                    <StatCard title="Rata-rata Tiket"      {...stats.avg_ticket} icon="solar:users-group-rounded-linear" iconBg="bg-brand-light" iconColor="text-brand-primary" />
+                    <StatCard title="Pendapatan Hari Ini"  {...stats.revenue}    icon="solar:wallet-money-linear" iconBg="bg-brand-light"    iconColor="text-brand-secondary" loading={pageLoading} />
+                    <StatCard title="Estimasi Laba Bersih" {...stats.profit}     icon="solar:chart-2-linear"     iconBg="bg-emerald-100" iconColor="text-emerald-600" loading={pageLoading} />
+                    <StatCard title="Total Pesanan"        {...stats.orders}     icon="solar:bag-5-linear"       iconBg="bg-brand-light"    iconColor="text-brand-secondary" loading={pageLoading} />
+                    <StatCard title="Rata-rata Tiket"      {...stats.avg_ticket} icon="solar:users-group-rounded-linear" iconBg="bg-brand-light" iconColor="text-brand-primary" loading={pageLoading} />
                 </div>
 
                 {/* ====== MAIN GRID ====== */}
@@ -245,7 +276,23 @@ export default function OwnerDashboard({
                                     </Link>
                                 </div>
                                 <div className="space-y-3">
-                                    {bestSellingMenus.length === 0 ? (
+                                    {pageLoading ? (
+                                        Array.from({ length: 3 }).map((_, i) => (
+                                            <div key={i} className="flex items-center justify-between p-3 border border-transparent rounded-2xl animate-pulse">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-12 h-12 bg-brand-light rounded-xl flex-shrink-0"></div>
+                                                    <div className="space-y-2">
+                                                        <div className="h-4 bg-brand-light rounded w-28"></div>
+                                                        <div className="h-3 bg-brand-light/60 rounded w-16"></div>
+                                                    </div>
+                                                </div>
+                                                <div className="space-y-2 text-right">
+                                                    <div className="h-4 bg-brand-light rounded w-12 ml-auto"></div>
+                                                    <div className="h-3 bg-brand-light/60 rounded w-8 ml-auto"></div>
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : bestSellingMenus.length === 0 ? (
                                         <p className="text-sm text-brand-primary italic text-center py-4">Belum ada data penjualan menu hari ini.</p>
                                     ) : bestSellingMenus.map((menu, i) => {
                                         const rankColors = [
@@ -307,7 +354,18 @@ export default function OwnerDashboard({
                                     </div>
                                     
                                     <div className="h-full flex items-end justify-between gap-3 relative z-10">
-                                        {busyHours.map((slot, i) => {
+                                        {pageLoading ? (
+                                            Array.from({ length: 6 }).map((_, i) => {
+                                                const heights = [30, 45, 80, 60, 40, 50];
+                                                const height = heights[i % heights.length];
+                                                return (
+                                                    <div key={i} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end pb-[20px] animate-pulse">
+                                                        <div className="w-full bg-brand-light rounded-t-md" style={{ height: `${height}%` }}></div>
+                                                        <div className="h-3 w-8 bg-brand-light/60 rounded mt-1"></div>
+                                                    </div>
+                                                );
+                                            })
+                                        ) : busyHours.map((slot, i) => {
                                             const isPeak = slot.height >= 75;
                                             const isMedium = slot.height >= 35 && slot.height < 75;
                                             
@@ -361,7 +419,32 @@ export default function OwnerDashboard({
                                         </tr>
                                     </thead>
                                     <tbody className="text-sm">
-                                        {profitability.length === 0 ? (
+                                        {pageLoading ? (
+                                            Array.from({ length: 5 }).map((_, i) => (
+                                                <tr key={i} className="border-b border-brand-light/30 last:border-0 animate-pulse">
+                                                    <td className="py-4">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="h-4 bg-brand-light rounded w-36"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="py-4">
+                                                        <div className="h-4 bg-brand-light rounded w-20"></div>
+                                                    </td>
+                                                    <td className="py-4">
+                                                        <div className="h-4 bg-brand-light/60 rounded w-16"></div>
+                                                    </td>
+                                                    <td className="py-4">
+                                                        <div className="h-4 bg-brand-light rounded w-24"></div>
+                                                    </td>
+                                                    <td className="py-4">
+                                                        <div className="flex items-center justify-end gap-3">
+                                                            <div className="w-16 bg-brand-light/30 h-2 rounded-full hidden sm:block"></div>
+                                                            <div className="h-4 bg-brand-light rounded w-10"></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : profitability.length === 0 ? (
                                             <tr>
                                                 <td colSpan={5} className="py-8 text-center text-brand-primary italic">
                                                     Tambahkan menu dan resep untuk melihat analisis profit.
@@ -410,33 +493,50 @@ export default function OwnerDashboard({
                         <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm relative overflow-hidden hover:shadow-md transition-all duration-300">
                             <div className="absolute top-0 right-0 w-28 h-28 bg-brand-secondary/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
                             <div className="relative z-10">
-                                <div className="flex justify-between items-center mb-3">
-                                    <h3 className="text-[10px] font-bold capitalize tracking-wider text-brand-primary/70">Goal Hari Ini</h3>
-                                    <span className="text-brand-primary font-extrabold text-xs bg-brand-light/40 px-2 py-0.5 rounded-md">{dailyGoal.progress}%</span>
-                                </div>
-                                <div className="w-full bg-brand-light/30 h-2.5 rounded-full overflow-hidden mb-4 border border-brand-light/30">
-                                    <div className="bg-gradient-to-r from-brand-primary to-brand-secondary h-full transition-all duration-700 ease-out rounded-full" style={{ width: `${dailyGoal.progress}%` }}></div>
-                                </div>
-                                <p className="text-[11px] font-medium text-brand-primary/95 leading-relaxed">
-                                    {dailyGoal.progress >= 100 ? (
-                                        <span className="text-emerald-600 font-extrabold">Target {dailyGoal.target} tercapai! 🎉</span>
-                                    ) : (
-                                        <>Tinggal <span className="font-extrabold text-brand-dark">{dailyGoal.remaining}</span> lagi untuk mencapai target <span className="font-extrabold text-brand-dark">{dailyGoal.target}</span>
-                                            {dailyGoal.label && <span className="block mt-1 text-[10px] text-brand-primary/60 italic font-bold">Label: {dailyGoal.label}</span>}
-                                        </>
-                                    )}
-                                </p>
-                                {(!currentTarget || dailyGoal.progress < 100) ? (
-                                    <button onClick={() => setShowTargetModal(true)}
-                                        className="w-full mt-4 py-2.5 text-xs font-extrabold text-brand-primary bg-brand-light/20 rounded-xl border border-brand-light hover:bg-brand-light hover:text-brand-dark transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
-                                        <iconify-icon icon="solar:target-linear" class="text-sm text-brand-secondary"></iconify-icon>
-                                        {currentTarget ? 'Ubah Target' : 'Set Target Hari Ini'}
-                                    </button>
+                                {pageLoading ? (
+                                    <div className="space-y-4 animate-pulse">
+                                        <div className="flex justify-between items-center">
+                                            <div className="h-3 bg-brand-light rounded w-20"></div>
+                                            <div className="h-3 bg-brand-light rounded w-8"></div>
+                                        </div>
+                                        <div className="w-full bg-brand-light/30 h-2.5 rounded-full"></div>
+                                        <div className="space-y-2">
+                                            <div className="h-3 bg-brand-light rounded w-5/6"></div>
+                                            <div className="h-3 bg-brand-light/60 rounded w-2/3"></div>
+                                        </div>
+                                        <div className="w-full h-9 bg-brand-light/40 rounded-xl"></div>
+                                    </div>
                                 ) : (
-                                    <Link href="/targets-goals"
-                                        className="block mt-4 w-full py-2.5 text-xs font-bold text-brand-bg bg-brand-secondary rounded-xl hover:bg-brand-primary transition-colors text-center shadow-md active:scale-[0.98]">
-                                        Lihat Detail Target →
-                                    </Link>
+                                    <>
+                                        <div className="flex justify-between items-center mb-3">
+                                            <h3 className="text-[10px] font-bold capitalize tracking-wider text-brand-primary/70">Goal Hari Ini</h3>
+                                            <span className="text-brand-primary font-extrabold text-xs bg-brand-light/40 px-2 py-0.5 rounded-md">{dailyGoal.progress}%</span>
+                                        </div>
+                                        <div className="w-full bg-brand-light/30 h-2.5 rounded-full overflow-hidden mb-4 border border-brand-light/30">
+                                            <div className="bg-gradient-to-r from-brand-primary to-brand-secondary h-full transition-all duration-700 ease-out rounded-full" style={{ width: `${dailyGoal.progress}%` }}></div>
+                                        </div>
+                                        <p className="text-[11px] font-medium text-brand-primary/95 leading-relaxed">
+                                            {dailyGoal.progress >= 100 ? (
+                                                <span className="text-emerald-600 font-extrabold">Target {dailyGoal.target} tercapai! 🎉</span>
+                                            ) : (
+                                                <>Tinggal <span className="font-extrabold text-brand-dark">{dailyGoal.remaining}</span> lagi untuk mencapai target <span className="font-extrabold text-brand-dark">{dailyGoal.target}</span>
+                                                    {dailyGoal.label && <span className="block mt-1 text-[10px] text-brand-primary/60 italic font-bold">Label: {dailyGoal.label}</span>}
+                                                </>
+                                            )}
+                                        </p>
+                                        {(!currentTarget || dailyGoal.progress < 100) ? (
+                                            <button onClick={() => setShowTargetModal(true)}
+                                                className="w-full mt-4 py-2.5 text-xs font-extrabold text-brand-primary bg-brand-light/20 rounded-xl border border-brand-light hover:bg-brand-light hover:text-brand-dark transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
+                                                <iconify-icon icon="solar:target-linear" class="text-sm text-brand-secondary"></iconify-icon>
+                                                {currentTarget ? 'Ubah Target' : 'Set Target Hari Ini'}
+                                            </button>
+                                        ) : (
+                                            <Link href="/targets-goals"
+                                                className="block mt-4 w-full py-2.5 text-xs font-bold text-brand-bg bg-brand-secondary rounded-xl hover:bg-brand-primary transition-colors text-center shadow-md active:scale-[0.98]">
+                                                Lihat Detail Target →
+                                            </Link>
+                                        )}
+                                    </>
                                 )}
                             </div>
                         </div>
@@ -454,7 +554,17 @@ export default function OwnerDashboard({
                                 </span>
                             </div>
                             <div className="space-y-2.5">
-                                {lowStockItems.length === 0 ? (
+                                {pageLoading ? (
+                                    Array.from({ length: 3 }).map((_, i) => (
+                                        <div key={i} className="p-3 border border-brand-light rounded-xl animate-pulse space-y-2">
+                                            <div className="flex justify-between">
+                                                <div className="h-3 bg-brand-light rounded w-24"></div>
+                                                <div className="h-3 bg-brand-light rounded w-12"></div>
+                                            </div>
+                                            <div className="h-3 bg-brand-light/60 rounded w-32"></div>
+                                        </div>
+                                    ))
+                                ) : lowStockItems.length === 0 ? (
                                     <p className="text-xs text-brand-primary italic text-center py-2">Semua stok dalam kondisi aman.</p>
                                 ) : lowStockItems.map((item, i) => (
                                     <Link key={i} href={`/inventories/${item.id}`}
@@ -493,7 +603,17 @@ export default function OwnerDashboard({
                                 </div>
                             </div>
                             <div className="space-y-2.5">
-                                {kitchenQueue.length === 0 ? (
+                                {pageLoading ? (
+                                    Array.from({ length: 3 }).map((_, i) => (
+                                        <div key={i} className="p-3 border border-brand-light rounded-xl animate-pulse space-y-2">
+                                            <div className="flex justify-between">
+                                                <div className="h-3 bg-brand-light rounded w-32"></div>
+                                                <div className="h-3 bg-brand-light rounded w-6"></div>
+                                            </div>
+                                            <div className="h-3 bg-brand-light/60 rounded w-24"></div>
+                                        </div>
+                                    ))
+                                ) : kitchenQueue.length === 0 ? (
                                     <p className="text-xs text-brand-primary italic text-center py-2">Tidak ada pesanan di dapur saat ini.</p>
                                 ) : kitchenQueue.map((order, i) => {
                                     const s = statusLabel[order.status] ?? statusLabel.pending;
