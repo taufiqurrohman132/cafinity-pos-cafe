@@ -1,5 +1,7 @@
-import { Head, Link, router } from "@inertiajs/react";
+import { Link } from "react-router-dom";
 import AppLayout from "@/Layouts/AppLayout";
+import Head from "@/Components/Head";
+import client from "@/api/client";
 
 function fmt(n) {
     return new Intl.NumberFormat("id-ID").format(n ?? 0);
@@ -33,12 +35,16 @@ export default function Invoice({ transaction }) {
           })
         : "-";
 
-    function handlePrint() {
-        router.post(route("transactions.print", transaction.id));
+    async function handlePrint() {
+        try {
+            await client.post(`/transactions/${transaction.id}/print`);
+        } catch (err) {
+            console.error("Gagal mencetak transaksi:", err);
+        }
     }
 
     return (
-        <>
+        <AppLayout>
             <Head title={`Invoice #${transaction.id}`} />
 
             <div className="min-h-screen bg-gray-50 p-6 md:p-8">
@@ -54,7 +60,7 @@ export default function Invoice({ transaction }) {
                         </div>
                         <div className="flex items-center gap-3">
                             <Link
-                                href={route("transactions.show", transaction.id)}
+                                to={`/transactions/${transaction.id}`}
                                 className="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 transition shadow-sm inline-flex items-center gap-2"
                             >
                                 <Icon icon="solar:arrow-left-linear" />
@@ -173,8 +179,6 @@ export default function Invoice({ transaction }) {
 
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
-
-Invoice.layout = (page) => <AppLayout>{page}</AppLayout>;

@@ -1,5 +1,7 @@
-import { Head, Link, router } from "@inertiajs/react";
+import { Link, useNavigate } from "react-router-dom";
 import AppLayout from "@/Layouts/AppLayout";
+import Head from "@/Components/Head";
+import client from "@/api/client";
 
 function fmt(n) {
     return new Intl.NumberFormat("id-ID").format(n ?? 0);
@@ -52,6 +54,7 @@ function SummaryRow({ label, value, bold = false, border = false }) {
 }
 
 export default function Show({ transaction }) {
+    const navigate = useNavigate();
     const createdAt = transaction.created_at
         ? new Date(transaction.created_at).toLocaleString("id-ID", {
               day: "2-digit", month: "short", year: "numeric",
@@ -59,13 +62,19 @@ export default function Show({ transaction }) {
           })
         : "-";
 
-    function handleRefund() {
+    async function handleRefund() {
         if (!confirm("Yakin refund transaksi ini?")) return;
-        router.post(route("transactions.refund", transaction.id));
+        try {
+            await client.post(`/transactions/${transaction.id}/refund`);
+            if (window.routerReload) window.routerReload();
+        } catch (err) {
+            console.error("Gagal melakukan refund:", err);
+            alert("Gagal melakukan refund.");
+        }
     }
 
     return (
-        <>
+        <AppLayout>
             <Head title={`Detail Transaksi #${transaction.id}`} />
 
             <div className="min-h-screen bg-gray-50 p-6 md:p-8">
@@ -79,7 +88,7 @@ export default function Show({ transaction }) {
                         </div>
                         <div className="flex items-center gap-3">
                             <Link
-                                href={route("transactions.invoice", transaction.id)}
+                                to={`/transactions/${transaction.id}/invoice`}
                                 className="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 transition shadow-sm inline-flex items-center gap-2"
                             >
                                 <Icon icon="solar:printer-minimalistic-linear" />
@@ -223,8 +232,6 @@ export default function Show({ transaction }) {
 
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
-
-Show.layout = (page) => <AppLayout>{page}</AppLayout>;

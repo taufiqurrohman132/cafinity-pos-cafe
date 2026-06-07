@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
+import { Link, useNavigate } from 'react-router-dom';
+import Head from '@/Components/Head';
+import client from '@/api/client';
 import TargetModal from '@/Components/TargetModal';
 import {
     Chart as ChartJS,
@@ -34,6 +36,7 @@ export default function TargetPerforma({
     period, estimasi, trendEstimasi, avgHarian, history, staffPerformance,
     maxStaff, paymentSummary, peakLabel, promoAktif
 }) {
+    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showSuccessToast, setShowSuccessToast] = useState(false);
     const [savedLabel, setSavedLabel] = useState('');
@@ -46,14 +49,15 @@ export default function TargetPerforma({
         }, 5000);
     };
 
-    const handleUndo = () => {
+    const handleUndo = async () => {
         if (target?.id) {
-            router.delete(route('targets-goals.destroy', target.id), {
-                onSuccess: () => {
-                    setShowSuccessToast(false);
-                },
-                preserveScroll: true
-            });
+            try {
+                await client.delete(`/targets-goals/${target.id}`);
+                setShowSuccessToast(false);
+                if (window.routerReload) window.routerReload();
+            } catch (err) {
+                console.error("Gagal menghapus target:", err);
+            }
         } else {
             setShowSuccessToast(false);
         }
@@ -145,7 +149,7 @@ export default function TargetPerforma({
     };
 
     return (
-        <>
+        <AppLayout>
             <Head title="Target & Performa" />
 
             <div className="space-y-6 p-4 md:p-6 bg-brand-bg min-h-screen">
@@ -165,7 +169,7 @@ export default function TargetPerforma({
                         {periods.map((p) => (
                             <Link
                                 key={p.val}
-                                href={route('targets-goals.index', { period: p.val })}
+                                to={`/targets-goals?period=${p.val}`}
                                 className={`px-5 py-2.5 text-xs font-bold rounded-xl border transition-all ${period === p.val
                                     ? 'bg-brand-primary text-white border-brand-primary shadow-sm'
                                     : 'bg-white text-brand-primary border-brand-light hover:bg-brand-light/50'
@@ -243,7 +247,7 @@ export default function TargetPerforma({
                                 {target ? 'Ubah Target' : 'Set Target'}
                             </button>
                             <Link
-                                href={route('targets-goals.aov')}
+                                to="/targets-goals/aov"
                                 className="px-5 py-2.5 text-xs font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light/50 hover:text-brand-dark transition-colors"
                             >
                                 Lihat Detail AOV
@@ -386,7 +390,7 @@ export default function TargetPerforma({
                                     )}
                                 </div>
                                 <Link
-                                    href={route('dashboard')}
+                                    to="/dashboard"
                                     className="block w-full mt-4 py-2.5 text-xs font-extrabold text-brand-primary border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark text-center transition-colors flex items-center justify-center gap-1.5"
                                 >
                                     Lihat Laporan Lengkap
@@ -449,8 +453,6 @@ export default function TargetPerforma({
                 </div>
             )}
 
-        </>
+        </AppLayout>
     );
 }
-
-TargetPerforma.layout = (page) => <AppLayout>{page}</AppLayout>;

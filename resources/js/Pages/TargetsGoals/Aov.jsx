@@ -1,8 +1,9 @@
 // resources/js/Pages/TargetsGoals/Aov.jsx
 
 import React, { useEffect, useRef, useState } from "react";
-import { Head, Link, router } from "@inertiajs/react";
+import { Link, useNavigate } from "react-router-dom";
 import AppLayout from "@/Layouts/AppLayout";
+import Head from "@/Components/Head";
 import { Icon } from "@iconify/react";
 
 // Helpers
@@ -98,6 +99,7 @@ export default function AovReport({
     heatmapSlots,
     categoriesContribution,
 }) {
+    const navigate = useNavigate();
     const [selectedPeriod, setSelectedPeriod] = useState(filters.period || "Bulan");
     const [startDate, setStartDate] = useState(filters.start_date || "");
     const [endDate, setEndDate] = useState(filters.end_date || "");
@@ -148,21 +150,13 @@ export default function AovReport({
             return;
         }
         setSelectedPeriod(period);
-        router.get(
-            route("targets-goals.aov"),
-            { period },
-            { preserveState: true, replace: true }
-        );
+        navigate(`/targets-goals/aov?period=${period}`);
     };
 
     const handleCustomFilterSubmit = (e) => {
         e.preventDefault();
         if (!startDate || !endDate) return;
-        router.get(
-            route("targets-goals.aov"),
-            { period: "Kustom", start_date: startDate, end_date: endDate },
-            { preserveState: true, replace: true }
-        );
+        navigate(`/targets-goals/aov?period=Kustom&start_date=${startDate}&end_date=${endDate}`);
     };
 
     let periodDesc = "dari periode sebelumnya";
@@ -214,7 +208,7 @@ export default function AovReport({
     };
 
     return (
-        <>
+        <AppLayout>
             <Head title="Laporan Rata-rata Nilai Tiket (AOV)" />
 
             <div className="flex flex-col gap-6 py-6 px-8 max-w-7xl mx-auto bg-brand-bg min-h-[calc(100vh-72px)]">
@@ -222,7 +216,7 @@ export default function AovReport({
                 {/* Back button to Targets & Goals */}
                 <div className="flex items-center gap-2">
                     <Link
-                        href={route("targets-goals.index")}
+                        to="/targets-goals"
                         className="flex items-center gap-1 text-xs font-bold text-brand-primary hover:text-brand-dark transition-colors"
                     >
                         <Icon icon="solar:alt-arrow-left-linear" className="text-sm" />
@@ -452,7 +446,7 @@ export default function AovReport({
                                     Kontribusi Kategori
                                 </h3>
                                 <Link 
-                                    href={route("menus.index")} 
+                                    to="/menus" 
                                     className="text-xs font-bold text-brand-secondary hover:text-brand-primary hover:underline"
                                 >
                                     Detail Menu
@@ -566,8 +560,6 @@ export default function AovReport({
                     </span>
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
-
-AovReport.layout = (page) => <AppLayout>{page}</AppLayout>;
