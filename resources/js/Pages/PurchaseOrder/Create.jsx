@@ -1,11 +1,68 @@
 // PurchaseOrder/Create.jsx
-import { Head, Link, useForm } from '@inertiajs/react'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import Head from '@/Components/Head'
 import AppLayout from '@/Layouts/AppLayout'
+import client from '@/api/client'
 
-export default function PurchaseOrderCreate({ suppliers, inventories }) {
-    // Form management using Inertia useForm
-    const { data, setData, post, processing, errors } = useForm({
+function useForm(initialValues = {}) {
+    const [data, setDataState] = useState(initialValues);
+    const [errors, setErrors] = useState({});
+    const [processing, setProcessing] = useState(false);
+
+    const setData = (key, value) => {
+        if (typeof key === 'object') {
+            setDataState(prev => ({ ...prev, ...key }));
+        } else {
+            setDataState(prev => ({ ...prev, [key]: value }));
+        }
+    };
+
+    const reset = () => {
+        setDataState(initialValues);
+        setErrors({});
+        setProcessing(false);
+    };
+
+    return {
+        data,
+        setData,
+        errors,
+        setErrors,
+        processing,
+        setProcessing,
+        reset
+    };
+}
+
+export default function PurchaseOrderCreate() {
+    const navigate = useNavigate();
+
+    const [suppliers, setSuppliers] = useState([]);
+    const [inventories, setInventories] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchCreateData = async () => {
+            setLoading(true);
+            try {
+                setError(null);
+                const res = await client.get('/purchase-orders/create');
+                setSuppliers(res.data.suppliers || []);
+                setInventories(res.data.inventories || []);
+            } catch (err) {
+                console.error("Gagal mengambil data form PO:", err);
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCreateData();
+    }, []);
+
+    // Form management using custom useForm
+    const { data, setData, processing, setProcessing, errors, setErrors, reset } = useForm({
         supplier_id: '',
         delivery_location: '',
         delivery_date: '',
@@ -130,21 +187,73 @@ export default function PurchaseOrderCreate({ suppliers, inventories }) {
     const isLocationValid = !!data.delivery_location
 
     // Submit form
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
         if (!isSupplierValid || !isItemsValid) {
             alert('Harap lengkapi semua validasi sebelum mengirim PO.')
             return
         }
-        post(route('purchase-orders.store'))
+        setProcessing(true);
+        setErrors({});
+        try {
+            await client.post('/purchase-orders', data);
+            navigate('/purchase-orders');
+        } catch (err) {
+            console.error("Gagal mengirim PO:", err);
+            if (err.response && err.response.data && err.response.data.errors) {
+                const formattedErrors = {};
+                Object.entries(err.response.data.errors).forEach(([k, v]) => {
+                    formattedErrors[k] = Array.isArray(v) ? v[0] : v;
+                });
+                setErrors(formattedErrors);
+            } else {
+                alert("Terjadi kesalahan saat menyimpan pesanan pembelian.");
+            }
+        } finally {
+            setProcessing(false);
+        }
     }
 
     function formatRupiah(value) {
         return 'Rp ' + Math.round(value).toLocaleString('id-ID')
     }
 
+    if (loading) {
+        return (
+            <AppLayout>
+                <Head title="Buat Pesanan Pembelian Baru" />
+                <div className="min-h-screen bg-brand-bg flex items-center justify-center p-4">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat Form...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
+
+    if (error) {
+        return (
+            <AppLayout>
+                <Head title="Buat Pesanan Pembelian Baru" />
+                <div className="min-h-screen bg-brand-bg flex items-center justify-center p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat data form dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => navigate('/purchase-orders')} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Kembali ke Daftar PO
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
+
     return (
-        <>
+        <AppLayout>
             <Head title="Buat Pesanan Pembelian Baru" />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6">
@@ -154,7 +263,7 @@ export default function PurchaseOrderCreate({ suppliers, inventories }) {
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
                             <Link 
-                                href={route('purchase-orders.index')} 
+                                to="/purchase-orders" 
                                 className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition shadow-sm"
                             >
                                 <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
@@ -565,7 +674,7 @@ export default function PurchaseOrderCreate({ suppliers, inventories }) {
                                                 Simpan Draft
                                             </button>
                                             <Link 
-                                                href={route('purchase-orders.index')}
+                                                to="/purchase-orders"
                                                 className="w-full border border-brand-light hover:bg-gray-50 text-gray-500 py-2.5 rounded-xl font-bold text-xs text-center block transition"
                                             >
                                                 Batal
@@ -635,8 +744,8 @@ export default function PurchaseOrderCreate({ suppliers, inventories }) {
 
                 </div>
             </div>
-        </>
+        </AppLayout>
     )
 }
 
-PurchaseOrderCreate.layout = (page) => <AppLayout>{page}</AppLayout>;
+// PurchaseOrderCreate.layout = (page) => <AppLayout>{page}</AppLayout>;

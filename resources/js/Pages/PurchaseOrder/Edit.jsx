@@ -1,35 +1,100 @@
 // PurchaseOrder/Edit.jsx
-import { Head, Link, useForm } from '@inertiajs/react'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import Head from '@/Components/Head'
 import AppLayout from '@/Layouts/AppLayout'
+import client from '@/api/client'
 
-export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
-    // Form management using Inertia useForm
-    const { data, setData, put, processing, errors } = useForm({
-        supplier_id: order.supplier_id || '',
-        delivery_location: order.delivery_location || '',
-        delivery_date: order.delivery_date || '',
-        reference_number: order.reference_number || '',
-        notes: order.notes || '',
-        items: order.items.map(item => ({
-            inventory_id: item.inventory_id,
-            description: item.inventory?.category?.name || 'Bahan Baku',
-            qty: item.qty,
-            unit: item.unit,
-            price_per_unit: item.price_per_unit,
-            discount: 0,
-            tax_enabled: true
-        })) || [
-            { inventory_id: '', description: '', qty: 1, unit: '', price_per_unit: 0, discount: 0, tax_enabled: true }
-        ]
+export default function PurchaseOrderEdit() {
+    const { id } = useParams()
+    const navigate = useNavigate()
+
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+
+    const [order, setOrder] = useState(null)
+    const [suppliers, setSuppliers] = useState([])
+    const [inventories, setInventories] = useState([])
+
+    // Form local states mimicking Inertia's useForm hook API
+    const [data, setDataState] = useState({
+        supplier_id: '',
+        delivery_location: '',
+        delivery_date: '',
+        reference_number: '',
+        notes: '',
+        items: []
     })
+    const [processing, setProcessing] = useState(false)
+    const [errors, setErrors] = useState({})
+
+    const setData = (fieldOrData, value) => {
+        if (typeof fieldOrData === 'object' && fieldOrData !== null) {
+            setDataState(prev => ({ ...prev, ...fieldOrData }))
+        } else if (typeof fieldOrData === 'string') {
+            setDataState(prev => {
+                if (fieldOrData === 'items') {
+                    return { ...prev, items: value }
+                }
+                return { ...prev, [fieldOrData]: value }
+            })
+        }
+    }
 
     // Local states for supplier search and select
-    const [selectedSupplier, setSelectedSupplier] = useState(
-        suppliers.find(s => String(s.id) === String(order.supplier_id)) || null
-    )
-    const [searchSupplier, setSearchSupplier] = useState(selectedSupplier ? selectedSupplier.name : '')
+    const [selectedSupplier, setSelectedSupplier] = useState(null)
+    const [searchSupplier, setSearchSupplier] = useState('')
     const [filteredSuppliers, setFilteredSuppliers] = useState([])
+
+    // Load initial data
+    useEffect(() => {
+        const fetchEditData = async () => {
+            setLoading(true)
+            try {
+                setError(null)
+                const res = await client.get(`/purchase-orders/${id}/edit`)
+                const o = res.data.order
+                setOrder(o)
+                setSuppliers(res.data.suppliers || [])
+                setInventories(res.data.inventories || [])
+
+                // Populate form fields
+                setDataState({
+                    supplier_id: o.supplier_id || '',
+                    delivery_location: o.delivery_location || '',
+                    delivery_date: o.delivery_date || '',
+                    reference_number: o.reference_number || '',
+                    notes: o.notes || '',
+                    items: o.items?.map(item => ({
+                        inventory_id: item.inventory_id,
+                        description: item.inventory?.category?.name || 'Bahan Baku',
+                        qty: item.qty,
+                        unit: item.unit,
+                        price_per_unit: item.price_per_unit,
+                        discount: 0,
+                        tax_enabled: true
+                    })) || []
+                })
+            } catch (err) {
+                console.error("Gagal mengambil data edit Purchase Order:", err)
+                setError(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchEditData()
+    }, [id])
+
+    // Set selectedSupplier once suppliers and order are loaded
+    useEffect(() => {
+        if (order && suppliers.length > 0) {
+            const found = suppliers.find(s => String(s.id) === String(order.supplier_id))
+            if (found) {
+                setSelectedSupplier(found)
+                setSearchSupplier(found.name)
+            }
+        }
+    }, [order, suppliers])
 
     // Filter suppliers on search query change
     useEffect(() => {
@@ -134,21 +199,69 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
     const isLocationValid = !!data.delivery_location
 
     // Submit form
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
         if (!isSupplierValid || !isItemsValid) {
             alert('Harap lengkapi semua validasi sebelum menyimpan PO.')
             return
         }
-        put(route('purchase-orders.update', order.id))
+        setProcessing(true)
+        setErrors({})
+        try {
+            await client.put(`/purchase-orders/${id}`, data)
+            navigate(`/purchase-orders/${id}`)
+        } catch (err) {
+            console.error("Gagal memperbarui Purchase Order:", err)
+            if (err.response && err.response.data && err.response.data.errors) {
+                setErrors(err.response.data.errors)
+            } else {
+                alert("Gagal memperbarui Purchase Order.")
+            }
+        } finally {
+            setProcessing(false)
+        }
     }
 
     function formatRupiah(value) {
         return 'Rp ' + Math.round(value).toLocaleString('id-ID')
     }
 
+    if (loading && !order) {
+        return (
+            <AppLayout>
+                <Head title="Edit Pesanan Pembelian" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
+    if (error && !order) {
+        return (
+            <AppLayout>
+                <Head title="Edit Pesanan Pembelian" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat data dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => navigate('/purchase-orders')} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Kembali ke Daftar PO
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
     return (
-        <>
+        <AppLayout>
             <Head title={`Edit Pesanan Pembelian ${order.po_number}`} />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6">
@@ -158,7 +271,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
                             <Link 
-                                href={route('purchase-orders.show', order.id)} 
+                                to={`/purchase-orders/${order.id}`} 
                                 className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition shadow-sm"
                             >
                                 <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
@@ -496,7 +609,7 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
                                         </button>
                                         
                                         <Link 
-                                            href={route('purchase-orders.show', order.id)}
+                                            to={`/purchase-orders/${order.id}`}
                                             className="w-full border border-brand-light hover:bg-gray-50 text-gray-500 py-2.5 rounded-xl font-bold text-xs text-center block transition"
                                         >
                                             Batal
@@ -553,8 +666,8 @@ export default function PurchaseOrderEdit({ order, suppliers, inventories }) {
 
                 </div>
             </div>
-        </>
+        </AppLayout>
     )
 }
 
-PurchaseOrderEdit.layout = (page) => <AppLayout>{page}</AppLayout>;
+// PurchaseOrderEdit.layout = (page) => <AppLayout>{page}</AppLayout>;

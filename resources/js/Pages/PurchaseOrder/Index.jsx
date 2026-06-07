@@ -1,46 +1,115 @@
 // PurchaseOrder/Index.jsx
-import { Head, Link, router, usePage } from '@inertiajs/react'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import Head from '@/Components/Head'
 import AppLayout from '@/Layouts/AppLayout'
+import client from '@/api/client'
 
-export default function PurchaseOrderIndex({
-    orders,
-    stats,
-    recentApprovals,
-    filters,
-}) {
-    const { url } = usePage()
-    const params = new URLSearchParams(url.split('?')[1] || '')
+export default function PurchaseOrderIndex() {
+    const location = useLocation()
+    const navigate = useNavigate()
+    const queryParams = new URLSearchParams(location.search)
 
-    const [search, setSearch] = useState(params.get('search') || '')
-    const status = params.get('status') || ''
+    const [orders, setOrders] = useState(null)
+    const [stats, setStats] = useState(null)
+    const [recentApprovals, setRecentApprovals] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+    const [refreshTrigger, setRefreshTrigger] = useState(0)
 
+    const [search, setSearch] = useState(queryParams.get('search') || '')
+    const status = queryParams.get('status') || ''
+
+    // Fetch data whenever location.search or refreshTrigger changes
     useEffect(() => {
-        setSearch(params.get('search') || '')
-    }, [url])
+        const fetchOrders = async () => {
+            setLoading(true)
+            try {
+                setError(null)
+                const res = await client.get(`/purchase-orders${location.search}`)
+                setOrders(res.data.orders)
+                setStats(res.data.stats)
+                setRecentApprovals(res.data.recentApprovals || [])
+
+                const qParams = new URLSearchParams(location.search)
+                setSearch(qParams.get('search') || '')
+            } catch (err) {
+                console.error("Gagal mengambil data purchase order:", err)
+                setError(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchOrders()
+    }, [location.search, refreshTrigger])
 
     function handleSearch(e) {
         e.preventDefault()
-        router.get(route('purchase-orders.index'), { search, status }, { preserveState: true, replace: true })
+        const qParams = new URLSearchParams(location.search)
+        if (search) {
+            qParams.set('search', search)
+        } else {
+            qParams.delete('search')
+        }
+        qParams.delete('page') // Reset page on new search
+        navigate(`/purchase-orders?${qParams.toString()}`, { replace: true })
     }
 
     function handleStatus(statusVal) {
-        router.get(route('purchase-orders.index'), { search, status: statusVal }, { preserveState: true, replace: true })
+        const qParams = new URLSearchParams(location.search)
+        if (statusVal) {
+            qParams.set('status', statusVal)
+        } else {
+            qParams.delete('status')
+        }
+        qParams.delete('page') // Reset page on status change
+        navigate(`/purchase-orders?${qParams.toString()}`, { replace: true })
     }
 
-    function handleApprove(id) {
+    async function handleApprove(id) {
         if (!confirm('Setujui Purchase Order ini?')) return
-        router.post(route('purchase-orders.approve', id), {}, { preserveScroll: true })
+        try {
+            await client.post(`/purchase-orders/${id}/approve`)
+            setRefreshTrigger(prev => prev + 1)
+        } catch (err) {
+            console.error("Gagal menyetujui Purchase Order:", err)
+            alert("Gagal menyetujui Purchase Order.")
+        }
     }
 
-    function handleReject(id) {
+    async function handleReject(id) {
         if (!confirm('Tolak Purchase Order ini?')) return
-        router.post(route('purchase-orders.reject', id), {}, { preserveScroll: true })
+        try {
+            await client.post(`/purchase-orders/${id}/reject`)
+            setRefreshTrigger(prev => prev + 1)
+        } catch (err) {
+            console.error("Gagal menolak Purchase Order:", err)
+            alert("Gagal menolak Purchase Order.")
+        }
     }
 
-    function handleReceive(id) {
+    async function handleReceive(id) {
         if (!confirm('Tandai barang telah diterima dan update stok?')) return
-        router.post(route('purchase-orders.receive', id), {}, { preserveScroll: true })
+        try {
+            await client.post(`/purchase-orders/${id}/receive`)
+            setRefreshTrigger(prev => prev + 1)
+        } catch (err) {
+            console.error("Gagal menandai barang diterima:", err)
+            alert("Gagal menandai barang diterima.")
+        }
+    }
+
+    const getRelativeUrl = (url) => {
+        if (!url) return '#'
+        try {
+            const parsed = new URL(url)
+            return `/purchase-orders${parsed.search}`
+        } catch (e) {
+            if (url.includes('?')) {
+                return `/purchase-orders?${url.split('?')[1]}`
+            }
+            return '/purchase-orders'
+        }
     }
 
     function formatRupiah(amount) {
@@ -53,8 +122,42 @@ export default function PurchaseOrderIndex({
         return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
     }
 
+    if (loading && !orders) {
+        return (
+            <AppLayout>
+                <Head title="Daftar Purchase Order" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
+    if (error && !orders) {
+        return (
+            <AppLayout>
+                <Head title="Daftar Purchase Order" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat data purchase order dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
     return (
-        <>
+        <AppLayout>
             <Head title="Daftar Purchase Order" />
 
             <div className="min-h-screen bg-brand-bg">
@@ -79,7 +182,7 @@ export default function PurchaseOrderIndex({
                                     Export CSV
                                 </button>
                                 <Link
-                                    href={route('purchase-orders.create')}
+                                    to="/purchase-orders/create"
                                     className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-brand-primary hover:bg-brand-secondary rounded-xl transition shadow-sm"
                                 >
                                     <iconify-icon icon="solar:plus-linear" class="text-base"></iconify-icon>
@@ -148,7 +251,7 @@ export default function PurchaseOrderIndex({
                                         />
                                     </form>
                                     { (search || status) && (
-                                        <Link href={route('purchase-orders.index')} className="border border-brand-light hover:bg-gray-50 text-gray-500 px-4 py-2.5 rounded-xl text-xs font-semibold transition flex items-center justify-center">
+                                        <Link to="/purchase-orders" className="border border-brand-light hover:bg-gray-50 text-gray-500 px-4 py-2.5 rounded-xl text-xs font-semibold transition flex items-center justify-center">
                                             Reset
                                         </Link>
                                     )}
@@ -189,7 +292,7 @@ export default function PurchaseOrderIndex({
                                                     <div className="flex flex-col items-center gap-2">
                                                         <iconify-icon icon="solar:document-text-linear" class="text-4xl text-brand-secondary"></iconify-icon>
                                                         <p>Belum ada data purchase order.</p>
-                                                        <Link href={route('purchase-orders.create')} className="text-brand-primary font-semibold hover:underline text-xs">
+                                                        <Link to="/purchase-orders/create" className="text-brand-primary font-semibold hover:underline text-xs">
                                                             + Buat purchase order pertama
                                                         </Link>
                                                     </div>
@@ -218,7 +321,7 @@ export default function PurchaseOrderIndex({
                                                         <input type="checkbox" className="rounded border-brand-light text-brand-primary focus:ring-brand-primary" />
                                                     </td>
                                                     <td className="px-6 py-4 font-semibold text-brand-primary hover:underline">
-                                                        <Link href={route('purchase-orders.show', order.id)}>
+                                                        <Link to={`/purchase-orders/${order.id}`}>
                                                             {poNumber}
                                                         </Link>
                                                         {isUrgent && (
@@ -248,7 +351,7 @@ export default function PurchaseOrderIndex({
                                                     <td className="px-6 py-4">
                                                         <div className="flex items-center gap-2">
                                                             <Link
-                                                                href={route('purchase-orders.show', order.id)}
+                                                                to={`/purchase-orders/${order.id}`}
                                                                 className="w-8 h-8 rounded-lg bg-brand-bg border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition"
                                                                 title="Detail"
                                                             >
@@ -272,7 +375,7 @@ export default function PurchaseOrderIndex({
                                                                         <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
                                                                     </button>
                                                                     <Link
-                                                                        href={route('purchase-orders.edit', order.id)}
+                                                                        to={`/purchase-orders/${order.id}/edit`}
                                                                         className="w-8 h-8 rounded-lg bg-brand-bg border border-brand-light flex items-center justify-center text-gray-500 hover:text-amber-500 hover:border-amber-300 transition"
                                                                         title="Edit"
                                                                     >
@@ -308,7 +411,7 @@ export default function PurchaseOrderIndex({
                                     {orders.links?.map((link, i) => (
                                         <Link
                                             key={i}
-                                            href={link.url ?? '#'}
+                                            to={getRelativeUrl(link.url)}
                                             className={`px-3 py-1 text-xs rounded-lg border transition ${link.active
                                                     ? 'bg-brand-primary text-white border-brand-primary'
                                                     : 'border-brand-light text-gray-500 hover:border-brand-primary hover:text-brand-primary'
@@ -345,7 +448,7 @@ export default function PurchaseOrderIndex({
                                                 <span className="text-gray-500">
                                                     {appr.status === 'approved' ? 'menyetujui' : 'menolak'} PO
                                                 </span>{' '}
-                                                <Link href={route('purchase-orders.show', appr.purchase_order_id)} className="font-bold text-brand-primary hover:underline">
+                                                <Link to={`/purchase-orders/${appr.purchase_order_id}`} className="font-bold text-brand-primary hover:underline">
                                                     #{appr.purchase_order?.po_number || `PO-${appr.purchase_order_id}`}
                                                 </Link>
                                             </div>
@@ -417,8 +520,8 @@ export default function PurchaseOrderIndex({
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     )
 }
 
-PurchaseOrderIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
+// PurchaseOrderIndex.layout = (page) => <AppLayout>{page}</AppLayout>;

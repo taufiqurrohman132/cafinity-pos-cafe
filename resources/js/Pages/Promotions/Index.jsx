@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Head, router, useForm } from '@inertiajs/react';
+import React, { useState, useEffect } from 'react';
+import Head from '@/Components/Head';
 import AppLayout from '@/Layouts/AppLayout';
 import { Icon } from '@iconify/react';
 import {
@@ -13,6 +13,7 @@ import {
     Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import client from '@/api/client';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler, Legend);
 
@@ -25,17 +26,76 @@ const getBrandColor = (varName, fallback, opacity = 1) => {
     return `rgba(${rgbStr}, ${opacity})`;
 };
 
-export default function PromotionsIndex({
-    totalRedemptions,
-    estimasiRevenue,
-    kampanyeAktif,
-    efisiensiPromo,
-    campaigns,
-    highlightCampaign,
-    menus,
-    chartLabels,
-    chartData,
-}) {
+function useForm(initialValues = {}) {
+    const [data, setDataState] = useState(initialValues);
+    const [errors, setErrors] = useState({});
+    const [processing, setProcessing] = useState(false);
+
+    const setData = (key, value) => {
+        if (typeof key === 'object') {
+            setDataState(prev => ({ ...prev, ...key }));
+        } else {
+            setDataState(prev => ({ ...prev, [key]: value }));
+        }
+    };
+
+    const reset = () => {
+        setDataState(initialValues);
+        setErrors({});
+        setProcessing(false);
+    };
+
+    return {
+        data,
+        setData,
+        errors,
+        setErrors,
+        processing,
+        setProcessing,
+        reset
+    };
+}
+
+export default function PromotionsIndex() {
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+    const [totalRedemptions, setTotalRedemptions] = useState(0);
+    const [estimasiRevenue, setEstimasiRevenue] = useState(0);
+    const [kampanyeAktif, setKampanyeAktif] = useState(0);
+    const [efisiensiPromo, setEfisiensiPromo] = useState(0);
+    const [campaigns, setCampaigns] = useState([]);
+    const [highlightCampaign, setHighlightCampaign] = useState(null);
+    const [menus, setMenus] = useState([]);
+    const [chartLabels, setChartLabels] = useState([]);
+    const [chartData, setChartData] = useState([]);
+
+    useEffect(() => {
+        const fetchPromotionsData = async () => {
+            setLoading(true);
+            try {
+                setError(null);
+                const res = await client.get('/promotions');
+                setTotalRedemptions(res.data.totalRedemptions ?? 0);
+                setEstimasiRevenue(res.data.estimasiRevenue ?? 0);
+                setKampanyeAktif(res.data.kampanyeAktif ?? 0);
+                setEfisiensiPromo(res.data.efisiensiPromo ?? 0);
+                setCampaigns(res.data.campaigns ?? []);
+                setHighlightCampaign(res.data.highlightCampaign ?? null);
+                setMenus(res.data.menus ?? []);
+                setChartLabels(res.data.chartLabels ?? []);
+                setChartData(res.data.chartData ?? []);
+            } catch (err) {
+                console.error("Gagal mengambil data promosi:", err);
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchPromotionsData();
+    }, [refreshTrigger]);
+
     const [activeTab, setActiveTab] = useState('Semua');
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -94,31 +154,69 @@ export default function PromotionsIndex({
 
     const formatRp = (value) => new Intl.NumberFormat('id-ID').format(value);
 
-    const handlePromoSubmit = (e) => {
+    const handlePromoSubmit = async (e) => {
         e.preventDefault();
-        if (isEditModalOpen && editingCampaign) {
-            router.put(route('promotions.update', editingCampaign.id), promoForm.data, {
-                onSuccess: () => { setIsEditModalOpen(false); showNotification('Promosi berhasil diperbarui!'); },
-            });
-        } else {
-            router.post(route('promotions.store'), promoForm.data, {
-                onSuccess: () => { setIsCreateModalOpen(false); promoForm.reset(); showNotification('Promosi baru berhasil ditambahkan!'); },
-            });
+        promoForm.setProcessing(true);
+        promoForm.setErrors({});
+        try {
+            if (isEditModalOpen && editingCampaign) {
+                await client.put(`/promotions/${editingCampaign.id}`, promoForm.data);
+                setIsEditModalOpen(false);
+                showNotification('Promosi berhasil diperbarui!');
+            } else {
+                await client.post('/promotions', promoForm.data);
+                setIsCreateModalOpen(false);
+                promoForm.reset();
+                showNotification('Promosi baru berhasil ditambahkan!');
+            }
+            setRefreshTrigger(prev => prev + 1);
+        } catch (err) {
+            console.error("Gagal menyimpan promosi:", err);
+            if (err.response && err.response.data && err.response.data.errors) {
+                const formattedErrors = {};
+                Object.entries(err.response.data.errors).forEach(([k, v]) => {
+                    formattedErrors[k] = Array.isArray(v) ? v[0] : v;
+                });
+                promoForm.setErrors(formattedErrors);
+            } else {
+                alert("Terjadi kesalahan saat menyimpan promosi.");
+            }
+        } finally {
+            promoForm.setProcessing(false);
         }
     };
 
-    const handleBundleSubmit = (e) => {
+    const handleBundleSubmit = async (e) => {
         e.preventDefault();
+        bundleForm.setProcessing(true);
+        bundleForm.setErrors({});
         const formattedMenus = bundleForm.data.menus.map((m) => ({ id: m.id, qty: m.qty }));
         const submitData = { ...bundleForm.data, menus: formattedMenus };
-        if (isEditModalOpen && editingCampaign) {
-            router.put(route('bundles.update', editingCampaign.id), submitData, {
-                onSuccess: () => { setIsEditModalOpen(false); showNotification('Bundle berhasil diperbarui!'); },
-            });
-        } else {
-            router.post(route('bundles.store'), submitData, {
-                onSuccess: () => { setIsCreateModalOpen(false); bundleForm.reset(); showNotification('Bundle baru berhasil ditambahkan!'); },
-            });
+        try {
+            if (isEditModalOpen && editingCampaign) {
+                await client.put(`/bundles/${editingCampaign.id}`, submitData);
+                setIsEditModalOpen(false);
+                showNotification('Bundle berhasil diperbarui!');
+            } else {
+                await client.post('/bundles', submitData);
+                setIsCreateModalOpen(false);
+                bundleForm.reset();
+                showNotification('Bundle baru berhasil ditambahkan!');
+            }
+            setRefreshTrigger(prev => prev + 1);
+        } catch (err) {
+            console.error("Gagal menyimpan bundle:", err);
+            if (err.response && err.response.data && err.response.data.errors) {
+                const formattedErrors = {};
+                Object.entries(err.response.data.errors).forEach(([k, v]) => {
+                    formattedErrors[k] = Array.isArray(v) ? v[0] : v;
+                });
+                bundleForm.setErrors(formattedErrors);
+            } else {
+                alert("Terjadi kesalahan saat menyimpan bundle.");
+            }
+        } finally {
+            bundleForm.setProcessing(false);
         }
     };
 
@@ -128,12 +226,18 @@ export default function PromotionsIndex({
         setTimeout(() => setShowToast(false), 4000);
     };
 
-    const handleDeleteCampaign = (campaign) => {
-        const routeName = campaign.type === 'bundle' ? 'bundles.destroy' : 'promotions.destroy';
+    const handleDeleteCampaign = async (campaign) => {
+        const path = campaign.type === 'bundle' ? `/bundles/${campaign.id}` : `/promotions/${campaign.id}`;
         if (confirm(`Apakah Anda yakin ingin menghapus ${campaign.name}?`)) {
-            router.delete(route(routeName, campaign.id), {
-                onSuccess: () => { setActiveDropdownId(null); showNotification(`${campaign.name} berhasil dihapus!`); },
-            });
+            try {
+                await client.delete(path);
+                setActiveDropdownId(null);
+                showNotification(`${campaign.name} berhasil dihapus!`);
+                setRefreshTrigger(prev => prev + 1);
+            } catch (err) {
+                console.error("Gagal menghapus kampanye:", err);
+                alert("Gagal menghapus kampanye.");
+            }
         }
     };
 
@@ -214,8 +318,42 @@ export default function PromotionsIndex({
     // Input class reusable
     const inputCls = "w-full px-4 py-3 rounded-xl border border-brand-light focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none text-xs font-semibold text-brand-dark placeholder:text-brand-primary/40 transition-all bg-brand-bg focus:bg-white";
 
+    if (loading) {
+        return (
+            <AppLayout>
+                <Head title="Promosi & Bundling" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
+
+    if (error) {
+        return (
+            <AppLayout>
+                <Head title="Promosi & Bundling" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <Icon icon="solar:danger-triangle-linear" className="text-rose-500 text-5xl mb-4 mx-auto block" />
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat data promosi dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
+
     return (
-        <>
+        <AppLayout>
             <Head title="Promosi & Bundling" />
 
             <div className="flex-1 overflow-y-auto bg-brand-bg min-h-screen px-6 py-6 space-y-6">
@@ -747,8 +885,8 @@ export default function PromotionsIndex({
                     </button>
                 </div>
             )}
-        </>
+        </AppLayout>
     );
 }
 
-PromotionsIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
+// PromotionsIndex.layout = (page) => <AppLayout>{page}</AppLayout>;

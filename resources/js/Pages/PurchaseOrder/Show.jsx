@@ -1,8 +1,39 @@
 // PurchaseOrder/Show.jsx
-import { Head, Link, router } from '@inertiajs/react'
+import React, { useState, useEffect } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import Head from '@/Components/Head'
 import AppLayout from '@/Layouts/AppLayout'
+import client from '@/api/client'
 
-export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
+export default function PurchaseOrderShow() {
+    const { id } = useParams()
+    const navigate = useNavigate()
+
+    const [order, setOrder] = useState(null)
+    const [auditLogs, setAuditLogs] = useState([])
+    const [currentUser, setCurrentUser] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+    const [refreshTrigger, setRefreshTrigger] = useState(0)
+
+    useEffect(() => {
+        const fetchOrderDetails = async () => {
+            setLoading(true)
+            try {
+                setError(null)
+                const res = await client.get(`/purchase-orders/${id}`)
+                setOrder(res.data.order)
+                setAuditLogs(res.data.auditLogs || [])
+                setCurrentUser(res.data.currentUser || null)
+            } catch (err) {
+                console.error("Gagal mengambil detail Purchase Order:", err)
+                setError(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchOrderDetails()
+    }, [id, refreshTrigger])
     
     // Status color mapping helper
     const getStatusMeta = (status) => {
@@ -15,27 +46,51 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
         return meta[status] || { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-100', label: status }
     }
 
-    const statusMeta = getStatusMeta(order.status)
+    const statusMeta = order ? getStatusMeta(order.status) : null
 
     // Form handlers
-    function handleApprove() {
+    async function handleApprove() {
         if (!confirm('Setujui Purchase Order ini?')) return
-        router.post(route('purchase-orders.approve', order.id), {}, { preserveScroll: true })
+        try {
+            await client.post(`/purchase-orders/${id}/approve`)
+            setRefreshTrigger(prev => prev + 1)
+        } catch (err) {
+            console.error("Gagal menyetujui Purchase Order:", err)
+            alert("Gagal menyetujui Purchase Order.")
+        }
     }
 
-    function handleReject() {
+    async function handleReject() {
         if (!confirm('Tolak Purchase Order ini?')) return
-        router.post(route('purchase-orders.reject', order.id), {}, { preserveScroll: true })
+        try {
+            await client.post(`/purchase-orders/${id}/reject`)
+            setRefreshTrigger(prev => prev + 1)
+        } catch (err) {
+            console.error("Gagal menolak Purchase Order:", err)
+            alert("Gagal menolak Purchase Order.")
+        }
     }
 
-    function handleReceive() {
+    async function handleReceive() {
         if (!confirm('Terima semua barang dan tambahkan ke stok inventaris?')) return
-        router.post(route('purchase-orders.receive', order.id), {}, { preserveScroll: true })
+        try {
+            await client.post(`/purchase-orders/${id}/receive`)
+            setRefreshTrigger(prev => prev + 1)
+        } catch (err) {
+            console.error("Gagal menerima barang:", err)
+            alert("Gagal menerima barang.")
+        }
     }
 
-    function handleCancel() {
+    async function handleCancel() {
         if (!confirm('Batalkan dan hapus Purchase Order ini?')) return
-        router.delete(route('purchase-orders.destroy', order.id))
+        try {
+            await client.delete(`/purchase-orders/${id}`)
+            navigate('/purchase-orders')
+        } catch (err) {
+            console.error("Gagal membatalkan Purchase Order:", err)
+            alert("Gagal membatalkan Purchase Order.")
+        }
     }
 
     function formatRupiah(value) {
@@ -57,8 +112,42 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
         return sub * 0.11
     }
 
+    if (loading && !order) {
+        return (
+            <AppLayout>
+                <Head title="Detail Purchase Order" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat Detail...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
+    if (error && !order) {
+        return (
+            <AppLayout>
+                <Head title="Detail Purchase Order" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat detail purchase order dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
     return (
-        <>
+        <AppLayout>
             <Head title={`PO #${order.po_number || order.id}`} />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6">
@@ -68,7 +157,7 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
                             <Link 
-                                href={route('purchase-orders.index')} 
+                                to="/purchase-orders" 
                                 className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition shadow-sm"
                             >
                                 <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
@@ -102,7 +191,7 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                             {order.status === 'pending' && (
                                 <>
                                     <Link 
-                                        href={route('purchase-orders.edit', order.id)}
+                                        to={`/purchase-orders/${order.id}/edit`}
                                         className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-brand-primary bg-brand-light/50 border border-brand-light rounded-xl hover:bg-brand-light transition"
                                     >
                                         <iconify-icon icon="solar:pen-linear" class="text-base"></iconify-icon>
@@ -474,8 +563,8 @@ export default function PurchaseOrderShow({ order, auditLogs, currentUser }) {
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     )
 }
 
-PurchaseOrderShow.layout = (page) => <AppLayout>{page}</AppLayout>;
+// PurchaseOrderShow.layout = (page) => <AppLayout>{page}</AppLayout>;

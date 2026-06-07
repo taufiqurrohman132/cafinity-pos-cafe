@@ -157,7 +157,7 @@ const AppRoutes = () => {
                 path="/promotions" 
                 element={
                     <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={PromotionsIndex} apiPath="/promotions" />
+                        <PromotionsIndex />
                     </ProtectedRoute>
                 } 
             />
@@ -219,7 +219,7 @@ const AppRoutes = () => {
                 path="/purchase-orders" 
                 element={
                     <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={PurchaseOrderIndex} apiPath="/purchase-orders" />
+                        <PurchaseOrderIndex />
                     </ProtectedRoute>
                 } 
             />
@@ -227,7 +227,7 @@ const AppRoutes = () => {
                 path="/purchase-orders/create" 
                 element={
                     <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={PurchaseOrderCreate} apiPath="/purchase-orders/create" />
+                        <PurchaseOrderCreate />
                     </ProtectedRoute>
                 } 
             />
@@ -235,7 +235,7 @@ const AppRoutes = () => {
                 path="/purchase-orders/:id" 
                 element={
                     <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={PurchaseOrderShow} apiPath="/purchase-orders/:id" />
+                        <PurchaseOrderShow />
                     </ProtectedRoute>
                 } 
             />
@@ -243,7 +243,7 @@ const AppRoutes = () => {
                 path="/purchase-orders/:id/edit" 
                 element={
                     <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={PurchaseOrderEdit} apiPath="/purchase-orders/:id/edit" />
+                        <PurchaseOrderEdit />
                     </ProtectedRoute>
                 } 
             />
