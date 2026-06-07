@@ -412,3 +412,33 @@ Setelah melakukan seeder database (`php artisan migrate:fresh --seed`), akun-aku
    ├─ Database
    ├─ AI Agent
    └─ External APIs
+
+
+Berikut adalah panduan memilih efek loading yang tepat untuk aplikasi kafe Anda:
+
+### 1. Skeleton Screen (Efek Simmer)
+Efek ini menampilkan bentuk abu-abu samar yang menyerupai tata letak konten asli (kotak untuk gambar, garis untuk teks) dengan animasi kilauan (*simmer*).
+*   **Cocok untuk**: Halaman utama (beranda), daftar menu makanan/minuman, dan keranjang belanja.
+*   **Kelebihan**: Memberikan ilusi bahwa aplikasi memuat lebih cepat dan mengurangi kecemasan pengguna karena mereka tahu persis konten apa yang akan muncul.
+*   **Pilihan Library Populer**:
+    *   **React Native**: Anda bisa menggunakan `react-native-skeleton-placeholder` atau `react-native-loading-spinner-overlay` untuk overlay penuh.
+    *   **Flutter**: Gunakan package `shimmer` untuk membuat efek kilau pada widget.
+
+### 2. Spinner / Circular Progress Indicator
+Ini adalah ikon animasi berputar yang diletakkan di tengah layar atau di tombol.
+*   **Cocok untuk**: Tombol *Checkout* / *Pesan Sekarang*, proses pembayaran (QRIS, e-wallet), atau saat mengirim ulasan.
+*   **Kelebihan**: Sangat jelas menunjukkan bahwa sistem sedang memproses sebuah aksi spesifik.
+*   **Pilihan Library Populer**:
+    *   **React Native**: `react-native-paper` menyediakan komponen `ActivityIndicator`.
+    *   **Flutter**: Widget bawaan `CircularProgressIndicator` sudah sangat cukup dan optimal.
+
+### 3. Page Loader / Full Screen Splash Screen
+Animasi logo kafe Anda yang berkedip atau memuat secara penuh.
+*   **Cocok untuk**: Halaman awal saat aplikasi pertama kali dibuka (*Cold Start*).
+*   **Kelebihan**: Memperkuat branding kafe Anda.
+
+---
+
+### 💡 Tips Terbaik untuk Aplikasi Kafe:
+*   **Gunakan Skeleton (Simmer) untuk Menu**: Saat pelanggan melihat daftar kopi atau pastry, gunakan *simmer effect* agar mereka bisa membayangkan menu yang akan mereka pilih, seperti standar aplikasi GoFood atau GrabFood.
+*   **Gunakan Spinner untuk Aksi**: Saat pengguna menekan tombol "Tambah ke Keranjang" atau "Pesan", ubah tombol tersebut menjadi spinner agar mereka tidak menekan tombol dua kali yang bisa menyebabkan pesanan ganda.
