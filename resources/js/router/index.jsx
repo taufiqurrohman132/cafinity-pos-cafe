@@ -167,7 +167,7 @@ const AppRoutes = () => {
                 path="/recipe-costing" 
                 element={
                     <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={RecipeIndex} apiPath="/recipe-costing" />
+                        <RecipeIndex />
                     </ProtectedRoute>
                 } 
             />
@@ -287,7 +287,7 @@ const AppRoutes = () => {
                 path="/reports" 
                 element={
                     <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={ReportsIndex} apiPath="/reports" />
+                        <ReportsIndex />
                     </ProtectedRoute>
                 } 
             />
@@ -333,7 +333,7 @@ const AppRoutes = () => {
                 path="/settings" 
                 element={
                     <ProtectedRoute allowedRoles={['owner', 'admin']}>
-                        <PageLoader component={SettingsIndex} apiPath="/settings" />
+                        <SettingsIndex />
                     </ProtectedRoute>
                 } 
             />

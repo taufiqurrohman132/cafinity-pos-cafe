@@ -1,8 +1,11 @@
-import { Head, Link, useForm } from '@inertiajs/react';
-import AppLayout from '@/Layouts/AppLayout';
 import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AppLayout from '@/Layouts/AppLayout';
+import { useForm } from '@/api/inertia-mock';
+import Head from '@/Components/Head';
 
 export default function SupplierEdit({ supplier }) {
+    const navigate = useNavigate();
     const primaryContact = supplier.contacts?.find(c => c.is_primary) || supplier.contacts?.[0] || {};
 
     // Parse categories from database comma-separated format
@@ -75,7 +78,11 @@ export default function SupplierEdit({ supplier }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        put(route('suppliers.update', supplier.id));
+        put(`/suppliers/${supplier.id}`, {
+            onSuccess: () => {
+                navigate('/suppliers');
+            }
+        });
     };
 
     // Checklist criteria calculation
@@ -85,7 +92,7 @@ export default function SupplierEdit({ supplier }) {
     const hasLogisticsInfo = data.address.trim() !== '' && data.city.trim() !== '' && data.province.trim() !== '' && data.lead_time > 0 && data.min_order > 0;
 
     return (
-        <>
+        <AppLayout>
             <Head title={`Edit Supplier - ${supplier.name}`} />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6 lg:p-8">
@@ -94,7 +101,7 @@ export default function SupplierEdit({ supplier }) {
                     {/* Breadcrumbs & Header */}
                     <div className="space-y-1">
                         <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
-                            <Link href={route('suppliers.index')} className="hover:text-brand-primary transition">Daftar Supplier</Link>
+                            <Link to="/suppliers" className="hover:text-brand-primary transition">Daftar Supplier</Link>
                             <iconify-icon icon="solar:alt-arrow-right-linear" class="text-[10px]"></iconify-icon>
                             <span className="text-gray-600">Edit Supplier</span>
                         </div>
@@ -534,7 +541,7 @@ export default function SupplierEdit({ supplier }) {
                                         </button>
                                         <div className="flex gap-2">
                                             <Link 
-                                                href={route('suppliers.index')}
+                                                to="/suppliers"
                                                 className="flex-1 py-2 text-center text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 rounded-xl border border-brand-light transition flex items-center justify-center"
                                             >
                                                 Batal
@@ -599,8 +606,6 @@ export default function SupplierEdit({ supplier }) {
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
-
-SupplierEdit.layout = (page) => <AppLayout>{page}</AppLayout>;

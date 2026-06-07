@@ -1,51 +1,37 @@
-import { Head, router } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import AppLayout from '@/Layouts/AppLayout';
+import Head from '@/Components/Head';
+import client from '@/api/client';
 
-export default function SettingsIndex({ settings }) {
+export default function SettingsIndex() {
+    const [settings, setSettings] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+
     const [activeTab, setActiveTab] = useState('profile'); // profile, operational, billing, localization, security
     const [show2faModal, setShow2faModal] = useState(false);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-    // Parse operational hours
-    let parsedHours = {};
-    try {
-        parsedHours = settings.operational_hours ? JSON.parse(settings.operational_hours) : {};
-    } catch (e) {
-        parsedHours = {};
-    }
-
-    const defaultHours = {
-        'Senin': { active: true, open: '08:00', close: '22:00' },
-        'Selasa': { active: true, open: '09:00', close: '23:00' },
-        'Rabu': { active: true, open: '08:00', close: '23:00' },
-        'Kamis': { active: true, open: '09:00', close: '23:00' },
-        'Jumat': { active: true, open: '09:00', close: '23:00' },
-        'Sabtu': { active: true, open: '09:00', close: '23:00' },
-        'Minggu': { active: false, open: '09:00', close: '18:00' }
-    };
-
-    const mergedHours = { ...defaultHours, ...parsedHours };
-
     // --- Tab 1: Profile States ---
-    const [cafeName, setCafeName] = useState(settings.cafe_name || 'SmartCafe Sudirman');
-    const [cafeCategory, setCafeCategory] = useState(settings.cafe_category || 'Cafe & Restaurant');
-    const [cafeAddress, setCafeAddress] = useState(settings.cafe_address || 'Jl. Jendral Sudirman No. 12, Senayan, Jakarta Selatan');
-    const [cafePhone, setCafePhone] = useState(settings.cafe_phone || '+62 21 555 0123');
-    const [cafeEmail, setCafeEmail] = useState(settings.cafe_email || 'contact@smartcafe.id');
+    const [cafeName, setCafeName] = useState('');
+    const [cafeCategory, setCafeCategory] = useState('');
+    const [cafeAddress, setCafeAddress] = useState('');
+    const [cafePhone, setCafePhone] = useState('');
+    const [cafeEmail, setCafeEmail] = useState('');
 
     // --- Tab 2: Operational Hours State ---
-    const [operationalHours, setOperationalHours] = useState(mergedHours);
+    const [operationalHours, setOperationalHours] = useState({});
 
     // --- Tab 3: Billing & Tax State ---
-    const [taxRate, setTaxRate] = useState(settings.tax_rate || '12');
-    const [serviceCharge, setServiceCharge] = useState(settings.service_charge || '5');
-    const [taxInclusive, setTaxInclusive] = useState(settings.tax_inclusive === '1');
+    const [taxRate, setTaxRate] = useState('');
+    const [serviceCharge, setServiceCharge] = useState('');
+    const [taxInclusive, setTaxInclusive] = useState(false);
 
     // --- Tab 4: Localization State ---
-    const [currency, setCurrency] = useState(settings.currency || 'IDR (Indonesian Rupiah)');
-    const [timezone, setTimezone] = useState(settings.timezone || '(GMT+07:00) Asia/Jakarta');
-    const [language, setLanguage] = useState(settings.language || 'Bahasa Indonesia (ID)');
+    const [currency, setCurrency] = useState('');
+    const [timezone, setTimezone] = useState('');
+    const [language, setLanguage] = useState('');
 
     // --- Tab 5: Security Policy States (Password & 2FA) ---
     const [minPasswordLength, setMinPasswordLength] = useState(12);
@@ -112,37 +98,94 @@ export default function SettingsIndex({ settings }) {
         }));
     };
 
-    const handleSave = () => {
-        if (activeTab === 'security') {
-            router.put(route('settings.security'), {
-                session_timeout: settings.session_timeout || '15',
-                require_2fa: global2fa
-            }, {
-                onSuccess: () => setHasUnsavedChanges(false)
-            });
-        } else {
-            router.put(route('settings.general'), {
-                cafe_name: cafeName,
-                cafe_category: cafeCategory,
-                cafe_address: cafeAddress,
-                cafe_phone: cafePhone,
-                cafe_email: cafeEmail,
-                tax_rate: taxRate,
-                service_charge: serviceCharge,
-                tax_inclusive: taxInclusive ? '1' : '0',
-                currency: currency,
-                timezone: timezone,
-                language: language,
-                operational_hours: operationalHours
-            }, {
-                onSuccess: () => setHasUnsavedChanges(false)
-            });
+    const defaultHours = {
+        'Senin': { active: true, open: '08:00', close: '22:00' },
+        'Selasa': { active: true, open: '09:00', close: '23:00' },
+        'Rabu': { active: true, open: '08:00', close: '23:00' },
+        'Kamis': { active: true, open: '09:00', close: '23:00' },
+        'Jumat': { active: true, open: '09:00', close: '23:00' },
+        'Sabtu': { active: true, open: '09:00', close: '23:00' },
+        'Minggu': { active: false, open: '09:00', close: '18:00' }
+    };
+
+    useEffect(() => {
+        const fetchSettings = async () => {
+            setLoading(true);
+            try {
+                const res = await client.get('/settings');
+                const s = res.data.settings || {};
+                setSettings(s);
+
+                setCafeName(s.cafe_name || 'SmartCafe Sudirman');
+                setCafeCategory(s.cafe_category || 'Cafe & Restaurant');
+                setCafeAddress(s.cafe_address || 'Jl. Jendral Sudirman No. 12, Senayan, Jakarta Selatan');
+                setCafePhone(s.cafe_phone || '+62 21 555 0123');
+                setCafeEmail(s.cafe_email || 'contact@smartcafe.id');
+
+                let parsedHours = {};
+                try {
+                    parsedHours = s.operational_hours ? JSON.parse(s.operational_hours) : {};
+                } catch (e) {
+                    parsedHours = {};
+                }
+                setOperationalHours({ ...defaultHours, ...parsedHours });
+
+                setTaxRate(s.tax_rate || '12');
+                setServiceCharge(s.service_charge || '5');
+                setTaxInclusive(s.tax_inclusive === '1');
+
+                setCurrency(s.currency || 'IDR (Indonesian Rupiah)');
+                setTimezone(s.timezone || '(GMT+07:00) Asia/Jakarta');
+                setLanguage(s.language || 'Bahasa Indonesia (ID)');
+
+                setError(null);
+            } catch (err) {
+                console.error("Gagal memuat pengaturan:", err);
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchSettings();
+    }, [refreshTrigger]);
+
+    const handleSave = async () => {
+        try {
+            if (activeTab === 'security') {
+                const res = await client.put('/settings/security', {
+                    session_timeout: settings?.session_timeout || '15',
+                    require_2fa: global2fa
+                });
+                setSettings(res.data.settings);
+                setHasUnsavedChanges(false);
+            } else {
+                const res = await client.put('/settings/general', {
+                    cafe_name: cafeName,
+                    cafe_category: cafeCategory,
+                    cafe_address: cafeAddress,
+                    cafe_phone: cafePhone,
+                    cafe_email: cafeEmail,
+                    tax_rate: taxRate,
+                    service_charge: serviceCharge,
+                    tax_inclusive: taxInclusive ? '1' : '0',
+                    currency: currency,
+                    timezone: timezone,
+                    language: language,
+                    operational_hours: operationalHours
+                });
+                setSettings(res.data.settings);
+                setHasUnsavedChanges(false);
+            }
+            alert('Pengaturan berhasil disimpan.');
+        } catch (err) {
+            console.error("Gagal menyimpan pengaturan:", err);
+            alert('Gagal menyimpan pengaturan.');
         }
     };
 
     const handleCancel = () => {
         setHasUnsavedChanges(false);
-        router.get(route('settings.index'));
+        setRefreshTrigger(prev => prev + 1);
     };
 
     const handleTerminateSession = (id, device) => {
@@ -183,8 +226,42 @@ export default function SettingsIndex({ settings }) {
         return matchesSearch && matchesRole && matchesStatus;
     });
 
+    if (loading && !settings) {
+        return (
+            <AppLayout>
+                <Head title="Pengaturan Bisnis" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
+    if (error && !settings) {
+        return (
+            <AppLayout>
+                <Head title="Pengaturan Bisnis" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat pengaturan dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
     return (
-        <>
+        <AppLayout>
             <Head title="Pengaturan Bisnis" />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6 lg:p-8">
@@ -1022,8 +1099,6 @@ export default function SettingsIndex({ settings }) {
                     </div>
                 </div>
             )}
-        </>
+        </AppLayout>
     );
 }
-
-SettingsIndex.layout = (page) => <AppLayout>{page}</AppLayout>;

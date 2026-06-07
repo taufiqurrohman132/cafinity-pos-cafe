@@ -1,11 +1,20 @@
 // Recipe/Index.jsx
-import { Head, Link, router, usePage } from '@inertiajs/react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import AppLayout from '@/Layouts/AppLayout'
+import Head from '@/Components/Head'
+import client from '@/api/client'
 
-export default function RecipeIndex({ recipes, selectedRecipe, inventories, menus }) {
-    const { url } = usePage()
-    const params = new URLSearchParams(url.split('?')[1] || '')
+export default function RecipeIndex() {
+    const location = useLocation()
+    const navigate = useNavigate()
+    const [recipes, setRecipes] = useState([])
+    const [selectedRecipe, setSelectedRecipe] = useState(null)
+    const [inventories, setInventories] = useState([])
+    const [menus, setMenus] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+    const [refreshTrigger, setRefreshTrigger] = useState(0)
 
     const [search, setSearch] = useState('')
     const [showEditModal, setShowEditModal] = useState(false)
@@ -16,6 +25,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
     const hargaJual = selectedRecipe?.menu?.price ?? 0
     const baseMargin = selectedRecipe?.margin ?? 0
     const [sliderVal, setSliderVal] = useState(0)
+
     // reset slider & ingredients saat ganti resep
     useEffect(() => {
         setSliderVal(0)
@@ -29,19 +39,33 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
         setEditNotes(selectedRecipe?.notes ?? '')
     }, [selectedRecipe?.id])
 
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true)
+            try {
+                const res = await client.get(`/recipe-costing${location.search}`)
+                setRecipes(res.data.recipes || [])
+                setSelectedRecipe(res.data.selectedRecipe || null)
+                setInventories(res.data.inventories || [])
+                setMenus(res.data.menus || [])
+                setError(null)
+            } catch (err) {
+                console.error("Gagal memuat resep:", err)
+                setError(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchData()
+    }, [location.search, refreshTrigger])
+
     const hppBaru = baseHpp * (1 + sliderVal / 100)
     const marginBaru = hargaJual > 0 ? ((hargaJual - hppBaru) / hargaJual * 100) : 0
     const impactPersen = (marginBaru - baseMargin).toFixed(1)
 
     // Edit modal ingredients state
-    const [ingredients, setIngredients] = useState(
-        selectedRecipe?.ingredients?.map(b => ({
-            inventory_id: b.id,
-            qty: b.pivot.qty,
-            unit: b.pivot.unit,
-        })) ?? []
-    )
-    const [editNotes, setEditNotes] = useState(selectedRecipe?.notes ?? '')
+    const [ingredients, setIngredients] = useState([])
+    const [editNotes, setEditNotes] = useState('')
 
     // Create modal state
     const [createForm, setCreateForm] = useState({
@@ -54,25 +78,36 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
         r.menu?.name?.toLowerCase().includes(search.toLowerCase())
     )
 
-    function handleEditSubmit(e) {
+    async function handleEditSubmit(e) {
         e.preventDefault()
-        router.put(route('recipe.update', selectedRecipe.id), {
-            notes: editNotes,
-            ingredients,
-        }, {
-            onSuccess: () => setShowEditModal(false),
-            preserveScroll: true,
-        })
+        try {
+            await client.put(`/recipe-costing/${selectedRecipe.id}`, {
+                notes: editNotes,
+                ingredients,
+            })
+            setShowEditModal(false)
+            setRefreshTrigger(prev => prev + 1)
+        } catch (err) {
+            console.error("Gagal menyimpan resep:", err)
+            alert("Gagal menyimpan resep.")
+        }
     }
 
-    function handleCreateSubmit(e) {
+    async function handleCreateSubmit(e) {
         e.preventDefault()
-        router.post(route('recipe.store'), createForm, {
-            onSuccess: () => {
-                setShowCreateModal(false)
-                setCreateForm({ menu_id: '', notes: '', ingredients: [{ inventory_id: '', qty: '', unit: '' }] })
-            },
-        })
+        try {
+            const res = await client.post('/recipe-costing', createForm)
+            setShowCreateModal(false)
+            setCreateForm({ menu_id: '', notes: '', ingredients: [{ inventory_id: '', qty: '', unit: '' }] })
+            if (res.data.recipe) {
+                navigate(`/recipe-costing?id=${res.data.recipe.id}`)
+            } else {
+                setRefreshTrigger(prev => prev + 1)
+            }
+        } catch (err) {
+            console.error("Gagal membuat resep:", err)
+            alert("Gagal membuat resep.")
+        }
     }
 
     function addIngredientRow(setter) {
@@ -116,8 +151,42 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
     const recommendedPrice = selectedRecipe?.total_hpp > 0 ? Math.round(selectedRecipe.total_hpp / 0.4) : 0
     const showWarning = selectedRecipe?.margin > 0 && selectedRecipe?.margin < 40
 
+    if (loading && recipes.length === 0) {
+        return (
+            <AppLayout>
+                <Head title="Recipe Costing" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
+    if (error && recipes.length === 0) {
+        return (
+            <AppLayout>
+                <Head title="Recipe Costing" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat data resep dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
     return (
-        <>
+        <AppLayout>
             <Head title="Recipe Costing" />
 
             <div className="flex h-[calc(100vh-72px)] bg-brand-bg overflow-hidden">
@@ -157,7 +226,7 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                             return (
                                 <Link
                                     key={resep.id}
-                                    href={route('recipe.index', { id: resep.id })}
+                                    to={`/recipe-costing?id=${resep.id}`}
                                     className="block focus:outline-none focus:ring-2 focus:ring-brand-secondary rounded-xl"
                                 >
                                     <div className={`p-4 rounded-xl cursor-pointer transition-all duration-200 group relative overflow-hidden ${isActive
@@ -218,12 +287,12 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                                 </div>
                                 <div className="flex items-center gap-3">
                                     {menu?.id && (
-                                        <a
-                                            href={route('menus.edit', menu.id)}
+                                        <Link
+                                            to={`/menus?edit=${menu.id}`}
                                             className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-secondary hover:to-brand-primary rounded-xl transition-all shadow-md shadow-brand-secondary/30 active:scale-95"
                                         >
                                             Edit Menu
-                                        </a>
+                                        </Link>
                                     )}
                                 </div>
                             </div>
@@ -611,11 +680,9 @@ export default function RecipeIndex({ recipes, selectedRecipe, inventories, menu
                     </div>
                 </div>
             )}
-        </>
+        </AppLayout>
     )
 }
-
-RecipeIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
 
 // Sub-component baris ingredient (reusable untuk edit & create)
 function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove, canRemove }) {

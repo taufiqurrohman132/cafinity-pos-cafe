@@ -308,4 +308,37 @@ class ReportController extends Controller
             ->get();
         return response()->json($menus);
     }
+
+    public function exportExcel()
+    {
+        $transactions = Transaction::where('status', 'completed')->latest()->get();
+
+        $headers = [
+            'Content-Type'        => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="report-' . now()->format('Y-m-d') . '.csv"',
+        ];
+
+        return response()->stream(function () use ($transactions) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, ['ID', 'Kasir', 'Total', 'Status', 'Tanggal']);
+
+            foreach ($transactions as $tx) {
+                fputcsv($handle, [
+                    $tx->id,
+                    $tx->cashier?->name,
+                    $tx->total_amount,
+                    $tx->status,
+                    $tx->created_at,
+                ]);
+            }
+
+            fclose($handle);
+        }, 200, $headers);
+    }
+
+    public function exportPdf()
+    {
+        return response()->json(['message' => 'Export PDF belum dikonfigurasi (DomPDF).'], 500);
+    }
 }
+

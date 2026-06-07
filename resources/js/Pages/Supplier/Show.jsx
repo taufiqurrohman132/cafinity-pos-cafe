@@ -1,27 +1,42 @@
-import { Head, Link, router } from '@inertiajs/react';
-import AppLayout from '@/Layouts/AppLayout';
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AppLayout from '@/Layouts/AppLayout';
+import Head from '@/Components/Head';
+import client from '@/api/client';
 
 export default function SupplierShow({ supplier }) {
+    const navigate = useNavigate();
     const primaryContact = supplier.contacts?.find(c => c.is_primary) || supplier.contacts?.[0];
     const [noteInput, setNoteInput] = useState('');
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (confirm(`Apakah Anda yakin ingin menghapus supplier "${supplier.name}"? Semua data kontak dan PO terkait akan ikut terhapus.`)) {
-            router.delete(route('suppliers.destroy', supplier.id));
+            try {
+                await client.delete(`/suppliers/${supplier.id}`);
+                navigate('/suppliers');
+            } catch (err) {
+                console.error("Gagal menghapus supplier:", err);
+                alert("Gagal menghapus supplier.");
+            }
         }
     };
 
-    const handleStatusChange = (newStatus) => {
+    const handleStatusChange = async (newStatus) => {
         if (confirm(`Ubah status supplier ke "${newStatus === 'active' ? 'Aktif' : newStatus === 'inactive' ? 'Nonaktif' : 'Blacklist'}"?`)) {
-            router.put(route('suppliers.update', supplier.id), {
-                ...supplier,
-                contact_name: primaryContact?.name || '-',
-                contact_phone: primaryContact?.phone || '',
-                contact_email: primaryContact?.email || '',
-                contact_position: primaryContact?.position || 'Finance Manager',
-                status: newStatus
-            });
+            try {
+                await client.put(`/suppliers/${supplier.id}`, {
+                    ...supplier,
+                    contact_name: primaryContact?.name || '-',
+                    contact_phone: primaryContact?.phone || '',
+                    contact_email: primaryContact?.email || '',
+                    contact_position: primaryContact?.position || 'Finance Manager',
+                    status: newStatus
+                });
+                if (window.routerReload) window.routerReload();
+            } catch (err) {
+                console.error("Gagal memperbarui status supplier:", err);
+                alert("Gagal memperbarui status supplier.");
+            }
         }
     };
 
@@ -129,7 +144,7 @@ export default function SupplierShow({ supplier }) {
     };
 
     return (
-        <>
+        <AppLayout>
             <Head title={`Detail Supplier - ${supplier.name}`} />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6 lg:p-8">
@@ -138,7 +153,7 @@ export default function SupplierShow({ supplier }) {
                     {/* Top Breadcrumb & Actions Bar */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-light/40 pb-4">
                         <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
-                            <Link href={route('suppliers.index')} className="hover:text-brand-primary transition">Daftar Supplier</Link>
+                            <Link to="/suppliers" className="hover:text-brand-primary transition">Daftar Supplier</Link>
                             <iconify-icon icon="solar:alt-arrow-right-linear" class="text-[10px]"></iconify-icon>
                             <span className="text-gray-600">Detail Supplier</span>
                         </div>
@@ -146,7 +161,7 @@ export default function SupplierShow({ supplier }) {
                         {/* Top Actions Grid */}
                         <div className="flex flex-wrap items-center gap-2">
                             <Link 
-                                href={route('suppliers.edit', supplier.id)}
+                                to={`/suppliers/${supplier.id}/edit`}
                                 className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-gray-50 active:scale-95 transition"
                             >
                                 <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon>
@@ -470,7 +485,7 @@ export default function SupplierShow({ supplier }) {
                                         <iconify-icon icon="solar:document-text-linear" class="text-brand-primary text-base"></iconify-icon>
                                         Riwayat PO Terakhir
                                     </h3>
-                                    <Link href={route('purchase-orders.index')} className="text-xs font-extrabold text-brand-primary hover:underline">
+                                    <Link to="/purchase-orders" className="text-xs font-extrabold text-brand-primary hover:underline">
                                         Lihat Semua
                                     </Link>
                                 </div>
@@ -595,8 +610,6 @@ export default function SupplierShow({ supplier }) {
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
-
-SupplierShow.layout = (page) => <AppLayout>{page}</AppLayout>;

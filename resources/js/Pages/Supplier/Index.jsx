@@ -1,8 +1,12 @@
-import { Head, Link, router } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import AppLayout from '@/Layouts/AppLayout';
+import Head from '@/Components/Head';
+import client from '@/api/client';
 
 export default function SupplierIndex({ suppliers, filters, categories, stats, recent_activities }) {
+    const navigate = useNavigate();
+    const location = useLocation();
     const [search, setSearch] = useState(filters.search || '');
     const [status, setStatus] = useState(filters.status || '');
     const [category, setCategory] = useState(filters.category || '');
@@ -16,19 +20,19 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
 
     const handleSearch = (e) => {
         e.preventDefault();
-        router.get(route('suppliers.index'), { search, status, category }, { preserveState: true, replace: true });
+        navigate(`/suppliers?search=${search}&status=${status}&category=${category}`);
     };
 
     const handleFilterReset = () => {
         setSearch('');
         setStatus('');
         setCategory('');
-        router.get(route('suppliers.index'), {}, { replace: true });
+        navigate('/suppliers');
         setShowFilterModal(false);
     };
 
     const handleFilterApply = () => {
-        router.get(route('suppliers.index'), { search, status, category }, { preserveState: true, replace: true });
+        navigate(`/suppliers?search=${search}&status=${status}&category=${category}`);
         setShowFilterModal(false);
     };
 
@@ -46,11 +50,29 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
         );
     };
 
-    const handleDelete = (id, name) => {
+    const handleDelete = async (id, name) => {
         if (confirm(`Apakah Anda yakin ingin menghapus supplier "${name}"? Semua data kontak dan PO terkait akan ikut terhapus.`)) {
-            router.delete(route('suppliers.destroy', id), {
-                onSuccess: () => setSelectedIds([]),
-            });
+            try {
+                await client.delete(`/suppliers/${id}`);
+                if (window.routerReload) window.routerReload();
+                setSelectedIds([]);
+            } catch (err) {
+                console.error("Gagal menghapus supplier:", err);
+                alert("Gagal menghapus supplier.");
+            }
+        }
+    };
+
+    const getRelativeUrl = (url) => {
+        if (!url) return '#';
+        try {
+            const parsed = new URL(url);
+            return `/suppliers${parsed.search}`;
+        } catch (e) {
+            if (url.includes('?')) {
+                return `/suppliers?${url.split('?')[1]}`;
+            }
+            return '/suppliers';
         }
     };
 
@@ -108,7 +130,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
     };
 
     return (
-        <>
+        <AppLayout>
             <Head title="Daftar Supplier" />
 
             <div className="min-h-screen bg-brand-bg">
@@ -126,7 +148,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                 </div>
                                 <div className="flex items-center gap-3 self-end sm:self-auto">
                                     <Link 
-                                        href={route('suppliers.create')}
+                                        to="/suppliers/create"
                                         className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-brand-primary hover:bg-brand-secondary rounded-xl transition-all duration-200 shadow-sm hover:shadow active:scale-95"
                                     >
                                         <iconify-icon icon="solar:user-plus-linear" class="text-lg"></iconify-icon>
@@ -342,7 +364,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                             <td className="px-6 py-4">
                                                                 <div className="flex flex-col">
                                                                     <Link 
-                                                                        href={route('suppliers.show', supplier.id)}
+                                                                        to={`/suppliers/${supplier.id}`}
                                                                         className="font-bold text-brand-primary hover:text-brand-secondary hover:underline text-sm md:text-base transition-colors"
                                                                     >
                                                                         {supplier.name}
@@ -376,7 +398,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                             <td className="px-6 py-4 text-right">
                                                                 <div className="flex items-center justify-end gap-2">
                                                                     <Link 
-                                                                        href={route('suppliers.edit', supplier.id)}
+                                                                        to={`/suppliers/${supplier.id}/edit`}
                                                                         className="p-1.5 rounded-lg border border-brand-light text-gray-500 hover:text-brand-primary hover:border-brand-primary bg-white transition hover:shadow-sm"
                                                                     >
                                                                         <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon>
@@ -409,42 +431,40 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                 if (link.label.includes('Previous')) {
                                                     return (
                                                         <Link 
-                                                            key={link.label}
-                                                            href={link.url || '#'}
-                                                            disabled={!link.url}
-                                                            className={`w-9 h-9 border border-brand-light rounded-xl flex items-center justify-center transition-all ${
-                                                                link.url ? 'bg-white hover:bg-gray-50 text-gray-500 active:scale-95' : 'bg-gray-50 text-gray-300 cursor-not-allowed'
-                                                            }`}
-                                                        >
-                                                            <iconify-icon icon="solar:alt-arrow-left-linear" class="text-sm"></iconify-icon>
-                                                        </Link>
-                                                    );
-                                                }
-                                                if (link.label.includes('Next')) {
-                                                    return (
-                                                        <Link 
-                                                            key={link.label}
-                                                            href={link.url || '#'}
-                                                            disabled={!link.url}
-                                                            className={`w-9 h-9 border border-brand-light rounded-xl flex items-center justify-center transition-all ${
-                                                                link.url ? 'bg-white hover:bg-gray-50 text-gray-500 active:scale-95' : 'bg-gray-50 text-gray-300 cursor-not-allowed'
-                                                            }`}
-                                                        >
-                                                            <iconify-icon icon="solar:alt-arrow-right-linear" class="text-sm"></iconify-icon>
-                                                        </Link>
-                                                    );
-                                                }
-                                                return (
-                                                    <Link
-                                                        key={link.label}
-                                                        href={link.url || '#'}
-                                                        className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold transition-all ${
-                                                            link.active
-                                                                ? 'bg-brand-primary text-white shadow'
-                                                                : 'bg-white border border-brand-light text-gray-600 hover:bg-gray-50 active:scale-95'
-                                                        }`}
-                                                        dangerouslySetInnerHTML={{ __html: link.label }}
-                                                    />
+                                                                                            key={link.label}
+                                                                                            to={getRelativeUrl(link.url)}
+                                                                                            className={`w-9 h-9 border border-brand-light rounded-xl flex items-center justify-center transition-all ${
+                                                                                                link.url ? 'bg-white hover:bg-gray-50 text-gray-500 active:scale-95' : 'bg-gray-50 text-gray-300 cursor-not-allowed'
+                                                                                            } ${!link.url ? 'pointer-events-none opacity-50' : ''}`}
+                                                                                        >
+                                                                                            <iconify-icon icon="solar:alt-arrow-left-linear" class="text-sm"></iconify-icon>
+                                                                                        </Link>
+                                                                                    );
+                                                                                }
+                                                                                if (link.label.includes('Next')) {
+                                                                                    return (
+                                                                                        <Link 
+                                                                                            key={link.label}
+                                                                                            to={getRelativeUrl(link.url)}
+                                                                                            className={`w-9 h-9 border border-brand-light rounded-xl flex items-center justify-center transition-all ${
+                                                                                                link.url ? 'bg-white hover:bg-gray-50 text-gray-500 active:scale-95' : 'bg-gray-50 text-gray-300 cursor-not-allowed'
+                                                                                            } ${!link.url ? 'pointer-events-none opacity-50' : ''}`}
+                                                                                        >
+                                                                                            <iconify-icon icon="solar:alt-arrow-right-linear" class="text-sm"></iconify-icon>
+                                                                                        </Link>
+                                                                                    );
+                                                                                }
+                                                                                return (
+                                                                                    <Link
+                                                                                        key={link.label}
+                                                                                        to={getRelativeUrl(link.url)}
+                                                                                        className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold transition-all ${
+                                                                                            link.active
+                                                                                                ? 'bg-brand-primary text-white shadow'
+                                                                                                : 'bg-white border border-brand-light text-gray-600 hover:bg-gray-50 active:scale-95'
+                                                                                        } ${!link.url ? 'pointer-events-none opacity-50' : ''}`}
+                                                                                        dangerouslySetInnerHTML={{ __html: link.label }}
+                                                                                    />
                                                 );
                                             })}
                                         </div>
@@ -503,7 +523,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                 <h4 className="font-extrabold text-brand-dark text-xs uppercase tracking-wider">Aksi Cepat</h4>
                                 <div className="space-y-2.5">
                                     <Link 
-                                        href={route('suppliers.create')}
+                                        to="/suppliers/create"
                                         className="w-full flex items-center justify-between px-4 py-3 border border-brand-light hover:border-brand-primary rounded-xl text-left bg-white text-xs font-bold text-gray-700 hover:text-brand-primary transition duration-150 hover:shadow-sm"
                                     >
                                         <span className="flex items-center gap-2">
@@ -533,8 +553,6 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
-
-SupplierIndex.layout = (page) => <AppLayout>{page}</AppLayout>;

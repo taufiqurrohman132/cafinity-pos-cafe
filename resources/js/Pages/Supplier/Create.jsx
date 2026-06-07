@@ -1,8 +1,11 @@
-import { Head, Link, useForm } from '@inertiajs/react';
-import AppLayout from '@/Layouts/AppLayout';
 import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AppLayout from '@/Layouts/AppLayout';
+import { useForm } from '@/api/inertia-mock';
+import Head from '@/Components/Head';
 
 export default function SupplierCreate() {
+    const navigate = useNavigate();
     // Categories tag management
     const [categoriesList, setCategoriesList] = useState(['Hardware', 'IT Services']);
     const [newCategoryInput, setNewCategoryInput] = useState('');
@@ -76,7 +79,11 @@ export default function SupplierCreate() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('suppliers.store'));
+        post('/suppliers', {
+            onSuccess: () => {
+                navigate('/suppliers');
+            }
+        });
     };
 
     // Checklist criteria calculation
@@ -86,7 +93,7 @@ export default function SupplierCreate() {
     const hasLogisticsInfo = data.address.trim() !== '' && data.city.trim() !== '' && data.province.trim() !== '' && data.lead_time > 0 && data.min_order > 0;
 
     return (
-        <>
+        <AppLayout>
             <Head title="Tambah Supplier Baru" />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6 lg:p-8">
@@ -95,7 +102,7 @@ export default function SupplierCreate() {
                     {/* Breadcrumbs & Header */}
                     <div className="space-y-1">
                         <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
-                            <Link href={route('suppliers.index')} className="hover:text-brand-primary transition">Daftar Supplier</Link>
+                            <Link to="/suppliers" className="hover:text-brand-primary transition">Daftar Supplier</Link>
                             <iconify-icon icon="solar:alt-arrow-right-linear" class="text-[10px]"></iconify-icon>
                             <span className="text-gray-600">Tambah Supplier Baru</span>
                         </div>
@@ -542,7 +549,7 @@ export default function SupplierCreate() {
                                                 Simpan Draft
                                             </button>
                                             <Link 
-                                                href={route('suppliers.index')}
+                                                to="/suppliers"
                                                 className="flex-1 py-2 text-center text-xs font-bold text-red-500 hover:text-red-700 bg-white hover:bg-red-50 rounded-xl transition flex items-center justify-center"
                                             >
                                                 Batal
@@ -607,8 +614,6 @@ export default function SupplierCreate() {
                     </div>
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
-
-SupplierCreate.layout = (page) => <AppLayout>{page}</AppLayout>;

@@ -1,9 +1,11 @@
 // resources/js/Pages/Reports/Index.jsx
 
-import { Head, Link, router, usePage } from "@inertiajs/react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import AppLayout from "@/Layouts/AppLayout";
 import { useEffect, useRef, useState } from "react";
 import ModernDatePicker from "@/Components/ModernDatePicker";
+import Head from "@/Components/Head";
+import client from "@/api/client";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 const fmt = (n) =>
@@ -60,11 +62,10 @@ function PeriodDropdown({ value, onChange }) {
                                 onChange(opt.value);
                                 setIsOpen(false);
                             }}
-                            className={`w-full text-left px-4 py-2 text-xs font-bold transition-colors ${
-                                String(value) === opt.value
+                            className={`w-full text-left px-4 py-2 text-xs font-bold transition-colors ${String(value) === opt.value
                                     ? "bg-brand-light/40 text-brand-secondary"
                                     : "text-brand-dark hover:bg-brand-light/20"
-                            }`}
+                                }`}
                         >
                             {opt.label}
                         </button>
@@ -230,8 +231,9 @@ function DonutChart({ labels, data, bg }) {
 
 // ── FilterModal ───────────────────────────────────────────────────────────────
 function FilterModal({ open, onClose, kasir, kategori, payments, days }) {
-    const { url } = usePage();
-    const params = new URLSearchParams(url.split("?")[1] ?? "");
+    const location = useLocation();
+    const navigate = useNavigate();
+    const params = new URLSearchParams(location.search);
 
     const [form, setForm] = useState({
         start_date: params.get("start_date") ?? "",
@@ -246,12 +248,12 @@ function FilterModal({ open, onClose, kasir, kategori, payments, days }) {
     const apply = () => {
         const q = new URLSearchParams({ days, ...form });
         Object.keys(form).forEach((k) => !form[k] && q.delete(k));
-        router.get(route("reports.index") + "?" + q.toString());
+        navigate("/reports?" + q.toString());
         onClose();
     };
 
     const reset = () => {
-        router.get(route("reports.index"));
+        navigate("/reports");
         onClose();
     };
 
@@ -369,46 +371,73 @@ function FilterModal({ open, onClose, kasir, kategori, payments, days }) {
 }
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
-export default function ReportsIndex({
-    totalRevenue,
-    totalOrders,
-    avgTransaction,
-    totalProfit,
-    days,
-    revenueTrend,
-    revenueTrendType,
-    ordersTrend,
-    ordersTrendType,
-    avgTrend,
-    avgTrendType,
-    profitTrend,
-    profitTrendType,
-    bestMenus,
-    chartLabels,
-    chartRevenue,
-    chartProfit,
-    donutLabels,
-    donutData,
-    donutBg,
-    busySlots,
-    targetRevenue,
-    currentRevenue,
-    targetProgress,
-    targetRemaining,
-    recentReports,
-    filterKasir,
-    filterKategori,
-    filterPayments,
-}) {
+export default function ReportsIndex() {
     const [filterOpen, setFilterOpen] = useState(false);
-    const { url } = usePage();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     const hasFilter = ["start_date", "end_date", "kasir_id", "kategori_id", "payment_method"].some(
-        (k) => new URLSearchParams(url.split("?")[1] ?? "").has(k)
+        (k) => new URLSearchParams(location.search).has(k)
     );
 
     const changePeriod = (val) => {
-        router.get(route("reports.index") + "?days=" + val);
+        const params = new URLSearchParams(location.search);
+        params.set("days", val);
+        navigate("/reports?" + params.toString());
+    };
+
+    useEffect(() => {
+        const fetchReports = async () => {
+            setLoading(true);
+            try {
+                const res = await client.get(`/reports${location.search}`);
+                setData(res.data);
+                setError(null);
+            } catch (err) {
+                console.error("Gagal memuat laporan:", err);
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchReports();
+    }, [location.search, refreshTrigger]);
+
+    const handleExportExcel = async (e) => {
+        if (e) e.preventDefault();
+        try {
+            const response = await client.get(`/reports/export/excel${location.search}`, {
+                responseType: 'blob',
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `report-${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (err) {
+            console.error("Gagal mengunduh laporan:", err);
+            alert("Gagal mengunduh laporan.");
+        }
+    };
+
+    const handleViewReport = async (e, path) => {
+        if (e) e.preventDefault();
+        try {
+            const response = await client.get(path, {
+                responseType: 'blob',
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data], { type: 'text/html' }));
+            window.open(url, '_blank');
+        } catch (err) {
+            console.error("Gagal membuka laporan:", err);
+            alert("Gagal memuat laporan.");
+        }
     };
 
     // Chart.js perlu di-load via CDN karena tidak di-bundle
@@ -421,6 +450,38 @@ export default function ReportsIndex({
         document.head.appendChild(script);
     }, []);
 
+    const {
+        totalRevenue = 0,
+        totalOrders = 0,
+        avgTransaction = 0,
+        totalProfit = 0,
+        days = 7,
+        revenueTrend = 0,
+        revenueTrendType = "up",
+        ordersTrend = 0,
+        ordersTrendType = "up",
+        avgTrend = 0,
+        avgTrendType = "up",
+        profitTrend = 0,
+        profitTrendType = "up",
+        bestMenus = [],
+        chartLabels = [],
+        chartRevenue = [],
+        chartProfit = [],
+        donutLabels = [],
+        donutData = [],
+        donutBg = [],
+        busySlots = [],
+        targetRevenue = 0,
+        currentRevenue = 0,
+        targetProgress = 0,
+        targetRemaining = 0,
+        recentReports = [],
+        filterKasir = [],
+        filterKategori = [],
+        filterPayments = [],
+    } = data || {};
+
     const categoryColors = {
         Coffee: "bg-brand-light text-brand-primary",
         "Non-Coffee": "bg-emerald-100 text-emerald-700",
@@ -432,32 +493,66 @@ export default function ReportsIndex({
         {
             label: "Laporan Penjualan",
             icon: "solar:chart-2-linear",
-            route: "reports.sales",
+            path: "/reports/sales",
         },
         {
             label: "Laporan Harian",
             icon: "solar:calendar-mark-linear",
-            route: "reports.daily",
+            path: "/reports/daily",
         },
         {
             label: "Laporan Bulanan",
             icon: "solar:calendar-linear",
-            route: "reports.monthly",
+            path: "/reports/monthly",
         },
         {
             label: "Laba & Rugi",
             icon: "solar:graph-up-linear",
-            route: "reports.profit-loss",
+            path: "/reports/profit-loss",
         },
         {
             label: "Laporan Inventaris",
             icon: "solar:box-linear",
-            route: "reports.inventory",
+            path: "/reports/inventory",
         },
     ];
 
+    if (loading && !data) {
+        return (
+            <AppLayout>
+                <Head title="Laporan Bisnis" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat Data...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
+    if (error && !data) {
+        return (
+            <AppLayout>
+                <Head title="Laporan Bisnis" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat data laporan dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        )
+    }
+
     return (
-        <>
+        <AppLayout>
             <Head title="Laporan Bisnis" />
 
             <div className="space-y-6 p-4 md:p-6 bg-brand-bg min-h-screen">
@@ -496,8 +591,8 @@ export default function ReportsIndex({
                         </button>
 
                         {/* Export */}
-                        <a
-                            href={route("reports.export.excel")}
+                        <button
+                            onClick={handleExportExcel}
                             className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]"
                         >
                             <iconify-icon
@@ -505,7 +600,7 @@ export default function ReportsIndex({
                                 class="text-[18px]"
                             />
                             Ekspor Laporan
-                        </a>
+                        </button>
                     </div>
                 </div>
 
@@ -665,13 +760,13 @@ export default function ReportsIndex({
                                     </p>
                                 </div>
 
-                                <a
-                                    href={route("menus.index")}
+                                <Link
+                                    to="/menus"
                                     className="text-xs text-brand-secondary font-extrabold hover:text-brand-primary hover:underline flex items-center gap-1 transition-colors"
                                 >
                                     Lihat Semua Menu
                                     <iconify-icon icon="solar:arrow-right-linear" />
-                                </a>
+                                </Link>
                             </div>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left min-w-[600px]">
@@ -914,10 +1009,10 @@ export default function ReportsIndex({
                             <div className="space-y-3">
                                 {recentReports.length > 0 ? (
                                     recentReports.map((report, i) => (
-                                        <a
+                                        <button
                                             key={i}
-                                            href={route(report.route)}
-                                            className="flex items-center gap-3 p-3 rounded-xl border border-brand-light hover:bg-brand-light/20 hover:border-brand-secondary transition-all group"
+                                            onClick={(e) => handleViewReport(e, report.route)}
+                                            className="w-full text-left flex items-center gap-3 p-3 rounded-xl border border-brand-light hover:bg-brand-light/20 hover:border-brand-secondary transition-all group"
                                         >
                                             <div className="w-9 h-9 bg-brand-light/50 rounded-xl flex items-center justify-center flex-shrink-0">
                                                 <iconify-icon
@@ -940,7 +1035,7 @@ export default function ReportsIndex({
                                                 icon="solar:arrow-right-linear"
                                                 class="text-brand-light group-hover:text-brand-secondary transition-colors text-sm flex-shrink-0"
                                             />
-                                        </a>
+                                        </button>
                                     ))
                                 ) : (
                                     <div className="flex flex-col items-center gap-2 py-4">
@@ -963,8 +1058,8 @@ export default function ReportsIndex({
                                 Aksi Cepat
                             </h3>
                             <div className="grid grid-cols-2 gap-3">
-                                <a
-                                    href={route("reports.export.excel")}
+                                <button
+                                    onClick={handleExportExcel}
                                     className="flex flex-col items-center gap-2 p-3 rounded-xl border border-brand-light hover:bg-brand-light/30 hover:border-brand-secondary transition-all group"
                                 >
                                     <iconify-icon
@@ -974,7 +1069,7 @@ export default function ReportsIndex({
                                     <span className="text-[11px] font-extrabold text-brand-dark">
                                         Bagikan
                                     </span>
-                                </a>
+                                </button>
                                 <button
                                     onClick={() => window.print()}
                                     className="flex flex-col items-center gap-2 p-3 rounded-xl border border-brand-light hover:bg-brand-light/30 hover:border-brand-secondary transition-all group"
@@ -997,10 +1092,10 @@ export default function ReportsIndex({
                             </h3>
                             <div className="space-y-2">
                                 {navItems.map((item, i) => (
-                                    <a
+                                    <button
                                         key={i}
-                                        href={route(item.route)}
-                                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-brand-light/30 hover:text-brand-secondary transition-all group"
+                                        onClick={(e) => handleViewReport(e, item.path)}
+                                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-brand-light/30 hover:text-brand-secondary transition-all group text-left"
                                     >
                                         <iconify-icon
                                             icon={item.icon}
@@ -1013,7 +1108,7 @@ export default function ReportsIndex({
                                             icon="solar:arrow-right-linear"
                                             class="text-brand-light group-hover:text-brand-secondary transition-colors text-xs ml-auto"
                                         />
-                                    </a>
+                                    </button>
                                 ))}
                             </div>
                         </div>
@@ -1031,8 +1126,6 @@ export default function ReportsIndex({
                 payments={filterPayments}
                 days={days}
             />
-        </>
+        </AppLayout>
     );
 }
-
-ReportsIndex.layout = (page) => <AppLayout>{page}</AppLayout>;
