@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from "react";
-import { Head, router } from "@inertiajs/react";
+import React, { useState, useEffect, useMemo } from "react";
+import Head from "@/Components/Head";
 import { Icon } from "@iconify/react";
 import AppLayout from "@/Layouts/AppLayout";
+import client from "@/api/client";
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 const TABS = [
@@ -149,27 +150,125 @@ function NotifCard({ notification, onRead, onDelete }) {
 }
 
 // ── page ──────────────────────────────────────────────────────────────────────
-export default function Index({ notifications, stats }) {
+export default function Index({ notifications: initialNotifications, stats: initialStats }) {
+    const [notifications, setNotifications] = useState(initialNotifications || { data: [], next_page_url: null });
+    const [stats, setStats] = useState(initialStats || {});
+    const [loading, setLoading] = useState(false);
+
     const [activeTab, setActiveTab] = useState("all");
     const [showFilterPanel, setShowFilterPanel] = useState(false);
     const [filterStatus, setFilterStatus] = useState("all"); // 'all' | 'unread' | 'read'
     const [filterPriority, setFilterPriority] = useState("all"); // 'all' | 'urgent' | 'important' | 'normal'
 
-    function handleReadAll() {
-        router.post(route("notifications.read-all"));
+    useEffect(() => {
+        if (initialNotifications) {
+            setNotifications(initialNotifications);
+        }
+        if (initialStats) {
+            setStats(initialStats);
+        }
+    }, [initialNotifications, initialStats]);
+
+    async function handleReadAll() {
+        try {
+            await client.post('/notifications/read-all');
+            setNotifications(prev => ({
+                ...prev,
+                data: prev.data.map(n => ({ ...n, is_read: true }))
+            }));
+            setStats(prev => ({
+                ...prev,
+                unread: 0,
+                urgent: 0,
+                new_reviews: 0,
+                failed_payment: 0
+            }));
+        } catch (err) {
+            console.error("Gagal menandai semua dibaca:", err);
+        }
     }
 
-    function handleRead(id) {
-        router.post(route("notifications.read", id), {}, { preserveScroll: true });
+    async function handleRead(id) {
+        try {
+            await client.post(`/notifications/${id}/read`);
+            
+            // Find notification to update stats
+            const notif = notifications.data.find(n => n.id === id);
+            
+            setNotifications(prev => ({
+                ...prev,
+                data: prev.data.map(n => n.id === id ? { ...n, is_read: true } : n)
+            }));
+            
+            if (notif && !notif.is_read) {
+                setStats(prev => {
+                    const updated = { ...prev };
+                    if (updated.unread > 0) updated.unread--;
+                    if (notif.type === 'payment_failed' && updated.failed_payment > 0) {
+                        updated.failed_payment--;
+                        updated.urgent--;
+                    }
+                    if (notif.type === 'review' && updated.new_reviews > 0) {
+                        updated.new_reviews--;
+                    }
+                    return updated;
+                });
+            }
+        } catch (err) {
+            console.error("Gagal menandai dibaca:", err);
+        }
     }
 
-    function handleDelete(id) {
-        router.delete(route("notifications.destroy", id), { preserveScroll: true });
+    async function handleDelete(id) {
+        try {
+            await client.delete(`/notifications/${id}`);
+            
+            // Find notification to adjust stats if it was unread
+            const notif = notifications.data.find(n => n.id === id);
+            
+            setNotifications(prev => ({
+                ...prev,
+                data: prev.data.filter(n => n.id !== id),
+                total: (prev.total || 1) - 1
+            }));
+            
+            if (notif && !notif.is_read) {
+                setStats(prev => {
+                    const updated = { ...prev };
+                    if (updated.unread > 0) updated.unread--;
+                    if (notif.type === 'payment_failed' && updated.failed_payment > 0) {
+                        updated.failed_payment--;
+                        updated.urgent--;
+                    }
+                    if (notif.type === 'review' && updated.new_reviews > 0) {
+                        updated.new_reviews--;
+                    }
+                    return updated;
+                });
+            }
+        } catch (err) {
+            console.error("Gagal menghapus notifikasi:", err);
+        }
     }
 
-    function handleLoadMore() {
-        if (notifications.next_page_url) {
-            router.get(notifications.next_page_url, {}, { preserveScroll: true });
+    async function handleLoadMore() {
+        if (!notifications.next_page_url || loading) return;
+        
+        setLoading(true);
+        try {
+            const urlObj = new URL(notifications.next_page_url, window.location.origin);
+            const page = urlObj.searchParams.get('page');
+            
+            const res = await client.get(`/notifications`, { params: { page } });
+            
+            setNotifications(prev => ({
+                ...res.data.notifications,
+                data: [...prev.data, ...(res.data.notifications?.data || [])]
+            }));
+        } catch (err) {
+            console.error("Gagal memuat notifikasi lainnya:", err);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -205,7 +304,7 @@ export default function Index({ notifications, stats }) {
     }, [notifications.data, activeTab, filterStatus, filterPriority]);
 
     return (
-        <>
+        <AppLayout>
             <Head title="Pusat Notifikasi" />
 
             <div className="min-h-screen bg-brand-bg font-inter text-brand-dark p-4 md:p-6 space-y-6">
@@ -428,8 +527,6 @@ export default function Index({ notifications, stats }) {
                 </div>
 
             </div>
-        </>
+        </AppLayout>
     );
 }
-
-Index.layout = (page) => <AppLayout>{page}</AppLayout>;

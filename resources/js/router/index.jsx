@@ -96,7 +96,7 @@ const AppRoutes = () => {
                 path="/pos" 
                 element={
                     <ProtectedRoute allowedRoles={['owner', 'admin', 'cashier']}>
-                        <PageLoader component={POS} apiPath="/pos" />
+                        <POS />
                     </ProtectedRoute>
                 } 
             />

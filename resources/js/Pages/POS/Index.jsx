@@ -1,8 +1,7 @@
-import { useState, useMemo, useEffect, useContext } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Head from '@/Components/Head';
 import AppLayout from '@/Layouts/AppLayout';
-import { PageDataContext } from '@/Components/PageLoader';
 import client from '@/api/client';
 
 function formatRupiah(amount) {
@@ -42,28 +41,57 @@ function MenuImage({ src, name, categoryName }) {
 }
 
 
-export default function POS({
-    menus = [],
-    categories = [],
-    heldOrders = [],
-    initialCart = [],
-    resumedTransactionId = null,
-    taxPercent = 10,
-    activePromotions = [],
-    cashierName = '',
-    urls = {},
-}) {
+export default function POS() {
     const navigate = useNavigate();
-    const { reload } = useContext(PageDataContext);
+
+    const [menus, setMenus] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [heldOrders, setHeldOrders] = useState([]);
+    const [initialCart, setInitialCart] = useState([]);
+    const [resumedTransactionId, setResumedTransactionId] = useState(null);
+    const [taxPercent, setTaxPercent] = useState(10);
+    const [activePromotions, setActivePromotions] = useState([]);
+    const [cashierName, setCashierName] = useState('');
+    const [urls, setUrls] = useState({});
+
+    const [loadingData, setLoadingData] = useState(true);
+    const [errorData, setErrorData] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     const [search, setSearch] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [cart, setCart] = useState(initialCart ?? []);
+    const [cart, setCart] = useState([]);
     const [showPayment, setShowPayment] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState('cash');
     const [paidAmount, setPaidAmount] = useState(0);
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+
+    const fetchPOSData = async () => {
+        setLoadingData(true);
+        try {
+            setErrorData(null);
+            const res = await client.get('/pos');
+            setMenus(res.data.menus || []);
+            setCategories(res.data.categories || []);
+            setHeldOrders(res.data.heldOrders || []);
+            setInitialCart(res.data.initialCart || []);
+            setResumedTransactionId(res.data.resumedTransactionId);
+            setTaxPercent(res.data.taxPercent ?? 10);
+            setActivePromotions(res.data.activePromotions || []);
+            setCashierName(res.data.cashierName || '');
+            setUrls(res.data.urls || {});
+        } catch (err) {
+            console.error("Gagal memuat data POS:", err);
+            setErrorData(err);
+        } finally {
+            setLoadingData(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchPOSData();
+    }, [refreshTrigger]);
 
     useEffect(() => {
         setCart(initialCart ?? []);
@@ -152,7 +180,7 @@ export default function POS({
             await client.post(endpoint, { items: buildPayload().items });
             setCart([]);
             setShowPayment(false);
-            reload();
+            setRefreshTrigger(prev => prev + 1);
         } catch (e) {
             setErrorMessage(e.response?.data?.message || e.message || 'Terjadi kesalahan.');
         } finally {
@@ -165,11 +193,45 @@ export default function POS({
         try {
             const url = (urls.resume || '/api/pos/resume/__ID__').replace('__ID__', heldId).replace(/^\/api/, '');
             await client.post(url);
-            reload();
+            setRefreshTrigger(prev => prev + 1);
         } catch (e) {
             setErrorMessage(e.response?.data?.message || e.message || 'Terjadi kesalahan.');
         }
     };
+
+    if (loadingData && menus.length === 0) {
+        return (
+            <AppLayout>
+                <Head title="POS Transaksi" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-sm font-bold text-brand-primary">Memuat POS...</p>
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
+
+    if (errorData && menus.length === 0) {
+        return (
+            <AppLayout>
+                <Head title="POS Transaksi" />
+                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-brand-primary/70 mb-6">
+                            Gagal memuat data POS dari server. Silakan coba lagi.
+                        </p>
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
 
     return (
         <AppLayout>
