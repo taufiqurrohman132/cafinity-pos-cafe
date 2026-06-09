@@ -367,7 +367,7 @@ export default function PromotionsIndex() {
                         onClick={() => { promoForm.reset(); bundleForm.reset(); setIsCreateModalOpen(true); }}
                         className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98] text-[13px] self-start"
                     >
-                        <Icon icon="solar:add-circle-bold" className="text-lg" />
+                        <Icon icon="solar:add-circle-linear" className="text-lg" />
                         Buat Promo Baru
                     </button>
                 </div>
@@ -377,7 +377,7 @@ export default function PromotionsIndex() {
                     {/* Card 1 */}
                     <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4">
                         <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0">
-                            <Icon icon="solar:ticket-bold-duotone" className="text-[22px] text-brand-secondary" />
+                            <Icon icon="solar:ticket-linear" className="text-[22px] text-brand-secondary" />
                         </div>
                         <div>
                             <p className="text-[10px] font-extrabold text-brand-primary uppercase tracking-widest">Total Redemptions</p>
@@ -389,7 +389,7 @@ export default function PromotionsIndex() {
                     {/* Card 2 */}
                     <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4">
                         <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0">
-                            <Icon icon="solar:graph-up-bold-duotone" className="text-[22px] text-brand-secondary" />
+                            <Icon icon="solar:graph-up-linear" className="text-[22px] text-brand-secondary" />
                         </div>
                         <div>
                             <p className="text-[10px] font-extrabold text-brand-primary uppercase tracking-widest">Estimasi Revenue</p>
@@ -403,7 +403,7 @@ export default function PromotionsIndex() {
                     {/* Card 3 */}
                     <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4">
                         <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0">
-                            <Icon icon="solar:tag-bold-duotone" className="text-[22px] text-brand-secondary" />
+                            <Icon icon="solar:tag-linear" className="text-[22px] text-brand-secondary" />
                         </div>
                         <div>
                             <p className="text-[10px] font-extrabold text-brand-primary uppercase tracking-widest">Kampanye Aktif</p>
@@ -415,7 +415,7 @@ export default function PromotionsIndex() {
                     {/* Card 4 */}
                     <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4">
                         <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0">
-                            <Icon icon="solar:star-bold-duotone" className="text-[22px] text-brand-secondary" />
+                            <Icon icon="solar:star-linear" className="text-[22px] text-brand-secondary" />
                         </div>
                         <div>
                             <p className="text-[10px] font-extrabold text-brand-primary uppercase tracking-widest">Efisiensi Promo</p>
@@ -431,7 +431,7 @@ export default function PromotionsIndex() {
                     <div className="relative z-10">
                         <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
                             <div className="flex items-center gap-2">
-                                <Icon icon="solar:graph-up-bold-duotone" className="text-lg text-brand-secondary" />
+                                <Icon icon="solar:graph-up-linear" className="text-lg text-brand-secondary" />
                                 <span className="text-[10px] font-extrabold text-brand-secondary uppercase tracking-widest">Bundel Spesial</span>
                             </div>
                             <span className="text-[10px] font-extrabold bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-3 py-1 rounded-full tracking-wide">
@@ -573,7 +573,7 @@ export default function PromotionsIndex() {
                                                 )}
                                                 className="text-brand-primary/40 hover:text-brand-secondary w-8 h-8 rounded-lg flex items-center justify-center hover:bg-brand-light/50 transition-all ml-auto"
                                             >
-                                                <Icon icon="solar:menu-dots-bold" className="text-base" />
+                                                <Icon icon="solar:menu-dots-linear" className="text-base" />
                                             </button>
                                             {activeDropdownId === `${camp.type}-${camp.id}` && (
                                                 <div className="absolute right-0 mt-1 w-40 bg-white border border-brand-light rounded-xl shadow-lg z-10 py-1.5 text-left">
@@ -620,7 +620,7 @@ export default function PromotionsIndex() {
                     <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-xl bg-brand-light flex items-center justify-center">
-                                <Icon icon="solar:graph-up-bold-duotone" className="text-lg text-brand-secondary" />
+                                <Icon icon="solar:graph-up-linear" className="text-lg text-brand-secondary" />
                             </div>
                             <div>
                                 <h3 className="text-sm font-extrabold text-brand-dark tracking-tight">Tren Penebusan Mingguan</h3>
@@ -682,7 +682,7 @@ export default function PromotionsIndex() {
                                     onClick={() => { setIsEditModalOpen(false); setEditingCampaign(null); }}
                                     className="w-8 h-8 rounded-xl bg-brand-light/50 hover:bg-rose-100 hover:text-rose-600 flex items-center justify-center text-brand-primary transition-colors"
                                 >
-                                    <Icon icon="solar:close-circle-bold" className="text-lg" />
+                                    <Icon icon="solar:close-circle-linear" className="text-lg" />
                                 </button>
                             </div>
                         )}
@@ -868,7 +868,7 @@ export default function PromotionsIndex() {
             {showToast && (
                 <div className="fixed bottom-6 right-6 z-[100] bg-white border border-brand-light rounded-2xl p-4 shadow-xl flex items-center gap-3 max-w-sm">
                     <div className="w-8 h-8 rounded-full bg-brand-light flex items-center justify-center flex-shrink-0">
-                        <Icon icon="solar:check-circle-bold-duotone" className="text-xl text-brand-secondary" />
+                        <Icon icon="solar:check-circle-linear" className="text-xl text-brand-secondary" />
                     </div>
                     <div className="flex-1 min-w-0 pr-2">
                         <p className="text-xs font-extrabold text-brand-dark">Sukses!</p>
@@ -876,7 +876,7 @@ export default function PromotionsIndex() {
                     </div>
                     <button onClick={() => setShowToast(false)}
                         className="text-brand-primary/40 hover:text-brand-dark text-xs font-bold flex-shrink-0">
-                        <Icon icon="solar:close-circle-bold" className="text-lg" />
+                        <Icon icon="solar:close-circle-linear" className="text-lg" />
                     </button>
                 </div>
             )}

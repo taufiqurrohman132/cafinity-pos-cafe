@@ -11,45 +11,48 @@ Berikut adalah diagram hubungan entitas (ERD) yang memperlihatkan tabel-tabel da
 ```mermaid
 erDiagram
     USERS {
-        int id PK
+        bigint id PK
         string name
         string email UK
+        timestamp email_verified_at
         string password
         string role
-        string status
-        datetime shift_terakhir
+        enum status
+        timestamp shift_terakhir
         boolean two_fa_enabled
         string two_fa_method
         string two_fa_secret
-        datetime last_login
-        datetime created_at
-        datetime updated_at
+        timestamp last_login
+        string remember_token
+        timestamp created_at
+        timestamp updated_at
     }
 
     CATEGORIES {
-        int id PK
+        bigint id PK
         string name
         string slug UK
+        string description
         boolean is_active
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     MENUS {
-        int id PK
-        int category_id FK
+        bigint id PK
+        bigint category_id FK
         string name
         string slug UK
         text description
         int price
         string image
         boolean is_active
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     SUPPLIERS {
-        int id PK
+        bigint id PK
         string name
         string phone
         string email
@@ -65,66 +68,66 @@ erDiagram
         text notes
         string code UK
         boolean is_active
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     INVENTORY_CATEGORIES {
-        int id PK
+        bigint id PK
         string name
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     INVENTORIES {
-        int id PK
-        int inventory_category_id FK
-        int supplier_id FK
+        bigint id PK
+        bigint inventory_category_id FK
+        bigint supplier_id FK
         string name
         string unit
-        float stock
-        float min_stock
+        double stock
+        double min_stock
         int price_per_unit
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     INVENTORY_LOGS {
-        int id PK
-        int inventory_id FK
-        int user_id FK
-        string type
-        float qty
-        float stock_before
-        float stock_after
+        bigint id PK
+        bigint inventory_id FK
+        bigint user_id FK
+        enum type
+        double qty
+        double stock_before
+        double stock_after
         text notes
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     RECIPES {
-        int id PK
-        int menu_id FK "unique"
+        bigint id PK
+        bigint menu_id FK "unique"
         int total_hpp
         text notes
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     RECIPE_INGREDIENTS {
-        int id PK
-        int recipe_id FK
-        int inventory_id FK
-        float qty
+        bigint id PK
+        bigint recipe_id FK
+        bigint inventory_id FK
+        double qty
         string unit
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     TRANSACTIONS {
-        int id PK
-        int cashier_id FK
-        string status
+        bigint id PK
+        bigint cashier_id FK
+        enum status
         int total_amount
         int discount
         int tax
@@ -132,186 +135,186 @@ erDiagram
         int paid_amount
         int change_amount
         text notes
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     TRANSACTION_ITEMS {
-        int id PK
-        int transaction_id FK
-        int menu_id FK
+        bigint id PK
+        bigint transaction_id FK
+        bigint menu_id FK
         int qty
         int price
         int discount
         int subtotal
-        text notes
-        datetime created_at
-        datetime updated_at
+        string notes
+        timestamp created_at
+        timestamp updated_at
     }
 
     KITCHEN_ORDERS {
-        int id PK
-        int transaction_id FK "unique"
-        string status
-        datetime prepared_at
-        datetime completed_at
+        bigint id PK
+        bigint transaction_id FK "unique"
+        enum status
         text notes
-        datetime created_at
-        datetime updated_at
+        timestamp prepared_at
+        timestamp completed_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     KITCHEN_ORDER_ITEMS {
-        int id PK
-        int kitchen_order_id FK
-        int menu_id FK
+        bigint id PK
+        bigint kitchen_order_id FK
+        bigint menu_id FK
         int qty
-        string status
-        text notes
-        datetime created_at
-        datetime updated_at
+        string notes
+        timestamp created_at
+        timestamp updated_at
     }
 
     PURCHASE_ORDERS {
-        int id PK
-        int supplier_id FK
-        int user_id FK
-        string status
-        int total_amount
+        bigint id PK
+        bigint supplier_id FK
+        bigint user_id FK
         string po_number UK
         date delivery_date
         string delivery_location
         string reference_number
+        enum status
+        int total_amount
         text notes
-        int created_by FK
-        datetime approved_at
-        datetime ordered_at
-        datetime received_at
-        datetime created_at
-        datetime updated_at
+        bigint created_by FK
+        timestamp approved_at
+        timestamp ordered_at
+        timestamp received_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     PURCHASE_ORDER_ITEMS {
-        int id PK
-        int purchase_order_id FK
-        int inventory_id FK
-        float qty
+        bigint id PK
+        bigint purchase_order_id FK
+        bigint inventory_id FK
+        double qty
         string unit
         int price_per_unit
         int subtotal
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     PROMOTIONS {
-        int id PK
+        bigint id PK
         string name
-        string type
+        enum type
         int value
         int min_purchase
         date start_date
         date end_date
         boolean is_active
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     BUNDLES {
-        int id PK
+        bigint id PK
         string name
         text description
         int price
         boolean is_active
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     BUNDLE_ITEMS {
-        int id PK
-        int bundle_id FK
-        int menu_id FK
+        bigint id PK
+        bigint bundle_id FK
+        bigint menu_id FK
         int qty
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     TARGETS {
-        int id PK
+        bigint id PK
         string label
-        string type
-        int target_value
-        int current_value
+        enum type
+        bigint target_value
+        bigint current_value
         string period
         date start_date
         date end_date
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     SETTINGS {
-        int id PK
+        bigint id PK
         string key UK
         text value
-        datetime created_at
-        datetime updated_at
+        string group
+        timestamp created_at
+        timestamp updated_at
     }
 
     AUDIT_LOGS {
-        int id PK
-        int user_id FK
+        bigint id PK
+        bigint user_id FK
         string action
-        string model_type
-        int model_id
+        string target_type
+        bigint target_id
         json metadata
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     SUPPLIER_CONTACTS {
-        int id PK
-        int supplier_id FK
+        bigint id PK
+        bigint supplier_id FK
         string name
         string phone
         string email
         string position
         boolean is_primary
-        datetime created_at
-        datetime updated_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     SUPPLIER_DOCUMENTS {
-        int id PK
-        int supplier_id FK
+        bigint id PK
+        bigint supplier_id FK
         string type
         string filename
         string path
-        int uploaded_by FK
-        datetime uploaded_at
-        datetime created_at
-        datetime updated_at
+        bigint uploaded_by FK
+        timestamp uploaded_at
+        timestamp created_at
+        timestamp updated_at
     }
 
     PO_APPROVALS {
-        int id PK
-        int purchase_order_id FK
-        int approver_id FK
+        bigint id PK
+        bigint purchase_order_id FK
+        bigint approver_id FK
         string status
         text notes
         int level
-        datetime acted_at
-        datetime created_at
-        datetime updated_at
+        timestamp acted_at
+        timestamp created_at
+        timestamp updated_at
     }
 
-    SESSIONS {
-        int id PK
-        int user_id FK
+    USER_SESSIONS {
+        bigint id PK
+        bigint user_id FK
         string device
         string browser
         string ip_address
         string location
-        datetime last_activity
-        datetime created_at
-        datetime updated_at
+        timestamp last_activity
+        timestamp created_at
+        timestamp updated_at
     }
 
     %% ==========================================
@@ -323,7 +326,7 @@ erDiagram
     USERS ||--o{ INVENTORY_LOGS : "user_id"
     USERS ||--o{ PURCHASE_ORDERS : "user_id"
     USERS ||--o{ AUDIT_LOGS : "user_id"
-    USERS ||--o{ SESSIONS : "user_id"
+    USERS ||--o{ USER_SESSIONS : "user_id"
     USERS ||--o{ SUPPLIER_DOCUMENTS : "uploaded_by"
     USERS ||--o{ PO_APPROVALS : "approver_id"
     USERS ||--o{ PURCHASE_ORDERS : "created_by"
@@ -389,7 +392,7 @@ flowchart TD
     SUPPLIER_CONTACTS[SUPPLIER_CONTACTS] ::: entity
     SUPPLIER_DOCUMENTS[SUPPLIER_DOCUMENTS] ::: entity
     PO_APPROVALS[PO_APPROVALS] ::: entity
-    SESSIONS[SESSIONS] ::: entity
+    USER_SESSIONS[USER_SESSIONS] ::: entity
 
     %% ==========================================
     %% ATRIBUT UTAMA (OVALS / STADIUMS)
@@ -451,7 +454,7 @@ flowchart TD
     PA_id([<u>id</u>]) ::: attribute
     PA_status([status]) ::: attribute
 
-    %% Atribut SESSIONS
+    %% Atribut USER_SESSIONS
     SE_id([<u>id</u>]) ::: attribute
     SE_device([device]) ::: attribute
 
@@ -562,10 +565,10 @@ flowchart TD
     PO_APPROVALS ---|N| Rel_PO_PA
     PO_APPROVALS ---|N| Rel_User_PA
 
-    %% SESSIONS
-    SESSIONS --- SE_id
-    SESSIONS --- SE_device
-    SESSIONS ---|N| Rel_User_SE
+    %% USER_SESSIONS
+    USER_SESSIONS --- SE_id
+    USER_SESSIONS --- SE_device
+    USER_SESSIONS ---|N| Rel_User_SE
 
     %% Menghubungkan Atribut Relasi
     Rel_Menu_Tx --- TI_qty
@@ -581,258 +584,310 @@ Berikut adalah spesifikasi kolom untuk setiap entitas/tabel yang ada di dalam si
 
 ### 1. Tabel `users`
 Tabel ini digunakan untuk menyimpan data identitas karyawan kafe (owner, admin, kasir).
-*   `id` (INT, PK, Auto Increment): ID unik pengguna.
+*   `id` (BIGINT, PK, Auto Increment): ID unik pengguna.
 *   `name` (VARCHAR): Nama lengkap karyawan.
 *   `email` (VARCHAR, Unique): Alamat email untuk kredensial login.
+*   `email_verified_at` (TIMESTAMP, Nullable): Waktu email diverifikasi.
 *   `password` (VARCHAR): Kata sandi terenkripsi (bcrypt).
-*   `role` (ENUM: `'owner'`, `'admin'`, `'cashier'`): Peran hak akses staf.
-*   `status` (VARCHAR): Status keaktifan akun (default: `'active'`).
-*   `shift_terakhir` (DATETIME, Nullable): Waktu shift kerja kasir terakhir kali dibuka.
-*   `two_fa_enabled` (BOOLEAN): Status 2FA aktif atau tidak (default: `false`).
-*   `two_fa_method` (VARCHAR, Nullable): Metode 2FA yang digunakan (`'totp'`, `'sms'`).
+*   `role` (VARCHAR): Peran hak akses staf (default: `'cashier'`).
+*   `status` (ENUM: `'active'`, `'inactive'`, `'pending'`, `'deactivated'`): Status keaktifan akun (default: `'active'`).
+*   `shift_terakhir` (TIMESTAMP, Nullable): Waktu shift kerja kasir terakhir kali dibuka.
+*   `two_fa_enabled` (TINYINT): Status 2FA aktif atau tidak (default: `0`).
+*   `two_fa_method` (VARCHAR, Nullable): Metode 2FA yang digunakan.
 *   `two_fa_secret` (VARCHAR, Nullable): Secret key untuk autentikasi TOTP.
-*   `last_login` (DATETIME, Nullable): Waktu aktivitas login terakhir pengguna.
+*   `last_login` (TIMESTAMP, Nullable): Waktu aktivitas login terakhir pengguna.
+*   `remember_token` (VARCHAR, Nullable): Token untuk remember me login.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 2. Tabel `categories`
 Tabel ini mengelompokkan menu makanan dan minuman (contoh: Coffee, Non-Coffee, Pastry).
-*   `id` (INT, PK, Auto Increment): ID unik kategori menu.
+*   `id` (BIGINT, PK, Auto Increment): ID unik kategori menu.
 *   `name` (VARCHAR): Nama kategori.
 *   `slug` (VARCHAR, Unique): Slug URL kategori.
-*   `is_active` (BOOLEAN): Status keaktifan kategori (default: `true`).
+*   `description` (VARCHAR, Nullable): Deskripsi detail kategori.
+*   `is_active` (TINYINT): Status keaktifan kategori (default: `1`).
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 3. Tabel `menus`
 Tabel yang menampung daftar produk/hidangan yang dijual ke pelanggan.
-*   `id` (INT, PK, Auto Increment): ID unik menu.
-*   `category_id` (INT, FK ke `categories`): Kategori menu.
+*   `id` (BIGINT, PK, Auto Increment): ID unik menu.
+*   `category_id` (BIGINT, FK ke `categories`): Kategori menu.
 *   `name` (VARCHAR): Nama menu hidangan.
 *   `slug` (VARCHAR, Unique): Slug URL menu.
 *   `description` (TEXT, Nullable): Deskripsi detail menu.
-*   `price` (UNSIGNED INT): Harga jual menu.
+*   `price` (UNSIGNED INT): Harga jual menu (default: `0`).
 *   `image` (VARCHAR, Nullable): Path file gambar menu.
-*   `is_active` (BOOLEAN): Status menu dapat dipesan atau tidak (default: `true`).
+*   `is_active` (TINYINT): Status menu dapat dipesan atau tidak (default: `1`).
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 4. Tabel `suppliers`
 Tabel penyedia bahan baku mentah untuk operasional kafe.
-*   `id` (INT, PK, Auto Increment): ID unik supplier.
+*   `id` (BIGINT, PK, Auto Increment): ID unik supplier.
 *   `name` (VARCHAR): Nama supplier / badan usaha.
 *   `phone` (VARCHAR, Nullable): Nomor kontak supplier.
-*   `email` (VARCHAR): Kontak email utama.
-*   `address` (TEXT): Alamat pengiriman utama.
-*   `city` (VARCHAR): Kota lokasi supplier.
-*   `province` (VARCHAR): Provinsi lokasi supplier.
-*   `category` (VARCHAR): Kategori penyuplaian (contoh: `'Bahan Baku'`, `'Packaging'`, dll).
-*   `payment_term` (VARCHAR): Ketentuan pembayaran (contoh: `'COD'`, `'Net7'`, `'Net14'`, `'Net30'`).
-*   `lead_time` (INT): Waktu tunggu pengiriman barang (dalam hari).
-*   `min_order` (DECIMAL): Batas minimum nilai pembelian (minimum order value).
-*   `status` (VARCHAR): Status kemitraan (`'active'`, `'inactive'`, `'blacklist'`).
-*   `rating` (DECIMAL, Nullable): Rata-rata performa supplier dihitung dari riwayat PO.
+*   `email` (VARCHAR, Nullable): Kontak email utama.
+*   `address` (TEXT, Nullable): Alamat pengiriman utama.
+*   `city` (VARCHAR, Nullable): Kota lokasi supplier.
+*   `province` (VARCHAR, Nullable): Provinsi lokasi supplier.
+*   `category` (VARCHAR, Nullable): Kategori penyuplaian (contoh: `'Bahan Baku'`, `'Packaging'`, dll).
+*   `payment_term` (VARCHAR, Nullable): Ketentuan pembayaran (contoh: `'COD'`, `'Net7'`, `'Net14'`, `'Net30'`).
+*   `lead_time` (UNSIGNED INT): Waktu tunggu pengiriman barang (dalam hari, default: `0`).
+*   `min_order` (DECIMAL(15,2)): Batas minimum nilai pembelian (minimum order value, default: `0.00`).
+*   `status` (VARCHAR): Status kemitraan (default: `'active'`).
+*   `rating` (DECIMAL(3,2)): Rata-rata performa supplier dihitung dari riwayat PO (default: `0.00`).
 *   `notes` (TEXT, Nullable): Catatan internal tentang supplier.
-*   `code` (VARCHAR, Unique): Kode unik pengenal supplier (format: SUP-XXXX).
-*   `is_active` (BOOLEAN): Status keaktifan kerja sama supplier.
+*   `code` (VARCHAR, Unique, Nullable): Kode unik pengenal supplier (format: SUP-XXXX).
+*   `is_active` (TINYINT): Status keaktifan kerja sama supplier (default: `1`).
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 5. Tabel `inventory_categories`
 Tabel pengelompokan bahan baku (contoh: Beans, Milk, Syrup, Packaging).
-*   `id` (INT, PK, Auto Increment): ID unik kategori inventaris.
+*   `id` (BIGINT, PK, Auto Increment): ID unik kategori inventaris.
 *   `name` (VARCHAR): Nama kategori persediaan.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 6. Tabel `inventories`
 Tabel untuk mencatat stok fisik bahan baku mentah yang disimpan di gudang kafe.
-*   `id` (INT, PK, Auto Increment): ID unik item inventaris.
-*   `inventory_category_id` (INT, FK ke `inventory_categories`): Kategori bahan baku.
-*   `supplier_id` (INT, FK ke `suppliers`, Nullable): Pemasok utama barang.
+*   `id` (BIGINT, PK, Auto Increment): ID unik item inventaris.
+*   `inventory_category_id` (BIGINT, FK ke `inventory_categories`, Nullable): Kategori bahan baku.
+*   `supplier_id` (BIGINT, FK ke `suppliers`, Nullable): Pemasok utama barang.
 *   `name` (VARCHAR): Nama bahan baku (misal: Biji Kopi Arabika, Susu UHT).
 *   `unit` (VARCHAR): Satuan ukur terkecil (gram, ml, pcs, pack).
-*   `stock` (FLOAT): Kuantitas stok fisik terkini di gudang.
-*   `min_stock` (FLOAT): Ambang batas peringatan stok rendah.
-*   `price_per_unit` (UNSIGNED INT): HPP rata-rata per satuan unit bahan baku.
+*   `stock` (DOUBLE): Kuantitas stok fisik terkini di gudang (default: `0`).
+*   `min_stock` (DOUBLE): Ambang batas peringatan stok rendah (default: `0`).
+*   `price_per_unit` (UNSIGNED INT): HPP rata-rata per satuan unit bahan baku (default: `0`).
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 7. Tabel `inventory_logs`
 Tabel historis perubahan stok masuk/keluar untuk keperluan audit persediaan.
-*   `id` (INT, PK, Auto Increment): ID log.
-*   `inventory_id` (INT, FK ke `inventories`): Bahan baku terkait.
-*   `user_id` (INT, FK ke `users`): Operator yang merubah stok.
-*   `type` (VARCHAR): Jenis mutasi (`'in'`, `'out'`, `'restock'`, `'waste'`).
-*   `qty` (FLOAT): Jumlah barang yang bermutasi.
-*   `stock_before` (FLOAT): Kuantitas stok sebelum mutasi.
-*   `stock_after` (FLOAT): Kuantitas stok sesudah mutasi.
+*   `id` (BIGINT, PK, Auto Increment): ID log.
+*   `inventory_id` (BIGINT, FK ke `inventories`): Bahan baku terkait.
+*   `user_id` (BIGINT, FK ke `users`, Nullable): Operator yang merubah stok.
+*   `type` (ENUM: `'in'`, `'out'`, `'adjustment'`, `'restock'`): Jenis mutasi (default: `'adjustment'`).
+*   `qty` (DOUBLE): Jumlah barang yang bermutasi.
+*   `stock_before` (DOUBLE): Kuantitas stok sebelum mutasi.
+*   `stock_after` (DOUBLE): Kuantitas stok sesudah mutasi.
 *   `notes` (TEXT, Nullable): Catatan keterangan mutasi.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 8. Tabel `recipes`
 Tabel induk untuk formula resep menu. Menghubungkan menu dengan total biaya bahan baku.
-*   `id` (INT, PK, Auto Increment): ID unik resep.
-*   `menu_id` (INT, FK ke `menus`, Unique): Relasi satu resep untuk satu menu (1:1).
-*   `total_hpp` (UNSIGNED INT): Total biaya HPP gabungan bahan penyusun resep.
+*   `id` (BIGINT, PK, Auto Increment): ID unik resep.
+*   `menu_id` (BIGINT, FK ke `menus`, Unique): Relasi satu resep untuk satu menu (1:1).
+*   `total_hpp` (INT): Total biaya HPP gabungan bahan penyusun resep (default: `0`).
 *   `notes` (TEXT, Nullable): Catatan pembuatan resep.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 9. Tabel `recipe_ingredients`
 Tabel detil bahan baku penyusun sebuah resep (tabel pivot resep dan inventaris).
-*   `id` (INT, PK, Auto Increment): ID unik item resep.
-*   `recipe_id` (INT, FK ke `recipes`): Resep terkait.
-*   `inventory_id` (INT, FK ke `inventories`): Bahan baku yang dibutuhkan.
-*   `qty` (FLOAT): Jumlah takaran bahan yang dibutuhkan (misal: 15.00).
+*   `id` (BIGINT, PK, Auto Increment): ID unik item resep.
+*   `recipe_id` (BIGINT, FK ke `recipes`): Resep terkait.
+*   `inventory_id` (BIGINT, FK ke `inventories`): Bahan baku yang dibutuhkan.
+*   `qty` (DOUBLE): Jumlah takaran bahan yang dibutuhkan (default: `0`).
 *   `unit` (VARCHAR): Satuan takar (gram, ml, pcs).
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 10. Tabel `transactions`
 Tabel transaksi utama untuk mencatat setiap checkout penjualan di kasir.
-*   `id` (INT, PK, Auto Increment): ID unik transaksi.
-*   `cashier_id` (INT, FK ke `users`): Pengguna dengan peran kasir yang memproses.
-*   `status` (ENUM: `'pending'`, `'held'`, `'completed'`, `'cancelled'`, `'refunded'`): Status transaksi.
-*   `total_amount` (UNSIGNED INT): Nilai total akhir setelah pajak & diskon.
-*   `discount` (UNSIGNED INT): Nilai diskon dalam nominal rupiah.
-*   `tax` (UNSIGNED INT): Nilai pajak PPN (nominal rupiah).
-*   `payment_method` (VARCHAR): Metode pembayaran (`'cash'`, `'qris'`, `'debit'`).
-*   `paid_amount` (UNSIGNED INT): Uang tunai yang dibayar pelanggan.
-*   `change_amount` (UNSIGNED INT): Kembalian uang pelanggan.
+*   `id` (BIGINT, PK, Auto Increment): ID unik transaksi.
+*   `cashier_id` (BIGINT, FK ke `users`): Pengguna dengan peran kasir yang memproses.
+*   `status` (ENUM: `'pending'`, `'held'`, `'completed'`, `'cancelled'`, `'refunded'`): Status transaksi (default: `'pending'`).
+*   `total_amount` (UNSIGNED INT): Nilai total akhir setelah pajak & diskon (default: `0`).
+*   `discount` (UNSIGNED INT): Nilai diskon dalam nominal rupiah (default: `0`).
+*   `tax` (UNSIGNED INT): Nilai pajak PPN (nominal rupiah, default: `0`).
+*   `payment_method` (VARCHAR, Nullable): Metode pembayaran (`'cash'`, `'qris'`, `'debit'`).
+*   `paid_amount` (UNSIGNED INT): Uang tunai yang dibayar pelanggan (default: `0`).
+*   `change_amount` (UNSIGNED INT): Kembalian uang pelanggan (default: `0`).
 *   `notes` (TEXT, Nullable): Catatan transaksi kasir.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 11. Tabel `transaction_items`
 Tabel detil menu makanan/minuman yang dibeli dalam satu transaksi.
-*   `id` (INT, PK, Auto Increment): ID unik item transaksi.
-*   `transaction_id` (INT, FK ke `transactions`): Nota transaksi terkait.
-*   `menu_id` (INT, FK ke `menus`): Menu yang dibeli.
-*   `qty` (UNSIGNED INT): Jumlah pembelian menu.
-*   `price` (UNSIGNED INT): Harga jual menu pada saat transaksi dilakukan.
-*   `discount` (UNSIGNED INT): Nilai diskon potongan item menu.
-*   `subtotal` (UNSIGNED INT): Total biaya item (`qty * price - discount`).
+*   `id` (BIGINT, PK, Auto Increment): ID unik item transaksi.
+*   `transaction_id` (BIGINT, FK ke `transactions`): Nota transaksi terkait.
+*   `menu_id` (BIGINT, FK ke `menus`): Menu yang dibeli.
+*   `qty` (UNSIGNED INT): Jumlah pembelian menu (default: `1`).
+*   `price` (UNSIGNED INT): Harga jual menu pada saat transaksi dilakukan (default: `0`).
+*   `discount` (UNSIGNED INT): Nilai diskon potongan item menu (default: `0`).
+*   `subtotal` (UNSIGNED INT): Total biaya item (`qty * price - discount`, default: `0`).
 *   `notes` (VARCHAR, Nullable): Catatan pesanan pelanggan (misal: *less sugar*).
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 12. Tabel `kitchen_orders`
 Tabel induk antrean digital di dapur untuk memantau status pembuatan pesanan.
-*   `id` (INT, PK, Auto Increment): ID unik antrean dapur.
-*   `transaction_id` (INT, FK ke `transactions`, Unique): Relasi 1:1 ke nota transaksi penjualan.
-*   `status` (ENUM: `'pending'`, `'preparing'`, `'ready'`, `'completed'`): Status kesiapan masakan.
-*   `prepared_at` (DATETIME, Nullable): Waktu koki mulai menyiapkan pesanan.
-*   `completed_at` (DATETIME, Nullable): Waktu pesanan selesai dibuat dan disajikan.
+*   `id` (BIGINT, PK, Auto Increment): ID unik antrean dapur.
+*   `transaction_id` (BIGINT, FK ke `transactions`, Unique): Relasi 1:1 ke nota transaksi penjualan.
+*   `status` (ENUM: `'pending'`, `'preparing'`, `'ready'`, `'completed'`): Status kesiapan masakan (default: `'pending'`).
 *   `notes` (TEXT, Nullable): Catatan khusus dari kasir untuk dapur.
+*   `prepared_at` (TIMESTAMP, Nullable): Waktu koki mulai menyiapkan pesanan.
+*   `completed_at` (TIMESTAMP, Nullable): Waktu pesanan selesai dibuat dan disajikan.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 13. Tabel `kitchen_order_items`
 Tabel rincian item hidangan yang harus dibuat oleh koki.
-*   `id` (INT, PK, Auto Increment): ID unik item dapur.
-*   `kitchen_order_id` (INT, FK ke `kitchen_orders`): Rujukan antrean dapur.
-*   `menu_id` (INT, FK ke `menus`): Menu hidangan yang disiapkan.
+*   `id` (BIGINT, PK, Auto Increment): ID unik item dapur.
+*   `kitchen_order_id` (BIGINT, FK ke `kitchen_orders`): Rujukan antrean dapur.
+*   `menu_id` (BIGINT, FK ke `menus`): Menu hidangan yang disiapkan.
 *   `qty` (UNSIGNED INT): Jumlah porsi.
-*   `status` (VARCHAR): Status pengerjaan per item (misal: `'pending'`, `'preparing'`, `'done'`).
 *   `notes` (VARCHAR, Nullable): Salinan catatan instruksi masak dari kasir.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 14. Tabel `purchase_orders`
 Tabel pengadaan bahan baku ke supplier untuk mengisi ulang stok gudang.
-*   `id` (INT, PK, Auto Increment): ID unik Purchase Order.
-*   `supplier_id` (INT, FK ke `suppliers`): Pemasok tujuan order.
-*   `user_id` (INT, FK ke `users`): Pengguna terkait (sudah ada).
-*   `status` (ENUM: `'pending'`, `'approved'`, `'rejected'`, `'received'`): Tahapan approval PO.
-*   `total_amount` (UNSIGNED INT): Estimasi total biaya belanja PO.
-*   `po_number` (VARCHAR, Unique): Nomor PO unik.
+*   `id` (BIGINT, PK, Auto Increment): ID unik Purchase Order.
+*   `supplier_id` (BIGINT, FK ke `suppliers`): Pemasok tujuan order.
+*   `user_id` (BIGINT, FK ke `users`): Pengguna terkait.
+*   `po_number` (VARCHAR, Unique, Nullable): Nomor PO unik.
 *   `delivery_date` (DATE, Nullable): Estimasi tanggal pengiriman.
-*   `delivery_location` (VARCHAR): Gudang/lokasi tujuan pengiriman.
+*   `delivery_location` (VARCHAR, Nullable): Gudang/lokasi tujuan pengiriman.
 *   `reference_number` (VARCHAR, Nullable): Referensi invoice/faktur dari supplier.
+*   `status` (ENUM: `'pending'`, `'approved'`, `'rejected'`, `'received'`): Tahapan approval PO (default: `'pending'`).
+*   `total_amount` (UNSIGNED INT): Estimasi total biaya belanja PO (default: `0`).
 *   `notes` (TEXT, Nullable): Catatan & ketentuan tambahan PO.
-*   `created_by` (INT, FK ke `users`): ID pengguna (staf) pembuat PO.
-*   `approved_at` (DATETIME, Nullable): Waktu persetujuan final PO.
-*   `ordered_at` (DATETIME): Tanggal dan waktu PO diajukan.
-*   `received_at` (DATETIME, Nullable): Tanggal dan waktu barang fisik diterima di gudang.
+*   `created_by` (BIGINT, FK ke `users`, Nullable): ID pengguna (staf) pembuat PO.
+*   `approved_at` (TIMESTAMP, Nullable): Waktu persetujuan final PO.
+*   `ordered_at` (TIMESTAMP, Nullable): Tanggal dan waktu PO diajukan.
+*   `received_at` (TIMESTAMP, Nullable): Tanggal dan waktu barang fisik diterima di gudang.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 15. Tabel `purchase_order_items`
 Tabel rincian kuantitas bahan baku yang diorder dalam dokumen PO.
-*   `id` (INT, PK, Auto Increment): ID item PO.
-*   `purchase_order_id` (INT, FK ke `purchase_orders`): Dokumen PO induk.
-*   `inventory_id` (INT, FK ke `inventories`): Bahan baku yang dipesan.
-*   `qty` (FLOAT): Jumlah barang yang dipesan.
+*   `id` (BIGINT, PK, Auto Increment): ID item PO.
+*   `purchase_order_id` (BIGINT, FK ke `purchase_orders`): Dokumen PO induk.
+*   `inventory_id` (BIGINT, FK ke `inventories`): Bahan baku yang dipesan.
+*   `qty` (DOUBLE): Jumlah barang yang dipesan.
 *   `unit` (VARCHAR): Satuan beli (kg, ml, pcs, box).
 *   `price_per_unit` (UNSIGNED INT): Harga kesepakatan per unit.
 *   `subtotal` (UNSIGNED INT): Subtotal harga belanja item (`qty * price_per_unit`).
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 16. Tabel `promotions`
 Tabel potongan diskon promo belanja (persentase atau nominal tetap).
-*   `id` (INT, PK, Auto Increment): ID promosi.
+*   `id` (BIGINT, PK, Auto Increment): ID promosi.
 *   `name` (VARCHAR): Nama promosi.
-*   `type` (VARCHAR): Jenis diskon (`'percentage'` / `'fixed_amount'`).
-*   `value` (UNSIGNED INT): Nilai besaran diskon.
-*   `min_purchase` (UNSIGNED INT): Syarat minimal nominal transaksi.
+*   `type` (ENUM: `'percentage'`, `'fixed'`): Jenis diskon (default: `'percentage'`).
+*   `value` (UNSIGNED INT): Nilai besaran diskon (default: `0`).
+*   `min_purchase` (UNSIGNED INT): Syarat minimal nominal transaksi (default: `0`).
 *   `start_date` (DATE): Awal masa aktif promo.
 *   `end_date` (DATE): Akhir masa aktif promo.
-*   `is_active` (BOOLEAN): Status promo aktif atau tidak.
+*   `is_active` (TINYINT): Status promo aktif atau tidak (default: `1`).
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 17. Tabel `bundles`
 Tabel menu paket bundling (misal: Paket Combo Kopi + Donat dengan harga lebih hemat).
-*   `id` (INT, PK, Auto Increment): ID bundle.
+*   `id` (BIGINT, PK, Auto Increment): ID bundle.
 *   `name` (VARCHAR): Nama paket bundling.
 *   `description` (TEXT, Nullable): Penjelasan paket.
 *   `price` (UNSIGNED INT): Harga jual paket bundle.
-*   `is_active` (BOOLEAN): Status keaktifan paket bundle.
+*   `is_active` (TINYINT): Status keaktifan paket bundle (default: `1`).
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 18. Tabel `bundle_items`
 Tabel detil menu yang terdapat di dalam paket bundling.
-*   `id` (INT, PK, Auto Increment): ID item bundle.
-*   `bundle_id` (INT, FK ke `bundles`): Paket bundle induk.
-*   `menu_id` (INT, FK ke `menus`): Menu hidangan anggota paket.
-*   `qty` (UNSIGNED INT): Kuantitas menu dalam paket.
+*   `id` (BIGINT, PK, Auto Increment): ID item bundle.
+*   `bundle_id` (BIGINT, FK ke `bundles`): Paket bundle induk.
+*   `menu_id` (BIGINT, FK ke `menus`): Menu hidangan anggota paket.
+*   `qty` (UNSIGNED INT): Kuantitas menu dalam paket (default: `1`).
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 19. Tabel `targets`
 Tabel pencapaian sasaran bisnis (omzet pendapatan, laba, atau jumlah transaksi).
-*   `id` (INT, PK, Auto Increment): ID target.
+*   `id` (BIGINT, PK, Auto Increment): ID target.
 *   `label` (VARCHAR): Nama target (misal: Target Omzet Bulanan).
-*   `type` (VARCHAR): Parameter target (`'revenue'`, `'orders'`, `'profit'`).
-*   `target_value` (UNSIGNED BIG INT): Nilai target yang ingin dicapai.
-*   `current_value` (UNSIGNED BIG INT): Akumulasi nilai saat ini yang sudah tercapai.
-*   `period` (VARCHAR): Durasi target (`'daily'`, `'weekly'`, `'monthly'`).
+*   `type` (ENUM: `'revenue'`, `'orders'`, `'profit'`): Parameter target.
+*   `target_value` (BIGINT UNSIGNED): Nilai target yang ingin dicapai.
+*   `current_value` (BIGINT UNSIGNED): Akumulasi nilai saat ini yang sudah tercapai (default: `0`).
+*   `period` (VARCHAR): Durasi target.
 *   `start_date` (DATE): Tanggal mulai pelacakan target.
 *   `end_date` (DATE): Tanggal akhir pelacakan target.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 20. Tabel `settings`
 Tabel konfigurasi parameter global sistem (pajak, nama kafe, alamat).
-*   `id` (INT, PK, Auto Increment): ID setting.
+*   `id` (BIGINT, PK, Auto Increment): ID setting.
 *   `key` (VARCHAR, Unique): Nama key parameter (contoh: `'tax_rate'`).
 *   `value` (TEXT, Nullable): Nilai parameter (contoh: `'11'`).
+*   `group` (VARCHAR): Kelompok konfigurasi (default: `'general'`).
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 21. Tabel `audit_logs`
 Tabel log keamanan yang mencatat seluruh aktivitas perubahan data krusial oleh staf.
-*   `id` (INT, PK, Auto Increment): ID audit log.
-*   `user_id` (INT, FK ke `users`, Nullable): Pelaku aktivitas.
+*   `id` (BIGINT, PK, Auto Increment): ID audit log.
+*   `user_id` (BIGINT, FK ke `users`, Nullable): Pelaku aktivitas.
 *   `action` (VARCHAR): Deskripsi aktivitas (contoh: `'create_menu'`, `'void_transaction'`).
-*   `model_type` (VARCHAR, Nullable): Nama Class Model terkait (contoh: `App\Models\Menu`).
-*   `model_id` (INT, Nullable): ID record model yang diubah.
+*   `target_type` (VARCHAR, Nullable): Nama Class Model terkait (contoh: `App\Models\Menu`).
+*   `target_id` (BIGINT, Nullable): ID record model yang diubah.
 *   `metadata` (JSON, Nullable): Detail payload data sebelum dan sesudah perubahan.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 22. Tabel `supplier_contacts`
 Tabel ini digunakan untuk mencatat kontak PIC (Person In Charge) untuk masing-masing supplier.
-*   `id` (INT, PK, Auto Increment): ID unik kontak.
-*   `supplier_id` (INT, FK ke `suppliers`): ID supplier terkait.
+*   `id` (BIGINT, PK, Auto Increment): ID unik kontak.
+*   `supplier_id` (BIGINT, FK ke `suppliers`): ID supplier terkait.
 *   `name` (VARCHAR): Nama lengkap PIC.
-*   `phone` (VARCHAR): Nomor telepon PIC.
-*   `email` (VARCHAR): Alamat email PIC.
-*   `position` (VARCHAR): Jabatan atau peran PIC di perusahaan supplier.
-*   `is_primary` (BOOLEAN): Menandakan apakah kontak ini adalah kontak utama (primary) atau bukan.
+*   `phone` (VARCHAR, Nullable): Nomor telepon PIC.
+*   `email` (VARCHAR, Nullable): Alamat email PIC.
+*   `position` (VARCHAR, Nullable): Jabatan atau peran PIC di perusahaan supplier.
+*   `is_primary` (TINYINT): Menandakan apakah kontak ini adalah kontak utama (default: `0`).
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 23. Tabel `supplier_documents`
 Tabel ini digunakan untuk menyimpan dokumen administratif dari supplier (seperti NPWP, kontrak kerja sama, sertifikat, dll).
-*   `id` (INT, PK, Auto Increment): ID unik dokumen.
-*   `supplier_id` (INT, FK ke `suppliers`): ID supplier terkait.
-*   `type` (VARCHAR): Jenis dokumen (contoh: `'NPWP'`, `'Kontrak'`, `'Sertifikat'`).
+*   `id` (BIGINT, PK, Auto Increment): ID unik dokumen.
+*   `supplier_id` (BIGINT, FK ke `suppliers`): ID supplier terkait.
+*   `type` (VARCHAR): Jenis dokumen.
 *   `filename` (VARCHAR): Nama asli berkas dokumen.
 *   `path` (VARCHAR): Path atau lokasi penyimpanan berkas di storage server.
-*   `uploaded_by` (INT, FK ke `users`): ID staf yang mengunggah dokumen.
-*   `uploaded_at` (DATETIME): Tanggal dan waktu dokumen diunggah.
+*   `uploaded_by` (BIGINT, FK ke `users`, Nullable): ID staf yang mengunggah dokumen.
+*   `uploaded_at` (TIMESTAMP, Nullable): Tanggal dan waktu dokumen diunggah.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ### 24. Tabel `po_approvals`
 Tabel historis persetujuan berjenjang untuk dokumen Purchase Order (PO).
-*   `id` (INT, PK, Auto Increment): ID unik persetujuan.
-*   `purchase_order_id` (INT, FK ke `purchase_orders`): ID PO terkait.
-*   `approver_id` (INT, FK ke `users`): ID user yang bertindak sebagai approver.
-*   `status` (ENUM: `'pending'`, `'approved'`, `'rejected'`): Status persetujuan.
+*   `id` (BIGINT, PK, Auto Increment): ID unik persetujuan.
+*   `purchase_order_id` (BIGINT, FK ke `purchase_orders`): ID PO terkait.
+*   `approver_id` (BIGINT, FK ke `users`): ID user yang bertindak as approver.
+*   `status` (VARCHAR): Status persetujuan (default: `'pending'`).
 *   `notes` (TEXT, Nullable): Catatan masukan dari approver.
-*   `level` (INT): Urutan tingkat approval (level 1, 2, dst).
-*   `acted_at` (DATETIME, Nullable): Tanggal dan waktu keputusan disetujui atau ditolak.
+*   `level` (INT): Urutan tingkat approval (level 1, 2, dst, default: `1`).
+*   `acted_at` (TIMESTAMP, Nullable): Tanggal dan waktu keputusan disetujui atau ditolak.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
-### 25. Tabel `sessions`
-Tabel opsional untuk melacak sesi aktif pengguna demi tujuan keamanan (Security / Session Tracking).
-*   `id` (INT, PK, Auto Increment): ID unik sesi.
-*   `user_id` (INT, FK ke `users`): ID user pemilik sesi.
-*   `device` (VARCHAR): Nama perangkat yang digunakan (misal: `'PC'`, `'Mobile'`).
-*   `browser` (VARCHAR): Nama dan versi peramban/browser.
-*   `ip_address` (VARCHAR): Alamat IP asal pengguna.
+### 25. Tabel `user_sessions`
+Tabel untuk melacak sesi aktif pengguna demi tujuan keamanan (Security / Session Tracking).
+*   `id` (BIGINT, PK, Auto Increment): ID unik sesi.
+*   `user_id` (BIGINT, FK ke `users`): ID user pemilik sesi.
+*   `device` (VARCHAR, Nullable): Nama perangkat yang digunakan.
+*   `browser` (VARCHAR, Nullable): Nama dan versi peramban/browser.
+*   `ip_address` (VARCHAR, Nullable): Alamat IP asal pengguna.
 *   `location` (VARCHAR, Nullable): Estimasi kota dan negara berdasarkan IP.
-*   `last_activity` (DATETIME): Waktu aktivitas terakhir pengguna.
-*   `created_at` (DATETIME): Tanggal dan waktu pengguna masuk (login).
+*   `last_activity` (TIMESTAMP, Nullable): Waktu aktivitas terakhir pengguna.
+*   `created_at` (TIMESTAMP, Nullable)
+*   `updated_at` (TIMESTAMP, Nullable)
 
 ---
 
@@ -848,7 +903,7 @@ Tabel opsional untuk melacak sesi aktif pengguna demi tujuan keamanan (Security 
     *   `suppliers ||--o{ supplier_documents`: Satu pemasok dapat menyertakan banyak dokumen administratif.
     *   `purchase_orders ||--o{ po_approvals`: Satu Purchase Order dapat melewati beberapa tahapan persetujuan/approval.
     *   `users ||--o{ po_approvals`: Seorang pengguna dapat melakukan persetujuan pada banyak Purchase Order.
-    *   `users ||--o{ sessions`: Seorang pengguna dapat memiliki banyak sesi masuk aktif.
+    *   `users ||--o{ user_sessions`: Seorang pengguna dapat memiliki banyak sesi masuk aktif.
 
 2.  **Relasi Satu-ke-Satu (One-to-One / 1:1)**:
     *   `menus ||--|| recipes`: Satu menu hidangan yang terdaftar hanya memiliki maksimal satu formula resep unik untuk menghindari redundansi biaya produksi.

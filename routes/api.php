@@ -55,6 +55,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Suppliers & Purchase Orders
     Route::get('/suppliers/{id}/edit', [SupplierController::class, 'edit']);
     Route::apiResource('suppliers', SupplierController::class);
+    Route::get('/purchase-orders/create', [PurchaseOrderController::class, 'create']);
+    Route::get('/purchase-orders/{id}/edit', [PurchaseOrderController::class, 'edit']);
     Route::post('/purchase-orders/{id}/approve', [PurchaseOrderController::class, 'approve']);
     Route::post('/purchase-orders/{id}/reject', [PurchaseOrderController::class, 'reject']);
     Route::post('/purchase-orders/{id}/receive', [PurchaseOrderController::class, 'receive']);
