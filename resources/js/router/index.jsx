@@ -17,7 +17,6 @@ import CashierDashboard from '../Pages/Dashboard/Cashier/Index';
 import POS from '../Pages/POS/Index';
 import TransactionsIndex from '../Pages/Transactions/Index';
 import TransactionsShow from '../Pages/Transactions/Show';
-import TransactionsInvoice from '../Pages/Transactions/Invoice';
 import KitchenOrdersIndex from '../Pages/KitchenOrders/Index';
 
 import MenusIndex from '../Pages/Menus/Index';

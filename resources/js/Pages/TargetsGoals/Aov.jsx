@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Head from "@/Components/Head";
 import { Icon } from "@iconify/react";
+import ModernDatePicker from "@/Components/ModernDatePicker";
 
 // Helpers
 const fmt = (n) =>
@@ -213,85 +214,83 @@ export default function AovReport({
             <div className="flex flex-col gap-6 py-6 px-8 max-w-7xl mx-auto bg-brand-bg min-h-[calc(100vh-72px)]">
 
                 {/* ── HEADER SECTION ── */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-brand-light/50 pb-5">
-                    <div className="flex items-center gap-4">
-                        <Link 
-                            to="/targets-goals" 
-                            className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
-                        >
-                            <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
-                        </Link>
-                        <div className="space-y-1">
-                            <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium">
-                                <Link to="/targets-goals" className="hover:text-brand-primary transition-colors">
-                                    Targets & Goals
-                                </Link>
-                                <span className="text-brand-primary/40">›</span>
-                                <span className="text-brand-dark font-semibold">Laporan AOV</span>
-                            </nav>
-                            <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
-                                Laporan Rata-rata Nilai Tiket (AOV)
-                            </h1>
-                            <p className="text-xs md:text-sm text-brand-primary/60 font-medium mt-1">
-                                Analisis performa belanja per transaksi di seluruh saluran penjualan.
-                            </p>
+                <div className="flex flex-col gap-4 border-b border-brand-light/50 pb-5">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div className="flex items-center gap-4">
+                            <div className="space-y-1">
+                                <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                                    Laporan Rata-rata Nilai Tiket (AOV)
+                                </h1>
+                                <p className="text-xs md:text-sm text-brand-primary/60 font-medium mt-1">
+                                    Analisis performa belanja per transaksi di seluruh saluran penjualan.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-row items-center gap-3 self-stretch md:self-auto justify-end">
+                            {/* Period Filter Tabs */}
+                            <div className="bg-white border border-brand-light p-1 rounded-xl flex items-center shadow-sm">
+                                {["Hari Ini", "Minggu", "Bulan", "Kustom"].map((period) => (
+                                    <button
+                                        key={period}
+                                        type="button"
+                                        onClick={() => handlePeriodChange(period)}
+                                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 active:scale-[0.98] ${selectedPeriod === period
+                                                ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20"
+                                                : "text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/20"
+                                            }`}
+                                    >
+                                        {period}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Export Button */}
+                            <button
+                                type="button"
+                                onClick={handleExportPdf}
+                                className="flex items-center gap-2 bg-white border border-brand-light px-4 py-2.5 rounded-xl text-xs font-extrabold text-brand-primary hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98] shadow-sm whitespace-nowrap"
+                            >
+                                <Icon icon="solar:document-text-linear" className="text-base text-brand-secondary" />
+                                <span>Ekspor PDF</span>
+                            </button>
                         </div>
                     </div>
 
-                    <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 self-stretch md:self-auto">
-                        {/* Period Filter Tabs */}
-                        <div className="bg-white border border-brand-light p-1 rounded-xl flex items-center shadow-sm">
-                            {["Hari Ini", "Minggu", "Bulan", "Kustom"].map((period) => (
-                                <button
-                                    key={period}
-                                    type="button"
-                                    onClick={() => handlePeriodChange(period)}
-                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 active:scale-[0.98] ${selectedPeriod === period
-                                            ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20"
-                                            : "text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/20"
-                                        }`}
-                                >
-                                    {period}
-                                </button>
-                            ))}
-                        </div>
-
-                        {/* Custom Date Picker Form */}
-                        {selectedPeriod === "Kustom" && (
+                    {/* Custom Date Picker Form */}
+                    <div className={`transition-all duration-300 ease-in-out ${
+                        selectedPeriod === "Kustom"
+                            ? "max-h-24 opacity-100 mt-2 overflow-visible"
+                            : "max-h-0 opacity-0 pointer-events-none mt-0 overflow-hidden"
+                    }`}>
+                        <div className="flex justify-end">
                             <form onSubmit={handleCustomFilterSubmit} className="flex items-center gap-2 bg-white border border-brand-light p-2 rounded-xl shadow-sm">
-                                <input
-                                    type="date"
-                                    value={startDate}
-                                    onChange={(e) => setStartDate(e.target.value)}
-                                    required
-                                    className="px-2 py-1.5 text-xs font-bold text-brand-dark border border-brand-light rounded-lg outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all"
-                                />
+                                <div className="w-40">
+                                    <ModernDatePicker
+                                        value={startDate}
+                                        onChange={setStartDate}
+                                        placeholder="Mulai Tanggal"
+                                        disabled={selectedPeriod !== "Kustom"}
+                                    />
+                                </div>
                                 <span className="text-[10px] font-black text-brand-primary/60 capitalize">s/d</span>
-                                <input
-                                    type="date"
-                                    value={endDate}
-                                    onChange={(e) => setEndDate(e.target.value)}
-                                    required
-                                    className="px-2 py-1.5 text-xs font-bold text-brand-dark border border-brand-light rounded-lg outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all"
-                                />
+                                <div className="w-40">
+                                    <ModernDatePicker
+                                        value={endDate}
+                                        onChange={setEndDate}
+                                        placeholder="Sampai Tanggal"
+                                        disabled={selectedPeriod !== "Kustom"}
+                                    />
+                                </div>
                                 <button
                                     type="submit"
-                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-3 py-1.5 rounded-lg text-xs font-extrabold active:scale-[0.98] transition-all shadow-sm"
+                                    disabled={selectedPeriod !== "Kustom"}
+                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-4 py-2 rounded-xl text-xs font-extrabold active:scale-[0.98] transition-all shadow-sm disabled:opacity-50 h-[38px]"
                                 >
                                     Terapkan
                                 </button>
                             </form>
-                        )}
-
-                        {/* Export Button */}
-                        <button
-                            type="button"
-                            onClick={handleExportPdf}
-                            className="flex items-center gap-2 bg-white border border-brand-light px-4 py-2.5 rounded-xl text-xs font-extrabold text-brand-primary hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98] shadow-sm whitespace-nowrap"
-                        >
-                            <Icon icon="solar:document-text-linear" className="text-base text-brand-secondary" />
-                            <span>Ekspor PDF</span>
-                        </button>
+                        </div>
                     </div>
                 </div>
 

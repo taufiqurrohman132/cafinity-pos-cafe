@@ -277,6 +277,7 @@ class OwnerDashboardController extends Controller
             ->select(DB::raw('HOUR(created_at) as hour'), DB::raw('SUM(total_amount) as total'))
             ->groupBy('hour')
             ->orderBy('hour')
+            ->get()
             ->pluck('total', 'hour');
 
         $labels = [];
@@ -312,12 +313,14 @@ class OwnerDashboardController extends Controller
             ->whereIn('transaction_id', $todayIds)
             ->select('menu_id', DB::raw('SUM(qty) as total_qty'))
             ->groupBy('menu_id')
+            ->get()
             ->pluck('total_qty', 'menu_id');
 
         $yesterdaySales = TransactionItem::query()
             ->whereIn('transaction_id', $yesterdayIds)
             ->select('menu_id', DB::raw('SUM(qty) as total_qty'))
             ->groupBy('menu_id')
+            ->get()
             ->pluck('total_qty', 'menu_id');
 
         $menuIds = $todaySales->keys()->take(5);
@@ -352,6 +355,7 @@ class OwnerDashboardController extends Controller
             ->whereDate('created_at', $date)
             ->select(DB::raw('HOUR(created_at) as hour'), DB::raw('COUNT(*) as total'))
             ->groupBy('hour')
+            ->get()
             ->pluck('total', 'hour');
 
         $buckets = [

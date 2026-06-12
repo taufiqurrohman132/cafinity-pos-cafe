@@ -5,7 +5,8 @@ export default function ModernDatePicker({
     value, 
     onChange, 
     placeholder = 'Pilih Tanggal',
-    variant = 'outline' // 'outline' or 'gradient'
+    variant = 'outline', // 'outline' or 'gradient'
+    disabled = false
 }) {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef(null);
@@ -149,8 +150,9 @@ export default function ModernDatePicker({
             {variant === 'gradient' ? (
                 <button
                     type="button"
-                    onClick={() => setIsOpen(!isOpen)}
-                    className="flex items-center gap-2.5 pl-4 pr-4 py-2.5 bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl text-sm font-bold cursor-pointer transition-all shadow-lg shadow-brand-secondary/30 active:scale-[0.98] select-none"
+                    disabled={disabled}
+                    onClick={() => !disabled && setIsOpen(!isOpen)}
+                    className="flex items-center gap-2.5 pl-4 pr-4 py-2.5 bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl text-sm font-bold cursor-pointer transition-all shadow-lg shadow-brand-secondary/30 active:scale-[0.98] select-none disabled:opacity-50 disabled:pointer-events-none"
                 >
                     <Icon icon="solar:calendar-linear" className="text-base" />
                     <span>{getFormattedValue()}</span>
@@ -159,8 +161,9 @@ export default function ModernDatePicker({
             ) : (
                 <button
                     type="button"
-                    onClick={() => setIsOpen(!isOpen)}
-                    className="w-full flex items-center justify-between border border-brand-light rounded-xl px-3 py-2.5 text-sm text-brand-dark bg-white hover:border-brand-secondary transition-all cursor-pointer select-none"
+                    disabled={disabled}
+                    onClick={() => !disabled && setIsOpen(!isOpen)}
+                    className="w-full flex items-center justify-between border border-brand-light rounded-xl px-3 py-2.5 text-sm text-brand-dark bg-white hover:border-brand-secondary transition-all cursor-pointer select-none disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed"
                 >
                     <span className={value ? "text-brand-dark font-bold" : "text-brand-primary/50 font-medium"}>
                         {getFormattedValue()}
