@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 :root {
-    --color-brand-primary: 47 39 206;    /* #2f27ce */
-    --color-brand-secondary: 68 61 255;  /* #443dff */
-    --color-brand-light: 221 219 255;    /* #dddbff */
-    --color-brand-bg: 251 251 254;       /* #fbfbfe */
-    --color-brand-dark: 5 3 22;          /* #050316 */
+    --color-brand-primary: 47 39 206;
+    /* #2f27ce */
+    --color-brand-secondary: 68 61 255;
+    /* #443dff */
+    --color-brand-light: 221 219 255;
+    /* #dddbff */
+    --color-brand-bg: 251 251 254;
+    /* #fbfbfe */
+    --color-brand-dark: 5 3 22;
+    /* #050316 */
 }
 
 @tailwind base;
@@ -15,6 +20,22 @@
 @layer base {
     body {
         font-family: "Inter", sans-serif;
+    }
+
+    input,
+    textarea,
+    select {
+        @apply transition-colors duration-150;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        outline: none !important;
+        border-color: rgb(var(--color-brand-secondary)) !important;
+        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color) !important;
+        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) rgb(var(--color-brand-light)) !important;
+        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000) !important;
     }
 }
 
@@ -54,6 +75,7 @@
     outline: none;
     transition: background 0.15s ease-in-out;
 }
+
 .custom-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -66,14 +88,17 @@
     box-shadow: 0 2px 6px rgb(var(--color-brand-secondary) / 0.4);
     transition: transform 0.1s ease, background-color 0.15s;
 }
+
 .custom-slider::-webkit-slider-thumb:hover {
     transform: scale(1.2);
     background: rgb(var(--color-brand-primary));
 }
+
 .custom-slider::-webkit-slider-thumb:active {
     transform: scale(0.95);
     background: rgb(var(--color-brand-dark));
 }
+
 .custom-slider::-moz-range-thumb {
     width: 18px;
     height: 18px;
@@ -84,10 +109,12 @@
     box-shadow: 0 2px 6px rgb(var(--color-brand-secondary) / 0.4);
     transition: transform 0.1s ease, background-color 0.15s;
 }
+
 .custom-slider::-moz-range-thumb:hover {
     transform: scale(1.2);
     background: rgb(var(--color-brand-primary));
 }
+
 .custom-slider::-moz-range-thumb:active {
     transform: scale(0.95);
     background: rgb(var(--color-brand-dark));
@@ -108,11 +135,11 @@
 /* ============================ */
 .held-order-item {
     transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                margin 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        margin 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     max-width: 200px;
     opacity: 1;
     transform: scale(1);
@@ -135,9 +162,9 @@
 
 .held-order-container {
     transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                border-bottom-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        border-bottom-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     max-height: 120px;
     opacity: 1;
 }
@@ -157,7 +184,7 @@
 /* ============================ */
 .cart-empty-state {
     transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 1;
     transform: translateY(0);
 }
@@ -170,7 +197,7 @@
 
 .cart-active-state {
     transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 1;
     transform: translateY(0);
 }

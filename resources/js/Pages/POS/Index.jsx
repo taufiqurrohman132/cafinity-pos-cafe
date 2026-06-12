@@ -375,7 +375,7 @@ export default function POS() {
                                     value={search}
                                     onChange={e => setSearch(e.target.value)}
                                     placeholder="Cari menu..."
-                                    className="w-full h-[46px] rounded-xl bg-white border border-brand-light pl-11 pr-4 text-[13px] outline-none focus:border-brand-secondary focus:ring-2 focus:ring-brand-light transition-all font-semibold text-brand-dark placeholder-brand-primary/50 shadow-sm"
+                                    className="w-full h-[46px] rounded-xl bg-white border border-brand-light pl-11 pr-4 text-[13px] outline-none focus:border-brand-secondary focus:ring-2 focus:ring-brand-light transition-colors font-semibold text-brand-dark placeholder-brand-primary/50 shadow-sm"
                                 />
                             </div>
                         </div>
@@ -645,7 +645,7 @@ export default function POS() {
                                 onChange={e => setPaidAmount(Number(e.target.value))}
                                 min={0}
                                 step={1000}
-                                className="w-full h-12 rounded-xl border border-brand-light bg-brand-light/10 text-lg font-black text-brand-dark pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:bg-white focus:border-brand-secondary transition-all"
+                                className="w-full h-12 rounded-xl border border-brand-light bg-brand-light/10 text-lg font-black text-brand-dark pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:bg-white focus:border-brand-secondary transition-colors"
                             />
                         </div>
                         <div className="flex gap-2 flex-wrap mb-5">
