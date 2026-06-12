@@ -1,40 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useForm } from '@/api/inertia-mock';
 import client from '@/api/client';
 import Head from '@/Components/Head';
-import SupplierEditSkeleton from '@/Components/Skeletons/SupplierEditSkeleton';
+import SupplierFormSkeleton from '@/Components/Skeletons/SupplierFormSkeleton';
 
-export default function SupplierEdit() {
+export default function SupplierCreateEdit() {
     const { id } = useParams();
+    const isEditMode = !!id;
     const navigate = useNavigate();
 
-    const [dataState, setDataState] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(isEditMode);
     const [error, setError] = useState(null);
 
-    const fetchSupplier = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const res = await client.get(`/suppliers/${id}/edit`);
-            setDataState(res.data);
-        } catch (err) {
-            console.error("Gagal memuat data supplier", err);
-            setError(err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchSupplier();
-    }, [id]);
-
-    const { supplier } = dataState ?? {};
-
-    const primaryContact = supplier?.contacts?.find(c => c.is_primary) || supplier?.contacts?.[0] || {};
-
-    const [categoriesList, setCategoriesList] = useState([]);
+    // Categories tag management
+    const [categoriesList, setCategoriesList] = useState(['Hardware', 'IT Services']);
     const [newCategoryInput, setNewCategoryInput] = useState('');
     const [showCategoryInput, setShowCategoryInput] = useState(false);
 
@@ -44,10 +24,10 @@ export default function SupplierEdit() {
         { name: 'Profil_Bisnis_Digital.pdf', size: '4.1 MB' }
     ]);
 
-    const [formData, setFormData] = useState({
+    const { data, setData, post, put, processing, errors } = useForm({
         name: '',
         code: '',
-        category: '',
+        category: 'Hardware, IT Services', // Synced with categoriesList
         phone: '',
         email: '',
         address: '',
@@ -64,38 +44,57 @@ export default function SupplierEdit() {
         contact_position: 'Finance Manager',
     });
 
+    // Load supplier data in edit mode
     useEffect(() => {
-        if (supplier) {
-            setFormData({
-                name: supplier.name || '',
-                code: supplier.code || '',
-                category: supplier.category || '',
-                phone: supplier.phone || '',
-                email: supplier.email || '',
-                address: supplier.address || '',
-                city: supplier.city || '',
-                province: supplier.province || '',
-                payment_term: supplier.payment_term || '',
-                lead_time: supplier.lead_time ?? 14,
-                min_order: supplier.min_order ? parseInt(supplier.min_order) : 50,
-                status: supplier.status || 'active',
-                notes: supplier.notes || '',
-                contact_name: primaryContact.name || '',
-                contact_phone: primaryContact.phone || '',
-                contact_email: primaryContact.email || '',
-                contact_position: primaryContact.position || 'Finance Manager',
-            });
-            const initialCategories = supplier.category
-                ? supplier.category.split(',').map(s => s.trim()).filter(s => s !== '')
-                : ['Hardware', 'IT Services'];
-            setCategoriesList(initialCategories);
-        }
-    }, [supplier]);
+        if (isEditMode) {
+            const fetchSupplier = async () => {
+                setLoading(true);
+                setError(null);
+                try {
+                    const res = await client.get(`/suppliers/${id}/edit`);
+                    const supplier = res.data.supplier;
+                    const primaryContact = supplier?.contacts?.find(c => c.is_primary) || supplier?.contacts?.[0] || {};
+                    
+                    setData({
+                        name: supplier.name || '',
+                        code: supplier.code || '',
+                        category: supplier.category || '',
+                        phone: supplier.phone || '',
+                        email: supplier.email || '',
+                        address: supplier.address || '',
+                        city: supplier.city || '',
+                        province: supplier.province || '',
+                        payment_term: supplier.payment_term || '',
+                        lead_time: supplier.lead_time ?? 14,
+                        min_order: supplier.min_order ? parseInt(supplier.min_order) : 50,
+                        status: supplier.status || 'active',
+                        notes: supplier.notes || '',
+                        contact_name: primaryContact.name || '',
+                        contact_phone: primaryContact.phone || '',
+                        contact_email: primaryContact.email || '',
+                        contact_position: primaryContact.position || 'Finance Manager',
+                    });
 
-    const data = formData;
-    const setData = (key, value) => {
-        setFormData(prev => ({ ...prev, [key]: value }));
-    };
+                    const initialCategories = supplier.category
+                        ? supplier.category.split(',').map(s => s.trim()).filter(s => s !== '')
+                        : ['Hardware', 'IT Services'];
+                    setCategoriesList(initialCategories);
+                } catch (err) {
+                    console.error("Gagal memuat data supplier", err);
+                    setError(err);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchSupplier();
+        } else {
+            // Generate automatic SUP code for create mode
+            const year = new Date().getFullYear();
+            const rand = Math.floor(Math.random() * 9000) + 1000;
+            setData('code', `SUP-${year}-${rand}`);
+            setLoading(false);
+        }
+    }, [id, isEditMode]);
 
     // Sync categoriesList array to form category field
     useEffect(() => {
@@ -130,30 +129,25 @@ export default function SupplierEdit() {
         setUploadedFiles(uploadedFiles.filter(file => file.name !== fileName));
     };
 
-    const [processing, setProcessing] = useState(false);
-    const [errors, setErrors] = useState({});
-
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setProcessing(true);
-        setErrors({});
-        try {
-            await client.put(`/suppliers/${supplier.id}`, formData);
-            navigate('/suppliers');
-        } catch (err) {
-            console.error("Gagal memperbarui supplier:", err);
-            if (err.response && err.response.status === 422) {
-                setErrors(err.response.data.errors || {});
-            } else {
-                alert("Gagal memperbarui supplier.");
-            }
-        } finally {
-            setProcessing(false);
+        if (isEditMode) {
+            put(`/suppliers/${id}`, {
+                onSuccess: () => {
+                    navigate('/suppliers');
+                }
+            });
+        } else {
+            post('/suppliers', {
+                onSuccess: () => {
+                    navigate('/suppliers');
+                }
+            });
         }
     };
 
     if (loading) {
-        return <SupplierEditSkeleton />;
+        return <SupplierFormSkeleton />;
     }
 
     if (error) {
@@ -165,7 +159,10 @@ export default function SupplierEdit() {
                     <p className="text-sm text-brand-primary/70 mb-6">
                         Gagal memuat data supplier dari server. Silakan coba lagi.
                     </p>
-                    <button onClick={fetchSupplier} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                    <button 
+                        onClick={() => window.location.reload()} 
+                        className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all"
+                    >
                         Coba Lagi
                     </button>
                 </div>
@@ -181,23 +178,40 @@ export default function SupplierEdit() {
 
     return (
         <>
-            <Head title={`Edit Supplier - ${supplier.name}`} />
+            <Head title={isEditMode ? `Edit Supplier - ${data.name}` : "Tambah Supplier Baru"} />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6 lg:p-8">
                 <div className="max-w-[1400px] mx-auto space-y-6">
 
-                    {/* Breadcrumbs & Header */}
-                    <div className="space-y-1">
-                        <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
-                            <Link to="/suppliers" className="hover:text-brand-primary transition">Daftar Supplier</Link>
-                            <iconify-icon icon="solar:alt-arrow-right-linear" class="text-[10px]"></iconify-icon>
-                            <span className="text-gray-600">Edit Supplier</span>
+                    {/* Top Breadcrumb & Title */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                            <Link 
+                                to="/suppliers" 
+                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
+                            >
+                                <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
+                            </Link>
+                            <div>
+                                <div className="flex items-center gap-2 text-xs font-bold text-brand-primary mb-1">
+                                    <Link to="/suppliers" className="hover:text-brand-dark transition-colors">Daftar Supplier</Link>
+                                    <span className="text-brand-light">/</span>
+                                    <span className="text-brand-dark">{isEditMode ? "Edit Supplier" : "Tambah Supplier"}</span>
+                                </div>
+                                <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                                    {isEditMode ? "Edit Supplier" : "Tambah Supplier Baru"}
+                                </h1>
+                                <p className="text-brand-primary/60 font-medium text-xs mt-1">
+                                    {isEditMode 
+                                        ? `Perbarui rincian informasi dan dokumen untuk mitra bisnis ${data.name}.` 
+                                        : "Lengkapi informasi di bawah untuk mendaftarkan mitra bisnis baru ke sistem."
+                                    }
+                                </p>
+                            </div>
                         </div>
-                        <h1 className="text-3xl font-black text-brand-dark tracking-tight mt-1">Edit Supplier</h1>
-                        <p className="text-gray-500 text-sm">Perbarui rincian informasi dan dokumen untuk mitra bisnis {supplier.name}.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
                         {/* ── LEFT COLUMN: FORM FIELDS ── */}
                         <div className="lg:col-span-8 space-y-6">
@@ -254,17 +268,20 @@ export default function SupplierEdit() {
                                             ))}
 
                                             {showCategoryInput ? (
-                                                <form onSubmit={handleAddCategory} className="inline-flex items-center gap-1">
+                                                <div className="inline-flex items-center gap-1">
                                                     <input
                                                         type="text"
                                                         value={newCategoryInput}
                                                         onChange={(e) => setNewCategoryInput(e.target.value)}
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === 'Enter') handleAddCategory(e);
+                                                        }}
                                                         className="px-2 py-0.5 text-xs border border-brand-light rounded bg-white focus:outline-none focus:ring-1 focus:ring-brand-primary w-24"
                                                         placeholder="Kategori..."
                                                         autoFocus
                                                     />
-                                                    <button type="submit" className="text-xs font-bold text-brand-primary hover:underline">Ok</button>
-                                                </form>
+                                                    <button type="button" onClick={handleAddCategory} className="text-xs font-bold text-brand-primary hover:underline">Ok</button>
+                                                </div>
                                             ) : (
                                                 <button
                                                     type="button"
@@ -617,17 +634,25 @@ export default function SupplierEdit() {
                                     {/* Action Buttons */}
                                     <div className="space-y-2 border-t border-brand-light/50 pt-4">
                                         <button
-                                            type="button"
-                                            onClick={handleSubmit}
+                                            type="submit"
                                             disabled={processing}
                                             className="w-full py-3 px-4 bg-brand-primary hover:bg-brand-secondary text-white text-xs font-bold rounded-xl transition duration-150 active:scale-95 shadow-sm disabled:opacity-60"
                                         >
-                                            Simpan Perubahan
+                                            {isEditMode ? "Simpan Perubahan" : "Simpan & Aktifkan"}
                                         </button>
                                         <div className="flex gap-2">
+                                            {!isEditMode && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => alert('Draf disimpan.')}
+                                                    className="flex-1 py-2 text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 rounded-xl border border-brand-light transition"
+                                                >
+                                                    Simpan Draft
+                                                </button>
+                                            )}
                                             <Link
                                                 to="/suppliers"
-                                                className="flex-1 py-2 text-center text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 rounded-xl border border-brand-light transition flex items-center justify-center"
+                                                className="flex-1 py-2 text-center text-xs font-bold text-red-500 hover:text-red-700 bg-white hover:bg-red-50 rounded-xl transition flex items-center justify-center border border-brand-light"
                                             >
                                                 Batal
                                             </Link>
@@ -688,7 +713,7 @@ export default function SupplierEdit() {
 
                         </div>
 
-                    </div>
+                    </form>
                 </div>
             </div>
         </>

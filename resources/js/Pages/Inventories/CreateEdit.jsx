@@ -331,18 +331,26 @@ export default function InventoriesCreateEdit() {
 
                     {/* Top Breadcrumb & Title */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div>
-                            <div className="flex items-center gap-2 text-xs font-bold text-brand-primary mb-2">
-                                <Link to="/inventories" className="hover:text-brand-dark transition-colors">Inventory Catalog</Link>
-                                <span className="text-brand-light">/</span>
-                                <span className="text-brand-dark">{isEditMode ? "Edit Bahan" : "Tambah Bahan"}</span>
+                        <div className="flex items-center gap-4">
+                            <Link 
+                                to="/inventories" 
+                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
+                            >
+                                <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
+                            </Link>
+                            <div>
+                                <div className="flex items-center gap-2 text-xs font-bold text-brand-primary mb-1">
+                                    <Link to="/inventories" className="hover:text-brand-dark transition-colors">Inventory Catalog</Link>
+                                    <span className="text-brand-light">/</span>
+                                    <span className="text-brand-dark">{isEditMode ? "Edit Bahan" : "Tambah Bahan"}</span>
+                                </div>
+                                <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                                    {isEditMode ? "Edit Detail Bahan Baku" : "Tambah Bahan Baku Baru"}
+                                </h1>
+                                <p className="text-brand-primary/60 font-medium text-xs mt-1">
+                                    Kelola spesifikasi bahan baku, status stok awal, dan integrasi supplier utama.
+                                </p>
                             </div>
-                            <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
-                                {isEditMode ? "Edit Detail Bahan Baku" : "Tambah Bahan Baku Baru"}
-                            </h1>
-                            <p className="text-brand-primary/60 font-medium text-xs mt-1">
-                                Kelola spesifikasi bahan baku, status stok awal, dan integrasi supplier utama.
-                            </p>
                         </div>
                         <div className="flex items-center gap-3 shrink-0">
                             <Link

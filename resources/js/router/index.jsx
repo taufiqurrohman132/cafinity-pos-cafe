@@ -32,14 +32,12 @@ import InventoriesShow from '../Pages/Inventories/Show';
 import InventoriesLowStock from '../Pages/Inventories/LowStock';
 
 import PurchaseOrderIndex from '../Pages/PurchaseOrder/Index';
-import PurchaseOrderCreate from '../Pages/PurchaseOrder/Create';
+import PurchaseOrderCreateEdit from '../Pages/PurchaseOrder/CreateEdit';
 import PurchaseOrderShow from '../Pages/PurchaseOrder/Show';
-import PurchaseOrderEdit from '../Pages/PurchaseOrder/Edit';
 
 import SupplierIndex from '../Pages/Supplier/Index';
-import SupplierCreate from '../Pages/Supplier/Create';
+import SupplierCreateEdit from '../Pages/Supplier/CreateEdit';
 import SupplierShow from '../Pages/Supplier/Show';
-import SupplierEdit from '../Pages/Supplier/Edit';
 
 import ReportsIndex from '../Pages/Reports/Index';
 import TargetsGoalsIndex from '../Pages/TargetsGoals/Index';
@@ -93,13 +91,13 @@ const AppRoutes = () => {
                 <Route path="/inventories/:id/edit" element={<InventoriesCreateEdit />} />
                 <Route path="/inventories/low-stock/list" element={<PageLoader component={InventoriesLowStock} apiPath="/inventories/low-stock/list" skeleton={InventoriesLowStockSkeleton} />} />
                 <Route path="/purchase-orders" element={<PurchaseOrderIndex />} />
-                <Route path="/purchase-orders/create" element={<PurchaseOrderCreate />} />
+                <Route path="/purchase-orders/create" element={<PurchaseOrderCreateEdit />} />
                 <Route path="/purchase-orders/:id" element={<PurchaseOrderShow />} />
-                <Route path="/purchase-orders/:id/edit" element={<PurchaseOrderEdit />} />
+                <Route path="/purchase-orders/:id/edit" element={<PurchaseOrderCreateEdit />} />
                 <Route path="/suppliers" element={<PageLoader component={SupplierIndex} apiPath="/suppliers" skeleton={SupplierSkeleton} />} />
-                <Route path="/suppliers/create" element={<SupplierCreate />} />
+                <Route path="/suppliers/create" element={<SupplierCreateEdit />} />
                 <Route path="/suppliers/:id" element={<PageLoader component={SupplierShow} apiPath="/suppliers/:id" skeleton={SupplierDetailSkeleton} />} />
-                <Route path="/suppliers/:id/edit" element={<SupplierEdit />} />
+                <Route path="/suppliers/:id/edit" element={<SupplierCreateEdit />} />
                 <Route path="/reports" element={<ReportsIndex />} />
                 <Route path="/targets-goals" element={<PageLoader component={TargetsGoalsIndex} apiPath="/targets-goals" skeleton={TargetsGoalsSkeleton} />} />
                 <Route path="/targets-goals/aov" element={<PageLoader component={TargetsGoalsAov} apiPath="/targets-goals/aov" skeleton={TargetsGoalsSkeleton} />} />

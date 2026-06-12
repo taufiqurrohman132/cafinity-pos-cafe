@@ -1,68 +1,24 @@
-// PurchaseOrder/Create.jsx
 import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Head from '@/Components/Head'
 import client from '@/api/client'
 import PurchaseOrderCreateSkeleton from '@/Components/Skeletons/PurchaseOrderCreateSkeleton'
+import PurchaseOrderEditSkeleton from '@/Components/Skeletons/PurchaseOrderEditSkeleton'
 
-function useForm(initialValues = {}) {
-    const [data, setDataState] = useState(initialValues);
-    const [errors, setErrors] = useState({});
-    const [processing, setProcessing] = useState(false);
+export default function PurchaseOrderCreateEdit() {
+    const { id } = useParams()
+    const navigate = useNavigate()
+    const isEditMode = !!id
 
-    const setData = (key, value) => {
-        if (typeof key === 'object') {
-            setDataState(prev => ({ ...prev, ...key }));
-        } else {
-            setDataState(prev => ({ ...prev, [key]: value }));
-        }
-    };
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
-    const reset = () => {
-        setDataState(initialValues);
-        setErrors({});
-        setProcessing(false);
-    };
+    const [order, setOrder] = useState(null)
+    const [suppliers, setSuppliers] = useState([])
+    const [inventories, setInventories] = useState([])
 
-    return {
-        data,
-        setData,
-        errors,
-        setErrors,
-        processing,
-        setProcessing,
-        reset
-    };
-}
-
-export default function PurchaseOrderCreate() {
-    const navigate = useNavigate();
-
-    const [suppliers, setSuppliers] = useState([]);
-    const [inventories, setInventories] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchCreateData = async () => {
-            setLoading(true);
-            try {
-                setError(null);
-                const res = await client.get('/purchase-orders/create');
-                setSuppliers(res.data.suppliers || []);
-                setInventories(res.data.inventories || []);
-            } catch (err) {
-                console.error("Gagal mengambil data form PO:", err);
-                setError(err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchCreateData();
-    }, []);
-
-    // Form management using custom useForm
-    const { data, setData, processing, setProcessing, errors, setErrors, reset } = useForm({
+    // Form local states mimicking Inertia's useForm hook API
+    const [data, setDataState] = useState({
         supplier_id: '',
         delivery_location: '',
         delivery_date: '',
@@ -75,11 +31,102 @@ export default function PurchaseOrderCreate() {
             { inventory_id: '', description: '', qty: 1, unit: '', price_per_unit: 0, discount: 0, tax_enabled: true }
         ]
     })
+    const [processing, setProcessing] = useState(false)
+    const [errors, setErrors] = useState({})
+
+    const setData = (fieldOrData, value) => {
+        if (typeof fieldOrData === 'object' && fieldOrData !== null) {
+            setDataState(prev => ({ ...prev, ...fieldOrData }))
+        } else if (typeof fieldOrData === 'string') {
+            setDataState(prev => {
+                if (fieldOrData === 'items') {
+                    return { ...prev, items: value }
+                }
+                return { ...prev, [fieldOrData]: value }
+            })
+        }
+    }
 
     // Local states for supplier search and select
-    const [searchSupplier, setSearchSupplier] = useState('')
     const [selectedSupplier, setSelectedSupplier] = useState(null)
+    const [searchSupplier, setSearchSupplier] = useState('')
     const [filteredSuppliers, setFilteredSuppliers] = useState([])
+
+    // Load initial data
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true)
+            try {
+                setError(null)
+                if (isEditMode) {
+                    const res = await client.get(`/purchase-orders/${id}/edit`)
+                    const o = res.data.order
+                    setOrder(o)
+                    setSuppliers(res.data.suppliers || [])
+                    setInventories(res.data.inventories || [])
+
+                    // Populate form fields for edit mode
+                    setDataState({
+                        supplier_id: o.supplier_id || '',
+                        delivery_location: o.delivery_location || '',
+                        delivery_date: o.delivery_date || '',
+                        reference_number: o.reference_number || '',
+                        payment_term: o.payment_term || '',
+                        notes: o.notes || '',
+                        discount_global: o.discount_global || 0,
+                        shipping_cost: o.shipping_cost || 0,
+                        items: o.items?.map(item => ({
+                            inventory_id: item.inventory_id,
+                            description: item.inventory?.category?.name || 'Bahan Baku',
+                            qty: item.qty,
+                            unit: item.unit,
+                            price_per_unit: item.price_per_unit,
+                            discount: item.discount || 0,
+                            tax_enabled: item.tax_enabled ?? true
+                        })) || []
+                    })
+                } else {
+                    const res = await client.get('/purchase-orders/create')
+                    setSuppliers(res.data.suppliers || [])
+                    setInventories(res.data.inventories || [])
+                    
+                    // Reset to defaults for create mode
+                    setDataState({
+                        supplier_id: '',
+                        delivery_location: '',
+                        delivery_date: '',
+                        reference_number: '',
+                        payment_term: '',
+                        notes: '',
+                        discount_global: 0,
+                        shipping_cost: 0,
+                        items: [
+                            { inventory_id: '', description: '', qty: 1, unit: '', price_per_unit: 0, discount: 0, tax_enabled: true }
+                        ]
+                    })
+                    setSelectedSupplier(null)
+                    setSearchSupplier('')
+                }
+            } catch (err) {
+                console.error("Gagal mengambil data Purchase Order:", err)
+                setError(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchData()
+    }, [id, isEditMode])
+
+    // Set selectedSupplier once suppliers and order are loaded
+    useEffect(() => {
+        if (isEditMode && order && suppliers.length > 0) {
+            const found = suppliers.find(s => String(s.id) === String(order.supplier_id))
+            if (found) {
+                setSelectedSupplier(found)
+                setSearchSupplier(found.name)
+            }
+        }
+    }, [isEditMode, order, suppliers])
 
     // Filter suppliers on search query change
     useEffect(() => {
@@ -158,7 +205,6 @@ export default function PurchaseOrderCreate() {
     const calculateTax = () => {
         const subtotal = calculateSubtotal()
         const discount = calculateGlobalDiscount()
-        const taxableAmount = subtotal - discount
         
         // Sum items that have PPN active (11%)
         return data.items.reduce((sum, item) => {
@@ -190,27 +236,32 @@ export default function PurchaseOrderCreate() {
     async function handleSubmit(e) {
         e.preventDefault()
         if (!isSupplierValid || !isItemsValid) {
-            alert('Harap lengkapi semua validasi sebelum mengirim PO.')
+            alert('Harap lengkapi semua validasi sebelum menyimpan PO.')
             return
         }
-        setProcessing(true);
-        setErrors({});
+        setProcessing(true)
+        setErrors({})
         try {
-            await client.post('/purchase-orders', data);
-            navigate('/purchase-orders');
-        } catch (err) {
-            console.error("Gagal mengirim PO:", err);
-            if (err.response && err.response.data && err.response.data.errors) {
-                const formattedErrors = {};
-                Object.entries(err.response.data.errors).forEach(([k, v]) => {
-                    formattedErrors[k] = Array.isArray(v) ? v[0] : v;
-                });
-                setErrors(formattedErrors);
+            if (isEditMode) {
+                await client.put(`/purchase-orders/${id}`, data)
+                navigate(`/purchase-orders/${id}`)
             } else {
-                alert("Terjadi kesalahan saat menyimpan pesanan pembelian.");
+                await client.post('/purchase-orders', data)
+                navigate('/purchase-orders')
+            }
+        } catch (err) {
+            console.error("Gagal menyimpan PO:", err)
+            if (err.response && err.response.data && err.response.data.errors) {
+                const formattedErrors = {}
+                Object.entries(err.response.data.errors).forEach(([k, v]) => {
+                    formattedErrors[k] = Array.isArray(v) ? v[0] : v
+                })
+                setErrors(formattedErrors)
+            } else {
+                alert("Terjadi kesalahan saat menyimpan pesanan pembelian.")
             }
         } finally {
-            setProcessing(false);
+            setProcessing(false)
         }
     }
 
@@ -221,22 +272,22 @@ export default function PurchaseOrderCreate() {
     if (loading) {
         return (
             <>
-                <Head title="Buat Pesanan Pembelian Baru" />
-                <PurchaseOrderCreateSkeleton />
+                <Head title={isEditMode ? "Edit Pesanan Pembelian" : "Buat Pesanan Pembelian Baru"} />
+                {isEditMode ? <PurchaseOrderEditSkeleton /> : <PurchaseOrderCreateSkeleton />}
             </>
-        );
+        )
     }
 
     if (error) {
         return (
             <>
-                <Head title="Buat Pesanan Pembelian Baru" />
+                <Head title={isEditMode ? "Edit Pesanan Pembelian" : "Buat Pesanan Pembelian Baru"} />
                 <div className="min-h-screen bg-brand-bg flex items-center justify-center p-4">
                     <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
                         <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
                         <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
                         <p className="text-sm text-brand-primary/70 mb-6">
-                            Gagal memuat data form dari server. Silakan coba lagi.
+                            Gagal memuat data dari server. Silakan coba lagi.
                         </p>
                         <button onClick={() => navigate('/purchase-orders')} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
                             Kembali ke Daftar PO
@@ -244,36 +295,61 @@ export default function PurchaseOrderCreate() {
                     </div>
                 </div>
             </>
-        );
+        )
     }
 
     return (
         <>
-            <Head title="Buat Pesanan Pembelian Baru" />
+            <Head title={isEditMode ? `Edit Pesanan Pembelian ${order?.po_number}` : "Buat Pesanan Pembelian Baru"} />
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6">
                 <div className="max-w-[1280px] mx-auto space-y-6">
 
-                    {/* Header */}
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    {/* Top Breadcrumb & Title */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
                             <Link 
-                                to="/purchase-orders" 
-                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition shadow-sm"
+                                to={isEditMode ? `/purchase-orders/${order?.id}` : "/purchase-orders"} 
+                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
                             >
                                 <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
                             </Link>
                             <div>
-                                <h1 className="text-2xl font-extrabold text-brand-dark tracking-tight">Buat Pesanan Pembelian Baru</h1>
-                                <p className="text-xs text-gray-500 mt-1">Isi detail di bawah untuk membuat draf pesanan pembelian baru.</p>
+                                <div className="flex items-center gap-2 text-xs font-bold text-brand-primary mb-1">
+                                    <Link to="/purchase-orders" className="hover:text-brand-dark transition-colors">Daftar PO</Link>
+                                    <span className="text-brand-light">/</span>
+                                    <span className="text-brand-dark">{isEditMode ? "Edit PO" : "Tambah PO"}</span>
+                                </div>
+                                <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                                    {isEditMode ? "Edit Pesanan Pembelian" : "Buat Pesanan Pembelian Baru"}
+                                </h1>
+                                <p className="text-brand-primary/60 font-medium text-xs mt-1">
+                                    {isEditMode 
+                                        ? `Ubah detail di bawah untuk memperbarui pesanan pembelian ${order?.po_number}.` 
+                                        : "Isi detail di bawah untuk membuat draf pesanan pembelian baru."
+                                    }
+                                </p>
                             </div>
                         </div>
                         
-                        <div className="flex items-center gap-2 self-start md:self-center">
-                            <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-gray-100 text-gray-500 border border-gray-200 uppercase">
-                                Draft
-                            </span>
-                            <span className="text-[11px] text-gray-400 font-medium">Disimpan baru saja</span>
+                        <div className="flex items-center gap-2 self-start sm:self-center shrink-0">
+                            {isEditMode ? (
+                                <>
+                                    <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-amber-50 text-amber-600 border border-amber-200 uppercase">
+                                        {order?.status}
+                                    </span>
+                                    <span className="text-[11px] text-gray-400 font-medium">
+                                        Terakhir diubah {order?.updated_at ? new Date(order.updated_at).toLocaleString('id-ID') : '-'}
+                                    </span>
+                                </>
+                            ) : (
+                                <>
+                                    <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-gray-100 text-gray-500 border border-gray-200 uppercase">
+                                        Draft
+                                    </span>
+                                    <span className="text-[11px] text-gray-400 font-medium">Disimpan baru saja</span>
+                                </>
+                            )}
                         </div>
                     </div>
 
@@ -289,7 +365,7 @@ export default function PurchaseOrderCreate() {
                                         <iconify-icon icon="solar:users-group-rounded-linear" class="text-brand-primary text-lg"></iconify-icon>
                                         Informasi Pemasok
                                     </h3>
-                                    <a href="#" className="text-xs font-bold text-brand-primary hover:underline">+ Tambah Pemasok Baru</a>
+                                    <Link to="/suppliers/create" className="text-xs font-bold text-brand-primary hover:underline">+ Tambah Pemasok Baru</Link>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
@@ -343,7 +419,7 @@ export default function PurchaseOrderCreate() {
 
                             {/* 2. Detail Pesanan */}
                             <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
-                                <h3 class="text-sm font-extrabold text-brand-dark flex items-center gap-2 border-b border-brand-light/50 pb-3">
+                                <h3 className="text-sm font-extrabold text-brand-dark flex items-center gap-2 border-b border-brand-light/50 pb-3">
                                     <iconify-icon icon="solar:document-text-linear" class="text-brand-primary text-lg"></iconify-icon>
                                     Detail Pesanan
                                 </h3>
@@ -355,6 +431,7 @@ export default function PurchaseOrderCreate() {
                                         <input 
                                             type="text" 
                                             readOnly 
+                                            value={isEditMode ? (order?.po_number || '') : ''}
                                             placeholder="PO-2026-XXXX"
                                             className="w-full h-11 text-xs bg-gray-50 border border-brand-light rounded-xl px-4 text-gray-500 font-semibold focus:outline-none" 
                                         />
@@ -367,7 +444,7 @@ export default function PurchaseOrderCreate() {
                                         <input 
                                             type="text" 
                                             readOnly 
-                                            value={new Date().toISOString().split('T')[0]}
+                                            value={isEditMode ? (order?.created_at ? new Date(order.created_at).toISOString().split('T')[0] : '') : new Date().toISOString().split('T')[0]}
                                             className="w-full h-11 text-xs bg-gray-50 border border-brand-light rounded-xl px-4 text-gray-500 font-semibold focus:outline-none" 
                                         />
                                     </div>
@@ -421,11 +498,15 @@ export default function PurchaseOrderCreate() {
                             {/* 3. Item Pesanan Table */}
                             <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
                                 <div className="flex items-center justify-between border-b border-brand-light/50 pb-3">
-                                    <h3 class="text-sm font-extrabold text-brand-dark flex items-center gap-2">
+                                    <h3 className="text-sm font-extrabold text-brand-dark flex items-center gap-2">
                                         <iconify-icon icon="solar:box-linear" class="text-brand-primary text-lg"></iconify-icon>
                                         Item Pesanan
                                     </h3>
-                                    <button type="button" className="flex items-center gap-1.5 border border-brand-light hover:bg-brand-light/20 text-brand-primary px-3.5 py-1.5 rounded-lg text-[10px] font-bold transition">
+                                    <button 
+                                        type="button" 
+                                        onClick={() => alert('Impor produk secara massal sedang dikonfigurasi.')}
+                                        className="flex items-center gap-1.5 border border-brand-light hover:bg-brand-light/20 text-brand-primary px-3.5 py-1.5 rounded-lg text-[10px] font-bold transition"
+                                    >
                                         <iconify-icon icon="solar:import-linear" class="text-xs"></iconify-icon>
                                         Impor dari Inventori
                                     </button>
@@ -468,7 +549,7 @@ export default function PurchaseOrderCreate() {
                                                             type="text" 
                                                             value={row.description}
                                                             onChange={(e) => updateItemRow(idx, 'description', e.target.value)}
-                                                            placeholder="Deskr"
+                                                            placeholder="Deskripsi"
                                                             className="w-full text-xs border border-brand-light rounded-lg py-1.5 px-2 focus:ring-brand-light focus:outline-none bg-brand-bg"
                                                         />
                                                     </td>
@@ -476,7 +557,7 @@ export default function PurchaseOrderCreate() {
                                                     <td className="px-3 py-3">
                                                         <input 
                                                             type="text" 
-                                                            readonly
+                                                            readOnly
                                                             value={row.unit}
                                                             placeholder="Unit"
                                                             className="w-16 text-xs bg-gray-50 border border-brand-light rounded-lg py-1.5 px-2 text-gray-500 font-semibold focus:outline-none text-center"
@@ -537,7 +618,7 @@ export default function PurchaseOrderCreate() {
                                                         {formatRupiah(calculateRowSubtotal(row))}
                                                     </td>
                                                     {/* Action remove */}
-                                                    <td className="px-3 py-3">
+                                                    <td className="px-3 py-3 text-center">
                                                         <button 
                                                             type="button" 
                                                             onClick={() => removeRow(idx)}
@@ -565,12 +646,12 @@ export default function PurchaseOrderCreate() {
 
                             {/* 4. Catatan & Ketentuan */}
                             <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-3">
-                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
                                     <iconify-icon icon="solar:pen-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Catatan & Ketentuan
                                 </h3>
                                 <textarea 
-                                    value={data.notes}
+                                    value={data.notes || ''}
                                     onChange={(e) => setData('notes', e.target.value)}
                                     placeholder="Tambahkan catatan internal atau ketentuan khusus untuk pemasok..."
                                     rows="4" 
@@ -579,19 +660,21 @@ export default function PurchaseOrderCreate() {
                             </div>
 
                             {/* 5. Lampiran Pendukung */}
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-3">
-                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                                    <iconify-icon icon="solar:upload-minimalistic-linear" class="text-brand-primary text-base"></iconify-icon>
-                                    Lampiran Pendukung
-                                </h3>
-                                <div className="border-2 border-dashed border-brand-light hover:bg-brand-light/5 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition">
-                                    <div className="w-12 h-12 rounded-full bg-brand-light/40 flex items-center justify-center text-brand-primary mb-3">
-                                        <iconify-icon icon="solar:upload-linear" class="text-2xl"></iconify-icon>
+                            {!isEditMode && (
+                                <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-3">
+                                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                                        <iconify-icon icon="solar:upload-minimalistic-linear" class="text-brand-primary text-base"></iconify-icon>
+                                        Lampiran Pendukung
+                                    </h3>
+                                    <div className="border-2 border-dashed border-brand-light hover:bg-brand-light/5 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition">
+                                        <div className="w-12 h-12 rounded-full bg-brand-light/40 flex items-center justify-center text-brand-primary mb-3">
+                                            <iconify-icon icon="solar:upload-linear" class="text-2xl"></iconify-icon>
+                                        </div>
+                                        <p className="text-xs font-bold text-brand-dark mb-1">Klik atau geser file ke sini</p>
+                                        <p className="text-[10px] text-gray-400 font-medium">PDF, JPG, PNG (Maks. 5MB)</p>
                                     </div>
-                                    <p className="text-xs font-bold text-brand-dark mb-1">Klik atau geser file ke sini</p>
-                                    <p className="text-[10px] text-gray-400 font-medium">PDF, JPG, PNG (Maks. 5MB)</p>
                                 </div>
-                            </div>
+                            )}
 
                         </div>
 
@@ -658,19 +741,22 @@ export default function PurchaseOrderCreate() {
                                             className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-xs transition shadow-sm active:scale-[0.98]"
                                         >
                                             <iconify-icon icon="solar:check-circle-linear" class="text-base"></iconify-icon>
-                                            Kirim untuk Approval
+                                            {isEditMode ? "Simpan Perubahan PO" : "Kirim untuk Approval"}
                                         </button>
                                         
                                         <div className="grid grid-cols-2 gap-2">
-                                            <button 
-                                                type="button" 
-                                                className="w-full border border-brand-light hover:bg-gray-50 text-gray-700 py-2.5 rounded-xl font-bold text-xs transition"
-                                            >
-                                                Simpan Draft
-                                            </button>
+                                            {!isEditMode && (
+                                                <button 
+                                                    type="button" 
+                                                    onClick={() => alert('Draf PO disimpan.')}
+                                                    className="w-full border border-brand-light hover:bg-gray-50 text-gray-700 py-2.5 rounded-xl font-bold text-xs transition"
+                                                >
+                                                    Simpan Draft
+                                                </button>
+                                            )}
                                             <Link 
-                                                to="/purchase-orders"
-                                                className="w-full border border-brand-light hover:bg-gray-50 text-gray-500 py-2.5 rounded-xl font-bold text-xs text-center block transition"
+                                                to={isEditMode ? `/purchase-orders/${order?.id}` : "/purchase-orders"}
+                                                className={`border border-brand-light hover:bg-gray-50 text-gray-500 py-2.5 rounded-xl font-bold text-xs text-center block transition ${isEditMode ? 'col-span-2' : 'col-span-1'}`}
                                             >
                                                 Batal
                                             </Link>
@@ -721,17 +807,23 @@ export default function PurchaseOrderCreate() {
                                 </div>
                             </div>
 
-                            {/* 3. Log Perubahan */}
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-3">
-                                <h4 className="text-[10px] font-bold text-gray-400 tracking-wider flex items-center gap-2">
-                                    <iconify-icon icon="solar:history-linear" class="text-lg"></iconify-icon>
-                                    Log Perubahan
-                                </h4>
-                                <div className="border-l border-gray-100 pl-3.5 space-y-1">
-                                    <p className="text-xs font-bold text-brand-dark">Draft Dibuat</p>
-                                    <p className="text-[10px] text-gray-400 font-medium">Oleh Alex Manager • Baru saja</p>
+                            {/* 3. Log Perubahan (only for Create mode demo or if order exists) */}
+                            {(!isEditMode || order) && (
+                                <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-3">
+                                    <h4 className="text-[10px] font-bold text-gray-400 tracking-wider flex items-center gap-2">
+                                        <iconify-icon icon="solar:history-linear" class="text-lg"></iconify-icon>
+                                        Log Perubahan
+                                    </h4>
+                                    <div className="border-l border-gray-100 pl-3.5 space-y-1">
+                                        <p className="text-xs font-bold text-brand-dark">
+                                            {isEditMode ? "Draf Diperbarui" : "Draft Dibuat"}
+                                        </p>
+                                        <p className="text-[10px] text-gray-400 font-medium">
+                                            Oleh {isEditMode ? (order?.user?.name || 'User') : 'Alex Manager'} • Baru saja
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
 
                         </div>
 
@@ -743,4 +835,4 @@ export default function PurchaseOrderCreate() {
     )
 }
 
-// PurchaseOrderCreate.layout = (page) => <>{page}</>;
+PurchaseOrderCreateEdit.layout = (page) => <>{page}</>
