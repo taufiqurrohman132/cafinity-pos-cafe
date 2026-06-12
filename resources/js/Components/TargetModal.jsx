@@ -217,7 +217,7 @@ export default function TargetModal({
             />
 
             {/* Modal Body */}
-            <div className="relative bg-white rounded-3xl border border-brand-light shadow-2xl w-full max-w-2xl mx-4 flex flex-col max-h-[92vh] overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
+            <div className="relative bg-white rounded-3xl border border-brand-light shadow-2xl w-full max-w-2xl mx-4 flex flex-col h-[92vh] overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
                 
                 {/* Modal Header */}
                 <div className="px-8 pt-6 pb-4 flex items-start justify-between flex-shrink-0">

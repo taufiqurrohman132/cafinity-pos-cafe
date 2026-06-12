@@ -553,7 +553,7 @@ export default function RecipeIndex() {
             {showEditModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-bg">
                     <div className="absolute inset-0 bg-brand-dark/50" onClick={() => setShowEditModal(false)} />
-                    <div className="relative bg-white rounded-2xl border border-brand-light shadow-2xl w-full max-w-2xl mx-4 flex flex-col max-h-[90vh]">
+                    <div className="relative bg-white rounded-2xl border border-brand-light shadow-2xl w-full max-w-2xl mx-4 flex flex-col h-[90vh]">
                         <div className="px-6 py-5 border-b border-brand-light flex items-center justify-between flex-shrink-0">
                             <div>
                                 <h3 className="font-bold text-brand-dark">Edit Komposisi Bahan</h3>
@@ -605,7 +605,7 @@ export default function RecipeIndex() {
             {showCreateModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center">
                     <div className="absolute inset-0 bg-brand-dark/50" onClick={() => setShowCreateModal(false)} />
-                    <div className="relative bg-white rounded-2xl border border-brand-light shadow-2xl w-full max-w-2xl mx-4 flex flex-col max-h-[90vh]">
+                    <div className="relative bg-white rounded-2xl border border-brand-light shadow-2xl w-full max-w-2xl mx-4 flex flex-col h-[90vh]">
                         <div className="px-6 py-5 border-b border-brand-light flex items-center justify-between flex-shrink-0">
                             <h3 className="font-bold text-brand-dark">Tambah Resep Baru</h3>
                             <button onClick={() => setShowCreateModal(false)} className="w-8 h-8 rounded-xl text-brand-primary/50 hover:bg-brand-light hover:text-brand-secondary transition flex items-center justify-center">✕</button>

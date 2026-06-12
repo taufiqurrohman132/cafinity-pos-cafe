@@ -687,7 +687,7 @@ export default function PromotionsIndex() {
                             </div>
                         )}
 
-                        <div className="p-6 max-h-[75vh] overflow-y-auto space-y-4">
+                        <div className="p-6 h-[75vh] overflow-y-auto space-y-4">
 
                             {/* FORM PROMOSI */}
                             {activeFormType === 'promotion' && (

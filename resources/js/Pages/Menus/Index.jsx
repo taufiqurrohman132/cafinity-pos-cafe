@@ -1338,7 +1338,7 @@ export default function MenusIndex() {
             {/* Category Manager Modal */}
             {showCategoryModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
-                    <div className="bg-white rounded-3xl border border-brand-light p-6 md:p-8 w-full max-w-4xl shadow-xl relative my-8 flex flex-col md:flex-row gap-6 max-h-[85vh] overflow-hidden">
+                    <div className="bg-white rounded-3xl border border-brand-light p-6 md:p-8 w-full max-w-4xl shadow-xl relative my-8 flex flex-col md:flex-row gap-6 h-[85vh] overflow-hidden">
                         
                         {/* Close button */}
                         <button
