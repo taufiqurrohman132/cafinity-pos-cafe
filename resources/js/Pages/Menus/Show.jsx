@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Head from '@/Components/Head';
 import client from '@/api/client';
 import MenusShowSkeleton from "@/Components/Skeletons/MenusShowSkeleton";
@@ -192,6 +192,7 @@ function WeeklyChart({ data = [40, 35, 55, 50, 70, 95, 90] }) {
 // ── page ─────────────────────────────────────────────────────────────────────
 export default function Show() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [menu, setMenu] = useState(null);
     const [categories, setCategories] = useState([]);
     const [weeklySales, setWeeklySales] = useState([]);
@@ -400,7 +401,7 @@ export default function Show() {
                         </button>
                         <button
                             type="button"
-                            onClick={() => setShowEditModal(true)}
+                            onClick={() => navigate(`/menus/${id}/edit`)}
                             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-bold transition-all shadow-lg shadow-brand-secondary/30"
                         >
                             <Icon icon="solar:pen-linear" /> Edit Produk
@@ -778,7 +779,7 @@ export default function Show() {
                                 </p>
                                 <div className="space-y-2">
                                     {[
-                                        { onClick: () => setShowEditModal(true), icon: "solar:pen-linear",      label: "Edit Detail Menu" },
+                                        { onClick: () => navigate(`/menus/${id}/edit`), icon: "solar:pen-linear",      label: "Edit Detail Menu" },
                                         { href: "/recipe-costing",          icon: "solar:notebook-linear", label: "Kelola Resep & HPP" },
                                         { href: "/promotions",         icon: "solar:gift-linear",     label: "Buat Promo Bundle" },
                                     ].map((a) => (

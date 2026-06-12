@@ -22,13 +22,13 @@ import KitchenOrdersIndex from '../Pages/KitchenOrders/Index';
 
 import MenusIndex from '../Pages/Menus/Index';
 import MenusShow from '../Pages/Menus/Show';
+import MenusCreateEdit from '../Pages/Menus/CreateEdit';
 import PromotionsIndex from '../Pages/Promotions/Index';
 import RecipeIndex from '../Pages/Recipe/Index';
 
 import InventoriesIndex from '../Pages/Inventories/Index';
-import InventoriesCreate from '../Pages/Inventories/Create';
+import InventoriesCreateEdit from '../Pages/Inventories/CreateEdit';
 import InventoriesShow from '../Pages/Inventories/Show';
-import InventoriesEdit from '../Pages/Inventories/Edit';
 import InventoriesLowStock from '../Pages/Inventories/LowStock';
 
 import PurchaseOrderIndex from '../Pages/PurchaseOrder/Index';
@@ -82,13 +82,15 @@ const AppRoutes = () => {
                 <Route path="/transactions/:id/invoice" element={<PageLoader component={TransactionsInvoice} apiPath="/transactions/:id/invoice" skeleton={TransactionsInvoiceSkeleton} />} />
                 <Route path="/kitchen-orders" element={<KitchenOrdersIndex />} />
                 <Route path="/menus" element={<MenusIndex />} />
+                <Route path="/menus/create" element={<MenusCreateEdit />} />
                 <Route path="/menus/:id" element={<MenusShow />} />
+                <Route path="/menus/:id/edit" element={<MenusCreateEdit />} />
                 <Route path="/promotions" element={<PromotionsIndex />} />
                 <Route path="/recipe-costing" element={<RecipeIndex />} />
                 <Route path="/inventories" element={<InventoriesIndex />} />
-                <Route path="/inventories/create" element={<InventoriesCreate />} />
+                <Route path="/inventories/create" element={<InventoriesCreateEdit />} />
                 <Route path="/inventories/:id" element={<InventoriesShow />} />
-                <Route path="/inventories/:id/edit" element={<InventoriesEdit />} />
+                <Route path="/inventories/:id/edit" element={<InventoriesCreateEdit />} />
                 <Route path="/inventories/low-stock/list" element={<PageLoader component={InventoriesLowStock} apiPath="/inventories/low-stock/list" skeleton={InventoriesLowStockSkeleton} />} />
                 <Route path="/purchase-orders" element={<PurchaseOrderIndex />} />
                 <Route path="/purchase-orders/create" element={<PurchaseOrderCreate />} />

@@ -270,19 +270,14 @@ export default function MenusIndex() {
     // Handle parameter query (?create=1 atau ?edit=id)
     useEffect(() => {
         if (params.get('create') === '1') {
-            setShowCreateModal(true)
-            navigate('/menus', { replace: true })
+            navigate('/menus/create', { replace: true })
         }
 
         const editId = params.get('edit')
         if (editId) {
-            const targetMenu = editMenu || menus?.data?.find(m => m.id == editId)
-            if (targetMenu) {
-                openEditModal(targetMenu)
-            }
-            navigate('/menus', { replace: true })
+            navigate(`/menus/${editId}/edit`, { replace: true })
         }
-    }, [location.search, editMenu, menus])
+    }, [location.search])
 
     const openEditModal = (menu) => {
         setEditMenuId(menu.id)
@@ -516,7 +511,7 @@ export default function MenusIndex() {
                                 Kelola Kategori
                             </button>
                             <button
-                                onClick={() => setShowCreateModal(true)}
+                                onClick={() => navigate('/menus/create')}
                                 className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]"
                             >
                                 + Tambah Menu
@@ -649,7 +644,7 @@ export default function MenusIndex() {
                                                         </div>
                                                         <p className="text-sm font-bold text-brand-dark">Tidak ada menu ditemukan.</p>
                                                         <button
-                                                            onClick={() => setShowCreateModal(true)}
+                                                            onClick={() => navigate('/menus/create')}
                                                             className="bg-gradient-to-r text-xs from-brand-primary to-brand-secondary text-white px-3 py-1.5 rounded-lg font-bold"
                                                         >
                                                             + Tambah Menu Pertama
@@ -739,7 +734,7 @@ export default function MenusIndex() {
                                                                 <iconify-icon icon="solar:eye-linear" class="text-lg"></iconify-icon>
                                                             </Link>
                                                             <button
-                                                                onClick={() => openEditModal(menu)}
+                                                                onClick={() => navigate(`/menus/${menu.id}/edit`)}
                                                                 className="p-2 text-brand-primary hover:text-brand-secondary rounded-xl hover:bg-brand-light/50 inline-flex active:scale-95 transition-all"
                                                                 title="Edit"
                                                             >
@@ -818,7 +813,7 @@ export default function MenusIndex() {
                                                     onClick={(e) => e.stopPropagation()}
                                                 >
                                                     <button
-                                                        onClick={() => openEditModal(menu)}
+                                                        onClick={() => navigate(`/menus/${menu.id}/edit`)}
                                                         className="flex-1 flex items-center justify-center gap-1 py-1.5 text-[11px] font-bold text-brand-primary hover:text-brand-secondary hover:bg-brand-light/50 rounded-lg transition-all"
                                                     >
                                                         <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon> Edit

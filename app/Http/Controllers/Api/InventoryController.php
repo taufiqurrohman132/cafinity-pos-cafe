@@ -182,4 +182,19 @@ class InventoryController extends Controller
             'inventory' => $inventory
         ]);
     }
+
+    public function storeCategory(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255|unique:inventory_categories,name',
+        ]);
+
+        $category = InventoryCategory::create($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Kategori bahan baku ditambahkan.',
+            'category' => $category
+        ]);
+    }
 }

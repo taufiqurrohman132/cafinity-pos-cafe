@@ -422,47 +422,47 @@ export default function OwnerDashboard() {
                                     ) : bestSellingMenus.length === 0 ? (
                                         <p className="text-sm text-brand-primary italic text-center py-4">Belum ada data penjualan menu hari ini.</p>
                                     ) : bestSellingMenus.map((menu, i) => {
-                                         const rankColors = [
-                                             'bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-amber-200/50',
-                                             'bg-gradient-to-br from-slate-400 to-slate-600 text-white shadow-slate-200/50',
-                                             'bg-gradient-to-br from-amber-600 to-orange-700 text-white shadow-orange-200/50',
-                                         ][i] ?? 'bg-brand-light text-brand-primary';
+                                        const rankColors = [
+                                            'bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-amber-200/50',
+                                            'bg-gradient-to-br from-slate-400 to-slate-600 text-white shadow-slate-200/50',
+                                            'bg-gradient-to-br from-amber-600 to-orange-700 text-white shadow-orange-200/50',
+                                        ][i] ?? 'bg-brand-light text-brand-primary';
 
-                                         return (
-                                             <Link key={i} to={`/menus/${menu.id}`} className="flex items-center justify-between py-2 px-2.5 bg-transparent hover:bg-gradient-to-r hover:from-brand-light/60 hover:to-transparent border border-transparent hover:border-brand-light/80 rounded-2xl transition-all duration-300 hover:shadow-md hover:shadow-brand-primary/5 group">
-                                                 <div className="flex items-center gap-3">
-                                                     <div className="relative">
-                                                         <div className="w-12 h-12 bg-gradient-to-br from-brand-light/10 to-brand-light/30 border border-brand-light rounded-xl flex items-center justify-center text-brand-secondary shadow-sm">
-                                                             <iconify-icon icon={(() => {
-                                                                 const map = {
-                                                                     '☕': 'solar:cup-hot-linear',
-                                                                     '🍵': 'solar:cup-hot-linear',
-                                                                     '🥐': 'solar:croissant-linear',
-                                                                     '🍚': 'solar:bowl-linear',
-                                                                     '🍽️': 'solar:hamburger-linear',
-                                                                 };
-                                                                 const val = menu.emoji || '';
-                                                                 return val.startsWith('solar:') ? val : (map[val] || 'solar:hamburger-linear');
-                                                             })()} class="text-2xl"></iconify-icon>
-                                                         </div>
-                                                         <span className={`absolute -top-1.5 -left-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold shadow-md border border-white ${rankColors}`}>
-                                                             {i + 1}
-                                                         </span>
-                                                     </div>
-                                                     <div>
-                                                         <p className="text-sm font-extrabold text-brand-dark tracking-tight group-hover:text-brand-secondary transition-colors">{menu.name}</p>
-                                                         <p className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wider">{menu.category}</p>
-                                                     </div>
-                                                 </div>
-                                                 <div className="text-right">
-                                                     <p className="text-sm font-extrabold text-brand-dark tracking-tight">{menu.sold}</p>
-                                                     <p className={`text-[10px] font-bold mt-0.5 ${menu.trend_type === 'up' ? 'text-emerald-500' : 'text-rose-500'}`}>
-                                                         {menu.trend_type === 'up' ? '▲' : '▼'} {menu.trend}
-                                                     </p>
-                                                 </div>
-                                             </Link>
-                                         );
-                                     })}
+                                        return (
+                                            <Link key={i} to={`/menus/${menu.id}`} className="flex items-center justify-between py-2 px-2.5 bg-transparent hover:bg-gradient-to-r hover:from-brand-light/60 hover:to-transparent border border-transparent hover:border-brand-light/80 rounded-2xl transition-all duration-300 hover:shadow-md hover:shadow-brand-primary/5 group">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="relative">
+                                                        <div className="w-12 h-12 bg-gradient-to-br from-brand-light/10 to-brand-light/30 border border-brand-light rounded-xl flex items-center justify-center text-brand-secondary shadow-sm">
+                                                            <iconify-icon icon={(() => {
+                                                                const map = {
+                                                                    '☕': 'solar:cup-hot-linear',
+                                                                    '🍵': 'solar:cup-hot-linear',
+                                                                    '🥐': 'solar:croissant-linear',
+                                                                    '🍚': 'solar:bowl-linear',
+                                                                    '🍽️': 'solar:hamburger-linear',
+                                                                };
+                                                                const val = menu.emoji || '';
+                                                                return val.startsWith('solar:') ? val : (map[val] || 'solar:hamburger-linear');
+                                                            })()} class="text-2xl"></iconify-icon>
+                                                        </div>
+                                                        <span className={`absolute -top-1.5 -left-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold shadow-md border border-white ${rankColors}`}>
+                                                            {i + 1}
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm font-extrabold text-brand-dark tracking-tight group-hover:text-brand-secondary transition-colors">{menu.name}</p>
+                                                        <p className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wider">{menu.category}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="text-sm font-extrabold text-brand-dark tracking-tight">{menu.sold}</p>
+                                                    <p className={`text-[10px] font-bold mt-0.5 ${menu.trend_type === 'up' ? 'text-emerald-500' : 'text-rose-500'}`}>
+                                                        {menu.trend_type === 'up' ? '▲' : '▼'} {menu.trend}
+                                                    </p>
+                                                </div>
+                                            </Link>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
