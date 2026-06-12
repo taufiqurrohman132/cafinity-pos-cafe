@@ -56,9 +56,9 @@ export default function Show({ transaction }) {
     const navigate = useNavigate();
     const createdAt = transaction.created_at
         ? new Date(transaction.created_at).toLocaleString("id-ID", {
-              day: "2-digit", month: "short", year: "numeric",
-              hour: "2-digit", minute: "2-digit",
-          })
+            day: "2-digit", month: "short", year: "numeric",
+            hour: "2-digit", minute: "2-digit",
+        })
         : "-";
 
     async function handleRefund() {
@@ -186,10 +186,10 @@ export default function Show({ transaction }) {
                         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 lg:col-span-2">
                             <h2 className="text-base font-bold text-gray-900">Ringkasan</h2>
                             <div className="mt-4 space-y-2 text-sm">
-                                <SummaryRow label="Diskon"    value={transaction.discount} />
-                                <SummaryRow label="Pajak"     value={transaction.tax} />
-                                <SummaryRow label="Total"     value={transaction.total_amount}  bold border />
-                                <SummaryRow label="Dibayar"   value={transaction.paid_amount} />
+                                <SummaryRow label="Diskon" value={transaction.discount} />
+                                <SummaryRow label="Pajak" value={transaction.tax} />
+                                <SummaryRow label="Total" value={transaction.total_amount} bold border />
+                                <SummaryRow label="Dibayar" value={transaction.paid_amount} />
                                 <SummaryRow label="Kembalian" value={transaction.change_amount} />
                             </div>
                             {transaction.notes && (

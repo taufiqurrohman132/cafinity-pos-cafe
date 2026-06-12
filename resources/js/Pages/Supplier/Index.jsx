@@ -100,28 +100,28 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
         switch (supStatus) {
             case 'active':
                 return (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-emerald-500 bg-emerald-50 border border-emerald-100">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                         Aktif
                     </span>
                 );
             case 'inactive':
                 return (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold text-gray-500 bg-gray-50 border border-gray-200">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-gray-500 bg-gray-50 border border-gray-100">
                         <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
                         Nonaktif
                     </span>
                 );
             case 'blacklist':
                 return (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold text-red-600 bg-red-50 border border-red-200">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-rose-500 bg-rose-50 border border-rose-100">
+                        <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
                         Blacklist
                     </span>
                 );
             default:
                 return (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold text-gray-500 bg-gray-50 border border-gray-200">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-gray-500 bg-gray-50 border border-gray-100">
                         {supStatus}
                     </span>
                 );
@@ -135,116 +135,123 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
             <div className="min-h-screen bg-brand-bg">
                 <div className="max-w-[1600px] mx-auto p-4 md:p-6 lg:p-8">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                        
+
                         {/* ── MAIN AREA ── */}
                         <div className="lg:col-span-9 space-y-6">
-                            
+
                             {/* Header */}
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                 <div>
-                                    <h1 className="text-2xl md:text-3xl font-extrabold text-brand-dark tracking-tight">Daftar Supplier</h1>
-                                    <p className="text-gray-500 mt-1.5 text-sm md:text-base">Kelola dan pantau seluruh mitra supplier aktif dalam satu dashboard.</p>
+                                    <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">Daftar Supplier</h1>
+                                    <p className="text-xs md:text-sm text-brand-primary/60 font-medium mt-1">Kelola dan pantau seluruh mitra supplier aktif dalam satu dashboard.</p>
                                 </div>
                                 <div className="flex items-center gap-3 self-end sm:self-auto">
-                                    <Link 
+                                    <Link
                                         to="/suppliers/create"
-                                        className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-brand-primary hover:bg-brand-secondary rounded-xl transition-all duration-200 shadow-sm hover:shadow active:scale-95"
+                                        className="flex items-center gap-2 px-6 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition-all duration-200 shadow-lg shadow-brand-primary/30 active:scale-[0.98] whitespace-nowrap"
                                     >
-                                        <iconify-icon icon="solar:user-plus-linear" class="text-lg"></iconify-icon>
+                                        <iconify-icon icon="solar:user-plus-linear" class="text-base"></iconify-icon>
                                         Tambah Supplier
                                     </Link>
                                 </div>
                             </div>
 
                             {/* Stat Cards */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
-                                {/* Total Active */}
-                                <div className="bg-white p-5 rounded-2xl border border-brand-light/80 shadow-sm flex justify-between items-start hover:shadow-md transition-all duration-200">
-                                    <div>
-                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Total Supplier Aktif</p>
-                                        <h3 className="text-3xl font-black text-brand-dark mt-2">{stats.total_active}</h3>
-                                        <p className="text-xs text-emerald-500 font-bold mt-2 flex items-center gap-0.5">
-                                            <iconify-icon icon="solar:arrow-left-up-linear" class="rotate-45 text-sm font-bold"></iconify-icon>
-                                            +8.2% <span className="text-gray-400 font-normal">vs bulan lalu</span>
-                                        </p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+                                {[
+                                    {
+                                        label: 'Total Supplier Aktif',
+                                        value: stats.total_active,
+                                        sub: (
+                                            <span className="flex items-center gap-0.5">
+                                                <iconify-icon icon="solar:arrow-left-up-linear" class="rotate-45 text-sm font-bold"></iconify-icon>
+                                                +8.2% <span className="text-gray-400 font-normal">vs bulan lalu</span>
+                                            </span>
+                                        ),
+                                        subColor: 'text-emerald-500',
+                                        icon: 'solar:users-group-two-rounded-linear',
+                                        iconBg: 'bg-brand-light text-brand-primary',
+                                    },
+                                    {
+                                        label: 'Supplier Baru Bulan Ini',
+                                        value: `+${stats.new_this_month}`,
+                                        sub: (
+                                            <span className="flex items-center gap-1">
+                                                <iconify-icon icon="solar:calendar-add-linear" class="text-sm"></iconify-icon>
+                                                Aktif bertambah
+                                            </span>
+                                        ),
+                                        subColor: 'text-brand-primary',
+                                        icon: 'solar:add-circle-linear',
+                                        iconBg: 'bg-brand-light text-brand-secondary',
+                                    },
+                                    {
+                                        label: 'Rata-rata Lead Time',
+                                        value: `${stats.avg_lead_time} Hari`,
+                                        sub: (
+                                            <span className="flex items-center gap-0.5">
+                                                <iconify-icon icon="solar:arrow-left-down-linear" class="rotate-45 text-sm"></iconify-icon>
+                                                -0.5 hari <span className="text-gray-400 font-normal">vs bulan lalu</span>
+                                            </span>
+                                        ),
+                                        subColor: 'text-rose-500',
+                                        icon: 'solar:clock-circle-linear',
+                                        iconBg: 'bg-amber-50 text-amber-500',
+                                    },
+                                    {
+                                        label: 'Skor Performa Global',
+                                        value: `${stats.avg_rating}/5.0`,
+                                        sub: (
+                                            <span className="flex items-center gap-1">
+                                                <iconify-icon icon="solar:graph-up-linear" class="text-sm"></iconify-icon>
+                                                Stabil &amp; Prima
+                                            </span>
+                                        ),
+                                        subColor: 'text-emerald-500',
+                                        icon: 'solar:ranking-linear',
+                                        iconBg: 'bg-emerald-50 text-emerald-500',
+                                    },
+                                ].map((card) => (
+                                    <div key={card.label} className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <p className="text-xs font-semibold text-brand-primary/70 capitalize tracking-wide">{card.label}</p>
+                                                <h3 className="text-2xl font-black text-brand-dark mt-3">{card.value}</h3>
+                                                <p className={`text-xs font-bold mt-3 ${card.subColor}`}>{card.sub}</p>
+                                            </div>
+                                            <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm ${card.iconBg}`}>
+                                                <iconify-icon icon={card.icon} class="text-xl"></iconify-icon>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center">
-                                        <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-xl"></iconify-icon>
-                                    </div>
-                                </div>
-
-                                {/* New Suppliers */}
-                                <div className="bg-white p-5 rounded-2xl border border-brand-light/80 shadow-sm flex justify-between items-start hover:shadow-md transition-all duration-200">
-                                    <div>
-                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Supplier Baru Bulan Ini</p>
-                                        <h3 className="text-3xl font-black text-brand-dark mt-2">+{stats.new_this_month}</h3>
-                                        <p className="text-xs text-brand-primary font-bold mt-2 flex items-center gap-0.5">
-                                            <iconify-icon icon="solar:calendar-add-linear" class="text-sm"></iconify-icon>
-                                            Aktif bertambah
-                                        </p>
-                                    </div>
-                                    <div className="w-10 h-10 rounded-xl bg-violet-100 text-brand-primary flex items-center justify-center">
-                                        <iconify-icon icon="solar:add-circle-linear" class="text-xl"></iconify-icon>
-                                    </div>
-                                </div>
-
-                                {/* Avg Lead Time */}
-                                <div className="bg-white p-5 rounded-2xl border border-brand-light/80 shadow-sm flex justify-between items-start hover:shadow-md transition-all duration-200">
-                                    <div>
-                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Rata-rata Lead Time</p>
-                                        <h3 className="text-3xl font-black text-brand-dark mt-2">{stats.avg_lead_time} Hari</h3>
-                                        <p className="text-xs text-red-500 font-bold mt-2 flex items-center gap-0.5">
-                                            <iconify-icon icon="solar:arrow-left-down-linear" class="rotate-45 text-sm"></iconify-icon>
-                                            -0.5 hari <span className="text-gray-400 font-normal">vs bulan lalu</span>
-                                        </p>
-                                    </div>
-                                    <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center">
-                                        <iconify-icon icon="solar:clock-circle-linear" class="text-xl"></iconify-icon>
-                                    </div>
-                                </div>
-
-                                {/* Global Performance Rating */}
-                                <div className="bg-white p-5 rounded-2xl border border-brand-light/80 shadow-sm flex justify-between items-start hover:shadow-md transition-all duration-200">
-                                    <div>
-                                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Skor Performa Global</p>
-                                        <h3 className="text-3xl font-black text-brand-dark mt-2">{stats.avg_rating}/5.0</h3>
-                                        <p className="text-xs text-emerald-500 font-bold mt-2 flex items-center gap-0.5">
-                                            <iconify-icon icon="solar:graph-up-linear" class="text-sm"></iconify-icon>
-                                            Stabil &amp; Prima
-                                        </p>
-                                    </div>
-                                    <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center">
-                                        <iconify-icon icon="solar:ranking-linear" class="text-xl"></iconify-icon>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
 
                             {/* Table Control and Search Bar */}
                             <div className="bg-white rounded-2xl border border-brand-light/80 shadow-sm overflow-hidden">
                                 <div className="p-4 md:p-5 border-b border-brand-light/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                    
+
                                     {/* Left controls: search and filter trigger */}
                                     <div className="flex flex-wrap items-center gap-2 flex-1 max-w-xl">
                                         <form onSubmit={handleSearch} className="relative flex-1 min-w-[240px]">
-                                            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 flex items-center justify-center">
+                                            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 flex items-center justify-center">
                                                 <iconify-icon icon="solar:magnifer-linear" class="text-lg"></iconify-icon>
                                             </span>
-                                            <input 
+                                            <input
                                                 type="text"
                                                 placeholder="Cari supplier..."
                                                 value={search}
                                                 onChange={(e) => setSearch(e.target.value)}
-                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 hover:bg-gray-50 border border-brand-light/70 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all"
+                                                className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-semibold text-brand-dark"
                                             />
                                         </form>
-                                        
-                                        <button 
+
+                                        <button
                                             onClick={() => setShowFilterModal(!showFilterModal)}
-                                            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border rounded-xl transition-all ${
-                                                showFilterModal || status || category
-                                                    ? 'bg-brand-primary/5 border-brand-primary text-brand-primary'
-                                                    : 'bg-white border-brand-light text-gray-700 hover:bg-gray-50'
-                                            }`}
+                                            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold border rounded-xl transition-all duration-200 active:scale-[0.98] whitespace-nowrap ${showFilterModal || status || category
+                                                    ? 'bg-brand-light text-brand-dark border-brand-primary'
+                                                    : 'bg-white border-brand-light text-brand-primary hover:bg-brand-light hover:text-brand-dark'
+                                                }`}
                                         >
                                             <iconify-icon icon="solar:filter-linear" class="text-base"></iconify-icon>
                                             Filter
@@ -256,13 +263,13 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
 
                                     {/* Right controls */}
                                     <div className="flex items-center gap-3">
-                                        <a 
+                                        <a
                                             href="#"
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 alert('Fitur Unduh CSV sedang disiapkan.');
                                             }}
-                                            className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-gray-50 active:scale-95 transition"
+                                            className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98] whitespace-nowrap"
                                         >
                                             <iconify-icon icon="solar:download-linear" class="text-base"></iconify-icon>
                                             Unduh CSV
@@ -270,17 +277,16 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                     </div>
                                 </div>
 
-                                <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 bg-gray-50/50 border-brand-light transition-all duration-300 ease-in-out overflow-hidden ${
-                                    showFilterModal 
-                                        ? 'max-h-[300px] opacity-100 p-5 border-b border-brand-light/60' 
+                                <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 bg-gray-50/50 border-brand-light transition-all duration-300 ease-in-out overflow-hidden ${showFilterModal
+                                        ? 'max-h-[300px] opacity-100 p-5 border-b border-brand-light/60'
                                         : 'max-h-0 opacity-0 p-0 border-b-0 border-brand-light/0 pointer-events-none'
-                                }`}>
+                                    }`}>
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Status</label>
-                                        <select 
-                                            value={status} 
+                                        <label className="text-xs font-bold text-brand-primary/60 capitalize tracking-wide">Status</label>
+                                        <select
+                                            value={status}
                                             onChange={(e) => setStatus(e.target.value)}
-                                            className="w-full px-3 py-2 text-sm bg-white border border-brand-light rounded-xl focus:ring-brand-primary focus:border-brand-primary"
+                                            className="w-full px-3 py-2.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-semibold text-brand-dark"
                                         >
                                             <option value="">Semua Status</option>
                                             <option value="active">Aktif</option>
@@ -289,11 +295,11 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                         </select>
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Kategori</label>
-                                        <select 
-                                            value={category} 
+                                        <label className="text-xs font-bold text-brand-primary/60 capitalize tracking-wide">Kategori</label>
+                                        <select
+                                            value={category}
                                             onChange={(e) => setCategory(e.target.value)}
-                                            className="w-full px-3 py-2 text-sm bg-white border border-brand-light rounded-xl focus:ring-brand-primary focus:border-brand-primary"
+                                            className="w-full px-3 py-2.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-semibold text-brand-dark"
                                         >
                                             <option value="">Semua Kategori</option>
                                             {categories.map(cat => (
@@ -302,15 +308,15 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                         </select>
                                     </div>
                                     <div className="flex items-end gap-2">
-                                        <button 
+                                        <button
                                             onClick={handleFilterApply}
-                                            className="flex-1 px-4 py-2 text-sm font-semibold text-white bg-brand-primary hover:bg-brand-secondary rounded-xl transition"
+                                            className="flex-1 px-4 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition-all duration-200 active:scale-[0.98]"
                                         >
                                             Terapkan
                                         </button>
-                                        <button 
+                                        <button
                                             onClick={handleFilterReset}
-                                            className="px-4 py-2 text-sm font-semibold text-gray-600 bg-white border border-brand-light rounded-xl hover:bg-gray-50 transition"
+                                            className="px-4 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98]"
                                         >
                                             Reset
                                         </button>
@@ -321,22 +327,22 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left border-collapse">
                                         <thead>
-                                            <tr className="bg-gray-50/50 border-b border-brand-light/60">
-                                                <th className="px-6 py-4 w-12 text-center">
-                                                    <input 
+                                            <tr className="text-xs font-extrabold text-brand-primary/60 bg-brand-bg border-b border-brand-light tracking-wider text-[11px] uppercase">
+                                                <th className="px-6 py-3.5 w-12 text-center">
+                                                    <input
                                                         type="checkbox"
                                                         onChange={handleSelectAll}
                                                         checked={selectedIds.length === suppliers.data.length && suppliers.data.length > 0}
-                                                        className="w-4 h-4 rounded text-brand-primary border-brand-light focus:ring-brand-primary"
+                                                        className="rounded border-brand-light text-brand-primary focus:ring-4 focus:ring-brand-light/50 focus:ring-offset-0 focus:border-brand-secondary transition-all"
                                                     />
                                                 </th>
-                                                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Nama Supplier</th>
-                                                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Kategori</th>
-                                                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Kontak Utama</th>
-                                                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Lead Time</th>
-                                                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Rating</th>
-                                                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Status</th>
-                                                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Aksi</th>
+                                                <th className="px-6 py-3.5">Nama Supplier</th>
+                                                <th className="px-6 py-3.5">Kategori</th>
+                                                <th className="px-6 py-3.5">Kontak Utama</th>
+                                                <th className="px-6 py-3.5">Lead Time</th>
+                                                <th className="px-6 py-3.5">Rating</th>
+                                                <th className="px-6 py-3.5">Status</th>
+                                                <th className="px-6 py-3.5 text-right">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-brand-light/40">
@@ -351,18 +357,18 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                 suppliers.data.map((supplier) => {
                                                     const primaryContact = supplier.contacts?.find(c => c.is_primary) || supplier.contacts?.[0];
                                                     return (
-                                                        <tr key={supplier.id} className="hover:bg-gray-50/30 transition-all group">
+                                                        <tr key={supplier.id} className="hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all cursor-pointer group">
                                                             <td className="px-6 py-4 text-center">
-                                                                <input 
+                                                                <input
                                                                     type="checkbox"
                                                                     checked={selectedIds.includes(supplier.id)}
                                                                     onChange={() => handleSelectOne(supplier.id)}
-                                                                    className="w-4 h-4 rounded text-brand-primary border-brand-light focus:ring-brand-primary"
+                                                                    className="rounded border-brand-light text-brand-primary focus:ring-4 focus:ring-brand-light/50 focus:ring-offset-0 focus:border-brand-secondary transition-all"
                                                                 />
                                                             </td>
                                                             <td className="px-6 py-4">
                                                                 <div className="flex flex-col">
-                                                                    <Link 
+                                                                    <Link
                                                                         to={`/suppliers/${supplier.id}`}
                                                                         className="font-bold text-brand-primary hover:text-brand-secondary hover:underline text-sm md:text-base transition-colors"
                                                                     >
@@ -396,15 +402,15 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                             </td>
                                                             <td className="px-6 py-4 text-right">
                                                                 <div className="flex items-center justify-end gap-2">
-                                                                    <Link 
+                                                                    <Link
                                                                         to={`/suppliers/${supplier.id}/edit`}
-                                                                        className="p-1.5 rounded-lg border border-brand-light text-gray-500 hover:text-brand-primary hover:border-brand-primary bg-white transition hover:shadow-sm"
+                                                                        className="w-8 h-8 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary hover:shadow-sm active:scale-90 transition-all duration-150"
                                                                     >
                                                                         <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon>
                                                                     </Link>
-                                                                    <button 
+                                                                    <button
                                                                         onClick={() => handleDelete(supplier.id, supplier.name)}
-                                                                        className="p-1.5 rounded-lg border border-red-100 text-red-500 hover:bg-red-50 bg-white transition hover:shadow-sm"
+                                                                        className="w-8 h-8 rounded-xl bg-white border border-red-100 flex items-center justify-center text-red-500 hover:text-red-600 hover:border-red-300 hover:shadow-sm active:scale-90 transition-all duration-150"
                                                                     >
                                                                         <iconify-icon icon="solar:trash-bin-trash-linear" class="text-sm"></iconify-icon>
                                                                     </button>
@@ -416,73 +422,70 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                             )}
                                         </tbody>
                                     </table>
-                                </div>
 
-                                {/* Pagination */}
-                                {suppliers.links && suppliers.links.length > 3 && (
-                                    <div className="px-6 py-4 border-t border-brand-light/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                        <div className="text-xs text-gray-500">
-                                            Menampilkan <span className="font-bold text-gray-700">{suppliers.from || 0}</span>-
-                                            <span className="font-bold text-gray-700">{suppliers.to || 0}</span> dari <span className="font-bold text-gray-700">{suppliers.total || 0}</span> supplier
-                                        </div>
-                                        <div className="flex items-center gap-1.5">
-                                            {suppliers.links.map((link) => {
-                                                if (link.label.includes('Previous')) {
+                                    {/* Pagination */}
+                                    {suppliers.links && suppliers.links.length > 3 && (
+                                        <div className="px-6 py-4 border-t border-brand-light/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                            <div className="text-xs text-gray-500 font-medium">
+                                                Menampilkan <span className="font-bold text-gray-700">{suppliers.from || 0}</span>-
+                                                <span className="font-bold text-gray-700">{suppliers.to || 0}</span> dari <span className="font-bold text-gray-700">{suppliers.total || 0}</span> supplier
+                                            </div>
+                                            <div className="flex items-center gap-1.5">
+                                                {suppliers.links.map((link) => {
+                                                    if (link.label.includes('Previous')) {
+                                                        return (
+                                                            <Link
+                                                                key={link.label}
+                                                                to={getRelativeUrl(link.url)}
+                                                                className={`w-9 h-9 border border-brand-light rounded-xl flex items-center justify-center transition-all duration-150 ${link.url ? 'bg-white hover:bg-brand-light hover:text-brand-dark text-brand-primary active:scale-95' : 'bg-gray-50 text-gray-300 cursor-not-allowed'
+                                                                    } ${!link.url ? 'pointer-events-none opacity-50' : ''}`}
+                                                            >
+                                                                <iconify-icon icon="solar:alt-arrow-left-linear" class="text-sm"></iconify-icon>
+                                                            </Link>
+                                                        );
+                                                    }
+                                                    if (link.label.includes('Next')) {
+                                                        return (
+                                                            <Link
+                                                                key={link.label}
+                                                                to={getRelativeUrl(link.url)}
+                                                                className={`w-9 h-9 border border-brand-light rounded-xl flex items-center justify-center transition-all duration-150 ${link.url ? 'bg-white hover:bg-brand-light hover:text-brand-dark text-brand-primary active:scale-95' : 'bg-gray-50 text-gray-300 cursor-not-allowed'
+                                                                    } ${!link.url ? 'pointer-events-none opacity-50' : ''}`}
+                                                            >
+                                                                <iconify-icon icon="solar:alt-arrow-right-linear" class="text-sm"></iconify-icon>
+                                                            </Link>
+                                                        );
+                                                    }
                                                     return (
-                                                        <Link 
-                                                                                            key={link.label}
-                                                                                            to={getRelativeUrl(link.url)}
-                                                                                            className={`w-9 h-9 border border-brand-light rounded-xl flex items-center justify-center transition-all ${
-                                                                                                link.url ? 'bg-white hover:bg-gray-50 text-gray-500 active:scale-95' : 'bg-gray-50 text-gray-300 cursor-not-allowed'
-                                                                                            } ${!link.url ? 'pointer-events-none opacity-50' : ''}`}
-                                                                                        >
-                                                                                            <iconify-icon icon="solar:alt-arrow-left-linear" class="text-sm"></iconify-icon>
-                                                                                        </Link>
-                                                                                    );
-                                                                                }
-                                                                                if (link.label.includes('Next')) {
-                                                                                    return (
-                                                                                        <Link 
-                                                                                            key={link.label}
-                                                                                            to={getRelativeUrl(link.url)}
-                                                                                            className={`w-9 h-9 border border-brand-light rounded-xl flex items-center justify-center transition-all ${
-                                                                                                link.url ? 'bg-white hover:bg-gray-50 text-gray-500 active:scale-95' : 'bg-gray-50 text-gray-300 cursor-not-allowed'
-                                                                                            } ${!link.url ? 'pointer-events-none opacity-50' : ''}`}
-                                                                                        >
-                                                                                            <iconify-icon icon="solar:alt-arrow-right-linear" class="text-sm"></iconify-icon>
-                                                                                        </Link>
-                                                                                    );
-                                                                                }
-                                                                                return (
-                                                                                    <Link
-                                                                                        key={link.label}
-                                                                                        to={getRelativeUrl(link.url)}
-                                                                                        className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold transition-all ${
-                                                                                            link.active
-                                                                                                ? 'bg-brand-primary text-white shadow'
-                                                                                                : 'bg-white border border-brand-light text-gray-600 hover:bg-gray-50 active:scale-95'
-                                                                                        } ${!link.url ? 'pointer-events-none opacity-50' : ''}`}
-                                                                                        dangerouslySetInnerHTML={{ __html: link.label }}
-                                                                                    />
-                                                );
-                                            })}
+                                                        <Link
+                                                            key={link.label}
+                                                            to={getRelativeUrl(link.url)}
+                                                            className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold transition-all duration-150 ${link.active
+                                                                    ? 'bg-brand-primary text-white border-brand-primary shadow-sm shadow-brand-primary/20'
+                                                                    : 'bg-white border border-brand-light text-brand-primary hover:bg-brand-light hover:text-brand-dark active:scale-95'
+                                                                } ${!link.url ? 'pointer-events-none opacity-50' : ''}`}
+                                                            dangerouslySetInnerHTML={{ __html: link.label }}
+                                                        />
+                                                    );
+                                                })}
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
                         </div>
 
                         {/* ── SIDEBAR AREA ── */}
                         <div className="lg:col-span-3 space-y-6">
-                            
+
                             {/* Aktivitas Terbaru */}
                             <div className="bg-white rounded-2xl border border-brand-light/80 shadow-sm p-5 space-y-4">
                                 <div className="flex items-center justify-between">
-                                    <h4 className="font-extrabold text-brand-dark text-sm md:text-base flex items-center gap-2">
-                                        <iconify-icon icon="solar:document-text-linear" class="text-lg text-brand-primary"></iconify-icon>
+                                    <h4 className="text-xs font-bold text-gray-400 capitalize tracking-wider flex items-center gap-2">
+                                        <iconify-icon icon="solar:document-text-linear" class="text-brand-primary text-lg"></iconify-icon>
                                         Aktivitas Terbaru
                                     </h4>
-                                    <a href="#" className="text-xs font-bold text-brand-primary hover:underline">Lihat Semua</a>
+                                    <a href="#" className="text-[11px] font-semibold text-brand-primary hover:underline">Lihat Semua</a>
                                 </div>
                                 <div className="space-y-4">
                                     {recent_activities.map((act) => (
@@ -510,7 +513,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                     <iconify-icon icon="solar:lightbulb-linear" class="text-xl"></iconify-icon>
                                 </div>
                                 <div className="space-y-1">
-                                    <h5 className="text-xs font-black text-brand-primary uppercase tracking-wider">Tips Admin</h5>
+                                    <h5 className="text-xs font-black text-brand-primary capitalize tracking-wide">Tips Admin</h5>
                                     <p className="text-xs text-gray-600 leading-relaxed font-medium">
                                         Supplier dengan rating di bawah 3.0 akan otomatis masuk ke daftar tinjauan mingguan.
                                     </p>
@@ -519,11 +522,14 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
 
                             {/* Aksi Cepat */}
                             <div className="bg-white rounded-2xl border border-brand-light/80 shadow-sm p-5 space-y-4">
-                                <h4 className="font-extrabold text-brand-dark text-xs uppercase tracking-wider">Aksi Cepat</h4>
+                                <h4 className="text-xs font-bold text-gray-400 capitalize tracking-wider flex items-center gap-2">
+                                    <iconify-icon icon="solar:bolt-linear" class="text-brand-primary text-lg"></iconify-icon>
+                                    Aksi Cepat
+                                </h4>
                                 <div className="space-y-2.5">
-                                    <Link 
+                                    <Link
                                         to="/suppliers/create"
-                                        className="w-full flex items-center justify-between px-4 py-3 border border-brand-light hover:border-brand-primary rounded-xl text-left bg-white text-xs font-bold text-gray-700 hover:text-brand-primary transition duration-150 hover:shadow-sm"
+                                        className="w-full flex items-center justify-between px-4 py-3 border border-brand-light hover:border-brand-primary hover:bg-brand-light/20 rounded-xl text-left bg-white text-xs font-bold text-gray-700 hover:text-brand-primary active:scale-[0.98] transition duration-150 hover:shadow-sm"
                                     >
                                         <span className="flex items-center gap-2">
                                             <iconify-icon icon="solar:add-circle-linear" class="text-base"></iconify-icon>
@@ -531,13 +537,13 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                         </span>
                                         <iconify-icon icon="solar:alt-arrow-right-linear" class="text-xs"></iconify-icon>
                                     </Link>
-                                    <a 
+                                    <a
                                         href="#"
                                         onClick={(e) => {
                                             e.preventDefault();
                                             alert('Laporan performa Q4 sedang dibuat...');
                                         }}
-                                        className="w-full flex items-center justify-between px-4 py-3 border border-brand-light hover:border-brand-primary rounded-xl text-left bg-white text-xs font-bold text-gray-700 hover:text-brand-primary transition duration-150 hover:shadow-sm"
+                                        className="w-full flex items-center justify-between px-4 py-3 border border-brand-light hover:border-brand-primary hover:bg-brand-light/20 rounded-xl text-left bg-white text-xs font-bold text-gray-700 hover:text-brand-primary active:scale-[0.98] transition duration-150 hover:shadow-sm"
                                     >
                                         <span className="flex items-center gap-2">
                                             <iconify-icon icon="solar:document-linear" class="text-base"></iconify-icon>

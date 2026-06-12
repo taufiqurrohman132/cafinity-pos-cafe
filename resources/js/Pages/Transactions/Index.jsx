@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Head from '@/Components/Head';
 import { Icon } from '@iconify/react';
- // Sesuaikan path layout Anda
+// Sesuaikan path layout Anda
 import ModernDatePicker from '@/Components/ModernDatePicker';
 import client from '@/api/client';
 import TransactionsSkeleton from '@/Components/Skeletons/TransactionsSkeleton';
@@ -15,11 +15,10 @@ function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor }) {
                     <iconify-icon icon={icon} class={`text-2xl ${iconColor}`}></iconify-icon>
                 </div>
                 {trend && (
-                    <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full border ${
-                        trendType === 'up'
+                    <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full border ${trendType === 'up'
                             ? 'bg-emerald-50 border-emerald-100 text-emerald-600'
                             : 'bg-rose-50 border-rose-100 text-rose-600'
-                    }`}>
+                        }`}>
                         <span>{trendType === 'up' ? '▲' : '▼'}</span>
                         <span>{trend}</span>
                     </span>
@@ -158,14 +157,14 @@ export default function TransactionHistory() {
             const response = await client.get(`/transactions/export?${searchParams.toString()}`, {
                 responseType: 'blob',
             });
-            
+
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            
+
             const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
             link.setAttribute('download', `transaksi_${dateStr}.csv`);
-            
+
             document.body.appendChild(link);
             link.click();
             link.remove();

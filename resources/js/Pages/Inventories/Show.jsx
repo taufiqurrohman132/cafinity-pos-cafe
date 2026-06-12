@@ -105,14 +105,14 @@ export default function InventoriesShow() {
 
     const stockColor = inventory.stock === 0 ? 'red'
         : inventory.stock <= inventory.min_stock ? 'orange'
-        : percent <= 75 ? 'yellow' : 'blue';
+            : percent <= 75 ? 'yellow' : 'blue';
 
     const barCls = { blue: 'bg-brand-primary', yellow: 'bg-yellow-400', orange: 'bg-orange-400', red: 'bg-red-400' }[stockColor];
     const badgeCls = {
-        blue:   'bg-brand-light text-brand-primary',
+        blue: 'bg-brand-light text-brand-primary',
         yellow: 'bg-yellow-100 text-yellow-700',
         orange: 'bg-orange-100 text-orange-600',
-        red:    'bg-red-100 text-red-600',
+        red: 'bg-red-100 text-red-600',
     }[stockColor];
     const stockLabel = { blue: 'Aman', yellow: 'Menipis', orange: 'Kritis', red: 'Habis' }[stockColor];
 
@@ -149,15 +149,15 @@ export default function InventoriesShow() {
                                 <h3 className="font-bold text-brand-dark">Informasi Bahan</h3>
                                 <div className="grid grid-cols-2 gap-4 text-sm">
                                     {[
-                                        { label: 'Kategori',  value: inventory.category?.name ?? '-' },
-                                        { label: 'Satuan',    value: inventory.unit },
-                                        { 
-                                            label: 'Supplier',  
+                                        { label: 'Kategori', value: inventory.category?.name ?? '-' },
+                                        { label: 'Satuan', value: inventory.unit },
+                                        {
+                                            label: 'Supplier',
                                             value: inventory.supplier ? (
                                                 <Link to={`/suppliers/${inventory.supplier_id}`} className="text-brand-primary hover:underline hover:text-brand-secondary font-semibold">
                                                     {inventory.supplier.name}
                                                 </Link>
-                                            ) : '-' 
+                                            ) : '-'
                                         },
                                         { label: 'Harga/Satuan', value: `Rp ${Number(inventory.price_per_unit).toLocaleString('id-ID')}` },
                                     ].map(item => (
@@ -237,11 +237,10 @@ export default function InventoriesShow() {
                                                     key={item.value}
                                                     type="button"
                                                     onClick={() => setAdjustType(item.value)}
-                                                    className={`py-1.5 text-xs font-bold rounded-lg transition-all ${
-                                                        adjustType === item.value 
-                                                            ? 'bg-white text-brand-primary shadow-sm border border-brand-light' 
+                                                    className={`py-1.5 text-xs font-bold rounded-lg transition-all ${adjustType === item.value
+                                                            ? 'bg-white text-brand-primary shadow-sm border border-brand-light'
                                                             : 'text-brand-primary/60 hover:text-brand-primary'
-                                                    }`}
+                                                        }`}
                                                 >
                                                     {item.label}
                                                 </button>
@@ -257,11 +256,10 @@ export default function InventoriesShow() {
                                                 <button
                                                     type="button"
                                                     onClick={() => setAdjustDirection('in')}
-                                                    className={`py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition-all ${
-                                                        adjustDirection === 'in'
+                                                    className={`py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition-all ${adjustDirection === 'in'
                                                             ? 'bg-emerald-50 border-emerald-200 text-emerald-600 shadow-sm'
                                                             : 'bg-white border-brand-light text-brand-primary/60 hover:bg-brand-bg'
-                                                    }`}
+                                                        }`}
                                                 >
                                                     <iconify-icon icon="solar:arrow-left-down-linear"></iconify-icon>
                                                     Masuk (+)
@@ -269,11 +267,10 @@ export default function InventoriesShow() {
                                                 <button
                                                     type="button"
                                                     onClick={() => setAdjustDirection('out')}
-                                                    className={`py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition-all ${
-                                                        adjustDirection === 'out'
+                                                    className={`py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition-all ${adjustDirection === 'out'
                                                             ? 'bg-rose-50 border-rose-200 text-rose-600 shadow-sm'
                                                             : 'bg-white border-brand-light text-brand-primary/60 hover:bg-brand-bg'
-                                                    }`}
+                                                        }`}
                                                 >
                                                     <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon>
                                                     Keluar (-)
@@ -311,11 +308,10 @@ export default function InventoriesShow() {
                                     <button
                                         type="submit"
                                         disabled={processingAdjust}
-                                        className={`w-full py-2.5 rounded-xl text-sm font-bold text-white transition-all shadow-md active:scale-[0.98] disabled:opacity-60 bg-gradient-to-r ${
-                                            adjustDirection === 'in' 
-                                                ? 'from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary' 
+                                        className={`w-full py-2.5 rounded-xl text-sm font-bold text-white transition-all shadow-md active:scale-[0.98] disabled:opacity-60 bg-gradient-to-r ${adjustDirection === 'in'
+                                                ? 'from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary'
                                                 : 'from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700'
-                                        }`}
+                                            }`}
                                     >
                                         {processingAdjust ? 'Memproses...' : 'Simpan Penyesuaian'}
                                     </button>

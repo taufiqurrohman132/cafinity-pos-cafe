@@ -313,7 +313,7 @@ export default function RecipeIndex() {
                                         <p className="text-[10px] font-bold text-brand-primary capitalize tracking-widest mb-2">Margin Kotor</p>
                                         <div className="flex items-center gap-2">
                                             <p className="text-2xl font-bold text-brand-dark">{selectedRecipe.margin}%</p>
-                                            <iconify-icon icon="solar:graph-up-linear" class="text-emerald-500 text-xl"></iconify-icon>
+                                            <iconify-icon icon="solar:graph-up-linear" class="text-[#059669] text-xl"></iconify-icon>
                                         </div>
                                     </div>
                                 </div>
@@ -385,14 +385,14 @@ export default function RecipeIndex() {
                                             <h3 className="font-bold text-brand-dark mb-4">Struktur Harga vs Biaya</h3>
                                             <div className="flex items-center justify-between mb-2">
                                                 <div className="flex items-center gap-2">
-                                                    <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block" />
+                                                    <span className="w-3 h-3 rounded-full bg-[#059669] inline-block" />
                                                     <span className="text-xs text-brand-primary">Cost of Goods Sold (HPP)</span>
                                                 </div>
                                                 <span className="text-xs font-bold text-brand-dark">{cogsPercent}%</span>
                                             </div>
                                             <div className="w-full bg-brand-light/30 h-3 rounded-full overflow-hidden mb-5 shadow-inner">
                                                 <div
-                                                    className="bg-gradient-to-r from-emerald-400 to-emerald-500 h-full rounded-full transition-all duration-500"
+                                                    className="bg-gradient-to-r from-[#10b981] to-[#059669] h-full rounded-full transition-all duration-500"
                                                     style={{ width: `${cogsPercent}%` }}
                                                 />
                                             </div>
@@ -409,7 +409,7 @@ export default function RecipeIndex() {
                                                         <p className="text-xl font-bold text-white">
                                                             Rp {Number(recommendedPrice).toLocaleString('id-ID')}
                                                         </p>
-                                                        <span className="text-[10px] font-bold text-brand-dark bg-emerald-400 px-2 py-0.5 rounded-md">Optimal</span>
+                                                        <span className="text-[10px] font-bold text-[#065f46] bg-[#ecfdf5] border border-[#d1fae5] px-2 py-0.5 rounded-md">Optimal</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -463,8 +463,8 @@ export default function RecipeIndex() {
                                                     </span>
                                                 </div>
                                                 <div className="flex justify-between items-center border-t border-brand-light/50 pt-3">
-                                                    <span className="text-[10px] font-bold text-rose-500 capitalize tracking-wider">Dampak pada Profit</span>
-                                                    <span className={`text-xs font-bold flex items-center gap-1 ${impactPersen >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+                                                    <span className="text-[10px] font-bold text-[#b91c1c] capitalize tracking-wider">Dampak pada Profit</span>
+                                                    <span className={`text-xs font-bold flex items-center gap-1 ${impactPersen >= 0 ? 'text-[#059669]' : 'text-[#b91c1c]'}`}>
                                                         {impactPersen >= 0 ? '↗ +' : '↘ '}{impactPersen}%
                                                     </span>
                                                 </div>
@@ -518,8 +518,8 @@ export default function RecipeIndex() {
                             <div className="mt-auto px-8 py-4 border-t border-brand-light bg-white flex justify-between items-center text-[10px] text-brand-primary/60">
                                 <span>© {new Date().getFullYear()} Devora POS v2.4.0</span>
                                 <div className="flex items-center gap-3">
-                                    <span className="flex items-center gap-1.5 text-emerald-600">
-                                        <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                                    <span className="flex items-center gap-1.5 text-[#059669]">
+                                        <span className="w-2 h-2 bg-[#059669] rounded-full animate-pulse" />
                                         System Online
                                     </span>
                                     <span>Support ID: #POS-8821</span>

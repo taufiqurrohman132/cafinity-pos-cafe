@@ -45,6 +45,14 @@ Berikut adalah detail skema tabel database berdasarkan berkas migrasi aktif pada
     *   `role` (enum: `owner`, `admin`, `cashier`)
     *   `status` (enum/string: default `'active'`, `'inactive'`)
     *   `shift_terakhir` (datetime, nullable)
+*   `user_sessions`: Melacak riwayat sesi masuk dan perangkat staf.
+    *   `id` (PK)
+    *   `user_id` (FK ke `users`)
+    *   `device` (string, nullable)
+    *   `browser` (string, nullable)
+    *   `ip_address` (string, nullable)
+    *   `location` (string, nullable)
+    *   `last_activity` (timestamp, nullable)
 *   `roles` & `permissions` (Spatie): Mengatur grup peran dan hak akses spesifik per fitur.
 
 ### 3.2 Tabel Kategori & Menu Hidangan
@@ -71,6 +79,22 @@ Berikut adalah detail skema tabel database berdasarkan berkas migrasi aktif pada
     *   `phone` (string, nullable)
     *   `address` (text, nullable)
     *   `is_active` (boolean, default `true`)
+*   `supplier_contacts`: Kontak person perwakilan dari supplier.
+    *   `id` (PK)
+    *   `supplier_id` (FK ke `suppliers`)
+    *   `name` (string)
+    *   `phone` (string, nullable)
+    *   `email` (string, nullable)
+    *   `position` (string, nullable)
+    *   `is_primary` (boolean, default `false`)
+*   `supplier_documents`: Berkas/dokumen resmi supplier (NPWP, Kontrak, dll).
+    *   `id` (PK)
+    *   `supplier_id` (FK ke `suppliers`)
+    *   `type` (string - misal: `'NPWP'`, `'Kontrak'`)
+    *   `filename` (string)
+    *   `path` (string)
+    *   `uploaded_by` (FK ke `users`, nullable)
+    *   `uploaded_at` (timestamp, nullable)
 *   `inventory_categories`: Kategori bahan baku (misal: *Biji Kopi*, *Susu*, *Sirup*, *Packaging*).
     *   `id` (PK)
     *   `name` (string)
@@ -162,6 +186,14 @@ Berikut adalah detail skema tabel database berdasarkan berkas migrasi aktif pada
     *   `unit` (string)
     *   `price_per_unit` (unsigned integer)
     *   `subtotal` (unsigned integer)
+*   `po_approvals`: Rekaman persetujuan (approval) berjenjang dokumen PO.
+    *   `id` (PK)
+    *   `purchase_order_id` (FK ke `purchase_orders`)
+    *   `approver_id` (FK ke `users`)
+    *   `status` (string - default `'pending'`)
+    *   `notes` (text, nullable)
+    *   `level` (integer, default `1`)
+    *   `acted_at` (timestamp, nullable)
 
 ### 3.8 Tabel Promosi & Bundling
 *   `promotions`: Diskon khusus yang berlaku pada periode tertentu.
@@ -206,6 +238,14 @@ Berikut adalah detail skema tabel database berdasarkan berkas migrasi aktif pada
     *   `model_type` (string, nullable)
     *   `model_id` (unsigned big integer, nullable)
     *   `metadata` (json, nullable)
+*   `notifications`: Pesan pemberitahuan sistem kepada pengguna (peringatan stok rendah, aktivitas penting, dll).
+    *   `id` (PK)
+    *   `user_id` (FK ke `users`)
+    *   `title` (string)
+    *   `body` (text)
+    *   `type` (string - default `'info'`)
+    *   `is_read` (boolean, default `false`)
+    *   `read_at` (timestamp, nullable)
 
 ---
 
@@ -391,54 +431,18 @@ Setelah melakukan seeder database (`php artisan migrate:fresh --seed`), akun-aku
 
 *Pintasan Cepat*: Di lingkungan lokal, Anda dapat langsung mengetikkan `http://127.0.0.1:8000/dev-login/owner` atau `/dev-login/admin` atau `/dev-login/cashier` di peramban untuk masuk secara instan tanpa memasukkan kredensial.
 
-
-1. System Overview Flowchart
-   └─ Gambaran besar Cafinity
-
-2. Feature Flowchart
-   ├─ POS & Kitchen Flow
-   ├─ Purchase Order Flow
-   ├─ Recipe Costing & HPP Flow
-   └─ AI Agent Flow
-
-3. User Flow
-   ├─ Pelanggan
-   ├─ Kasir
-   └─ Owner
-
-4. System Architecture Diagram
-   ├─ Frontend
-   ├─ Backend
-   ├─ Database
-   ├─ AI Agent
-   └─ External APIs
-
-
-Berikut adalah panduan memilih efek loading yang tepat untuk aplikasi kafe Anda:
-
-### 1. Skeleton Screen (Efek Simmer)
-Efek ini menampilkan bentuk abu-abu samar yang menyerupai tata letak konten asli (kotak untuk gambar, garis untuk teks) dengan animasi kilauan (*simmer*).
-*   **Cocok untuk**: Halaman utama (beranda), daftar menu makanan/minuman, dan keranjang belanja.
-*   **Kelebihan**: Memberikan ilusi bahwa aplikasi memuat lebih cepat dan mengurangi kecemasan pengguna karena mereka tahu persis konten apa yang akan muncul.
-*   **Pilihan Library Populer**:
-    *   **React Native**: Anda bisa menggunakan `react-native-skeleton-placeholder` atau `react-native-loading-spinner-overlay` untuk overlay penuh.
-    *   **Flutter**: Gunakan package `shimmer` untuk membuat efek kilau pada widget.
-
-### 2. Spinner / Circular Progress Indicator
-Ini adalah ikon animasi berputar yang diletakkan di tengah layar atau di tombol.
-*   **Cocok untuk**: Tombol *Checkout* / *Pesan Sekarang*, proses pembayaran (QRIS, e-wallet), atau saat mengirim ulasan.
-*   **Kelebihan**: Sangat jelas menunjukkan bahwa sistem sedang memproses sebuah aksi spesifik.
-*   **Pilihan Library Populer**:
-    *   **React Native**: `react-native-paper` menyediakan komponen `ActivityIndicator`.
-    *   **Flutter**: Widget bawaan `CircularProgressIndicator` sudah sangat cukup dan optimal.
-
-### 3. Page Loader / Full Screen Splash Screen
-Animasi logo kafe Anda yang berkedip atau memuat secara penuh.
-*   **Cocok untuk**: Halaman awal saat aplikasi pertama kali dibuka (*Cold Start*).
-*   **Kelebihan**: Memperkuat branding kafe Anda.
-
 ---
 
-### 💡 Tips Terbaik untuk Aplikasi Kafe:
-*   **Gunakan Skeleton (Simmer) untuk Menu**: Saat pelanggan melihat daftar kopi atau pastry, gunakan *simmer effect* agar mereka bisa membayangkan menu yang akan mereka pilih, seperti standar aplikasi GoFood atau GrabFood.
-*   **Gunakan Spinner untuk Aksi**: Saat pengguna menekan tombol "Tambah ke Keranjang" atau "Pesan", ubah tombol tersebut menjadi spinner agar mereka tidak menekan tombol dua kali yang bisa menyebabkan pesanan ganda.
+## 9. Alur Sistem & Panduan Pengalaman Pengguna (UX)
+
+### 9.1 Pemetaan Alur Utama (Flowcharts)
+Sistem Cafinity POS dirancang dengan alur kerja modular yang mencakup:
+1. **POS & Kitchen Flow**: Integrasi dari pemesanan kasir, hold/resume transaksi, pembayaran, cetak struk, hingga live update antrean persiapan pesanan di dapur.
+2. **Purchase Order Flow**: Pembuatan rancangan PO oleh Admin, verifikasi/approval bertahap oleh Owner, hingga pencatatan penerimaan barang fisik di gudang dengan auto-update stok.
+3. **Recipe Costing & HPP Flow**: Penyusunan formula resep menu, deteksi pergerakan stok, dan sinkronisasi margin profit kotor otomatis.
+
+### 9.2 Panduan Indikator Transisi & Loading UX
+Untuk kenyamanan interaksi pengguna dan mengurangi latency visual, Cafinity POS menerapkan standardisasi penanganan pemuatan data:
+*   **Skeleton Simmer (Simmer Effect)**: Digunakan pada halaman beranda, list menu, dan keranjang belanja saat data dimuat dari server guna memberikan transisi layout yang halus dan responsif.
+*   **Spinner / Circular Progress**: Diletakkan pada aksi dinamis seperti tombol *Checkout*, *Adjust Stock*, atau *Approve PO* untuk mencegah pengiriman aksi ganda oleh pengguna.
+*   **Toast notification**: Umpan balik teks kecil di pojok layar untuk konfirmasi instan pasca-aksi (misal: "Pesanan Berhasil Disimpan", "Stok Berhasil Disesuaikan").

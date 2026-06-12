@@ -108,7 +108,7 @@ export default function AovReport({
     const maxChannelAov = Math.max(aovDineIn, aovDelivery, aovTakeaway) || 1;
     const isDineInHighest = aovDineIn >= maxChannelAov;
     const isDeliveryHighest = aovDelivery >= maxChannelAov;
-    
+
     let leadChannel = "Dine-in";
     let leadDiff = aovDineIn - overallAov;
     if (isDeliveryHighest) {
@@ -127,7 +127,7 @@ export default function AovReport({
             script.async = true;
             document.head.appendChild(script);
         }
-        
+
         // Formatted current time for footer
         const now = new Date();
         const timeStr = now.toTimeString().split(" ")[0];
@@ -171,7 +171,7 @@ export default function AovReport({
             trendType: aovTrend >= 0 ? "up" : "down",
             desc: (aovTrend >= 0 ? "Meningkat " : "Menurun ") + periodDesc,
             icon: "solar:graph-up-linear",
-            iconBg: "bg-emerald-50 text-emerald-500",
+            iconBg: "bg-brand-light text-brand-secondary",
         },
         {
             title: "Volume Pesanan",
@@ -180,7 +180,7 @@ export default function AovReport({
             trendType: volumeTrend >= 0 ? "up" : "down",
             desc: (volumeTrend >= 0 ? "Meningkat " : "Menurun ") + periodDesc,
             icon: "solar:cart-2-linear",
-            iconBg: "bg-blue-50 text-brand-secondary",
+            iconBg: "bg-brand-light text-brand-primary",
         },
         {
             title: "Pendapatan Bruto",
@@ -211,12 +211,12 @@ export default function AovReport({
             <Head title="Laporan Rata-rata Nilai Tiket (AOV)" />
 
             <div className="flex flex-col gap-6 py-6 px-8 max-w-7xl mx-auto bg-brand-bg min-h-[calc(100vh-72px)]">
-                
+
                 {/* Back button to Targets & Goals */}
                 <div className="flex items-center gap-2">
                     <Link
                         to="/targets-goals"
-                        className="flex items-center gap-1 text-xs font-bold text-brand-primary hover:text-brand-dark transition-colors"
+                        className="flex items-center gap-1 text-xs font-extrabold text-brand-primary hover:text-brand-dark transition-colors active:scale-95"
                     >
                         <Icon icon="solar:alt-arrow-left-linear" className="text-sm" />
                         Kembali ke Targets & Goals
@@ -226,10 +226,10 @@ export default function AovReport({
                 {/* ── HEADER SECTION ── */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-brand-light/50 pb-5">
                     <div>
-                        <h1 className="text-2xl font-black text-brand-dark tracking-tight">
+                        <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                             Laporan Rata-rata Nilai Tiket (AOV)
                         </h1>
-                        <p className="text-xs text-brand-primary font-medium mt-1">
+                        <p className="text-xs md:text-sm text-brand-primary/60 font-medium mt-1">
                             Analisis performa belanja per transaksi di seluruh saluran penjualan.
                         </p>
                     </div>
@@ -242,11 +242,10 @@ export default function AovReport({
                                     key={period}
                                     type="button"
                                     onClick={() => handlePeriodChange(period)}
-                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                                        selectedPeriod === period
-                                            ? "bg-brand-secondary text-white shadow-sm"
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 active:scale-[0.98] ${selectedPeriod === period
+                                            ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20"
                                             : "text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/20"
-                                    }`}
+                                        }`}
                                 >
                                     {period}
                                 </button>
@@ -261,7 +260,7 @@ export default function AovReport({
                                     value={startDate}
                                     onChange={(e) => setStartDate(e.target.value)}
                                     required
-                                    className="px-2 py-1 text-xs font-bold text-brand-dark border border-brand-light rounded-lg outline-none focus:border-brand-secondary focus:ring-1 focus:ring-brand-secondary transition-all"
+                                    className="px-2 py-1.5 text-xs font-bold text-brand-dark border border-brand-light rounded-lg outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all"
                                 />
                                 <span className="text-[10px] font-black text-brand-primary/60 uppercase">s/d</span>
                                 <input
@@ -269,11 +268,11 @@ export default function AovReport({
                                     value={endDate}
                                     onChange={(e) => setEndDate(e.target.value)}
                                     required
-                                    className="px-2 py-1 text-xs font-bold text-brand-dark border border-brand-light rounded-lg outline-none focus:border-brand-secondary focus:ring-1 focus:ring-brand-secondary transition-all"
+                                    className="px-2 py-1.5 text-xs font-bold text-brand-dark border border-brand-light rounded-lg outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all"
                                 />
                                 <button
                                     type="submit"
-                                    className="bg-brand-secondary text-white px-3 py-1.5 rounded-lg text-xs font-extrabold hover:bg-brand-primary active:scale-[0.98] transition-all shadow-sm"
+                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-3 py-1.5 rounded-lg text-xs font-extrabold active:scale-[0.98] transition-all shadow-sm"
                                 >
                                     Terapkan
                                 </button>
@@ -284,7 +283,7 @@ export default function AovReport({
                         <button
                             type="button"
                             onClick={handleExportPdf}
-                            className="flex items-center gap-2 bg-white border border-brand-light px-4 py-2.5 rounded-xl text-xs font-extrabold text-brand-dark hover:bg-brand-light/30 active:scale-[0.98] transition-all shadow-sm"
+                            className="flex items-center gap-2 bg-white border border-brand-light px-4 py-2.5 rounded-xl text-xs font-extrabold text-brand-primary hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98] shadow-sm whitespace-nowrap"
                         >
                             <Icon icon="solar:document-text-linear" className="text-base text-brand-secondary" />
                             <span>Ekspor PDF</span>
@@ -295,19 +294,18 @@ export default function AovReport({
                 {/* ── STAT CARDS GRID ── */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     {statCards.map((card, idx) => (
-                        <div 
-                            key={idx} 
-                            className="bg-white rounded-2xl border border-brand-light p-5 shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden group"
+                        <div
+                            key={idx}
+                            className="bg-white rounded-2xl border border-brand-light p-5 shadow-sm hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 relative overflow-hidden group"
                         >
                             <div className="flex items-center justify-between mb-4">
-                                <div className={`w-9 h-9 rounded-xl ${card.iconBg} flex items-center justify-center`}>
+                                <div className={`w-9 h-9 rounded-xl ${card.iconBg} flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
                                     <Icon icon={card.icon} className="text-lg" />
                                 </div>
-                                <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${
-                                    card.trendType === "up"
-                                        ? "text-emerald-600 bg-emerald-50 border-emerald-100"
-                                        : "text-rose-600 bg-rose-50 border-rose-100"
-                                }`}>
+                                <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${card.trendType === "up"
+                                        ? "text-emerald-500 bg-emerald-50 border-emerald-100"
+                                        : "text-rose-500 bg-rose-50 border-rose-100"
+                                    }`}>
                                     {card.trendType === "up" ? "↗" : "↘"} {card.trend}
                                 </span>
                             </div>
@@ -315,7 +313,7 @@ export default function AovReport({
                             <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest leading-none mb-1">
                                 {card.title}
                             </p>
-                            <p className="text-xl font-black text-brand-dark tracking-tight mb-2">
+                            <p className={`text-xl font-black tracking-tight mb-2 ${card.title.includes("Volume") ? "text-brand-dark" : "text-brand-secondary"}`}>
                                 {card.value}
                             </p>
                             <p className="text-[10px] text-brand-primary/60 font-semibold flex items-center gap-1">
@@ -328,7 +326,7 @@ export default function AovReport({
 
                 {/* ── MIDDLE ROW: TREN TIME CHART & CHANNEL COMPARISON ── */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    
+
                     {/* Line Chart card */}
                     <div className="lg:col-span-8 bg-white p-6 rounded-2xl border border-brand-light shadow-sm flex flex-col justify-between">
                         <div>
@@ -375,8 +373,8 @@ export default function AovReport({
                                         <span>{fmt(aovDineIn)}</span>
                                     </div>
                                     <div className="w-full h-8 bg-brand-bg rounded-xl overflow-hidden border border-brand-light/50 relative">
-                                        <div 
-                                            className="h-full bg-gradient-to-r from-brand-secondary to-brand-primary transition-all duration-500 rounded-l-xl" 
+                                        <div
+                                            className="h-full bg-gradient-to-r from-brand-secondary to-brand-primary transition-all duration-500 rounded-l-xl"
                                             style={{ width: `${(aovDineIn / maxChannelAov) * 100}%` }}
                                         />
                                     </div>
@@ -389,8 +387,8 @@ export default function AovReport({
                                         <span>{fmt(aovDelivery)}</span>
                                     </div>
                                     <div className="w-full h-8 bg-brand-bg rounded-xl overflow-hidden border border-brand-light/50 relative">
-                                        <div 
-                                            className="h-full bg-gradient-to-r from-brand-secondary/80 to-brand-primary/80 transition-all duration-500 rounded-l-xl" 
+                                        <div
+                                            className="h-full bg-gradient-to-r from-brand-secondary/80 to-brand-primary/80 transition-all duration-500 rounded-l-xl"
                                             style={{ width: `${(aovDelivery / maxChannelAov) * 100}%` }}
                                         />
                                     </div>
@@ -403,8 +401,8 @@ export default function AovReport({
                                         <span>{fmt(aovTakeaway)}</span>
                                     </div>
                                     <div className="w-full h-8 bg-brand-bg rounded-xl overflow-hidden border border-brand-light/50 relative">
-                                        <div 
-                                            className="h-full bg-gradient-to-r from-brand-secondary/60 to-brand-primary/60 transition-all duration-500 rounded-l-xl" 
+                                        <div
+                                            className="h-full bg-gradient-to-r from-brand-secondary/60 to-brand-primary/60 transition-all duration-500 rounded-l-xl"
                                             style={{ width: `${(aovTakeaway / maxChannelAov) * 100}%` }}
                                         />
                                     </div>
@@ -418,11 +416,11 @@ export default function AovReport({
                                 <Icon icon="solar:lightbulb-linear" className="text-emerald-500 text-base" />
                                 <span className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">Wawasan Utama</span>
                             </div>
-                            
+
                             <div className="bg-brand-bg border border-brand-light p-3 rounded-xl">
                                 <div className="flex justify-between items-center mb-1.5">
                                     <span className="text-xs font-extrabold text-brand-dark">{leadChannel} Unggul</span>
-                                    <span className="text-[10px] font-extrabold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
+                                    <span className="text-[10px] font-extrabold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
                                         +{fmt(leadDiff)} vs Avg
                                     </span>
                                 </div>
@@ -436,7 +434,7 @@ export default function AovReport({
 
                 {/* ── BOTTOM ROW: KONTRIBUSI KATEGORI & PEAK HOUR HEATMAP ── */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    
+
                     {/* Category Contribution Card */}
                     <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm flex flex-col justify-between">
                         <div>
@@ -444,8 +442,8 @@ export default function AovReport({
                                 <h3 className="text-sm font-extrabold text-brand-dark tracking-tight">
                                     Kontribusi Kategori
                                 </h3>
-                                <Link 
-                                    to="/menus" 
+                                <Link
+                                    to="/menus"
                                     className="text-xs font-bold text-brand-secondary hover:text-brand-primary hover:underline"
                                 >
                                     Detail Menu
@@ -463,8 +461,8 @@ export default function AovReport({
                                             <span>{cat.percentage}%</span>
                                         </div>
                                         <div className="w-full h-2.5 bg-brand-bg rounded-full overflow-hidden border border-brand-light/50">
-                                            <div 
-                                                className="h-full bg-gradient-to-r from-brand-secondary to-brand-primary transition-all duration-500 rounded-full" 
+                                            <div
+                                                className="h-full bg-gradient-to-r from-brand-secondary to-brand-primary transition-all duration-500 rounded-full"
                                                 style={{ width: `${cat.percentage}%` }}
                                             />
                                         </div>
@@ -475,7 +473,7 @@ export default function AovReport({
 
                         {/* Bundling Opportunities Box */}
                         <div className="bg-brand-bg border border-brand-light p-4 rounded-xl flex gap-3 items-start">
-                            <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                                 <Icon icon="solar:tag-linear" className="text-base" />
                             </div>
                             <div>
@@ -507,12 +505,12 @@ export default function AovReport({
                                     if (isHigh) {
                                         bgClass = "bg-gradient-to-br from-brand-secondary to-brand-primary text-white shadow-md shadow-brand-secondary/25";
                                     } else if (isMed) {
-                                        bgClass = "bg-brand-light text-brand-primary border border-[#b4b0ff]/50";
+                                        bgClass = "bg-brand-light text-brand-dark border border-brand-light";
                                     }
 
                                     return (
-                                        <div 
-                                            key={idx} 
+                                        <div
+                                            key={idx}
                                             className={`rounded-xl p-3 flex flex-col items-center justify-center text-center transition-all duration-300 ${bgClass}`}
                                         >
                                             <span className={`text-[8px] font-extrabold tracking-wider ${isHigh ? 'text-white/80' : 'text-brand-primary/60'}`}>
@@ -539,7 +537,7 @@ export default function AovReport({
                                 &gt; Rp 90k
                             </span>
                             <span className="flex items-center gap-1.5 normal-case tracking-normal">
-                                <span className="w-2.5 h-2.5 rounded-full bg-brand-light border border-[#b4b0ff]/50" />
+                                <span className="w-2.5 h-2.5 rounded-full bg-brand-light border border-brand-light" />
                                 Rp 70k - 90k
                             </span>
                             <span className="flex items-center gap-1.5 normal-case tracking-normal">

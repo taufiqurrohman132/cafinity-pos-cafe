@@ -316,7 +316,7 @@ export default function PromotionsIndex() {
     };
 
     // Input class reusable
-    const inputCls = "w-full px-4 py-3 rounded-xl border border-brand-light focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none text-xs font-semibold text-brand-dark placeholder:text-brand-primary/40 transition-all bg-brand-bg focus:bg-white";
+    const inputCls = "w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 py-2.5 text-[13px] font-semibold text-brand-dark placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all shadow-sm";
 
     if (loading) {
         return (
@@ -356,10 +356,10 @@ export default function PromotionsIndex() {
                 {/* ── HEADER ── */}
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                        <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                             Promosi & Bundling
                         </h1>
-                        <p className="text-sm font-medium text-brand-primary mt-1">
+                        <p className="text-xs md:text-sm text-brand-primary/60 font-medium mt-1">
                             Kelola kampanye pemasaran dan tingkatkan penjualan dengan penawaran menarik.
                         </p>
                     </div>
@@ -375,8 +375,8 @@ export default function PromotionsIndex() {
                 {/* ── STAT CARDS ── */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
                     {/* Card 1 */}
-                    <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4">
-                        <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0">
+                    <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
+                        <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm">
                             <Icon icon="solar:ticket-linear" className="text-[22px] text-brand-secondary" />
                         </div>
                         <div>
@@ -387,8 +387,8 @@ export default function PromotionsIndex() {
                     </div>
 
                     {/* Card 2 */}
-                    <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4">
-                        <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0">
+                    <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
+                        <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm">
                             <Icon icon="solar:graph-up-linear" className="text-[22px] text-brand-secondary" />
                         </div>
                         <div>
@@ -401,8 +401,8 @@ export default function PromotionsIndex() {
                     </div>
 
                     {/* Card 3 */}
-                    <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4">
-                        <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0">
+                    <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
+                        <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm">
                             <Icon icon="solar:tag-linear" className="text-[22px] text-brand-secondary" />
                         </div>
                         <div>
@@ -413,8 +413,8 @@ export default function PromotionsIndex() {
                     </div>
 
                     {/* Card 4 */}
-                    <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4">
-                        <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0">
+                    <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
+                        <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm">
                             <Icon icon="solar:star-linear" className="text-[22px] text-brand-secondary" />
                         </div>
                         <div>
@@ -470,11 +470,11 @@ export default function PromotionsIndex() {
                         <div className="flex gap-3 mt-5">
                             <button
                                 onClick={() => highlightCampaign && handleEditCampaignClick(highlightCampaign)}
-                                className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-5 py-2.5 rounded-xl font-extrabold text-xs shadow-sm shadow-brand-secondary/20 transition-all active:scale-[0.98]"
+                                className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.98]"
                             >
                                 Kelola Bundel
                             </button>
-                            <button className="px-5 py-2.5 rounded-xl border border-brand-light text-brand-primary bg-white font-extrabold text-xs hover:bg-brand-light/50 hover:text-brand-dark transition-all active:scale-[0.98]">
+                            <button className="px-5 py-2.5 border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors rounded-xl active:scale-[0.98]">
                                 Lihat Analitik
                             </button>
                         </div>
@@ -522,7 +522,7 @@ export default function PromotionsIndex() {
                             <tbody className="text-sm">
                                 {filteredCampaigns.map((camp) => (
                                     <tr key={`${camp.type}-${camp.id}`}
-                                        className="border-b border-brand-light/50 last:border-0 hover:bg-brand-light/10 transition-colors">
+                                        className="border-b border-brand-light/30 last:border-0 hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all">
                                         <td className="py-4 pr-3">
                                             <p className="font-extrabold text-brand-dark">{camp.name}</p>
                                             {camp.description && (
@@ -755,12 +755,12 @@ export default function PromotionsIndex() {
 
                                     <div className="flex items-center gap-3 pt-4 border-t border-brand-light">
                                         <button type="submit" disabled={promoForm.processing}
-                                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white text-xs font-extrabold transition-all shadow-sm active:scale-[0.98]">
+                                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-xs font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.98]">
                                             {isEditModalOpen ? 'Simpan Perubahan' : 'Terapkan Promosi'}
                                         </button>
                                         <button type="button"
                                             onClick={() => { setIsCreateModalOpen(false); setIsEditModalOpen(false); }}
-                                            className="h-11 px-5 rounded-xl border border-brand-light text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors">
+                                            className="h-11 px-5 rounded-xl border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors rounded-xl">
                                             Batal
                                         </button>
                                     </div>
@@ -813,7 +813,7 @@ export default function PromotionsIndex() {
                                                 onChange={(e) => setQuantityToAdd(parseInt(e.target.value) || 1)}
                                                 className="w-16 px-3 py-2 rounded-xl border border-brand-light text-xs font-bold text-brand-dark text-center focus:outline-none focus:border-brand-secondary" />
                                             <button type="button" onClick={handleAddMenuToBundle}
-                                                className="px-3 py-2 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary text-white font-extrabold text-xs active:scale-95 transition-all">
+                                                className="px-3 py-2 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary text-white font-bold text-xs active:scale-[0.98] transition-all shadow-sm">
                                                 Tambah
                                             </button>
                                         </div>
@@ -848,12 +848,12 @@ export default function PromotionsIndex() {
 
                                     <div className="flex items-center gap-3 pt-4 border-t border-brand-light">
                                         <button type="submit" disabled={bundleForm.processing}
-                                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white text-xs font-extrabold transition-all shadow-sm active:scale-[0.98]">
+                                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-xs font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.98]">
                                             {isEditModalOpen ? 'Simpan Perubahan' : 'Terapkan Bundel'}
                                         </button>
                                         <button type="button"
                                             onClick={() => { setIsCreateModalOpen(false); setIsEditModalOpen(false); }}
-                                            className="h-11 px-5 rounded-xl border border-brand-light text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors">
+                                            className="h-11 px-5 rounded-xl border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors rounded-xl">
                                             Batal
                                         </button>
                                     </div>

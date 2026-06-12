@@ -334,6 +334,7 @@ class DashboardService
                 $yesterdayQty = (int) ($yesterdaySales[$menu->id] ?? 0);
 
                 return [
+                    'id' => $menu->id,
                     'name' => $menu->name,
                     'category' => $menu->category?->name ?? '-',
                     'sold' => $todayQty . ' Porsi',
@@ -390,6 +391,7 @@ class DashboardService
                 $margin = $menu->price > 0 ? round(($profit / $menu->price) * 100) : 0;
 
                 return [
+                    'id'         => $menu->id,
                     'name'       => $menu->name,
                     'price'      => $this->rupiah($menu->price),
                     'hpp'        => $this->rupiah($hpp),

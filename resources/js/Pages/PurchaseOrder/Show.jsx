@@ -34,14 +34,14 @@ export default function PurchaseOrderShow() {
         }
         fetchOrderDetails()
     }, [id, refreshTrigger])
-    
+
     // Status color mapping helper
     const getStatusMeta = (status) => {
         const meta = {
-            pending: { bg: 'bg-amber-50', text: 'text-amber-600', border: 'border-amber-100', label: 'Pending Approval' },
-            approved: { bg: 'bg-emerald-50', text: 'text-emerald-600', border: 'border-emerald-100', label: 'Approved (Waiting Delivery)' },
-            received: { bg: 'bg-blue-50', text: 'text-blue-600', border: 'border-blue-100', label: 'Received (Stok Diperbarui)' },
-            rejected: { bg: 'bg-red-50', text: 'text-red-600', border: 'border-red-100', label: 'Rejected (Ditolak)' }
+            pending: { bg: 'bg-[#fffbeb]', text: 'text-[#92400e]', border: 'border-[#fde68a]', label: 'Pending Approval' },
+            approved: { bg: 'bg-[#ecfdf5]', text: 'text-[#065f46]', border: 'border-[#d1fae5]', label: 'Approved (Waiting Delivery)' },
+            received: { bg: 'bg-[#eff6ff]', text: 'text-[#1e40af]', border: 'border-[#dbeafe]', label: 'Received (Stok Diperbarui)' },
+            rejected: { bg: 'bg-[#fef2f2]', text: 'text-[#991b1b]', border: 'border-[#fecaca]', label: 'Rejected (Ditolak)' }
         }
         return meta[status] || { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-100', label: status }
     }
@@ -100,7 +100,7 @@ export default function PurchaseOrderShow() {
     function formatDate(dateStr, includeTime = false) {
         if (!dateStr) return '-'
         const date = new Date(dateStr)
-        const opts = includeTime 
+        const opts = includeTime
             ? { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }
             : { day: 'numeric', month: 'short', year: 'numeric' }
         return date.toLocaleDateString('id-ID', opts)
@@ -151,8 +151,8 @@ export default function PurchaseOrderShow() {
                     {/* Top Header Actions Bar */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
-                            <Link 
-                                to="/purchase-orders" 
+                            <Link
+                                to="/purchase-orders"
                                 className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition shadow-sm"
                             >
                                 <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
@@ -182,19 +182,19 @@ export default function PurchaseOrderShow() {
                                 <iconify-icon icon="solar:download-linear" class="text-base"></iconify-icon>
                                 Download
                             </button>
-                            
+
                             {order.status === 'pending' && (
                                 <>
-                                    <Link 
+                                    <Link
                                         to={`/purchase-orders/${order.id}/edit`}
                                         className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-brand-primary bg-brand-light/50 border border-brand-light rounded-xl hover:bg-brand-light transition"
                                     >
                                         <iconify-icon icon="solar:pen-linear" class="text-base"></iconify-icon>
                                         Edit
                                     </Link>
-                                    <button 
+                                    <button
                                         onClick={handleCancel}
-                                        className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-xl transition shadow-sm"
+                                        className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-white bg-[#b91c1c] hover:bg-[#991b1b] rounded-xl transition shadow-sm"
                                     >
                                         <iconify-icon icon="solar:close-square-linear" class="text-base"></iconify-icon>
                                         Batalkan PO
@@ -205,7 +205,7 @@ export default function PurchaseOrderShow() {
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                        
+
                         {/* ── LEFT COLUMN (DETAILS & ITEMS) ── */}
                         <div className="lg:col-span-8 space-y-6">
 
@@ -278,9 +278,9 @@ export default function PurchaseOrderShow() {
                                         <iconify-icon icon="solar:box-linear" class="text-brand-primary text-lg"></iconify-icon>
                                         Rincian Barang & Jasa
                                     </h3>
-                                    
+
                                     {order.status === 'approved' && (
-                                        <button 
+                                        <button
                                             onClick={handleReceive}
                                             className="flex items-center gap-1.5 bg-brand-primary hover:bg-brand-secondary text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm"
                                         >
@@ -322,8 +322,8 @@ export default function PurchaseOrderShow() {
                                                         </td>
                                                         <td className="px-3 py-4 text-center">
                                                             <span className={`px-2 py-0.5 rounded font-bold text-[10px] border 
-                                                                ${order.status === 'received' 
-                                                                    ? 'bg-emerald-50 text-emerald-600 border-emerald-200' 
+                                                                ${order.status === 'received'
+                                                                    ? 'bg-[#ecfdf5] text-[#065f46] border-[#d1fae5]'
                                                                     : 'bg-gray-100 text-gray-400 border-gray-200'}`}>
                                                                 {order.status === 'received' ? item.qty : 0}
                                                             </span>
@@ -389,27 +389,27 @@ export default function PurchaseOrderShow() {
                                 </h3>
 
                                 <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-brand-light">
-                                    
+
                                     {/* Creator ( Sarah Admin ) */}
                                     <div className="relative pl-8">
-                                        <span className="absolute left-0 top-1.5 w-4 h-4 bg-emerald-500 border-4 border-white rounded-full"></span>
+                                        <span className="absolute left-0 top-1.5 w-4 h-4 bg-[#059669] border-4 border-white rounded-full"></span>
                                         <div className="text-xs">
                                             <p className="font-bold text-gray-900">Sarah Admin</p>
                                             <p className="text-[10px] text-gray-400 mt-0.5">Creator • {formatDate(order.created_at, true)}</p>
-                                            <span className="inline-block mt-1 px-2 py-0.5 text-[9px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100 rounded">Approved</span>
+                                            <span className="inline-block mt-1 px-2 py-0.5 text-[9px] font-bold bg-[#ecfdf5] text-[#065f46] border border-[#d1fae5] rounded">Approved</span>
                                         </div>
                                     </div>
 
                                     {/* Level 1 Approval ( Jane Manager ) */}
                                     <div className="relative pl-8">
                                         <span className={`absolute left-0 top-1.5 w-4 h-4 border-4 border-white rounded-full 
-                                            ${order.status !== 'pending' && order.status !== 'rejected' ? 'bg-emerald-500' : 'bg-gray-300'}`} />
+                                            ${order.status !== 'pending' && order.status !== 'rejected' ? 'bg-[#059669]' : 'bg-gray-300'}`} />
                                         <div className="text-xs">
                                             <p className="font-bold text-gray-900">Jane Manager</p>
                                             <p className="text-[10px] text-gray-400 mt-0.5">Operational Manager • 14 Okt 2024, 11:45</p>
                                             <span className={`inline-block mt-1 px-2 py-0.5 text-[9px] font-bold border rounded 
-                                                ${order.status !== 'pending' && order.status !== 'rejected' 
-                                                    ? 'bg-emerald-50 text-emerald-600 border-emerald-100' 
+                                                ${order.status !== 'pending' && order.status !== 'rejected'
+                                                    ? 'bg-[#ecfdf5] text-[#065f46] border-[#d1fae5]'
                                                     : 'bg-gray-100 text-gray-400 border-gray-200'}`}>
                                                 {order.status !== 'pending' && order.status !== 'rejected' ? 'Approved' : 'Waiting...'}
                                             </span>
@@ -419,20 +419,20 @@ export default function PurchaseOrderShow() {
                                     {/* Level 2 Approval ( Alex Manager ) */}
                                     <div className="relative pl-8">
                                         <span className={`absolute left-0 top-1.5 w-4 h-4 border-4 border-white rounded-full 
-                                            ${order.status === 'approved' || order.status === 'received' 
-                                                ? 'bg-emerald-500' 
-                                                : order.status === 'rejected' 
-                                                    ? 'bg-red-500' 
-                                                    : 'bg-amber-400'}`} />
+                                            ${order.status === 'approved' || order.status === 'received'
+                                                ? 'bg-[#059669]'
+                                                : order.status === 'rejected'
+                                                    ? 'bg-[#b91c1c]'
+                                                    : 'bg-[#92400e]'}`} />
                                         <div className="text-xs">
                                             <p className="font-bold text-gray-900">Alex Manager</p>
                                             <p className="text-[10px] text-gray-400 mt-0.5">Finance Owner • {order.status === 'pending' ? 'Waiting...' : 'Processed'}</p>
                                             <span className={`inline-block mt-1 px-2 py-0.5 text-[9px] font-bold border rounded 
-                                                ${order.status === 'approved' || order.status === 'received' 
-                                                    ? 'bg-emerald-50 text-emerald-600 border-emerald-100' 
-                                                    : order.status === 'rejected' 
-                                                        ? 'bg-red-50 text-red-600 border-red-100' 
-                                                        : 'bg-amber-50 text-amber-600 border-amber-100'}`}>
+                                                ${order.status === 'approved' || order.status === 'received'
+                                                    ? 'bg-[#ecfdf5] text-[#065f46] border-[#d1fae5]'
+                                                    : order.status === 'rejected'
+                                                        ? 'bg-[#fef2f2] text-[#991b1b] border-[#fecaca]'
+                                                        : 'bg-[#fffbeb] text-[#92400e] border-[#fde68a]'}`}>
                                                 {order.status === 'approved' || order.status === 'received' ? 'Approved' : order.status === 'rejected' ? 'Rejected' : 'Pending'}
                                             </span>
                                         </div>
@@ -443,20 +443,20 @@ export default function PurchaseOrderShow() {
                                 {order.status === 'pending' && (
                                     <div className="pt-4 border-t border-brand-light/50 space-y-2.5">
                                         <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide block">AKSI PERSETUJUAN (ROLE: OWNER / ADMIN)</span>
-                                        
+
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                            <button 
-                                                type="button" 
+                                            <button
+                                                type="button"
                                                 onClick={handleApprove}
-                                                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 text-xs transition"
+                                                className="w-full bg-[#059669] hover:bg-[#065f46] text-white py-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 text-xs transition"
                                             >
                                                 <iconify-icon icon="solar:check-circle-linear" class="text-base"></iconify-icon>
                                                 Setujui PO
                                             </button>
-                                            <button 
-                                                type="button" 
+                                            <button
+                                                type="button"
                                                 onClick={handleReject}
-                                                className="w-full border border-red-200 hover:bg-red-50 text-red-600 py-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 text-xs transition"
+                                                className="w-full border border-[#fecaca] hover:bg-[#fef2f2] text-[#991b1b] py-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 text-xs transition"
                                             >
                                                 <iconify-icon icon="solar:close-circle-linear" class="text-base"></iconify-icon>
                                                 Tolak
@@ -513,7 +513,7 @@ export default function PurchaseOrderShow() {
                                             </div>
 
                                             <div className="relative pl-8">
-                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-amber-500 border-4 border-white rounded-full"></span>
+                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-[#92400e] border-4 border-white rounded-full"></span>
                                                 <div className="flex justify-between items-start text-xs">
                                                     <div>
                                                         <p className="font-bold text-gray-900">Ditinjau oleh Ops Manager</p>
@@ -524,7 +524,7 @@ export default function PurchaseOrderShow() {
                                             </div>
 
                                             <div className="relative pl-8">
-                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-emerald-500 border-4 border-white rounded-full"></span>
+                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-[#059669] border-4 border-white rounded-full"></span>
                                                 <div className="flex justify-between items-start text-xs">
                                                     <div>
                                                         <p className="font-bold text-gray-900">Disetujui Level 1</p>
@@ -536,7 +536,7 @@ export default function PurchaseOrderShow() {
                                         </>
                                     )}
                                 </div>
-                                
+
                                 <a href="#" className="block text-center text-brand-primary font-bold text-xs mt-6 hover:underline">
                                     Lihat Semua Aktivitas
                                 </a>

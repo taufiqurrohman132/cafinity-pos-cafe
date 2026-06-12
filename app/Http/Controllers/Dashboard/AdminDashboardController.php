@@ -163,6 +163,7 @@ class AdminDashboardController extends Controller
                 $margin = $menu->price > 0 ? round(($profit / $menu->price) * 100) : 0;
 
                 return [
+                    'id'         => $menu->id,
                     'name'       => $menu->name,
                     'price'      => $this->rupiah($menu->price),
                     'hpp'        => $this->rupiah($hpp),

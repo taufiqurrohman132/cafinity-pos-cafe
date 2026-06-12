@@ -132,10 +132,10 @@ export default function KitchenOrdersIndex() {
     };
 
     const FILTER_TABS = [
-        { key: 'all',       label: 'Semua' },
-        { key: 'pending',   label: 'Menunggu' },
+        { key: 'all', label: 'Semua' },
+        { key: 'pending', label: 'Menunggu' },
         { key: 'preparing', label: 'Memasak' },
-        { key: 'ready',     label: 'Siap' },
+        { key: 'ready', label: 'Siap' },
     ];
 
     if (loading && !orders) {
@@ -170,10 +170,10 @@ export default function KitchenOrdersIndex() {
     if (!orders || !stats) return null;
 
     const statCards = [
-        { label: 'Pesanan Aktif',    value: stats.active_orders,    icon: 'solar:clipboard-list-linear',  iconBg: 'bg-brand-light',    iconColor: 'text-brand-secondary',   labelColor: 'text-brand-primary' },
-        { label: 'Rata-rata Masak',  value: stats.avg_cook_time,    icon: 'solar:stopwatch-linear',       iconBg: 'bg-brand-light',    iconColor: 'text-brand-secondary',   labelColor: 'text-brand-primary' },
-        { label: 'Pesanan Terlambat',value: stats.late_orders,      icon: 'solar:danger-triangle-linear', iconBg: 'bg-rose-100',     iconColor: 'text-rose-500',    labelColor: 'text-rose-500' },
-        { label: 'Selesai Hari Ini', value: stats.completed_today,  icon: 'solar:check-circle-linear',   iconBg: 'bg-emerald-100',  iconColor: 'text-emerald-600', labelColor: 'text-emerald-600' },
+        { label: 'Pesanan Aktif', value: stats.active_orders, icon: 'solar:clipboard-list-linear', iconBg: 'bg-brand-light', iconColor: 'text-brand-secondary', labelColor: 'text-brand-primary' },
+        { label: 'Rata-rata Masak', value: stats.avg_cook_time, icon: 'solar:stopwatch-linear', iconBg: 'bg-brand-light', iconColor: 'text-brand-secondary', labelColor: 'text-brand-primary' },
+        { label: 'Pesanan Terlambat', value: stats.late_orders, icon: 'solar:danger-triangle-linear', iconBg: 'bg-rose-100', iconColor: 'text-rose-500', labelColor: 'text-rose-500' },
+        { label: 'Selesai Hari Ini', value: stats.completed_today, icon: 'solar:check-circle-linear', iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600', labelColor: 'text-emerald-600' },
     ];
 
     return (
@@ -229,11 +229,10 @@ export default function KitchenOrdersIndex() {
                             <Link
                                 key={tab.key}
                                 to={tab.key === 'all' ? '/kitchen-orders' : `/kitchen-orders?filter=${tab.key}`}
-                                className={`px-4 py-1.5 text-xs font-bold rounded-lg border transition-all ${
-                                    filter === tab.key
+                                className={`px-4 py-1.5 text-xs font-bold rounded-lg border transition-all ${filter === tab.key
                                         ? 'bg-brand-primary text-white border-brand-primary shadow-sm'
                                         : 'bg-white text-brand-primary border-brand-light hover:bg-brand-light/50 hover:text-brand-dark'
-                                }`}
+                                    }`}
                             >
                                 {tab.label}
                             </Link>
@@ -256,8 +255,8 @@ export default function KitchenOrdersIndex() {
                             </p>
                         </div>
                     ) : orders.map(order => {
-                        const late    = isLateOrder(order);
-                        const cfg     = STATUS_CONFIG[order.status] ?? STATUS_CONFIG.pending;
+                        const late = isLateOrder(order);
+                        const cfg = STATUS_CONFIG[order.status] ?? STATUS_CONFIG.pending;
                         const diffMin = Math.floor((Date.now() - new Date(order.created_at).getTime()) / 60000);
 
                         return (
@@ -398,13 +397,13 @@ export default function KitchenOrdersIndex() {
                     </div>
                     <div className="flex flex-wrap gap-3 flex-shrink-0">
                         <Link to="/targets-goals"
-                                className="px-5 py-2.5 text-xs font-extrabold text-brand-primary bg-brand-light/30 border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors">
-                                Lihat Target Harian
-                            </Link>
-                            <Link to="/dashboard"
-                                className="px-5 py-2.5 text-xs font-extrabold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition-all shadow-sm shadow-brand-primary/20">
-                                Laporan Performa
-                            </Link>
+                            className="px-5 py-2.5 text-xs font-extrabold text-brand-primary bg-brand-light/30 border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors">
+                            Lihat Target Harian
+                        </Link>
+                        <Link to="/dashboard"
+                            className="px-5 py-2.5 text-xs font-extrabold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition-all shadow-sm shadow-brand-primary/20">
+                            Laporan Performa
+                        </Link>
                     </div>
                 </div>
             </div>

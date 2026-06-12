@@ -13,8 +13,8 @@ const fmtNum = (n) =>
 
 const trendClass = (type) =>
     type === "up"
-        ? "text-emerald-600 bg-emerald-50 border-emerald-100"
-        : "text-rose-600 bg-rose-50 border-rose-100";
+        ? "text-[#059669] bg-[#ecfdf5] border-[#d1fae5]"
+        : "text-[#991b1b] bg-[#fef2f2] border-[#fecaca]";
 
 function PeriodDropdown({ value, onChange }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -492,9 +492,9 @@ export default function ReportsIndex() {
 
     const categoryColors = {
         Coffee: "bg-brand-light text-brand-primary",
-        "Non-Coffee": "bg-emerald-100 text-emerald-700",
+        "Non-Coffee": "bg-[#ecfdf5] text-[#065f46] border border-[#d1fae5]",
         "Main Course": "bg-amber-100 text-amber-700",
-        Snacks: "bg-rose-100 text-rose-600",
+        Snacks: "bg-[#fef2f2] text-[#991b1b] border border-[#fecaca]",
     };
 
     const navItems = [
@@ -624,8 +624,8 @@ export default function ReportsIndex() {
                         trend={(profitTrend >= 0 ? "+" : "") + profitTrend + "%"}
                         trendType={profitTrendType}
                         icon="heroicons:chart-pie"
-                        iconBg="bg-emerald-100"
-                        iconColor="text-emerald-600"
+                        iconBg="bg-[#ecfdf5]"
+                        iconColor="text-[#059669]"
                     />
                     <StatCard
                         title="Total Pesanan"
@@ -667,8 +667,8 @@ export default function ReportsIndex() {
                                             Visualisasi harian dalam {days} hari terakhir.
                                         </p>
                                     </div>
-                                    <span className="flex items-center gap-1.5 text-xs font-bold text-rose-600 bg-rose-50 border border-rose-100 px-3 py-1 rounded-full">
-                                        <span className="w-2 h-2 bg-rose-500 rounded-full animate-pulse" />
+                                    <span className="flex items-center gap-1.5 text-xs font-bold text-[#991b1b] bg-[#fef2f2] border border-[#fecaca] px-3 py-1 rounded-full">
+                                        <span className="w-2 h-2 bg-[#b91c1c] rounded-full animate-pulse" />
                                         Live Data
                                     </span>
                                 </div>
@@ -685,7 +685,7 @@ export default function ReportsIndex() {
                                         Pendapatan
                                     </span>
                                     <span className="flex items-center gap-2">
-                                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                                        <span className="w-2.5 h-2.5 rounded-full bg-[#059669]" />
                                         Laba Bersih
                                     </span>
                                 </div>
@@ -807,9 +807,9 @@ export default function ReportsIndex() {
                                                     <td className="py-4 text-right font-bold text-brand-dark">
                                                         {fmt(menu.revenue)}
                                                     </td>
-                                                    <td className="py-4 text-right font-extrabold text-emerald-600">
-                                                        {menu.margin}%
-                                                    </td>
+                                                     <td className="py-4 text-right font-extrabold text-[#059669]">
+                                                         {menu.margin}%
+                                                     </td>
                                                 </tr>
                                             ))
                                         ) : (

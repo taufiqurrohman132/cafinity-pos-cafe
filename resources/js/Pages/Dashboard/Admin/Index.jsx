@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import client from '../../../api/client';
 import { useAuth } from '../../../context/AuthContext';
 import DashboardSkeleton from '@/Components/Skeletons/DashboardSkeleton';
 
 export default function AdminDashboard() {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [dashboardData, setDashboardData] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -203,15 +204,36 @@ export default function AdminDashboard() {
                                     ) : hppAnalysis.map((row, i) => {
                                         const isLow = row.margin_pct < 40;
                                         return (
-                                            <tr key={i} className="hover:bg-brand-light/10 transition">
-                                                <td className="px-6 py-4 font-extrabold text-brand-dark">{row.name}</td>
-                                                <td className="px-4 py-4 text-brand-dark/60">{row.hpp}</td>
-                                                <td className="px-4 py-4 text-brand-dark/60">{row.price}</td>
-                                                <td className={`px-4 py-4 text-center font-extrabold ${isLow ? 'text-rose-500' : 'text-emerald-600'}`}>{row.margin}</td>
-                                                <td className="px-6 py-4 text-right">
-                                                    <span className={`px-2 py-1 text-[10px] rounded-full font-bold ${isLow ? 'bg-rose-100 text-rose-600' : 'bg-brand-light text-brand-primary'}`}>
-                                                        {isLow ? 'Low Margin' : 'Normal'}
-                                                    </span>
+                                            <tr 
+                                                key={i} 
+                                                className="hover:bg-brand-light/10 transition cursor-pointer"
+                                            >
+                                                <td className="p-0 font-extrabold text-brand-dark">
+                                                    <Link to={`/menus/${row.id}`} className="block px-6 py-4 hover:text-brand-secondary transition-colors">
+                                                        {row.name}
+                                                    </Link>
+                                                </td>
+                                                <td className="p-0 text-brand-dark/60">
+                                                    <Link to={`/menus/${row.id}`} className="block px-4 py-4">
+                                                        {row.hpp}
+                                                    </Link>
+                                                </td>
+                                                <td className="p-0 text-brand-dark/60">
+                                                    <Link to={`/menus/${row.id}`} className="block px-4 py-4">
+                                                        {row.price}
+                                                    </Link>
+                                                </td>
+                                                <td className={`p-0 text-center font-extrabold ${isLow ? 'text-[#b91c1c]' : 'text-[#059669]'}`}>
+                                                    <Link to={`/menus/${row.id}`} className="block px-4 py-4">
+                                                        {row.margin}
+                                                    </Link>
+                                                </td>
+                                                <td className="p-0 text-right">
+                                                    <Link to={`/menus/${row.id}`} className="block px-6 py-4">
+                                                        <span className={`px-2 py-1 text-[10px] rounded-full font-bold ${isLow ? 'bg-[#fef2f2] text-[#991b1b] border border-[#fecaca]' : 'bg-brand-light text-brand-primary'}`}>
+                                                            {isLow ? 'Low Margin' : 'Normal'}
+                                                        </span>
+                                                    </Link>
                                                 </td>
                                             </tr>
                                         );

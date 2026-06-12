@@ -150,14 +150,14 @@ export default function UsersIndex({
                                 { label: 'Admin Sistem', value: stats.totalAdmin, sub: 'Pengguna aktif', subColor: 'text-brand-secondary', icon: 'solar:shield-keyhole-linear', iconBg: 'bg-brand-light/50 text-brand-primary' },
                                 { label: 'Menunggu Akses', value: stats.totalPending, sub: 'Perlu persetujuan', subColor: 'text-amber-500', icon: 'solar:clock-circle-linear', iconBg: 'bg-brand-light/50 text-brand-primary' },
                             ].map(card => (
-                                <div key={card.label} className="bg-white rounded-2xl border border-brand-light shadow-sm p-6">
+                                <div key={card.label} className="bg-white rounded-2xl border border-brand-light shadow-sm p-6 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <p className="text-xs md:text-sm text-brand-primary/70 font-medium">{card.label}</p>
                                             <h2 className="text-2xl font-black text-brand-secondary mt-2">{card.value}</h2>
                                             <p className={`text-xs font-bold mt-3 ${card.subColor}`}>{card.sub}</p>
                                         </div>
-                                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0 ${card.iconBg}`}>
+                                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm ${card.iconBg}`}>
                                             <iconify-icon icon={card.icon}></iconify-icon>
                                         </div>
                                     </div>

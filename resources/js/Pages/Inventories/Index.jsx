@@ -235,14 +235,14 @@ export default function InventoriesIndex() {
                                     iconBg: 'bg-brand-light text-brand-primary',
                                 },
                             ].map((card) => (
-                                <div key={card.label} className="bg-white rounded-2xl border border-brand-light shadow-sm p-6">
+                                <div key={card.label} className="bg-white rounded-2xl border border-brand-light shadow-sm p-6 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <p className="text-sm text-gray-500">{card.label}</p>
                                             <h2 className="text-2xl font-bold text-brand-dark mt-3">{card.value}</h2>
                                             <p className={`text-xs font-semibold mt-3 ${card.subColor}`}>{card.sub}</p>
                                         </div>
-                                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${card.iconBg}`}>
+                                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm ${card.iconBg}`}>
                                             <iconify-icon icon={card.icon} class="text-xl"></iconify-icon>
                                         </div>
                                     </div>

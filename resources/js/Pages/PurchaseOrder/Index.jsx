@@ -164,21 +164,21 @@ export default function PurchaseOrderIndex() {
                         {/* Header */}
                         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                             <div>
-                                <h1 className="text-2xl font-bold text-brand-dark">Daftar Purchase Order</h1>
-                                <p className="text-gray-500 mt-1">Kelola dan pantau semua pesanan pembelian perusahaan Anda di satu tempat.</p>
+                                <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">Daftar Purchase Order</h1>
+                                <p className="text-xs md:text-sm text-brand-primary/60 font-medium mt-1">Kelola dan pantau semua pesanan pembelian perusahaan Anda di satu tempat.</p>
                             </div>
-                            <div className="flex flex-wrap items-center gap-3">
-                                <button className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition">
-                                    <iconify-icon icon="solar:import-linear" class="text-lg"></iconify-icon>
+                            <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 shrink-0">
+                                <button className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98] whitespace-nowrap">
+                                    <iconify-icon icon="solar:import-linear" class="text-base"></iconify-icon>
                                     Import
                                 </button>
-                                <button className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition">
-                                    <iconify-icon icon="solar:export-linear" class="text-lg"></iconify-icon>
+                                <button className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98] whitespace-nowrap">
+                                    <iconify-icon icon="solar:export-linear" class="text-base"></iconify-icon>
                                     Export CSV
                                 </button>
                                 <Link
                                     to="/purchase-orders/create"
-                                    className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-brand-primary hover:bg-brand-secondary rounded-xl transition shadow-sm"
+                                    className="flex items-center gap-2 px-6 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition-all duration-200 shadow-lg shadow-brand-primary/30 active:scale-[0.98] whitespace-nowrap"
                                 >
                                     <iconify-icon icon="solar:plus-linear" class="text-base"></iconify-icon>
                                     Buat PO Baru
@@ -214,14 +214,14 @@ export default function PurchaseOrderIndex() {
                                     iconBg: 'bg-emerald-100 text-emerald-500',
                                 },
                             ].map((card) => (
-                                <div key={card.label} className="bg-white rounded-2xl border border-brand-light shadow-sm p-6">
+                                <div key={card.label} className="bg-white rounded-2xl border border-brand-light shadow-sm p-6 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <p className="text-sm text-gray-500">{card.label}</p>
                                             <h2 className="text-2xl font-bold text-brand-dark mt-3">{card.value}</h2>
                                             <p className={`text-xs font-semibold mt-3 ${card.subColor}`}>{card.sub}</p>
                                         </div>
-                                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${card.iconBg}`}>
+                                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm ${card.iconBg}`}>
                                             <iconify-icon icon={card.icon} class="text-xl"></iconify-icon>
                                         </div>
                                     </div>
@@ -236,17 +236,17 @@ export default function PurchaseOrderIndex() {
                             <div className="px-6 py-5 border-b border-brand-light flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                                 <div className="flex-1 flex gap-2 max-w-md">
                                     <form onSubmit={handleSearch} className="w-full relative">
-                                        <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-base"></iconify-icon>
+                                        <iconify-icon icon="solar:magnifer-linear" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 text-base"></iconify-icon>
                                         <input
                                             type="text"
                                             value={search}
                                             onChange={(e) => setSearch(e.target.value)}
                                             placeholder="Cari Nomor PO, Supplier, atau Approver..."
-                                            className="w-full h-10 pl-9 pr-4 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light"
+                                            className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-semibold text-brand-dark"
                                         />
                                     </form>
-                                    { (search || status) && (
-                                        <Link to="/purchase-orders" className="border border-brand-light hover:bg-gray-50 text-gray-500 px-4 py-2.5 rounded-xl text-xs font-semibold transition flex items-center justify-center">
+                                    {(search || status) && (
+                                        <Link to="/purchase-orders" className="border border-brand-light bg-white hover:bg-brand-light hover:text-brand-dark text-brand-primary px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center active:scale-[0.98]">
                                             Reset
                                         </Link>
                                     )}
@@ -256,7 +256,7 @@ export default function PurchaseOrderIndex() {
                                     <select
                                         value={status}
                                         onChange={(e) => handleStatus(e.target.value)}
-                                        className="text-xs border-brand-light rounded-xl py-2.5 px-4 focus:ring-brand-primary focus:border-brand-primary bg-brand-bg"
+                                        className="text-xs border border-brand-light rounded-xl py-2.5 px-4 focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-semibold text-brand-dark"
                                     >
                                         <option value="">Semua Status</option>
                                         <option value="pending">Pending Approval</option>
@@ -271,12 +271,12 @@ export default function PurchaseOrderIndex() {
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left min-w-[900px]">
                                     <thead>
-                                        <tr className="text-xs font-medium text-gray-400 bg-brand-bg border-b border-brand-light">
-                                            <th className="pl-6 pr-3 py-3 w-4">
-                                                <input type="checkbox" className="rounded border-brand-light text-brand-primary focus:ring-brand-primary" />
+                                        <tr className="text-xs font-extrabold text-brand-primary/60 bg-brand-bg border-b border-brand-light tracking-wider text-[11px] uppercase">
+                                            <th className="pl-6 pr-3 py-3.5 w-4">
+                                                <input type="checkbox" className="rounded border-brand-light text-brand-primary focus:ring-4 focus:ring-brand-light/50 focus:ring-offset-0 focus:border-brand-secondary transition-all" />
                                             </th>
                                             {['Nomor PO', 'Tanggal', 'Supplier', 'Total Nilai', 'Est. Kirim', 'Status', 'Pembuat', 'Aksi'].map((h) => (
-                                                <th key={h} className="px-6 py-3">{h}</th>
+                                                <th key={h} className="px-6 py-3.5">{h}</th>
                                             ))}
                                         </tr>
                                     </thead>
@@ -297,11 +297,11 @@ export default function PurchaseOrderIndex() {
                                             const poNumber = order.po_number || `PO-${String(order.id).padStart(4, '0')}`
                                             const isUrgent = order.status === 'pending' && (!order.delivery_date || new Date(order.delivery_date) <= new Date())
                                             const statusClass = {
-                                                approved: 'bg-emerald-50 text-emerald-600 border border-emerald-100',
-                                                pending: 'bg-amber-50 text-amber-600 border border-amber-100',
-                                                received: 'bg-blue-50 text-blue-600 border border-blue-100',
-                                                rejected: 'bg-red-50 text-red-600 border border-red-100',
-                                            }[order.status] || 'bg-gray-50 text-gray-600 border border-gray-100'
+                                                approved: 'bg-emerald-50 text-emerald-500 border border-emerald-100',
+                                                pending: 'bg-amber-50 text-amber-500 border border-amber-100',
+                                                received: 'bg-blue-50 text-blue-500 border border-blue-100',
+                                                rejected: 'bg-rose-50 text-rose-500 border border-rose-100',
+                                            }[order.status] || 'bg-gray-50 text-gray-500 border border-gray-100'
 
                                             const statusText = {
                                                 approved: 'Approved',
@@ -311,28 +311,30 @@ export default function PurchaseOrderIndex() {
                                             }[order.status] || order.status
 
                                             return (
-                                                <tr key={order.id} className="hover:bg-brand-bg transition">
+                                                <tr key={order.id} className="hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all cursor-pointer">
                                                     <td className="pl-6 pr-3 py-4">
-                                                        <input type="checkbox" className="rounded border-brand-light text-brand-primary focus:ring-brand-primary" />
+                                                        <input type="checkbox" className="rounded border-brand-light text-brand-primary focus:ring-4 focus:ring-brand-light/50 focus:ring-offset-0 focus:border-brand-secondary transition-all" />
                                                     </td>
                                                     <td className="px-6 py-4 font-semibold text-brand-primary hover:underline">
                                                         <Link to={`/purchase-orders/${order.id}`}>
                                                             {poNumber}
                                                         </Link>
                                                         {isUrgent && (
-                                                            <span className="ml-1.5 px-2 py-0.5 text-[9px] font-bold rounded bg-red-100 text-red-600 uppercase tracking-wide">Urgent</span>
+                                                            <span className="ml-1.5 px-2 py-0.5 text-[9px] font-bold rounded bg-rose-50 text-rose-500 border border-rose-100 uppercase tracking-wide">Urgent</span>
                                                         )}
                                                     </td>
-                                                    <td className="px-6 py-4 text-gray-500">
+                                                    <td className="px-6 py-4 text-gray-500 font-medium">
                                                         {formatDate(order.ordered_at || order.created_at)}
                                                     </td>
                                                     <td className="px-6 py-4 font-semibold text-brand-dark">
                                                         {order.supplier?.name || '-'}
                                                     </td>
-                                                    <td className="px-6 py-4 font-bold text-brand-dark">
-                                                        {formatRupiah(order.total_amount)}
+                                                    <td className="px-6 py-4">
+                                                        <span className="text-[14px] font-black text-brand-secondary">
+                                                            {formatRupiah(order.total_amount)}
+                                                        </span>
                                                     </td>
-                                                    <td className="px-6 py-4 text-gray-500">
+                                                    <td className="px-6 py-4 text-gray-500 font-medium">
                                                         {formatDate(order.delivery_date)}
                                                     </td>
                                                     <td className="px-6 py-4">
@@ -340,38 +342,38 @@ export default function PurchaseOrderIndex() {
                                                             {statusText}
                                                         </span>
                                                     </td>
-                                                    <td className="px-6 py-4 text-gray-500">
+                                                    <td className="px-6 py-4 text-gray-500 font-medium">
                                                         {order.created_by_user?.name || order.user?.name || '-'}
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         <div className="flex items-center gap-2">
                                                             <Link
                                                                 to={`/purchase-orders/${order.id}`}
-                                                                className="w-8 h-8 rounded-lg bg-brand-bg border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition"
+                                                                className="w-8 h-8 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary hover:shadow-sm active:scale-90 transition-all duration-150"
                                                                 title="Detail"
                                                             >
                                                                 <iconify-icon icon="solar:eye-linear" class="text-lg"></iconify-icon>
                                                             </Link>
-                                                            
+
                                                             {order.status === 'pending' && (
                                                                 <>
                                                                     <button
                                                                         onClick={() => handleApprove(order.id)}
-                                                                        className="w-8 h-8 rounded-lg bg-brand-bg border border-brand-light flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:border-emerald-300 transition"
+                                                                        className="w-8 h-8 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-emerald-500 hover:border-emerald-300 hover:shadow-sm active:scale-90 transition-all duration-150"
                                                                         title="Approve"
                                                                     >
                                                                         <iconify-icon icon="solar:check-circle-linear" class="text-lg"></iconify-icon>
                                                                     </button>
                                                                     <button
                                                                         onClick={() => handleReject(order.id)}
-                                                                        className="w-8 h-8 rounded-lg bg-brand-bg border border-brand-light flex items-center justify-center text-gray-500 hover:text-red-500 hover:border-red-300 transition"
+                                                                        className="w-8 h-8 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-rose-500 hover:border-rose-300 hover:shadow-sm active:scale-90 transition-all duration-150"
                                                                         title="Reject"
                                                                     >
                                                                         <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
                                                                     </button>
                                                                     <Link
                                                                         to={`/purchase-orders/${order.id}/edit`}
-                                                                        className="w-8 h-8 rounded-lg bg-brand-bg border border-brand-light flex items-center justify-center text-gray-500 hover:text-amber-500 hover:border-amber-300 transition"
+                                                                        className="w-8 h-8 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-amber-500 hover:border-amber-300 hover:shadow-sm active:scale-90 transition-all duration-150"
                                                                         title="Edit"
                                                                     >
                                                                         <iconify-icon icon="solar:pen-linear" class="text-lg"></iconify-icon>
@@ -382,7 +384,7 @@ export default function PurchaseOrderIndex() {
                                                             {order.status === 'approved' && (
                                                                 <button
                                                                     onClick={() => handleReceive(order.id)}
-                                                                    className="w-8 h-8 rounded-lg bg-brand-bg border border-brand-light flex items-center justify-center text-gray-500 hover:text-blue-600 hover:border-blue-300 transition"
+                                                                    className="w-8 h-8 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-blue-500 hover:border-blue-300 hover:shadow-sm active:scale-90 transition-all duration-150"
                                                                     title="Terima Barang"
                                                                 >
                                                                     <iconify-icon icon="solar:box-linear" class="text-lg"></iconify-icon>
@@ -407,9 +409,9 @@ export default function PurchaseOrderIndex() {
                                         <Link
                                             key={i}
                                             to={getRelativeUrl(link.url)}
-                                            className={`px-3 py-1 text-xs rounded-lg border transition ${link.active
-                                                    ? 'bg-brand-primary text-white border-brand-primary'
-                                                    : 'border-brand-light text-gray-500 hover:border-brand-primary hover:text-brand-primary'
+                                            className={`px-3 py-1.5 text-xs rounded-xl border font-bold transition-all duration-150 active:scale-95 ${link.active
+                                                ? 'bg-brand-primary text-white border-brand-primary shadow-sm shadow-brand-primary/20'
+                                                : 'border-brand-light bg-white text-brand-primary hover:bg-brand-light hover:text-brand-dark'
                                                 } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
@@ -431,7 +433,7 @@ export default function PurchaseOrderIndex() {
                                 </h3>
                                 <a href="#" className="text-[11px] font-semibold text-brand-primary hover:underline">Lihat Semua</a>
                             </div>
-                            
+
                             <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-brand-light">
                                 {recentApprovals && recentApprovals.length > 0 ? (
                                     recentApprovals.map((appr, idx) => (
@@ -487,17 +489,17 @@ export default function PurchaseOrderIndex() {
                                 <iconify-icon icon="solar:bell-bing-linear" class="text-red-500 text-lg"></iconify-icon>
                                 Pemberitahuan Sistem
                             </h4>
-                            
+
                             <div className="flex items-start gap-3 bg-rose-50 border border-rose-100 rounded-xl p-3">
                                 <iconify-icon icon="solar:danger-triangle-bold" class="text-red-500 text-lg flex-shrink-0 mt-0.5"></iconify-icon>
                                 <p className="text-[11px] font-semibold text-rose-800 leading-normal">
-                                    {stats?.late_deliveries > 0 
+                                    {stats?.late_deliveries > 0
                                         ? `${stats.late_deliveries} PO melewati tanggal estimasi pengiriman. Segera hubungi supplier terkait.`
                                         : '3 PO melewati tanggal estimasi pengiriman. Segera hubungi supplier terkait.'}
                                 </p>
                             </div>
-                            
-                            <button className="w-full border border-brand-light hover:bg-brand-light/20 text-brand-primary py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+
+                            <button className="w-full border border-brand-light bg-white text-brand-primary hover:bg-brand-light hover:text-brand-dark py-2.5 rounded-xl text-xs font-bold transition-all duration-150 active:scale-[0.98] flex items-center justify-center gap-2">
                                 Buka Laporan Keterlambatan
                             </button>
                         </div>

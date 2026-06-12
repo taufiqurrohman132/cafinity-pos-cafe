@@ -148,7 +148,7 @@ export default function SupplierShow({ supplier }) {
 
             <div className="min-h-screen bg-brand-bg p-4 md:p-6 lg:p-8">
                 <div className="max-w-[1400px] mx-auto space-y-5">
-                    
+
                     {/* Top Breadcrumb & Actions Bar */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-light/40 pb-4">
                         <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
@@ -159,28 +159,28 @@ export default function SupplierShow({ supplier }) {
 
                         {/* Top Actions Grid */}
                         <div className="flex flex-wrap items-center gap-2">
-                            <Link 
+                            <Link
                                 to={`/suppliers/${supplier.id}/edit`}
                                 className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-gray-50 active:scale-95 transition"
                             >
                                 <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon>
                                 Edit
                             </Link>
-                            <button 
+                            <button
                                 onClick={() => alert('Mengekspor laporan ke PDF...')}
                                 className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-gray-50 active:scale-95 transition"
                             >
                                 <iconify-icon icon="solar:document-linear" class="text-sm"></iconify-icon>
                                 Export PDF
                             </button>
-                            <button 
+                            <button
                                 onClick={() => handleStatusChange(supplier.status === 'active' ? 'inactive' : 'active')}
                                 className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-red-500 bg-white border border-red-200 rounded-xl hover:bg-red-50 active:scale-95 transition"
                             >
                                 <iconify-icon icon="solar:close-circle-linear" class="text-sm"></iconify-icon>
                                 {supplier.status === 'active' ? 'Nonaktifkan' : 'Aktifkan'}
                             </button>
-                            <button 
+                            <button
                                 onClick={() => handleStatusChange('blacklist')}
                                 className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl active:scale-95 transition shadow-sm"
                             >
@@ -204,7 +204,7 @@ export default function SupplierShow({ supplier }) {
                                     </p>
                                 </div>
                             </div>
-                            <button 
+                            <button
                                 onClick={() => alert('Membuka tiket laporan kendala supplier...')}
                                 className="px-4 py-2 bg-white border border-red-200 hover:bg-red-50 text-red-600 text-xs font-extrabold rounded-xl transition flex-shrink-0"
                             >
@@ -228,10 +228,10 @@ export default function SupplierShow({ supplier }) {
 
                     {/* Grid Layout */}
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                        
+
                         {/* ── LEFT COLUMN: DETAILS & DIRECTORY ── */}
                         <div className="lg:col-span-8 space-y-6">
-                            
+
                             {/* Identitas Perusahaan */}
                             <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-5 text-left">
                                 <h3 className="text-sm font-extrabold text-brand-dark border-b border-brand-light/40 pb-3 flex items-center gap-2">
@@ -266,7 +266,7 @@ export default function SupplierShow({ supplier }) {
                                         <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-brand-primary text-base"></iconify-icon>
                                         Direktori Kontak
                                     </h3>
-                                    <button 
+                                    <button
                                         onClick={() => alert('Menambahkan kontak PIC baru...')}
                                         className="text-xs font-extrabold text-brand-primary hover:underline"
                                     >
@@ -289,7 +289,7 @@ export default function SupplierShow({ supplier }) {
                                                 </div>
                                                 <div className="flex items-center gap-1.5 flex-shrink-0">
                                                     {contact.email && (
-                                                        <a 
+                                                        <a
                                                             href={`mailto:${contact.email}`}
                                                             className="w-8 h-8 rounded-full border border-brand-light bg-white text-gray-500 hover:text-brand-primary hover:border-brand-primary flex items-center justify-center transition hover:shadow-sm"
                                                             title={contact.email}
@@ -298,7 +298,7 @@ export default function SupplierShow({ supplier }) {
                                                         </a>
                                                     )}
                                                     {contact.phone && (
-                                                        <a 
+                                                        <a
                                                             href={`tel:${contact.phone}`}
                                                             className="w-8 h-8 rounded-full border border-brand-light bg-white text-gray-500 hover:text-brand-primary hover:border-brand-primary flex items-center justify-center transition hover:shadow-sm"
                                                             title={contact.phone}
@@ -336,7 +336,7 @@ export default function SupplierShow({ supplier }) {
                                         <p className="text-xs font-bold text-gray-800 leading-relaxed">
                                             {supplier.address || 'Jl. Industri No. 45, Kawasan MM2100, Cikarang Barat'}{supplier.city && `, ${supplier.city}`}{supplier.province && `, ${supplier.province}`}
                                         </p>
-                                        <a 
+                                        <a
                                             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(supplier.address || '')}`}
                                             target="_blank"
                                             rel="noreferrer"
@@ -385,9 +385,9 @@ export default function SupplierShow({ supplier }) {
                                                     <span className="text-[10px] text-gray-400 font-semibold">{doc.date} • {doc.size}</span>
                                                 </div>
                                             </div>
-                                            <button 
-                                                type="button" 
-                                                onClick={() => alert(`Mengunduh berkas ${doc.name}...`)} 
+                                            <button
+                                                type="button"
+                                                onClick={() => alert(`Mengunduh berkas ${doc.name}...`)}
                                                 className="text-brand-primary hover:text-brand-secondary transition p-1 hover:bg-brand-primary/5 rounded-lg flex-shrink-0"
                                             >
                                                 <iconify-icon icon="solar:download-linear" class="text-lg"></iconify-icon>
@@ -400,7 +400,7 @@ export default function SupplierShow({ supplier }) {
 
                         {/* ── RIGHT COLUMN: PERFORMANCE, PO, ACTIVITIES ── */}
                         <div className="lg:col-span-4 space-y-6">
-                            
+
                             {/* Rating Performa Card */}
                             <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-6 text-left">
                                 <h3 className="text-sm font-extrabold text-brand-dark border-b border-brand-light/40 pb-2 flex items-center gap-2">
@@ -413,10 +413,10 @@ export default function SupplierShow({ supplier }) {
                                     <div className="relative w-24 h-24 flex items-center justify-center flex-shrink-0">
                                         <svg className="w-full h-full transform -rotate-90">
                                             <circle cx="48" cy="48" r="40" stroke="#f3f4f6" strokeWidth="8" fill="transparent" />
-                                            <circle cx="48" cy="48" r="40" 
-                                                stroke={isCritical ? '#ef4444' : 'rgb(var(--color-brand-primary))'} 
-                                                strokeWidth="8" 
-                                                fill="transparent" 
+                                            <circle cx="48" cy="48" r="40"
+                                                stroke={isCritical ? '#ef4444' : 'rgb(var(--color-brand-primary))'}
+                                                strokeWidth="8"
+                                                fill="transparent"
                                                 strokeDasharray={`${2 * Math.PI * 40}`}
                                                 strokeDashoffset={`${2 * Math.PI * 40 * (1 - rating / 5.0)}`}
                                                 strokeLinecap="round"
@@ -468,9 +468,9 @@ export default function SupplierShow({ supplier }) {
                                             <span>{metrics.responsiveness}%</span>
                                         </div>
                                         <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                                            <div className="h-full rounded-full transition-all duration-500" style={{ 
-                                                width: `${metrics.responsiveness}%`, 
-                                                backgroundColor: metrics.responsiveness < 50 ? '#ef4444' : 'rgb(var(--color-brand-primary))' 
+                                            <div className="h-full rounded-full transition-all duration-500" style={{
+                                                width: `${metrics.responsiveness}%`,
+                                                backgroundColor: metrics.responsiveness < 50 ? '#ef4444' : 'rgb(var(--color-brand-primary))'
                                             }} />
                                         </div>
                                     </div>
@@ -555,7 +555,7 @@ export default function SupplierShow({ supplier }) {
                                     ))}
                                 </div>
 
-                                <button 
+                                <button
                                     onClick={() => alert('Memuat log aktivitas lebih lama...')}
                                     className="w-full text-center text-xs font-bold text-gray-500 hover:text-gray-700 pt-2 border-t border-brand-light/40 block"
                                 >
@@ -570,7 +570,7 @@ export default function SupplierShow({ supplier }) {
                                     Kirim Catatan Cepat
                                 </h3>
 
-                                <textarea 
+                                <textarea
                                     value={noteInput}
                                     onChange={(e) => setNoteInput(e.target.value)}
                                     placeholder="Tulis catatan internal atau pesan untuk PIC..."
@@ -578,7 +578,7 @@ export default function SupplierShow({ supplier }) {
                                 />
 
                                 <div className="flex items-center gap-2">
-                                    <button 
+                                    <button
                                         type="button"
                                         onClick={() => {
                                             if (noteInput.trim()) {
@@ -590,7 +590,7 @@ export default function SupplierShow({ supplier }) {
                                     >
                                         Kirim Pesan
                                     </button>
-                                    <button 
+                                    <button
                                         type="button"
                                         onClick={() => {
                                             if (noteInput.trim()) {

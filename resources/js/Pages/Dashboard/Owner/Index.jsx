@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import client from '../../../api/client';
 import { useAuth } from '../../../context/AuthContext';
 import TargetModal from '@/Components/TargetModal';
 import DashboardSkeleton from '@/Components/Skeletons/DashboardSkeleton';
 
 // ── Stat Card Component ──────────────────────────────────────────
-function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor, loading }) {
+function StatCard({ title, value, trend, trendType, trend_type, icon, iconBg, iconColor, loading }) {
     if (loading) {
         return (
             <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm animate-pulse">
@@ -21,6 +21,9 @@ function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor, loa
             </div>
         );
     }
+
+    const isUp = trendType === 'up' || trend_type === 'up';
+
     return (
         <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
             <div className="flex items-start justify-between mb-3">
@@ -28,12 +31,11 @@ function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor, loa
                     <iconify-icon icon={icon} class={`text-2xl ${iconColor}`}></iconify-icon>
                 </div>
                 {trend && (
-                    <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full border ${
-                        trendType === 'up'
-                            ? 'bg-emerald-50 border-emerald-100 text-emerald-600'
-                            : 'bg-rose-50 border-rose-100 text-rose-600'
-                    }`}>
-                        <span>{trendType === 'up' ? '▲' : '▼'}</span>
+                    <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full border ${isUp
+                        ? 'bg-emerald-50 border-emerald-100 text-emerald-600'
+                        : 'bg-rose-50 border-rose-100 text-rose-600'
+                        }`}>
+                        <iconify-icon icon={isUp ? 'uil:arrow-growth' : 'streamline:graph-arrow-decrease-remix'} class="text-sm"></iconify-icon>
                         <span>{trend}</span>
                     </span>
                 )}
@@ -64,16 +66,16 @@ function SalesChart({ initialLabels, initialValues }) {
 
     const pills = [
         { label: 'Hari Ini', value: 'today' },
-        { label: '7 Hari',   value: '7days' },
-        { label: '30 Hari',  value: '30days' },
+        { label: '7 Hari', value: '7days' },
+        { label: '30 Hari', value: '30days' },
         { label: 'Bulan Ini', value: 'month' },
     ];
 
     const periodLabel = {
-        today:   'Tren pendapatan hari ini',
+        today: 'Tren pendapatan hari ini',
         '7days': 'Tren pendapatan 7 hari terakhir',
-        '30days':'Tren pendapatan 30 hari terakhir',
-        month:   'Tren pendapatan bulan ini',
+        '30days': 'Tren pendapatan 30 hari terakhir',
+        month: 'Tren pendapatan bulan ini',
     }[activePeriod] ?? '';
 
     const setPeriod = async (period) => {
@@ -182,6 +184,7 @@ function SalesChart({ initialLabels, initialValues }) {
 // ── Main Dashboard ───────────────────────────────────────────────
 export default function OwnerDashboard() {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [dashboardData, setDashboardData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
@@ -243,14 +246,14 @@ export default function OwnerDashboard() {
 
     const statusColor = {
         preparing: 'bg-amber-400',
-        ready:     'bg-emerald-500',
-        pending:   'bg-brand-light',
+        ready: 'bg-emerald-500',
+        pending: 'bg-brand-light',
     };
 
     const statusLabel = {
         preparing: { bg: 'bg-amber-100 border-amber-200', text: 'text-amber-700', label: 'Sedang Dimasak' },
-        ready:     { bg: 'bg-emerald-100 border-emerald-200', text: 'text-emerald-700', label: 'Siap Diambil' },
-        pending:   { bg: 'bg-brand-light border-brand-light', text: 'text-brand-primary', label: 'Menunggu' },
+        ready: { bg: 'bg-emerald-100 border-emerald-200', text: 'text-emerald-700', label: 'Siap Diambil' },
+        pending: { bg: 'bg-brand-light border-brand-light', text: 'text-brand-primary', label: 'Menunggu' },
     };
 
     // Fallbacks while initial load
@@ -272,20 +275,20 @@ export default function OwnerDashboard() {
 
     const exportDashboardSummary = () => {
         if (!dashboardData) return;
-        
+
         let csvContent = "";
-        
+
         // 1. Stats Section
         csvContent += "CAFINTY OWNER DASHBOARD SUMMARY\n";
         csvContent += `Terakhir Update,${lastUpdated}\n\n`;
-        
+
         csvContent += "METRIK UTAMA\n";
         csvContent += "Metrik,Nilai,Tren\n";
         csvContent += `Pendapatan Hari Ini,"${stats.revenue.value}","${stats.revenue.trend} (${stats.revenue.trend_type === 'up' ? 'Naik' : 'Turun'})"\n`;
         csvContent += `Estimasi Laba Bersih,"${stats.profit.value}","${stats.profit.trend} (${stats.profit.trend_type === 'up' ? 'Naik' : 'Turun'})"\n`;
         csvContent += `Total Pesanan,"${stats.orders.value}","${stats.orders.trend} (${stats.orders.trend_type === 'up' ? 'Naik' : 'Turun'})"\n`;
         csvContent += `Rata-rata Tiket,"${stats.avg_ticket.value}","${stats.avg_ticket.trend} (${stats.avg_ticket.trend_type === 'up' ? 'Naik' : 'Turun'})"\n\n`;
-        
+
         // 2. Best Selling Menus Section
         csvContent += "MENU TERLARIS HARI INI\n";
         csvContent += "Peringkat,Nama Menu,Kategori,Terjual,Tren\n";
@@ -293,7 +296,7 @@ export default function OwnerDashboard() {
             csvContent += `${index + 1},"${menu.name}","${menu.category}","${menu.sold}","${menu.trend} (${menu.trend_type === 'up' ? 'Naik' : 'Turun'})"\n`;
         });
         csvContent += "\n";
-        
+
         // 3. Profitability Analysis Section
         csvContent += "ANALISIS PROFITABILITAS (HIGH MARGIN)\n";
         csvContent += "Nama Menu,Harga Jual,Estimasi HPP,Profit per Item,Margin (%)\n";
@@ -336,32 +339,32 @@ export default function OwnerDashboard() {
                             Berikut ringkasan performa cafe Anda hari ini.
                         </p>
                     </div>
-                    <div className="flex flex-wrap items-center gap-3">
-                        <button 
+                    <div className="flex flex-wrap sm:flex-nowrap items-center gap-3">
+                        <button
                             onClick={() => fetchDashboard(true)}
                             disabled={isRefreshing}
-                            className="bg-white hover:bg-brand-light/50 text-brand-primary p-2.5 rounded-xl border border-brand-light shadow-sm transition-all flex items-center justify-center active:scale-95 disabled:opacity-50"
+                            className="bg-white hover:bg-brand-light/50 text-brand-primary p-2.5 rounded-xl border border-brand-light shadow-sm transition-all flex items-center justify-center active:scale-95 disabled:opacity-50 shrink-0"
                             title="Perbarui Data"
                         >
-                            <iconify-icon 
-                                icon="solar:restart-linear" 
+                            <iconify-icon
+                                icon="solar:restart-linear"
                                 class={`text-[18px] flex ${isRefreshing ? 'animate-spin text-brand-secondary' : ''}`}
                             ></iconify-icon>
                         </button>
-                        <div className="text-[13px] text-brand-primary bg-white px-4 py-2.5 rounded-xl border border-brand-light shadow-sm flex items-center gap-2 font-medium">
+                        <div className="text-[13px] text-brand-primary bg-white px-4 py-2.5 rounded-xl border border-brand-light shadow-sm flex items-center gap-2 font-medium shrink-0 whitespace-nowrap">
                             <iconify-icon icon="solar:clock-circle-linear" class="text-lg text-brand-secondary"></iconify-icon>
                             <span>Terakhir Update: <span className="font-bold text-brand-dark">{lastUpdated}</span></span>
                         </div>
                         <button
                             type="button"
                             onClick={exportDashboardSummary}
-                            className="bg-white hover:bg-brand-light/50 text-brand-primary px-4 py-2.5 rounded-xl border border-brand-light shadow-sm transition-all flex items-center gap-2 font-bold active:scale-95"
+                            className="bg-white hover:bg-brand-light/50 text-brand-primary px-4 py-2.5 rounded-xl border border-brand-light shadow-sm transition-all flex items-center gap-2 font-bold active:scale-95 shrink-0 whitespace-nowrap"
                         >
                             <iconify-icon icon="solar:export-linear" class="text-[18px] text-brand-secondary"></iconify-icon>
                             Ekspor Ringkasan
                         </button>
                         <Link to="/pos"
-                            className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]">
+                            className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold shrink-0 whitespace-nowrap transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]">
                             <iconify-icon icon="solar:card-2-linear" class="text-[18px]"></iconify-icon>
                             Buka POS
                         </Link>
@@ -370,9 +373,9 @@ export default function OwnerDashboard() {
 
                 {/* ====== STAT CARDS ====== */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <StatCard title="Pendapatan Hari Ini"  {...stats.revenue}    icon="solar:wallet-money-linear" iconBg="bg-brand-light"    iconColor="text-brand-secondary" loading={pageLoading} />
-                    <StatCard title="Estimasi Laba Bersih" {...stats.profit}     icon="solar:chart-2-linear"     iconBg="bg-emerald-100" iconColor="text-emerald-600" loading={pageLoading} />
-                    <StatCard title="Total Pesanan"        {...stats.orders}     icon="solar:bag-5-linear"       iconBg="bg-brand-light"    iconColor="text-brand-secondary" loading={pageLoading} />
+                    <StatCard title="Pendapatan Hari Ini"  {...stats.revenue} icon="solar:wallet-money-linear" iconBg="bg-brand-light" iconColor="text-brand-secondary" loading={pageLoading} />
+                    <StatCard title="Estimasi Laba Bersih" {...stats.profit} icon="solar:chart-2-linear" iconBg="bg-emerald-100" iconColor="text-emerald-600" loading={pageLoading} />
+                    <StatCard title="Total Pesanan"        {...stats.orders} icon="solar:bag-5-linear" iconBg="bg-brand-light" iconColor="text-brand-secondary" loading={pageLoading} />
                     <StatCard title="Rata-rata Tiket"      {...stats.avg_ticket} icon="solar:users-group-rounded-linear" iconBg="bg-brand-light" iconColor="text-brand-primary" loading={pageLoading} />
                 </div>
 
@@ -399,10 +402,10 @@ export default function OwnerDashboard() {
                                         Lihat Katalog
                                     </Link>
                                 </div>
-                                <div className="space-y-3">
+                                <div className="space-y-1.5">
                                     {pageLoading ? (
                                         Array.from({ length: 3 }).map((_, i) => (
-                                            <div key={i} className="flex items-center justify-between p-3 border border-transparent rounded-2xl animate-pulse">
+                                            <div key={i} className="flex items-center justify-between py-2 px-2.5 border border-transparent rounded-2xl animate-pulse">
                                                 <div className="flex items-center gap-3">
                                                     <div className="w-12 h-12 bg-brand-light rounded-xl flex-shrink-0"></div>
                                                     <div className="space-y-2">
@@ -419,47 +422,47 @@ export default function OwnerDashboard() {
                                     ) : bestSellingMenus.length === 0 ? (
                                         <p className="text-sm text-brand-primary italic text-center py-4">Belum ada data penjualan menu hari ini.</p>
                                     ) : bestSellingMenus.map((menu, i) => {
-                                        const rankColors = [
-                                            'bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-amber-200/50',
-                                            'bg-gradient-to-br from-slate-400 to-slate-600 text-white shadow-slate-200/50',
-                                            'bg-gradient-to-br from-amber-600 to-orange-700 text-white shadow-orange-200/50',
-                                        ][i] ?? 'bg-brand-light text-brand-primary';
+                                         const rankColors = [
+                                             'bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-amber-200/50',
+                                             'bg-gradient-to-br from-slate-400 to-slate-600 text-white shadow-slate-200/50',
+                                             'bg-gradient-to-br from-amber-600 to-orange-700 text-white shadow-orange-200/50',
+                                         ][i] ?? 'bg-brand-light text-brand-primary';
 
-                                        return (
-                                            <div key={i} className="flex items-center justify-between p-3 hover:bg-brand-light/10 border border-transparent hover:border-brand-light/50 rounded-2xl transition-all duration-300 hover:shadow-sm">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="relative">
-                                                        <div className="w-12 h-12 bg-gradient-to-br from-brand-light/10 to-brand-light/30 border border-brand-light rounded-xl flex items-center justify-center text-brand-secondary shadow-sm">
-                                                            <iconify-icon icon={(() => {
-                                                                const map = {
-                                                                    '☕': 'solar:cup-hot-linear',
-                                                                    '🍵': 'solar:cup-hot-linear',
-                                                                    '🥐': 'solar:croissant-linear',
-                                                                    '🍚': 'solar:bowl-linear',
-                                                                    '🍽️': 'solar:hamburger-linear',
-                                                                };
-                                                                const val = menu.emoji || '';
-                                                                return val.startsWith('solar:') ? val : (map[val] || 'solar:hamburger-linear');
-                                                            })()} class="text-2xl"></iconify-icon>
-                                                        </div>
-                                                        <span className={`absolute -top-1.5 -left-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold shadow-md border border-white ${rankColors}`}>
-                                                            {i + 1}
-                                                        </span>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-sm font-extrabold text-brand-dark tracking-tight">{menu.name}</p>
-                                                        <p className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wider">{menu.category}</p>
-                                                    </div>
-                                                </div>
-                                                <div className="text-right">
-                                                    <p className="text-sm font-extrabold text-brand-dark tracking-tight">{menu.sold}</p>
-                                                    <p className={`text-[10px] font-bold mt-0.5 ${menu.trend_type === 'up' ? 'text-emerald-500' : 'text-rose-500'}`}>
-                                                        {menu.trend_type === 'up' ? '▲' : '▼'} {menu.trend}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
+                                         return (
+                                             <Link key={i} to={`/menus/${menu.id}`} className="flex items-center justify-between py-2 px-2.5 bg-transparent hover:bg-gradient-to-r hover:from-brand-light/60 hover:to-transparent border border-transparent hover:border-brand-light/80 rounded-2xl transition-all duration-300 hover:shadow-md hover:shadow-brand-primary/5 group">
+                                                 <div className="flex items-center gap-3">
+                                                     <div className="relative">
+                                                         <div className="w-12 h-12 bg-gradient-to-br from-brand-light/10 to-brand-light/30 border border-brand-light rounded-xl flex items-center justify-center text-brand-secondary shadow-sm">
+                                                             <iconify-icon icon={(() => {
+                                                                 const map = {
+                                                                     '☕': 'solar:cup-hot-linear',
+                                                                     '🍵': 'solar:cup-hot-linear',
+                                                                     '🥐': 'solar:croissant-linear',
+                                                                     '🍚': 'solar:bowl-linear',
+                                                                     '🍽️': 'solar:hamburger-linear',
+                                                                 };
+                                                                 const val = menu.emoji || '';
+                                                                 return val.startsWith('solar:') ? val : (map[val] || 'solar:hamburger-linear');
+                                                             })()} class="text-2xl"></iconify-icon>
+                                                         </div>
+                                                         <span className={`absolute -top-1.5 -left-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold shadow-md border border-white ${rankColors}`}>
+                                                             {i + 1}
+                                                         </span>
+                                                     </div>
+                                                     <div>
+                                                         <p className="text-sm font-extrabold text-brand-dark tracking-tight group-hover:text-brand-secondary transition-colors">{menu.name}</p>
+                                                         <p className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wider">{menu.category}</p>
+                                                     </div>
+                                                 </div>
+                                                 <div className="text-right">
+                                                     <p className="text-sm font-extrabold text-brand-dark tracking-tight">{menu.sold}</p>
+                                                     <p className={`text-[10px] font-bold mt-0.5 ${menu.trend_type === 'up' ? 'text-emerald-500' : 'text-rose-500'}`}>
+                                                         {menu.trend_type === 'up' ? '▲' : '▼'} {menu.trend}
+                                                     </p>
+                                                 </div>
+                                             </Link>
+                                         );
+                                     })}
                                 </div>
                             </div>
 
@@ -476,7 +479,7 @@ export default function OwnerDashboard() {
                                         <div className="border-t border-brand-light/30 w-full"></div>
                                         <div className="border-t border-brand-light/30 w-full"></div>
                                     </div>
-                                    
+
                                     <div className="h-full flex items-end justify-between gap-3 relative z-10">
                                         {pageLoading ? (
                                             Array.from({ length: 6 }).map((_, i) => {
@@ -492,7 +495,7 @@ export default function OwnerDashboard() {
                                         ) : busyHours.map((slot, i) => {
                                             const isPeak = slot.height >= 75;
                                             const isMedium = slot.height >= 35 && slot.height < 75;
-                                            
+
                                             let barGradient = 'from-brand-light/60 to-brand-secondary/20';
                                             if (isPeak) {
                                                 barGradient = 'from-brand-primary to-brand-secondary';
@@ -575,32 +578,50 @@ export default function OwnerDashboard() {
                                                 </td>
                                             </tr>
                                         ) : profitability.map((row, i) => (
-                                            <tr key={i} className="border-b border-brand-light/30 last:border-0 hover:bg-brand-light/10 transition-colors">
-                                                <td className="py-4 font-bold text-brand-dark">
-                                                    <div className="flex items-center gap-2">
-                                                        <span>{row.name}</span>
-                                                        {row.margin_pct >= 50 && (
-                                                            <span className="text-[9px] font-extrabold bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-0.5 rounded-md">
-                                                                High Margin
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </td>
-                                                <td className="py-4 font-semibold text-brand-dark/80">{row.price}</td>
-                                                <td className="py-4 font-medium text-brand-primary/60">{row.hpp}</td>
-                                                <td className="py-4 text-emerald-600 font-extrabold">{row.profit}</td>
-                                                <td className="py-4">
-                                                    <div className="flex items-center justify-end gap-3">
-                                                        <div className="w-16 bg-brand-light/40 h-2 rounded-full overflow-hidden hidden sm:block">
-                                                            <div 
-                                                                className={`h-full rounded-full ${
-                                                                    row.margin_pct >= 50 ? 'bg-emerald-500' : 'bg-amber-400'
-                                                                }`} 
-                                                                style={{ width: `${row.margin_pct}%` }}
-                                                            ></div>
+                                            <tr
+                                                key={i}
+                                                className="border-b border-brand-light/30 last:border-0 hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all cursor-pointer"
+                                            >
+                                                <td className="p-0 font-bold text-brand-dark">
+                                                    <Link to={`/menus/${row.id}`} className="block py-4 px-3 hover:text-brand-secondary transition-colors">
+                                                        <div className="flex items-center gap-2">
+                                                            <span>{row.name}</span>
+                                                            {row.margin_pct >= 50 && (
+                                                                <span className="text-[9px] font-extrabold bg-[#ecfdf5] text-[#065f46] border border-[#d1fae5] px-2 py-0.5 rounded-md">
+                                                                    High Margin
+                                                                </span>
+                                                            )}
                                                         </div>
-                                                        <span className="font-extrabold text-brand-dark text-right min-w-[32px]">{row.margin}</span>
-                                                    </div>
+                                                    </Link>
+                                                </td>
+                                                <td className="p-0 font-semibold text-brand-dark/80">
+                                                    <Link to={`/menus/${row.id}`} className="block py-4 px-3">
+                                                        {row.price}
+                                                    </Link>
+                                                </td>
+                                                <td className="p-0 font-medium text-brand-primary/60">
+                                                    <Link to={`/menus/${row.id}`} className="block py-4 px-3">
+                                                        {row.hpp}
+                                                    </Link>
+                                                </td>
+                                                <td className="p-0 text-[#059669] font-extrabold">
+                                                    <Link to={`/menus/${row.id}`} className="block py-4 px-3">
+                                                        {row.profit}
+                                                    </Link>
+                                                </td>
+                                                <td className="p-0">
+                                                    <Link to={`/menus/${row.id}`} className="block py-4 px-3">
+                                                        <div className="flex items-center justify-end gap-3">
+                                                            <div className="w-16 bg-brand-light/40 h-2 rounded-full overflow-hidden hidden sm:block">
+                                                                <div
+                                                                    className={`h-full rounded-full ${row.margin_pct >= 50 ? 'bg-[#059669]' : 'bg-[#92400e]'
+                                                                        }`}
+                                                                    style={{ width: `${row.margin_pct}%` }}
+                                                                ></div>
+                                                            </div>
+                                                            <span className="font-extrabold text-brand-dark text-right min-w-[32px]">{row.margin}</span>
+                                                        </div>
+                                                    </Link>
                                                 </td>
                                             </tr>
                                         ))}
@@ -742,7 +763,7 @@ export default function OwnerDashboard() {
                                     const s = statusLabel[order.status] ?? statusLabel.pending;
                                     return (
                                         <Link key={i} to="/kitchen-orders"
-                                            className="block p-3 rounded-xl border border-brand-light hover:bg-brand-light/10 hover:border-brand-secondary hover:shadow-sm transition-all duration-200 group relative overflow-hidden">
+                                            className="block p-3 rounded-xl border border-brand-light hover:bg-gradient-to-r hover:from-brand-light/60 hover:to-transparent hover:border-brand-secondary/50 hover:shadow-md hover:shadow-brand-primary/5 transition-all duration-200 group relative overflow-hidden">
                                             <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${statusColor[order.status] ?? statusColor.pending}`}></div>
                                             <div className="flex justify-between items-start gap-3 pl-3">
                                                 <div className="flex-1 min-w-0">

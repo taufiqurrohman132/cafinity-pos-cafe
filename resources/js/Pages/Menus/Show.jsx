@@ -63,10 +63,10 @@ function MenuImage({ src, name, categoryName }) {
 function StatCard({ label, children, accent = false }) {
     return (
         <div
-            className={`p-4 rounded-2xl border ${
+            className={`p-4 rounded-2xl border shadow-sm hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group ${
                 accent
                     ? "border-emerald-200 bg-emerald-50/50"
-                    : "border-brand-light bg-brand-bg"
+                    : "border-brand-light bg-white"
             }`}
         >
             <p
@@ -449,7 +449,7 @@ export default function Show() {
                                         <p className="text-2xl font-extrabold text-brand-dark">
                                             Rp {fmt(menu.price)}
                                         </p>
-                                        <div className="w-9 h-9 bg-brand-light/50 rounded-xl flex items-center justify-center border border-brand-light">
+                                        <div className="w-9 h-9 bg-brand-light/50 rounded-xl flex items-center justify-center border border-brand-light transition-transform duration-300 group-hover:scale-105 shadow-sm">
                                             <Icon icon="solar:dollar-minimalistic-linear" className="text-lg text-brand-secondary" />
                                         </div>
                                     </div>
@@ -463,7 +463,7 @@ export default function Show() {
                                         <p className="text-2xl font-extrabold text-brand-dark">
                                             Rp {fmt(hpp)}
                                         </p>
-                                        <div className="w-9 h-9 bg-brand-light/50 rounded-xl flex items-center justify-center border border-brand-light">
+                                        <div className="w-9 h-9 bg-brand-light/50 rounded-xl flex items-center justify-center border border-brand-light transition-transform duration-300 group-hover:scale-105 shadow-sm">
                                             <Icon icon="solar:cart-linear" className="text-lg text-brand-secondary" />
                                         </div>
                                     </div>
@@ -484,7 +484,7 @@ export default function Show() {
                                                 </p>
                                             )}
                                         </div>
-                                        <div className="w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center border border-emerald-200">
+                                        <div className="w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center border border-emerald-200 transition-transform duration-300 group-hover:scale-105 shadow-sm">
                                             <Icon icon="solar:graph-up-linear" className="text-lg text-emerald-600" />
                                         </div>
                                     </div>
@@ -500,7 +500,7 @@ export default function Show() {
                                                 {marginLabel(margin)}
                                             </p>
                                         </div>
-                                        <div className="w-9 h-9 bg-brand-light/50 rounded-xl flex items-center justify-center border border-brand-light">
+                                        <div className="w-9 h-9 bg-brand-light/50 rounded-xl flex items-center justify-center border border-brand-light transition-transform duration-300 group-hover:scale-105 shadow-sm">
                                             <Icon icon="solar:pie-chart-2-linear" className="text-lg text-brand-secondary" />
                                         </div>
                                     </div>

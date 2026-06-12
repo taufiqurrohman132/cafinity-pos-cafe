@@ -169,10 +169,10 @@ export default function TargetPerforma({
                 {/* ====== TOP HEADER ====== */}
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                        <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                             Target & Performa
                         </h1>
-                        <p className="text-brand-primary mt-1 text-sm font-medium">
+                        <p className="text-xs md:text-sm text-brand-primary/60 font-medium mt-1">
                             Pantau pencapaian KPI harian dan riwayat pertumbuhan outlet Anda.
                         </p>
                     </div>
@@ -182,9 +182,9 @@ export default function TargetPerforma({
                             <Link
                                 key={p.val}
                                 to={`/targets-goals?period=${p.val}`}
-                                className={`px-5 py-2.5 text-xs font-bold rounded-xl border transition-all ${period === p.val
-                                    ? 'bg-brand-primary text-white border-brand-primary shadow-sm'
-                                    : 'bg-white text-brand-primary border-brand-light hover:bg-brand-light/50'
+                                className={`px-5 py-2.5 text-xs font-bold rounded-xl border transition-all duration-200 active:scale-[0.98] ${period === p.val
+                                    ? 'bg-brand-primary text-white border-brand-primary shadow-md shadow-brand-primary/20'
+                                    : 'bg-white text-brand-primary border-brand-light hover:bg-brand-light hover:text-brand-dark'
                                     }`}
                             >
                                 {p.label}
@@ -211,10 +211,10 @@ export default function TargetPerforma({
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                             <div>
-                                <p className="text-3xl font-extrabold text-brand-dark tracking-tight">
+                                <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary tracking-tight">
                                     Rp {formatRp(targetValue)}
                                 </p>
-                                <p className="text-xs font-medium text-brand-primary/70 mt-1.5">
+                                <p className="text-xs text-brand-primary/60 font-medium mt-1">
                                     Status pembaruan terakhir: {lastUpdated}
                                 </p>
                             </div>
@@ -223,7 +223,7 @@ export default function TargetPerforma({
                                 <div className="flex items-end justify-between gap-4">
                                     <div>
                                         <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest mb-1">Tercapai</p>
-                                        <p className="text-2xl font-extrabold text-brand-secondary">
+                                        <p className="text-2xl font-black text-brand-secondary">
                                             Rp {formatRp(currentValue)}
                                         </p>
                                     </div>
@@ -253,14 +253,14 @@ export default function TargetPerforma({
                             <button
                                 type="button"
                                 onClick={() => setIsModalOpen(true)}
-                                className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]"
+                                className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all duration-200 flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]"
                             >
                                 <Icon icon="solar:pen-linear" className="text-sm" />
                                 {target ? 'Ubah Target' : 'Set Target'}
                             </button>
                             <Link
                                 to="/targets-goals/aov"
-                                className="px-5 py-2.5 text-xs font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light/50 hover:text-brand-dark transition-colors"
+                                className="px-5 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98]"
                             >
                                 Lihat Detail AOV
                             </Link>
@@ -270,56 +270,56 @@ export default function TargetPerforma({
 
                 {/* ====== STAT CARDS ====== */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-                    <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-5">
+                    <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-5 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
                         <div className="flex items-start justify-between mb-3">
                             <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest leading-tight">Sisa Target</p>
-                            <div className="w-9 h-9 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0">
+                            <div className="w-9 h-9 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm">
                                 <Icon icon="solar:wallet-linear" className="text-lg text-brand-secondary" />
                             </div>
                         </div>
-                        <p className="text-xl font-extrabold text-brand-dark leading-tight">
+                        <p className="text-xl font-black text-brand-secondary leading-tight">
                             Rp {formatRp(remaining)}
                         </p>
                         <p className="text-[11px] font-medium text-brand-primary/70 mt-1.5">Perlu dicapai hari ini</p>
                     </div>
 
-                    <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-5">
+                    <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-5 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
                         <div className="flex items-start justify-between mb-3">
                             <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest leading-tight">Estimasi Penutupan</p>
-                            <div className="w-9 h-9 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0">
+                            <div className="w-9 h-9 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm">
                                 <Icon icon="solar:graph-up-linear" className="text-lg text-brand-secondary" />
                             </div>
                         </div>
-                        <p className="text-xl font-extrabold text-brand-dark leading-tight">
+                        <p className="text-xl font-black text-brand-secondary leading-tight">
                             Rp {formatRp(estimasi)}
                         </p>
-                        <p className={`text-[11px] font-medium mt-1.5 ${trendEstimasi >= 0 ? 'text-emerald-600' : 'text-rose-500'}`}>
+                        <p className={`text-[11px] font-bold mt-1.5 ${trendEstimasi >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
                             {trendEstimasi >= 0 ? '↑' : '↓'} {Math.abs(trendEstimasi)}%
                             <span className="text-brand-primary/60 font-normal ml-1">Berdasarkan tren saat ini</span>
                         </p>
                     </div>
 
-                    <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-5">
+                    <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-5 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
                         <div className="flex items-start justify-between mb-3">
                             <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest leading-tight">Rata-rata Harian</p>
-                            <div className="w-9 h-9 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0">
+                            <div className="w-9 h-9 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm">
                                 <Icon icon="solar:chart-2-linear" className="text-lg text-brand-secondary" />
                             </div>
                         </div>
-                        <p className="text-xl font-extrabold text-brand-dark leading-tight">
+                        <p className="text-xl font-black text-brand-secondary leading-tight">
                             Rp {formatRp(avgHarian)}
                         </p>
-                        <p className="text-[11px] font-medium text-emerald-600 mt-1.5">30 hari terakhir</p>
+                        <p className="text-[11px] font-bold text-emerald-500 mt-1.5">30 hari terakhir</p>
                     </div>
 
-                    <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-5">
+                    <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-5 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
                         <div className="flex items-start justify-between mb-3">
                             <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest leading-tight">Update Terakhir</p>
-                            <div className="w-9 h-9 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0">
+                            <div className="w-9 h-9 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm">
                                 <Icon icon="solar:calendar-linear" className="text-lg text-brand-secondary" />
                             </div>
                         </div>
-                        <p className="text-xl font-extrabold text-brand-dark leading-tight">Live</p>
+                        <p className="text-xl font-black text-brand-dark leading-tight">Live</p>
                         <p className="text-[11px] font-medium text-brand-primary/70 mt-1.5 flex items-center gap-1">
                             <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Sinkronisasi otomatis aktif
                         </p>
@@ -357,8 +357,8 @@ export default function TargetPerforma({
                     {/* SIDEBAR */}
                     <div className="xl:col-span-4 space-y-5">
                         <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-5">
-                            <h3 className="font-extrabold text-brand-dark tracking-tight mb-4 flex items-center gap-2 text-sm">
-                                <Icon icon="solar:graph-up-linear" className="text-brand-secondary text-lg" />
+                            <h3 className="text-xs font-bold text-gray-400 capitalize tracking-wider flex items-center gap-2 mb-4">
+                                <Icon icon="solar:graph-up-linear" className="text-brand-primary text-lg" />
                                 Wawasan Performa
                             </h3>
 
@@ -369,7 +369,7 @@ export default function TargetPerforma({
                                 </p>
                                 {promoAktif !== '-' && (
                                     <div className="mt-2 flex items-center gap-2 flex-wrap">
-                                        <span className="text-[10px] font-extrabold text-brand-secondary bg-brand-light px-2 py-0.5 rounded-md border border-[#c4c0ff]">Promo Aktif</span>
+                                        <span className="text-[10px] font-bold text-brand-secondary bg-brand-light/50 px-2 py-0.5 rounded-md border border-brand-light">Promo Aktif</span>
                                         <span className="text-[10px] font-bold text-brand-primary">"{promoAktif}"</span>
                                     </div>
                                 )}
@@ -403,7 +403,7 @@ export default function TargetPerforma({
                                 </div>
                                 <Link
                                     to="/dashboard"
-                                    className="block w-full mt-4 py-2.5 text-xs font-extrabold text-brand-primary border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark text-center transition-colors flex items-center justify-center gap-1.5"
+                                    className="block w-full mt-4 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark text-center transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-1.5"
                                 >
                                     Lihat Laporan Lengkap
                                     <Icon icon="solar:arrow-right-linear" className="text-sm" />
@@ -416,8 +416,8 @@ export default function TargetPerforma({
                                 <Icon icon="solar:card-linear" className="text-xl text-brand-secondary" />
                             </div>
                             <div>
-                                <p className="text-xs font-extrabold text-brand-dark mb-1">Metode Pembayaran Terpopuler</p>
-                                <p className="text-[11px] font-medium text-brand-primary leading-relaxed">
+                                <p className="text-xs font-bold text-brand-primary/60 capitalize tracking-wide mb-1">Metode Pembayaran Terpopuler</p>
+                                <p className="text-xs text-brand-dark font-medium mt-1 leading-relaxed">
                                     {paymentSummary || 'Belum ada transaksi hari ini.'}
                                 </p>
                             </div>
@@ -439,7 +439,7 @@ export default function TargetPerforma({
 
             {/* ====== CUSTOM TOAST NOTIFICATION (Mockup Style) ====== */}
             {showSuccessToast && (
-                <div className="fixed bottom-6 right-6 z-[100] bg-white border border-brand-light rounded-2xl p-4 shadow-xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-5 duration-300 max-w-sm">
+                <div className="fixed bottom-6 right-6 z-[100] bg-white border border-brand-light rounded-2xl p-4 shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-5 duration-300 max-w-sm">
                     <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center flex-shrink-0">
                         <Icon icon="solar:check-circle-linear" className="text-xl" />
                     </div>
@@ -450,14 +450,14 @@ export default function TargetPerforma({
                     <div className="flex items-center gap-3">
                         <button
                             onClick={handleUndo}
-                            className="text-[10px] font-extrabold text-brand-dark hover:underline flex items-center gap-1 active:scale-95"
+                            className="text-[10px] font-bold text-brand-primary hover:text-brand-secondary hover:underline flex items-center gap-1 active:scale-[0.95] transition-all"
                         >
                             <Icon icon="solar:restart-linear" className="text-xs" />
                             Urungkan
                         </button>
                         <button
                             onClick={() => setShowSuccessToast(false)}
-                            className="text-brand-primary/50 hover:text-brand-secondary active:scale-95 flex-shrink-0"
+                            className="text-brand-primary/40 hover:text-brand-dark active:scale-[0.95] flex-shrink-0 transition-all font-bold"
                         >
                             ✕
                         </button>
