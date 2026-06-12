@@ -77,7 +77,7 @@ const AppRoutes = () => {
                 <Route path="/pos" element={<POS />} />
                 <Route path="/transactions" element={<TransactionsIndex />} />
                 <Route path="/transactions/:id" element={<PageLoader component={TransactionsShow} apiPath="/transactions/:id" skeleton={TransactionsDetailSkeleton} />} />
-                <Route path="/transactions/:id/invoice" element={<PageLoader component={TransactionsInvoice} apiPath="/transactions/:id/invoice" skeleton={TransactionsInvoiceSkeleton} />} />
+                <Route path="/transactions/:id/invoice" element={<PageLoader component={TransactionsShow} apiPath="/transactions/:id" skeleton={TransactionsDetailSkeleton} />} />
                 <Route path="/kitchen-orders" element={<KitchenOrdersIndex />} />
                 <Route path="/menus" element={<MenusIndex />} />
                 <Route path="/menus/create" element={<MenusCreateEdit />} />

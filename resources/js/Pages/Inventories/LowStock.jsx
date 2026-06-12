@@ -9,15 +9,29 @@ export default function InventoriesLowStock({ inventories = [] }) {
             <div className="min-h-screen bg-brand-bg p-4 md:p-6 animate-in fade-in duration-200">
                 <div className="max-w-4xl mx-auto space-y-6">
 
-                    {/* Header */}
-                    <div className="flex items-center gap-4">
-                        <Link to="/inventories"
-                            className="w-9 h-9 rounded-xl border border-brand-light bg-white flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition active:scale-95">
-                            <iconify-icon icon="mdi:arrow-left"></iconify-icon>
-                        </Link>
-                        <div>
-                            <h1 className="text-2xl font-bold text-brand-dark">Stok Menipis</h1>
-                            <p className="text-gray-500 text-sm mt-0.5">{inventories.length} item perlu direstok</p>
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="flex items-center gap-4">
+                            <Link 
+                                to="/inventories" 
+                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
+                            >
+                                <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
+                            </Link>
+                            <div className="space-y-1">
+                                <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium">
+                                    <Link to="/inventories" className="hover:text-brand-primary transition-colors">
+                                        Inventori
+                                    </Link>
+                                    <span className="text-brand-primary/40">›</span>
+                                    <span className="text-brand-dark font-semibold">Stok Menipis</span>
+                                </nav>
+                                <h1 className="text-2xl sm:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight pt-1">
+                                    Stok Menipis
+                                </h1>
+                                <p className="text-gray-500 text-xs mt-1">
+                                    {inventories.length} item perlu direstok
+                                </p>
+                            </div>
                         </div>
                     </div>
 

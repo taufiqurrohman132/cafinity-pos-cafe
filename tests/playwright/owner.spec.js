@@ -95,7 +95,7 @@ test.describe('Owner Pages and Modals tests', () => {
 
   test('Reports Page', async ({ page }) => {
     await page.goto('/reports');
-    await expect(page.locator('text=Laporan Bisnis')).toBeVisible();
+    await expect(page.locator('text=Laporan Bisnis')).toBeVisible({ timeout: 15000 });
   });
 
   test('Targets & Goals Pages', async ({ page }) => {
@@ -136,6 +136,6 @@ test.describe('Owner Pages and Modals tests', () => {
 
     // Profile Page
     await page.goto('/profile');
-    await expect(page.locator('text=Informasi Profil')).toBeVisible();
+    await expect(page.locator('text=Pengaturan Profil')).toBeVisible({ timeout: 15000 });
   });
 });

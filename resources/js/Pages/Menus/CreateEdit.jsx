@@ -320,11 +320,11 @@ export default function MenusCreateEdit() {
                                 <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
                             </Link>
                             <div>
-                                <div className="flex items-center gap-2 text-xs font-bold text-brand-primary mb-1">
-                                    <Link to="/menus" className="hover:text-brand-dark transition-colors">Menu Catalog</Link>
-                                    <span className="text-brand-light">/</span>
-                                    <span className="text-brand-dark">{isEditMode ? "Edit Menu" : "Tambah Menu"}</span>
-                                </div>
+                                <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium mb-1">
+                                    <Link to="/menus" className="hover:text-brand-primary transition-colors">Menu</Link>
+                                    <span className="text-brand-primary/40">›</span>
+                                    <span className="text-brand-dark font-semibold">{isEditMode ? "Edit Menu" : "Tambah Menu"}</span>
+                                </nav>
                                 <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                                     {isEditMode ? "Edit Detail Menu" : "Tambah Menu Baru"}
                                 </h1>

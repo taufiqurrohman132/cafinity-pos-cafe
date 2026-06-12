@@ -151,10 +151,18 @@ export default function SupplierShow({ supplier }) {
 
                     {/* Top Breadcrumb & Actions Bar */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-light/40 pb-4">
-                        <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
-                            <Link to="/suppliers" className="hover:text-brand-primary transition">Daftar Supplier</Link>
-                            <iconify-icon icon="solar:alt-arrow-right-linear" class="text-[10px]"></iconify-icon>
-                            <span className="text-gray-600">Detail Supplier</span>
+                        <div className="flex items-center gap-4">
+                            <Link 
+                                to="/suppliers" 
+                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
+                            >
+                                <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
+                            </Link>
+                            <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium">
+                                <Link to="/suppliers" className="hover:text-brand-primary transition-colors">Supplier</Link>
+                                <span className="text-brand-primary/40">›</span>
+                                <span className="text-brand-dark font-semibold">Detail Supplier</span>
+                            </nav>
                         </div>
 
                         {/* Top Actions Grid */}
@@ -216,7 +224,7 @@ export default function SupplierShow({ supplier }) {
                     {/* Title Header */}
                     <div className="space-y-1.5 text-left">
                         <div className="flex flex-wrap items-center gap-3">
-                            <h2 className="text-2xl md:text-3xl font-black text-brand-dark tracking-tight">{supplier.name}</h2>
+                            <h1 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">{supplier.name}</h1>
                             {getStatusBadge(supplier.status)}
                         </div>
                         <p className="text-xs text-gray-500 font-medium">
@@ -492,7 +500,7 @@ export default function SupplierShow({ supplier }) {
                                 <div className="space-y-3 text-xs">
                                     {supplier.purchase_orders && supplier.purchase_orders.length > 0 ? (
                                         supplier.purchase_orders.slice(0, 5).map(po => (
-                                            <div key={po.id} className="flex justify-between items-center py-1 border-b border-gray-50 last:border-none">
+                                            <div key={po.id} className="flex justify-between items-center py-2 px-2 -mx-2 hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all rounded-xl border-b border-gray-50 last:border-none">
                                                 <div className="flex flex-col text-left">
                                                     <span className="font-extrabold text-brand-primary hover:text-brand-secondary transition-colors cursor-pointer">
                                                         {po.po_number || `PO-${po.id}`}
@@ -515,7 +523,7 @@ export default function SupplierShow({ supplier }) {
                                             { po: 'PO-2024-0122', date: '01 Agu 2024', status: 'Pending' },
                                             { po: 'PO-2024-0156', date: '15 Jul 2024', status: 'Delivered' }
                                         ].map(item => (
-                                            <div key={item.po} className="flex justify-between items-center py-1 border-b border-gray-50 last:border-none">
+                                            <div key={item.po} className="flex justify-between items-center py-2 px-2 -mx-2 hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all rounded-xl border-b border-gray-50 last:border-none">
                                                 <div className="flex flex-col text-left">
                                                     <span className="font-extrabold text-gray-800">{item.po}</span>
                                                     <span className="text-[10px] text-gray-400 font-semibold">{item.date}</span>
@@ -531,7 +539,7 @@ export default function SupplierShow({ supplier }) {
 
                             {/* Log Aktivitas */}
                             <div className="bg-white p-6 rounded-2xl border border-brand-light/80 shadow-sm space-y-4 text-left">
-                                <h3 className="text-sm font-extrabold text-brand-dark border-b border-brand-light/40 pb-2 flex items-center gap-2">
+                                <h3 className="text-sm font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary border-b border-brand-light/40 pb-2 flex items-center gap-2">
                                     <iconify-icon icon="solar:bell-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Log Aktivitas
                                 </h3>
@@ -543,7 +551,7 @@ export default function SupplierShow({ supplier }) {
                                         { user: 'Sarah Miller', action: 'mengunggah Kontrak_Kerjasama_2024.pdf', time: '3 hari yang lalu' },
                                         { user: 'Alex Thompson', action: 'menambahkan PIC baru: Siti Aminah', time: '1 minggu yang lalu' }
                                     ].map((log, idx) => (
-                                        <div key={idx} className="flex gap-2.5">
+                                        <div key={idx} className="flex gap-2.5 py-2 px-2 -mx-2 hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all rounded-xl">
                                             <div className="w-1.5 h-1.5 rounded-full bg-brand-primary flex-shrink-0 mt-1.5" />
                                             <div className="space-y-0.5">
                                                 <p className="text-gray-600 leading-relaxed font-medium">

@@ -123,15 +123,25 @@ export default function InventoriesShow() {
                 <div className="max-w-3xl mx-auto space-y-6">
 
                     {/* Header */}
-                    <div className="flex items-center justify-between gap-4">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex items-center gap-4">
-                            <Link to="/inventories"
-                                className="w-9 h-9 rounded-xl border border-brand-light bg-white flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition">
-                                <iconify-icon icon="mdi:arrow-left"></iconify-icon>
+                            <Link 
+                                to="/inventories" 
+                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
+                            >
+                                <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
                             </Link>
-                            <div>
-                                <h1 className="text-2xl font-bold text-brand-dark">{inventory.name}</h1>
-                                <p className="text-gray-500 text-sm mt-0.5">Detail bahan baku</p>
+                            <div className="space-y-1">
+                                <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium">
+                                    <Link to="/inventories" className="hover:text-brand-primary transition-colors">
+                                        Inventori
+                                    </Link>
+                                    <span className="text-brand-primary/40">›</span>
+                                    <span className="text-brand-dark font-semibold">Detail {inventory.name}</span>
+                                </nav>
+                                <h1 className="text-2xl sm:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight pt-1">
+                                    {inventory.name}
+                                </h1>
                             </div>
                         </div>
                         <Link to={`/inventories/${inventory.id}/edit`}
@@ -177,7 +187,7 @@ export default function InventoriesShow() {
                                 ) : (
                                     <div className="space-y-3">
                                         {inventory.logs?.map(log => (
-                                            <div key={log.id} className="flex items-start justify-between gap-4 py-2 border-b border-brand-light/50 last:border-0">
+                                            <div key={log.id} className="flex items-start justify-between gap-4 py-2 px-2 -mx-2 hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all rounded-xl border-b border-brand-light/50 last:border-0">
                                                 <div>
                                                     <p className="text-xs font-bold text-brand-dark capitalize">{log.type}</p>
                                                     <p className="text-xs text-gray-500 mt-0.5">{log.notes ?? '-'} — {log.user?.name ?? 'Sistem'}</p>

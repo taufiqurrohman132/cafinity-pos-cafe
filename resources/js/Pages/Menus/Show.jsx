@@ -378,18 +378,23 @@ export default function Show() {
 
                 {/* ── TOP NAV ── */}
                 <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-2 text-sm text-brand-primary font-medium">
-                        <Link
-                            to="/menus"
-                            className="flex items-center gap-1.5 hover:text-brand-dark transition-colors font-bold"
+                    <div className="flex items-center gap-4">
+                        <Link 
+                            to="/menus" 
+                            className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
                         >
-                            <Icon icon="solar:arrow-left-linear" className="text-base" />
-                            Kembali ke Menu
+                            <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
                         </Link>
-                        <span className="text-brand-light">/</span>
-                        <span className="text-brand-dark font-extrabold truncate max-w-[200px]">
-                            {menu.name}
-                        </span>
+                        <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium">
+                            <Link
+                                to="/menus"
+                                className="hover:text-brand-primary transition-colors"
+                            >
+                                Menu
+                            </Link>
+                            <span className="text-brand-primary/40">›</span>
+                            <span className="text-brand-dark font-semibold">Detail {menu.name}</span>
+                        </nav>
                     </div>
                     <div className="flex items-center gap-3">
                         <button
@@ -435,7 +440,7 @@ export default function Show() {
                                         SKU: {menu.sku ?? "N/A"}
                                     </span>
                                 </div>
-                                <h1 className="text-3xl font-extrabold text-brand-dark tracking-tight mb-2">
+                                <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight mb-2">
                                     {menu.name}
                                 </h1>
                                 <p className="text-sm text-brand-primary/70 font-medium leading-relaxed mb-6">
@@ -597,7 +602,7 @@ export default function Show() {
                                                 menu.recipe.ingredients.map((ing, i) => (
                                                     <tr
                                                         key={i}
-                                                        className="border-b border-brand-light/50 last:border-0 hover:bg-brand-light/10 transition-colors"
+                                                        className="border-b border-brand-light/50 last:border-0 hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all cursor-pointer"
                                                     >
                                                         <td className="py-3 font-bold text-brand-dark">
                                                             {ing.name}
@@ -652,7 +657,7 @@ export default function Show() {
                                         menu.audits.map((audit, i) => (
                                             <div
                                                 key={i}
-                                                className="flex gap-3 p-3 rounded-xl hover:bg-brand-light/10 transition-colors"
+                                                className="flex gap-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent border border-transparent hover:border-brand-light/80 transition-all duration-300 hover:shadow-md hover:shadow-brand-primary/5 group"
                                             >
                                                 <div className="w-2 h-2 mt-1.5 rounded-full bg-brand-secondary flex-shrink-0" />
                                                 <div>

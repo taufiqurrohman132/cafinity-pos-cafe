@@ -153,13 +153,18 @@ export default function PurchaseOrderShow() {
                         <div className="flex items-center gap-4">
                             <Link
                                 to="/purchase-orders"
-                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary transition shadow-sm"
+                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
                             >
                                 <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
                             </Link>
                             <div>
+                                <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium mb-1">
+                                    <Link to="/purchase-orders" className="hover:text-brand-primary transition-colors">Purchase Order</Link>
+                                    <span className="text-brand-primary/40">›</span>
+                                    <span className="text-brand-dark font-semibold">Detail PO #{order.po_number || String(order.id).padStart(4, '0')}</span>
+                                </nav>
                                 <div className="flex items-center gap-3">
-                                    <h1 className="text-2xl font-extrabold text-brand-dark tracking-tight">
+                                    <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                                         PO #{order.po_number || String(order.id).padStart(4, '0')}
                                     </h1>
                                     <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${statusMeta.bg} ${statusMeta.text} ${statusMeta.border} capitalize`}>
@@ -312,7 +317,7 @@ export default function PurchaseOrderShow() {
                                                 const finalSub = subtotal + taxAmount
 
                                                 return (
-                                                    <tr key={item.id} className="hover:bg-gray-50/50 transition">
+                                                    <tr key={item.id} className="hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all cursor-pointer">
                                                         <td className="px-4 py-4">
                                                             <p className="font-bold text-gray-900">{itemName}</p>
                                                             <p className="text-[10px] text-gray-400 mt-0.5 tracking-wider capitalize font-semibold">{itemCode}</p>

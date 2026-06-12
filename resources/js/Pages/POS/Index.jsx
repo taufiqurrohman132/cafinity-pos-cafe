@@ -504,7 +504,7 @@ export default function POS() {
                     <div className="flex-1 overflow-y-auto px-5 py-4 relative scrollbar-auto">
                         {/* Empty Cart Placeholder */}
                         <div className={`absolute inset-0 flex flex-col items-center justify-center text-center px-9 cart-empty-state ${
-                            cart.length === 0 ? '' : 'hidden-state'
+                            cart.length === 0 ? '' : 'hidden-state hidden'
                         }`}>
                             <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-light/50 to-white border border-brand-light flex items-center justify-center mb-4 shadow-inner">
                                 <iconify-icon icon="solar:cookie-linear" class="text-[38px] text-brand-secondary" />
@@ -515,7 +515,7 @@ export default function POS() {
 
                         {/* Active Cart Items */}
                         <div className={`space-y-4 cart-active-state ${
-                            cart.length > 0 ? '' : 'hidden-state'
+                            cart.length > 0 ? '' : 'hidden-state hidden'
                         }`}>
                             {cart.map((item, index) => (
                                 <div key={`${item.menu_id}-${index}`} className="flex gap-3 items-start pb-4 border-b border-brand-light/50 last:border-0 last:pb-0 animate-in fade-in slide-in-from-bottom-2 duration-200">

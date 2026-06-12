@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Head from '@/Components/Head';
 import { useAuth } from '@/context/AuthContext';
 import client from '@/api/client';
@@ -68,13 +69,28 @@ export default function ProfileEdit() {
             <div className="min-h-screen bg-brand-bg p-4 md:p-6">
                 <div className="max-w-3xl mx-auto space-y-6">
                     {/* Header */}
-                    <div>
-                        <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
-                            Pengaturan Profil
-                        </h1>
-                        <p className="text-brand-primary font-medium text-sm mt-1">
-                            Perbarui informasi akun pribadi Anda dan ubah kata sandi secara berkala.
-                        </p>
+                    <div className="flex items-center gap-4">
+                        <Link 
+                            to="/dashboard" 
+                            className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
+                        >
+                            <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
+                        </Link>
+                        <div className="space-y-1">
+                            <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium">
+                                <Link to="/dashboard" className="hover:text-brand-primary transition-colors">
+                                    Dashboard
+                                </Link>
+                                <span className="text-brand-primary/40">›</span>
+                                <span className="text-brand-dark font-semibold">Pengaturan Profil</span>
+                            </nav>
+                            <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                                Pengaturan Profil
+                            </h1>
+                            <p className="text-brand-primary font-medium text-sm mt-1">
+                                Perbarui informasi akun pribadi Anda dan ubah kata sandi secara berkala.
+                            </p>
+                        </div>
                     </div>
 
                     {successMessage && (

@@ -212,26 +212,30 @@ export default function AovReport({
 
             <div className="flex flex-col gap-6 py-6 px-8 max-w-7xl mx-auto bg-brand-bg min-h-[calc(100vh-72px)]">
 
-                {/* Back button to Targets & Goals */}
-                <div className="flex items-center gap-2">
-                    <Link
-                        to="/targets-goals"
-                        className="flex items-center gap-1 text-xs font-extrabold text-brand-primary hover:text-brand-dark transition-colors active:scale-95"
-                    >
-                        <Icon icon="solar:alt-arrow-left-linear" className="text-sm" />
-                        Kembali ke Targets & Goals
-                    </Link>
-                </div>
-
                 {/* ── HEADER SECTION ── */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-brand-light/50 pb-5">
-                    <div>
-                        <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
-                            Laporan Rata-rata Nilai Tiket (AOV)
-                        </h1>
-                        <p className="text-xs md:text-sm text-brand-primary/60 font-medium mt-1">
-                            Analisis performa belanja per transaksi di seluruh saluran penjualan.
-                        </p>
+                    <div className="flex items-center gap-4">
+                        <Link 
+                            to="/targets-goals" 
+                            className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
+                        >
+                            <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
+                        </Link>
+                        <div className="space-y-1">
+                            <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium">
+                                <Link to="/targets-goals" className="hover:text-brand-primary transition-colors">
+                                    Targets & Goals
+                                </Link>
+                                <span className="text-brand-primary/40">›</span>
+                                <span className="text-brand-dark font-semibold">Laporan AOV</span>
+                            </nav>
+                            <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                                Laporan Rata-rata Nilai Tiket (AOV)
+                            </h1>
+                            <p className="text-xs md:text-sm text-brand-primary/60 font-medium mt-1">
+                                Analisis performa belanja per transaksi di seluruh saluran penjualan.
+                            </p>
+                        </div>
                     </div>
 
                     <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 self-stretch md:self-auto">

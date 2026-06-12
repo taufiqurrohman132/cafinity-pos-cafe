@@ -378,6 +378,24 @@ class TransactionController extends Controller
         ]);
     }
 
+    public function update(Request $request, string $id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        $data = $request->validate([
+            'notes' => 'nullable|string',
+            'status' => 'nullable|string|in:pending,held,completed,cancelled,refunded',
+        ]);
+        
+        $transaction->update($data);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Transaksi berhasil diperbarui.',
+            'transaction' => $transaction->load(['items.menu', 'cashier'])
+        ]);
+    }
+
+
     private function categoryIcon(string $name): string
     {
         $lower = strtolower($name);
