@@ -191,7 +191,7 @@ export default function Register({ errors: serverErrors }) {
                             {/* Back to Login */}
                             <p className="text-xs text-center text-brand-dark/70 font-semibold mt-3">
                                 Sudah memiliki akun?{' '}
-                                <a href="/login" className="text-brand-secondary hover:underline font-extrabold">
+                                <a href="/login" className="text-brand-secondary hover:text-brand-primary font-extrabold transition-colors">
                                     Masuk ke Dashboard
                                 </a>
                             </p>

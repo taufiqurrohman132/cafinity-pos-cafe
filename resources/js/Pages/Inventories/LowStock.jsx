@@ -55,14 +55,14 @@ export default function InventoriesLowStock({ inventories = [] }) {
                                                 <td className="px-5 py-4 text-sm text-gray-500">{item.min_stock} {item.unit}</td>
                                                 <td className="px-5 py-4 text-sm text-gray-500">
                                                     {item.supplier ? (
-                                                        <Link to={`/suppliers/${item.supplier.id}`} className="text-brand-primary hover:underline hover:text-brand-secondary font-medium">
+                                                        <Link to={`/suppliers/${item.supplier.id}`} className="text-brand-primary hover:text-brand-secondary transition-colors font-medium">
                                                             {item.supplier.name}
                                                         </Link>
                                                     ) : '-'}
                                                 </td>
                                                 <td className="px-5 py-4">
                                                     <Link to={`/inventories/${item.id}`}
-                                                        className="text-xs font-bold text-brand-primary hover:underline">
+                                                        className="text-xs font-bold text-brand-primary hover:text-brand-secondary transition-colors">
                                                         Detail →
                                                     </Link>
                                                 </td>

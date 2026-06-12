@@ -762,7 +762,7 @@ export default function Show() {
                             </div>
                             <Link
                                 to="/promotions"
-                                className="block mt-3 text-xs font-extrabold text-brand-secondary hover:text-brand-primary transition-colors hover:underline"
+                                className="block mt-3 text-xs font-extrabold text-brand-secondary hover:text-brand-primary transition-colors"
                             >
                                 Lihat Pengaturan Promo →
                             </Link>

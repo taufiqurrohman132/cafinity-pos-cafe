@@ -537,7 +537,7 @@ export default function PurchaseOrderShow() {
                                     )}
                                 </div>
 
-                                <a href="#" className="block text-center text-brand-primary font-bold text-xs mt-6 hover:underline">
+                                <a href="#" className="block text-center text-brand-primary hover:text-brand-secondary font-bold text-xs mt-6 transition-colors">
                                     Lihat Semua Aktivitas
                                 </a>
                             </div>
@@ -552,9 +552,9 @@ export default function PurchaseOrderShow() {
                 <div className="border-t border-brand-light bg-white px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-2 mt-6">
                     <p className="text-[10px] text-gray-400">© 2024 Purchase Order Management System</p>
                     <div className="flex items-center gap-4 text-[10px] text-gray-400">
-                        <a href="#" className="hover:underline">Support</a>
-                        <a href="#" className="hover:underline">Privacy Policy</a>
-                        <a href="#" className="hover:underline">Terms of Service</a>
+                        <a href="#" className="hover:text-brand-primary transition-colors">Support</a>
+                        <a href="#" className="hover:text-brand-primary transition-colors">Privacy Policy</a>
+                        <a href="#" className="hover:text-brand-primary transition-colors">Terms of Service</a>
                     </div>
                 </div>
             </div>

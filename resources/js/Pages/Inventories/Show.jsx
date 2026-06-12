@@ -154,7 +154,7 @@ export default function InventoriesShow() {
                                         {
                                             label: 'Supplier',
                                             value: inventory.supplier ? (
-                                                <Link to={`/suppliers/${inventory.supplier_id}`} className="text-brand-primary hover:underline hover:text-brand-secondary font-semibold">
+                                                <Link to={`/suppliers/${inventory.supplier_id}`} className="text-brand-primary hover:text-brand-secondary transition-colors font-semibold">
                                                     {inventory.supplier.name}
                                                 </Link>
                                             ) : '-'

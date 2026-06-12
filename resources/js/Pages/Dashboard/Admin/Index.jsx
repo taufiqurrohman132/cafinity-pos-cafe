@@ -297,7 +297,7 @@ export default function AdminDashboard() {
                                     </div>
                                 ))}
                             </div>
-                            <a href="#" className="block text-center text-brand-secondary font-extrabold text-xs mt-6 hover:underline">
+                            <a href="#" className="block text-center text-brand-secondary hover:text-brand-primary font-extrabold text-xs mt-6 transition-colors">
                                 Lihat semua log →
                             </a>
                         </div>

@@ -748,7 +748,7 @@ export default function SettingsIndex() {
                                                 <p className="text-[10px] text-gray-500 font-semibold leading-relaxed">
                                                     Berikan instruksi langkah-demi-langkah kepada staf Anda untuk aktivasi.
                                                 </p>
-                                                <a href="#" className="text-xs font-bold text-brand-primary hover:underline flex items-center gap-1">
+                                                <a href="#" className="text-xs font-bold text-brand-primary hover:text-brand-secondary transition-colors flex items-center gap-1">
                                                     Lihat Panduan
                                                     <iconify-icon icon="solar:export-linear" class="text-[10px]"></iconify-icon>
                                                 </a>

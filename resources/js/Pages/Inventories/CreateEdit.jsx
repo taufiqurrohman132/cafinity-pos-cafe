@@ -379,7 +379,7 @@ export default function InventoriesCreateEdit() {
                                 </span>
                                 <span className="text-xs font-bold">{successMessage}</span>
                             </div>
-                            <Link to="/inventories" className="text-xs font-extrabold text-emerald-600 hover:text-emerald-800 underline">
+                            <Link to="/inventories" className="text-xs font-extrabold text-emerald-600 hover:text-emerald-800 transition-colors">
                                 Lihat di Katalog
                             </Link>
                         </div>

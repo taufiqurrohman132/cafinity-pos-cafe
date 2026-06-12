@@ -370,7 +370,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                                 <div className="flex flex-col">
                                                                     <Link
                                                                         to={`/suppliers/${supplier.id}`}
-                                                                        className="font-bold text-brand-primary hover:text-brand-secondary hover:underline text-sm md:text-base transition-colors"
+                                                                        className="font-bold text-brand-primary hover:text-brand-secondary text-sm md:text-base transition-colors"
                                                                     >
                                                                         {supplier.name}
                                                                     </Link>
@@ -485,7 +485,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                         <iconify-icon icon="solar:document-text-linear" class="text-brand-primary text-lg"></iconify-icon>
                                         Aktivitas Terbaru
                                     </h4>
-                                    <a href="#" className="text-[11px] font-semibold text-brand-primary hover:underline">Lihat Semua</a>
+                                    <a href="#" className="group text-[11px] font-semibold text-brand-primary hover:text-brand-secondary transition-colors flex items-center gap-0.5"><span>Lihat Semua</span><iconify-icon icon="solar:alt-arrow-right-linear" class="text-xs transition-transform duration-200 group-hover:translate-x-0.5" /></a>
                                 </div>
                                 <div className="space-y-4">
                                     {recent_activities.map((act) => (

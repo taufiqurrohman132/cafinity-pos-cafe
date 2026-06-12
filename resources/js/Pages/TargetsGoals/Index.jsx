@@ -450,7 +450,7 @@ export default function TargetPerforma({
                     <div className="flex items-center gap-3">
                         <button
                             onClick={handleUndo}
-                            className="text-[10px] font-bold text-brand-primary hover:text-brand-secondary hover:underline flex items-center gap-1 active:scale-[0.95] transition-all"
+                            className="text-[10px] font-bold text-brand-primary hover:text-brand-secondary flex items-center gap-1 active:scale-[0.95] transition-all"
                         >
                             <Icon icon="solar:restart-linear" className="text-xs" />
                             Urungkan

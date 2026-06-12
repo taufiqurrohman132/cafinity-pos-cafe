@@ -159,7 +159,7 @@ export default function Login() {
                                         Kata Sandi
                                     </label>
                                     <a href="/forgot-password"
-                                        className="text-xs font-extrabold text-amber-700 hover:text-amber-900 hover:underline transition-colors">
+                                        className="text-xs font-extrabold text-amber-700 hover:text-amber-900 transition-colors">
                                         Lupa kata sandi?
                                     </a>
                                 </div>
@@ -211,7 +211,7 @@ export default function Login() {
                         {/* Pendaftaran Akun */}
                         <p className="text-xs text-center text-gray-600 font-semibold mt-3">
                             Belum memiliki akun?{' '}
-                            <a href="/register" className="text-amber-700 hover:underline font-extrabold">
+                            <a href="/register" className="text-amber-700 hover:text-amber-900 font-extrabold transition-colors">
                                 Daftar Akun Baru
                             </a>
                         </p>

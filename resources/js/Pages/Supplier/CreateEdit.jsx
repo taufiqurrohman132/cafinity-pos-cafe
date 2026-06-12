@@ -280,7 +280,7 @@ export default function SupplierCreateEdit() {
                                                         placeholder="Kategori..."
                                                         autoFocus
                                                     />
-                                                    <button type="button" onClick={handleAddCategory} className="text-xs font-bold text-brand-primary hover:underline">Ok</button>
+                                                    <button type="button" onClick={handleAddCategory} className="text-xs font-bold text-brand-primary hover:text-brand-secondary transition-colors">Ok</button>
                                                 </div>
                                             ) : (
                                                 <button

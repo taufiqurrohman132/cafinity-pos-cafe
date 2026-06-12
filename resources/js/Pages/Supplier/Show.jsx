@@ -268,7 +268,7 @@ export default function SupplierShow({ supplier }) {
                                     </h3>
                                     <button
                                         onClick={() => alert('Menambahkan kontak PIC baru...')}
-                                        className="text-xs font-extrabold text-brand-primary hover:underline"
+                                        className="text-xs font-extrabold text-brand-primary hover:text-brand-secondary transition-colors"
                                     >
                                         + Tambah PIC
                                     </button>
@@ -340,7 +340,7 @@ export default function SupplierShow({ supplier }) {
                                             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(supplier.address || '')}`}
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="text-xs font-bold text-brand-primary hover:underline inline-flex items-center gap-1 mt-1.5"
+                                            className="text-xs font-bold text-brand-primary hover:text-brand-secondary transition-colors inline-flex items-center gap-1 mt-1.5"
                                         >
                                             Lihat di Peta
                                             <iconify-icon icon="solar:export-linear" class="text-[11px]"></iconify-icon>
@@ -484,7 +484,7 @@ export default function SupplierShow({ supplier }) {
                                         <iconify-icon icon="solar:document-text-linear" class="text-brand-primary text-base"></iconify-icon>
                                         Riwayat PO Terakhir
                                     </h3>
-                                    <Link to="/purchase-orders" className="text-xs font-extrabold text-brand-primary hover:underline">
+                                    <Link to="/purchase-orders" className="text-xs font-extrabold text-brand-primary hover:text-brand-secondary transition-colors">
                                         Lihat Semua
                                     </Link>
                                 </div>
@@ -494,7 +494,7 @@ export default function SupplierShow({ supplier }) {
                                         supplier.purchase_orders.slice(0, 5).map(po => (
                                             <div key={po.id} className="flex justify-between items-center py-1 border-b border-gray-50 last:border-none">
                                                 <div className="flex flex-col text-left">
-                                                    <span className="font-extrabold text-brand-primary hover:underline cursor-pointer">
+                                                    <span className="font-extrabold text-brand-primary hover:text-brand-secondary transition-colors cursor-pointer">
                                                         {po.po_number || `PO-${po.id}`}
                                                     </span>
                                                     <span className="text-[10px] text-gray-400 font-semibold">

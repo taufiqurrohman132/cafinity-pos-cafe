@@ -460,7 +460,7 @@ export default function InventoriesIndex() {
                                             <p className="text-xs text-gray-600 leading-relaxed">
                                                 <strong>{criticalItem.name}</strong> hampir habis (sisa {criticalItem.stock} {criticalItem.unit}). Segera lakukan restock sebelum kehabisan.
                                             </p>
-                                            <Link to={`/inventories/${criticalItem.id}`} className="inline-block mt-2 text-xs font-semibold text-brand-primary hover:underline">
+                                            <Link to={`/inventories/${criticalItem.id}`} className="inline-block mt-2 text-xs font-semibold text-brand-primary hover:text-brand-secondary transition-colors">
                                                 Lihat Detail →
                                             </Link>
                                         </>

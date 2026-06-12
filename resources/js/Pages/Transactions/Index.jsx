@@ -439,7 +439,7 @@ export default function TransactionHistory() {
                                                         </div>
                                                         <p className="text-sm font-bold text-brand-dark">Tidak ada transaksi ditemukan</p>
                                                         {hasActiveFilters && (
-                                                            <button onClick={handleReset} className="text-xs font-bold text-brand-secondary hover:text-brand-primary hover:underline transition-colors">
+                                                            <button onClick={handleReset} className="text-xs font-bold text-brand-secondary hover:text-brand-primary transition-colors">
                                                                 Reset semua filter
                                                             </button>
                                                         )}

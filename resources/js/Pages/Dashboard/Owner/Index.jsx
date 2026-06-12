@@ -398,8 +398,9 @@ export default function OwnerDashboard() {
                                         <h3 className="font-extrabold text-brand-dark tracking-tight">Menu Terlaris</h3>
                                         <p className="text-[10px] text-brand-primary/60 font-bold capitalize tracking-wider mt-0.5">Penjualan tertinggi hari ini</p>
                                     </div>
-                                    <Link to="/menus" className="text-xs text-brand-secondary font-extrabold hover:text-brand-primary hover:underline transition-colors">
-                                        Lihat Katalog
+                                    <Link to="/menus" className="group text-xs text-brand-secondary font-extrabold hover:text-brand-primary transition-colors flex items-center gap-1">
+                                        <span>Lihat Katalog</span>
+                                        <iconify-icon icon="solar:alt-arrow-right-linear" class="text-xs transition-transform duration-200 group-hover:translate-x-0.5" />
                                     </Link>
                                 </div>
                                 <div className="space-y-1.5">
@@ -741,8 +742,9 @@ export default function OwnerDashboard() {
                                     <span className="flex items-center gap-1.5 text-[10px] font-bold text-brand-primary bg-brand-light/30 border border-brand-light/50 px-2.5 py-0.5 rounded-full shadow-sm">
                                         <span className="w-1.5 h-1.5 bg-brand-secondary rounded-full animate-pulse"></span> Live
                                     </span>
-                                    <Link to="/kitchen-orders" className="text-[10px] text-brand-secondary font-extrabold hover:text-brand-primary hover:underline ml-1">
-                                        Lihat semua →
+                                    <Link to="/kitchen-orders" className="group text-[10px] text-brand-secondary font-extrabold hover:text-brand-primary transition-colors flex items-center gap-0.5 ml-1">
+                                        <span>Lihat semua</span>
+                                        <iconify-icon icon="solar:alt-arrow-right-linear" class="text-xs transition-transform duration-200 group-hover:translate-x-0.5" />
                                     </Link>
                                 </div>
                             </div>

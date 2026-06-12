@@ -444,7 +444,7 @@ export default function AovReport({
                                 </h3>
                                 <Link
                                     to="/menus"
-                                    className="text-xs font-bold text-brand-secondary hover:text-brand-primary hover:underline"
+                                    className="text-xs font-bold text-brand-secondary hover:text-brand-primary transition-colors"
                                 >
                                     Detail Menu
                                 </Link>

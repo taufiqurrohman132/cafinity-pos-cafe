@@ -765,7 +765,7 @@ export default function ReportsIndex() {
 
                                 <Link
                                     to="/menus"
-                                    className="text-xs text-brand-secondary font-extrabold hover:text-brand-primary hover:underline flex items-center gap-1 transition-colors"
+                                    className="text-xs text-brand-secondary font-extrabold hover:text-brand-primary flex items-center gap-1 transition-colors"
                                 >
                                     Lihat Semua Menu
                                     <iconify-icon icon="solar:arrow-right-linear" />
@@ -992,7 +992,7 @@ export default function ReportsIndex() {
                                 </p>
                                 <Link
                                     to="/targets-goals/aov"
-                                    className="text-xs font-extrabold text-brand-secondary hover:text-brand-primary hover:underline transition-colors flex items-center gap-1"
+                                    className="text-xs font-extrabold text-brand-secondary hover:text-brand-primary transition-colors flex items-center gap-1"
                                 >
                                     Lihat Analisis Detail
                                     <iconify-icon

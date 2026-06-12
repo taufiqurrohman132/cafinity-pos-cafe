@@ -105,7 +105,7 @@ export default function ForgotPassword({ status }) {
                                 </button>
 
                                 <div className="text-center">
-                                    <a href="/login" className="text-xs font-extrabold text-brand-secondary hover:text-brand-primary hover:underline transition-colors flex items-center justify-center gap-1.5">
+                                    <a href="/login" className="text-xs font-extrabold text-brand-secondary hover:text-brand-primary transition-colors flex items-center justify-center gap-1.5">
                                         <iconify-icon icon="solar:arrow-left-linear" class="text-sm"></iconify-icon>
                                         Kembali ke halaman login
                                     </a>

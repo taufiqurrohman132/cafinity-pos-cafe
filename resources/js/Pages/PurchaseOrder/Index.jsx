@@ -287,7 +287,7 @@ export default function PurchaseOrderIndex() {
                                                     <div className="flex flex-col items-center gap-2">
                                                         <iconify-icon icon="solar:document-text-linear" class="text-4xl text-brand-secondary"></iconify-icon>
                                                         <p>Belum ada data purchase order.</p>
-                                                        <Link to="/purchase-orders/create" className="text-brand-primary font-semibold hover:underline text-xs">
+                                                        <Link to="/purchase-orders/create" className="text-brand-primary font-semibold hover:text-brand-secondary transition-colors text-xs">
                                                             + Buat purchase order pertama
                                                         </Link>
                                                     </div>
@@ -315,7 +315,7 @@ export default function PurchaseOrderIndex() {
                                                     <td className="pl-6 pr-3 py-4">
                                                         <input type="checkbox" className="rounded border-brand-light text-brand-primary focus:ring-4 focus:ring-brand-light/50 focus:ring-offset-0 focus:border-brand-secondary transition-all" />
                                                     </td>
-                                                    <td className="px-6 py-4 font-semibold text-brand-primary hover:underline">
+                                                    <td className="px-6 py-4 font-semibold text-brand-primary hover:text-brand-secondary transition-colors cursor-pointer">
                                                         <Link to={`/purchase-orders/${order.id}`}>
                                                             {poNumber}
                                                         </Link>
@@ -431,7 +431,7 @@ export default function PurchaseOrderIndex() {
                                     <iconify-icon icon="solar:history-linear" class="text-brand-primary text-lg"></iconify-icon>
                                     Aktivitas Terkini
                                 </h3>
-                                <a href="#" className="text-[11px] font-semibold text-brand-primary hover:underline">Lihat Semua</a>
+                                <a href="#" className="group text-[11px] font-semibold text-brand-primary hover:text-brand-secondary transition-colors flex items-center gap-0.5"><span>Lihat Semua</span><iconify-icon icon="solar:alt-arrow-right-linear" class="text-xs transition-transform duration-200 group-hover:translate-x-0.5" /></a>
                             </div>
 
                             <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-brand-light">
@@ -445,7 +445,7 @@ export default function PurchaseOrderIndex() {
                                                 <span className="text-gray-500">
                                                     {appr.status === 'approved' ? 'menyetujui' : 'menolak'} PO
                                                 </span>{' '}
-                                                <Link to={`/purchase-orders/${appr.purchase_order_id}`} className="font-bold text-brand-primary hover:underline">
+                                                <Link to={`/purchase-orders/${appr.purchase_order_id}`} className="font-bold text-brand-primary hover:text-brand-secondary transition-colors">
                                                     #{appr.purchase_order?.po_number || `PO-${appr.purchase_order_id}`}
                                                 </Link>
                                             </div>
@@ -511,9 +511,9 @@ export default function PurchaseOrderIndex() {
                 <div className="border-t border-brand-light bg-white px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-2">
                     <p className="text-[10px] text-gray-400">© 2024 Purchase Order Management System</p>
                     <div className="flex items-center gap-4 text-[10px] text-gray-400">
-                        <a href="#" className="hover:underline">Support</a>
-                        <a href="#" className="hover:underline">Privacy Policy</a>
-                        <a href="#" className="hover:underline">Terms of Service</a>
+                        <a href="#" className="hover:text-brand-primary transition-colors">Support</a>
+                        <a href="#" className="hover:text-brand-primary transition-colors">Privacy Policy</a>
+                        <a href="#" className="hover:text-brand-primary transition-colors">Terms of Service</a>
                     </div>
                 </div>
             </div>

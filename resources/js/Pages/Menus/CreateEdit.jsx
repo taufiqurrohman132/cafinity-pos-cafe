@@ -359,7 +359,7 @@ export default function MenusCreateEdit() {
                                 <span className="text-xs font-bold">{successMessage}</span>
                             </div>
                             <div className="flex items-center gap-3">
-                                <Link to="/menus" className="text-xs font-extrabold text-emerald-600 hover:text-emerald-800 underline">Lihat di Katalog</Link>
+                                <Link to="/menus" className="text-xs font-extrabold text-emerald-600 hover:text-emerald-800 transition-colors">Lihat di Katalog</Link>
                                 <button onClick={() => setSuccessMessage('')} className="text-emerald-500 hover:text-emerald-800 text-xs font-black">Tutup</button>
                             </div>
                         </div>
@@ -600,7 +600,7 @@ export default function MenusCreateEdit() {
                                             <iconify-icon icon="solar:notebook-linear" class="text-base text-brand-secondary"></iconify-icon>
                                             Recipe Costing
                                         </div>
-                                        <span className="text-[10px] font-bold text-brand-secondary group-hover:underline">Pilih Recipe</span>
+                                        <span className="text-[10px] font-bold text-brand-secondary group-hover:text-brand-primary transition-colors">Pilih Recipe</span>
                                     </div>
                                     <p className="text-[10px] text-brand-primary/60 font-medium leading-relaxed">
                                         Hubungkan menu ini dengan resep yang sudah ada untuk menghitung HPP secara otomatis berdasarkan harga bahan baku terbaru.

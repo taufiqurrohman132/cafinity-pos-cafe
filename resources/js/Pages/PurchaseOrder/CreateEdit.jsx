@@ -365,7 +365,7 @@ export default function PurchaseOrderCreateEdit() {
                                         <iconify-icon icon="solar:users-group-rounded-linear" class="text-brand-primary text-lg"></iconify-icon>
                                         Informasi Pemasok
                                     </h3>
-                                    <Link to="/suppliers/create" className="text-xs font-bold text-brand-primary hover:underline">+ Tambah Pemasok Baru</Link>
+                                    <Link to="/suppliers/create" className="text-xs font-bold text-brand-primary hover:text-brand-secondary transition-colors">+ Tambah Pemasok Baru</Link>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
