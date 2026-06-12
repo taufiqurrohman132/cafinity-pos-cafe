@@ -447,7 +447,7 @@ export default function MenusCreateEdit() {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {/* Nama Menu */}
                                     <div className="sm:col-span-2">
-                                        <label className="text-[10px] font-bold text-brand-dark uppercase tracking-wider block mb-1">
+                                        <label className="text-[10px] font-bold text-brand-dark capitalize tracking-wider block mb-1">
                                             Nama Menu <span className="text-rose-500">*</span>
                                         </label>
                                         <input 
@@ -467,7 +467,7 @@ export default function MenusCreateEdit() {
 
                                     {/* Kategori */}
                                     <div>
-                                        <label className="text-[10px] font-bold text-brand-dark uppercase tracking-wider block mb-1">
+                                        <label className="text-[10px] font-bold text-brand-dark capitalize tracking-wider block mb-1">
                                             Kategori <span className="text-rose-500">*</span>
                                         </label>
                                         <select 
@@ -498,7 +498,7 @@ export default function MenusCreateEdit() {
 
                                     {/* Kode / SKU */}
                                     <div>
-                                        <label className="text-[10px] font-bold text-brand-dark uppercase tracking-wider block mb-1">
+                                        <label className="text-[10px] font-bold text-brand-dark capitalize tracking-wider block mb-1">
                                             Kode / SKU
                                         </label>
                                         <input 
@@ -515,7 +515,7 @@ export default function MenusCreateEdit() {
 
                                     {/* Deskripsi */}
                                     <div className="sm:col-span-2">
-                                        <label className="text-[10px] font-bold text-brand-dark uppercase tracking-wider block mb-1">
+                                        <label className="text-[10px] font-bold text-brand-dark capitalize tracking-wider block mb-1">
                                             Deskripsi Singkat
                                         </label>
                                         <textarea 
@@ -539,7 +539,7 @@ export default function MenusCreateEdit() {
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
                                     {/* Harga Jual */}
                                     <div>
-                                        <label className="text-[10px] font-bold text-brand-dark uppercase tracking-wider block mb-1">
+                                        <label className="text-[10px] font-bold text-brand-dark capitalize tracking-wider block mb-1">
                                             Harga Jual (Rp) <span className="text-rose-500">*</span>
                                         </label>
                                         <div className="relative">
@@ -563,7 +563,7 @@ export default function MenusCreateEdit() {
 
                                     {/* HPP */}
                                     <div>
-                                        <label className="text-[10px] font-bold text-brand-dark uppercase tracking-wider block mb-1">
+                                        <label className="text-[10px] font-bold text-brand-dark capitalize tracking-wider block mb-1">
                                             HPP (Opsional)
                                         </label>
                                         <div className="relative">
@@ -581,7 +581,7 @@ export default function MenusCreateEdit() {
 
                                     {/* Margin */}
                                     <div>
-                                        <label className="text-[10px] font-bold text-brand-dark uppercase tracking-wider block mb-1">
+                                        <label className="text-[10px] font-bold text-brand-dark capitalize tracking-wider block mb-1">
                                             Margin Keuntungan
                                         </label>
                                         <div className="w-full h-10 bg-brand-light/30 border border-brand-light rounded-xl flex items-center px-4 text-xs font-bold text-brand-dark">
@@ -618,7 +618,7 @@ export default function MenusCreateEdit() {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                     {/* Status Ketersediaan */}
                                     <div>
-                                        <label className="text-[10px] font-bold text-brand-dark uppercase tracking-wider block mb-2">
+                                        <label className="text-[10px] font-bold text-brand-dark capitalize tracking-wider block mb-2">
                                             Status Ketersediaan
                                         </label>
                                         <div className="flex items-center bg-brand-bg p-1 rounded-xl border border-brand-light w-fit">
@@ -644,7 +644,7 @@ export default function MenusCreateEdit() {
 
                                     {/* Tags / Label */}
                                     <div>
-                                        <label className="text-[10px] font-bold text-brand-dark uppercase tracking-wider block mb-2">
+                                        <label className="text-[10px] font-bold text-brand-dark capitalize tracking-wider block mb-2">
                                             Tags / Label Produk
                                         </label>
                                         <div className="flex flex-wrap gap-1.5 items-center">
@@ -697,7 +697,7 @@ export default function MenusCreateEdit() {
                             
                             {/* Live Preview Card */}
                             <div className="bg-gradient-to-b from-brand-bg to-brand-light/30 rounded-3xl border border-brand-light shadow-sm p-4 relative overflow-hidden flex flex-col items-center">
-                                <p className="text-[10px] font-extrabold text-brand-primary tracking-widest uppercase mb-3 self-start">Katalog Preview</p>
+                                <p className="text-[10px] font-extrabold text-brand-primary tracking-widest capitalize mb-3 self-start">Katalog Preview</p>
                                 
                                 <div className="bg-white w-full rounded-2xl border border-brand-light shadow-md overflow-hidden relative group flex flex-col max-w-[290px]">
                                     
@@ -788,7 +788,7 @@ export default function MenusCreateEdit() {
                                         <div className="grid grid-cols-2 gap-3">
                                             {/* Stok Awal */}
                                             <div>
-                                                <label className="text-[9px] font-bold text-brand-dark uppercase tracking-wider block mb-1">
+                                                <label className="text-[9px] font-bold text-brand-dark capitalize tracking-wider block mb-1">
                                                     Stok Awal
                                                 </label>
                                                 <input 
@@ -801,7 +801,7 @@ export default function MenusCreateEdit() {
 
                                             {/* Satuan Unit */}
                                             <div>
-                                                <label className="text-[9px] font-bold text-brand-dark uppercase tracking-wider block mb-1">
+                                                <label className="text-[9px] font-bold text-brand-dark capitalize tracking-wider block mb-1">
                                                     Satuan Unit
                                                 </label>
                                                 <input 
@@ -816,7 +816,7 @@ export default function MenusCreateEdit() {
                                         {/* Minimum Stock Alert */}
                                         <div>
                                             <div className="flex items-center justify-between mb-1">
-                                                <label className="text-[9px] font-bold text-brand-dark uppercase tracking-wider block">
+                                                <label className="text-[9px] font-bold text-brand-dark capitalize tracking-wider block">
                                                     Minimum Stock Alert
                                                 </label>
                                                 <span className="px-1.5 py-0.5 rounded bg-rose-50 text-[8px] font-bold text-rose-500 border border-rose-100 flex items-center gap-0.5">
@@ -895,7 +895,7 @@ export default function MenusCreateEdit() {
 
                         <form onSubmit={handleCategorySubmit} className="space-y-4">
                             <div>
-                                <label className="text-[10px] font-bold text-brand-dark uppercase block mb-1">
+                                <label className="text-[10px] font-bold text-brand-dark capitalize block mb-1">
                                     Nama Kategori <span className="text-rose-500">*</span>
                                 </label>
                                 <input 
@@ -914,7 +914,7 @@ export default function MenusCreateEdit() {
                             </div>
 
                             <div>
-                                <label className="text-[10px] font-bold text-brand-dark uppercase block mb-1">
+                                <label className="text-[10px] font-bold text-brand-dark capitalize block mb-1">
                                     Deskripsi
                                 </label>
                                 <textarea 

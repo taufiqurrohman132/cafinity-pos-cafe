@@ -162,7 +162,7 @@ export default function PurchaseOrderShow() {
                                     <h1 className="text-2xl font-extrabold text-brand-dark tracking-tight">
                                         PO #{order.po_number || String(order.id).padStart(4, '0')}
                                     </h1>
-                                    <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${statusMeta.bg} ${statusMeta.text} ${statusMeta.border} uppercase`}>
+                                    <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${statusMeta.bg} ${statusMeta.text} ${statusMeta.border} capitalize`}>
                                         {statusMeta.label}
                                     </span>
                                 </div>
@@ -223,7 +223,7 @@ export default function PurchaseOrderShow() {
                                             <iconify-icon icon="solar:users-group-rounded-bold" class="text-xl"></iconify-icon>
                                         </div>
                                         <div className="text-xs space-y-1">
-                                            <span className="text-[10px] font-bold text-brand-primary/60 uppercase tracking-wide block">SUPPLIER</span>
+                                            <span className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wide block">SUPPLIER</span>
                                             <p className="font-bold text-brand-dark">{order.supplier?.name || '-'}</p>
                                             <p className="text-gray-500 leading-normal">{order.supplier?.address || '-'}</p>
                                         </div>
@@ -235,7 +235,7 @@ export default function PurchaseOrderShow() {
                                             <iconify-icon icon="solar:map-point-bold" class="text-xl"></iconify-icon>
                                         </div>
                                         <div className="text-xs space-y-1">
-                                            <span className="text-[10px] font-bold text-brand-primary/60 uppercase tracking-wide block">ALAMAT PENGIRIMAN</span>
+                                            <span className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wide block">ALAMAT PENGIRIMAN</span>
                                             <p className="font-bold text-brand-dark">{order.delivery_location || 'Gudang Utama - Jakarta Central'}</p>
                                             <p className="text-gray-500 leading-normal">Jl. Gatot Subroto No. 45, Kuningan Timur, Setiabudi, Jakarta Selatan 12950</p>
                                         </div>
@@ -245,25 +245,25 @@ export default function PurchaseOrderShow() {
                                 {/* Metadata metrics */}
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-2 border-t border-brand-light/50">
                                     <div className="text-xs space-y-1">
-                                        <span className="text-[10px] font-bold text-gray-400 uppercase flex items-center gap-1">
+                                        <span className="text-[10px] font-bold text-gray-400 capitalize flex items-center gap-1">
                                             <iconify-icon icon="solar:card-linear" class="text-base"></iconify-icon> ID Supplier
                                         </span>
                                         <p className="font-bold text-gray-900">{order.supplier?.code || 'SUP-002931'}</p>
                                     </div>
                                     <div className="text-xs space-y-1">
-                                        <span className="text-[10px] font-bold text-gray-400 uppercase flex items-center gap-1">
+                                        <span className="text-[10px] font-bold text-gray-400 capitalize flex items-center gap-1">
                                             <iconify-icon icon="solar:wallet-linear" class="text-base"></iconify-icon> Metode Bayar
                                         </span>
                                         <p className="font-bold text-gray-900">{order.payment_term || 'Net 30 Days'}</p>
                                     </div>
                                     <div className="text-xs space-y-1">
-                                        <span className="text-[10px] font-bold text-gray-400 uppercase flex items-center gap-1">
+                                        <span className="text-[10px] font-bold text-gray-400 capitalize flex items-center gap-1">
                                             <iconify-icon icon="solar:calendar-minimalistic-linear" class="text-base"></iconify-icon> Est. Pengiriman
                                         </span>
                                         <p className="font-bold text-gray-900">{formatDate(order.delivery_date) || '-'}</p>
                                     </div>
                                     <div className="text-xs space-y-1">
-                                        <span className="text-[10px] font-bold text-gray-400 uppercase flex items-center gap-1">
+                                        <span className="text-[10px] font-bold text-gray-400 capitalize flex items-center gap-1">
                                             <iconify-icon icon="solar:user-circle-linear" class="text-base"></iconify-icon> PIC Penerima
                                         </span>
                                         <p className="font-bold text-gray-900">Budi Santoso</p>
@@ -293,7 +293,7 @@ export default function PurchaseOrderShow() {
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left min-w-[700px]">
                                         <thead>
-                                            <tr className="text-[10px] font-bold text-gray-400 bg-gray-50 border-b border-brand-light uppercase">
+                                            <tr className="text-[10px] font-bold text-gray-400 bg-gray-50 border-b border-brand-light capitalize">
                                                 <th className="px-4 py-3">Informasi Item</th>
                                                 <th className="px-3 py-3 text-center">Qty Dipesan</th>
                                                 <th className="px-3 py-3 text-center">Qty Diterima</th>
@@ -315,7 +315,7 @@ export default function PurchaseOrderShow() {
                                                     <tr key={item.id} className="hover:bg-gray-50/50 transition">
                                                         <td className="px-4 py-4">
                                                             <p className="font-bold text-gray-900">{itemName}</p>
-                                                            <p className="text-[10px] text-gray-400 mt-0.5 tracking-wider uppercase font-semibold">{itemCode}</p>
+                                                            <p className="text-[10px] text-gray-400 mt-0.5 tracking-wider capitalize font-semibold">{itemCode}</p>
                                                         </td>
                                                         <td className="px-3 py-4 text-center font-bold text-gray-800">
                                                             {item.qty}
@@ -369,7 +369,7 @@ export default function PurchaseOrderShow() {
 
                                 {/* Terms & Notes under table */}
                                 <div className="pt-4 border-t border-brand-light/50">
-                                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide block mb-1">CATATAN & SYARAT</span>
+                                    <span className="text-[10px] font-bold text-gray-400 capitalize tracking-wide block mb-1">CATATAN & SYARAT</span>
                                     <p className="text-[11px] text-gray-500 leading-normal italic bg-gray-50 p-4 rounded-xl border border-gray-100">
                                         {order.notes || "*Barang harap dikirimkan sebelum jam operasional gudang berakhir (17:00 WIB). Lampirkan surat jalan asli dan copy PO saat pengiriman."}
                                     </p>
@@ -383,7 +383,7 @@ export default function PurchaseOrderShow() {
 
                             {/* 1. Status Persetujuan */}
                             <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-6">
-                                <h3 className="text-xs font-bold text-gray-900 flex items-center gap-2 uppercase tracking-wide">
+                                <h3 className="text-xs font-bold text-gray-900 flex items-center gap-2 capitalize tracking-wide">
                                     <iconify-icon icon="solar:history-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Status Persetujuan
                                 </h3>
@@ -442,7 +442,7 @@ export default function PurchaseOrderShow() {
                                 {/* Dynamic Approval Actions (Role-based, showing for Alex Manager or Admin) */}
                                 {order.status === 'pending' && (
                                     <div className="pt-4 border-t border-brand-light/50 space-y-2.5">
-                                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide block">AKSI PERSETUJUAN (ROLE: OWNER / ADMIN)</span>
+                                        <span className="text-[10px] font-bold text-gray-400 capitalize tracking-wide block">AKSI PERSETUJUAN (ROLE: OWNER / ADMIN)</span>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                                             <button
@@ -468,7 +468,7 @@ export default function PurchaseOrderShow() {
 
                             {/* 2. Jejak Audit & Aktivitas */}
                             <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-6">
-                                <h3 className="text-xs font-bold text-gray-900 flex items-center gap-2 uppercase tracking-wide">
+                                <h3 className="text-xs font-bold text-gray-900 flex items-center gap-2 capitalize tracking-wide">
                                     <iconify-icon icon="solar:history-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Jejak Audit & Aktivitas
                                 </h3>

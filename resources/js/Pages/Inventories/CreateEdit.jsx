@@ -653,7 +653,7 @@ export default function InventoriesCreateEdit() {
                             {/* Card 1: RINGKASAN INPUT */}
                             <div className="bg-emerald-500 text-white p-5 rounded-2xl border border-emerald-400 shadow-sm flex flex-col justify-between relative overflow-hidden">
                                 <div className="relative z-10 space-y-4">
-                                    <p className="text-[10px] font-bold tracking-widest uppercase opacity-90">
+                                    <p className="text-[10px] font-bold tracking-widest capitalize opacity-90">
                                         RINGKASAN INPUT
                                     </p>
                                     
@@ -673,7 +673,7 @@ export default function InventoriesCreateEdit() {
 
                                     <div className="flex items-center justify-between">
                                         <p className="text-xs font-semibold">Status Awal</p>
-                                        <span className="inline-block px-2.5 py-0.5 bg-white/20 rounded text-[9px] font-black tracking-wider uppercase">
+                                        <span className="inline-block px-2.5 py-0.5 bg-white/20 rounded text-[9px] font-black tracking-wider capitalize">
                                             {isEditMode ? "TERSEDIA" : "DRAFT"}
                                         </span>
                                     </div>
@@ -770,7 +770,7 @@ export default function InventoriesCreateEdit() {
 
                         <form onSubmit={handleCategorySubmit} className="space-y-4">
                             <div>
-                                <label className="text-[10px] font-bold text-brand-dark uppercase block mb-1">
+                                <label className="text-[10px] font-bold text-brand-dark capitalize block mb-1">
                                     Nama Kategori <span className="text-rose-500">*</span>
                                 </label>
                                 <input
@@ -843,7 +843,7 @@ export default function InventoriesCreateEdit() {
                         <form onSubmit={handleSupplierSubmit} className="space-y-4">
                             {/* Supplier Name */}
                             <div>
-                                <label className="text-[10px] font-bold text-brand-dark uppercase block mb-1">
+                                <label className="text-[10px] font-bold text-brand-dark capitalize block mb-1">
                                     Nama Supplier <span className="text-rose-500">*</span>
                                 </label>
                                 <input
@@ -865,7 +865,7 @@ export default function InventoriesCreateEdit() {
 
                             {/* Contact Name */}
                             <div>
-                                <label className="text-[10px] font-bold text-brand-dark uppercase block mb-1">
+                                <label className="text-[10px] font-bold text-brand-dark capitalize block mb-1">
                                     Nama Kontak Person <span className="text-rose-500">*</span>
                                 </label>
                                 <input
@@ -887,7 +887,7 @@ export default function InventoriesCreateEdit() {
 
                             {/* Supplier Category */}
                             <div>
-                                <label className="text-[10px] font-bold text-brand-dark uppercase block mb-1">
+                                <label className="text-[10px] font-bold text-brand-dark capitalize block mb-1">
                                     Kategori Kemitraan
                                 </label>
                                 <input

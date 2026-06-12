@@ -33,7 +33,7 @@ function LayoutContent() {
                                 <iconify-icon icon={c.icon} class={`${c.iconColor} text-lg`}></iconify-icon>
                             </div>
                             <div className="flex-1 min-w-0">
-                                <h5 className="text-[11px] font-black text-brand-dark uppercase tracking-wider">{toast.title}</h5>
+                                <h5 className="text-[11px] font-black text-brand-dark capitalize tracking-wider">{toast.title}</h5>
                                 <p className="text-[11px] text-brand-primary/80 font-bold mt-0.5 leading-relaxed break-words">{toast.body}</p>
                             </div>
                             <button onClick={() => removeToast(toast.id)}

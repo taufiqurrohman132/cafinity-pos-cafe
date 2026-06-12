@@ -1362,7 +1362,7 @@ export default function MenusIndex() {
 
                             <form onSubmit={handleCategorySubmit} className="space-y-4">
                                 <div>
-                                    <label className="text-xs font-bold text-brand-dark uppercase tracking-wider block mb-1.5">
+                                    <label className="text-xs font-bold text-brand-dark capitalize tracking-wider block mb-1.5">
                                         Nama Kategori
                                     </label>
                                     <input
@@ -1381,7 +1381,7 @@ export default function MenusIndex() {
                                 </div>
 
                                 <div>
-                                    <label className="text-xs font-bold text-brand-dark uppercase tracking-wider block mb-1.5">
+                                    <label className="text-xs font-bold text-brand-dark capitalize tracking-wider block mb-1.5">
                                         Deskripsi
                                     </label>
                                     <textarea

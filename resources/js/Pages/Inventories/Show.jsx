@@ -226,7 +226,7 @@ export default function InventoriesShow() {
                                 <form onSubmit={handleAdjust} className="space-y-4">
                                     {/* Type Selection */}
                                     <div>
-                                        <label className="block text-[10px] font-extrabold text-brand-primary/60 uppercase tracking-wider mb-1.5">Jenis Penyesuaian</label>
+                                        <label className="block text-[10px] font-extrabold text-brand-primary/60 capitalize tracking-wider mb-1.5">Jenis Penyesuaian</label>
                                         <div className="grid grid-cols-3 gap-1 bg-brand-bg border border-brand-light rounded-xl p-1">
                                             {[
                                                 { label: 'Restock', value: 'restock' },
@@ -251,7 +251,7 @@ export default function InventoriesShow() {
                                     {/* Direction Selection */}
                                     {adjustType !== 'waste' && (
                                         <div>
-                                            <label className="block text-[10px] font-extrabold text-brand-primary/60 uppercase tracking-wider mb-1.5">Arah Stok</label>
+                                            <label className="block text-[10px] font-extrabold text-brand-primary/60 capitalize tracking-wider mb-1.5">Arah Stok</label>
                                             <div className="grid grid-cols-2 gap-2">
                                                 <button
                                                     type="button"
@@ -281,7 +281,7 @@ export default function InventoriesShow() {
 
                                     {/* Quantity Input */}
                                     <div>
-                                        <label className="block text-[10px] font-extrabold text-brand-primary/60 uppercase tracking-wider mb-1.5">Jumlah ({inventory.unit})</label>
+                                        <label className="block text-[10px] font-extrabold text-brand-primary/60 capitalize tracking-wider mb-1.5">Jumlah ({inventory.unit})</label>
                                         <input
                                             type="number"
                                             value={adjustQty}
@@ -294,7 +294,7 @@ export default function InventoriesShow() {
 
                                     {/* Notes Input */}
                                     <div>
-                                        <label className="block text-[10px] font-extrabold text-brand-primary/60 uppercase tracking-wider mb-1.5">Keterangan</label>
+                                        <label className="block text-[10px] font-extrabold text-brand-primary/60 capitalize tracking-wider mb-1.5">Keterangan</label>
                                         <textarea
                                             value={adjustNotes}
                                             onChange={e => setAdjustNotes(e.target.value)}

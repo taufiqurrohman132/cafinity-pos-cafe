@@ -277,7 +277,7 @@ export default function TargetModal({
                                 <label className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">
                                     Target Nominal Pendapatan
                                 </label>
-                                <span className="text-[9px] font-extrabold text-brand-secondary bg-brand-light/40 border border-[#c4c0ff] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                                <span className="text-[9px] font-extrabold text-brand-secondary bg-brand-light/40 border border-[#c4c0ff] px-2.5 py-0.5 rounded-full capitalize tracking-wider">
                                     Premium Feature
                                 </span>
                             </div>

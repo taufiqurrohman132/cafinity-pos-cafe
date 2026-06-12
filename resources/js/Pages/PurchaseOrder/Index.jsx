@@ -271,7 +271,7 @@ export default function PurchaseOrderIndex() {
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left min-w-[900px]">
                                     <thead>
-                                        <tr className="text-xs font-extrabold text-brand-primary/60 bg-brand-bg border-b border-brand-light tracking-wider text-[11px] uppercase">
+                                        <tr className="text-xs font-extrabold text-brand-primary/60 bg-brand-bg border-b border-brand-light tracking-wider text-[11px] capitalize">
                                             <th className="pl-6 pr-3 py-3.5 w-4">
                                                 <input type="checkbox" className="rounded border-brand-light text-brand-primary focus:ring-4 focus:ring-brand-light/50 focus:ring-offset-0 focus:border-brand-secondary transition-all" />
                                             </th>
@@ -320,7 +320,7 @@ export default function PurchaseOrderIndex() {
                                                             {poNumber}
                                                         </Link>
                                                         {isUrgent && (
-                                                            <span className="ml-1.5 px-2 py-0.5 text-[9px] font-bold rounded bg-rose-50 text-rose-500 border border-rose-100 uppercase tracking-wide">Urgent</span>
+                                                            <span className="ml-1.5 px-2 py-0.5 text-[9px] font-bold rounded bg-rose-50 text-rose-500 border border-rose-100 capitalize tracking-wide">Urgent</span>
                                                         )}
                                                     </td>
                                                     <td className="px-6 py-4 text-gray-500 font-medium">

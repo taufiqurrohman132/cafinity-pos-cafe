@@ -262,7 +262,7 @@ export default function AovReport({
                                     required
                                     className="px-2 py-1.5 text-xs font-bold text-brand-dark border border-brand-light rounded-lg outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all"
                                 />
-                                <span className="text-[10px] font-black text-brand-primary/60 uppercase">s/d</span>
+                                <span className="text-[10px] font-black text-brand-primary/60 capitalize">s/d</span>
                                 <input
                                     type="date"
                                     value={endDate}
@@ -530,7 +530,7 @@ export default function AovReport({
                         </div>
 
                         {/* Legend */}
-                        <div className="border-t border-brand-light pt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[9px] font-extrabold text-brand-primary/70 uppercase tracking-widest">
+                        <div className="border-t border-brand-light pt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[9px] font-extrabold text-brand-primary/70 capitalize tracking-widest">
                             <span className="text-brand-dark">LEGENDA INTENSITAS AOV</span>
                             <span className="flex items-center gap-1.5 normal-case tracking-normal">
                                 <span className="w-2.5 h-2.5 rounded-full bg-brand-secondary" />

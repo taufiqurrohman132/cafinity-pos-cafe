@@ -225,7 +225,7 @@ export default function SupplierCreateEdit() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Nama Supplier <span className="text-red-500">*</span></label>
+                                        <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Nama Supplier <span className="text-red-500">*</span></label>
                                         <input
                                             type="text"
                                             value={data.name}
@@ -238,7 +238,7 @@ export default function SupplierCreateEdit() {
                                     </div>
 
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Kode Supplier</label>
+                                        <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Kode Supplier</label>
                                         <div className="relative">
                                             <input
                                                 type="text"
@@ -256,7 +256,7 @@ export default function SupplierCreateEdit() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Kategori Produk <span className="text-red-500">*</span></label>
+                                        <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Kategori Produk <span className="text-red-500">*</span></label>
                                         <div className="flex flex-wrap items-center gap-1.5 p-2 bg-gray-50/50 border border-brand-light rounded-xl min-h-[44px]">
                                             {categoriesList.map(tag => (
                                                 <span key={tag} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-brand-primary/5 text-brand-primary border border-brand-primary/10">
@@ -296,7 +296,7 @@ export default function SupplierCreateEdit() {
                                     </div>
 
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Status Akun</label>
+                                        <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Status Akun</label>
                                         <div className="flex items-center gap-3 h-[44px]">
                                             <button
                                                 type="button"
@@ -325,7 +325,7 @@ export default function SupplierCreateEdit() {
                                 </h3>
 
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Nama PIC (Person In Charge) <span className="text-red-500">*</span></label>
+                                    <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Nama PIC (Person In Charge) <span className="text-red-500">*</span></label>
                                     <input
                                         type="text"
                                         value={data.contact_name}
@@ -339,7 +339,7 @@ export default function SupplierCreateEdit() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Nomor Telepon <span className="text-red-500">*</span></label>
+                                        <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Nomor Telepon <span className="text-red-500">*</span></label>
                                         <div className="relative">
                                             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 flex items-center justify-center">
                                                 <iconify-icon icon="solar:phone-linear" class="text-base"></iconify-icon>
@@ -358,7 +358,7 @@ export default function SupplierCreateEdit() {
                                     </div>
 
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Email Bisnis <span className="text-red-500">*</span></label>
+                                        <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Email Bisnis <span className="text-red-500">*</span></label>
                                         <div className="relative">
                                             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 flex items-center justify-center">
                                                 <iconify-icon icon="solar:letter-linear" class="text-base"></iconify-icon>
@@ -393,7 +393,7 @@ export default function SupplierCreateEdit() {
                                 </h3>
 
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Alamat Pengiriman / Gudang Utama <span className="text-red-500">*</span></label>
+                                    <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Alamat Pengiriman / Gudang Utama <span className="text-red-500">*</span></label>
                                     <textarea
                                         value={data.address}
                                         onChange={(e) => setData('address', e.target.value)}
@@ -406,7 +406,7 @@ export default function SupplierCreateEdit() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Kota <span className="text-red-500">*</span></label>
+                                        <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Kota <span className="text-red-500">*</span></label>
                                         <input
                                             type="text"
                                             value={data.city}
@@ -418,7 +418,7 @@ export default function SupplierCreateEdit() {
                                         {errors.city && <p className="text-xs text-red-500 font-semibold">{errors.city}</p>}
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Provinsi <span className="text-red-500">*</span></label>
+                                        <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Provinsi <span className="text-red-500">*</span></label>
                                         <input
                                             type="text"
                                             value={data.province}
@@ -433,7 +433,7 @@ export default function SupplierCreateEdit() {
 
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Term Pembayaran <span className="text-red-500">*</span></label>
+                                        <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Term Pembayaran <span className="text-red-500">*</span></label>
                                         <input
                                             type="text"
                                             value={data.payment_term}
@@ -445,7 +445,7 @@ export default function SupplierCreateEdit() {
                                         {errors.payment_term && <p className="text-xs text-red-500 font-semibold">{errors.payment_term}</p>}
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Lead Time (Hari) <span className="text-red-500">*</span></label>
+                                        <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Lead Time (Hari) <span className="text-red-500">*</span></label>
                                         <div className="relative">
                                             <input
                                                 type="number"
@@ -462,7 +462,7 @@ export default function SupplierCreateEdit() {
                                         {errors.lead_time && <p className="text-xs text-red-500 font-semibold">{errors.lead_time}</p>}
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Minimum Order (MOQ) <span className="text-red-500">*</span></label>
+                                        <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Minimum Order (MOQ) <span className="text-red-500">*</span></label>
                                         <div className="relative">
                                             <input
                                                 type="number"
@@ -489,7 +489,7 @@ export default function SupplierCreateEdit() {
                                 </h3>
 
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Catatan Internal (Opsional)</label>
+                                    <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Catatan Internal (Opsional)</label>
                                     <textarea
                                         value={data.notes}
                                         onChange={(e) => setData('notes', e.target.value)}
@@ -500,7 +500,7 @@ export default function SupplierCreateEdit() {
                                 </div>
 
                                 <div className="space-y-3">
-                                    <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider block">Lampiran Dokumen (NPWP, SIUP, Kontrak)</label>
+                                    <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider block">Lampiran Dokumen (NPWP, SIUP, Kontrak)</label>
 
                                     {/* Drag & Drop Area */}
                                     <div className="relative border-2 border-dashed border-brand-light hover:border-brand-primary rounded-2xl p-8 text-center bg-gray-50/30 hover:bg-brand-primary/5 transition duration-150 cursor-pointer group flex flex-col items-center justify-center gap-2">
@@ -553,7 +553,7 @@ export default function SupplierCreateEdit() {
                                 <div className="p-6 space-y-6">
                                     {/* Card Header */}
                                     <div className="flex justify-between items-center text-xs">
-                                        <span className={`px-2 py-0.5 rounded-full font-bold uppercase tracking-wider text-[10px] ${data.status === 'active'
+                                        <span className={`px-2 py-0.5 rounded-full font-bold capitalize tracking-wider text-[10px] ${data.status === 'active'
                                                 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                                                 : 'bg-gray-100 text-gray-600 border border-gray-200'
                                             }`}>
@@ -570,12 +570,12 @@ export default function SupplierCreateEdit() {
                                         <div className="flex flex-wrap gap-1.5">
                                             {categoriesList.length > 0 ? (
                                                 categoriesList.map(tag => (
-                                                    <span key={tag} className="text-[10px] font-bold text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                                                    <span key={tag} className="text-[10px] font-bold text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded-full capitalize tracking-wider">
                                                         {tag}
                                                     </span>
                                                 ))
                                             ) : (
-                                                <span className="text-[10px] font-bold text-gray-400 bg-gray-50 px-2 py-0.5 rounded uppercase tracking-wider">
+                                                <span className="text-[10px] font-bold text-gray-400 bg-gray-50 px-2 py-0.5 rounded capitalize tracking-wider">
                                                     Belum ada Kategori
                                                 </span>
                                             )}
@@ -589,7 +589,7 @@ export default function SupplierCreateEdit() {
                                                 <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-sm"></iconify-icon>
                                             </div>
                                             <div>
-                                                <p className="text-[10px] text-gray-400 uppercase tracking-wider font-extrabold">PIC</p>
+                                                <p className="text-[10px] text-gray-400 capitalize tracking-wider font-extrabold">PIC</p>
                                                 <p className="font-bold text-gray-800">{data.contact_name || 'Belum diisi'}</p>
                                             </div>
                                         </div>
@@ -599,7 +599,7 @@ export default function SupplierCreateEdit() {
                                                 <iconify-icon icon="solar:phone-linear" class="text-sm"></iconify-icon>
                                             </div>
                                             <div>
-                                                <p className="text-[10px] text-gray-400 uppercase tracking-wider font-extrabold">Telepon</p>
+                                                <p className="text-[10px] text-gray-400 capitalize tracking-wider font-extrabold">Telepon</p>
                                                 <p className="font-bold text-gray-800">{data.contact_phone || 'Belum diisi'}</p>
                                             </div>
                                         </div>
@@ -609,7 +609,7 @@ export default function SupplierCreateEdit() {
                                                 <iconify-icon icon="solar:map-point-linear" class="text-sm"></iconify-icon>
                                             </div>
                                             <div>
-                                                <p className="text-[10px] text-gray-400 uppercase tracking-wider font-extrabold">Lokasi</p>
+                                                <p className="text-[10px] text-gray-400 capitalize tracking-wider font-extrabold">Lokasi</p>
                                                 <p className="font-bold text-gray-800">
                                                     {data.city && data.province
                                                         ? `${data.city}, ${data.province}`
@@ -622,11 +622,11 @@ export default function SupplierCreateEdit() {
                                     {/* Lead Time & Min Order */}
                                     <div className="grid grid-cols-2 gap-3 border-t border-brand-light/50 pt-4">
                                         <div className="bg-gray-50/50 border border-brand-light/50 rounded-xl p-3 text-center">
-                                            <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Lead Time</p>
+                                            <p className="text-[9px] font-black text-gray-400 capitalize tracking-widest">Lead Time</p>
                                             <p className="text-sm font-black text-brand-primary mt-1">{data.lead_time || '0'} Hari</p>
                                         </div>
                                         <div className="bg-gray-50/50 border border-brand-light/50 rounded-xl p-3 text-center">
-                                            <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Min. Order</p>
+                                            <p className="text-[9px] font-black text-gray-400 capitalize tracking-widest">Min. Order</p>
                                             <p className="text-sm font-black text-brand-primary mt-1">{data.min_order || '0'} Unit</p>
                                         </div>
                                     </div>
@@ -663,7 +663,7 @@ export default function SupplierCreateEdit() {
 
                             {/* Checklist Criteria Widget */}
                             <div className="bg-white rounded-2xl border border-brand-light/80 shadow-sm p-5 space-y-4">
-                                <h4 className="font-extrabold text-brand-dark text-xs uppercase tracking-wider border-b border-brand-light/40 pb-2">
+                                <h4 className="font-extrabold text-brand-dark text-xs capitalize tracking-wider border-b border-brand-light/40 pb-2">
                                     Persyaratan Checklist
                                 </h4>
                                 <div className="space-y-3 text-xs">
@@ -704,7 +704,7 @@ export default function SupplierCreateEdit() {
                                     <iconify-icon icon="solar:info-circle-linear" class="text-xl"></iconify-icon>
                                 </div>
                                 <div className="space-y-1">
-                                    <h5 className="text-xs font-black text-brand-primary uppercase tracking-wider">Butuh bantuan?</h5>
+                                    <h5 className="text-xs font-black text-brand-primary capitalize tracking-wider">Butuh bantuan?</h5>
                                     <p className="text-xs text-gray-600 leading-relaxed font-semibold">
                                         Jika Anda kesulitan mendapatkan dokumen legal supplier, silakan hubungi tim Compliance di ekstensi 442.
                                     </p>

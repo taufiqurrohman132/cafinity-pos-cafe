@@ -51,7 +51,7 @@ const getNotifAvatarConfig = (type) => {
 function PriorityBadge({ priority }) {
     if (priority === "urgent") {
         return (
-            <span className="inline-flex items-center gap-1 text-[10px] bg-rose-50 text-rose-600 border border-rose-100 px-2 py-0.5 rounded-md font-extrabold uppercase tracking-wider ml-2">
+            <span className="inline-flex items-center gap-1 text-[10px] bg-rose-50 text-rose-600 border border-rose-100 px-2 py-0.5 rounded-md font-extrabold capitalize tracking-wider ml-2">
                 <Icon icon="solar:danger-triangle-bold" className="text-xs" />
                 Urgent
             </span>
@@ -59,7 +59,7 @@ function PriorityBadge({ priority }) {
     }
     if (priority === "important") {
         return (
-            <span className="inline-flex items-center gap-1 text-[10px] bg-orange-50 text-orange-600 border border-orange-100 px-2 py-0.5 rounded-md font-extrabold uppercase tracking-wider ml-2">
+            <span className="inline-flex items-center gap-1 text-[10px] bg-orange-50 text-orange-600 border border-orange-100 px-2 py-0.5 rounded-md font-extrabold capitalize tracking-wider ml-2">
                 <Icon icon="solar:info-circle-bold" className="text-xs" />
                 Penting
             </span>
@@ -349,7 +349,7 @@ export default function Index({ notifications: initialNotifications, stats: init
                     }`}
                 >
                     <div className="space-y-2">
-                        <label className="block text-[10px] font-black text-brand-primary/60 uppercase tracking-widest">
+                        <label className="block text-[10px] font-black text-brand-primary/60 capitalize tracking-widest">
                             Status Notifikasi
                         </label>
                         <div className="flex flex-wrap gap-2">
@@ -375,7 +375,7 @@ export default function Index({ notifications: initialNotifications, stats: init
                     </div>
 
                     <div className="space-y-2">
-                        <label className="block text-[10px] font-black text-brand-primary/60 uppercase tracking-widest">
+                        <label className="block text-[10px] font-black text-brand-primary/60 capitalize tracking-widest">
                             Tingkat Urgensi
                         </label>
                         <div className="flex flex-wrap gap-2">
@@ -410,7 +410,7 @@ export default function Index({ notifications: initialNotifications, stats: init
                             className="bg-white p-5 rounded-2xl border border-brand-light flex justify-between items-center shadow-sm hover:shadow-md transition-all duration-200"
                         >
                             <div className="space-y-1">
-                                <span className="text-[10px] font-black text-brand-primary/50 uppercase tracking-widest">{label}</span>
+                                <span className="text-[10px] font-black text-brand-primary/50 capitalize tracking-widest">{label}</span>
                                 <p className="text-2xl font-black text-brand-dark">{stats[key] ?? 0}</p>
                             </div>
                             <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${colorClass} flex-shrink-0`}>

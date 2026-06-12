@@ -450,7 +450,7 @@ function CreateUserModal({ isOpen, onClose }) {
 
                 <form onSubmit={handleSubmit} className="mt-4 space-y-4">
                     <div>
-                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Nama Lengkap</label>
+                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Nama Lengkap</label>
                         <input
                             type="text"
                             value={data.name}
@@ -463,7 +463,7 @@ function CreateUserModal({ isOpen, onClose }) {
                     </div>
 
                     <div>
-                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Alamat Email</label>
+                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Alamat Email</label>
                         <input
                             type="email"
                             value={data.email}
@@ -477,7 +477,7 @@ function CreateUserModal({ isOpen, onClose }) {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Role / Peran</label>
+                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Role / Peran</label>
                             <select
                                 value={data.role}
                                 onChange={e => setData('role', e.target.value)}
@@ -491,7 +491,7 @@ function CreateUserModal({ isOpen, onClose }) {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Status Awal</label>
+                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Status Awal</label>
                             <select
                                 value={data.status}
                                 onChange={e => setData('status', e.target.value)}
@@ -508,7 +508,7 @@ function CreateUserModal({ isOpen, onClose }) {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Password</label>
+                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Password</label>
                             <input
                                 type="password"
                                 value={data.password}
@@ -521,7 +521,7 @@ function CreateUserModal({ isOpen, onClose }) {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Konfirmasi</label>
+                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Konfirmasi</label>
                             <input
                                 type="password"
                                 value={data.password_confirmation}
@@ -606,7 +606,7 @@ function EditUserModal({ isOpen, onClose, user }) {
 
                 <form onSubmit={handleSubmit} className="mt-4 space-y-4">
                     <div>
-                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Nama Lengkap</label>
+                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Nama Lengkap</label>
                         <input
                             type="text"
                             value={data.name}
@@ -618,7 +618,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                     </div>
 
                     <div>
-                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Alamat Email</label>
+                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Alamat Email</label>
                         <input
                             type="email"
                             value={data.email}
@@ -631,7 +631,7 @@ function EditUserModal({ isOpen, onClose, user }) {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Role / Peran</label>
+                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Role / Peran</label>
                             <select
                                 value={data.role}
                                 onChange={e => setData('role', e.target.value)}
@@ -645,7 +645,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Status Akun</label>
+                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Status Akun</label>
                             <select
                                 value={data.status}
                                 onChange={e => setData('status', e.target.value)}
@@ -664,7 +664,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                         <p className="text-xs text-brand-primary/60 font-semibold mb-3">Isi hanya jika ingin mengubah password:</p>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Password Baru</label>
+                                <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Password Baru</label>
                                 <input
                                     type="password"
                                     value={data.password}
@@ -676,7 +676,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Konfirmasi</label>
+                                <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Konfirmasi</label>
                                 <input
                                     type="password"
                                     value={data.password_confirmation}
@@ -766,7 +766,7 @@ function DetailUserModal({ isOpen, onClose, user }) {
                             <h4 className="text-lg font-black text-brand-dark leading-tight">{user.name}</h4>
                             <p className="text-xs text-brand-primary font-medium mt-1">{user.email}</p>
                             <div className="flex items-center gap-2 mt-2.5">
-                                <span className="px-2.5 py-1 bg-brand-secondary text-white text-[10px] font-extrabold rounded-md uppercase tracking-wider">
+                                <span className="px-2.5 py-1 bg-brand-secondary text-white text-[10px] font-extrabold rounded-md capitalize tracking-wider">
                                     {roleLabels[user.role] ?? user.role}
                                 </span>
                                 <span className="text-[10px] text-brand-primary/60 font-semibold">
@@ -779,18 +779,18 @@ function DetailUserModal({ isOpen, onClose, user }) {
                     {/* Metadata Tambahan */}
                     <div className="grid grid-cols-2 gap-4 text-xs font-semibold text-brand-primary/80">
                         <div className="bg-brand-bg border border-brand-light/70 p-3 rounded-xl">
-                            <span className="text-[9px] font-black text-brand-primary/50 uppercase block mb-1">ID Personel</span>
+                            <span className="text-[9px] font-black text-brand-primary/50 capitalize block mb-1">ID Personel</span>
                             <span className="text-brand-dark font-extrabold">#USR-{String(user.id).padStart(4, '0')}</span>
                         </div>
                         <div className="bg-brand-bg border border-brand-light/70 p-3 rounded-xl">
-                            <span className="text-[9px] font-black text-brand-primary/50 uppercase block mb-1">Bergabung Sejak</span>
+                            <span className="text-[9px] font-black text-brand-primary/50 capitalize block mb-1">Bergabung Sejak</span>
                             <span className="text-brand-dark font-extrabold">{user.created_at_diff}</span>
                         </div>
                     </div>
 
                     {/* Hak Akses / Permissions */}
                     <div>
-                        <h5 className="text-xs font-extrabold text-brand-primary uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                        <h5 className="text-xs font-extrabold text-brand-primary capitalize tracking-widest mb-3 flex items-center gap-1.5">
                             <iconify-icon icon="solar:shield-keyhole-linear" class="text-base text-brand-secondary"></iconify-icon>
                             Cakupan Hak Akses Peran
                         </h5>

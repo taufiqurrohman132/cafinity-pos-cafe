@@ -327,7 +327,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left border-collapse">
                                         <thead>
-                                            <tr className="text-xs font-extrabold text-brand-primary/60 bg-brand-bg border-b border-brand-light tracking-wider text-[11px] uppercase">
+                                            <tr className="text-xs font-extrabold text-brand-primary/60 bg-brand-bg border-b border-brand-light tracking-wider text-[11px] capitalize">
                                                 <th className="px-6 py-3.5 w-12 text-center">
                                                     <input
                                                         type="checkbox"

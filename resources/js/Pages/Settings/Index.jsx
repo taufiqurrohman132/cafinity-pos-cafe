@@ -316,7 +316,7 @@ export default function SettingsIndex() {
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                         <div className="space-y-1.5">
-                                            <label className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Nama Bisnis</label>
+                                            <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Nama Bisnis</label>
                                             <input 
                                                 type="text"
                                                 value={cafeName}
@@ -326,7 +326,7 @@ export default function SettingsIndex() {
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-xs font-extrabold text-brand-primary/60 uppercase tracking-wider">Kategori Bisnis</label>
+                                            <label className="text-xs font-extrabold text-brand-primary/60 capitalize tracking-wider">Kategori Bisnis</label>
                                             <select 
                                                 value={cafeCategory}
                                                 onChange={(e) => { setCafeCategory(e.target.value); triggerChange(); }}
@@ -341,7 +341,7 @@ export default function SettingsIndex() {
                                     </div>
 
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-brand-primary/60 uppercase tracking-wider">Alamat Lengkap</label>
+                                        <label className="text-xs font-extrabold text-brand-primary/60 capitalize tracking-wider">Alamat Lengkap</label>
                                         <div className="relative">
                                             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 flex items-center justify-center">
                                                 <iconify-icon icon="solar:map-point-linear" class="text-base"></iconify-icon>
@@ -358,7 +358,7 @@ export default function SettingsIndex() {
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                         <div className="space-y-1.5">
-                                            <label className="text-xs font-extrabold text-brand-primary/60 uppercase tracking-wider">Nomor Telepon</label>
+                                            <label className="text-xs font-extrabold text-brand-primary/60 capitalize tracking-wider">Nomor Telepon</label>
                                             <div className="relative">
                                                 <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 flex items-center justify-center">
                                                     <iconify-icon icon="solar:phone-linear" class="text-base"></iconify-icon>
@@ -373,7 +373,7 @@ export default function SettingsIndex() {
                                             </div>
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-xs font-extrabold text-brand-primary/60 uppercase tracking-wider">Email Bisnis</label>
+                                            <label className="text-xs font-extrabold text-brand-primary/60 capitalize tracking-wider">Email Bisnis</label>
                                             <div className="relative">
                                                 <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 flex items-center justify-center">
                                                     <iconify-icon icon="solar:letter-linear" class="text-base"></iconify-icon>
@@ -442,7 +442,7 @@ export default function SettingsIndex() {
                                                         </div>
                                                     ) : (
                                                         <div className="flex items-center">
-                                                            <span className="px-3 py-1 bg-amber-50 border border-amber-100 rounded-lg text-amber-500 font-bold text-[10px] uppercase tracking-wider">
+                                                            <span className="px-3 py-1 bg-amber-50 border border-amber-100 rounded-lg text-amber-500 font-bold text-[10px] capitalize tracking-wider">
                                                                 Hari Libur
                                                             </span>
                                                         </div>
@@ -467,7 +467,7 @@ export default function SettingsIndex() {
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                         <div className="space-y-1.5">
-                                            <label className="text-xs font-extrabold text-brand-primary/60 uppercase tracking-wider">Pajak Penjualan (PPN %)</label>
+                                            <label className="text-xs font-extrabold text-brand-primary/60 capitalize tracking-wider">Pajak Penjualan (PPN %)</label>
                                             <div className="relative">
                                                 <input 
                                                     type="number"
@@ -480,7 +480,7 @@ export default function SettingsIndex() {
                                             </div>
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-xs font-extrabold text-brand-primary/60 uppercase tracking-wider">Biaya Layanan (%)</label>
+                                            <label className="text-xs font-extrabold text-brand-primary/60 capitalize tracking-wider">Biaya Layanan (%)</label>
                                             <div className="relative">
                                                 <input 
                                                     type="number"
@@ -530,7 +530,7 @@ export default function SettingsIndex() {
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                         <div className="space-y-1.5">
-                                            <label className="text-xs font-extrabold text-brand-primary/60 uppercase tracking-wider">Mata Uang Utama</label>
+                                            <label className="text-xs font-extrabold text-brand-primary/60 capitalize tracking-wider">Mata Uang Utama</label>
                                             <div className="relative">
                                                 <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 flex items-center justify-center pointer-events-none">
                                                     <iconify-icon icon="solar:wallet-money-linear" class="text-base"></iconify-icon>
@@ -547,7 +547,7 @@ export default function SettingsIndex() {
                                             </div>
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-xs font-extrabold text-brand-primary/60 uppercase tracking-wider">Zona Waktu</label>
+                                            <label className="text-xs font-extrabold text-brand-primary/60 capitalize tracking-wider">Zona Waktu</label>
                                             <div className="relative">
                                                 <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 flex items-center justify-center pointer-events-none">
                                                     <iconify-icon icon="solar:clock-circle-linear" class="text-base"></iconify-icon>
@@ -566,7 +566,7 @@ export default function SettingsIndex() {
                                     </div>
  
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-extrabold text-brand-primary/60 uppercase tracking-wider">Bahasa Sistem</label>
+                                        <label className="text-xs font-extrabold text-brand-primary/60 capitalize tracking-wider">Bahasa Sistem</label>
                                         <select 
                                             value={language} 
                                             onChange={(e) => { setLanguage(e.target.value); triggerChange(); }}
@@ -598,7 +598,7 @@ export default function SettingsIndex() {
                                             <div className="space-y-5">
                                                 <div className="space-y-2">
                                                     <div className="flex justify-between items-center text-xs font-extrabold text-gray-500">
-                                                        <span className="uppercase tracking-wider">Panjang Kata Sandi Minimal</span>
+                                                        <span className="capitalize tracking-wider">Panjang Kata Sandi Minimal</span>
                                                         <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-lg font-mono text-sm">{minPasswordLength}</span>
                                                     </div>
                                                     <div className="flex items-center gap-3">
@@ -615,7 +615,7 @@ export default function SettingsIndex() {
                                                 </div>
 
                                                 <div className="space-y-2">
-                                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-wider">Kompleksitas Karakter</p>
+                                                    <p className="text-[10px] font-black text-gray-400 capitalize tracking-wider">Kompleksitas Karakter</p>
                                                     <p className="text-[10px] text-gray-400 font-medium">Pilih jenis karakter yang wajib ada dalam kata sandi.</p>
                                                     <div className="grid grid-cols-2 gap-3 pt-2">
                                                         {[
@@ -644,7 +644,7 @@ export default function SettingsIndex() {
                                             {/* Right side: Expiry & Roles */}
                                             <div className="space-y-4">
                                                 <div className="space-y-1.5">
-                                                    <label className="text-[10px] font-black text-brand-primary/60 uppercase tracking-wider block">Masa Berlaku &amp; Riwayat</label>
+                                                    <label className="text-[10px] font-black text-brand-primary/60 capitalize tracking-wider block">Masa Berlaku &amp; Riwayat</label>
                                                     <p className="text-[10px] text-gray-400 font-medium pb-1.5">Atur kapan sandi harus diganti dan pembatasan penggunaan sandi lama.</p>
                                                     <div className="space-y-3">
                                                         <div className="space-y-1">
@@ -676,7 +676,7 @@ export default function SettingsIndex() {
                                                 </div>
 
                                                 <div className="space-y-2 pt-2">
-                                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-wider block">Wajibkan Untuk Role</label>
+                                                    <label className="text-[10px] font-black text-gray-400 capitalize tracking-wider block">Wajibkan Untuk Role</label>
                                                     <p className="text-[10px] text-gray-400 font-medium pb-1">Terapkan kebijakan ini secara ketat pada level akses tertentu.</p>
                                                     <div className="flex flex-wrap gap-x-4 gap-y-2">
                                                         {[
@@ -715,7 +715,7 @@ export default function SettingsIndex() {
                                                 <p className="text-xs text-gray-400 mt-1">Lapisan keamanan tambahan menggunakan kode verifikasi perangkat.</p>
                                             </div>
                                             <div className="flex items-center gap-2.5 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">
-                                                <span className="text-xs font-extrabold text-gray-500 uppercase">Status Global:</span>
+                                                <span className="text-xs font-extrabold text-gray-500 capitalize">Status Global:</span>
                                                 <button 
                                                     type="button"
                                                     onClick={() => { setGlobal2fa(!global2fa); triggerChange(); }}
@@ -732,7 +732,7 @@ export default function SettingsIndex() {
                                             {/* Sub-card: Metode diizinkan */}
                                             <div className="lg:col-span-4 p-4 border border-brand-light/60 rounded-2xl bg-gray-50/20 text-left space-y-2 flex flex-col justify-between">
                                                 <div className="space-y-1.5">
-                                                    <span className="inline-block px-2.5 py-0.5 bg-violet-50 text-brand-primary border border-brand-light text-[9px] font-black uppercase tracking-wider rounded-full">
+                                                    <span className="inline-block px-2.5 py-0.5 bg-violet-50 text-brand-primary border border-brand-light text-[9px] font-black capitalize tracking-wider rounded-full">
                                                         Direkomendasikan
                                                     </span>
                                                     <h4 className="text-xs font-black text-gray-800 pt-1">Metode yang Diizinkan</h4>
@@ -806,12 +806,12 @@ export default function SettingsIndex() {
                                         <div className="overflow-x-auto">
                                             <table className="w-full text-left border-collapse text-xs">
                                                 <thead>
-                                                    <tr className="text-xs font-extrabold text-brand-primary/60 bg-brand-bg border-b border-brand-light tracking-wider text-[11px] uppercase">
-                                                        <th className="px-5 py-3 text-[10px] font-black text-gray-400 uppercase tracking-wider">Perangkat &amp; Browser</th>
-                                                        <th className="px-5 py-3 text-[10px] font-black text-gray-400 uppercase tracking-wider">Alamat IP</th>
-                                                        <th className="px-5 py-3 text-[10px] font-black text-gray-400 uppercase tracking-wider">Lokasi</th>
-                                                        <th className="px-5 py-3 text-[10px] font-black text-gray-400 uppercase tracking-wider">Aktivitas Terakhir</th>
-                                                        <th className="px-5 py-3 text-[10px] font-black text-gray-400 uppercase tracking-wider text-right">Aksi</th>
+                                                    <tr className="text-xs font-extrabold text-brand-primary/60 bg-brand-bg border-b border-brand-light tracking-wider text-[11px] capitalize">
+                                                        <th className="px-5 py-3 text-[10px] font-black text-gray-400 capitalize tracking-wider">Perangkat &amp; Browser</th>
+                                                        <th className="px-5 py-3 text-[10px] font-black text-gray-400 capitalize tracking-wider">Alamat IP</th>
+                                                        <th className="px-5 py-3 text-[10px] font-black text-gray-400 capitalize tracking-wider">Lokasi</th>
+                                                        <th className="px-5 py-3 text-[10px] font-black text-gray-400 capitalize tracking-wider">Aktivitas Terakhir</th>
+                                                        <th className="px-5 py-3 text-[10px] font-black text-gray-400 capitalize tracking-wider text-right">Aksi</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-brand-light/40">
@@ -844,7 +844,7 @@ export default function SettingsIndex() {
                                                                         Hentikan Sesi
                                                                     </button>
                                                                 ) : (
-                                                                    <span className="text-[10px] text-emerald-500 bg-emerald-50 border border-emerald-100 uppercase font-black tracking-wider px-2.5 py-0.5 rounded-full">Aktif</span>
+                                                                    <span className="text-[10px] text-emerald-500 bg-emerald-50 border border-emerald-100 capitalize font-black tracking-wider px-2.5 py-0.5 rounded-full">Aktif</span>
                                                                 )}
                                                             </td>
                                                         </tr>
@@ -957,7 +957,7 @@ export default function SettingsIndex() {
                         <div className="overflow-y-auto max-h-[350px]">
                             <table className="w-full text-left border-collapse text-xs">
                                 <thead>
-                                    <tr className="text-xs font-extrabold text-brand-primary/60 bg-brand-bg border-b border-brand-light tracking-wider text-[11px] uppercase">
+                                    <tr className="text-xs font-extrabold text-brand-primary/60 bg-brand-bg border-b border-brand-light tracking-wider text-[11px] capitalize">
                                         <th className="px-6 py-3.5 w-12 text-center">
                                             <input 
                                                 type="checkbox"
@@ -1002,7 +1002,7 @@ export default function SettingsIndex() {
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-3 text-left">
-                                                    <span className="inline-block px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-gray-100 text-gray-600 border border-gray-200">
+                                                    <span className="inline-block px-2.5 py-0.5 rounded-full text-[9px] font-black capitalize tracking-wider bg-gray-100 text-gray-600 border border-gray-200">
                                                         {user.role}
                                                     </span>
                                                 </td>
@@ -1016,7 +1016,7 @@ export default function SettingsIndex() {
                                                     </span>
                                                 </td>
                                                 <td className="px-6 py-3 text-left">
-                                                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border ${
+                                                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-black capitalize tracking-wider border ${
                                                         user.status === 'Terdaftar' 
                                                             ? 'bg-emerald-50 text-emerald-500 border-emerald-100' 
                                                             : 'bg-gray-50 text-gray-500 border-gray-100'

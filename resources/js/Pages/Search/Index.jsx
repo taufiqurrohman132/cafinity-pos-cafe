@@ -139,7 +139,7 @@ export default function SearchIndex() {
 
                                             {/* Info */}
                                             <div className="p-4">
-                                                <span className="flex items-center gap-1 text-[10px] font-extrabold text-brand-primary/60 uppercase tracking-wider mb-1">
+                                                <span className="flex items-center gap-1 text-[10px] font-extrabold text-brand-primary/60 capitalize tracking-wider mb-1">
                                                     <iconify-icon icon="solar:tag-linear" class="text-xs text-brand-secondary"></iconify-icon>
                                                     {menu.category?.name || 'Menu'}
                                                 </span>
@@ -157,7 +157,7 @@ export default function SearchIndex() {
                                         <div className="p-4 pt-0">
                                             <div className="flex items-center justify-between mt-3 pt-3 border-t border-brand-light/50">
                                                 <div>
-                                                    <p className="text-[9px] font-bold text-brand-primary/50 uppercase">Harga Jual</p>
+                                                    <p className="text-[9px] font-bold text-brand-primary/50 capitalize">Harga Jual</p>
                                                     <p className="text-[13px] font-black text-brand-secondary">
                                                         Rp {Number(menu.price).toLocaleString('id-ID')}
                                                     </p>

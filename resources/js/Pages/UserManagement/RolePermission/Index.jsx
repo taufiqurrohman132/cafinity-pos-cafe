@@ -463,7 +463,7 @@ function CreateRoleModal({ isOpen, onClose, duplicateRole }) {
 
                 <form onSubmit={handleSubmit} className="mt-4 space-y-4">
                     <div>
-                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Nama Peran / Role</label>
+                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Nama Peran / Role</label>
                         <input
                             type="text"
                             value={data.name}
@@ -476,7 +476,7 @@ function CreateRoleModal({ isOpen, onClose, duplicateRole }) {
                     </div>
 
                     <div>
-                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Deskripsi Tanggung Jawab</label>
+                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Deskripsi Tanggung Jawab</label>
                         <textarea
                             value={data.description}
                             onChange={e => setData('description', e.target.value)}
@@ -558,7 +558,7 @@ function EditRoleModal({ isOpen, onClose, role }) {
 
                 <form onSubmit={handleSubmit} className="mt-4 space-y-4">
                     <div>
-                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Nama Peran / Role</label>
+                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Nama Peran / Role</label>
                         <input
                             type="text"
                             value={data.name}
@@ -570,7 +570,7 @@ function EditRoleModal({ isOpen, onClose, role }) {
                     </div>
 
                     <div>
-                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wider mb-1.5">Deskripsi Tanggung Jawab</label>
+                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Deskripsi Tanggung Jawab</label>
                         <textarea
                             value={data.description}
                             onChange={e => setData('description', e.target.value)}

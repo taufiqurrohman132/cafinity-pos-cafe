@@ -198,7 +198,7 @@ export default function SupplierShow({ supplier }) {
                                     <iconify-icon icon="solar:danger-triangle-linear" class="text-xl"></iconify-icon>
                                 </div>
                                 <div className="space-y-0.5 text-left">
-                                    <h4 className="text-xs font-extrabold text-red-700 uppercase tracking-wider">Perhatian: Performa Kritis</h4>
+                                    <h4 className="text-xs font-extrabold text-red-700 capitalize tracking-wider">Perhatian: Performa Kritis</h4>
                                     <p className="text-xs text-red-600 font-semibold leading-relaxed">
                                         Rating supplier ini berada di bawah ambang batas (3.0). Disarankan untuk meninjau kembali kontrak kerjasama atau mencari alternatif supplier.
                                     </p>
@@ -241,19 +241,19 @@ export default function SupplierShow({ supplier }) {
 
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
                                     <div className="space-y-1">
-                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-wider">Kategori Produk</p>
+                                        <p className="text-[10px] font-black text-gray-400 capitalize tracking-wider">Kategori Produk</p>
                                         <p className="text-xs font-bold text-gray-800">{supplier.category || 'Transportasi & Logistik'}</p>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-wider">NPWP / Pajak</p>
+                                        <p className="text-[10px] font-black text-gray-400 capitalize tracking-wider">NPWP / Pajak</p>
                                         <p className="text-xs font-bold text-gray-800">01.234.567.8-901.000</p>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-wider">Termin Pembayaran</p>
+                                        <p className="text-[10px] font-black text-gray-400 capitalize tracking-wider">Termin Pembayaran</p>
                                         <p className="text-xs font-bold text-gray-800">{supplier.payment_term || 'Net 30'}</p>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-wider">Lead Time Estimasi</p>
+                                        <p className="text-[10px] font-black text-gray-400 capitalize tracking-wider">Lead Time Estimasi</p>
                                         <p className="text-xs font-bold text-gray-800">{supplier.lead_time ? `${supplier.lead_time} Hari` : '3-5 Hari'}</p>
                                     </div>
                                 </div>
@@ -332,7 +332,7 @@ export default function SupplierShow({ supplier }) {
                                         <iconify-icon icon="solar:map-point-linear" class="text-lg"></iconify-icon>
                                     </div>
                                     <div className="space-y-1 flex-1">
-                                        <h4 className="text-xs font-black text-gray-400 uppercase tracking-wider">Alamat Utama &amp; Pengiriman</h4>
+                                        <h4 className="text-xs font-black text-gray-400 capitalize tracking-wider">Alamat Utama &amp; Pengiriman</h4>
                                         <p className="text-xs font-bold text-gray-800 leading-relaxed">
                                             {supplier.address || 'Jl. Industri No. 45, Kawasan MM2100, Cikarang Barat'}{supplier.city && `, ${supplier.city}`}{supplier.province && `, ${supplier.province}`}
                                         </p>
@@ -356,7 +356,7 @@ export default function SupplierShow({ supplier }) {
                                         <iconify-icon icon="solar:wallet-money-linear" class="text-lg"></iconify-icon>
                                     </div>
                                     <div className="space-y-1">
-                                        <h4 className="text-xs font-black text-gray-400 uppercase tracking-wider">Informasi Minimum Order</h4>
+                                        <h4 className="text-xs font-black text-gray-400 capitalize tracking-wider">Informasi Minimum Order</h4>
                                         <p className="text-xs text-gray-600 font-semibold leading-relaxed">
                                             Minimum pembelanjaan untuk supplier ini adalah <span className="font-extrabold text-gray-800">{formatCurrency(supplier.min_order || 5000000)}</span> per Purchase Order.
                                         </p>
@@ -424,7 +424,7 @@ export default function SupplierShow({ supplier }) {
                                         </svg>
                                         <div className="absolute flex flex-col items-center justify-center">
                                             <span className="text-2xl font-black text-gray-800 leading-none">{rating.toFixed(1)}</span>
-                                            <span className="text-[9px] text-gray-400 font-bold uppercase mt-1">Dari 5.0</span>
+                                            <span className="text-[9px] text-gray-400 font-bold capitalize mt-1">Dari 5.0</span>
                                         </div>
                                     </div>
 
@@ -434,7 +434,7 @@ export default function SupplierShow({ supplier }) {
                                         <p className="text-[10px] text-gray-400 font-semibold leading-relaxed">
                                             Dihitung berdasarkan 50+ transaksi terakhir dalam 12 bulan.
                                         </p>
-                                        <span className={`inline-block px-2.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider border ${metrics.badgeColor}`}>
+                                        <span className={`inline-block px-2.5 py-0.5 rounded text-[9px] font-black capitalize tracking-wider border ${metrics.badgeColor}`}>
                                             {metrics.badgeText}
                                         </span>
                                     </div>
@@ -501,7 +501,7 @@ export default function SupplierShow({ supplier }) {
                                                         {po.ordered_at ? new Date(po.ordered_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-'}
                                                     </span>
                                                 </div>
-                                                <span className={`px-2.5 py-0.5 rounded-full border text-[9px] font-black uppercase tracking-wider ${getPoStatusBadge(po.status)}`}>
+                                                <span className={`px-2.5 py-0.5 rounded-full border text-[9px] font-black capitalize tracking-wider ${getPoStatusBadge(po.status)}`}>
                                                     {po.status === 'received' ? 'Delivered' : po.status}
                                                 </span>
                                             </div>
@@ -520,7 +520,7 @@ export default function SupplierShow({ supplier }) {
                                                     <span className="font-extrabold text-gray-800">{item.po}</span>
                                                     <span className="text-[10px] text-gray-400 font-semibold">{item.date}</span>
                                                 </div>
-                                                <span className={`px-2.5 py-0.5 rounded-full border text-[9px] font-black uppercase tracking-wider ${getPoStatusBadge(item.status.toLowerCase())}`}>
+                                                <span className={`px-2.5 py-0.5 rounded-full border text-[9px] font-black capitalize tracking-wider ${getPoStatusBadge(item.status.toLowerCase())}`}>
                                                     {item.status}
                                                 </span>
                                             </div>

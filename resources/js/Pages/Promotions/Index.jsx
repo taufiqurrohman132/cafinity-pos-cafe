@@ -380,7 +380,7 @@ export default function PromotionsIndex() {
                             <Icon icon="solar:ticket-linear" className="text-[22px] text-brand-secondary" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-extrabold text-brand-primary uppercase tracking-widest">Total Redemptions</p>
+                            <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">Total Redemptions</p>
                             <p className="text-2xl font-extrabold text-brand-dark leading-tight">{formatRp(totalRedemptions)}</p>
                             <p className="text-[10px] font-extrabold text-emerald-600 mt-0.5">+12% <span className="font-medium text-brand-primary/60">bulan ini</span></p>
                         </div>
@@ -392,7 +392,7 @@ export default function PromotionsIndex() {
                             <Icon icon="solar:graph-up-linear" className="text-[22px] text-brand-secondary" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-extrabold text-brand-primary uppercase tracking-widest">Estimasi Revenue</p>
+                            <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">Estimasi Revenue</p>
                             <p className="text-xl font-extrabold text-brand-dark leading-tight">
                                 Rp {(estimasiRevenue / 1000000).toFixed(2)}M
                             </p>
@@ -406,7 +406,7 @@ export default function PromotionsIndex() {
                             <Icon icon="solar:tag-linear" className="text-[22px] text-brand-secondary" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-extrabold text-brand-primary uppercase tracking-widest">Kampanye Aktif</p>
+                            <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">Kampanye Aktif</p>
                             <p className="text-2xl font-extrabold text-brand-dark leading-tight">{kampanyeAktif}</p>
                             <p className="text-[10px] font-extrabold text-amber-500 mt-0.5">2 akan berakhir</p>
                         </div>
@@ -418,7 +418,7 @@ export default function PromotionsIndex() {
                             <Icon icon="solar:star-linear" className="text-[22px] text-brand-secondary" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-extrabold text-brand-primary uppercase tracking-widest">Efisiensi Promo</p>
+                            <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">Efisiensi Promo</p>
                             <p className="text-2xl font-extrabold text-brand-dark leading-tight">{efisiensiPromo}%</p>
                             <p className="text-[10px] font-extrabold text-emerald-600 mt-0.5">+1.2% <span className="font-medium text-brand-primary/60">peningkatan</span></p>
                         </div>
@@ -432,7 +432,7 @@ export default function PromotionsIndex() {
                         <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
                             <div className="flex items-center gap-2">
                                 <Icon icon="solar:graph-up-linear" className="text-lg text-brand-secondary" />
-                                <span className="text-[10px] font-extrabold text-brand-secondary uppercase tracking-widest">Bundel Spesial</span>
+                                <span className="text-[10px] font-extrabold text-brand-secondary capitalize tracking-widest">Bundel Spesial</span>
                             </div>
                             <span className="text-[10px] font-extrabold bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-3 py-1 rounded-full tracking-wide">
                                 Kampanye Utama
@@ -448,19 +448,19 @@ export default function PromotionsIndex() {
 
                         <div className="grid grid-cols-3 gap-6 max-w-lg mt-5 pt-5 border-t border-brand-light">
                             <div>
-                                <p className="text-[10px] font-extrabold text-brand-primary/50 uppercase tracking-widest mb-1">Diskon</p>
+                                <p className="text-[10px] font-extrabold text-brand-primary/50 capitalize tracking-widest mb-1">Diskon</p>
                                 <p className="text-lg font-extrabold text-brand-secondary">
                                     {highlightCampaign?.discount_display || 'Diskon 10%'}
                                 </p>
                             </div>
                             <div>
-                                <p className="text-[10px] font-extrabold text-brand-primary/50 uppercase tracking-widest mb-1">Total Pendapatan</p>
+                                <p className="text-[10px] font-extrabold text-brand-primary/50 capitalize tracking-widest mb-1">Total Pendapatan</p>
                                 <p className="text-lg font-extrabold text-brand-dark">
                                     Rp {formatRp(highlightCampaign?.revenue || 4260000)}
                                 </p>
                             </div>
                             <div>
-                                <p className="text-[10px] font-extrabold text-brand-primary/50 uppercase tracking-widest mb-1">Penebusan</p>
+                                <p className="text-[10px] font-extrabold text-brand-primary/50 capitalize tracking-widest mb-1">Penebusan</p>
                                 <p className="text-lg font-extrabold text-brand-dark">
                                     {highlightCampaign?.redemptions || 142} <span className="text-xs text-brand-primary/50 font-medium">Kali</span>
                                 </p>
@@ -509,7 +509,7 @@ export default function PromotionsIndex() {
                     <div className="overflow-x-auto">
                         <table className="w-full text-left min-w-[700px]">
                             <thead>
-                                <tr className="text-[10px] text-brand-primary border-b border-brand-light uppercase tracking-wider">
+                                <tr className="text-[10px] text-brand-primary border-b border-brand-light capitalize tracking-wider">
                                     <th className="pb-3 font-extrabold">Nama Promo</th>
                                     <th className="pb-3 font-extrabold">Potongan</th>
                                     <th className="pb-3 font-extrabold">Periode</th>
@@ -693,7 +693,7 @@ export default function PromotionsIndex() {
                             {activeFormType === 'promotion' && (
                                 <form onSubmit={handlePromoSubmit} className="space-y-4">
                                     <div>
-                                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wide mb-1.5">
+                                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">
                                             Nama Promo <span className="text-rose-500">*</span>
                                         </label>
                                         <input type="text" required value={promoForm.data.name}
@@ -704,7 +704,7 @@ export default function PromotionsIndex() {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wide mb-1.5">Tipe Potongan</label>
+                                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">Tipe Potongan</label>
                                             <select value={promoForm.data.type}
                                                 onChange={(e) => promoForm.setData('type', e.target.value)}
                                                 className={inputCls}>
@@ -713,7 +713,7 @@ export default function PromotionsIndex() {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wide mb-1.5">Nilai Potongan</label>
+                                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">Nilai Potongan</label>
                                             <input type="number" required min="0" value={promoForm.data.value}
                                                 onChange={(e) => promoForm.setData('value', e.target.value)}
                                                 placeholder={promoForm.data.type === 'percentage' ? '10' : '5000'}
@@ -722,7 +722,7 @@ export default function PromotionsIndex() {
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wide mb-1.5">Minimal Pembelian (Rp)</label>
+                                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">Minimal Pembelian (Rp)</label>
                                         <input type="number" min="0" value={promoForm.data.min_purchase}
                                             onChange={(e) => promoForm.setData('min_purchase', e.target.value)}
                                             placeholder="30000" className={inputCls} />
@@ -730,13 +730,13 @@ export default function PromotionsIndex() {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wide mb-1.5">Tanggal Mulai</label>
+                                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">Tanggal Mulai</label>
                                             <input type="date" required value={promoForm.data.start_date}
                                                 onChange={(e) => promoForm.setData('start_date', e.target.value)}
                                                 className={inputCls} />
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wide mb-1.5">Tanggal Selesai</label>
+                                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">Tanggal Selesai</label>
                                             <input type="date" required value={promoForm.data.end_date}
                                                 onChange={(e) => promoForm.setData('end_date', e.target.value)}
                                                 className={inputCls} />
@@ -771,7 +771,7 @@ export default function PromotionsIndex() {
                             {activeFormType === 'bundle' && (
                                 <form onSubmit={handleBundleSubmit} className="space-y-4">
                                     <div>
-                                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wide mb-1.5">
+                                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">
                                             Nama Bundel <span className="text-rose-500">*</span>
                                         </label>
                                         <input type="text" required value={bundleForm.data.name}
@@ -781,7 +781,7 @@ export default function PromotionsIndex() {
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wide mb-1.5">Deskripsi Kampanye</label>
+                                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">Deskripsi Kampanye</label>
                                         <textarea rows={2} value={bundleForm.data.description}
                                             onChange={(e) => bundleForm.setData('description', e.target.value)}
                                             placeholder="Tuliskan info bundel..."
@@ -789,7 +789,7 @@ export default function PromotionsIndex() {
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-extrabold text-brand-primary uppercase tracking-wide mb-1.5">
+                                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">
                                             Harga Bundel Spesial (Rp) <span className="text-rose-500">*</span>
                                         </label>
                                         <input type="number" required min="0" value={bundleForm.data.price}

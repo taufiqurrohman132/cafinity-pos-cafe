@@ -105,7 +105,7 @@ export default function ProfileEdit() {
                                 <div className="space-y-4">
                                     {/* Nama */}
                                     <div className="grid grid-cols-12 gap-x-4 items-center">
-                                        <label className="col-span-12 md:col-span-4 text-left md:text-right md:pr-6 text-xs font-bold text-brand-dark uppercase tracking-wider">
+                                        <label className="col-span-12 md:col-span-4 text-left md:text-right md:pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
                                             Nama Lengkap
                                         </label>
                                         <div className="col-span-12 md:col-span-8 mt-1 md:mt-0">
@@ -126,7 +126,7 @@ export default function ProfileEdit() {
 
                                     {/* Email */}
                                     <div className="grid grid-cols-12 gap-x-4 items-center">
-                                        <label className="col-span-12 md:col-span-4 text-left md:text-right md:pr-6 text-xs font-bold text-brand-dark uppercase tracking-wider">
+                                        <label className="col-span-12 md:col-span-4 text-left md:text-right md:pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
                                             Alamat Email
                                         </label>
                                         <div className="col-span-12 md:col-span-8 mt-1 md:mt-0">
@@ -160,7 +160,7 @@ export default function ProfileEdit() {
                                 <div className="space-y-4">
                                     {/* Current Password */}
                                     <div className="grid grid-cols-12 gap-x-4 items-center">
-                                        <label className="col-span-12 md:col-span-4 text-left md:text-right md:pr-6 text-xs font-bold text-brand-dark uppercase tracking-wider">
+                                        <label className="col-span-12 md:col-span-4 text-left md:text-right md:pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
                                             Kata Sandi Saat Ini
                                         </label>
                                         <div className="col-span-12 md:col-span-8 mt-1 md:mt-0">
@@ -182,7 +182,7 @@ export default function ProfileEdit() {
 
                                     {/* New Password */}
                                     <div className="grid grid-cols-12 gap-x-4 items-center">
-                                        <label className="col-span-12 md:col-span-4 text-left md:text-right md:pr-6 text-xs font-bold text-brand-dark uppercase tracking-wider">
+                                        <label className="col-span-12 md:col-span-4 text-left md:text-right md:pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
                                             Kata Sandi Baru
                                         </label>
                                         <div className="col-span-12 md:col-span-8 mt-1 md:mt-0">
@@ -203,7 +203,7 @@ export default function ProfileEdit() {
 
                                     {/* Confirm Password */}
                                     <div className="grid grid-cols-12 gap-x-4 items-center">
-                                        <label className="col-span-12 md:col-span-4 text-left md:text-right md:pr-6 text-xs font-bold text-brand-dark uppercase tracking-wider">
+                                        <label className="col-span-12 md:col-span-4 text-left md:text-right md:pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
                                             Konfirmasi Sandi Baru
                                         </label>
                                         <div className="col-span-12 md:col-span-8 mt-1 md:mt-0">

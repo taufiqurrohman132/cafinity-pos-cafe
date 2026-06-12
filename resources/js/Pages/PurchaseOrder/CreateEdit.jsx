@@ -335,7 +335,7 @@ export default function PurchaseOrderCreateEdit() {
                         <div className="flex items-center gap-2 self-start sm:self-center shrink-0">
                             {isEditMode ? (
                                 <>
-                                    <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-amber-50 text-amber-600 border border-amber-200 uppercase">
+                                    <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-amber-50 text-amber-600 border border-amber-200 capitalize">
                                         {order?.status}
                                     </span>
                                     <span className="text-[11px] text-gray-400 font-medium">
@@ -344,7 +344,7 @@ export default function PurchaseOrderCreateEdit() {
                                 </>
                             ) : (
                                 <>
-                                    <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-gray-100 text-gray-500 border border-gray-200 uppercase">
+                                    <span className="px-2.5 py-1 text-[10px] font-bold rounded-full bg-gray-100 text-gray-500 border border-gray-200 capitalize">
                                         Draft
                                     </span>
                                     <span className="text-[11px] text-gray-400 font-medium">Disimpan baru saja</span>
@@ -402,7 +402,7 @@ export default function PurchaseOrderCreateEdit() {
 
                                     {/* Contact Details box */}
                                     <div className="md:col-span-6 bg-gray-50 border border-dashed border-brand-light rounded-xl p-4 flex flex-col justify-center min-h-[90px]">
-                                        <span className="text-[10px] font-bold text-brand-primary/60 uppercase tracking-wider block mb-1">Informasi Kontak</span>
+                                        <span className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wider block mb-1">Informasi Kontak</span>
                                         {selectedSupplier ? (
                                             <div className="text-xs space-y-1 text-gray-600">
                                                 <p className="font-bold text-brand-dark">{selectedSupplier.name}</p>
@@ -515,7 +515,7 @@ export default function PurchaseOrderCreateEdit() {
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left border-collapse min-w-[750px]">
                                         <thead>
-                                            <tr className="text-[10px] font-bold text-gray-400 bg-gray-50 border-b border-brand-light uppercase">
+                                            <tr className="text-[10px] font-bold text-gray-400 bg-gray-50 border-b border-brand-light capitalize">
                                                 <th className="px-4 py-3">Produk / Item</th>
                                                 <th className="px-3 py-3">Deskripsi</th>
                                                 <th className="px-3 py-3">Satuan</th>
@@ -646,7 +646,7 @@ export default function PurchaseOrderCreateEdit() {
 
                             {/* 4. Catatan & Ketentuan */}
                             <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-3">
-                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                                <h3 className="text-xs font-bold text-gray-400 capitalize tracking-wider flex items-center gap-2">
                                     <iconify-icon icon="solar:pen-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Catatan & Ketentuan
                                 </h3>
@@ -662,7 +662,7 @@ export default function PurchaseOrderCreateEdit() {
                             {/* 5. Lampiran Pendukung */}
                             {!isEditMode && (
                                 <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-3">
-                                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                                    <h3 className="text-xs font-bold text-gray-400 capitalize tracking-wider flex items-center gap-2">
                                         <iconify-icon icon="solar:upload-minimalistic-linear" class="text-brand-primary text-base"></iconify-icon>
                                         Lampiran Pendukung
                                     </h3>

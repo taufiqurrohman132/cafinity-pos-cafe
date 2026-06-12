@@ -395,7 +395,7 @@ export default function InventoriesIndex() {
 
                         {/* Aksi Cepat */}
                         <div>
-                            <h3 className="text-[10px] font-extrabold text-brand-primary/60 uppercase tracking-widest mb-3">Aksi Cepat</h3>
+                            <h3 className="text-[10px] font-extrabold text-brand-primary/60 capitalize tracking-widest mb-3">Aksi Cepat</h3>
                             <div className="space-y-3">
                                 <button
                                     onClick={() => setShowAdjustModal(true)}
@@ -737,13 +737,13 @@ function StockOpnameModal({ isOpen, onClose, items, onSaveSuccess }) {
 
                     <div className="grid grid-cols-2 gap-4 bg-brand-bg p-4 rounded-2xl border border-brand-light text-center">
                         <div>
-                            <span className="text-[10px] font-extrabold text-brand-primary/60 uppercase">Stok Sistem</span>
+                            <span className="text-[10px] font-extrabold text-brand-primary/60 capitalize">Stok Sistem</span>
                             <p className="text-xl font-extrabold text-brand-dark mt-1">
                                 {systemStock} <span className="text-xs font-medium text-gray-500">{selectedItem?.unit}</span>
                             </p>
                         </div>
                         <div>
-                            <span className="text-[10px] font-extrabold text-brand-primary/60 uppercase">Selisih</span>
+                            <span className="text-[10px] font-extrabold text-brand-primary/60 capitalize">Selisih</span>
                             <p className={`text-xl font-extrabold mt-1 ${
                                 difference === 0 ? 'text-brand-dark' 
                                 : difference > 0 ? 'text-emerald-500' 
