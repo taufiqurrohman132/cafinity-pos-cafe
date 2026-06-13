@@ -316,7 +316,7 @@ export default function PromotionsIndex() {
     };
 
     // Input class reusable
-    const inputCls = "w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 py-2.5 text-[13px] font-semibold text-brand-dark placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all shadow-sm";
+    const inputCls = "w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 py-2.5 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all shadow-sm";
 
     if (loading) {
         return (
@@ -381,7 +381,7 @@ export default function PromotionsIndex() {
                         </div>
                         <div>
                             <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">Total Redemptions</p>
-                            <p className="text-2xl font-extrabold text-brand-dark leading-tight">{formatRp(totalRedemptions)}</p>
+                            <p className="text-2xl font-black text-brand-secondary leading-tight">{formatRp(totalRedemptions)}</p>
                             <p className="text-[10px] font-extrabold text-emerald-600 mt-0.5">+12% <span className="font-medium text-brand-primary/60">bulan ini</span></p>
                         </div>
                     </div>
@@ -393,7 +393,7 @@ export default function PromotionsIndex() {
                         </div>
                         <div>
                             <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">Estimasi Revenue</p>
-                            <p className="text-xl font-extrabold text-brand-dark leading-tight">
+                            <p className="text-xl font-black text-brand-secondary leading-tight">
                                 Rp {(estimasiRevenue / 1000000).toFixed(2)}M
                             </p>
                             <p className="text-[10px] font-extrabold text-emerald-600 mt-0.5">+8.4% <span className="font-medium text-brand-primary/60">vs bulan lalu</span></p>
@@ -748,7 +748,7 @@ export default function PromotionsIndex() {
                                             checked={promoForm.data.is_active}
                                             onChange={(e) => promoForm.setData('is_active', e.target.checked)}
                                             className="w-4 h-4 accent-brand-secondary rounded border-brand-light" />
-                                        <label htmlFor="promoActiveToggle" className="text-xs font-semibold text-brand-primary/70 cursor-pointer">
+                                        <label htmlFor="promoActiveToggle" className="text-xs font-bold text-brand-primary/70 cursor-pointer">
                                             Aktifkan promosi ini segera
                                         </label>
                                     </div>
@@ -803,7 +803,7 @@ export default function PromotionsIndex() {
                                         <div className="flex gap-2">
                                             <select value={selectedMenuToAdd}
                                                 onChange={(e) => setSelectedMenuToAdd(e.target.value)}
-                                                className="flex-1 px-3 py-2 rounded-xl border border-brand-light text-xs font-semibold text-brand-dark bg-white focus:outline-none focus:border-brand-secondary">
+                                                className="flex-1 px-3 py-2 rounded-xl border border-brand-light text-xs font-bold text-brand-dark bg-white focus:outline-none focus:border-brand-secondary">
                                                 <option value="">Pilih Menu...</option>
                                                 {menus.map((m) => (
                                                     <option key={m.id} value={m.id}>{m.name} (Rp {formatRp(m.price)})</option>
@@ -841,7 +841,7 @@ export default function PromotionsIndex() {
                                             checked={bundleForm.data.is_active}
                                             onChange={(e) => bundleForm.setData('is_active', e.target.checked)}
                                             className="w-4 h-4 accent-brand-secondary rounded border-brand-light" />
-                                        <label htmlFor="bundleActiveToggle" className="text-xs font-semibold text-brand-primary/70 cursor-pointer">
+                                        <label htmlFor="bundleActiveToggle" className="text-xs font-bold text-brand-primary/70 cursor-pointer">
                                             Aktifkan bundel ini segera
                                         </label>
                                     </div>
@@ -872,7 +872,7 @@ export default function PromotionsIndex() {
                     </div>
                     <div className="flex-1 min-w-0 pr-2">
                         <p className="text-xs font-extrabold text-brand-dark">Sukses!</p>
-                        <p className="text-[10px] text-brand-primary font-semibold truncate">{toastMessage}</p>
+                        <p className="text-[10px] text-brand-primary font-bold truncate">{toastMessage}</p>
                     </div>
                     <button onClick={() => setShowToast(false)}
                         className="text-brand-primary/40 hover:text-brand-dark text-xs font-bold flex-shrink-0">

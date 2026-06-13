@@ -318,7 +318,7 @@ export default function PurchaseOrderCreateEdit() {
                                 <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium mb-1">
                                     <Link to="/purchase-orders" className="hover:text-brand-primary transition-colors">Purchase Order</Link>
                                     <span className="text-brand-primary/40">›</span>
-                                    <span className="text-brand-dark font-semibold">{isEditMode ? "Edit PO" : "Tambah PO"}</span>
+                                    <span className="text-brand-dark font-bold">{isEditMode ? "Edit PO" : "Tambah PO"}</span>
                                 </nav>
                                 <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                                     {isEditMode ? "Edit Pesanan Pembelian" : "Buat Pesanan Pembelian Baru"}
@@ -406,9 +406,9 @@ export default function PurchaseOrderCreateEdit() {
                                         {selectedSupplier ? (
                                             <div className="text-xs space-y-1 text-gray-600">
                                                 <p className="font-bold text-brand-dark">{selectedSupplier.name}</p>
-                                                <p><span className="font-semibold text-gray-400">Telp:</span> {selectedSupplier.phone || '-'}</p>
-                                                <p><span className="font-semibold text-gray-400">Email:</span> {selectedSupplier.email || '-'}</p>
-                                                <p><span className="font-semibold text-gray-400">Alamat:</span> {selectedSupplier.address || '-'}</p>
+                                                <p><span className="font-bold text-gray-400">Telp:</span> {selectedSupplier.phone || '-'}</p>
+                                                <p><span className="font-bold text-gray-400">Email:</span> {selectedSupplier.email || '-'}</p>
+                                                <p><span className="font-bold text-gray-400">Alamat:</span> {selectedSupplier.address || '-'}</p>
                                             </div>
                                         ) : (
                                             <p className="text-xs text-gray-400 italic">Pilih pemasok untuk melihat detail kontak dan alamat.</p>
@@ -433,7 +433,7 @@ export default function PurchaseOrderCreateEdit() {
                                             readOnly 
                                             value={isEditMode ? (order?.po_number || '') : ''}
                                             placeholder="PO-2026-XXXX"
-                                            className="w-full h-11 text-xs bg-gray-50 border border-brand-light rounded-xl px-4 text-gray-500 font-semibold focus:outline-none" 
+                                            className="w-full h-11 text-xs bg-gray-50 border border-brand-light rounded-xl px-4 text-gray-500 font-bold focus:outline-none" 
                                         />
                                         <span className="text-[10px] text-gray-400 font-medium block">Tergenerasi otomatis oleh sistem.</span>
                                     </div>
@@ -445,7 +445,7 @@ export default function PurchaseOrderCreateEdit() {
                                             type="text" 
                                             readOnly 
                                             value={isEditMode ? (order?.created_at ? new Date(order.created_at).toISOString().split('T')[0] : '') : new Date().toISOString().split('T')[0]}
-                                            className="w-full h-11 text-xs bg-gray-50 border border-brand-light rounded-xl px-4 text-gray-500 font-semibold focus:outline-none" 
+                                            className="w-full h-11 text-xs bg-gray-50 border border-brand-light rounded-xl px-4 text-gray-500 font-bold focus:outline-none" 
                                         />
                                     </div>
 
@@ -560,7 +560,7 @@ export default function PurchaseOrderCreateEdit() {
                                                             readOnly
                                                             value={row.unit}
                                                             placeholder="Unit"
-                                                            className="w-16 text-xs bg-gray-50 border border-brand-light rounded-lg py-1.5 px-2 text-gray-500 font-semibold focus:outline-none text-center"
+                                                            className="w-16 text-xs bg-gray-50 border border-brand-light rounded-lg py-1.5 px-2 text-gray-500 font-bold focus:outline-none text-center"
                                                         />
                                                     </td>
                                                     {/* Qty */}
@@ -577,13 +577,13 @@ export default function PurchaseOrderCreateEdit() {
                                                     {/* Price */}
                                                     <td className="px-3 py-3">
                                                         <div className="relative">
-                                                            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">Rp</span>
+                                                            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 font-bold">Rp</span>
                                                             <input 
                                                                 type="number" 
                                                                 min="0"
                                                                 value={row.price_per_unit}
                                                                 onChange={(e) => updateItemRow(idx, 'price_per_unit', Number(e.target.value))}
-                                                                className="w-24 pl-7 pr-2 py-1.5 text-xs border border-brand-light rounded-lg focus:ring-brand-light focus:outline-none font-semibold text-right"
+                                                                className="w-24 pl-7 pr-2 py-1.5 text-xs border border-brand-light rounded-lg focus:ring-brand-light focus:outline-none font-bold text-right"
                                                             />
                                                         </div>
                                                     </td>
@@ -596,7 +596,7 @@ export default function PurchaseOrderCreateEdit() {
                                                                 max="100"
                                                                 value={row.discount}
                                                                 onChange={(e) => updateItemRow(idx, 'discount', Number(e.target.value))}
-                                                                className="w-16 pr-5 pl-2 py-1.5 text-xs border border-brand-light rounded-lg focus:ring-brand-light focus:outline-none font-semibold text-right"
+                                                                className="w-16 pr-5 pl-2 py-1.5 text-xs border border-brand-light rounded-lg focus:ring-brand-light focus:outline-none font-bold text-right"
                                                             />
                                                             <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">%</span>
                                                         </div>
@@ -702,9 +702,9 @@ export default function PurchaseOrderCreateEdit() {
                                                     max="100"
                                                     value={data.discount_global}
                                                     onChange={(e) => setData('discount_global', Number(e.target.value))}
-                                                    className="w-20 pr-5 pl-2 py-1.5 text-xs border border-brand-light rounded-lg focus:outline-none font-semibold text-right"
+                                                    className="w-20 pr-5 pl-2 py-1.5 text-xs border border-brand-light rounded-lg focus:outline-none font-bold text-right"
                                                 />
-                                                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">%</span>
+                                                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</span>
                                             </div>
                                         </div>
 
@@ -723,7 +723,7 @@ export default function PurchaseOrderCreateEdit() {
                                                 min="0"
                                                 value={data.shipping_cost}
                                                 onChange={(e) => setData('shipping_cost', Number(e.target.value))}
-                                                className="w-24 pl-3 pr-2 py-1.5 text-xs border border-brand-light rounded-lg focus:outline-none font-semibold text-right"
+                                                className="w-24 pl-3 pr-2 py-1.5 text-xs border border-brand-light rounded-lg focus:outline-none font-bold text-right"
                                             />
                                         </div>
 
@@ -768,7 +768,7 @@ export default function PurchaseOrderCreateEdit() {
                             {/* 2. Checklist Validasi */}
                             <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
                                 <div className="flex justify-between items-center">
-                                    <h4 className="text-xs font-bold text-gray-900 tracking-wide">CHECKLIST VALIDASI</h4>
+                                    <h4 className="text-xs font-bold text-gray-900 tracking-wide">Checklist Validasi</h4>
                                     <iconify-icon icon="solar:alt-arrow-down-linear" class="text-gray-400"></iconify-icon>
                                 </div>
                                 <div className="space-y-3 text-xs">
@@ -778,7 +778,7 @@ export default function PurchaseOrderCreateEdit() {
                                             icon={isSupplierValid ? "solar:check-circle-bold" : "solar:close-circle-bold"} 
                                             class={`text-lg ${isSupplierValid ? 'text-emerald-500' : 'text-gray-300'}`}
                                         />
-                                        <span className={isSupplierValid ? 'text-gray-900 font-semibold' : 'text-gray-500'}>
+                                        <span className={isSupplierValid ? 'text-gray-900 font-bold' : 'text-gray-500'}>
                                             Pilih pemasok yang terdaftar
                                         </span>
                                     </div>
@@ -789,7 +789,7 @@ export default function PurchaseOrderCreateEdit() {
                                             icon={isItemsValid ? "solar:check-circle-bold" : "solar:close-circle-bold"} 
                                             class={`text-lg ${isItemsValid ? 'text-emerald-500' : 'text-gray-300'}`}
                                         />
-                                        <span className={isItemsValid ? 'text-gray-900 font-semibold' : 'text-gray-500'}>
+                                        <span className={isItemsValid ? 'text-gray-900 font-bold' : 'text-gray-500'}>
                                             Minimal satu item dengan kuantitas &gt; 0
                                         </span>
                                     </div>
@@ -800,7 +800,7 @@ export default function PurchaseOrderCreateEdit() {
                                             icon={isLocationValid ? "solar:check-circle-bold" : "solar:close-circle-bold"} 
                                             class={`text-lg ${isLocationValid ? 'text-emerald-500' : 'text-gray-300'}`}
                                         />
-                                        <span className={isLocationValid ? 'text-gray-900 font-semibold' : 'text-gray-500'}>
+                                        <span className={isLocationValid ? 'text-gray-900 font-bold' : 'text-gray-500'}>
                                             Tentukan lokasi pengiriman
                                         </span>
                                     </div>

@@ -84,7 +84,7 @@ export default function CashierDashboard() {
                                     </div>
                                     <div>
                                         <p className="text-xs font-bold text-brand-primary/70 capitalize tracking-wide">{card.title}</p>
-                                        <p className="text-lg font-extrabold text-brand-dark mt-0.5">{card.value}</p>
+                                        <p className={`text-lg mt-0.5 ${(typeof card.value === 'string' && card.value.includes('Rp')) ? 'font-black text-brand-secondary' : 'font-extrabold text-brand-dark'}`}>{card.value}</p>
                                     </div>
                                 </div>
                             ))}
@@ -131,7 +131,7 @@ export default function CashierDashboard() {
                                                 <td className="px-6 py-4 font-extrabold text-brand-dark">{row.id}</td>
                                                 <td className="px-4 py-4 text-brand-dark/60">{row.time}</td>
                                                 <td className="px-4 py-4 text-brand-dark/60 max-w-xs truncate">{row.items}</td>
-                                                <td className="px-4 py-4 text-brand-dark font-extrabold">{row.total}</td>
+                                                <td className="px-4 py-4 text-brand-secondary font-black">{row.total}</td>
                                                 <td className="px-6 py-4 text-right">
                                                     <span className={`px-2 py-1 text-[10px] rounded-full font-bold ${
                                                         isCompleted ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-600'
@@ -155,20 +155,20 @@ export default function CashierDashboard() {
                             <h3 className="font-extrabold text-brand-dark tracking-tight">Sesi Aktif & Shift</h3>
                             <div className="space-y-3.5 divide-y divide-brand-light/50">
                                 <div className="flex justify-between items-center pt-3 first:pt-0">
-                                    <span className="text-xs font-semibold text-brand-primary/80">Sesi Shift</span>
+                                    <span className="text-xs font-bold text-brand-primary/80">Sesi Shift</span>
                                     <span className="text-xs font-extrabold text-brand-dark bg-brand-light/50 border px-3 py-1 rounded-lg">Shift {shiftInfo.shift}</span>
                                 </div>
                                 <div className="flex justify-between items-center pt-3">
-                                    <span className="text-xs font-semibold text-brand-primary/80">Mulai Shift</span>
+                                    <span className="text-xs font-bold text-brand-primary/80">Mulai Shift</span>
                                     <span className="text-xs font-bold text-brand-dark">{shiftInfo.start} WIB</span>
                                 </div>
                                 <div className="flex justify-between items-center pt-3">
-                                    <span className="text-xs font-semibold text-brand-primary/80">Durasi Bekerja</span>
+                                    <span className="text-xs font-bold text-brand-primary/80">Durasi Bekerja</span>
                                     <span className="text-xs font-bold text-brand-dark">{shiftInfo.duration}</span>
                                 </div>
                                 <div className="flex justify-between items-center pt-3">
-                                    <span className="text-xs font-semibold text-brand-primary/80">Saldo Awal Kas</span>
-                                    <span className="text-xs font-extrabold text-brand-dark">{shiftInfo.balance}</span>
+                                    <span className="text-xs font-bold text-brand-primary/80">Saldo Awal Kas</span>
+                                    <span className="text-xs font-black text-brand-secondary">{shiftInfo.balance}</span>
                                 </div>
                             </div>
                         </div>

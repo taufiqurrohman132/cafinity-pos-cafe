@@ -375,7 +375,7 @@ export default function POS() {
                                     value={search}
                                     onChange={e => setSearch(e.target.value)}
                                     placeholder="Cari menu..."
-                                    className="w-full h-[46px] rounded-xl bg-white border border-brand-light pl-11 pr-4 text-[13px] outline-none focus:border-brand-secondary focus:ring-2 focus:ring-brand-light transition-colors font-semibold text-brand-dark placeholder-brand-primary/50 shadow-sm"
+                                    className="w-full h-[46px] rounded-xl bg-white border border-brand-light pl-11 pr-4 text-[13px] outline-none focus:border-brand-secondary focus:ring-2 focus:ring-brand-light transition-colors font-bold text-brand-dark placeholder-brand-primary/50 shadow-sm"
                                 />
                             </div>
                         </div>
@@ -521,7 +521,7 @@ export default function POS() {
                                 <div key={`${item.menu_id}-${index}`} className="flex gap-3 items-start pb-4 border-b border-brand-light/50 last:border-0 last:pb-0 animate-in fade-in slide-in-from-bottom-2 duration-200">
                                     <div className="flex-1 min-w-0 pt-0.5">
                                         <p className="text-[13px] font-bold text-brand-dark truncate">{item.name}</p>
-                                        <p className="text-[11px] font-medium text-brand-primary mt-0.5">{formatRupiah(item.price)} / item</p>
+                                        <p className="text-[11px] font-black text-brand-secondary mt-0.5">{formatRupiah(item.price)} / item</p>
                                     </div>
                                     <div className="flex items-center gap-1 flex-shrink-0 bg-gradient-to-br from-brand-light/40 to-brand-light/10 rounded-lg p-1 border border-brand-light">
                                         <button onClick={() => decreaseQty(index)}
@@ -551,11 +551,11 @@ export default function POS() {
                         <div className="space-y-2.5">
                             <div className="flex items-center justify-between text-[13px] font-medium text-brand-primary">
                                 <span>Subtotal</span>
-                                <span className="font-bold text-brand-dark">{formatRupiah(subtotal)}</span>
+                                <span className="font-black text-brand-secondary">{formatRupiah(subtotal)}</span>
                             </div>
                             <div className="flex items-center justify-between text-[13px] font-medium text-brand-primary">
                                 <span>Pajak ({taxPercent}%)</span>
-                                <span className="font-bold text-brand-dark">{formatRupiah(tax)}</span>
+                                <span className="font-black text-brand-secondary">{formatRupiah(tax)}</span>
                             </div>
                             {discount > 0 && (
                                 <div className="flex items-center justify-between text-[13px] font-extrabold text-brand-secondary">
@@ -616,7 +616,7 @@ export default function POS() {
                             </h3>
                             <div className="mt-2 flex justify-between items-end">
                                 <p className="text-sm font-medium text-brand-primary">Total Tagihan</p>
-                                <p className="font-black text-2xl text-brand-primary">{formatRupiah(total)}</p>
+                                <p className="font-black text-2xl text-brand-secondary">{formatRupiah(total)}</p>
                             </div>
                         </div>
 

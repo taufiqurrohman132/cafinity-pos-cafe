@@ -193,7 +193,7 @@ export default function InventoriesIndex() {
                         {/* Header */}
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div>
-                                <h1 className="text-2xl md:text-3xl font-extrabold text-brand-dark tracking-tight">Manajemen Inventaris</h1>
+                                <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight">Manajemen Inventaris</h1>
                                 <p className="text-gray-500 text-sm mt-1">Lacak dan kelola stok bahan baku operasional kafe Anda secara real-time.</p>
                             </div>
                             <div className="flex items-center gap-3 self-end sm:self-auto">
@@ -239,8 +239,8 @@ export default function InventoriesIndex() {
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <p className="text-sm text-gray-500">{card.label}</p>
-                                            <h2 className="text-2xl font-bold text-brand-dark mt-3">{card.value}</h2>
-                                            <p className={`text-xs font-semibold mt-3 ${card.subColor}`}>{card.sub}</p>
+                                            <h2 className="text-2xl font-black text-brand-secondary mt-3">{card.value}</h2>
+                                            <p className={`text-xs font-bold mt-3 ${card.subColor}`}>{card.sub}</p>
                                         </div>
                                         <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm ${card.iconBg}`}>
                                             <iconify-icon icon={card.icon} class="text-xl"></iconify-icon>
@@ -260,7 +260,7 @@ export default function InventoriesIndex() {
                                     <select
                                         value={categoryId}
                                         onChange={handleCategoryChange}
-                                        className="h-10 px-4 text-xs font-semibold text-gray-700 bg-brand-bg border border-brand-light rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-light"
+                                        className="h-10 px-4 text-xs font-bold text-gray-700 bg-brand-bg border border-brand-light rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-light"
                                     >
                                         <option value="">Semua Kategori</option>
                                         {categories.map(cat => (
@@ -270,7 +270,7 @@ export default function InventoriesIndex() {
                                     <select
                                         value={status}
                                         onChange={handleStatus}
-                                        className="h-10 px-4 text-xs font-semibold text-gray-700 bg-brand-bg border border-brand-light rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-light"
+                                        className="h-10 px-4 text-xs font-bold text-gray-700 bg-brand-bg border border-brand-light rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-light"
                                     >
                                         <option value="">Semua Status</option>
                                         <option value="safe">Aman</option>
@@ -296,7 +296,7 @@ export default function InventoriesIndex() {
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left min-w-[800px]">
                                         <thead>
-                                            <tr className="text-xs font-medium text-gray-400 bg-brand-bg border-b border-brand-light">
+                                            <tr className="text-xs font-bold text-gray-400 bg-brand-bg border-b border-brand-light capitalize">
                                                 {['Nama Bahan', 'Kategori', 'Stok Saat Ini', 'Satuan', 'Harga/Satuan', 'Status', 'Aksi'].map((h) => (
                                                     <th key={h} className="px-6 py-3">{h}</th>
                                                 ))}
@@ -325,18 +325,18 @@ export default function InventoriesIndex() {
                                                                 <div className="w-9 h-9 rounded-xl bg-brand-light text-brand-primary font-bold text-sm flex items-center justify-center flex-shrink-0">
                                                                     {item.name.charAt(0).toUpperCase()}
                                                                 </div>
-                                                                <p className="font-semibold text-brand-dark">{item.name}</p>
+                                                                <p className="font-bold text-brand-dark">{item.name}</p>
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-4">
-                                                            <span className="px-2.5 py-1 rounded-full bg-brand-bg border border-brand-light text-gray-600 text-xs font-medium">
+                                                            <span className="px-2.5 py-1 rounded-full bg-brand-bg border border-brand-light text-gray-600 text-xs font-bold">
                                                                 {item.category?.name ?? '-'}
                                                             </span>
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             <div className="space-y-1.5">
                                                                 <div className="flex items-center justify-between text-xs">
-                                                                    <span className="font-semibold text-brand-dark">{item.stock} / {item.min_stock}</span>
+                                                                    <span className="font-bold text-brand-dark">{item.stock} / {item.min_stock}</span>
                                                                     <span className="text-gray-400">{percent}%</span>
                                                                 </div>
                                                                 <div className="w-28 h-1.5 rounded-full bg-brand-light overflow-hidden">
@@ -345,11 +345,11 @@ export default function InventoriesIndex() {
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-4 text-gray-600">{item.unit}</td>
-                                                        <td className="px-6 py-4 font-semibold text-brand-dark">
+                                                        <td className="px-6 py-4 font-black text-brand-secondary">
                                                             Rp {Number(item.price_per_unit).toLocaleString('id-ID')}
                                                         </td>
                                                         <td className="px-6 py-4">
-                                                            <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${badgeCls}`}>{label}</span>
+                                                            <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${badgeCls}`}>{label}</span>
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             <InventoryActions item={item} onDelete={handleDelete} />
@@ -367,7 +367,7 @@ export default function InventoriesIndex() {
                                         Menampilkan {inventories.from ?? 0}–{inventories.to ?? 0} dari {inventories.total} jenis bahan baku
                                     </p>
                                     <div className="flex items-center gap-4">
-                                        <button onClick={handleDownloadReport} className="text-xs font-semibold text-gray-500 hover:text-brand-primary transition">
+                                        <button onClick={handleDownloadReport} className="text-xs font-bold text-gray-500 hover:text-brand-primary transition">
                                             Unduh Laporan Stok
                                         </button>
                                         {/* Pagination */}
@@ -428,7 +428,7 @@ export default function InventoriesIndex() {
                         <div>
                             <div className="flex items-center justify-between mb-3">
                                 <h3 className="text-xs font-bold text-gray-400 capitalize tracking-wider">Log Aktivitas</h3>
-                                <Link to="/inventories" className="text-xs font-semibold text-brand-primary hover:text-brand-secondary">Semua</Link>
+                                <Link to="/inventories" className="text-xs font-bold text-brand-primary hover:text-brand-secondary">Semua</Link>
                             </div>
                             <div className="space-y-4">
                                 {recentLogs.length === 0 ? (
@@ -460,7 +460,7 @@ export default function InventoriesIndex() {
                                             <p className="text-xs text-gray-600 leading-relaxed">
                                                 <strong>{criticalItem.name}</strong> hampir habis (sisa {criticalItem.stock} {criticalItem.unit}). Segera lakukan restock sebelum kehabisan.
                                             </p>
-                                            <Link to={`/inventories/${criticalItem.id}`} className="inline-block mt-2 text-xs font-semibold text-brand-primary hover:text-brand-secondary transition-colors">
+                                            <Link to={`/inventories/${criticalItem.id}`} className="inline-block mt-2 text-xs font-bold text-brand-primary hover:text-brand-secondary transition-colors">
                                                 Lihat Detail →
                                             </Link>
                                         </>
@@ -624,7 +624,7 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
                             onChange={e => setQty(e.target.value)}
                             placeholder="Kuantitas..."
                             min="0.01" step="0.01" required
-                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary font-semibold text-brand-dark"
+                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary font-bold text-brand-dark"
                         />
                     </div>
 
@@ -764,7 +764,7 @@ function StockOpnameModal({ isOpen, onClose, items, onSaveSuccess }) {
                             onChange={e => setPhysicalStock(e.target.value)}
                             placeholder="Masukkan stok di lapangan..."
                             step="0.01" required
-                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary font-semibold text-brand-dark"
+                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary font-bold text-brand-dark"
                         />
                     </div>
 
@@ -808,21 +808,21 @@ function InventoryActions({ item, onDelete }) {
                 <div className="absolute right-0 mt-1 w-36 bg-white border border-brand-light rounded-xl shadow-xl z-20 overflow-hidden">
                     <Link
                         to={`/inventories/${item.id}`}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-semibold hover:bg-brand-light/30 text-left w-full"
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full"
                     >
                         <iconify-icon icon="solar:eye-linear" class="text-brand-primary"></iconify-icon>
                         Detail
                     </Link>
                     <Link
                         to={`/inventories/${item.id}/edit`}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-semibold hover:bg-brand-light/30 text-left w-full"
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full"
                     >
                         <iconify-icon icon="solar:pen-linear" class="text-brand-primary"></iconify-icon>
                         Edit
                     </Link>
                     <button
                         onClick={() => onDelete(item.id, item.name)}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 font-semibold hover:bg-[#fef2f2] border-t border-brand-light text-left w-full"
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 font-bold hover:bg-[#fef2f2] border-t border-brand-light text-left w-full"
                     >
                         <iconify-icon icon="solar:trash-bin-trash-linear" class="text-red-500"></iconify-icon>
                         Hapus

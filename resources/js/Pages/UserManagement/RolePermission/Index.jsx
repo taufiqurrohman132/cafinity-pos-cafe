@@ -154,7 +154,7 @@ export default function RolePermissionIndex({ roles = [], logs = [] }) {
                             </span>
                         </div>
 
-                        <div className="space-y-3 xl:max-h-[calc(100vh-220px)] xl:overflow-y-auto xl:pr-2 pb-2">
+                        <div className="space-y-3 xl:max-h-[calc(100vh-220px)] xl:overflow-y-auto px-1 py-1 xl:pr-2 pb-2">
                             {roles.map((role) => (
                                 <div
                                     key={role.id}
@@ -169,7 +169,7 @@ export default function RolePermissionIndex({ roles = [], logs = [] }) {
                                             <div className={`w-2.5 h-2.5 rounded-full ${getDotColor(role.name)} flex-shrink-0 mt-0.5`} />
                                             <div className="min-w-0">
                                                 <p className="font-bold text-brand-dark text-sm truncate">{role.name}</p>
-                                                <p className="text-[11px] font-semibold text-brand-primary/60 mt-0.5">
+                                                <p className="text-[11px] font-bold text-brand-primary/60 mt-0.5">
                                                     {role.users_count ?? 0} Users
                                                 </p>
                                             </div>
@@ -312,7 +312,7 @@ export default function RolePermissionIndex({ roles = [], logs = [] }) {
 
                                                             return (
                                                                 <tr key={modKey} className="hover:bg-brand-light/10 transition-colors duration-100 group">
-                                                                    <td className="px-5 py-4 text-sm font-semibold text-brand-dark">{modLabel}</td>
+                                                                    <td className="px-5 py-4 text-sm font-bold text-brand-dark">{modLabel}</td>
 
                                                                     {actions.map(action => {
                                                                         const permName = `${modKey}.${action}`;
@@ -469,7 +469,7 @@ function CreateRoleModal({ isOpen, onClose, duplicateRole }) {
                             value={data.name}
                             onChange={e => setData('name', e.target.value)}
                             required
-                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-semibold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
                             placeholder="Contoh: Kitchen Staff, Supervisor"
                         />
                         {errors.name && <p className="text-xs text-red-500 font-bold mt-1">{errors.name}</p>}
@@ -481,7 +481,7 @@ function CreateRoleModal({ isOpen, onClose, duplicateRole }) {
                             value={data.description}
                             onChange={e => setData('description', e.target.value)}
                             rows={3}
-                            className="w-full bg-brand-bg border border-brand-light rounded-xl p-4 text-sm font-semibold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all resize-none"
+                            className="w-full bg-brand-bg border border-brand-light rounded-xl p-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all resize-none"
                             placeholder="Tulis ringkasan cakupan peran ini..."
                         />
                         {errors.description && <p className="text-xs text-red-500 font-bold mt-1">{errors.description}</p>}
@@ -564,7 +564,7 @@ function EditRoleModal({ isOpen, onClose, role }) {
                             value={data.name}
                             onChange={e => setData('name', e.target.value)}
                             required
-                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-semibold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
                         />
                         {errors.name && <p className="text-xs text-red-500 font-bold mt-1">{errors.name}</p>}
                     </div>
@@ -575,7 +575,7 @@ function EditRoleModal({ isOpen, onClose, role }) {
                             value={data.description}
                             onChange={e => setData('description', e.target.value)}
                             rows={3}
-                            className="w-full bg-brand-bg border border-brand-light rounded-xl p-4 text-sm font-semibold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all resize-none"
+                            className="w-full bg-brand-bg border border-brand-light rounded-xl p-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all resize-none"
                         />
                         {errors.description && <p className="text-xs text-red-500 font-bold mt-1">{errors.description}</p>}
                     </div>

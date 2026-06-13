@@ -290,7 +290,7 @@ export default function MenusCreateEdit() {
 
     // Get Active Category Object for Preview
     const activeCategoryObj = categories.find(c => c.id == categoryId);
-    const categoryNameUpper = activeCategoryObj ? activeCategoryObj.name.toUpperCase() : 'KATEGORI';
+    const categoryNameCapital = activeCategoryObj ? activeCategoryObj.name : 'Kategori';
 
     if (loading) {
         return (
@@ -323,7 +323,7 @@ export default function MenusCreateEdit() {
                                 <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium mb-1">
                                     <Link to="/menus" className="hover:text-brand-primary transition-colors">Menu</Link>
                                     <span className="text-brand-primary/40">›</span>
-                                    <span className="text-brand-dark font-semibold">{isEditMode ? "Edit Menu" : "Tambah Menu"}</span>
+                                    <span className="text-brand-dark font-bold">{isEditMode ? "Edit Menu" : "Tambah Menu"}</span>
                                 </nav>
                                 <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                                     {isEditMode ? "Edit Detail Menu" : "Tambah Menu Baru"}
@@ -394,7 +394,7 @@ export default function MenusCreateEdit() {
                                         ) : (
                                             <>
                                                 <iconify-icon icon="solar:camera-add-linear" class="text-xl text-brand-primary/50 group-hover:text-brand-secondary transition-colors"></iconify-icon>
-                                                <span className="text-[9px] text-brand-primary/50 font-bold mt-1">PILIH FOTO</span>
+                                                <span className="text-[9px] text-brand-primary/50 font-bold mt-1">Pilih Foto</span>
                                             </>
                                         )}
                                         <input 
@@ -456,7 +456,7 @@ export default function MenusCreateEdit() {
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
                                             placeholder="Contoh: Caramel Macchiato Large"
-                                            className={`w-full h-10 px-3 text-xs bg-brand-bg border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-semibold text-brand-dark ${errors.name ? 'border-rose-300 ring-2 ring-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-10 px-3 text-xs bg-brand-bg border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark ${errors.name ? 'border-rose-300 ring-2 ring-rose-50' : 'border-brand-light'}`}
                                         />
                                         {errors.name && (
                                             <p className="text-[10px] text-rose-500 font-bold mt-1">
@@ -474,7 +474,7 @@ export default function MenusCreateEdit() {
                                             required
                                             value={categoryId}
                                             onChange={(e) => setCategoryId(e.target.value)}
-                                            className={`w-full h-10 px-3 text-xs bg-brand-bg border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all cursor-pointer font-semibold text-brand-dark ${errors.category_id ? 'border-rose-300 ring-2 ring-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-10 px-3 text-xs bg-brand-bg border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all cursor-pointer font-bold text-brand-dark ${errors.category_id ? 'border-rose-300 ring-2 ring-rose-50' : 'border-brand-light'}`}
                                         >
                                             <option value="" disabled>-- Pilih Kategori --</option>
                                             {categories.map((cat) => (
@@ -506,7 +506,7 @@ export default function MenusCreateEdit() {
                                             value={sku}
                                             onChange={(e) => setSku(e.target.value)}
                                             placeholder="MAC-D01"
-                                            className="w-full h-10 px-3 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-semibold text-brand-dark"
+                                            className="w-full h-10 px-3 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark"
                                         />
                                         <span className="text-[9px] text-brand-primary/60 mt-1 italic block">
                                             Opsional untuk manajemen inventori eksternal.
@@ -574,7 +574,7 @@ export default function MenusCreateEdit() {
                                                 value={estimatedHpp}
                                                 onChange={(e) => setEstimatedHpp(e.target.value)}
                                                 placeholder="0"
-                                                className="w-full h-10 pl-9 pr-3 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-semibold text-brand-dark"
+                                                className="w-full h-10 pl-9 pr-3 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark"
                                             />
                                         </div>
                                     </div>
@@ -708,7 +708,7 @@ export default function MenusCreateEdit() {
                                         ) : (
                                             <div className="flex flex-col items-center justify-center text-brand-secondary/60">
                                                 <iconify-icon icon="solar:cup-hot-linear" class="text-5xl"></iconify-icon>
-                                                <span className="text-[9px] font-bold mt-2">PREVIEW IMAGE</span>
+                                                <span className="text-[9px] font-bold mt-2">Preview Foto</span>
                                             </div>
                                         )}
                                         
@@ -720,7 +720,7 @@ export default function MenusCreateEdit() {
                                         {/* Tag Overlay if Best Seller */}
                                         {tags.includes('Best Seller') && (
                                             <span className="absolute top-2.5 left-2.5 bg-brand-secondary text-white text-[8px] font-extrabold px-2 py-1 rounded shadow-sm tracking-wide">
-                                                BEST SELLER
+                                                Best Seller
                                             </span>
                                         )}
 
@@ -728,18 +728,18 @@ export default function MenusCreateEdit() {
                                         <div className="absolute bottom-2 left-2 right-2 bg-white/70 backdrop-blur-md rounded-xl p-3 border border-white/40 shadow-sm flex flex-col justify-start">
                                             <div className="flex items-center justify-between gap-2 mb-0.5">
                                                 <span className="text-[8px] font-black tracking-wider text-brand-primary bg-brand-light/50 px-2 py-0.5 rounded">
-                                                    {categoryNameUpper}
+                                                    {categoryNameCapital}
                                                 </span>
                                                 {tags.length > 0 && tags[0] !== 'Best Seller' && (
                                                     <span className="text-[8px] font-bold text-brand-secondary">
-                                                        {tags[0].toUpperCase()}
+                                                        {tags[0]}
                                                     </span>
                                                 )}
                                             </div>
                                             <h4 className="font-extrabold text-[12px] text-brand-dark leading-tight line-clamp-1">
                                                 {name || 'Nama Menu Baru'}
                                             </h4>
-                                            <p className="text-[9px] text-brand-primary/70 font-semibold leading-normal line-clamp-2 mt-0.5">
+                                            <p className="text-[9px] text-brand-primary/70 font-bold leading-normal line-clamp-2 mt-0.5">
                                                 {description || 'Deskripsi singkat rasa, komposisi bahan baku, dan penyajian.'}
                                             </p>
                                         </div>
@@ -748,12 +748,12 @@ export default function MenusCreateEdit() {
                                     {/* Profitability Row Below Preview */}
                                     <div className="flex items-center justify-between border-t border-brand-light bg-brand-bg/50 p-3 text-center divide-x divide-brand-light">
                                         <div className="flex-1 flex flex-col items-center">
-                                            <span className="text-[8px] font-bold text-brand-primary/60 tracking-wider">ESTIMASI MARGIN</span>
+                                            <span className="text-[8px] font-bold text-brand-primary/60 tracking-wider">Estimasi Margin</span>
                                             <span className="text-xs font-black text-brand-dark mt-0.5">{marginPercent.toFixed(1)}%</span>
                                         </div>
                                         <div className="flex-1 flex flex-col items-center">
-                                            <span className="text-[8px] font-bold text-brand-primary/60 tracking-wider">HPP PRODUK</span>
-                                            <span className="text-xs font-black text-brand-dark mt-0.5">Rp {computedHpp.toLocaleString('id-ID')}</span>
+                                            <span className="text-[8px] font-bold text-brand-primary/60 tracking-wider">HPP Produk</span>
+                                            <span className="text-xs font-black text-brand-secondary mt-0.5">Rp {computedHpp.toLocaleString('id-ID')}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -904,7 +904,7 @@ export default function MenusCreateEdit() {
                                     value={newCatName}
                                     onChange={(e) => setNewCatName(e.target.value)}
                                     placeholder="Contoh: Coffee Khas"
-                                    className="w-full h-9 px-3 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-semibold text-brand-dark"
+                                    className="w-full h-9 px-3 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark"
                                 />
                                 {catErrors.name && (
                                     <p className="text-[9px] text-rose-500 font-bold mt-1">

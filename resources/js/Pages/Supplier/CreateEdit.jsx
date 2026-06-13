@@ -196,7 +196,7 @@ export default function SupplierCreateEdit() {
                                 <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium mb-1">
                                     <Link to="/suppliers" className="hover:text-brand-primary transition-colors">Supplier</Link>
                                     <span className="text-brand-primary/40">›</span>
-                                    <span className="text-brand-dark font-semibold">{isEditMode ? "Edit Supplier" : "Tambah Supplier"}</span>
+                                    <span className="text-brand-dark font-bold">{isEditMode ? "Edit Supplier" : "Tambah Supplier"}</span>
                                 </nav>
                                 <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                                     {isEditMode ? "Edit Supplier" : "Tambah Supplier Baru"}
@@ -234,7 +234,7 @@ export default function SupplierCreateEdit() {
                                             placeholder="PT. Teknologi Maju Utama"
                                             required
                                         />
-                                        {errors.name && <p className="text-xs text-red-500 font-semibold">{errors.name}</p>}
+                                        {errors.name && <p className="text-xs text-red-500 font-bold">{errors.name}</p>}
                                     </div>
 
                                     <div className="space-y-1.5">
@@ -259,7 +259,7 @@ export default function SupplierCreateEdit() {
                                         <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Kategori Produk <span className="text-red-500">*</span></label>
                                         <div className="flex flex-wrap items-center gap-1.5 p-2 bg-gray-50/50 border border-brand-light rounded-xl min-h-[44px]">
                                             {categoriesList.map(tag => (
-                                                <span key={tag} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-brand-primary/5 text-brand-primary border border-brand-primary/10">
+                                                <span key={tag} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-brand-primary/5 text-brand-primary border border-brand-primary/10">
                                                     {tag}
                                                     <button type="button" onClick={() => handleRemoveCategory(tag)} className="hover:text-red-500 transition text-[10px] mt-0.5">
                                                         <iconify-icon icon="solar:close-circle-linear"></iconify-icon>
@@ -292,7 +292,7 @@ export default function SupplierCreateEdit() {
                                                 </button>
                                             )}
                                         </div>
-                                        {errors.category && <p className="text-xs text-red-500 font-semibold">{errors.category}</p>}
+                                        {errors.category && <p className="text-xs text-red-500 font-bold">{errors.category}</p>}
                                     </div>
 
                                     <div className="space-y-1.5">
@@ -334,7 +334,7 @@ export default function SupplierCreateEdit() {
                                         placeholder="Hendra Wijaya"
                                         required
                                     />
-                                    {errors.contact_name && <p className="text-xs text-red-500 font-semibold">{errors.contact_name}</p>}
+                                    {errors.contact_name && <p className="text-xs text-red-500 font-bold">{errors.contact_name}</p>}
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -353,8 +353,8 @@ export default function SupplierCreateEdit() {
                                                 required
                                             />
                                         </div>
-                                        <p className="text-[10px] text-gray-400 font-semibold">Format: +62 812XXXXXXXX</p>
-                                        {errors.contact_phone && <p className="text-xs text-red-500 font-semibold">{errors.contact_phone}</p>}
+                                        <p className="text-[10px] text-gray-400 font-bold">Format: +62 812XXXXXXXX</p>
+                                        {errors.contact_phone && <p className="text-xs text-red-500 font-bold">{errors.contact_phone}</p>}
                                     </div>
 
                                     <div className="space-y-1.5">
@@ -372,7 +372,7 @@ export default function SupplierCreateEdit() {
                                                 required
                                             />
                                         </div>
-                                        {errors.contact_email && <p className="text-xs text-red-500 font-semibold">{errors.contact_email}</p>}
+                                        {errors.contact_email && <p className="text-xs text-red-500 font-bold">{errors.contact_email}</p>}
                                     </div>
                                 </div>
 
@@ -401,7 +401,7 @@ export default function SupplierCreateEdit() {
                                         placeholder="Jl. Industri No. 45, Kawasan Industri Jababeka, Cikarang"
                                         required
                                     />
-                                    {errors.address && <p className="text-xs text-red-500 font-semibold">{errors.address}</p>}
+                                    {errors.address && <p className="text-xs text-red-500 font-bold">{errors.address}</p>}
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -415,7 +415,7 @@ export default function SupplierCreateEdit() {
                                             placeholder="Bekasi"
                                             required
                                         />
-                                        {errors.city && <p className="text-xs text-red-500 font-semibold">{errors.city}</p>}
+                                        {errors.city && <p className="text-xs text-red-500 font-bold">{errors.city}</p>}
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Provinsi <span className="text-red-500">*</span></label>
@@ -427,7 +427,7 @@ export default function SupplierCreateEdit() {
                                             placeholder="Jawa Barat"
                                             required
                                         />
-                                        {errors.province && <p className="text-xs text-red-500 font-semibold">{errors.province}</p>}
+                                        {errors.province && <p className="text-xs text-red-500 font-bold">{errors.province}</p>}
                                     </div>
                                 </div>
 
@@ -442,7 +442,7 @@ export default function SupplierCreateEdit() {
                                             placeholder="e.g. Net 30"
                                             required
                                         />
-                                        {errors.payment_term && <p className="text-xs text-red-500 font-semibold">{errors.payment_term}</p>}
+                                        {errors.payment_term && <p className="text-xs text-red-500 font-bold">{errors.payment_term}</p>}
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Lead Time (Hari) <span className="text-red-500">*</span></label>
@@ -459,7 +459,7 @@ export default function SupplierCreateEdit() {
                                                 <iconify-icon icon="solar:clock-circle-linear" class="text-base"></iconify-icon>
                                             </span>
                                         </div>
-                                        {errors.lead_time && <p className="text-xs text-red-500 font-semibold">{errors.lead_time}</p>}
+                                        {errors.lead_time && <p className="text-xs text-red-500 font-bold">{errors.lead_time}</p>}
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-extrabold text-gray-500 capitalize tracking-wider">Minimum Order (MOQ) <span className="text-red-500">*</span></label>
@@ -476,7 +476,7 @@ export default function SupplierCreateEdit() {
                                                 <iconify-icon icon="solar:box-linear" class="text-base"></iconify-icon>
                                             </span>
                                         </div>
-                                        {errors.min_order && <p className="text-xs text-red-500 font-semibold">{errors.min_order}</p>}
+                                        {errors.min_order && <p className="text-xs text-red-500 font-bold">{errors.min_order}</p>}
                                     </div>
                                 </div>
                             </div>
@@ -496,7 +496,7 @@ export default function SupplierCreateEdit() {
                                         className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all min-h-[90px]"
                                         placeholder="Informasi tambahan untuk tim procurement..."
                                     />
-                                    {errors.notes && <p className="text-xs text-red-500 font-semibold">{errors.notes}</p>}
+                                    {errors.notes && <p className="text-xs text-red-500 font-bold">{errors.notes}</p>}
                                 </div>
 
                                 <div className="space-y-3">
@@ -514,7 +514,7 @@ export default function SupplierCreateEdit() {
                                             <iconify-icon icon="solar:upload-linear" class="text-2xl"></iconify-icon>
                                         </div>
                                         <p className="text-xs font-extrabold text-brand-primary mt-2">Klik atau geser file untuk upload</p>
-                                        <p className="text-[10px] text-gray-400 font-semibold">Format yang didukung: PDF, JPG, PNG (Maks 10MB per file)</p>
+                                        <p className="text-[10px] text-gray-400 font-bold">Format yang didukung: PDF, JPG, PNG (Maks 10MB per file)</p>
                                     </div>
 
                                     {/* Uploaded Files Grid */}
@@ -526,7 +526,7 @@ export default function SupplierCreateEdit() {
                                                         <iconify-icon icon="solar:document-linear" class="text-gray-400 text-lg flex-shrink-0"></iconify-icon>
                                                         <div className="text-left overflow-hidden">
                                                             <p className="text-xs font-bold text-gray-700 truncate">{file.name}</p>
-                                                            <span className="text-[10px] text-gray-400 font-semibold">{file.size}</span>
+                                                            <span className="text-[10px] text-gray-400 font-bold">{file.size}</span>
                                                         </div>
                                                     </div>
                                                     <button
@@ -672,28 +672,28 @@ export default function SupplierCreateEdit() {
                                             icon={hasBasicInfo ? "solar:check-circle-bold" : "solar:round-transfer-broken"}
                                             class={`text-base ${hasBasicInfo ? 'text-emerald-500' : 'text-gray-300'}`}
                                         ></iconify-icon>
-                                        <span className={`font-semibold ${hasBasicInfo ? 'text-brand-dark' : 'text-gray-400'}`}>Informasi Identitas Dasar</span>
+                                        <span className={`font-bold ${hasBasicInfo ? 'text-brand-dark' : 'text-gray-400'}`}>Informasi Identitas Dasar</span>
                                     </div>
                                     <div className="flex items-center gap-2.5">
                                         <iconify-icon
                                             icon={hasPICInfo ? "solar:check-circle-bold" : "solar:round-transfer-broken"}
                                             class={`text-base ${hasPICInfo ? 'text-emerald-500' : 'text-gray-300'}`}
                                         ></iconify-icon>
-                                        <span className={`font-semibold ${hasPICInfo ? 'text-brand-dark' : 'text-gray-400'}`}>Kontak Utama (PIC) Valid</span>
+                                        <span className={`font-bold ${hasPICInfo ? 'text-brand-dark' : 'text-gray-400'}`}>Kontak Utama (PIC) Valid</span>
                                     </div>
                                     <div className="flex items-center gap-2.5">
                                         <iconify-icon
                                             icon={hasDocuments ? "solar:check-circle-bold" : "solar:round-transfer-broken"}
                                             class={`text-base ${hasDocuments ? 'text-emerald-500' : 'text-gray-300'}`}
                                         ></iconify-icon>
-                                        <span className={`font-semibold ${hasDocuments ? 'text-brand-dark' : 'text-gray-400'}`}>Dokumen Legal Terlampir</span>
+                                        <span className={`font-bold ${hasDocuments ? 'text-brand-dark' : 'text-gray-400'}`}>Dokumen Legal Terlampir</span>
                                     </div>
                                     <div className="flex items-center gap-2.5">
                                         <iconify-icon
                                             icon={hasLogisticsInfo ? "solar:check-circle-bold" : "solar:round-transfer-broken"}
                                             class={`text-base ${hasLogisticsInfo ? 'text-emerald-500' : 'text-gray-300'}`}
                                         ></iconify-icon>
-                                        <span className={`font-semibold ${hasLogisticsInfo ? 'text-brand-dark' : 'text-gray-400'}`}>Lengkapi Detail Logistik</span>
+                                        <span className={`font-bold ${hasLogisticsInfo ? 'text-brand-dark' : 'text-gray-400'}`}>Lengkapi Detail Logistik</span>
                                     </div>
                                 </div>
                             </div>
@@ -705,7 +705,7 @@ export default function SupplierCreateEdit() {
                                 </div>
                                 <div className="space-y-1">
                                     <h5 className="text-xs font-black text-brand-primary capitalize tracking-wider">Butuh bantuan?</h5>
-                                    <p className="text-xs text-gray-600 leading-relaxed font-semibold">
+                                    <p className="text-xs text-gray-600 leading-relaxed font-bold">
                                         Jika Anda kesulitan mendapatkan dokumen legal supplier, silakan hubungi tim Compliance di ekstensi 442.
                                     </p>
                                 </div>

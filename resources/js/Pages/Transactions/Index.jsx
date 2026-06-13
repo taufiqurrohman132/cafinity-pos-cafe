@@ -26,7 +26,7 @@ function StatCard({ title, value, trend, trendType, icon, iconBg, iconColor }) {
             </div>
             <div className="mt-1">
                 <p className="text-xs text-brand-primary/50 font-extrabold capitalize tracking-wide truncate">{title}</p>
-                <p className="text-xl md:text-2xl font-black text-brand-dark mt-0.5 tracking-tight truncate">{value}</p>
+                <p className={`text-xl md:text-2xl font-black mt-0.5 tracking-tight truncate ${(typeof value === 'string' && value.includes('Rp')) ? 'text-brand-secondary' : 'text-brand-dark'}`}>{value}</p>
             </div>
         </div>
     );
@@ -212,7 +212,7 @@ export default function TransactionHistory() {
                     {/* ====== HEADER ====== */}
                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                         <div>
-                            <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#000000] to-brand-primary tracking-tight">
+                             <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight">
                                 Riwayat Transaksi
                             </h1>
                             <p className="text-sm text-brand-primary font-medium mt-1">
@@ -294,7 +294,7 @@ export default function TransactionHistory() {
                                             value={params.search}
                                             onChange={(e) => setParams({ ...params, search: e.target.value })}
                                             placeholder="Cari ID Invoice..."
-                                            className="w-[200px] h-[38px] bg-brand-bg border border-brand-light rounded-xl pl-9 pr-4 text-[13px] font-semibold text-brand-dark placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
+                                            className="w-[200px] h-[38px] bg-brand-bg border border-brand-light rounded-xl pl-9 pr-4 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
                                         />
                                     </div>
 
@@ -351,7 +351,7 @@ export default function TransactionHistory() {
                                 )}
                                 {params.method && (
                                     <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-brand-dark bg-white border border-brand-light px-2.5 py-1 rounded-lg shadow-sm">
-                                        <Icon icon="solar:wallet-linear" className="text-brand-secondary" /> Metode: {params.method.toUpperCase()}
+                                        <Icon icon="solar:wallet-linear" className="text-brand-secondary" /> Metode: {['qris', 'cod'].includes(params.method.toLowerCase()) ? params.method.toUpperCase() : (params.method.charAt(0).toUpperCase() + params.method.slice(1).toLowerCase())}
                                     </span>
                                 )}
                                 {params.date && (
@@ -393,7 +393,7 @@ export default function TransactionHistory() {
                                                     <td className="px-6 py-4 text-[13px] font-medium text-brand-primary">
                                                         {formatTime(trx.created_at)}
                                                     </td>
-                                                    <td className="px-6 py-4 text-[13px] text-brand-dark font-semibold group-hover:text-brand-secondary transition-colors">
+                                                     <td className="px-6 py-4 text-[13px] text-brand-dark font-bold group-hover:text-brand-secondary transition-colors">
                                                         {trx.cashier?.name || '-'}
                                                     </td>
                                                     <td className="px-6 py-4 text-[13px] font-medium text-brand-primary">
@@ -401,9 +401,9 @@ export default function TransactionHistory() {
                                                             {trx.items.reduce((acc, item) => acc + item.qty, 0)} pcs
                                                         </span>
                                                     </td>
-                                                    <td className="px-6 py-4 text-[14px] font-black text-transparent bg-clip-text bg-gradient-to-r from-brand-secondary to-brand-primary">
-                                                        Rp {formatRp(trx.total_amount)}
-                                                    </td>
+                                                     <td className="px-6 py-4 text-[14px] font-black text-brand-secondary">
+                                                         Rp {formatRp(trx.total_amount)}
+                                                     </td>
                                                     <td className="px-6 py-4">
                                                         <span className="text-[11px] font-extrabold text-brand-primary bg-gradient-to-r from-brand-light/50 to-brand-light/20 border border-brand-light px-2.5 py-1 rounded-lg">
                                                             {trx.payment_method?.toUpperCase()}

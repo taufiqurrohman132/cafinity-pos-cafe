@@ -82,7 +82,7 @@ export default function ProfileEdit() {
                                     Dashboard
                                 </Link>
                                 <span className="text-brand-primary/40">›</span>
-                                <span className="text-brand-dark font-semibold">Pengaturan Profil</span>
+                                <span className="text-brand-dark font-bold">Pengaturan Profil</span>
                             </nav>
                             <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                                 Pengaturan Profil
@@ -130,7 +130,7 @@ export default function ProfileEdit() {
                                                 required
                                                 value={name}
                                                 onChange={(e) => setName(e.target.value)}
-                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
+                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
                                             />
                                             {errors.name && (
                                                 <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -151,7 +151,7 @@ export default function ProfileEdit() {
                                                 required
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
-                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
+                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
                                             />
                                             {errors.email && (
                                                 <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -186,7 +186,7 @@ export default function ProfileEdit() {
                                                 value={currentPassword}
                                                 onChange={(e) => setCurrentPassword(e.target.value)}
                                                 placeholder={password ? "Wajib diisi untuk mengubah sandi" : "••••••••"}
-                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
+                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
                                             />
                                             {errors.current_password && (
                                                 <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -207,7 +207,7 @@ export default function ProfileEdit() {
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
                                                 placeholder="Minimal 8 karakter"
-                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
+                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
                                             />
                                             {errors.password && (
                                                 <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -229,7 +229,7 @@ export default function ProfileEdit() {
                                                 value={passwordConfirmation}
                                                 onChange={(e) => setPasswordConfirmation(e.target.value)}
                                                 placeholder="Ketik ulang sandi baru"
-                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
+                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
                                             />
                                             {errors.password_confirmation && (
                                                 <p className="text-[11px] text-rose-500 font-bold mt-1">

@@ -321,7 +321,7 @@ export default function SettingsIndex() {
                                                 type="text"
                                                 value={cafeName}
                                                 onChange={(e) => { setCafeName(e.target.value); triggerChange(); }}
-                                                className="w-full h-11 px-4 py-2.5 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-semibold text-brand-dark"
+                                                className="w-full h-11 px-4 py-2.5 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
                                                 placeholder="Nama Toko"
                                             />
                                         </div>
@@ -330,7 +330,7 @@ export default function SettingsIndex() {
                                             <select 
                                                 value={cafeCategory}
                                                 onChange={(e) => { setCafeCategory(e.target.value); triggerChange(); }}
-                                                className="w-full h-11 px-4 py-2.5 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 font-semibold text-brand-dark cursor-pointer"
+                                                className="w-full h-11 px-4 py-2.5 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 font-bold text-brand-dark cursor-pointer"
                                             >
                                                 <option value="Cafe & Restaurant">Cafe &amp; Restaurant</option>
                                                 <option value="Retail">Retail</option>
@@ -350,7 +350,7 @@ export default function SettingsIndex() {
                                                 type="text"
                                                 value={cafeAddress}
                                                 onChange={(e) => { setCafeAddress(e.target.value); triggerChange(); }}
-                                                className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-semibold text-brand-dark"
+                                                className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
                                                 placeholder="Alamat"
                                             />
                                         </div>
@@ -367,7 +367,7 @@ export default function SettingsIndex() {
                                                     type="text"
                                                     value={cafePhone}
                                                     onChange={(e) => { setCafePhone(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-semibold text-brand-dark"
+                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
                                                     placeholder="Telepon Toko"
                                                 />
                                             </div>
@@ -382,7 +382,7 @@ export default function SettingsIndex() {
                                                     type="email"
                                                     value={cafeEmail}
                                                     onChange={(e) => { setCafeEmail(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-semibold text-brand-dark"
+                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
                                                     placeholder="Email Bisnis"
                                                 />
                                             </div>
@@ -425,19 +425,19 @@ export default function SettingsIndex() {
                                                     </div>
  
                                                     {schedule.active ? (
-                                                        <div className="flex items-center gap-3 text-xs font-semibold text-gray-500">
+                                                        <div className="flex items-center gap-3 text-xs font-bold text-gray-500">
                                                             <input 
                                                                 type="time" 
                                                                 value={schedule.open}
                                                                 onChange={(e) => handleTimeChange(day, 'open', e.target.value)}
-                                                                className="px-3 py-1.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-semibold text-brand-dark"
+                                                                className="px-3 py-1.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-bold text-brand-dark"
                                                             />
                                                             <span>sampai</span>
                                                             <input 
                                                                 type="time" 
                                                                 value={schedule.close}
                                                                 onChange={(e) => handleTimeChange(day, 'close', e.target.value)}
-                                                                className="px-3 py-1.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-semibold text-brand-dark"
+                                                                className="px-3 py-1.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-bold text-brand-dark"
                                                             />
                                                         </div>
                                                     ) : (
@@ -473,7 +473,7 @@ export default function SettingsIndex() {
                                                     type="number"
                                                     value={taxRate}
                                                     onChange={(e) => { setTaxRate(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 px-4 py-2.5 pr-10 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-semibold text-brand-dark"
+                                                    className="w-full h-11 px-4 py-2.5 pr-10 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
                                                     min="0"
                                                 />
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-brand-primary font-bold">%</span>
@@ -486,7 +486,7 @@ export default function SettingsIndex() {
                                                     type="number"
                                                     value={serviceCharge}
                                                     onChange={(e) => { setServiceCharge(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 px-4 py-2.5 pr-10 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-semibold text-brand-dark"
+                                                    className="w-full h-11 px-4 py-2.5 pr-10 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
                                                     min="0"
                                                 />
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-brand-primary font-bold">%</span>
@@ -538,7 +538,7 @@ export default function SettingsIndex() {
                                                 <select 
                                                     value={currency} 
                                                     onChange={(e) => { setCurrency(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 font-semibold text-brand-dark cursor-pointer"
+                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 font-bold text-brand-dark cursor-pointer"
                                                 >
                                                     <option value="IDR (Indonesian Rupiah)">IDR (Indonesian Rupiah)</option>
                                                     <option value="USD (US Dollar)">USD (US Dollar)</option>
@@ -555,7 +555,7 @@ export default function SettingsIndex() {
                                                 <select 
                                                     value={timezone} 
                                                     onChange={(e) => { setTimezone(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 font-semibold text-brand-dark cursor-pointer"
+                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 font-bold text-brand-dark cursor-pointer"
                                                 >
                                                     <option value="(GMT+07:00) Asia/Jakarta">(GMT+07:00) Asia/Jakarta</option>
                                                     <option value="(GMT+08:00) Asia/Makassar">(GMT+08:00) Asia/Makassar</option>
@@ -570,7 +570,7 @@ export default function SettingsIndex() {
                                         <select 
                                             value={language} 
                                             onChange={(e) => { setLanguage(e.target.value); triggerChange(); }}
-                                            className="w-full h-11 px-4 py-2.5 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 font-semibold text-brand-dark cursor-pointer"
+                                            className="w-full h-11 px-4 py-2.5 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 font-bold text-brand-dark cursor-pointer"
                                         >
                                             <option value="Bahasa Indonesia (ID)">Bahasa Indonesia (ID)</option>
                                             <option value="English (US)">English (US)</option>
@@ -611,7 +611,7 @@ export default function SettingsIndex() {
                                                             className="w-full h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-brand-primary"
                                                         />
                                                     </div>
-                                                    <p className="text-[10px] text-gray-400 font-semibold">Tentukan jumlah karakter minimum yang diperlukan (8-32 karakter).</p>
+                                                    <p className="text-[10px] text-gray-400 font-bold">Tentukan jumlah karakter minimum yang diperlukan (8-32 karakter).</p>
                                                 </div>
 
                                                 <div className="space-y-2">
@@ -624,7 +624,7 @@ export default function SettingsIndex() {
                                                             { id: 'numbers', label: 'Angka (0-9)' },
                                                             { id: 'symbols', label: 'Simbol (!@#$%)' }
                                                         ].map(opt => (
-                                                            <label key={opt.id} className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-gray-700">
+                                                            <label key={opt.id} className="flex items-center gap-2 cursor-pointer text-xs font-bold text-gray-700">
                                                                 <input 
                                                                     type="checkbox"
                                                                     checked={passwordComplexity[opt.id]}
@@ -648,11 +648,11 @@ export default function SettingsIndex() {
                                                     <p className="text-[10px] text-gray-400 font-medium pb-1.5">Atur kapan sandi harus diganti dan pembatasan penggunaan sandi lama.</p>
                                                     <div className="space-y-3">
                                                         <div className="space-y-1">
-                                                            <span className="text-xs font-semibold text-gray-500">Kedaluwarsa Sandi</span>
+                                                            <span className="text-xs font-bold text-gray-500">Kedaluwarsa Sandi</span>
                                                             <select 
                                                                 value={passwordExpiry}
                                                                 onChange={(e) => { setPasswordExpiry(e.target.value); triggerChange(); }}
-                                                                className="w-full px-3 py-2.5 text-xs bg-brand-bg border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all outline-none font-semibold text-brand-dark"
+                                                                className="w-full px-3 py-2.5 text-xs bg-brand-bg border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all outline-none font-bold text-brand-dark"
                                                             >
                                                                 <option value="30">Setiap 30 Hari</option>
                                                                 <option value="90">Setiap 90 Hari</option>
@@ -661,11 +661,11 @@ export default function SettingsIndex() {
                                                             </select>
                                                         </div>
                                                         <div className="space-y-1">
-                                                            <span className="text-xs font-semibold text-gray-500">Cegah Penggunaan Sandi Lama</span>
+                                                            <span className="text-xs font-bold text-gray-500">Cegah Penggunaan Sandi Lama</span>
                                                             <select 
                                                                 value={preventOldPassword}
                                                                 onChange={(e) => { setPreventOldPassword(e.target.value); triggerChange(); }}
-                                                                className="w-full px-3 py-2.5 text-xs bg-brand-bg border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all outline-none font-semibold text-brand-dark"
+                                                                className="w-full px-3 py-2.5 text-xs bg-brand-bg border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all outline-none font-bold text-brand-dark"
                                                             >
                                                                 <option value="3">3 Sandi Terakhir</option>
                                                                 <option value="5">5 Sandi Terakhir</option>
@@ -685,7 +685,7 @@ export default function SettingsIndex() {
                                                             { id: 'admin', label: 'Admin' },
                                                             { id: 'cashier', label: 'Kasir' }
                                                         ].map(role => (
-                                                            <label key={role.id} className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-gray-700">
+                                                            <label key={role.id} className="flex items-center gap-2 cursor-pointer text-xs font-bold text-gray-700">
                                                                 <input 
                                                                     type="checkbox"
                                                                     checked={requireRole2fa[role.id]}
@@ -737,7 +737,7 @@ export default function SettingsIndex() {
                                                     </span>
                                                     <h4 className="text-xs font-black text-gray-800 pt-1">Metode yang Diizinkan</h4>
                                                 </div>
-                                                <p className="text-[10px] text-gray-500 font-semibold leading-relaxed">
+                                                <p className="text-[10px] text-gray-500 font-bold leading-relaxed">
                                                     Aplikasi Authenticator (Google/Microsoft), SMS OTP, dan Email.
                                                 </p>
                                             </div>
@@ -745,7 +745,7 @@ export default function SettingsIndex() {
                                             {/* Sub-card: Panduan */}
                                             <div className="lg:col-span-4 p-4 border border-brand-light/60 rounded-2xl bg-gray-50/20 text-left space-y-2 flex flex-col justify-between">
                                                 <h4 className="text-xs font-black text-gray-800">Panduan Pendaftaran</h4>
-                                                <p className="text-[10px] text-gray-500 font-semibold leading-relaxed">
+                                                <p className="text-[10px] text-gray-500 font-bold leading-relaxed">
                                                     Berikan instruksi langkah-demi-langkah kepada staf Anda untuk aktivasi.
                                                 </p>
                                                 <a href="#" className="text-xs font-bold text-brand-primary hover:text-brand-secondary transition-colors flex items-center gap-1">
@@ -770,7 +770,7 @@ export default function SettingsIndex() {
                                                     </div>
                                                     <div className="text-left">
                                                         <h5 className="text-xs font-extrabold text-gray-800">3 dari 5 Pengguna</h5>
-                                                        <p className="text-[9px] text-gray-400 font-semibold">Telah mengaktifkan 2FA.</p>
+                                                        <p className="text-[9px] text-gray-400 font-bold">Telah mengaktifkan 2FA.</p>
                                                     </div>
                                                 </div>
                                                 <button 
@@ -824,13 +824,13 @@ export default function SettingsIndex() {
                                                                     </div>
                                                                     <div>
                                                                         <h4 className="font-extrabold text-gray-800">{s.device}</h4>
-                                                                        <p className="text-[10px] text-gray-400 font-semibold">{s.browser}</p>
+                                                                        <p className="text-[10px] text-gray-400 font-bold">{s.browser}</p>
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td className="px-5 py-3.5 font-mono text-gray-500">{s.ip}</td>
-                                                            <td className="px-5 py-3.5 text-gray-700 font-semibold">{s.location}</td>
-                                                            <td className="px-5 py-3.5 font-semibold">
+                                                            <td className="px-5 py-3.5 text-gray-700 font-bold">{s.location}</td>
+                                                            <td className="px-5 py-3.5 font-bold">
                                                                 <span className={s.last_active === 'Sekarang' ? 'text-emerald-500' : 'text-gray-400'}>
                                                                     {s.last_active}
                                                                 </span>
@@ -852,7 +852,7 @@ export default function SettingsIndex() {
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <p className="text-[10px] text-brand-primary/60 font-semibold flex items-center gap-1 pt-2 border-t border-brand-light/40">
+                                        <p className="text-[10px] text-brand-primary/60 font-bold flex items-center gap-1 pt-2 border-t border-brand-light/40">
                                             <iconify-icon icon="solar:info-circle-linear" class="text-xs"></iconify-icon>
                                             Kami merekomendasikan untuk mengakhiri sesi yang tidak dikenali segera.
                                         </p>
@@ -903,7 +903,7 @@ export default function SettingsIndex() {
                                 </div>
                                 <div>
                                     <h3 className="text-base font-extrabold text-brand-dark">Kelola 2FA per User</h3>
-                                    <p className="text-xs text-brand-primary/60 font-semibold mt-0.5">Daftar pengguna dan status keamanan autentikasi mereka</p>
+                                    <p className="text-xs text-brand-primary/60 font-bold mt-0.5">Daftar pengguna dan status keamanan autentikasi mereka</p>
                                 </div>
                             </div>
                             <button 
@@ -925,14 +925,14 @@ export default function SettingsIndex() {
                                     placeholder="Cari nama atau email..."
                                     value={modalSearch}
                                     onChange={(e) => setModalSearch(e.target.value)}
-                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-semibold text-brand-dark"
+                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
                                 />
                             </div>
  
                             <select 
                                 value={modalRoleFilter} 
                                 onChange={(e) => setModalRoleFilter(e.target.value)}
-                                className="px-3 py-2.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-semibold text-brand-dark cursor-pointer"
+                                className="px-3 py-2.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-bold text-brand-dark cursor-pointer"
                             >
                                 <option value="">Semua Role</option>
                                 <option value="owner">Owner</option>
@@ -945,7 +945,7 @@ export default function SettingsIndex() {
                             <select 
                                 value={modalStatusFilter} 
                                 onChange={(e) => setModalStatusFilter(e.target.value)}
-                                className="px-3 py-2.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-semibold text-brand-dark cursor-pointer"
+                                className="px-3 py-2.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-bold text-brand-dark cursor-pointer"
                             >
                                 <option value="">Semua Status</option>
                                 <option value="terdaftar">Terdaftar</option>
@@ -998,7 +998,7 @@ export default function SettingsIndex() {
                                                     </div>
                                                     <div className="text-left overflow-hidden">
                                                         <h4 className="font-extrabold text-gray-800 truncate">{user.name}</h4>
-                                                        <p className="text-[9px] text-gray-400 font-semibold truncate">{user.email}</p>
+                                                        <p className="text-[9px] text-gray-400 font-bold truncate">{user.email}</p>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-3 text-left">
@@ -1024,7 +1024,7 @@ export default function SettingsIndex() {
                                                         {user.status}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-3 text-left text-gray-500 font-semibold">{user.last_verified}</td>
+                                                <td className="px-6 py-3 text-left text-gray-500 font-bold">{user.last_verified}</td>
                                                 <td className="px-6 py-3 text-right">
                                                     <div className="flex items-center justify-end gap-1.5">
                                                         <button 
@@ -1060,7 +1060,7 @@ export default function SettingsIndex() {
                         {/* Modal Footer */}
                         <div className="px-6 py-4 bg-gray-50/50 border-t border-brand-light/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div className="text-xs font-bold text-gray-500 text-left">
-                                {selectedUserIds.length} User Terpilih <span className="text-gray-300 font-normal px-1">|</span> <span className="font-semibold text-gray-400">Pilih user untuk melakukan aksi massal</span>
+                                {selectedUserIds.length} User Terpilih <span className="text-gray-300 font-normal px-1">|</span> <span className="font-bold text-gray-400">Pilih user untuk melakukan aksi massal</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <button 

@@ -122,7 +122,7 @@ export default function Login() {
                                 <div>
                                     {Object.values(errors).map((errorArray, i) => (
                                         errorArray.map((error, j) => (
-                                            <p key={`${i}-${j}`} className="text-xs font-semibold text-rose-600">{error}</p>
+                                            <p key={`${i}-${j}`} className="text-xs font-bold text-rose-600">{error}</p>
                                         ))
                                     ))}
                                 </div>
@@ -147,7 +147,7 @@ export default function Login() {
                                         onChange={e => setEmail(e.target.value)}
                                         placeholder="nama@kafeanda.com"
                                         required autoFocus autoComplete="email"
-                                        className={`w-full h-12 rounded-xl border bg-gray-55 text-sm pl-10 pr-4 text-gray-800 font-semibold placeholder:font-normal placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-200 focus:border-amber-600 focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-gray-200'}`}
+                                        className={`w-full h-12 rounded-xl border bg-gray-55 text-sm pl-10 pr-4 text-gray-800 font-bold placeholder:font-normal placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-200 focus:border-amber-600 focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-gray-200'}`}
                                     />
                                 </div>
                             </div>
@@ -173,7 +173,7 @@ export default function Login() {
                                         onChange={e => setPassword(e.target.value)}
                                         placeholder="••••••••"
                                         required autoComplete="current-password"
-                                        className={`w-full h-12 rounded-xl border bg-gray-55 text-sm pl-10 pr-12 text-gray-800 font-semibold placeholder:font-normal placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-200 focus:border-amber-600 focus:bg-white transition-shadow ${errors.password ? 'border-rose-300 bg-rose-50' : 'border-gray-200'}`}
+                                        className={`w-full h-12 rounded-xl border bg-gray-55 text-sm pl-10 pr-12 text-gray-800 font-bold placeholder:font-normal placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-200 focus:border-amber-600 focus:bg-white transition-shadow ${errors.password ? 'border-rose-300 bg-rose-50' : 'border-gray-200'}`}
                                     />
                                     <button type="button"
                                         onClick={() => setShowPassword(!showPassword)}
@@ -195,7 +195,7 @@ export default function Login() {
                                     onChange={e => setRemember(e.target.checked)}
                                     className="w-4 h-4 rounded border-gray-300 accent-amber-600 cursor-pointer"
                                 />
-                                <label htmlFor="remember" className="text-xs font-semibold text-gray-600 cursor-pointer select-none">
+                                <label htmlFor="remember" className="text-xs font-bold text-gray-600 cursor-pointer select-none">
                                     Ingat saya di perangkat ini
                                 </label>
                             </div>
@@ -209,7 +209,7 @@ export default function Login() {
                         </form>
 
                         {/* Pendaftaran Akun */}
-                        <p className="text-xs text-center text-gray-600 font-semibold mt-3">
+                        <p className="text-xs text-center text-gray-600 font-bold mt-3">
                             Belum memiliki akun?{' '}
                             <a href="/register" className="text-amber-700 hover:text-amber-900 font-extrabold transition-colors">
                                 Daftar Akun Baru
@@ -224,7 +224,7 @@ export default function Login() {
                         </div>
 
                         {/* Trust badges */}
-                        <div className="flex items-center justify-center gap-6 text-[11px] font-semibold text-gray-400">
+                        <div className="flex items-center justify-center gap-6 text-[11px] font-bold text-gray-400">
                             <span className="flex items-center gap-1.5">
                                 <iconify-icon icon="solar:shield-check-linear" class="text-sm text-amber-700"></iconify-icon>
                                 Koneksi aman SSL 256-bit
@@ -235,7 +235,7 @@ export default function Login() {
 
                 {/* Footer */}
                 <div className="px-8 py-5 border-t border-gray-100 text-center space-y-2">
-                    <div className="flex items-center justify-center gap-4 text-[11px] font-semibold text-gray-400">
+                    <div className="flex items-center justify-center gap-4 text-[11px] font-bold text-gray-400">
                         <a href="#" className="hover:text-amber-700 transition-colors">Syarat & Ketentuan</a>
                         <span className="text-gray-200">•</span>
                         <a href="#" className="hover:text-amber-700 transition-colors">Kebijakan Privasi</a>

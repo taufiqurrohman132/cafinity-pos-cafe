@@ -125,7 +125,7 @@ export default function Show({ transaction }) {
                                         Transaksi
                                     </Link>
                                     <span className="text-brand-primary/40">›</span>
-                                    <span className="text-brand-dark font-semibold">Detail TRX-{transaction.id}</span>
+                                    <span className="text-brand-dark font-bold">Detail TRX-{transaction.id}</span>
                                 </nav>
                                 <h1 className="text-2xl sm:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight pt-1">
                                     Detail Transaksi
@@ -139,7 +139,7 @@ export default function Show({ transaction }) {
                             <div className="relative">
                                 <button
                                     onClick={() => setShowDropdown(!showDropdown)}
-                                    className="px-4 py-2 bg-brand-primary hover:bg-brand-secondary text-white rounded-xl text-xs font-semibold transition-all shadow-sm active:scale-[0.98] flex items-center gap-2"
+                                    className="px-4 py-2 bg-brand-primary hover:bg-brand-secondary text-white rounded-xl text-xs font-bold transition-all shadow-sm active:scale-[0.98] flex items-center gap-2"
                                 >
                                     <span>Tindakan Transaksi</span>
                                     <iconify-icon icon="solar:alt-arrow-down-linear" class="text-xs" />
@@ -152,7 +152,7 @@ export default function Show({ transaction }) {
                                             <Link
                                                 to={`/transactions/${transaction.id}/invoice`}
                                                 onClick={() => setShowDropdown(false)}
-                                                className="w-full px-4 py-2 text-xs text-brand-dark hover:bg-brand-bg font-semibold text-left transition-colors flex items-center gap-2 border-b border-brand-light/40"
+                                                className="w-full px-4 py-2 text-xs text-brand-dark hover:bg-brand-bg font-bold text-left transition-colors flex items-center gap-2 border-b border-brand-light/40"
                                             >
                                                 <iconify-icon icon="solar:printer-minimalistic-linear" class="text-base text-brand-primary/60" />
                                                 Cetak Invoice
@@ -162,7 +162,7 @@ export default function Show({ transaction }) {
                                                     setShowDropdown(false);
                                                     handleRefund();
                                                 }}
-                                                className="w-full px-4 py-2 text-xs text-rose-600 hover:bg-rose-50 font-semibold text-left transition-colors flex items-center gap-2"
+                                                className="w-full px-4 py-2 text-xs text-rose-600 hover:bg-rose-50 font-bold text-left transition-colors flex items-center gap-2"
                                             >
                                                 <iconify-icon icon="solar:refresh-circle-broken-linear" class="text-base text-rose-400" />
                                                 Refund Transaksi
@@ -214,7 +214,7 @@ export default function Show({ transaction }) {
                                 <div className="bg-white rounded-2xl border border-brand-light shadow-sm hover:shadow-lg hover:shadow-brand-primary/5 transition-all duration-300 overflow-hidden">
                                     <div className="px-6 py-5 border-b border-brand-light flex items-center justify-between bg-white">
                                         <h3 className="font-bold text-brand-dark text-sm">Daftar Item</h3>
-                                        <span className="text-[10px] font-semibold bg-amber-50 border border-amber-200/60 text-amber-700 px-3 py-1 rounded-full capitalize">
+                                        <span className="text-[10px] font-bold bg-amber-50 border border-amber-200/60 text-amber-700 px-3 py-1 rounded-full capitalize">
                                             {transaction.items?.length ?? 0} Item Terdaftar
                                         </span>
                                     </div>
@@ -222,26 +222,26 @@ export default function Show({ transaction }) {
                                     <div className="overflow-x-auto">
                                         <table className="w-full text-left border-collapse">
                                             <thead>
-                                                <tr className="text-xs text-brand-primary/60 border-b border-brand-light font-semibold">
-                                                    <th className="py-4 px-6 font-semibold">Nama Menu</th>
-                                                    <th className="py-4 px-6 font-semibold text-center">Qty</th>
-                                                    <th className="py-4 px-6 font-semibold text-center">Harga Satuan</th>
-                                                    <th className="py-4 px-6 font-semibold text-right">Total</th>
+                                                <tr className="text-xs text-brand-primary/60 border-b border-brand-light font-bold">
+                                                    <th className="py-4 px-6 font-bold">Nama Menu</th>
+                                                    <th className="py-4 px-6 font-bold text-center">Qty</th>
+                                                    <th className="py-4 px-6 font-bold text-center">Harga Satuan</th>
+                                                    <th className="py-4 px-6 font-bold text-right">Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="text-xs divide-y divide-brand-light/30">
                                                 {transaction.items?.map((item, i) => (
                                                     <tr key={i} className="hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all cursor-pointer">
-                                                        <td className="py-4 px-6 font-semibold text-brand-dark">
+                                                        <td className="py-4 px-6 font-bold text-brand-dark">
                                                             {item.menu?.name ?? "Menu"}
                                                         </td>
                                                         <td className="py-4 px-6 text-brand-dark/70 text-center font-normal">
                                                             {item.qty}
                                                         </td>
-                                                        <td className="py-4 px-6 text-brand-dark/70 text-center font-normal">
+                                                        <td className="py-4 px-6 text-brand-secondary text-center font-black">
                                                             Rp {fmt(item.price)}
                                                         </td>
-                                                        <td className="py-4 px-6 font-bold text-brand-dark text-right">
+                                                        <td className="py-4 px-6 font-black text-brand-secondary text-right">
                                                             Rp {fmt(item.subtotal)}
                                                         </td>
                                                     </tr>
@@ -281,22 +281,22 @@ export default function Show({ transaction }) {
                                     <div className="space-y-3.5 text-xs">
                                         <div className="flex justify-between items-center text-brand-primary/60 font-medium">
                                             <span>Subtotal</span>
-                                            <span className="text-brand-dark font-bold">Rp {fmt(subtotal)}</span>
+                                            <span className="font-black text-brand-secondary">Rp {fmt(subtotal)}</span>
                                         </div>
 
                                         <div className="flex justify-between items-center text-brand-primary/60 font-medium">
                                             <span>Pajak (10%)</span>
-                                            <span className="text-brand-dark font-bold">Rp {fmt(transaction.tax)}</span>
+                                            <span className="font-black text-brand-secondary">Rp {fmt(transaction.tax)}</span>
                                         </div>
 
                                         <div className="flex justify-between items-center text-brand-primary/60 font-medium">
                                             <span>Diskon Bundle</span>
-                                            <span className="text-[#10b981] font-bold">-Rp {fmt(transaction.discount)}</span>
+                                            <span className="text-[#10b981] font-black">-Rp {fmt(transaction.discount)}</span>
                                         </div>
 
                                         <div className="border-t border-brand-light pt-4 flex justify-between items-center">
                                             <span className="font-bold text-brand-dark text-xs">Total Akhir</span>
-                                            <span className="text-lg font-black text-[#10b981]">Rp {fmt(transaction.total_amount)}</span>
+                                            <span className="text-lg font-black text-brand-secondary">Rp {fmt(transaction.total_amount)}</span>
                                         </div>
                                     </div>
 
@@ -365,7 +365,7 @@ export default function Show({ transaction }) {
                                     <div className="p-6 md:p-8 bg-brand-bg flex justify-center items-center border-b border-brand-light">
                                         <div className="bg-white border border-dashed border-brand-light shadow-[0_8px_30px_rgba(0,0,0,0.02)] w-full max-w-[360px] p-6 text-brand-dark flex flex-col font-mono text-xs leading-relaxed">
                                             <div className="text-center space-y-1 mb-4">
-                                                <h4 className="font-extrabold text-sm tracking-wide text-brand-dark">SMARTCAFE</h4>
+                                                <h4 className="font-extrabold text-sm tracking-wide text-brand-dark">SmartCafe</h4>
                                                 <p className="text-[10px] text-brand-primary/60">Jl. Menteng Raya No. 42, Jakarta Pusat</p>
                                                 <p className="text-[10px] text-brand-primary/60">Telp: (021) 555-0123</p>
                                             </div>
@@ -375,7 +375,7 @@ export default function Show({ transaction }) {
                                             <div className="grid grid-cols-2 text-[10px] text-brand-primary/60 gap-y-0.5">
                                                 <div>NO: TRX-{transaction.id}</div>
                                                 <div className="text-right">TGL: {getReceiptDate(transaction.created_at)}</div>
-                                                <div>KASIR: {transaction.cashier?.name?.toUpperCase() ?? "-"}</div>
+                                                <div>KASIR: {transaction.cashier?.name ?? "-"}</div>
                                                 <div className="text-right">JAM: {getReceiptTime(transaction.created_at)}</div>
                                             </div>
 
@@ -404,20 +404,20 @@ export default function Show({ transaction }) {
                                             <div className="space-y-1.5 my-2">
                                                 <div className="flex justify-between">
                                                     <span className="text-brand-primary/60">Subtotal</span>
-                                                    <span className="font-bold text-brand-dark">Rp {fmt(subtotal)}</span>
+                                                    <span className="font-black text-brand-dark">Rp {fmt(subtotal)}</span>
                                                 </div>
                                                 <div className="flex justify-between">
                                                     <span className="text-brand-primary/60">Pajak (10%)</span>
-                                                    <span className="font-bold text-brand-dark">Rp {fmt(transaction.tax)}</span>
+                                                    <span className="font-black text-brand-dark">Rp {fmt(transaction.tax)}</span>
                                                 </div>
                                                 <div className="flex justify-between">
                                                     <span className="text-brand-primary/60">Service Charge</span>
-                                                    <span className="font-bold text-brand-dark">Rp {fmt(serviceCharge)}</span>
+                                                    <span className="font-black text-brand-dark">Rp {fmt(serviceCharge)}</span>
                                                 </div>
                                                 {transaction.discount > 0 && (
                                                     <div className="flex justify-between">
                                                         <span className="text-brand-primary/60">Diskon Bundle</span>
-                                                        <span className="font-bold text-[#10b981]">-Rp {fmt(transaction.discount)}</span>
+                                                        <span className="font-black text-[#10b981]">-Rp {fmt(transaction.discount)}</span>
                                                     </div>
                                                 )}
                                             </div>
@@ -425,7 +425,7 @@ export default function Show({ transaction }) {
                                             <div className="border-t border-dashed border-brand-light my-2"></div>
 
                                             <div className="flex justify-between items-center text-sm font-extrabold text-brand-dark my-2">
-                                                <span>TOTAL</span>
+                                                <span>Total</span>
                                                 <span>Rp {fmt(transaction.total_amount)}</span>
                                             </div>
 
@@ -456,7 +456,7 @@ export default function Show({ transaction }) {
                                                 <iconify-icon icon="solar:user-linear" class="text-xl" />
                                             </div>
                                             <div>
-                                                <p className="text-[10px] text-brand-primary/60 font-semibold tracking-wider uppercase">PELANGGAN</p>
+                                                <p className="text-[10px] text-brand-primary/60 font-bold tracking-wider capitalize">Pelanggan</p>
                                                 <p className="font-bold text-brand-dark text-sm">Walk-in Guest</p>
                                             </div>
                                         </div>
@@ -466,7 +466,7 @@ export default function Show({ transaction }) {
                                                 <iconify-icon icon="solar:clock-circle-linear" class="text-xl" />
                                             </div>
                                             <div>
-                                                <p className="text-[10px] text-brand-primary/60 font-semibold tracking-wider uppercase">WAKTU PEMESANAN</p>
+                                                <p className="text-[10px] text-brand-primary/60 font-bold tracking-wider capitalize">Waktu Pemesanan</p>
                                                 <p className="font-bold text-brand-dark text-sm">
                                                     {formatOrderTimeOnly(transaction.created_at)}
                                                 </p>
@@ -478,7 +478,7 @@ export default function Show({ transaction }) {
                                                 <iconify-icon icon="solar:card-transfer-linear" class="text-xl" />
                                             </div>
                                             <div>
-                                                <p className="text-[10px] text-brand-primary/60 font-semibold tracking-wider uppercase">METODE PEMBAYARAN</p>
+                                                <p className="text-[10px] text-brand-primary/60 font-bold tracking-wider capitalize">Metode Pembayaran</p>
                                                 <p className="font-bold text-brand-dark text-sm">
                                                     {transaction.status === "pending" || transaction.status === "held"
                                                         ? "Belum Dipilih (Sistem Pending)"
@@ -539,8 +539,8 @@ export default function Show({ transaction }) {
                                                 <p className="text-xs text-brand-dark italic leading-relaxed">
                                                     "{transaction.notes}"
                                                 </p>
-                                                <div className="flex justify-between items-center text-[10px] font-semibold text-brand-primary/60 border-t border-brand-light pt-2.5">
-                                                    <span className="text-brand-primary font-bold">{transaction.cashier?.name?.toUpperCase() ?? "KASIR"}</span>
+                                                <div className="flex justify-between items-center text-[10px] font-bold text-brand-primary/60 border-t border-brand-light pt-2.5">
+                                                    <span className="text-brand-primary font-bold">{transaction.cashier?.name ?? "Kasir"}</span>
                                                     <span>Baru saja</span>
                                                 </div>
                                             </div>

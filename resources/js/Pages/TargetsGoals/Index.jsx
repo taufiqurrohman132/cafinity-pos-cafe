@@ -445,7 +445,7 @@ export default function TargetPerforma({
                     </div>
                     <div className="flex-1 min-w-0 pr-2">
                         <p className="text-xs font-extrabold text-brand-dark">Target Berhasil Disimpan!</p>
-                        <p className="text-[10px] text-brand-primary/60 font-semibold truncate">Target {savedLabel} telah aktif.</p>
+                        <p className="text-[10px] text-brand-primary/60 font-bold truncate">Target {savedLabel} telah aktif.</p>
                     </div>
                     <div className="flex items-center gap-3">
                         <button

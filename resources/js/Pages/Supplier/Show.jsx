@@ -97,28 +97,28 @@ export default function SupplierShow({ supplier }) {
         switch (supStatus) {
             case 'active':
                 return (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                         Active
                     </span>
                 );
             case 'inactive':
                 return (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-gray-500 bg-gray-50 border border-gray-200">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-gray-500 bg-gray-50 border border-gray-200">
                         <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
                         Inactive
                     </span>
                 );
             case 'blacklist':
                 return (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-red-600 bg-red-50 border border-red-200">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-red-600 bg-red-50 border border-red-200">
                         <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
                         Blacklist
                     </span>
                 );
             default:
                 return (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-gray-500 bg-gray-50 border border-gray-200">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-gray-500 bg-gray-50 border border-gray-200">
                         {supStatus}
                     </span>
                 );
@@ -161,7 +161,7 @@ export default function SupplierShow({ supplier }) {
                             <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium">
                                 <Link to="/suppliers" className="hover:text-brand-primary transition-colors">Supplier</Link>
                                 <span className="text-brand-primary/40">›</span>
-                                <span className="text-brand-dark font-semibold">Detail Supplier</span>
+                                <span className="text-brand-dark font-bold">Detail Supplier</span>
                             </nav>
                         </div>
 
@@ -207,7 +207,7 @@ export default function SupplierShow({ supplier }) {
                                 </div>
                                 <div className="space-y-0.5 text-left">
                                     <h4 className="text-xs font-extrabold text-red-700 capitalize tracking-wider">Perhatian: Performa Kritis</h4>
-                                    <p className="text-xs text-red-600 font-semibold leading-relaxed">
+                                    <p className="text-xs text-red-600 font-bold leading-relaxed">
                                         Rating supplier ini berada di bawah ambang batas (3.0). Disarankan untuk meninjau kembali kontrak kerjasama atau mencari alternatif supplier.
                                     </p>
                                 </div>
@@ -292,7 +292,7 @@ export default function SupplierShow({ supplier }) {
                                                     </div>
                                                     <div className="overflow-hidden">
                                                         <h4 className="text-xs font-black text-gray-800 truncate">{contact.name}</h4>
-                                                        <p className="text-[10px] text-gray-400 font-semibold">{contact.position || 'Sales Manager'}</p>
+                                                        <p className="text-[10px] text-gray-400 font-bold">{contact.position || 'Sales Manager'}</p>
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center gap-1.5 flex-shrink-0">
@@ -325,7 +325,7 @@ export default function SupplierShow({ supplier }) {
                                                 </div>
                                                 <div>
                                                     <h4 className="text-xs font-black text-gray-800">Belum ada Kontak</h4>
-                                                    <p className="text-[10px] text-gray-400 font-semibold">Gunakan PIC Kontak utama di form edit.</p>
+                                                    <p className="text-[10px] text-gray-400 font-bold">Gunakan PIC Kontak utama di form edit.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -365,7 +365,7 @@ export default function SupplierShow({ supplier }) {
                                     </div>
                                     <div className="space-y-1">
                                         <h4 className="text-xs font-black text-gray-400 capitalize tracking-wider">Informasi Minimum Order</h4>
-                                        <p className="text-xs text-gray-600 font-semibold leading-relaxed">
+                                        <p className="text-xs text-gray-600 font-bold leading-relaxed">
                                             Minimum pembelanjaan untuk supplier ini adalah <span className="font-extrabold text-gray-800">{formatCurrency(supplier.min_order || 5000000)}</span> per Purchase Order.
                                         </p>
                                     </div>
@@ -390,7 +390,7 @@ export default function SupplierShow({ supplier }) {
                                                 <iconify-icon icon="solar:document-linear" class="text-gray-400 text-lg flex-shrink-0"></iconify-icon>
                                                 <div className="text-left overflow-hidden">
                                                     <p className="text-xs font-bold text-gray-700 truncate">{doc.name}</p>
-                                                    <span className="text-[10px] text-gray-400 font-semibold">{doc.date} • {doc.size}</span>
+                                                    <span className="text-[10px] text-gray-400 font-bold">{doc.date} • {doc.size}</span>
                                                 </div>
                                             </div>
                                             <button
@@ -439,7 +439,7 @@ export default function SupplierShow({ supplier }) {
                                     {/* Score Info */}
                                     <div className="space-y-2">
                                         <h4 className="text-xs font-black text-gray-800">Tingkat Kepercayaan</h4>
-                                        <p className="text-[10px] text-gray-400 font-semibold leading-relaxed">
+                                        <p className="text-[10px] text-gray-400 font-bold leading-relaxed">
                                             Dihitung berdasarkan 50+ transaksi terakhir dalam 12 bulan.
                                         </p>
                                         <span className={`inline-block px-2.5 py-0.5 rounded text-[9px] font-black capitalize tracking-wider border ${metrics.badgeColor}`}>
@@ -505,7 +505,7 @@ export default function SupplierShow({ supplier }) {
                                                     <span className="font-extrabold text-brand-primary hover:text-brand-secondary transition-colors cursor-pointer">
                                                         {po.po_number || `PO-${po.id}`}
                                                     </span>
-                                                    <span className="text-[10px] text-gray-400 font-semibold">
+                                                    <span className="text-[10px] text-gray-400 font-bold">
                                                         {po.ordered_at ? new Date(po.ordered_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-'}
                                                     </span>
                                                 </div>
@@ -526,7 +526,7 @@ export default function SupplierShow({ supplier }) {
                                             <div key={item.po} className="flex justify-between items-center py-2 px-2 -mx-2 hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all rounded-xl border-b border-gray-50 last:border-none">
                                                 <div className="flex flex-col text-left">
                                                     <span className="font-extrabold text-gray-800">{item.po}</span>
-                                                    <span className="text-[10px] text-gray-400 font-semibold">{item.date}</span>
+                                                    <span className="text-[10px] text-gray-400 font-bold">{item.date}</span>
                                                 </div>
                                                 <span className={`px-2.5 py-0.5 rounded-full border text-[9px] font-black capitalize tracking-wider ${getPoStatusBadge(item.status.toLowerCase())}`}>
                                                     {item.status}
@@ -557,7 +557,7 @@ export default function SupplierShow({ supplier }) {
                                                 <p className="text-gray-600 leading-relaxed font-medium">
                                                     <span className="font-extrabold text-gray-800">{log.user}</span> {log.action}
                                                 </p>
-                                                <span className="text-[10px] text-gray-400 font-semibold block">{log.time}</span>
+                                                <span className="text-[10px] text-gray-400 font-bold block">{log.time}</span>
                                             </div>
                                         </div>
                                     ))}

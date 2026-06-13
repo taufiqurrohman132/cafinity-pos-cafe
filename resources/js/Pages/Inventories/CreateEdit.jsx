@@ -342,7 +342,7 @@ export default function InventoriesCreateEdit() {
                                 <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium mb-1">
                                     <Link to="/inventories" className="hover:text-brand-primary transition-colors">Inventori</Link>
                                     <span className="text-brand-primary/40">›</span>
-                                    <span className="text-brand-dark font-semibold">{isEditMode ? "Edit Bahan" : "Tambah Bahan"}</span>
+                                    <span className="text-brand-dark font-bold">{isEditMode ? "Edit Bahan" : "Tambah Bahan"}</span>
                                 </nav>
                                 <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                                     {isEditMode ? "Edit Detail Bahan Baku" : "Tambah Bahan Baku Baru"}
@@ -423,7 +423,7 @@ export default function InventoriesCreateEdit() {
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
                                             placeholder="Contoh: Susu UHT Full Cream"
-                                            className={`w-full h-10 px-3 text-xs bg-white border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-semibold text-brand-dark ${
+                                            className={`w-full h-10 px-3 text-xs bg-white border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark ${
                                                 errors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light"
                                             }`}
                                         />
@@ -444,7 +444,7 @@ export default function InventoriesCreateEdit() {
                                                     required
                                                     value={categoryId}
                                                     onChange={(e) => setCategoryId(e.target.value)}
-                                                    className={`flex-1 h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all cursor-pointer font-semibold text-brand-dark ${
+                                                    className={`flex-1 h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all cursor-pointer font-bold text-brand-dark ${
                                                         errors.inventory_category_id ? "border-rose-300 ring-2 ring-rose-50" : ""
                                                     }`}
                                                 >
@@ -480,7 +480,7 @@ export default function InventoriesCreateEdit() {
                                                 required
                                                 value={unit}
                                                 onChange={(e) => setUnit(e.target.value)}
-                                                className={`w-full h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all cursor-pointer font-semibold text-brand-dark ${
+                                                className={`w-full h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all cursor-pointer font-bold text-brand-dark ${
                                                     errors.unit ? "border-rose-300 ring-2 ring-rose-50" : ""
                                                 }`}
                                             >
@@ -522,7 +522,7 @@ export default function InventoriesCreateEdit() {
                                             value={stock}
                                             onChange={(e) => setStock(e.target.value)}
                                             placeholder="0"
-                                            className="w-full h-10 px-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-semibold text-brand-dark"
+                                            className="w-full h-10 px-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark"
                                         />
                                         <span className="text-[10px] text-brand-primary/50 mt-1.5 block leading-normal">
                                             Jumlah stok saat ini yang tersedia di gudang/toko.
@@ -544,7 +544,7 @@ export default function InventoriesCreateEdit() {
                                                 value={minStock}
                                                 onChange={(e) => setMinStock(e.target.value)}
                                                 placeholder="10"
-                                                className="w-full h-10 pl-3 pr-10 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-semibold text-brand-dark"
+                                                className="w-full h-10 pl-3 pr-10 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark"
                                             />
                                             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-amber-500 flex items-center text-sm">
                                                 <iconify-icon icon="solar:danger-triangle-linear"></iconify-icon>
@@ -587,7 +587,7 @@ export default function InventoriesCreateEdit() {
                                             value={storageLocation}
                                             onChange={(e) => setStorageLocation(e.target.value)}
                                             placeholder="Contoh: Chiller A, Rak 2"
-                                            className="w-full h-10 px-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-semibold text-brand-dark"
+                                            className="w-full h-10 px-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark"
                                         />
                                     </div>
                                 </div>
@@ -609,7 +609,7 @@ export default function InventoriesCreateEdit() {
                                             <select
                                                 value={supplierId}
                                                 onChange={(e) => setSupplierId(e.target.value)}
-                                                className="flex-1 h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all cursor-pointer font-semibold text-brand-dark"
+                                                className="flex-1 h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all cursor-pointer font-bold text-brand-dark"
                                             >
                                                 <option value="">-- Pilih Supplier --</option>
                                                 {suppliers.map((s) => (
@@ -651,29 +651,29 @@ export default function InventoriesCreateEdit() {
                         <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-6">
                             
                             {/* Card 1: RINGKASAN INPUT */}
-                            <div className="bg-emerald-500 text-white p-5 rounded-2xl border border-emerald-400 shadow-sm flex flex-col justify-between relative overflow-hidden">
+                            <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm flex flex-col justify-between relative overflow-hidden">
                                 <div className="relative z-10 space-y-4">
-                                    <p className="text-[10px] font-bold tracking-widest capitalize opacity-90">
-                                        RINGKASAN INPUT
+                                    <p className="text-[11px] font-bold capitalize tracking-widest text-gray-400">
+                                        Ringkasan Input
                                     </p>
                                     
-                                    <div className="flex items-center justify-between border-b border-white/20 pb-3">
-                                        <p className="text-xs font-semibold">Nama Bahan</p>
-                                        <p className={`text-xs font-bold ${!name.trim() ? "italic text-emerald-100/70" : ""}`}>
+                                    <div className="flex items-center justify-between border-b border-brand-light pb-3">
+                                        <p className="text-xs font-bold text-gray-600">Nama Bahan</p>
+                                        <p className={`text-xs font-bold ${!name.trim() ? "italic text-gray-400" : "text-brand-dark"}`}>
                                             {name.trim() ? name.trim() : "Belum diisi"}
                                         </p>
                                     </div>
 
-                                    <div className="flex items-center justify-between border-b border-white/20 pb-3">
-                                        <p className="text-xs font-semibold">Estimasi Nilai</p>
-                                        <p className="text-xs font-bold">
+                                    <div className="flex items-center justify-between border-b border-brand-light pb-3">
+                                        <p className="text-xs font-bold text-gray-600">Estimasi Nilai</p>
+                                        <p className="text-xs font-black text-brand-secondary">
                                             Rp {fmt(estimatedValue)}
                                         </p>
                                     </div>
 
                                     <div className="flex items-center justify-between">
-                                        <p className="text-xs font-semibold">Status Awal</p>
-                                        <span className="inline-block px-2.5 py-0.5 bg-white/20 rounded text-[9px] font-black tracking-wider capitalize">
+                                        <p className="text-xs font-bold text-gray-600">Status Awal</p>
+                                        <span className="inline-block px-2.5 py-0.5 bg-brand-light text-brand-primary rounded text-[9px] font-black tracking-wider capitalize">
                                             {isEditMode ? "TERSEDIA" : "DRAFT"}
                                         </span>
                                     </div>
@@ -688,7 +688,7 @@ export default function InventoriesCreateEdit() {
                                     </span>
                                     Saran Restock
                                 </div>
-                                <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-3.5 text-[10px] text-brand-secondary font-semibold leading-relaxed">
+                                <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-3.5 text-[10px] text-brand-secondary font-bold leading-relaxed">
                                     {getRestockAdvisory()}
                                 </div>
                             </div>
@@ -696,13 +696,13 @@ export default function InventoriesCreateEdit() {
                             {/* Card 3: Quick Help */}
                             <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm space-y-3">
                                 <h4 className="text-brand-dark font-bold text-xs">Quick Help</h4>
-                                <ul className="space-y-2 text-[10px] text-brand-primary/60 font-semibold leading-relaxed">
+                                <ul className="space-y-2 text-[10px] text-brand-primary/60 font-bold leading-relaxed">
                                     <li className="flex gap-2 items-start">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0" />
+                                        <span className="w-1.5 h-1.5 rounded-full bg-brand-primary mt-1.5 flex-shrink-0" />
                                         <span>Gunakan Satuan Terkecil untuk akurasi resep yang lebih baik.</span>
                                     </li>
                                     <li className="flex gap-2 items-start">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0" />
+                                        <span className="w-1.5 h-1.5 rounded-full bg-brand-primary mt-1.5 flex-shrink-0" />
                                         <span>Foto label bahan bisa diunggah di bagian keterangan (Opsional).</span>
                                     </li>
                                 </ul>
@@ -737,7 +737,7 @@ export default function InventoriesCreateEdit() {
                         type="button"
                         onClick={handleSubmit}
                         disabled={processing}
-                        className="px-6 py-2.5 text-xs font-bold text-white bg-emerald-500 hover:bg-emerald-600 rounded-xl transition duration-150 active:scale-95 shadow-md disabled:opacity-60"
+                        className="px-6 py-2.5 text-xs font-extrabold text-white bg-brand-dark hover:bg-brand-primary rounded-xl transition duration-150 active:scale-95 shadow-md disabled:opacity-60"
                     >
                         {processing ? "Menyimpan..." : "Simpan Bahan"}
                     </button>
@@ -779,7 +779,7 @@ export default function InventoriesCreateEdit() {
                                     value={newCatName}
                                     onChange={(e) => setNewCatName(e.target.value)}
                                     placeholder="Contoh: Dairy, Sirup, Coffee"
-                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-semibold text-brand-dark ${
+                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark ${
                                         catErrors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light"
                                     }`}
                                 />
@@ -852,7 +852,7 @@ export default function InventoriesCreateEdit() {
                                     value={newSupplierName}
                                     onChange={(e) => setNewSupplierName(e.target.value)}
                                     placeholder="Contoh: PT. Global Dairy Milk"
-                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-semibold text-brand-dark ${
+                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark ${
                                         supplierErrors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light"
                                     }`}
                                 />
@@ -874,7 +874,7 @@ export default function InventoriesCreateEdit() {
                                     value={newSupplierContact}
                                     onChange={(e) => setNewSupplierContact(e.target.value)}
                                     placeholder="Contoh: Dian Permata"
-                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-semibold text-brand-dark ${
+                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark ${
                                         supplierErrors.contact_name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light"
                                     }`}
                                 />
@@ -895,7 +895,7 @@ export default function InventoriesCreateEdit() {
                                     value={newSupplierCategory}
                                     onChange={(e) => setNewSupplierCategory(e.target.value)}
                                     placeholder="Contoh: Bahan Baku, Packaging"
-                                    className="w-full h-9 px-3 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-semibold text-brand-dark"
+                                    className="w-full h-9 px-3 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark"
                                 />
                             </div>
 

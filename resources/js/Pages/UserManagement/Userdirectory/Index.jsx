@@ -178,7 +178,7 @@ export default function UsersIndex({
                                             value={search}
                                             onChange={e => setSearch(e.target.value)}
                                             placeholder="Nama, email, atau ID..."
-                                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl pl-11 pr-4 text-[13px] font-semibold text-brand-dark placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
+                                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl pl-11 pr-4 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
                                         />
                                     </div>
                                     <div className="flex flex-wrap items-center gap-2">
@@ -376,28 +376,28 @@ function UserActions({ user, canManage, onToggle, onReset, onDelete, onEdit, onS
             {open && (
                 <div className="absolute right-0 mt-1 w-48 bg-white border border-brand-light rounded-xl shadow-xl z-20 overflow-hidden">
                     <button onClick={() => onShowDetail(user)}
-                        className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-semibold hover:bg-brand-light/30 text-left w-full">
+                        className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full">
                         <iconify-icon icon="solar:eye-linear" class="text-brand-primary"></iconify-icon>
                         Lihat Detail
                     </button>
                     {canManage && <>
                         <button onClick={() => onEdit(user)}
-                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-semibold hover:bg-brand-light/30 text-left w-full">
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full">
                             <iconify-icon icon="solar:pen-linear" class="text-brand-primary"></iconify-icon>
                             Edit Pengguna
                         </button>
                         <button onClick={() => onToggle(user.id)}
-                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-semibold hover:bg-brand-light/30 text-left w-full">
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full">
                             <iconify-icon icon="solar:shield-warning-linear" class="text-amber-500"></iconify-icon>
                             {user.status === 'active' ? 'Nonaktifkan' : 'Aktifkan'}
                         </button>
                         <button onClick={() => onReset(user.id)}
-                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-semibold hover:bg-brand-light/30 text-left w-full">
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full">
                             <iconify-icon icon="solar:key-linear" class="text-brand-primary"></iconify-icon>
                             Reset Password
                         </button>
                         <button onClick={() => onDelete(user.id, user.name)}
-                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 font-semibold hover:bg-[#fef2f2] border-t border-brand-light text-left w-full">
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 font-bold hover:bg-[#fef2f2] border-t border-brand-light text-left w-full">
                             <iconify-icon icon="solar:trash-bin-trash-linear" class="text-red-500"></iconify-icon>
                             Hapus
                         </button>
@@ -456,7 +456,7 @@ function CreateUserModal({ isOpen, onClose }) {
                             value={data.name}
                             onChange={e => setData('name', e.target.value)}
                             required
-                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-semibold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
                             placeholder="Nama Lengkap"
                         />
                         {errors.name && <p className="text-xs text-red-500 font-bold mt-1">{errors.name}</p>}
@@ -469,7 +469,7 @@ function CreateUserModal({ isOpen, onClose }) {
                             value={data.email}
                             onChange={e => setData('email', e.target.value)}
                             required
-                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-semibold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
                             placeholder="nama@email.com"
                         />
                         {errors.email && <p className="text-xs text-red-500 font-bold mt-1">{errors.email}</p>}
@@ -514,7 +514,7 @@ function CreateUserModal({ isOpen, onClose }) {
                                 value={data.password}
                                 onChange={e => setData('password', e.target.value)}
                                 required
-                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-semibold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
                                 placeholder="Min. 8 karakter"
                             />
                             {errors.password && <p className="text-xs text-red-500 font-bold mt-1">{errors.password}</p>}
@@ -527,7 +527,7 @@ function CreateUserModal({ isOpen, onClose }) {
                                 value={data.password_confirmation}
                                 onChange={e => setData('password_confirmation', e.target.value)}
                                 required
-                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-semibold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
                                 placeholder="Ulangi password"
                             />
                         </div>
@@ -612,7 +612,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                             value={data.name}
                             onChange={e => setData('name', e.target.value)}
                             required
-                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-semibold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
                         />
                         {errors.name && <p className="text-xs text-red-500 font-bold mt-1">{errors.name}</p>}
                     </div>
@@ -624,7 +624,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                             value={data.email}
                             onChange={e => setData('email', e.target.value)}
                             required
-                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-semibold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
                         />
                         {errors.email && <p className="text-xs text-red-500 font-bold mt-1">{errors.email}</p>}
                     </div>
@@ -661,7 +661,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                     </div>
 
                     <div className="border-t border-brand-light pt-4 mt-2">
-                        <p className="text-xs text-brand-primary/60 font-semibold mb-3">Isi hanya jika ingin mengubah password:</p>
+                        <p className="text-xs text-brand-primary/60 font-bold mb-3">Isi hanya jika ingin mengubah password:</p>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Password Baru</label>
@@ -669,7 +669,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                                     type="password"
                                     value={data.password}
                                     onChange={e => setData('password', e.target.value)}
-                                    className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-semibold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                                    className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
                                     placeholder="Min. 8 karakter"
                                 />
                                 {errors.password && <p className="text-xs text-red-500 font-bold mt-1">{errors.password}</p>}
@@ -681,7 +681,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                                     type="password"
                                     value={data.password_confirmation}
                                     onChange={e => setData('password_confirmation', e.target.value)}
-                                    className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-semibold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                                    className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
                                     placeholder="Ulangi password"
                                 />
                             </div>
@@ -769,7 +769,7 @@ function DetailUserModal({ isOpen, onClose, user }) {
                                 <span className="px-2.5 py-1 bg-brand-secondary text-white text-[10px] font-extrabold rounded-md capitalize tracking-wider">
                                     {roleLabels[user.role] ?? user.role}
                                 </span>
-                                <span className="text-[10px] text-brand-primary/60 font-semibold">
+                                <span className="text-[10px] text-brand-primary/60 font-bold">
                                     Status: <span className="font-bold text-brand-dark">{statusLabels[user.status] ?? user.status}</span>
                                 </span>
                             </div>
@@ -777,7 +777,7 @@ function DetailUserModal({ isOpen, onClose, user }) {
                     </div>
 
                     {/* Metadata Tambahan */}
-                    <div className="grid grid-cols-2 gap-4 text-xs font-semibold text-brand-primary/80">
+                    <div className="grid grid-cols-2 gap-4 text-xs font-bold text-brand-primary/80">
                         <div className="bg-brand-bg border border-brand-light/70 p-3 rounded-xl">
                             <span className="text-[9px] font-black text-brand-primary/50 capitalize block mb-1">ID Personel</span>
                             <span className="text-brand-dark font-extrabold">#USR-{String(user.id).padStart(4, '0')}</span>

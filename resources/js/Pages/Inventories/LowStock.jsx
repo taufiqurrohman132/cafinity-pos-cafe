@@ -23,7 +23,7 @@ export default function InventoriesLowStock({ inventories = [] }) {
                                         Inventori
                                     </Link>
                                     <span className="text-brand-primary/40">›</span>
-                                    <span className="text-brand-dark font-semibold">Stok Menipis</span>
+                                    <span className="text-brand-dark font-bold">Stok Menipis</span>
                                 </nav>
                                 <h1 className="text-2xl sm:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight pt-1">
                                     Stok Menipis
@@ -57,7 +57,7 @@ export default function InventoriesLowStock({ inventories = [] }) {
                                         {inventories.map(item => (
                                             <tr key={item.id} className="hover:bg-brand-bg transition">
                                                 <td className="px-5 py-4">
-                                                    <p className="font-semibold text-brand-dark">{item.name}</p>
+                                                    <p className="font-bold text-brand-dark">{item.name}</p>
                                                 </td>
                                                 <td className="px-5 py-4 text-sm text-gray-500">
                                                     {item.category?.name ?? '-'}

@@ -63,7 +63,7 @@ export default function SearchIndex() {
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Ketik nama hidangan atau menu..."
-                                    className="w-full h-12 bg-brand-bg border border-brand-light rounded-xl pl-12 pr-4 py-2.5 text-sm font-semibold text-brand-dark placeholder-brand-primary/50 focus:outline-none focus:bg-white focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
+                                    className="w-full h-12 bg-brand-bg border border-brand-light rounded-xl pl-12 pr-4 py-2.5 text-sm font-bold text-brand-dark placeholder-brand-primary/50 focus:outline-none focus:bg-white focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
                                 />
                             </div>
                             <button

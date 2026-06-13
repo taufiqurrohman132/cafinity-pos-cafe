@@ -161,7 +161,7 @@ export default function PurchaseOrderShow() {
                                 <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium mb-1">
                                     <Link to="/purchase-orders" className="hover:text-brand-primary transition-colors">Purchase Order</Link>
                                     <span className="text-brand-primary/40">›</span>
-                                    <span className="text-brand-dark font-semibold">Detail PO #{order.po_number || String(order.id).padStart(4, '0')}</span>
+                                    <span className="text-brand-dark font-bold">Detail PO #{order.po_number || String(order.id).padStart(4, '0')}</span>
                                 </nav>
                                 <div className="flex items-center gap-3">
                                     <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
@@ -172,7 +172,7 @@ export default function PurchaseOrderShow() {
                                     </span>
                                 </div>
                                 <p className="text-xs text-gray-500 mt-1">
-                                    Dibuat pada {formatDate(order.ordered_at || order.created_at)} oleh <span className="font-semibold text-gray-700">{order.createdBy?.name || order.user?.name || 'N/A'}</span>
+                                    Dibuat pada {formatDate(order.ordered_at || order.created_at)} oleh <span className="font-bold text-gray-700">{order.createdBy?.name || order.user?.name || 'N/A'}</span>
                                 </p>
                             </div>
                         </div>
@@ -228,7 +228,7 @@ export default function PurchaseOrderShow() {
                                             <iconify-icon icon="solar:users-group-rounded-bold" class="text-xl"></iconify-icon>
                                         </div>
                                         <div className="text-xs space-y-1">
-                                            <span className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wide block">SUPPLIER</span>
+                                            <span className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wide block">Supplier</span>
                                             <p className="font-bold text-brand-dark">{order.supplier?.name || '-'}</p>
                                             <p className="text-gray-500 leading-normal">{order.supplier?.address || '-'}</p>
                                         </div>
@@ -240,7 +240,7 @@ export default function PurchaseOrderShow() {
                                             <iconify-icon icon="solar:map-point-bold" class="text-xl"></iconify-icon>
                                         </div>
                                         <div className="text-xs space-y-1">
-                                            <span className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wide block">ALAMAT PENGIRIMAN</span>
+                                            <span className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wide block">Alamat Pengiriman</span>
                                             <p className="font-bold text-brand-dark">{order.delivery_location || 'Gudang Utama - Jakarta Central'}</p>
                                             <p className="text-gray-500 leading-normal">Jl. Gatot Subroto No. 45, Kuningan Timur, Setiabudi, Jakarta Selatan 12950</p>
                                         </div>
@@ -320,7 +320,7 @@ export default function PurchaseOrderShow() {
                                                     <tr key={item.id} className="hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all cursor-pointer">
                                                         <td className="px-4 py-4">
                                                             <p className="font-bold text-gray-900">{itemName}</p>
-                                                            <p className="text-[10px] text-gray-400 mt-0.5 tracking-wider capitalize font-semibold">{itemCode}</p>
+                                                            <p className="text-[10px] text-gray-400 mt-0.5 tracking-wider capitalize font-bold">{itemCode}</p>
                                                         </td>
                                                         <td className="px-3 py-4 text-center font-bold text-gray-800">
                                                             {item.qty}
@@ -336,13 +336,13 @@ export default function PurchaseOrderShow() {
                                                         <td className="px-3 py-4 text-gray-500 font-medium">
                                                             {item.unit || 'Unit'}
                                                         </td>
-                                                        <td className="px-3 py-4 text-right font-medium text-gray-700">
+                                                        <td className="px-3 py-4 text-right font-black text-brand-secondary">
                                                             {formatRupiah(item.price_per_unit)}
                                                         </td>
-                                                        <td className="px-3 py-4 text-right text-gray-500">
+                                                        <td className="px-3 py-4 text-right font-black text-brand-secondary">
                                                             {formatRupiah(taxAmount)}
                                                         </td>
-                                                        <td className="px-4 py-4 text-right font-bold text-gray-900">
+                                                        <td className="px-4 py-4 text-right font-black text-brand-secondary">
                                                             {formatRupiah(finalSub)}
                                                         </td>
                                                     </tr>
@@ -352,19 +352,19 @@ export default function PurchaseOrderShow() {
                                             {/* Cost Calculations */}
                                             <tr className="bg-gray-50/50 font-bold border-t border-brand-light">
                                                 <td colSpan="6" className="px-6 py-4 text-right text-gray-900 text-xs">Total Pembelian (Sebelum Pajak)</td>
-                                                <td className="px-4 py-4 text-right text-xs text-gray-900">
+                                                <td className="px-4 py-4 text-right text-xs font-black text-brand-secondary">
                                                     {formatRupiah(order.total_amount)}
                                                 </td>
                                             </tr>
                                             <tr className="bg-gray-50/50 font-bold">
                                                 <td colSpan="6" className="px-6 py-4 text-right text-gray-900 text-xs">Total PPN (11%)</td>
-                                                <td className="px-4 py-4 text-right text-xs text-gray-900">
+                                                <td className="px-4 py-4 text-right text-xs font-black text-brand-secondary">
                                                     {formatRupiah(order.total_amount * 0.11)}
                                                 </td>
                                             </tr>
                                             <tr className="bg-gray-50/50 font-bold">
                                                 <td colSpan="6" className="px-6 py-4 text-right text-brand-primary text-xs">Total Pembayaran Keseluruhan</td>
-                                                <td className="px-4 py-4 text-right text-sm text-brand-primary font-extrabold">
+                                                <td className="px-4 py-4 text-right text-sm font-black text-brand-secondary">
                                                     {formatRupiah(order.total_amount * 1.11)}
                                                 </td>
                                             </tr>
@@ -374,7 +374,7 @@ export default function PurchaseOrderShow() {
 
                                 {/* Terms & Notes under table */}
                                 <div className="pt-4 border-t border-brand-light/50">
-                                    <span className="text-[10px] font-bold text-gray-400 capitalize tracking-wide block mb-1">CATATAN & SYARAT</span>
+                                    <span className="text-[10px] font-bold text-gray-400 capitalize tracking-wide block mb-1">Catatan & Syarat</span>
                                     <p className="text-[11px] text-gray-500 leading-normal italic bg-gray-50 p-4 rounded-xl border border-gray-100">
                                         {order.notes || "*Barang harap dikirimkan sebelum jam operasional gudang berakhir (17:00 WIB). Lampirkan surat jalan asli dan copy PO saat pengiriman."}
                                     </p>
@@ -388,7 +388,7 @@ export default function PurchaseOrderShow() {
 
                             {/* 1. Status Persetujuan */}
                             <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-6">
-                                <h3 className="text-xs font-bold text-gray-900 flex items-center gap-2 capitalize tracking-wide">
+                                <h3 className="text-xs font-bold text-gray-900 flex items-center gap-2 uppercase tracking-wide">
                                     <iconify-icon icon="solar:history-linear" class="text-brand-primary text-base"></iconify-icon>
                                     Status Persetujuan
                                 </h3>
@@ -447,7 +447,7 @@ export default function PurchaseOrderShow() {
                                 {/* Dynamic Approval Actions (Role-based, showing for Alex Manager or Admin) */}
                                 {order.status === 'pending' && (
                                     <div className="pt-4 border-t border-brand-light/50 space-y-2.5">
-                                        <span className="text-[10px] font-bold text-gray-400 capitalize tracking-wide block">AKSI PERSETUJUAN (ROLE: OWNER / ADMIN)</span>
+                                        <span className="text-[10px] font-bold text-gray-400 capitalize tracking-wide block">Aksi Persetujuan (Role: Owner / Admin)</span>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                                             <button
@@ -488,7 +488,7 @@ export default function PurchaseOrderShow() {
                                                         <p className="font-bold text-gray-900">{log.action}</p>
                                                         <p className="text-[10px] text-gray-400 mt-0.5">Oleh {log.user?.name || 'System'}</p>
                                                     </div>
-                                                    <span className="text-[9px] text-gray-400 font-semibold">{formatDate(log.created_at, true)}</span>
+                                                    <span className="text-[9px] text-gray-400 font-bold">{formatDate(log.created_at, true)}</span>
                                                 </div>
                                             </div>
                                         ))
@@ -502,7 +502,7 @@ export default function PurchaseOrderShow() {
                                                         <p className="font-bold text-gray-900">PO Baru Dibuat (Draft)</p>
                                                         <p className="text-[10px] text-gray-400 mt-0.5">Oleh Sarah Admin</p>
                                                     </div>
-                                                    <span className="text-[9px] text-gray-400 font-semibold">14/10/24 09:12</span>
+                                                    <span className="text-[9px] text-gray-400 font-bold">14/10/24 09:12</span>
                                                 </div>
                                             </div>
 
@@ -513,7 +513,7 @@ export default function PurchaseOrderShow() {
                                                         <p className="font-bold text-gray-900">Dikirim untuk Persetujuan</p>
                                                         <p className="text-[10px] text-gray-400 mt-0.5">Oleh Sarah Admin</p>
                                                     </div>
-                                                    <span className="text-[9px] text-gray-400 font-semibold">14/10/24 09:15</span>
+                                                    <span className="text-[9px] text-gray-400 font-bold">14/10/24 09:15</span>
                                                 </div>
                                             </div>
 
@@ -524,7 +524,7 @@ export default function PurchaseOrderShow() {
                                                         <p className="font-bold text-gray-900">Ditinjau oleh Ops Manager</p>
                                                         <p className="text-[10px] text-gray-400 mt-0.5">Oleh Jane Manager</p>
                                                     </div>
-                                                    <span className="text-[9px] text-gray-400 font-semibold">14/10/24 10:30</span>
+                                                    <span className="text-[9px] text-gray-400 font-bold">14/10/24 10:30</span>
                                                 </div>
                                             </div>
 
@@ -535,7 +535,7 @@ export default function PurchaseOrderShow() {
                                                         <p className="font-bold text-gray-900">Disetujui Level 1</p>
                                                         <p className="text-[10px] text-gray-400 mt-0.5">Oleh Jane Manager</p>
                                                     </div>
-                                                    <span className="text-[9px] text-gray-400 font-semibold">14/10/24 11:45</span>
+                                                    <span className="text-[9px] text-gray-400 font-bold">14/10/24 11:45</span>
                                                 </div>
                                             </div>
                                         </>

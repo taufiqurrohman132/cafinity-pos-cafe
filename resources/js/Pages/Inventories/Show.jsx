@@ -137,7 +137,7 @@ export default function InventoriesShow() {
                                         Inventori
                                     </Link>
                                     <span className="text-brand-primary/40">›</span>
-                                    <span className="text-brand-dark font-semibold">Detail {inventory.name}</span>
+                                    <span className="text-brand-dark font-bold">Detail {inventory.name}</span>
                                 </nav>
                                 <h1 className="text-2xl sm:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight pt-1">
                                     {inventory.name}
@@ -145,7 +145,7 @@ export default function InventoriesShow() {
                             </div>
                         </div>
                         <Link to={`/inventories/${inventory.id}/edit`}
-                            className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-brand-primary hover:bg-brand-secondary rounded-xl transition shadow-sm">
+                            className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-white bg-brand-primary hover:bg-brand-secondary rounded-xl transition shadow-sm">
                             <iconify-icon icon="solar:pen-linear"></iconify-icon>
                             Edit
                         </Link>
@@ -164,7 +164,7 @@ export default function InventoriesShow() {
                                         {
                                             label: 'Supplier',
                                             value: inventory.supplier ? (
-                                                <Link to={`/suppliers/${inventory.supplier_id}`} className="text-brand-primary hover:text-brand-secondary transition-colors font-semibold">
+                                                <Link to={`/suppliers/${inventory.supplier_id}`} className="text-brand-primary hover:text-brand-secondary transition-colors font-bold">
                                                     {inventory.supplier.name}
                                                 </Link>
                                             ) : '-'
@@ -173,7 +173,7 @@ export default function InventoriesShow() {
                                     ].map(item => (
                                         <div key={item.label}>
                                             <p className="text-xs text-gray-400 font-medium">{item.label}</p>
-                                            <div className="font-semibold text-brand-dark mt-0.5">{item.value}</div>
+                                            <div className="font-bold text-brand-dark mt-0.5">{item.value}</div>
                                         </div>
                                     ))}
                                 </div>
@@ -298,7 +298,7 @@ export default function InventoriesShow() {
                                             onChange={e => setAdjustQty(e.target.value)}
                                             placeholder="Masukkan kuantitas..."
                                             min="0.01" step="0.01" required
-                                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary font-semibold text-brand-dark"
+                                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary font-bold text-brand-dark"
                                         />
                                     </div>
 

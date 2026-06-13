@@ -238,7 +238,7 @@ export default function KitchenOrdersIndex() {
                             </Link>
                         ))}
                     </div>
-                    <div className="flex items-center gap-2 text-[11px] text-brand-primary font-semibold">
+                    <div className="flex items-center gap-2 text-[11px] text-brand-primary font-bold">
                         <span className="w-1.5 h-1.5 bg-brand-secondary rounded-full animate-pulse" />
                         Diperbarui otomatis setiap 30 detik
                     </div>
@@ -283,10 +283,10 @@ export default function KitchenOrdersIndex() {
 
                                     {/* Transaksi + waktu */}
                                     <div className="flex items-center justify-between gap-2">
-                                        <span className="text-xs font-semibold text-brand-dark/50">
+                                        <span className="text-xs font-bold text-brand-dark/50">
                                             Transaksi #{order.transaction_id}
                                         </span>
-                                        <span className="flex items-center gap-1 text-[11px] font-semibold text-brand-dark/40 flex-shrink-0">
+                                        <span className="flex items-center gap-1 text-[11px] font-bold text-brand-dark/40 flex-shrink-0">
                                             <iconify-icon icon="solar:clock-circle-linear" class="text-xs" />
                                             {diffMin} menit lalu
                                         </span>
@@ -296,7 +296,7 @@ export default function KitchenOrdersIndex() {
                                     {order.notes && (
                                         <div className="flex items-start gap-1.5 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2">
                                             <iconify-icon icon="solar:danger-triangle-linear" class="text-amber-500 text-sm flex-shrink-0 mt-0.5" />
-                                            <p className="text-[11px] font-semibold text-amber-700 italic leading-relaxed">{order.notes}</p>
+                                            <p className="text-[11px] font-bold text-amber-700 italic leading-relaxed">{order.notes}</p>
                                         </div>
                                     )}
 
@@ -310,7 +310,7 @@ export default function KitchenOrdersIndex() {
                                                         {item.qty}x
                                                     </span>
                                                     <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-semibold text-brand-dark leading-snug">
+                                                        <p className="text-sm font-bold text-brand-dark leading-snug">
                                                             {item.menu?.name ?? '—'}
                                                         </p>
                                                         {item.notes && (

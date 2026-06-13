@@ -533,7 +533,7 @@ export default function MenusIndex() {
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
                                         placeholder="Cari menu..."
-                                        className="w-full h-10 bg-brand-bg border border-brand-light rounded-xl pl-9 pr-4 text-[13px] font-semibold text-brand-dark placeholder-brand-primary/50 focus:outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
+                                        className="w-full h-10 bg-brand-bg border border-brand-light rounded-xl pl-9 pr-4 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 focus:outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
                                     />
                                 </form>
 
@@ -953,7 +953,7 @@ export default function MenusIndex() {
                                         value={createForm.data.name}
                                         onChange={(e) => createForm.setData('name', e.target.value)}
                                         placeholder="Contoh: Es Kopi Susu Gula Aren"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
                                     />
                                     {createForm.errors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -973,7 +973,7 @@ export default function MenusIndex() {
                                         required
                                         value={createForm.data.category_id}
                                         onChange={(e) => createForm.setData('category_id', e.target.value)}
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all cursor-pointer font-semibold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all cursor-pointer font-bold text-brand-dark"
                                     >
                                         <option value="" disabled>-- Pilih Kategori --</option>
                                         {categories.map((cat) => (
@@ -1023,7 +1023,7 @@ export default function MenusIndex() {
                                         value={createForm.data.estimated_hpp}
                                         onChange={(e) => createForm.setData('estimated_hpp', e.target.value)}
                                         placeholder="8500"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
                                     />
                                     <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
                                         *HPP akan diperbarui otomatis setelah resep dihubungkan.
@@ -1178,7 +1178,7 @@ export default function MenusIndex() {
                                         value={editForm.data.name}
                                         onChange={(e) => editForm.setData('name', e.target.value)}
                                         placeholder="Contoh: Es Kopi Susu Gula Aren"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
                                     />
                                     {editForm.errors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1198,7 +1198,7 @@ export default function MenusIndex() {
                                         required
                                         value={editForm.data.category_id}
                                         onChange={(e) => editForm.setData('category_id', e.target.value)}
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all cursor-pointer font-semibold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all cursor-pointer font-bold text-brand-dark"
                                     >
                                         <option value="" disabled>-- Pilih Kategori --</option>
                                         {categories.map((cat) => (
@@ -1248,7 +1248,7 @@ export default function MenusIndex() {
                                         value={editForm.data.estimated_hpp}
                                         onChange={(e) => editForm.setData('estimated_hpp', e.target.value)}
                                         placeholder="8500"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
                                     />
                                     <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
                                         *HPP akan diperbarui otomatis setelah resep dihubungkan.
@@ -1371,7 +1371,7 @@ export default function MenusIndex() {
                                         value={catName}
                                         onChange={(e) => setCatName(e.target.value)}
                                         placeholder="Contoh: Kopi Khas"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
                                     />
                                     {catErrors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">

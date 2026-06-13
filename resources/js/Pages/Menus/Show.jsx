@@ -393,7 +393,7 @@ export default function Show() {
                                 Menu
                             </Link>
                             <span className="text-brand-primary/40">›</span>
-                            <span className="text-brand-dark font-semibold">Detail {menu.name}</span>
+                            <span className="text-brand-dark font-bold">Detail {menu.name}</span>
                         </nav>
                     </div>
                     <div className="flex items-center gap-3">
@@ -892,7 +892,7 @@ export default function Show() {
                                         value={formData.name}
                                         onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                                         placeholder="Contoh: Es Kopi Susu Gula Aren"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
                                     />
                                     {errors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -912,7 +912,7 @@ export default function Show() {
                                         required
                                         value={formData.category_id}
                                         onChange={(e) => setFormData(prev => ({ ...prev, category_id: e.target.value }))}
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all cursor-pointer font-semibold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all cursor-pointer font-bold text-brand-dark"
                                     >
                                         <option value="" disabled>-- Pilih Kategori --</option>
                                         {categories.map((cat) => (
@@ -962,7 +962,7 @@ export default function Show() {
                                         value={formData.estimated_hpp}
                                         onChange={(e) => setFormData(prev => ({ ...prev, estimated_hpp: e.target.value }))}
                                         placeholder="8500"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-semibold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
                                     />
                                     <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
                                         *HPP akan diperbarui otomatis setelah resep dihubungkan.

@@ -240,14 +240,14 @@ export default function RecipeIndex() {
                                                 {resep.margin}%
                                             </span>
                                         </div>
-                                        <p className={`text-[10px] font-semibold mb-2 relative z-10 ${isActive ? 'text-brand-light' : 'text-brand-primary/70'}`}>
-                                            {(resep.menu?.category?.name ?? 'N/A').toUpperCase()}
+                                        <p className={`text-[10px] font-bold mb-2 relative z-10 ${isActive ? 'text-brand-light' : 'text-brand-primary/70'}`}>
+                                            {resep.menu?.category?.name ?? 'N/A'}
                                         </p>
                                         <div className={`flex justify-between items-center relative z-10 mt-2 pt-2 border-t ${isActive ? 'border-white/25' : 'border-brand-light'}`}>
                                             <span className={`text-[10px] ${isActive ? 'text-brand-light' : 'text-brand-primary/70'}`}>
-                                                HPP: Rp {Number(resep.total_hpp).toLocaleString('id-ID')}
+                                                HPP: <span className={`font-black ${isActive ? 'text-white' : 'text-brand-secondary'}`}>Rp {Number(resep.total_hpp).toLocaleString('id-ID')}</span>
                                             </span>
-                                            <span className={`text-xs font-bold ${isActive ? 'text-white' : 'text-brand-dark'}`}>
+                                            <span className={`text-xs font-black ${isActive ? 'text-white' : 'text-brand-secondary'}`}>
                                                 Rp {Number(resep.menu?.price ?? 0).toLocaleString('id-ID')}
                                             </span>
                                         </div>
@@ -271,9 +271,9 @@ export default function RecipeIndex() {
                             <div className="bg-white/80 backdrop-blur-md border-b border-brand-light px-8 py-5 flex items-center justify-between sticky top-0 z-20 shadow-sm">
                                 <div>
                                     <div className="flex items-center gap-3 mb-1.5">
-                                        <h1 className="text-2xl font-bold text-brand-dark">{menu?.name ?? 'Menu Dihapus'}</h1>
-                                        <span className="text-xs font-semibold text-brand-secondary bg-brand-light/30 border border-brand-light px-3 py-1 rounded-full">
-                                            {(menu?.category?.name ?? 'N/A').toUpperCase()}
+                                        <h1 className="text-2xl sm:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight">{menu?.name ?? 'Menu Dihapus'}</h1>
+                                        <span className="text-xs font-bold text-brand-secondary bg-brand-light/30 border border-brand-light px-3 py-1 rounded-full">
+                                            {menu?.category?.name ?? 'N/A'}
                                         </span>
                                     </div>
                                     <p className="text-xs text-brand-primary flex items-center gap-1">
@@ -284,7 +284,7 @@ export default function RecipeIndex() {
                                     {menu?.id && (
                                         <Link
                                             to={`/menus?edit=${menu.id}`}
-                                            className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-secondary hover:to-brand-primary rounded-xl transition-all shadow-md shadow-brand-secondary/30 active:scale-95"
+                                            className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-secondary hover:to-brand-primary rounded-xl transition-all shadow-md shadow-brand-secondary/30 active:scale-95"
                                         >
                                             Edit Menu
                                         </Link>
@@ -299,13 +299,13 @@ export default function RecipeIndex() {
                                     <div className="bg-gradient-to-br from-brand-light/50 to-white border border-brand-light rounded-2xl p-6 shadow-sm relative overflow-hidden">
                                         <iconify-icon icon="solar:wallet-money-linear" class="absolute -right-4 -bottom-4 text-6xl opacity-10 text-brand-secondary"></iconify-icon>
                                         <p className="text-[10px] font-bold text-brand-primary capitalize tracking-widest mb-2">Total HPP</p>
-                                        <p className="text-2xl font-bold text-brand-dark relative z-10">
+                                        <p className="text-2xl font-black text-brand-secondary relative z-10">
                                             Rp {Number(selectedRecipe.total_hpp).toLocaleString('id-ID')}
                                         </p>
                                     </div>
                                     <div className="bg-white border border-brand-light rounded-2xl p-6 shadow-sm">
                                         <p className="text-[10px] font-bold text-brand-primary capitalize tracking-widest mb-2">Harga Jual</p>
-                                        <p className="text-2xl font-bold text-brand-dark">
+                                        <p className="text-2xl font-black text-brand-secondary">
                                             Rp {Number(menu?.price ?? 0).toLocaleString('id-ID')}
                                         </p>
                                     </div>
@@ -329,7 +329,7 @@ export default function RecipeIndex() {
                                                 <h3 className="font-bold text-brand-dark">Komposisi Bahan Baku</h3>
                                                 <button
                                                     onClick={() => setShowEditModal(true)}
-                                                    className="flex items-center gap-1.5 text-xs font-semibold text-brand-secondary bg-brand-light/30 px-3 py-1.5 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all"
+                                                    className="flex items-center gap-1.5 text-xs font-bold text-brand-secondary bg-brand-light/30 px-3 py-1.5 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all"
                                                 >
                                                     <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon> Edit Bahan
                                                 </button>
@@ -356,10 +356,10 @@ export default function RecipeIndex() {
                                                                     <td className="py-4 px-4 text-brand-dark">
                                                                         {bahan.pivot.qty} {bahan.pivot.unit}
                                                                     </td>
-                                                                    <td className="py-4 px-4 text-brand-primary">
+                                                                    <td className="py-4 px-4 font-black text-brand-secondary">
                                                                         Rp {Number(bahan.price_per_unit).toLocaleString('id-ID')}
                                                                     </td>
-                                                                    <td className="py-4 px-4 font-bold text-brand-secondary text-right">
+                                                                    <td className="py-4 px-4 font-black text-brand-secondary text-right">
                                                                         Rp {Number(subtotal).toLocaleString('id-ID')}
                                                                     </td>
                                                                 </tr>
@@ -371,7 +371,7 @@ export default function RecipeIndex() {
                                                             <td colSpan={3} className="pt-4 px-4 text-xs font-bold text-brand-primary capitalize tracking-wider text-right">
                                                                 Total Kalkulasi Biaya
                                                             </td>
-                                                            <td className="pt-4 px-4 font-bold text-brand-dark text-base text-right">
+                                                            <td className="pt-4 px-4 font-black text-brand-secondary text-base text-right">
                                                                 Rp {Number(selectedRecipe.total_hpp).toLocaleString('id-ID')}
                                                             </td>
                                                         </tr>
@@ -399,14 +399,14 @@ export default function RecipeIndex() {
                                             <div className="grid grid-cols-2 gap-4">
                                                 <div className="bg-brand-bg rounded-xl p-4 border border-brand-light">
                                                     <p className="text-[10px] font-bold text-brand-primary capitalize tracking-wider mb-1">Laba Per Porsi</p>
-                                                    <p className="text-xl font-bold text-brand-secondary">
+                                                    <p className="text-xl font-black text-brand-secondary">
                                                         Rp {Number(profitPerServing).toLocaleString('id-ID')}
                                                     </p>
                                                 </div>
                                                 <div className="bg-gradient-to-br from-brand-dark to-brand-primary rounded-xl p-4 border border-brand-primary shadow-lg shadow-brand-primary/20">
                                                     <p className="text-[10px] font-bold text-brand-light capitalize tracking-wider mb-1">Rekomendasi Harga</p>
                                                     <div className="flex items-center gap-2">
-                                                        <p className="text-xl font-bold text-white">
+                                                        <p className="text-xl font-black text-white">
                                                             Rp {Number(recommendedPrice).toLocaleString('id-ID')}
                                                         </p>
                                                         <span className="text-[10px] font-bold text-[#065f46] bg-[#ecfdf5] border border-[#d1fae5] px-2 py-0.5 rounded-md">Optimal</span>
@@ -452,7 +452,7 @@ export default function RecipeIndex() {
                                             <div className="space-y-3 bg-brand-bg border border-brand-light p-4 rounded-xl">
                                                 <div className="flex justify-between items-center">
                                                     <span className="text-xs text-brand-primary">Proyeksi HPP Baru</span>
-                                                    <span className="text-xs font-bold text-brand-dark">
+                                                    <span className="text-xs font-black text-brand-secondary">
                                                         Rp {Math.round(hppBaru).toLocaleString('id-ID')}
                                                     </span>
                                                 </div>
@@ -484,7 +484,7 @@ export default function RecipeIndex() {
                                                 {['Update Harga Inventory Global', 'Cetak Laporan Profitabilitas', 'Bandingkan dengan Resep Lain'].map((opsi) => (
                                                     <button
                                                         key={opsi}
-                                                        className="w-full flex justify-between items-center py-3 px-4 text-xs font-semibold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition-colors"
+                                                        className="w-full flex justify-between items-center py-3 px-4 text-xs font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition-colors"
                                                     >
                                                         {opsi}
                                                         <span className="text-brand-primary/50">→</span>
@@ -585,12 +585,12 @@ export default function RecipeIndex() {
                                 <button
                                     type="button"
                                     onClick={() => setIngredients(prev => [...prev, { inventory_id: '', qty: '', unit: '' }])}
-                                    className="flex items-center gap-1.5 text-xs font-semibold text-brand-secondary bg-brand-light/30 px-3 py-2 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all"
+                                    className="flex items-center gap-1.5 text-xs font-bold text-brand-secondary bg-brand-light/30 px-3 py-2 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all"
                                 >
                                     + Tambah Bahan
                                 </button>
                                 <div className="flex items-center gap-3">
-                                    <button type="button" onClick={() => setShowEditModal(false)} className="px-5 py-2.5 text-sm font-semibold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition">Batal</button>
+                                    <button type="button" onClick={() => setShowEditModal(false)} className="px-5 py-2.5 text-sm font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition">Batal</button>
                                     <button type="submit" className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-brand-secondary to-brand-primary rounded-xl transition shadow-lg shadow-brand-secondary/30 active:scale-95">
                                         <iconify-icon icon="solar:diskette-linear" class="text-sm"></iconify-icon> Simpan
                                     </button>
@@ -660,12 +660,12 @@ export default function RecipeIndex() {
                                 <button
                                     type="button"
                                     onClick={() => addIngredientRow(setCreateForm)}
-                                    className="flex items-center gap-1.5 text-xs font-semibold text-brand-secondary bg-brand-light/30 px-3 py-2 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all"
+                                    className="flex items-center gap-1.5 text-xs font-bold text-brand-secondary bg-brand-light/30 px-3 py-2 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all"
                                 >
                                     + Tambah Bahan
                                 </button>
                                 <div className="flex items-center gap-3">
-                                    <button type="button" onClick={() => setShowCreateModal(false)} className="px-5 py-2.5 text-sm font-semibold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition">Batal</button>
+                                    <button type="button" onClick={() => setShowCreateModal(false)} className="px-5 py-2.5 text-sm font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition">Batal</button>
                                     <button type="submit" className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-brand-secondary to-brand-primary rounded-xl transition shadow-lg shadow-brand-secondary/30 active:scale-95">
                                         <iconify-icon icon="solar:diskette-linear" class="text-sm"></iconify-icon> Simpan
                                     </button>

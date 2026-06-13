@@ -94,7 +94,7 @@ export default function Register({ errors: serverErrors }) {
                                     <Icon icon="solar:danger-triangle-linear" className="text-rose-500 text-lg flex-shrink-0 mt-0.5" />
                                     <div>
                                         {Object.values(errors).map((error, i) => (
-                                            <p key={i} className="text-xs font-semibold text-rose-600">{error}</p>
+                                            <p key={i} className="text-xs font-bold text-rose-600">{error}</p>
                                         ))}
                                     </div>
                                 </div>
@@ -116,7 +116,7 @@ export default function Register({ errors: serverErrors }) {
                                             onChange={e => setData('name', e.target.value)}
                                             placeholder="Nama Lengkap Anda"
                                             required autoFocus autoComplete="name"
-                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-semibold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.name ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.name ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
                                         />
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@ export default function Register({ errors: serverErrors }) {
                                             onChange={e => setData('email', e.target.value)}
                                             placeholder="nama@email.com"
                                             required autoComplete="username"
-                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-semibold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
                                         />
                                     </div>
                                 </div>
@@ -152,7 +152,7 @@ export default function Register({ errors: serverErrors }) {
                                             onChange={e => setData('password', e.target.value)}
                                             placeholder="Min. 8 karakter"
                                             required autoComplete="new-password"
-                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-12 text-brand-dark font-semibold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.password ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-12 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.password ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
                                         />
                                         <button type="button"
                                             onClick={() => setShowPassword(!showPassword)}
@@ -175,7 +175,7 @@ export default function Register({ errors: serverErrors }) {
                                             onChange={e => setData('password_confirmation', e.target.value)}
                                             placeholder="Ulangi kata sandi"
                                             required autoComplete="new-password"
-                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-12 text-brand-dark font-semibold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.password_confirmation ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-12 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.password_confirmation ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
                                         />
                                     </div>
                                 </div>
@@ -189,7 +189,7 @@ export default function Register({ errors: serverErrors }) {
                             </form>
 
                             {/* Back to Login */}
-                            <p className="text-xs text-center text-brand-dark/70 font-semibold mt-3">
+                            <p className="text-xs text-center text-brand-dark/70 font-bold mt-3">
                                 Sudah memiliki akun?{' '}
                                 <a href="/login" className="text-brand-secondary hover:text-brand-primary font-extrabold transition-colors">
                                     Masuk ke Dashboard
@@ -201,7 +201,7 @@ export default function Register({ errors: serverErrors }) {
 
                     {/* Footer */}
                     <div className="px-8 py-4 border-t border-brand-light text-center space-y-2">
-                        <div className="flex items-center justify-center gap-4 text-[11px] font-semibold text-brand-primary/60">
+                        <div className="flex items-center justify-center gap-4 text-[11px] font-bold text-brand-primary/60">
                             <a href="#" className="hover:text-brand-secondary transition-colors">Syarat & Ketentuan</a>
                             <span className="text-brand-light">•</span>
                             <a href="#" className="hover:text-brand-secondary transition-colors">Kebijakan Privasi</a>

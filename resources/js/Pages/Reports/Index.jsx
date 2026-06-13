@@ -95,7 +95,7 @@ function StatCard({ title, value, trend, trendType, iconBg, iconColor, icon }) {
             <p className="text-xs font-bold text-brand-primary capitalize tracking-wide truncate">
                 {title}
             </p>
-            <p className="text-xl font-extrabold text-brand-dark mt-0.5 truncate">
+            <p className={`text-xl mt-0.5 truncate ${title?.toLowerCase()?.includes('laba') ? 'text-[#059669]' : ((typeof value === 'string' && value.startsWith('Rp')) ? 'text-brand-secondary' : 'text-brand-dark')} ${(title?.toLowerCase()?.includes('laba') || (typeof value === 'string' && value.startsWith('Rp'))) ? 'font-black' : 'font-extrabold'}`}>
                 {value}
             </p>
         </div>

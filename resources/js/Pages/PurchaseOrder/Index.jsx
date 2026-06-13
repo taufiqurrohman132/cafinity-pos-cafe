@@ -219,7 +219,7 @@ export default function PurchaseOrderIndex() {
                                         <div>
                                             <p className="text-sm text-gray-500">{card.label}</p>
                                             <h2 className="text-2xl font-bold text-brand-dark mt-3">{card.value}</h2>
-                                            <p className={`text-xs font-semibold mt-3 ${card.subColor}`}>{card.sub}</p>
+                                            <p className={`text-xs font-bold mt-3 ${card.subColor}`}>{card.sub}</p>
                                         </div>
                                         <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm ${card.iconBg}`}>
                                             <iconify-icon icon={card.icon} class="text-xl"></iconify-icon>
@@ -242,7 +242,7 @@ export default function PurchaseOrderIndex() {
                                             value={search}
                                             onChange={(e) => setSearch(e.target.value)}
                                             placeholder="Cari Nomor PO, Supplier, atau Approver..."
-                                            className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-semibold text-brand-dark"
+                                            className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
                                         />
                                     </form>
                                     {(search || status) && (
@@ -256,7 +256,7 @@ export default function PurchaseOrderIndex() {
                                     <select
                                         value={status}
                                         onChange={(e) => handleStatus(e.target.value)}
-                                        className="text-xs border border-brand-light rounded-xl py-2.5 px-4 focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-semibold text-brand-dark"
+                                        className="text-xs border border-brand-light rounded-xl py-2.5 px-4 focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-bold text-brand-dark"
                                     >
                                         <option value="">Semua Status</option>
                                         <option value="pending">Pending Approval</option>
@@ -287,7 +287,7 @@ export default function PurchaseOrderIndex() {
                                                     <div className="flex flex-col items-center gap-2">
                                                         <iconify-icon icon="solar:document-text-linear" class="text-4xl text-brand-secondary"></iconify-icon>
                                                         <p>Belum ada data purchase order.</p>
-                                                        <Link to="/purchase-orders/create" className="text-brand-primary font-semibold hover:text-brand-secondary transition-colors text-xs">
+                                                        <Link to="/purchase-orders/create" className="text-brand-primary font-bold hover:text-brand-secondary transition-colors text-xs">
                                                             + Buat purchase order pertama
                                                         </Link>
                                                     </div>
@@ -315,7 +315,7 @@ export default function PurchaseOrderIndex() {
                                                     <td className="pl-6 pr-3 py-4">
                                                         <input type="checkbox" className="rounded border-brand-light text-brand-primary focus:ring-4 focus:ring-brand-light/50 focus:ring-offset-0 focus:border-brand-secondary transition-all" />
                                                     </td>
-                                                    <td className="px-6 py-4 font-semibold text-brand-primary hover:text-brand-secondary transition-colors cursor-pointer">
+                                                    <td className="px-6 py-4 font-bold text-brand-primary hover:text-brand-secondary transition-colors cursor-pointer">
                                                         <Link to={`/purchase-orders/${order.id}`}>
                                                             {poNumber}
                                                         </Link>
@@ -326,7 +326,7 @@ export default function PurchaseOrderIndex() {
                                                     <td className="px-6 py-4 text-gray-500 font-medium">
                                                         {formatDate(order.ordered_at || order.created_at)}
                                                     </td>
-                                                    <td className="px-6 py-4 font-semibold text-brand-dark">
+                                                    <td className="px-6 py-4 font-bold text-brand-dark">
                                                         {order.supplier?.name || '-'}
                                                     </td>
                                                     <td className="px-6 py-4">
@@ -338,7 +338,7 @@ export default function PurchaseOrderIndex() {
                                                         {formatDate(order.delivery_date)}
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${statusClass}`}>
+                                                        <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${statusClass}`}>
                                                             {statusText}
                                                         </span>
                                                     </td>
@@ -431,7 +431,7 @@ export default function PurchaseOrderIndex() {
                                     <iconify-icon icon="solar:history-linear" class="text-brand-primary text-lg"></iconify-icon>
                                     Aktivitas Terkini
                                 </h3>
-                                <a href="#" className="group text-[11px] font-semibold text-brand-primary hover:text-brand-secondary transition-colors flex items-center gap-0.5"><span>Lihat Semua</span><iconify-icon icon="solar:alt-arrow-right-linear" class="text-xs transition-transform duration-200 group-hover:translate-x-0.5" /></a>
+                                <a href="#" className="group text-[11px] font-bold text-brand-primary hover:text-brand-secondary transition-colors flex items-center gap-0.5"><span>Lihat Semua</span><iconify-icon icon="solar:alt-arrow-right-linear" class="text-xs transition-transform duration-200 group-hover:translate-x-0.5" /></a>
                             </div>
 
                             <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-brand-light">
@@ -492,7 +492,7 @@ export default function PurchaseOrderIndex() {
 
                             <div className="flex items-start gap-3 bg-rose-50 border border-rose-100 rounded-xl p-3">
                                 <iconify-icon icon="solar:danger-triangle-bold" class="text-red-500 text-lg flex-shrink-0 mt-0.5"></iconify-icon>
-                                <p className="text-[11px] font-semibold text-rose-800 leading-normal">
+                                <p className="text-[11px] font-bold text-rose-800 leading-normal">
                                     {stats?.late_deliveries > 0
                                         ? `${stats.late_deliveries} PO melewati tanggal estimasi pengiriman. Segera hubungi supplier terkait.`
                                         : '3 PO melewati tanggal estimasi pengiriman. Segera hubungi supplier terkait.'}

@@ -74,7 +74,7 @@ export default function AdminDashboard() {
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-xs font-bold text-brand-primary/70 capitalize tracking-wide">{card.title}</p>
-                                        <p className="text-xl font-extrabold text-brand-dark mt-0.5">{card.value}</p>
+                                        <p className={`text-xl mt-0.5 ${(typeof card.value === 'string' && card.value.includes('Rp')) ? 'font-black text-brand-secondary' : 'font-extrabold text-brand-dark'}`}>{card.value}</p>
                                         {card.note && <p className={`text-[11px] font-bold mt-0.5 ${card.noteColor}`}>{card.note}</p>}
                                     </div>
                                 </div>
@@ -213,12 +213,12 @@ export default function AdminDashboard() {
                                                         {row.name}
                                                     </Link>
                                                 </td>
-                                                <td className="p-0 text-brand-dark/60">
+                                                <td className="p-0 font-black text-brand-secondary">
                                                     <Link to={`/menus/${row.id}`} className="block px-4 py-4">
                                                         {row.hpp}
                                                     </Link>
                                                 </td>
-                                                <td className="p-0 text-brand-dark/60">
+                                                <td className="p-0 font-black text-brand-secondary">
                                                     <Link to={`/menus/${row.id}`} className="block px-4 py-4">
                                                         {row.price}
                                                     </Link>

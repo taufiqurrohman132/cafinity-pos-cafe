@@ -42,7 +42,7 @@ function StatCard({ title, value, trend, trendType, trend_type, icon, iconBg, ic
             </div>
             <div className="mt-1">
                 <p className="text-sm text-brand-primary/50 font-medium truncate">{title}</p>
-                <p className="text-xl md:text-2xl font-extrabold text-brand-dark mt-0.5 tracking-tight truncate">{value}</p>
+                <p className={`text-xl md:text-2xl mt-0.5 tracking-tight truncate ${(typeof value === 'string' && value.includes('Rp')) ? 'font-black text-brand-secondary' : 'font-bold text-brand-dark'}`}>{value}</p>
             </div>
         </div>
     );
@@ -595,7 +595,7 @@ export default function OwnerDashboard() {
                                                         </div>
                                                     </Link>
                                                 </td>
-                                                <td className="p-0 font-semibold text-brand-dark/80">
+                                                <td className="p-0 font-bold text-brand-dark/80">
                                                     <Link to={`/menus/${row.id}`} className="block py-4 px-3">
                                                         {row.price}
                                                     </Link>
@@ -796,7 +796,7 @@ export default function OwnerDashboard() {
                             className="block bg-gradient-to-br from-brand-dark via-brand-primary to-brand-secondary p-6 rounded-2xl border border-brand-primary relative overflow-hidden hover:shadow-lg hover:shadow-brand-secondary/30 transition-all duration-300 group">
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
                             <div className="relative z-10">
-                                <p className="text-[10px] font-extrabold text-brand-light mb-1.5 tracking-widest flex items-center gap-1"><iconify-icon icon="solar:stars-linear" class="text-sm"></iconify-icon> PROMO AKHIR PEKAN</p>
+                                <p className="text-[10px] font-extrabold text-brand-light mb-1.5 tracking-widest flex items-center gap-1"><iconify-icon icon="solar:stars-linear" class="text-sm"></iconify-icon> Promo Akhir Pekan</p>
                                 <p className="text-xs font-medium text-white leading-relaxed mb-4 pr-6">
                                     Buat paket bundling menu terlaris untuk meningkatkan penjualan akhir pekan Anda.
                                 </p>

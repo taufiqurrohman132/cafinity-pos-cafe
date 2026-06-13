@@ -65,7 +65,7 @@ export default function ForgotPassword({ status }) {
                             {/* Status */}
                             {status && (
                                 <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3">
-                                    <p className="text-xs font-semibold text-emerald-700">{status}</p>
+                                    <p className="text-xs font-bold text-emerald-700">{status}</p>
                                 </div>
                             )}
 
@@ -73,7 +73,7 @@ export default function ForgotPassword({ status }) {
                             {errors.email && (
                                 <div className="bg-rose-50 border border-rose-200 rounded-xl px-4 py-3 flex items-start gap-2">
                                     <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-lg flex-shrink-0 mt-0.5"></iconify-icon>
-                                    <p className="text-xs font-semibold text-rose-600">{errors.email}</p>
+                                    <p className="text-xs font-bold text-rose-600">{errors.email}</p>
                                 </div>
                             )}
 
@@ -93,7 +93,7 @@ export default function ForgotPassword({ status }) {
                                             onChange={e => setData('email', e.target.value)}
                                             placeholder="nama@kafeanda.com"
                                             required autoFocus
-                                            className={`w-full h-12 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-semibold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-12 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
                                         />
                                     </div>
                                 </div>
