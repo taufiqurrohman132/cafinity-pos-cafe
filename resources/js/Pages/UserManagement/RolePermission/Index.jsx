@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import Head from '@/Components/Head';
 import client from '@/api/client';
+import { useConfirm } from '@/context/ConfirmContext';
 
 export default function RolePermissionIndex({ roles = [], logs = [] }) {
+    const confirm = useConfirm();
     const [selectedRoleId, setSelectedRoleId] = useState(roles[0]?.id ?? null);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -100,7 +102,13 @@ export default function RolePermissionIndex({ roles = [], logs = [] }) {
     };
 
     const handleDeleteRole = async (id, name) => {
-        if (!confirm(`Hapus peran ${name}?`)) return;
+        if (!await confirm({
+            title: 'Hapus Peran?',
+            message: `Apakah Anda yakin ingin menghapus peran ${name}? Tindakan ini tidak dapat dibatalkan.`,
+            isDanger: true,
+            confirmText: 'Hapus',
+            cancelText: 'Batal'
+        })) return;
         try {
             await client.delete(`/user-management/role-permission/${id}`);
             if (selectedRoleId === id) setSelectedRoleId(roles[0]?.id || null);

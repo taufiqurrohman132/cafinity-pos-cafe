@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import Head from '@/Components/Head'
 import client from '@/api/client'
 import MenusSkeleton from '@/Components/Skeletons/MenusSkeleton'
+import { useConfirm } from '@/context/ConfirmContext'
 
 function MenuImage({ src, name, categoryName, isThumbnail = false }) {
     const [hasError, setHasError] = useState(false);
@@ -109,6 +110,7 @@ function useForm(initialValues) {
 }
 
 export default function MenusIndex() {
+    const confirm = useConfirm()
     const location = useLocation()
     const navigate = useNavigate()
     const params = new URLSearchParams(location.search)
@@ -213,7 +215,13 @@ export default function MenusIndex() {
     }
 
     const handleDeleteCategory = async (id, name) => {
-        if (!confirm(`Hapus kategori "${name}"? Tindakan ini tidak bisa dibatalkan.`)) return
+        if (!await confirm({
+            title: 'Hapus Kategori?',
+            message: `Apakah Anda yakin ingin menghapus kategori "${name}"? Tindakan ini tidak dapat dibatalkan.`,
+            isDanger: true,
+            confirmText: 'Hapus',
+            cancelText: 'Batal'
+        })) return
         try {
             await client.delete(`/categories/${id}`)
             fetchManagerCategories()
@@ -403,7 +411,13 @@ export default function MenusIndex() {
     }
 
     async function handleDelete(id, name) {
-        if (!confirm(`Hapus menu ${name}? Tindakan ini tidak bisa dibatalkan.`)) return
+        if (!await confirm({
+            title: 'Hapus Menu?',
+            message: `Apakah Anda yakin ingin menghapus menu ${name}? Tindakan ini tidak dapat dibatalkan.`,
+            isDanger: true,
+            confirmText: 'Hapus',
+            cancelText: 'Batal'
+        })) return
         try {
             await client.delete(`/menus/${id}`)
             setRefreshTrigger(prev => prev + 1)

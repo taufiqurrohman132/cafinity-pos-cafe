@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Head from '@/Components/Head';
 import client from '@/api/client';
+import { useConfirm } from '@/context/ConfirmContext';
 
 export default function UsersIndex({
     users = { data: [], links: [], from: 0, to: 0, total: 0 },
@@ -10,6 +11,7 @@ export default function UsersIndex({
     filters = {},
     can = { manage_users: false },
 }) {
+    const confirm = useConfirm();
     const [search, setSearch] = useState(filters.search || '');
     const [role, setRole] = useState(filters.role || '');
     const [status, setStatus] = useState(filters.status || '');
@@ -79,13 +81,25 @@ export default function UsersIndex({
     }
 
     async function handleResetPassword(id) {
-        if (!confirm('Reset password pengguna ini menjadi "password123"?')) return;
+        if (!await confirm({
+            title: 'Reset Password?',
+            message: 'Password pengguna ini akan diubah menjadi "password123".',
+            isDanger: false,
+            confirmText: 'Reset',
+            cancelText: 'Batal'
+        })) return;
         await client.post(`/users/${id}/reset-password`);
         window.location.reload();
     }
 
     async function handleDelete(id, name) {
-        if (!confirm(`Hapus pengguna ${name}?`)) return;
+        if (!await confirm({
+            title: 'Hapus Pengguna?',
+            message: `Hapus pengguna ${name}? Tindakan ini tidak dapat dibatalkan.`,
+            isDanger: true,
+            confirmText: 'Hapus',
+            cancelText: 'Batal'
+        })) return;
         await client.delete(`/users/${id}`);
         window.location.reload();
     }

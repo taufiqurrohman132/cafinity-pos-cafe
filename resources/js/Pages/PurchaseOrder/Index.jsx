@@ -4,8 +4,10 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import Head from '@/Components/Head'
 import client from '@/api/client'
 import PurchaseOrderSkeleton from '@/Components/Skeletons/PurchaseOrderSkeleton'
+import { useConfirm } from '@/context/ConfirmContext'
 
 export default function PurchaseOrderIndex() {
+    const confirm = useConfirm()
     const location = useLocation()
     const navigate = useNavigate()
     const queryParams = new URLSearchParams(location.search)
@@ -67,7 +69,13 @@ export default function PurchaseOrderIndex() {
     }
 
     async function handleApprove(id) {
-        if (!confirm('Setujui Purchase Order ini?')) return
+        if (!await confirm({
+            title: 'Setujui Purchase Order?',
+            message: 'Apakah Anda yakin ingin menyetujui Purchase Order ini?',
+            isDanger: false,
+            confirmText: 'Setujui',
+            cancelText: 'Batal'
+        })) return
         try {
             await client.post(`/purchase-orders/${id}/approve`)
             setRefreshTrigger(prev => prev + 1)
@@ -78,7 +86,13 @@ export default function PurchaseOrderIndex() {
     }
 
     async function handleReject(id) {
-        if (!confirm('Tolak Purchase Order ini?')) return
+        if (!await confirm({
+            title: 'Tolak Purchase Order?',
+            message: 'Apakah Anda yakin ingin menolak Purchase Order ini?',
+            isDanger: true,
+            confirmText: 'Tolak',
+            cancelText: 'Batal'
+        })) return
         try {
             await client.post(`/purchase-orders/${id}/reject`)
             setRefreshTrigger(prev => prev + 1)
@@ -89,7 +103,13 @@ export default function PurchaseOrderIndex() {
     }
 
     async function handleReceive(id) {
-        if (!confirm('Tandai barang telah diterima dan update stok?')) return
+        if (!await confirm({
+            title: 'Terima Barang?',
+            message: 'Tandai barang telah diterima dan update stok inventaris?',
+            isDanger: false,
+            confirmText: 'Terima',
+            cancelText: 'Batal'
+        })) return
         try {
             await client.post(`/purchase-orders/${id}/receive`)
             setRefreshTrigger(prev => prev + 1)

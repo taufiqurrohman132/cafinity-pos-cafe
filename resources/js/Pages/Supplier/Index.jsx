@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Head from '@/Components/Head';
 import client from '@/api/client';
+import { useConfirm } from '@/context/ConfirmContext';
 
 export default function SupplierIndex({ suppliers, filters, categories, stats, recent_activities }) {
+    const confirm = useConfirm();
     const navigate = useNavigate();
     const location = useLocation();
     const [search, setSearch] = useState(filters.search || '');
@@ -50,7 +52,13 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
     };
 
     const handleDelete = async (id, name) => {
-        if (confirm(`Apakah Anda yakin ingin menghapus supplier "${name}"? Semua data kontak dan PO terkait akan ikut terhapus.`)) {
+        if (await confirm({
+            title: 'Hapus Supplier?',
+            message: `Apakah Anda yakin ingin menghapus supplier "${name}"? Semua data kontak dan PO terkait akan ikut terhapus.`,
+            isDanger: true,
+            confirmText: 'Hapus',
+            cancelText: 'Batal'
+        })) {
             try {
                 await client.delete(`/suppliers/${id}`);
                 if (window.routerReload) window.routerReload();

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Head from '@/Components/Head';
 import client from '@/api/client';
+import MenusCreateEditSkeleton from '@/Components/Skeletons/MenusCreateEditSkeleton';
 
 export default function MenusCreateEdit() {
     const { id } = useParams();
@@ -294,12 +295,10 @@ export default function MenusCreateEdit() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-brand-bg flex items-center justify-center p-6">
-                <div className="flex flex-col items-center gap-3">
-                    <div className="w-12 h-12 rounded-full border-4 border-brand-light border-t-brand-primary animate-spin" />
-                    <p className="text-sm font-bold text-brand-primary">Memuat data menu...</p>
-                </div>
-            </div>
+            <>
+                <Head title={isEditMode ? "Edit Detail Menu" : "Tambah Menu Baru"} />
+                <MenusCreateEditSkeleton />
+            </>
         );
     }
 

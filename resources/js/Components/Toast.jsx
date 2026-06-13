@@ -17,27 +17,30 @@ export default function Toast({ flash }) {
     }, [flash]);
 
     const config = {
-        success: { border: 'border-green-200', icon: 'solar:check-circle-linear',   iconColor: 'text-green-600', bg: 'bg-green-100', text: 'text-green-700' },
-        error:   { border: 'border-red-200',   icon: 'solar:close-circle-linear',   iconColor: 'text-red-600',   bg: 'bg-red-100',   text: 'text-red-700' },
-        info:    { border: 'border-blue-200',  icon: 'solar:info-circle-linear',    iconColor: 'text-blue-600',  bg: 'bg-blue-100',  text: 'text-blue-700' },
-        warning: { border: 'border-amber-200', icon: 'solar:warning-circle-linear', iconColor: 'text-amber-600', bg: 'bg-amber-100', text: 'text-amber-700' },
+        success: { border: 'border-emerald-200', icon: 'solar:check-circle-linear',   iconColor: 'text-emerald-500 text-lg', bg: 'bg-emerald-50' },
+        error:   { border: 'border-red-200',   icon: 'solar:close-circle-linear',   iconColor: 'text-red-500 text-lg',   bg: 'bg-red-50' },
+        info:    { border: 'border-blue-200',  icon: 'solar:info-circle-linear',    iconColor: 'text-blue-500 text-lg',  bg: 'bg-blue-50' },
+        warning: { border: 'border-amber-200', icon: 'solar:danger-triangle-linear', iconColor: 'text-amber-500 text-lg', bg: 'bg-amber-50' },
     };
 
     if (!toasts.length) return null;
 
     return (
-        <div className="fixed top-4 right-4 z-[100] flex flex-col gap-2 pointer-events-none">
+        <div className="fixed bottom-5 right-5 z-[60] flex flex-col gap-2 max-w-sm w-full pointer-events-none">
             {toasts.map((toast, i) => {
-                const c = config[toast.type];
+                const c = config[toast.type] || config.success;
                 return (
-                    <div key={i} className={`pointer-events-auto flex items-center gap-3 bg-white border ${c.border} rounded-xl px-4 py-3 shadow-lg min-w-[280px] max-w-sm animate-slide-in`}>
-                        <div className={`w-8 h-8 rounded-full ${c.bg} flex items-center justify-center flex-shrink-0`}>
-                            <iconify-icon icon={c.icon} class={`${c.iconColor} text-lg`}></iconify-icon>
+                    <div key={i} className={`pointer-events-auto flex items-start gap-3 bg-white border ${c.border} rounded-2xl shadow-lg p-4 animate-slide-in-bottom`}>
+                        <div className={`w-8 h-8 rounded-lg ${c.bg} flex items-center justify-center flex-shrink-0`}>
+                            <iconify-icon icon={c.icon} class={c.iconColor}></iconify-icon>
                         </div>
-                        <p className={`flex-1 text-sm font-semibold ${c.text}`}>{toast.message}</p>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-brand-dark">{toast.type === 'success' ? 'Berhasil' : toast.type === 'error' ? 'Gagal' : toast.type === 'warning' ? 'Peringatan' : 'Informasi'}</p>
+                            <p className="text-xs text-gray-400 mt-0.5">{toast.message}</p>
+                        </div>
                         <button onClick={() => setToasts(t => t.filter((_, j) => j !== i))}
-                            className="text-gray-400 hover:text-gray-600 flex-shrink-0">
-                            <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
+                            className="text-gray-300 hover:text-gray-500 transition-colors flex-shrink-0">
+                            <iconify-icon icon="solar:close-linear"></iconify-icon>
                         </button>
                     </div>
                 );

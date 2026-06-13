@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import Head from '@/Components/Head';
 import client from '@/api/client';
 import SettingsSkeleton from '@/Components/Skeletons/SettingsSkeleton';
+import { useConfirm } from '@/context/ConfirmContext';
 
 export default function SettingsIndex() {
+    const confirm = useConfirm();
     const [settings, setSettings] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -188,15 +190,27 @@ export default function SettingsIndex() {
         setRefreshTrigger(prev => prev + 1);
     };
 
-    const handleTerminateSession = (id, device) => {
-        if (confirm(`Hentikan sesi aktif di ${device}?`)) {
+    const handleTerminateSession = async (id, device) => {
+        if (await confirm({
+            title: 'Hentikan Sesi Aktif?',
+            message: `Apakah Anda yakin ingin menghentikan sesi aktif di ${device}?`,
+            isDanger: true,
+            confirmText: 'Hentikan',
+            cancelText: 'Batal'
+        })) {
             setSessions(sessions.filter(s => s.id !== id));
             alert('Sesi dihentikan.');
         }
     };
 
-    const handleLogoutAllSessions = () => {
-        if (confirm('Apakah Anda yakin ingin menghentikan semua sesi aktif lainnya?')) {
+    const handleLogoutAllSessions = async () => {
+        if (await confirm({
+            title: 'Hentikan Semua Sesi?',
+            message: 'Apakah Anda yakin ingin menghentikan semua sesi aktif lainnya?',
+            isDanger: true,
+            confirmText: 'Hentikan Semua',
+            cancelText: 'Batal'
+        })) {
             setSessions(sessions.filter(s => s.last_active === 'Sekarang'));
             alert('Semua sesi lainnya telah dihentikan.');
         }
@@ -281,9 +295,15 @@ export default function SettingsIndex() {
                             ].map((tab) => (
                                 <button 
                                     key={tab.id}
-                                    onClick={() => {
+                                    onClick={async () => {
                                         if (hasUnsavedChanges) {
-                                            if (!confirm('Anda memiliki perubahan yang belum disimpan. Pindah tab?')) return;
+                                            if (!await confirm({
+                                                title: 'Tinggalkan Halaman?',
+                                                message: 'Anda memiliki perubahan yang belum disimpan. Pindah tab?',
+                                                isDanger: true,
+                                                confirmText: 'Pindah Tab',
+                                                cancelText: 'Batal'
+                                            })) return;
                                         }
                                         setActiveTab(tab.id);
                                         setHasUnsavedChanges(false);
@@ -1065,9 +1085,15 @@ export default function SettingsIndex() {
                                     Kirim Pengingat Masal
                                 </button>
                                 <button 
-                                    onClick={() => {
+                                    onClick={async () => {
                                         if (selectedUserIds.length === 0) return alert('Silakan pilih setidaknya 1 user.');
-                                        if (confirm(`Reset kunci 2FA untuk ${selectedUserIds.length} user terpilih?`)) {
+                                        if (await confirm({
+                                            title: 'Reset Kunci 2FA?',
+                                            message: `Reset kunci 2FA untuk ${selectedUserIds.length} user terpilih? Tindakan ini tidak dapat dibatalkan.`,
+                                            isDanger: true,
+                                            confirmText: 'Reset',
+                                            cancelText: 'Batal'
+                                        })) {
                                             alert(`${selectedUserIds.length} kunci 2FA berhasil di-reset.`);
                                             setSelectedUserIds([]);
                                         }

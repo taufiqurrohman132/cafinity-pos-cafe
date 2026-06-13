@@ -4,8 +4,10 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import Head from '@/Components/Head'
 import client from '@/api/client'
 import InventoriesSkeleton from '@/Components/Skeletons/InventoriesSkeleton'
+import { useConfirm } from '@/context/ConfirmContext'
 
 export default function InventoriesIndex() {
+    const confirm = useConfirm()
     const location = useLocation()
     const navigate = useNavigate()
     const queryParams = new URLSearchParams(location.search)
@@ -91,7 +93,13 @@ export default function InventoriesIndex() {
     }
 
     async function handleDelete(id, name) {
-        if (!confirm(`Hapus ${name}?`)) return
+        if (!await confirm({
+            title: 'Hapus Bahan Baku?',
+            message: `Apakah Anda yakin ingin menghapus ${name}? Tindakan ini tidak dapat dibatalkan.`,
+            isDanger: true,
+            confirmText: 'Hapus',
+            cancelText: 'Batal'
+        })) return
         try {
             await client.delete(`/inventories/${id}`)
             setRefreshTrigger(prev => prev + 1)

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from '@/Components/Head';
 import { Icon } from '@iconify/react';
+import { useConfirm } from '@/context/ConfirmContext';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -57,6 +58,7 @@ function useForm(initialValues = {}) {
 }
 
 export default function PromotionsIndex() {
+    const confirm = useConfirm();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -228,7 +230,13 @@ export default function PromotionsIndex() {
 
     const handleDeleteCampaign = async (campaign) => {
         const path = campaign.type === 'bundle' ? `/bundles/${campaign.id}` : `/promotions/${campaign.id}`;
-        if (confirm(`Apakah Anda yakin ingin menghapus ${campaign.name}?`)) {
+        if (await confirm({
+            title: campaign.type === 'bundle' ? 'Hapus Bundle?' : 'Hapus Promosi?',
+            message: `Apakah Anda yakin ingin menghapus "${campaign.name}"? Tindakan ini tidak dapat dibatalkan.`,
+            isDanger: true,
+            confirmText: 'Hapus',
+            cancelText: 'Batal'
+        })) {
             try {
                 await client.delete(path);
                 setActiveDropdownId(null);

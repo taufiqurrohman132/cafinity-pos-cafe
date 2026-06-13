@@ -4,8 +4,10 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import Head from '@/Components/Head'
 import client from '@/api/client'
 import PurchaseOrderShowSkeleton from '@/Components/Skeletons/PurchaseOrderShowSkeleton'
+import { useConfirm } from '@/context/ConfirmContext'
 
 export default function PurchaseOrderShow() {
+    const confirm = useConfirm()
     const { id } = useParams()
     const navigate = useNavigate()
 
@@ -50,7 +52,13 @@ export default function PurchaseOrderShow() {
 
     // Form handlers
     async function handleApprove() {
-        if (!confirm('Setujui Purchase Order ini?')) return
+        if (!await confirm({
+            title: 'Setujui Purchase Order?',
+            message: 'Apakah Anda yakin ingin menyetujui Purchase Order ini?',
+            isDanger: false,
+            confirmText: 'Setujui',
+            cancelText: 'Batal'
+        })) return
         try {
             await client.post(`/purchase-orders/${id}/approve`)
             setRefreshTrigger(prev => prev + 1)
@@ -61,7 +69,13 @@ export default function PurchaseOrderShow() {
     }
 
     async function handleReject() {
-        if (!confirm('Tolak Purchase Order ini?')) return
+        if (!await confirm({
+            title: 'Tolak Purchase Order?',
+            message: 'Apakah Anda yakin ingin menolak Purchase Order ini?',
+            isDanger: true,
+            confirmText: 'Tolak',
+            cancelText: 'Batal'
+        })) return
         try {
             await client.post(`/purchase-orders/${id}/reject`)
             setRefreshTrigger(prev => prev + 1)
@@ -72,7 +86,13 @@ export default function PurchaseOrderShow() {
     }
 
     async function handleReceive() {
-        if (!confirm('Terima semua barang dan tambahkan ke stok inventaris?')) return
+        if (!await confirm({
+            title: 'Terima Barang?',
+            message: 'Terima semua barang dan tambahkan ke stok inventaris?',
+            isDanger: false,
+            confirmText: 'Terima',
+            cancelText: 'Batal'
+        })) return
         try {
             await client.post(`/purchase-orders/${id}/receive`)
             setRefreshTrigger(prev => prev + 1)
@@ -83,7 +103,13 @@ export default function PurchaseOrderShow() {
     }
 
     async function handleCancel() {
-        if (!confirm('Batalkan dan hapus Purchase Order ini?')) return
+        if (!await confirm({
+            title: 'Batalkan Purchase Order?',
+            message: 'Apakah Anda yakin ingin membatalkan dan menghapus Purchase Order ini? Tindakan ini tidak dapat dibatalkan.',
+            isDanger: true,
+            confirmText: 'Batalkan',
+            cancelText: 'Batal'
+        })) return
         try {
             await client.delete(`/purchase-orders/${id}`)
             navigate('/purchase-orders')

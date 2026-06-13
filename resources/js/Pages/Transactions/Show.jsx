@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Head from "@/Components/Head";
 import client from "@/api/client";
+import { useConfirm } from "@/context/ConfirmContext";
 
 function fmt(n) {
     return new Intl.NumberFormat("id-ID").format(n ?? 0);
@@ -53,6 +54,7 @@ const getTableInfo = (id) => {
 };
 
 export default function Show({ transaction }) {
+    const confirm = useConfirm();
     const navigate = useNavigate();
     const location = useLocation();
     const [showDropdown, setShowDropdown] = useState(false);
@@ -72,7 +74,13 @@ export default function Show({ transaction }) {
     const serviceCharge = Math.round(subtotal * 0.05);
 
     async function handleRefund() {
-        if (!confirm("Yakin refund transaksi ini?")) return;
+        if (!await confirm({
+            title: 'Refund Transaksi?',
+            message: 'Apakah Anda yakin ingin melakukan refund untuk transaksi ini? Tindakan ini tidak dapat dibatalkan.',
+            isDanger: true,
+            confirmText: 'Refund',
+            cancelText: 'Batal'
+        })) return;
         try {
             await client.post(`/transactions/${transaction.id}/refund`);
             if (window.routerReload) window.routerReload();
@@ -493,13 +501,13 @@ export default function Show({ transaction }) {
                                 </div>
 
                                 {/* Card 2: Tindakan Operasional */}
-                                <div className="bg-brand-bg rounded-2xl border border-brand-light p-6 space-y-4">
+                                <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-6 space-y-4">
                                     <h3 className="font-bold text-brand-dark text-sm">Tindakan Operasional</h3>
 
                                     <div className="space-y-3">
                                         <button
                                             onClick={handlePrint}
-                                            className="w-full py-3 px-4 bg-[#10b981] hover:bg-emerald-600 text-white font-bold text-xs rounded-xl transition-all shadow-sm active:scale-[0.97] flex items-center justify-center gap-2"
+                                            className="w-full py-3 px-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs rounded-xl transition-all duration-150 shadow-sm active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                         >
                                             <iconify-icon icon="solar:printer-minimalistic-linear" class="text-base" />
                                             <span>Cetak Ulang Struk (Reprint)</span>
@@ -508,9 +516,9 @@ export default function Show({ transaction }) {
                                         <button
                                             onClick={handleRefund}
                                             disabled={transaction.status === "refunded"}
-                                            className="w-full py-3 px-4 bg-white border border-brand-light hover:bg-brand-bg disabled:opacity-50 disabled:hover:bg-white text-brand-dark font-bold text-xs rounded-xl transition-all shadow-sm active:scale-[0.97] flex items-center justify-center gap-2"
+                                            className="w-full py-3 px-4 bg-transparent border border-red-200 text-red-500 hover:bg-red-50 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent font-bold text-xs rounded-xl transition-all duration-150 active:scale-[0.97] flex items-center justify-center gap-2"
                                         >
-                                            <iconify-icon icon="solar:refresh-circle-linear" class="text-base text-brand-primary/60" />
+                                            <iconify-icon icon="solar:refresh-circle-linear" class="text-base" />
                                             <span>Ajukan Pengembalian (Refund)</span>
                                         </button>
 
@@ -519,9 +527,9 @@ export default function Show({ transaction }) {
                                                 setNoteText(transaction.notes ?? "");
                                                 setShowNoteModal(true);
                                             }}
-                                            className="w-full py-3 px-4 bg-white border border-brand-light hover:bg-brand-bg text-brand-dark font-bold text-xs rounded-xl transition-all shadow-sm active:scale-[0.97] flex items-center justify-center gap-2"
+                                            className="w-full py-3 px-4 bg-transparent border border-brand-light text-brand-primary hover:bg-brand-light/30 font-bold text-xs rounded-xl transition-all duration-150 active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                         >
-                                            <iconify-icon icon="solar:document-add-linear" class="text-base text-brand-primary/60" />
+                                            <iconify-icon icon="solar:document-add-linear" class="text-base" />
                                             <span>
                                                 {transaction.notes ? "Edit Catatan Internal" : "Tambah Catatan Internal"}
                                             </span>

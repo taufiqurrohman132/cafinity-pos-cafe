@@ -2,15 +2,16 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from '@/Components/Sidebar';
 import Navbar from '@/Components/Navbar';
 import { NotificationProvider, useNotifications } from '@/context/NotificationContext';
+import { ConfirmProvider } from '@/context/ConfirmContext';
 
 function LayoutContent() {
     const { toasts, removeToast } = useNotifications();
 
     const config = {
-        success: { border: 'border-emerald-100', icon: 'solar:check-circle-linear',   iconColor: 'text-emerald-600', bg: 'bg-emerald-50', text: 'text-emerald-700' },
-        error:   { border: 'border-rose-100',   icon: 'solar:close-circle-linear',   iconColor: 'text-rose-600',   bg: 'bg-rose-50',   text: 'text-rose-750' },
-        info:    { border: 'border-blue-100',  icon: 'solar:info-circle-linear',    iconColor: 'text-blue-600',  bg: 'bg-blue-50',  text: 'text-blue-750' },
-        warning: { border: 'border-amber-100', icon: 'solar:warning-circle-linear', iconColor: 'text-amber-600', bg: 'bg-amber-50', text: 'text-amber-750' },
+        success: { border: 'border-emerald-200', icon: 'solar:check-circle-linear',   iconColor: 'text-emerald-500 text-lg', bg: 'bg-emerald-50' },
+        error:   { border: 'border-red-200',   icon: 'solar:close-circle-linear',   iconColor: 'text-red-500 text-lg',   bg: 'bg-red-50' },
+        info:    { border: 'border-blue-200',  icon: 'solar:info-circle-linear',    iconColor: 'text-blue-500 text-lg',  bg: 'bg-blue-50' },
+        warning: { border: 'border-amber-200', icon: 'solar:danger-triangle-linear', iconColor: 'text-amber-500 text-lg', bg: 'bg-amber-50' },
     };
 
     return (
@@ -24,21 +25,21 @@ function LayoutContent() {
             </div>
             
             {/* Dynamic Toast Container */}
-            <div className="fixed top-4 right-4 z-[100] flex flex-col gap-3 pointer-events-none">
+            <div className="fixed bottom-5 right-5 z-[60] flex flex-col gap-2 max-w-sm w-full pointer-events-none">
                 {toasts.map((toast) => {
                     const c = config[toast.type] || config.success;
                     return (
-                        <div key={toast.id} className={`pointer-events-auto flex gap-3 bg-white/95 backdrop-blur-md border ${c.border} rounded-2xl p-4 shadow-xl min-w-[320px] max-w-sm border-l-4 ${toast.type === 'error' ? 'border-l-rose-500' : toast.type === 'warning' ? 'border-l-amber-500' : 'border-l-emerald-500'} animate-slide-in relative overflow-hidden`}>
-                            <div className={`w-8 h-8 rounded-xl ${c.bg} flex items-center justify-center flex-shrink-0`}>
-                                <iconify-icon icon={c.icon} class={`${c.iconColor} text-lg`}></iconify-icon>
+                        <div key={toast.id} className={`pointer-events-auto flex items-start gap-3 bg-white border ${c.border} rounded-2xl shadow-lg p-4 animate-slide-in-bottom`}>
+                            <div className={`w-8 h-8 rounded-lg ${c.bg} flex items-center justify-center flex-shrink-0`}>
+                                <iconify-icon icon={c.icon} class={c.iconColor}></iconify-icon>
                             </div>
                             <div className="flex-1 min-w-0">
-                                <h5 className="text-[11px] font-black text-brand-dark capitalize tracking-wider">{toast.title}</h5>
-                                <p className="text-[11px] text-brand-primary/80 font-bold mt-0.5 leading-relaxed break-words">{toast.body}</p>
+                                <p className="text-sm font-semibold text-brand-dark">{toast.title}</p>
+                                <p className="text-xs text-gray-400 mt-0.5">{toast.body}</p>
                             </div>
                             <button onClick={() => removeToast(toast.id)}
-                                className="text-gray-400 hover:text-brand-secondary flex-shrink-0 self-start p-1 hover:bg-brand-light/30 rounded-lg active:scale-95 transition-all">
-                                <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
+                                className="text-gray-300 hover:text-gray-500 transition-colors flex-shrink-0">
+                                <iconify-icon icon="solar:close-linear"></iconify-icon>
                             </button>
                         </div>
                     );
@@ -51,7 +52,9 @@ function LayoutContent() {
 export default function AppLayout() {
     return (
         <NotificationProvider>
-            <LayoutContent />
+            <ConfirmProvider>
+                <LayoutContent />
+            </ConfirmProvider>
         </NotificationProvider>
     );
 }

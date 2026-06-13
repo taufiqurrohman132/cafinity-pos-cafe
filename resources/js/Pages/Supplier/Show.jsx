@@ -2,14 +2,22 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Head from '@/Components/Head';
 import client from '@/api/client';
+import { useConfirm } from '@/context/ConfirmContext';
 
 export default function SupplierShow({ supplier }) {
+    const confirm = useConfirm();
     const navigate = useNavigate();
     const primaryContact = supplier.contacts?.find(c => c.is_primary) || supplier.contacts?.[0];
     const [noteInput, setNoteInput] = useState('');
 
     const handleDelete = async () => {
-        if (confirm(`Apakah Anda yakin ingin menghapus supplier "${supplier.name}"? Semua data kontak dan PO terkait akan ikut terhapus.`)) {
+        if (await confirm({
+            title: 'Hapus Supplier?',
+            message: `Apakah Anda yakin ingin menghapus supplier "${supplier.name}"? Semua data kontak dan PO terkait akan ikut terhapus.`,
+            isDanger: true,
+            confirmText: 'Hapus',
+            cancelText: 'Batal'
+        })) {
             try {
                 await client.delete(`/suppliers/${supplier.id}`);
                 navigate('/suppliers');
@@ -21,7 +29,14 @@ export default function SupplierShow({ supplier }) {
     };
 
     const handleStatusChange = async (newStatus) => {
-        if (confirm(`Ubah status supplier ke "${newStatus === 'active' ? 'Aktif' : newStatus === 'inactive' ? 'Nonaktif' : 'Blacklist'}"?`)) {
+        const statusLabel = newStatus === 'active' ? 'Aktif' : newStatus === 'inactive' ? 'Nonaktif' : 'Blacklist';
+        if (await confirm({
+            title: 'Ubah Status Supplier?',
+            message: `Apakah Anda yakin ingin mengubah status supplier ke "${statusLabel}"?`,
+            isDanger: false,
+            confirmText: 'Ubah',
+            cancelText: 'Batal'
+        })) {
             try {
                 await client.put(`/suppliers/${supplier.id}`, {
                     ...supplier,

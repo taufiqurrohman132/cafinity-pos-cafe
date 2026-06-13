@@ -87,9 +87,26 @@ export default function SearchIndex() {
                         </div>
 
                         {loading ? (
-                            <div className="py-20 flex flex-col items-center justify-center gap-3">
-                                <iconify-icon icon="line-md:loading-twotone-loop" class="text-4xl text-brand-secondary"></iconify-icon>
-                                <p className="text-sm font-extrabold text-brand-primary">Sedang memuat data...</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 animate-pulse">
+                                {[...Array(8)].map((_, i) => (
+                                    <div key={i} className="bg-white border border-brand-light rounded-2xl overflow-hidden flex flex-col justify-between p-4 space-y-4">
+                                        <div className="space-y-3">
+                                            {/* Image placeholder */}
+                                            <div className="aspect-video bg-brand-light/40 rounded-xl" />
+                                            {/* Text placeholders */}
+                                            <div className="w-16 h-3 bg-brand-light rounded" />
+                                            <div className="w-3/4 h-4 bg-brand-light rounded" />
+                                            <div className="w-full h-3 bg-brand-light/60 rounded" />
+                                        </div>
+                                        <div className="flex justify-between items-center pt-3 border-t border-brand-light/50">
+                                            <div className="space-y-1">
+                                                <div className="w-12 h-2.5 bg-brand-light/50 rounded" />
+                                                <div className="w-16 h-4.5 bg-brand-light rounded" />
+                                            </div>
+                                            <div className="w-14 h-7 bg-brand-light/60 rounded-lg" />
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         ) : error ? (
                             <div className="py-20 text-center">
