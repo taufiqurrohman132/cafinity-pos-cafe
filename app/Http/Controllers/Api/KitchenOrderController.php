@@ -98,13 +98,12 @@ class KitchenOrderController extends Controller
 
         $order->loadMissing('transaction');
         if ($order->transaction && $order->transaction->cashier_id) {
-            \App\Models\Notification::create([
-                'user_id' => $order->transaction->cashier_id,
-                'title'   => 'Pesanan Siap Diambil',
-                'body'    => "Pesanan untuk Invoice #{$order->transaction_id} telah siap disajikan oleh dapur.",
-                'type'    => 'system',
-                'is_read' => false,
-            ]);
+            dispatch(new \App\Jobs\CreateSystemNotification(
+                $order->transaction->cashier_id,
+                'Pesanan Siap Diambil',
+                "Pesanan untuk Invoice #{$order->transaction_id} telah siap disajikan oleh dapur.",
+                'system'
+            ));
         }
 
         return response()->json([

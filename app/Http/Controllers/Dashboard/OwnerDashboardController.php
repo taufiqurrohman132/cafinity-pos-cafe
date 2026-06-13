@@ -252,21 +252,14 @@ class OwnerDashboardController extends Controller
 
     private function estimateHpp($date): int
     {
-        return (int) TransactionItem::query()
-            ->whereHas('transaction', fn($q) => $q
-                ->where('status', 'completed')
-                ->whereDate('created_at', $date))
-            ->with('menu.recipe.ingredients')
-            ->get()
-            ->sum(function (TransactionItem $item) {
-                $recipe = $item->menu?->recipe;
-
-                if (! $recipe) {
-                    return 0;
-                }
-
-                return (int) ($recipe->total_hpp * $item->qty);
-            });
+        return (int) DB::table('transaction_items')
+            ->join('transactions', 'transaction_items.transaction_id', '=', 'transactions.id')
+            ->join('menus', 'transaction_items.menu_id', '=', 'menus.id')
+            ->leftJoin('recipes', 'menus.id', '=', 'recipes.menu_id')
+            ->where('transactions.status', 'completed')
+            ->whereDate('transactions.created_at', $date)
+            ->selectRaw('SUM(COALESCE(recipes.total_hpp, 0) * transaction_items.qty) as total_hpp')
+            ->value('total_hpp') ?? 0;
     }
 
     private function buildSalesChart($date): array
@@ -299,25 +292,21 @@ class OwnerDashboardController extends Controller
 
     private function bestSellingMenus($today, $yesterday): array
     {
-        $todayIds = Transaction::query()
-            ->where('status', 'completed')
-            ->whereDate('created_at', $today)
-            ->pluck('id');
-
-        $yesterdayIds = Transaction::query()
-            ->where('status', 'completed')
-            ->whereDate('created_at', $yesterday)
-            ->pluck('id');
-
         $todaySales = TransactionItem::query()
-            ->whereIn('transaction_id', $todayIds)
+            ->whereIn('transaction_id', Transaction::select('id')
+                ->where('status', 'completed')
+                ->whereDate('created_at', $today)
+            )
             ->select('menu_id', DB::raw('SUM(qty) as total_qty'))
             ->groupBy('menu_id')
             ->get()
             ->pluck('total_qty', 'menu_id');
 
         $yesterdaySales = TransactionItem::query()
-            ->whereIn('transaction_id', $yesterdayIds)
+            ->whereIn('transaction_id', Transaction::select('id')
+                ->where('status', 'completed')
+                ->whereDate('created_at', $yesterday)
+            )
             ->select('menu_id', DB::raw('SUM(qty) as total_qty'))
             ->groupBy('menu_id')
             ->get()
@@ -386,28 +375,30 @@ class OwnerDashboardController extends Controller
 
     private function profitabilityAnalysis(): array
     {
-        return Menu::with(['recipe.ingredients', 'category'])
-            ->where('is_active', true)
-            ->get()
-            ->map(function (Menu $menu) {
-                $hpp = $menu->recipe?->total_hpp ?? 0;
-                $profit = max(0, $menu->price - $hpp);
-                $margin = $menu->price > 0 ? round(($profit / $menu->price) * 100) : 0;
+        return \Illuminate\Support\Facades\Cache::remember('profitability_analysis', 300, function () {
+            return Menu::with(['recipe', 'category'])
+                ->where('is_active', true)
+                ->get()
+                ->map(function (Menu $menu) {
+                    $hpp = $menu->recipe?->total_hpp ?? 0;
+                    $profit = max(0, $menu->price - $hpp);
+                    $margin = $menu->price > 0 ? round(($profit / $menu->price) * 100) : 0;
 
-                return [
-                    'id' => $menu->id,
-                    'name' => $menu->name,
-                    'price' => $this->rupiah($menu->price),
-                    'hpp' => $this->rupiah($hpp),
-                    'profit' => '+ ' . $this->rupiah($profit),
-                    'margin' => $margin . '%',
-                    'margin_pct' => $margin,
-                ];
-            })
-            ->sortByDesc('margin_pct')
-            ->take(5)
-            ->values()
-            ->all();
+                    return [
+                        'id' => $menu->id,
+                        'name' => $menu->name,
+                        'price' => $this->rupiah($menu->price),
+                        'hpp' => $this->rupiah($hpp),
+                        'profit' => '+ ' . $this->rupiah($profit),
+                        'margin' => $margin . '%',
+                        'margin_pct' => $margin,
+                    ];
+                })
+                ->sortByDesc('margin_pct')
+                ->take(5)
+                ->values()
+                ->all();
+        });
     }
 
     private function dailyGoal($today, int $todayRevenue): array

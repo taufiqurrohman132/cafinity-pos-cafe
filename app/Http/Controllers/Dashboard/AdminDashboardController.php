@@ -154,28 +154,30 @@ class AdminDashboardController extends Controller
 
     private function profitabilityAnalysis(): array
     {
-        return Menu::with(['recipe.ingredients', 'category'])
-            ->where('is_active', true)
-            ->get()
-            ->map(function (Menu $menu) {
-                $hpp = $menu->recipe?->total_hpp ?? 0;
-                $profit = max(0, $menu->price - $hpp);
-                $margin = $menu->price > 0 ? round(($profit / $menu->price) * 100) : 0;
+        return \Illuminate\Support\Facades\Cache::remember('profitability_analysis', 300, function () {
+            return Menu::with(['recipe', 'category'])
+                ->where('is_active', true)
+                ->get()
+                ->map(function (Menu $menu) {
+                    $hpp = $menu->recipe?->total_hpp ?? 0;
+                    $profit = max(0, $menu->price - $hpp);
+                    $margin = $menu->price > 0 ? round(($profit / $menu->price) * 100) : 0;
 
-                return [
-                    'id'         => $menu->id,
-                    'name'       => $menu->name,
-                    'price'      => $this->rupiah($menu->price),
-                    'hpp'        => $this->rupiah($hpp),
-                    'profit'     => '+ ' . $this->rupiah($profit),
-                    'margin'     => $margin . '%',
-                    'margin_pct' => $margin,
-                ];
-            })
-            ->sortByDesc('margin_pct')
-            ->take(5)
-            ->values()
-            ->all();
+                    return [
+                        'id'         => $menu->id,
+                        'name'       => $menu->name,
+                        'price'      => $this->rupiah($menu->price),
+                        'hpp'        => $this->rupiah($hpp),
+                        'profit'     => '+ ' . $this->rupiah($profit),
+                        'margin'     => $margin . '%',
+                        'margin_pct' => $margin,
+                    ];
+                })
+                ->sortByDesc('margin_pct')
+                ->take(5)
+                ->values()
+                ->all();
+        });
     }
 
     private function rupiah(int $amount): string

@@ -209,11 +209,11 @@ npm run dev
 
 Gunakan daftar akun berikut setelah melakukan *seeding* database untuk menguji hak akses masing-masing peran:
 
-| Nama Pengguna | Surel (Email) | Kata Sandi (Password) | Hak Akses (Role) |
-| :--- | :--- | :--- | :--- |
-| **Budi Santoso** | `budi.s@smartcafe.id` | `password` | **Owner** (Semua Hak Akses & Laporan) |
-| **Siti Aminah** | `siti.a@smartcafe.id` | `password` | **Admin** (Pengelola Menu, Stok, & PO) |
-| **Rizky Pratama** | `rizky.p@smartcafe.id` | `password` | **Cashier** (Kasir POS, Hold/Resume, Shift) |
+| Nama Pengguna     | Surel (Email)          | Kata Sandi (Password) | Hak Akses (Role)                            |
+| :------------------| :-----------------------| :----------------------| :--------------------------------------------|
+| **Budi Santoso**  | `budi.s@smartcafe.id`  | `password`            | **Owner** (Semua Hak Akses & Laporan)       |
+| **Siti Aminah**   | `siti.a@smartcafe.id`  | `password`            | **Admin** (Pengelola Menu, Stok, & PO)      |
+| **Rizky Pratama** | `rizky.p@smartcafe.id` | `password`            | **Cashier** (Kasir POS, Hold/Resume, Shift) |
 
 ---
 

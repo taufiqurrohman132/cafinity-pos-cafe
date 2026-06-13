@@ -200,13 +200,12 @@ class TransactionController extends Controller
                             
                             $admins = User::whereIn('role', ['owner', 'admin'])->get();
                             foreach ($admins as $admin) {
-                                Notification::create([
-                                    'user_id' => $admin->id,
-                                    'title'   => 'Stok Bahan Baku Menipis',
-                                    'body'    => "Bahan baku {$ingredient->name} tersisa {$ingredient->stock} {$ingredient->unit} (minimum {$ingredient->min_stock} {$ingredient->unit}).",
-                                    'type'    => 'stock',
-                                    'is_read' => false,
-                                ]);
+                                dispatch(new \App\Jobs\CreateSystemNotification(
+                                    $admin->id,
+                                    'Stok Bahan Baku Menipis',
+                                    "Bahan baku {$ingredient->name} tersisa {$ingredient->stock} {$ingredient->unit} (minimum {$ingredient->min_stock} {$ingredient->unit}).",
+                                    'stock'
+                                ));
                             }
                         }
                     }

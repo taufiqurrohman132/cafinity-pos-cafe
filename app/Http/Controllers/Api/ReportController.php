@@ -88,29 +88,25 @@ class ReportController extends Controller
             ->get()
             ->keyBy('date');
 
-        $hppChart = TransactionItem::whereHas(
-            'transaction',
-            fn($q) => $q
-                ->where('status', 'completed')
-                ->whereBetween('created_at', [$startDate, $endDate])
-        )
-            ->with('menu.recipe')
-            ->get()
-            ->groupBy(fn($item) => $item->created_at->toDateString())
-            ->map(fn($items) => $items->sum(
-                fn($item) => ($item->menu?->recipe?->total_hpp ?? 0) * $item->qty
-            ));
+        // HPP chart menggunakan DB aggregate sum untuk performa optimal
+        $hppChart = DB::table('transaction_items')
+            ->join('transactions', 'transaction_items.transaction_id', '=', 'transactions.id')
+            ->join('menus', 'transaction_items.menu_id', '=', 'menus.id')
+            ->leftJoin('recipes', 'menus.id', '=', 'recipes.menu_id')
+            ->where('transactions.status', 'completed')
+            ->whereBetween('transactions.created_at', [$startDate, $endDate])
+            ->selectRaw('DATE(transactions.created_at) as date, SUM(COALESCE(recipes.total_hpp, 0) * transaction_items.qty) as total_hpp')
+            ->groupBy('date')
+            ->pluck('total_hpp', 'date');
 
-        $chartLabels  = [];
-        $chartRevenue = [];
-        $chartProfit  = [];
-
-        for ($i = $days - 1; $i >= 0; $i--) {
-            $date    = now()->subDays($i)->toDateString();
-            $rev     = (int) ($revenueChart[$date]->revenue ?? 0);
-            $hpp     = (int) ($hppChart[$date] ?? 0);
-
-            $chartLabels[]  = now()->subDays($i)->translatedFormat('d M');
+        // Build chart labels — hitung dari selisih hari
+        $diffDays = (int) $startDate->diffInDays($endDate) + 1;
+        $chartLabels = $chartRevenue = $chartProfit = [];
+        for ($i = $diffDays - 1; $i >= 0; $i--) {
+            $date           = $endDate->copy()->subDays($i)->toDateString();
+            $rev            = (int) ($revenueChart[$date]->revenue ?? 0);
+            $hpp            = (int) ($hppChart[$date] ?? 0);
+            $chartLabels[]  = $endDate->copy()->subDays($i)->translatedFormat('d M');
             $chartRevenue[] = $rev;
             $chartProfit[]  = max(0, $rev - $hpp);
         }
@@ -148,12 +144,16 @@ class ReportController extends Controller
         $avgTrendType    = $avgTrend    >= 0 ? 'up' : 'down';
         $profitTrendType = $profitTrend >= 0 ? 'up' : 'down';
 
+        // Donut chart komposisi penjualan per kategori
         $donutRaw = TransactionItem::whereHas(
             'transaction',
             fn($q) => $q
                 ->where('status', 'completed')
-                ->whereBetween('created_at', [now()->subDays($days - 1)->startOfDay(), now()->endOfDay()])
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->when($kasirId,       fn($q) => $q->where('cashier_id', $kasirId))
+                ->when($paymentMethod, fn($q) => $q->where('payment_method', $paymentMethod))
         )
+            ->when($kategoriId, fn($q) => $q->whereHas('menu', fn($q2) => $q2->where('category_id', $kategoriId)))
             ->with('menu.category')
             ->get()
             ->groupBy(fn($item) => $item->menu?->category?->name ?? 'Lainnya')
@@ -166,8 +166,11 @@ class ReportController extends Controller
         $donutColors = ['#443dff', '#34d399', '#f87171', '#fbbf24', '#a78bfa', '#38bdf8', '#fb923c'];
         $donutBg     = collect($donutLabels)->keys()->map(fn($i) => $donutColors[$i % count($donutColors)])->toArray();
 
+        // Jam sibuk dari DB
         $busyRaw = Transaction::where('status', 'completed')
-            ->whereBetween('created_at', [now()->subDays($days - 1)->startOfDay(), now()->endOfDay()])
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->when($kasirId,       fn($q) => $q->where('cashier_id', $kasirId))
+            ->when($paymentMethod, fn($q) => $q->where('payment_method', $paymentMethod))
             ->selectRaw('HOUR(created_at) as hour, COUNT(*) as total')
             ->groupBy('hour')
             ->orderBy('hour')

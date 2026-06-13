@@ -17,7 +17,7 @@ export const options = {
 };
 
 // URL Dasar server pengujian (dapat diubah melalui environment variable)
-const BASE_URL = __ENV.BASE_URL || 'http://127.0.0.1:8000';
+const BASE_URL = __ENV.BASE_URL || 'http://cafinity-app-laravel.test';
 
 /**
  * Setup Phase: Dijalankan sekali di awal pengujian.

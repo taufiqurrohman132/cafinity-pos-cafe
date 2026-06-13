@@ -39,12 +39,14 @@ class AuditLog extends Model
 
     public static function record(string $action, ?Model $target = null, ?array $metadata = null): self
     {
-        return static::create([
-            'user_id'     => auth()->id(),
-            'action'      => $action,
-            'target_type' => $target ? $target::class : null,
-            'target_id'   => $target?->getKey(),
-            'metadata'    => $metadata,
-        ]);
+        dispatch(new \App\Jobs\LogAuditAction(
+            $action,
+            $target ? $target::class : null,
+            $target?->getKey(),
+            $metadata,
+            auth()->id()
+        ));
+
+        return new static();
     }
 }

@@ -103,34 +103,7 @@ class ReportController extends Controller
             ->get()
             ->keyBy('date');
 
-        // HPP chart
-        $hppChart = TransactionItem::whereHas(
-            'transaction',
-            fn($q) => $q
-                ->where('status', 'completed')
-                ->whereBetween('created_at', [$startDate, $endDate])
-        )
-            ->with('menu.recipe')
-            ->get()
-            ->groupBy(fn($item) => $item->created_at->toDateString())
-            ->map(fn($items) => $items->sum(
-                fn($item) => ($item->menu?->recipe?->total_hpp ?? 0) * $item->qty
-            ));
-
-        // Build chart labels — hitung dari selisih hari
-        // Build chart labels — hitung dari selisih hari
-        $diffDays = (int) $startDate->diffInDays($endDate) + 1;
-        $chartLabels = $chartRevenue = $chartProfit = [];
-        for ($i = $diffDays - 1; $i >= 0; $i--) {
-            $date           = $endDate->copy()->subDays($i)->toDateString();
-            $rev            = (int) ($revenueChart[$date]->revenue ?? 0);
-            $hpp            = (int) ($hppChart[$date] ?? 0);
-            $chartLabels[]  = $endDate->copy()->subDays($i)->translatedFormat('d M');
-            $chartRevenue[] = $rev;
-            $chartProfit[]  = max(0, $rev - $hpp);
-        }
-
-        // Donut
+        // Donut chart komposisi penjualan per kategori
         $donutRaw = TransactionItem::whereHas(
             'transaction',
             fn($q) => $q
@@ -144,7 +117,16 @@ class ReportController extends Controller
             ->get()
             ->groupBy(fn($item) => $item->menu?->category?->name ?? 'Lainnya')
             ->map(fn($items) => $items->sum('subtotal'));
-        // Jam sibuk
+
+        $donutTotal  = $donutRaw->sum() ?: 1;
+        $donutLabels = $donutRaw->keys()->values()->toArray();
+        $donutData   = $donutRaw->map(fn($val) => round(($val / $donutTotal) * 100, 1))->values()->toArray();
+
+        // Warna otomatis berdasarkan jumlah kategori
+        $donutColors = ['#443dff', '#34d399', '#f87171', '#fbbf24', '#a78bfa', '#38bdf8', '#fb923c'];
+        $donutBg     = collect($donutLabels)->keys()->map(fn($i) => $donutColors[$i % count($donutColors)])->toArray();
+
+        // Jam sibuk dari DB
         $busyRaw = Transaction::where('status', 'completed')
             ->whereBetween('created_at', [$startDate, $endDate])
             ->when($kasirId,       fn($q) => $q->where('cashier_id', $kasirId))
@@ -154,31 +136,34 @@ class ReportController extends Controller
             ->orderBy('hour')
             ->pluck('total', 'hour');
 
-        // Hitung HPP per hari
-        $hppChart = TransactionItem::whereHas(
-            'transaction',
-            fn($q) => $q
-                ->where('status', 'completed')
-                ->whereBetween('created_at', [$startDate, $endDate])
-        )
-            ->with('menu.recipe')
-            ->get()
-            ->groupBy(fn($item) => $item->created_at->toDateString())
-            ->map(fn($items) => $items->sum(
-                fn($item) => ($item->menu?->recipe?->total_hpp ?? 0) * $item->qty
-            ));
+        $operationalHours = [8, 10, 12, 14, 16, 18, 20];
+        $maxBusy = $busyRaw->max() ?: 1;
 
-        // Build labels & data
-        $chartLabels  = [];
-        $chartRevenue = [];
-        $chartProfit  = [];
+        $busySlots = collect($operationalHours)->map(fn($hour) => [
+            'label'  => sprintf('%02d:00', $hour),
+            'count'  => (int) ($busyRaw[$hour] ?? 0),
+            'height' => round((($busyRaw[$hour] ?? 0) / $maxBusy) * 100),
+        ])->toArray();
 
-        for ($i = $days - 1; $i >= 0; $i--) {
-            $date    = now()->subDays($i)->toDateString();
-            $rev     = (int) ($revenueChart[$date]->revenue ?? 0);
-            $hpp     = (int) ($hppChart[$date] ?? 0);
+        // Hitung HPP per hari menggunakan DB join untuk performa optimal
+        $hppChart = \Illuminate\Support\Facades\DB::table('transaction_items')
+            ->join('transactions', 'transaction_items.transaction_id', '=', 'transactions.id')
+            ->join('menus', 'transaction_items.menu_id', '=', 'menus.id')
+            ->leftJoin('recipes', 'menus.id', '=', 'recipes.menu_id')
+            ->where('transactions.status', 'completed')
+            ->whereBetween('transactions.created_at', [$startDate, $endDate])
+            ->selectRaw('DATE(transactions.created_at) as date, SUM(COALESCE(recipes.total_hpp, 0) * transaction_items.qty) as total_hpp')
+            ->groupBy('date')
+            ->pluck('total_hpp', 'date');
 
-            $chartLabels[]  = now()->subDays($i)->translatedFormat('d M');
+        // Build chart labels — hitung dari selisih hari
+        $diffDays = (int) $startDate->diffInDays($endDate) + 1;
+        $chartLabels = $chartRevenue = $chartProfit = [];
+        for ($i = $diffDays - 1; $i >= 0; $i--) {
+            $date           = $endDate->copy()->subDays($i)->toDateString();
+            $rev            = (int) ($revenueChart[$date]->revenue ?? 0);
+            $hpp            = (int) ($hppChart[$date] ?? 0);
+            $chartLabels[]  = $endDate->copy()->subDays($i)->translatedFormat('d M');
             $chartRevenue[] = $rev;
             $chartProfit[]  = max(0, $rev - $hpp);
         }
@@ -217,43 +202,6 @@ class ReportController extends Controller
         $ordersTrendType = $ordersTrend >= 0 ? 'up' : 'down';
         $avgTrendType    = $avgTrend    >= 0 ? 'up' : 'down';
         $profitTrendType = $profitTrend >= 0 ? 'up' : 'down';
-
-        // Donut chart komposisi penjualan per kategori
-        $donutRaw = TransactionItem::whereHas(
-            'transaction',
-            fn($q) => $q
-                ->where('status', 'completed')
-                ->whereBetween('created_at', [now()->subDays($days - 1)->startOfDay(), now()->endOfDay()])
-        )
-            ->with('menu.category')
-            ->get()
-            ->groupBy(fn($item) => $item->menu?->category?->name ?? 'Lainnya')
-            ->map(fn($items) => $items->sum('subtotal'));
-
-        $donutTotal  = $donutRaw->sum() ?: 1;
-        $donutLabels = $donutRaw->keys()->values()->toArray();
-        $donutData   = $donutRaw->map(fn($val) => round(($val / $donutTotal) * 100, 1))->values()->toArray();
-
-        // Warna otomatis berdasarkan jumlah kategori
-        $donutColors = ['#443dff', '#34d399', '#f87171', '#fbbf24', '#a78bfa', '#38bdf8', '#fb923c'];
-        $donutBg     = collect($donutLabels)->keys()->map(fn($i) => $donutColors[$i % count($donutColors)])->toArray();
-
-        // Jam sibuk dari DB
-        $busyRaw = Transaction::where('status', 'completed')
-            ->whereBetween('created_at', [now()->subDays($days - 1)->startOfDay(), now()->endOfDay()])
-            ->selectRaw('HOUR(created_at) as hour, COUNT(*) as total')
-            ->groupBy('hour')
-            ->orderBy('hour')
-            ->pluck('total', 'hour');
-
-        $operationalHours = [8, 10, 12, 14, 16, 18, 20];
-        $maxBusy = $busyRaw->max() ?: 1;
-
-        $busySlots = collect($operationalHours)->map(fn($hour) => [
-            'label'  => sprintf('%02d:00', $hour),
-            'count'  => (int) ($busyRaw[$hour] ?? 0),
-            'height' => round((($busyRaw[$hour] ?? 0) / $maxBusy) * 100),
-        ])->toArray();
 
         // Target bulanan
         $monthlyTarget = Target::query()
