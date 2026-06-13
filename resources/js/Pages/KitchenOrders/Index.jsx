@@ -158,7 +158,7 @@ export default function KitchenOrdersIndex() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat data antrean dapur dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -335,7 +335,7 @@ export default function KitchenOrdersIndex() {
                                     {order.status === 'pending' && (
                                         <button
                                             onClick={() => postAction(`/kitchen-orders/${order.id}/prepare`)}
-                                            className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md shadow-brand-primary/20 active:scale-[0.98]"
+                                            className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md shadow-brand-primary/20 active:scale-[0.97]"
                                         >
                                             Mulai Memasak
                                         </button>
@@ -344,7 +344,7 @@ export default function KitchenOrdersIndex() {
                                     {order.status === 'preparing' && (<>
                                         <button
                                             onClick={() => postAction(`/kitchen-orders/${order.id}/back`)}
-                                            className="py-2.5 px-4 text-xs font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light/40 transition-colors flex items-center gap-1.5 flex-shrink-0"
+                                            className="py-2.5 px-4 text-xs font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light/40 transition-colors flex items-center gap-1.5 flex-shrink-0 active:scale-[0.97]"
                                             title="Kembalikan Status"
                                         >
                                             <iconify-icon icon="solar:undo-left-round-linear" class="text-sm text-brand-secondary" />
@@ -352,7 +352,7 @@ export default function KitchenOrdersIndex() {
                                         </button>
                                         <button
                                             onClick={() => postAction(`/kitchen-orders/${order.id}/ready`)}
-                                            className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md shadow-brand-primary/20 active:scale-[0.98]"
+                                            className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md shadow-brand-primary/20 active:scale-[0.97]"
                                         >
                                             Siap Diambil
                                         </button>
@@ -361,7 +361,7 @@ export default function KitchenOrdersIndex() {
                                     {order.status === 'ready' && (<>
                                         <button
                                             onClick={() => postAction(`/kitchen-orders/${order.id}/back`)}
-                                            className="py-2.5 px-4 text-xs font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light/40 transition-colors flex items-center gap-1.5 flex-shrink-0"
+                                            className="py-2.5 px-4 text-xs font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light/40 transition-colors flex items-center gap-1.5 flex-shrink-0 active:scale-[0.97]"
                                             title="Kembalikan Status"
                                         >
                                             <iconify-icon icon="solar:undo-left-round-linear" class="text-sm text-brand-secondary" />
@@ -369,7 +369,7 @@ export default function KitchenOrdersIndex() {
                                         </button>
                                         <button
                                             onClick={() => postAction(`/kitchen-orders/${order.id}/complete`)}
-                                            className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
+                                            className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md active:scale-[0.97] flex items-center justify-center gap-2"
                                         >
                                             <iconify-icon icon="solar:check-circle-linear" class="text-sm" />
                                             Telah Diambil

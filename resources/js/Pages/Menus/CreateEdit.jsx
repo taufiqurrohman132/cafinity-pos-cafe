@@ -344,7 +344,7 @@ export default function MenusCreateEdit() {
                                 type="button"
                                 onClick={(e) => handleSubmit(e, true)}
                                 disabled={processing}
-                                className="px-6 py-2.5 text-xs font-extrabold text-white bg-brand-dark hover:bg-brand-primary rounded-xl transition duration-150 active:scale-95 shadow-md disabled:opacity-60"
+                                className="px-6 py-2.5 text-xs font-extrabold text-white bg-brand-dark hover:bg-brand-primary rounded-xl duration-150 active:scale-[0.97] shadow-md disabled:opacity-60 transition-all"
                             >
                                 {processing ? 'Menyimpan...' : 'Simpan Menu'}
                             </button>
@@ -360,7 +360,7 @@ export default function MenusCreateEdit() {
                             </div>
                             <div className="flex items-center gap-3">
                                 <Link to="/menus" className="text-xs font-extrabold text-emerald-600 hover:text-emerald-800 transition-colors">Lihat di Katalog</Link>
-                                <button onClick={() => setSuccessMessage('')} className="text-emerald-500 hover:text-emerald-800 text-xs font-black">Tutup</button>
+                                <button onClick={() => setSuccessMessage('')} className="text-emerald-500 hover:text-emerald-800 text-xs font-black transition-all duration-150 active:scale-[0.97]">Tutup</button>
                             </div>
                         </div>
                     )}
@@ -414,7 +414,7 @@ export default function MenusCreateEdit() {
                                             <button 
                                                 type="button"
                                                 onClick={() => fileInputRef.current?.click()}
-                                                className="px-3 py-1.5 text-[10px] font-bold bg-brand-light/40 text-brand-primary hover:bg-brand-light rounded-lg border border-brand-light transition duration-150"
+                                                className="px-3 py-1.5 text-[10px] font-bold bg-brand-light/40 text-brand-primary hover:bg-brand-light rounded-lg border border-brand-light duration-150 transition-all active:scale-[0.97]"
                                             >
                                                 Pilih File
                                             </button>
@@ -422,7 +422,7 @@ export default function MenusCreateEdit() {
                                                 <button 
                                                     type="button"
                                                     onClick={handleRemoveImage}
-                                                    className="px-3 py-1.5 text-[10px] font-bold text-rose-500 hover:bg-rose-50 rounded-lg transition duration-150"
+                                                    className="px-3 py-1.5 text-[10px] font-bold text-rose-500 hover:bg-rose-50 rounded-lg duration-150 transition-all active:scale-[0.97]"
                                                 >
                                                     Hapus
                                                 </button>
@@ -456,7 +456,7 @@ export default function MenusCreateEdit() {
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
                                             placeholder="Contoh: Caramel Macchiato Large"
-                                            className={`w-full h-10 px-3 text-xs bg-brand-bg border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark ${errors.name ? 'border-rose-300 ring-2 ring-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-10 px-3 text-xs bg-brand-bg border rounded-xl focus:outline-none transition-all font-bold text-brand-dark ${errors.name ? 'border-rose-300 ring-2 ring-rose-50' : 'border-brand-light'} hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                         />
                                         {errors.name && (
                                             <p className="text-[10px] text-rose-500 font-bold mt-1">
@@ -474,7 +474,7 @@ export default function MenusCreateEdit() {
                                             required
                                             value={categoryId}
                                             onChange={(e) => setCategoryId(e.target.value)}
-                                            className={`w-full h-10 px-3 text-xs bg-brand-bg border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all cursor-pointer font-bold text-brand-dark ${errors.category_id ? 'border-rose-300 ring-2 ring-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-10 px-3 text-xs bg-brand-bg border rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark ${errors.category_id ? 'border-rose-300 ring-2 ring-rose-50' : 'border-brand-light'} focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                         >
                                             <option value="" disabled>-- Pilih Kategori --</option>
                                             {categories.map((cat) => (
@@ -489,7 +489,7 @@ export default function MenusCreateEdit() {
                                         <button 
                                             type="button"
                                             onClick={() => setShowCategoryModal(true)}
-                                            className="text-[10px] font-bold text-brand-secondary hover:text-brand-primary transition-colors flex items-center gap-1 mt-1.5"
+                                            className="text-[10px] font-bold text-brand-secondary hover:text-brand-primary transition-colors flex items-center gap-1 mt-1.5 active:scale-[0.97]"
                                         >
                                             <iconify-icon icon="solar:add-circle-linear" class="text-xs"></iconify-icon>
                                             Tambah Kategori
@@ -506,7 +506,7 @@ export default function MenusCreateEdit() {
                                             value={sku}
                                             onChange={(e) => setSku(e.target.value)}
                                             placeholder="MAC-D01"
-                                            className="w-full h-10 px-3 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark"
+                                            className="w-full h-10 px-3 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         />
                                         <span className="text-[9px] text-brand-primary/60 mt-1 italic block">
                                             Opsional untuk manajemen inventori eksternal.
@@ -523,7 +523,7 @@ export default function MenusCreateEdit() {
                                             onChange={(e) => setDescription(e.target.value)}
                                             placeholder="Jelaskan rasa, bahan utama, atau catatan penyajian..."
                                             rows={3}
-                                            className="w-full p-3 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all resize-none font-medium text-brand-dark"
+                                            className="w-full p-3 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all resize-none font-medium text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         />
                                     </div>
                                 </div>
@@ -551,7 +551,7 @@ export default function MenusCreateEdit() {
                                                 value={price}
                                                 onChange={(e) => setPrice(e.target.value)}
                                                 placeholder="0"
-                                                className={`w-full h-10 pl-9 pr-3 text-xs bg-brand-bg border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-secondary ${errors.price ? 'border-rose-300 ring-2 ring-rose-50' : 'border-brand-light'}`}
+                                                className={`w-full h-10 pl-9 pr-3 text-xs bg-brand-bg border rounded-xl focus:outline-none transition-all font-bold text-brand-secondary ${errors.price ? 'border-rose-300 ring-2 ring-rose-50' : 'border-brand-light'} hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                             />
                                         </div>
                                         {errors.price && (
@@ -574,7 +574,7 @@ export default function MenusCreateEdit() {
                                                 value={estimatedHpp}
                                                 onChange={(e) => setEstimatedHpp(e.target.value)}
                                                 placeholder="0"
-                                                className="w-full h-10 pl-9 pr-3 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark"
+                                                className="w-full h-10 pl-9 pr-3 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                         </div>
                                     </div>
@@ -625,14 +625,14 @@ export default function MenusCreateEdit() {
                                             <button 
                                                 type="button"
                                                 onClick={() => setIsActive(true)}
-                                                className={`px-4 py-1.5 text-xs font-extrabold rounded-lg transition-all ${isActive ? 'bg-white text-brand-dark shadow-sm border border-brand-light' : 'text-brand-primary/40 hover:text-brand-dark'}`}
+                                                className={`px-4 py-1.5 text-xs font-extrabold rounded-lg transition-all ${isActive ? 'bg-white text-brand-dark shadow-sm border border-brand-light' : 'text-brand-primary/40 hover:text-brand-dark'} active:scale-[0.97]`}
                                             >
                                                 Tersedia
                                             </button>
                                             <button 
                                                 type="button"
                                                 onClick={() => setIsActive(false)}
-                                                className={`px-4 py-1.5 text-xs font-extrabold rounded-lg transition-all ${!isActive ? 'bg-white text-brand-dark shadow-sm border border-brand-light' : 'text-brand-primary/40 hover:text-brand-dark'}`}
+                                                className={`px-4 py-1.5 text-xs font-extrabold rounded-lg transition-all ${!isActive ? 'bg-white text-brand-dark shadow-sm border border-brand-light' : 'text-brand-primary/40 hover:text-brand-dark'} active:scale-[0.97]`}
                                             >
                                                 Habis
                                             </button>
@@ -657,7 +657,7 @@ export default function MenusCreateEdit() {
                                                     <button 
                                                         type="button"
                                                         onClick={() => handleRemoveTag(idx)}
-                                                        className="text-brand-primary/50 hover:text-rose-500 font-bold shrink-0"
+                                                        className="text-brand-primary/50 hover:text-rose-500 font-bold shrink-0 transition-all duration-150 active:scale-[0.97]"
                                                     >
                                                         ✕
                                                     </button>
@@ -671,17 +671,17 @@ export default function MenusCreateEdit() {
                                                         value={newTag}
                                                         onChange={(e) => setNewTag(e.target.value)}
                                                         placeholder="Ketik tag..."
-                                                        className="w-20 h-6 px-1.5 text-[10px] bg-white border border-brand-light rounded focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark"
+                                                        className="w-20 h-6 px-1.5 text-[10px] bg-white border border-brand-light rounded focus:outline-none font-bold text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                         autoFocus
                                                     />
-                                                    <button type="submit" className="text-xs text-brand-secondary hover:text-brand-primary">✓</button>
-                                                    <button type="button" onClick={() => setShowTagInput(false)} className="text-xs text-brand-primary/40 hover:text-rose-500">✕</button>
+                                                    <button type="submit" className="text-xs text-brand-secondary hover:text-brand-primary transition-all duration-150 active:scale-[0.97]">✓</button>
+                                                    <button type="button" onClick={() => setShowTagInput(false)} className="text-xs text-brand-primary/40 hover:text-rose-500 transition-all duration-150 active:scale-[0.97]">✕</button>
                                                 </form>
                                             ) : (
                                                 <button 
                                                     type="button"
                                                     onClick={() => setShowTagInput(true)}
-                                                    className="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-extrabold bg-white border border-brand-light text-brand-primary rounded-lg hover:border-brand-secondary hover:bg-brand-bg transition-all"
+                                                    className="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-extrabold bg-white border border-brand-light text-brand-primary rounded-lg hover:border-brand-secondary hover:bg-brand-bg transition-all active:scale-[0.97]"
                                                 >
                                                     + Tambah Tag
                                                 </button>
@@ -769,9 +769,7 @@ export default function MenusCreateEdit() {
                                     <button 
                                         type="button"
                                         onClick={() => setIsInventoryEnabled(!isInventoryEnabled)}
-                                        className={`relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                                            isInventoryEnabled ? 'bg-brand-secondary' : 'bg-brand-light'
-                                        }`}
+                                        className={`relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${ isInventoryEnabled ? 'bg-brand-secondary' : 'bg-brand-light' } active:scale-[0.97]`}
                                     >
                                         <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
                                             isInventoryEnabled ? 'translate-x-5' : 'translate-x-0'
@@ -795,7 +793,7 @@ export default function MenusCreateEdit() {
                                                     type="number"
                                                     value={initialStock}
                                                     onChange={(e) => setInitialStock(e.target.value)}
-                                                    className="w-full h-8 px-2.5 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark"
+                                                    className="w-full h-8 px-2.5 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none font-bold text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                 />
                                             </div>
 
@@ -808,7 +806,7 @@ export default function MenusCreateEdit() {
                                                     type="text"
                                                     value={unit}
                                                     onChange={(e) => setUnit(e.target.value)}
-                                                    className="w-full h-8 px-2.5 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark"
+                                                    className="w-full h-8 px-2.5 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none font-bold text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                 />
                                             </div>
                                         </div>
@@ -828,7 +826,7 @@ export default function MenusCreateEdit() {
                                                 type="number"
                                                 value={minStock}
                                                 onChange={(e) => setMinStock(e.target.value)}
-                                                className="w-full h-8 px-2.5 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark"
+                                                className="w-full h-8 px-2.5 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none font-bold text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                             <span className="text-[9px] text-brand-primary/60 mt-1 block">
                                                 Sistem akan memberi notifikasi saat stok di bawah angka ini.
@@ -844,7 +842,7 @@ export default function MenusCreateEdit() {
                                     type="button"
                                     onClick={(e) => handleSubmit(e, true)}
                                     disabled={processing}
-                                    className="w-full py-3 bg-brand-dark text-white rounded-xl text-xs font-black shadow-md hover:bg-brand-primary active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                                    className="w-full py-3 bg-brand-dark text-white rounded-xl text-xs font-black shadow-md hover:bg-brand-primary active:scale-[0.97] transition-all flex items-center justify-center gap-2"
                                 >
                                     {processing ? 'Memproses...' : isEditMode ? 'Simpan Menu Baru' : 'Simpan Menu Baru'}
                                 </button>
@@ -859,7 +857,7 @@ export default function MenusCreateEdit() {
                                         type="button"
                                         disabled={processing || isEditMode}
                                         onClick={(e) => handleSubmit(e, false)}
-                                        className="py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-bg text-center transition-all shadow-sm flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-bg text-center transition-all shadow-sm flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97]"
                                     >
                                         Simpan & Tambah Lagi
                                     </button>
@@ -881,7 +879,7 @@ export default function MenusCreateEdit() {
                         <button 
                             type="button"
                             onClick={() => setShowCategoryModal(false)}
-                            className="absolute top-4 right-4 p-1.5 text-brand-primary/40 hover:text-brand-dark hover:bg-brand-light/30 rounded-xl transition-all"
+                            className="absolute top-4 right-4 p-1.5 text-brand-primary/40 hover:text-brand-dark hover:bg-brand-light/30 rounded-xl transition-all active:scale-[0.97]"
                         >
                             ✕
                         </button>
@@ -904,7 +902,7 @@ export default function MenusCreateEdit() {
                                     value={newCatName}
                                     onChange={(e) => setNewCatName(e.target.value)}
                                     placeholder="Contoh: Coffee Khas"
-                                    className="w-full h-9 px-3 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark"
+                                    className="w-full h-9 px-3 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none font-bold text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                 />
                                 {catErrors.name && (
                                     <p className="text-[9px] text-rose-500 font-bold mt-1">
@@ -922,7 +920,7 @@ export default function MenusCreateEdit() {
                                     onChange={(e) => setNewCatDesc(e.target.value)}
                                     placeholder="Keterangan singkat..."
                                     rows={2}
-                                    className="w-full p-2.5 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary resize-none font-medium text-brand-dark"
+                                    className="w-full p-2.5 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none resize-none font-medium text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                 />
                             </div>
 
@@ -930,9 +928,7 @@ export default function MenusCreateEdit() {
                                 <button 
                                     type="button"
                                     onClick={() => setNewCatActive(!newCatActive)}
-                                    className={`relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                                        newCatActive ? 'bg-brand-secondary' : 'bg-brand-light'
-                                    }`}
+                                    className={`relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${ newCatActive ? 'bg-brand-secondary' : 'bg-brand-light' } active:scale-[0.97]`}
                                 >
                                     <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
                                         newCatActive ? 'translate-x-5' : 'translate-x-0'
@@ -947,14 +943,14 @@ export default function MenusCreateEdit() {
                                 <button 
                                     type="button"
                                     onClick={() => setShowCategoryModal(false)}
-                                    className="flex-1 py-2 bg-white border border-brand-light text-brand-dark/75 rounded-lg text-xs font-bold hover:bg-brand-bg transition-all"
+                                    className="flex-1 py-2 bg-white border border-brand-light text-brand-dark/75 rounded-lg text-xs font-bold hover:bg-brand-bg transition-all active:scale-[0.97]"
                                 >
                                     Batal
                                 </button>
                                 <button 
                                     type="submit"
                                     disabled={catProcessing}
-                                    className="flex-1 py-2 bg-brand-dark hover:bg-brand-primary text-white rounded-lg text-xs font-bold transition-all disabled:opacity-50"
+                                    className="flex-1 py-2 bg-brand-dark hover:bg-brand-primary text-white rounded-lg text-xs font-bold transition-all disabled:opacity-50 active:scale-[0.97]"
                                 >
                                     {catProcessing ? 'Proses...' : 'Simpan'}
                                 </button>

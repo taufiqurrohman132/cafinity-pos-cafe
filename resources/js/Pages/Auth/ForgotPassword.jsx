@@ -93,13 +93,13 @@ export default function ForgotPassword({ status }) {
                                             onChange={e => setData('email', e.target.value)}
                                             placeholder="nama@kafeanda.com"
                                             required autoFocus
-                                            className={`w-full h-12 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-12 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-brand-light'} hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                         />
                                     </div>
                                 </div>
 
                                 <button type="submit" disabled={processing}
-                                    className="w-full h-12 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold tracking-wide transition-all duration-200 shadow-lg shadow-brand-secondary/30 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                                    className="w-full h-12 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold tracking-wide transition-all duration-200 shadow-lg shadow-brand-secondary/30 active:scale-[0.97] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
                                     {processing ? 'Mengirim...' : 'Kirim Tautan Reset'}
                                     {!processing && <iconify-icon icon="solar:arrow-right-linear" class="text-base"></iconify-icon>}
                                 </button>

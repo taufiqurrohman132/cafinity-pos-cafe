@@ -63,12 +63,12 @@ export default function SearchIndex() {
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Ketik nama hidangan atau menu..."
-                                    className="w-full h-12 bg-brand-bg border border-brand-light rounded-xl pl-12 pr-4 py-2.5 text-sm font-bold text-brand-dark placeholder-brand-primary/50 focus:outline-none focus:bg-white focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
+                                    className="w-full h-12 bg-brand-bg border border-brand-light rounded-xl pl-12 pr-4 py-2.5 text-sm font-bold text-brand-dark placeholder-brand-primary/50 focus:outline-none focus:bg-white transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                 />
                             </div>
                             <button
                                 type="submit"
-                                className="h-12 px-8 bg-gradient-to-r from-brand-primary to-brand-secondary text-white rounded-xl font-extrabold shadow-lg shadow-brand-primary/20 hover:from-brand-dark hover:to-brand-primary transition-all active:scale-[0.98]"
+                                className="h-12 px-8 bg-gradient-to-r from-brand-primary to-brand-secondary text-white rounded-xl font-extrabold shadow-lg shadow-brand-primary/20 hover:from-brand-dark hover:to-brand-primary transition-all active:scale-[0.97]"
                             >
                                 Cari
                             </button>

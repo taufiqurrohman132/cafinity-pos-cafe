@@ -147,7 +147,7 @@ export default function Login() {
                                         onChange={e => setEmail(e.target.value)}
                                         placeholder="nama@kafeanda.com"
                                         required autoFocus autoComplete="email"
-                                        className={`w-full h-12 rounded-xl border bg-gray-55 text-sm pl-10 pr-4 text-gray-800 font-bold placeholder:font-normal placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-200 focus:border-amber-600 focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-gray-200'}`}
+                                        className={`w-full h-12 rounded-xl border bg-gray-55 text-sm pl-10 pr-4 text-gray-800 font-bold placeholder:font-normal placeholder:text-gray-400 focus:outline-none focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-gray-200'} hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                     />
                                 </div>
                             </div>
@@ -173,11 +173,11 @@ export default function Login() {
                                         onChange={e => setPassword(e.target.value)}
                                         placeholder="••••••••"
                                         required autoComplete="current-password"
-                                        className={`w-full h-12 rounded-xl border bg-gray-55 text-sm pl-10 pr-12 text-gray-800 font-bold placeholder:font-normal placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-200 focus:border-amber-600 focus:bg-white transition-shadow ${errors.password ? 'border-rose-300 bg-rose-50' : 'border-gray-200'}`}
+                                        className={`w-full h-12 rounded-xl border bg-gray-55 text-sm pl-10 pr-12 text-gray-800 font-bold placeholder:font-normal placeholder:text-gray-400 focus:outline-none focus:bg-white transition-shadow ${errors.password ? 'border-rose-300 bg-rose-50' : 'border-gray-200'} hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                     />
                                     <button type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors active:scale-[0.97]">
                                         <iconify-icon
                                             icon={showPassword ? 'solar:eye-closed-linear' : 'solar:eye-linear'}
                                             class="text-lg">
@@ -202,7 +202,7 @@ export default function Login() {
 
                             {/* Submit */}
                             <button type="submit" disabled={processing}
-                                className="w-full h-12 rounded-xl bg-gradient-to-r from-[#4d3227] to-[#78503f] hover:from-[#3a251d] hover:to-[#5e3e31] text-white text-sm font-extrabold tracking-wide transition-all duration-200 shadow-lg shadow-amber-950/20 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                                className="w-full h-12 rounded-xl bg-gradient-to-r from-[#4d3227] to-[#78503f] hover:from-[#3a251d] hover:to-[#5e3e31] text-white text-sm font-extrabold tracking-wide transition-all duration-200 shadow-lg shadow-amber-950/20 active:scale-[0.97] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
                                 {processing ? 'Memproses...' : 'Masuk ke Dashboard'}
                                 {!processing && <iconify-icon icon="solar:arrow-right-linear" class="text-base"></iconify-icon>}
                             </button>

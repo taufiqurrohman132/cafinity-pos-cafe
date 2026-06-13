@@ -246,7 +246,7 @@ export default function SettingsIndex() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat pengaturan dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -288,11 +288,7 @@ export default function SettingsIndex() {
                                         setActiveTab(tab.id);
                                         setHasUnsavedChanges(false);
                                     }}
-                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 active:scale-[0.98] ${
-                                        activeTab === tab.id
-                                            ? 'bg-brand-primary text-white shadow-md shadow-brand-primary/20'
-                                            : 'text-brand-primary/60 hover:bg-brand-light hover:text-brand-dark'
-                                    }`}
+                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 active:scale-[0.97] ${ activeTab === tab.id ? 'bg-brand-primary text-white shadow-md shadow-brand-primary/20' : 'text-brand-primary/60 hover:bg-brand-light hover:text-brand-dark' }`}
                                 >
                                     <iconify-icon icon={tab.icon} class="text-lg"></iconify-icon>
                                     {tab.label}
@@ -321,7 +317,7 @@ export default function SettingsIndex() {
                                                 type="text"
                                                 value={cafeName}
                                                 onChange={(e) => { setCafeName(e.target.value); triggerChange(); }}
-                                                className="w-full h-11 px-4 py-2.5 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
+                                                className="w-full h-11 px-4 py-2.5 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none transition-all duration-200 shadow-sm font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                 placeholder="Nama Toko"
                                             />
                                         </div>
@@ -330,7 +326,7 @@ export default function SettingsIndex() {
                                             <select 
                                                 value={cafeCategory}
                                                 onChange={(e) => { setCafeCategory(e.target.value); triggerChange(); }}
-                                                className="w-full h-11 px-4 py-2.5 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 font-bold text-brand-dark cursor-pointer"
+                                                className="w-full h-11 px-4 py-2.5 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none transition-all duration-200 font-bold text-brand-dark cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             >
                                                 <option value="Cafe & Restaurant">Cafe &amp; Restaurant</option>
                                                 <option value="Retail">Retail</option>
@@ -350,7 +346,7 @@ export default function SettingsIndex() {
                                                 type="text"
                                                 value={cafeAddress}
                                                 onChange={(e) => { setCafeAddress(e.target.value); triggerChange(); }}
-                                                className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
+                                                className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none transition-all duration-200 shadow-sm font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                 placeholder="Alamat"
                                             />
                                         </div>
@@ -367,7 +363,7 @@ export default function SettingsIndex() {
                                                     type="text"
                                                     value={cafePhone}
                                                     onChange={(e) => { setCafePhone(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
+                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none transition-all duration-200 shadow-sm font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                     placeholder="Telepon Toko"
                                                 />
                                             </div>
@@ -382,7 +378,7 @@ export default function SettingsIndex() {
                                                     type="email"
                                                     value={cafeEmail}
                                                     onChange={(e) => { setCafeEmail(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
+                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none transition-all duration-200 shadow-sm font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                     placeholder="Email Bisnis"
                                                 />
                                             </div>
@@ -411,9 +407,7 @@ export default function SettingsIndex() {
                                                         <button 
                                                             type="button"
                                                             onClick={() => handleHourToggle(day)}
-                                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                                                                schedule.active ? 'bg-brand-primary' : 'bg-brand-light'
-                                                            }`}
+                                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${ schedule.active ? 'bg-brand-primary' : 'bg-brand-light' } active:scale-[0.97]`}
                                                         >
                                                             <span 
                                                                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -430,14 +424,14 @@ export default function SettingsIndex() {
                                                                 type="time" 
                                                                 value={schedule.open}
                                                                 onChange={(e) => handleTimeChange(day, 'open', e.target.value)}
-                                                                className="px-3 py-1.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-bold text-brand-dark"
+                                                                className="px-3 py-1.5 text-xs border border-brand-light rounded-xl bg-brand-bg transition-all outline-none font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                             />
                                                             <span>sampai</span>
                                                             <input 
                                                                 type="time" 
                                                                 value={schedule.close}
                                                                 onChange={(e) => handleTimeChange(day, 'close', e.target.value)}
-                                                                className="px-3 py-1.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-bold text-brand-dark"
+                                                                className="px-3 py-1.5 text-xs border border-brand-light rounded-xl bg-brand-bg transition-all outline-none font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                             />
                                                         </div>
                                                     ) : (
@@ -473,7 +467,7 @@ export default function SettingsIndex() {
                                                     type="number"
                                                     value={taxRate}
                                                     onChange={(e) => { setTaxRate(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 px-4 py-2.5 pr-10 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
+                                                    className="w-full h-11 px-4 py-2.5 pr-10 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none transition-all duration-200 shadow-sm font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                     min="0"
                                                 />
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-brand-primary font-bold">%</span>
@@ -486,7 +480,7 @@ export default function SettingsIndex() {
                                                     type="number"
                                                     value={serviceCharge}
                                                     onChange={(e) => { setServiceCharge(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 px-4 py-2.5 pr-10 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
+                                                    className="w-full h-11 px-4 py-2.5 pr-10 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none transition-all duration-200 shadow-sm font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                     min="0"
                                                 />
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-brand-primary font-bold">%</span>
@@ -503,9 +497,7 @@ export default function SettingsIndex() {
                                         <button 
                                             type="button"
                                             onClick={() => { setTaxInclusive(!taxInclusive); triggerChange(); }}
-                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                                                taxInclusive ? 'bg-brand-primary' : 'bg-brand-light'
-                                            }`}
+                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${ taxInclusive ? 'bg-brand-primary' : 'bg-brand-light' } active:scale-[0.97]`}
                                         >
                                             <span 
                                                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -538,7 +530,7 @@ export default function SettingsIndex() {
                                                 <select 
                                                     value={currency} 
                                                     onChange={(e) => { setCurrency(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 font-bold text-brand-dark cursor-pointer"
+                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none transition-all duration-200 font-bold text-brand-dark cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                 >
                                                     <option value="IDR (Indonesian Rupiah)">IDR (Indonesian Rupiah)</option>
                                                     <option value="USD (US Dollar)">USD (US Dollar)</option>
@@ -555,7 +547,7 @@ export default function SettingsIndex() {
                                                 <select 
                                                     value={timezone} 
                                                     onChange={(e) => { setTimezone(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 font-bold text-brand-dark cursor-pointer"
+                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none transition-all duration-200 font-bold text-brand-dark cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                 >
                                                     <option value="(GMT+07:00) Asia/Jakarta">(GMT+07:00) Asia/Jakarta</option>
                                                     <option value="(GMT+08:00) Asia/Makassar">(GMT+08:00) Asia/Makassar</option>
@@ -570,7 +562,7 @@ export default function SettingsIndex() {
                                         <select 
                                             value={language} 
                                             onChange={(e) => { setLanguage(e.target.value); triggerChange(); }}
-                                            className="w-full h-11 px-4 py-2.5 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 font-bold text-brand-dark cursor-pointer"
+                                            className="w-full h-11 px-4 py-2.5 text-[13px] bg-brand-bg border border-brand-light rounded-xl outline-none transition-all duration-200 font-bold text-brand-dark cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         >
                                             <option value="Bahasa Indonesia (ID)">Bahasa Indonesia (ID)</option>
                                             <option value="English (US)">English (US)</option>
@@ -652,7 +644,7 @@ export default function SettingsIndex() {
                                                             <select 
                                                                 value={passwordExpiry}
                                                                 onChange={(e) => { setPasswordExpiry(e.target.value); triggerChange(); }}
-                                                                className="w-full px-3 py-2.5 text-xs bg-brand-bg border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all outline-none font-bold text-brand-dark"
+                                                                className="w-full px-3 py-2.5 text-xs bg-brand-bg border border-brand-light rounded-xl transition-all outline-none font-bold text-brand-dark cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                             >
                                                                 <option value="30">Setiap 30 Hari</option>
                                                                 <option value="90">Setiap 90 Hari</option>
@@ -665,7 +657,7 @@ export default function SettingsIndex() {
                                                             <select 
                                                                 value={preventOldPassword}
                                                                 onChange={(e) => { setPreventOldPassword(e.target.value); triggerChange(); }}
-                                                                className="w-full px-3 py-2.5 text-xs bg-brand-bg border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all outline-none font-bold text-brand-dark"
+                                                                className="w-full px-3 py-2.5 text-xs bg-brand-bg border border-brand-light rounded-xl transition-all outline-none font-bold text-brand-dark cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                             >
                                                                 <option value="3">3 Sandi Terakhir</option>
                                                                 <option value="5">5 Sandi Terakhir</option>
@@ -719,9 +711,7 @@ export default function SettingsIndex() {
                                                 <button 
                                                     type="button"
                                                     onClick={() => { setGlobal2fa(!global2fa); triggerChange(); }}
-                                                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                                                        global2fa ? 'bg-brand-primary' : 'bg-brand-light'
-                                                    }`}
+                                                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${ global2fa ? 'bg-brand-primary' : 'bg-brand-light' } active:scale-[0.97]`}
                                                 >
                                                     <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${global2fa ? 'translate-x-6' : 'translate-x-1'}`} />
                                                 </button>
@@ -776,7 +766,7 @@ export default function SettingsIndex() {
                                                 <button 
                                                     type="button"
                                                     onClick={() => setShow2faModal(true)}
-                                                    className="w-full py-2.5 bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-xs font-extrabold rounded-xl transition duration-150 active:scale-95 shadow-sm"
+                                                    className="w-full py-2.5 bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-xs font-extrabold rounded-xl duration-150 active:scale-[0.97] shadow-sm transition-all"
                                                 >
                                                     Kelola per User
                                                 </button>
@@ -797,7 +787,7 @@ export default function SettingsIndex() {
                                             <button 
                                                 type="button"
                                                 onClick={handleLogoutAllSessions}
-                                                className="px-3.5 py-1.5 text-xs font-bold text-rose-500 border border-rose-200 hover:bg-rose-50 rounded-xl transition-all duration-200 active:scale-[0.98]"
+                                                className="px-3.5 py-1.5 text-xs font-bold text-rose-500 border border-rose-200 hover:bg-rose-50 rounded-xl transition-all duration-200 active:scale-[0.97]"
                                             >
                                                 Logout Semua Sesi
                                             </button>
@@ -839,7 +829,7 @@ export default function SettingsIndex() {
                                                                 {s.last_active !== 'Sekarang' ? (
                                                                     <button 
                                                                         onClick={() => handleTerminateSession(s.id, s.device)}
-                                                                        className="text-xs font-extrabold text-brand-primary hover:text-rose-500 transition-colors duration-150 active:scale-[0.98]"
+                                                                        className="text-xs font-extrabold text-brand-primary hover:text-rose-500 transition-colors duration-150 active:scale-[0.97]"
                                                                     >
                                                                         Hentikan Sesi
                                                                     </button>
@@ -874,14 +864,14 @@ export default function SettingsIndex() {
                                     <button 
                                         type="button"
                                         onClick={handleCancel}
-                                        className="px-6 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98] shadow-sm"
+                                        className="px-6 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.97] shadow-sm"
                                     >
                                         Batalkan
                                     </button>
                                     <button 
                                         type="button"
                                         onClick={handleSave}
-                                        className="px-7 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition-all duration-200 active:scale-[0.98] shadow-lg shadow-brand-primary/30"
+                                        className="px-7 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition-all duration-200 active:scale-[0.97] shadow-lg shadow-brand-primary/30"
                                     >
                                         Simpan Perubahan
                                     </button>
@@ -908,7 +898,7 @@ export default function SettingsIndex() {
                             </div>
                             <button 
                                 onClick={() => { setShow2faModal(false); setSelectedUserIds([]); }}
-                                className="w-8 h-8 rounded-full border border-brand-light text-brand-primary/50 hover:text-brand-dark bg-brand-bg hover:bg-brand-light flex items-center justify-center transition active:scale-95"
+                                className="w-8 h-8 rounded-full border border-brand-light text-brand-primary/50 hover:text-brand-dark bg-brand-bg hover:bg-brand-light flex items-center justify-center active:scale-[0.97] transition-all duration-150"
                             >
                                 <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
                             </button>
@@ -925,14 +915,14 @@ export default function SettingsIndex() {
                                     placeholder="Cari nama atau email..."
                                     value={modalSearch}
                                     onChange={(e) => setModalSearch(e.target.value)}
-                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
+                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none transition-all duration-200 shadow-sm font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                 />
                             </div>
  
                             <select 
                                 value={modalRoleFilter} 
                                 onChange={(e) => setModalRoleFilter(e.target.value)}
-                                className="px-3 py-2.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-bold text-brand-dark cursor-pointer"
+                                className="px-3 py-2.5 text-xs border border-brand-light rounded-xl bg-brand-bg transition-all outline-none font-bold text-brand-dark cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             >
                                 <option value="">Semua Role</option>
                                 <option value="owner">Owner</option>
@@ -945,7 +935,7 @@ export default function SettingsIndex() {
                             <select 
                                 value={modalStatusFilter} 
                                 onChange={(e) => setModalStatusFilter(e.target.value)}
-                                className="px-3 py-2.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-bold text-brand-dark cursor-pointer"
+                                className="px-3 py-2.5 text-xs border border-brand-light rounded-xl bg-brand-bg transition-all outline-none font-bold text-brand-dark cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             >
                                 <option value="">Semua Status</option>
                                 <option value="terdaftar">Terdaftar</option>
@@ -1029,21 +1019,21 @@ export default function SettingsIndex() {
                                                     <div className="flex items-center justify-end gap-1.5">
                                                         <button 
                                                             onClick={() => alert(`Kirim pengingat pendaftaran 2FA ke ${user.name}`)}
-                                                            className="w-7 h-7 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary hover:shadow-sm active:scale-90 transition-all duration-150"
+                                                            className="w-7 h-7 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary hover:shadow-sm active:scale-[0.97] transition-all duration-150"
                                                             title="Kirim Pengingat"
                                                         >
                                                             <iconify-icon icon="solar:letter-linear" class="text-xs"></iconify-icon>
                                                         </button>
                                                         <button 
                                                             onClick={() => alert(`Reset kunci 2FA untuk ${user.name}`)}
-                                                            className="w-7 h-7 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-rose-500 hover:border-rose-300 hover:shadow-sm active:scale-90 transition-all duration-150"
+                                                            className="w-7 h-7 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-rose-500 hover:border-rose-300 hover:shadow-sm active:scale-[0.97] transition-all duration-150"
                                                             title="Reset 2FA"
                                                         >
                                                             <iconify-icon icon="solar:history-linear" class="text-xs"></iconify-icon>
                                                         </button>
                                                         <button 
                                                             onClick={() => alert(`Kelola hak akses/opsi 2FA untuk ${user.name}`)}
-                                                            className="w-7 h-7 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary hover:shadow-sm active:scale-90 transition-all duration-150"
+                                                            className="w-7 h-7 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-brand-primary hover:border-brand-primary hover:shadow-sm active:scale-[0.97] transition-all duration-150"
                                                             title="Kelola User"
                                                         >
                                                             <iconify-icon icon="solar:user-plus-linear" class="text-xs"></iconify-icon>
@@ -1069,7 +1059,7 @@ export default function SettingsIndex() {
                                         alert(`Mengirim pesan email pengingat masal ke ${selectedUserIds.length} user...`);
                                         setSelectedUserIds([]);
                                     }}
-                                    className="px-4 py-2 bg-white border border-brand-light text-brand-primary hover:bg-brand-light hover:text-brand-dark text-xs font-extrabold rounded-xl transition flex items-center gap-1.5 active:scale-95"
+                                    className="px-4 py-2 bg-white border border-brand-light text-brand-primary hover:bg-brand-light hover:text-brand-dark text-xs font-extrabold rounded-xl flex items-center gap-1.5 active:scale-[0.97] transition-all duration-150"
                                 >
                                     <iconify-icon icon="solar:letter-linear" class="text-sm"></iconify-icon>
                                     Kirim Pengingat Masal
@@ -1082,7 +1072,7 @@ export default function SettingsIndex() {
                                             setSelectedUserIds([]);
                                         }
                                     }}
-                                    className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold rounded-xl transition flex items-center gap-1.5 active:scale-95"
+                                    className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold rounded-xl flex items-center gap-1.5 active:scale-[0.97] transition-all duration-150"
                                 >
                                     <iconify-icon icon="solar:history-linear" class="text-sm"></iconify-icon>
                                     Reset 2FA Terpilih

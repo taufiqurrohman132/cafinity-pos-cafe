@@ -148,7 +148,7 @@ export default function InventoriesIndex() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat data inventaris dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -260,7 +260,7 @@ export default function InventoriesIndex() {
                                     <select
                                         value={categoryId}
                                         onChange={handleCategoryChange}
-                                        className="h-10 px-4 text-xs font-bold text-gray-700 bg-brand-bg border border-brand-light rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-light"
+                                        className="h-10 px-4 text-xs font-bold text-gray-700 bg-brand-bg border border-brand-light rounded-xl cursor-pointer focus:outline-none transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     >
                                         <option value="">Semua Kategori</option>
                                         {categories.map(cat => (
@@ -270,7 +270,7 @@ export default function InventoriesIndex() {
                                     <select
                                         value={status}
                                         onChange={handleStatus}
-                                        className="h-10 px-4 text-xs font-bold text-gray-700 bg-brand-bg border border-brand-light rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-light"
+                                        className="h-10 px-4 text-xs font-bold text-gray-700 bg-brand-bg border border-brand-light rounded-xl cursor-pointer focus:outline-none transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     >
                                         <option value="">Semua Status</option>
                                         <option value="safe">Aman</option>
@@ -285,7 +285,7 @@ export default function InventoriesIndex() {
                                                 value={search}
                                                 onChange={(e) => setSearch(e.target.value)}
                                                 placeholder="Cari bahan..."
-                                                className="w-full lg:w-64 h-10 pl-9 pr-4 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light"
+                                                className="w-full lg:w-64 h-10 pl-9 pr-4 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                         </div>
                                     </form>
@@ -367,7 +367,7 @@ export default function InventoriesIndex() {
                                         Menampilkan {inventories.from ?? 0}–{inventories.to ?? 0} dari {inventories.total} jenis bahan baku
                                     </p>
                                     <div className="flex items-center gap-4">
-                                        <button onClick={handleDownloadReport} className="text-xs font-bold text-gray-500 hover:text-brand-primary transition">
+                                        <button onClick={handleDownloadReport} className="text-xs font-bold text-gray-500 hover:text-brand-primary transition-all duration-150 active:scale-[0.97]">
                                             Unduh Laporan Stok
                                         </button>
                                         {/* Pagination */}
@@ -399,7 +399,7 @@ export default function InventoriesIndex() {
                             <div className="space-y-3">
                                 <button
                                     onClick={() => setShowAdjustModal(true)}
-                                    className="w-full bg-brand-primary hover:bg-brand-secondary transition rounded-2xl p-4 text-left text-white flex items-center gap-3 active:scale-[0.98] shadow-sm cursor-pointer"
+                                    className="w-full bg-brand-primary hover:bg-brand-secondary rounded-2xl p-4 text-left text-white flex items-center gap-3 active:scale-[0.97] shadow-sm cursor-pointer transition-all duration-150"
                                 >
                                     <div className="w-10 h-10 rounded-xl bg-white/20 text-white flex items-center justify-center flex-shrink-0 text-xl">
                                         <iconify-icon icon="solar:restart-linear"></iconify-icon>
@@ -411,7 +411,7 @@ export default function InventoriesIndex() {
                                 </button>
                                 <button
                                     onClick={() => setShowOpnameModal(true)}
-                                    className="w-full bg-white border border-brand-light hover:border-brand-primary hover:bg-brand-bg transition rounded-2xl p-4 text-left flex items-center gap-3 active:scale-[0.98] shadow-sm cursor-pointer"
+                                    className="w-full bg-white border border-brand-light hover:border-brand-primary hover:bg-brand-bg rounded-2xl p-4 text-left flex items-center gap-3 active:scale-[0.97] shadow-sm cursor-pointer transition-all duration-150"
                                 >
                                     <div className="w-10 h-10 rounded-xl bg-brand-light/40 text-brand-primary flex items-center justify-center flex-shrink-0 text-xl">
                                         <iconify-icon icon="solar:clipboard-check-linear"></iconify-icon>
@@ -569,7 +569,7 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
                         <iconify-icon icon="solar:restart-linear" class="text-brand-secondary text-lg"></iconify-icon>
                         Penyesuaian Stok Cepat
                     </h3>
-                    <button type="button" onClick={onClose} className="text-gray-400 hover:text-gray-600 transition">
+                    <button type="button" onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-all duration-150 active:scale-[0.97]">
                         <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
                     </button>
                 </div>
@@ -579,7 +579,7 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
                         <select
                             value={selectedId}
                             onChange={e => setSelectedId(e.target.value)}
-                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         >
                             {items.map(item => (
                                 <option key={item.id} value={item.id}>{item.name} ({item.unit})</option>
@@ -593,7 +593,7 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
                             <select
                                 value={type}
                                 onChange={e => setType(e.target.value)}
-                                className="w-full h-11 px-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                                className="w-full h-11 px-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             >
                                 <option value="restock">Restock</option>
                                 <option value="adjustment">Koreksi</option>
@@ -606,7 +606,7 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
                                 value={direction}
                                 onChange={e => setDirection(e.target.value)}
                                 disabled={type === 'waste'}
-                                className="w-full h-11 px-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary disabled:opacity-50"
+                                className="w-full h-11 px-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none disabled:opacity-50 cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             >
                                 <option value="in">Masuk (+)</option>
                                 <option value="out">Keluar (-)</option>
@@ -624,7 +624,7 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
                             onChange={e => setQty(e.target.value)}
                             placeholder="Kuantitas..."
                             min="0.01" step="0.01" required
-                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary font-bold text-brand-dark"
+                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none font-bold text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         />
                     </div>
 
@@ -635,14 +635,14 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
                             onChange={e => setNotes(e.target.value)}
                             placeholder="Catatan penyesuaian..."
                             rows="2"
-                            className="w-full p-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary resize-none"
+                            className="w-full p-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none resize-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         />
                     </div>
 
                     <button
                         type="submit"
                         disabled={processing}
-                        className="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-brand-primary hover:bg-brand-secondary transition disabled:opacity-50 active:scale-[0.98]"
+                        className="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-brand-primary hover:bg-brand-secondary disabled:opacity-50 active:scale-[0.97] transition-all duration-150"
                     >
                         {processing ? 'Memproses...' : 'Simpan Penyesuaian'}
                     </button>
@@ -714,7 +714,7 @@ function StockOpnameModal({ isOpen, onClose, items, onSaveSuccess }) {
                         <iconify-icon icon="solar:clipboard-check-linear" class="text-brand-secondary text-lg"></iconify-icon>
                         Pencatatan Stock Opname
                     </h3>
-                    <button type="button" onClick={onClose} className="text-gray-400 hover:text-gray-600 transition">
+                    <button type="button" onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-all duration-150 active:scale-[0.97]">
                         <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
                     </button>
                 </div>
@@ -727,7 +727,7 @@ function StockOpnameModal({ isOpen, onClose, items, onSaveSuccess }) {
                                 setSelectedId(e.target.value);
                                 setPhysicalStock('');
                             }}
-                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         >
                             {items.map(item => (
                                 <option key={item.id} value={item.id}>{item.name} ({item.unit})</option>
@@ -764,7 +764,7 @@ function StockOpnameModal({ isOpen, onClose, items, onSaveSuccess }) {
                             onChange={e => setPhysicalStock(e.target.value)}
                             placeholder="Masukkan stok di lapangan..."
                             step="0.01" required
-                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary font-bold text-brand-dark"
+                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none font-bold text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         />
                     </div>
 
@@ -775,14 +775,14 @@ function StockOpnameModal({ isOpen, onClose, items, onSaveSuccess }) {
                             onChange={e => setNotes(e.target.value)}
                             placeholder="Contoh: Koreksi selisih timbangan, barang rusak..."
                             rows="2"
-                            className="w-full p-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary resize-none"
+                            className="w-full p-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none resize-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         />
                     </div>
 
                     <button
                         type="submit"
                         disabled={processing}
-                        className="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-brand-primary hover:bg-brand-secondary transition disabled:opacity-50 active:scale-[0.98]"
+                        className="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-brand-primary hover:bg-brand-secondary disabled:opacity-50 active:scale-[0.97] transition-all duration-150"
                     >
                         {processing ? 'Memproses...' : 'Simpan Stock Opname'}
                     </button>
@@ -800,7 +800,7 @@ function InventoryActions({ item, onDelete }) {
             <button
                 onClick={() => setOpen(!open)}
                 onBlur={() => setTimeout(() => setOpen(false), 150)}
-                className="p-2 text-brand-primary/50 hover:text-brand-secondary hover:bg-brand-light/50 rounded-xl transition-all"
+                className="p-2 text-brand-primary/50 hover:text-brand-secondary hover:bg-brand-light/50 rounded-xl transition-all active:scale-[0.97]"
             >
                 <iconify-icon icon="solar:menu-dots-linear" class="text-lg"></iconify-icon>
             </button>
@@ -822,7 +822,7 @@ function InventoryActions({ item, onDelete }) {
                     </Link>
                     <button
                         onClick={() => onDelete(item.id, item.name)}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 font-bold hover:bg-[#fef2f2] border-t border-brand-light text-left w-full"
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 font-bold hover:bg-[#fef2f2] border-t border-brand-light text-left w-full transition-all duration-150 active:scale-[0.97]"
                     >
                         <iconify-icon icon="solar:trash-bin-trash-linear" class="text-red-500"></iconify-icon>
                         Hapus

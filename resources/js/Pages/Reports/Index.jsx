@@ -43,7 +43,7 @@ function PeriodDropdown({ value, onChange }) {
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-2 bg-white border border-brand-light rounded-xl px-4 py-2.5 shadow-sm text-sm font-bold text-brand-dark hover:bg-brand-light/30 transition-all select-none cursor-pointer"
+                className="flex items-center gap-2 bg-white border border-brand-light rounded-xl px-4 py-2.5 shadow-sm text-sm font-bold text-brand-dark hover:bg-brand-light/30 transition-all select-none cursor-pointer active:scale-[0.97]"
             >
                 <iconify-icon icon="solar:calendar-linear" class="text-brand-secondary text-lg" />
                 <span>{currentLabel}</span>
@@ -60,10 +60,7 @@ function PeriodDropdown({ value, onChange }) {
                                 onChange(opt.value);
                                 setIsOpen(false);
                             }}
-                            className={`w-full text-left px-4 py-2 text-xs font-bold transition-colors ${String(value) === opt.value
-                                    ? "bg-brand-light/40 text-brand-secondary"
-                                    : "text-brand-dark hover:bg-brand-light/20"
-                                }}`}
+                            className={`w-full text-left px-4 py-2 text-xs font-bold transition-colors ${String(value) === opt.value ? "bg-brand-light/40 text-brand-secondary" : "text-brand-dark hover:bg-brand-light/20" }} active:scale-[0.97]`}
                         >
                             {opt.label}
                         </button>
@@ -268,7 +265,7 @@ function FilterModal({ open, onClose, kasir, kategori, payments, days }) {
                     </h3>
                     <button
                         onClick={onClose}
-                        className="text-brand-primary hover:text-brand-dark transition-colors"
+                        className="text-brand-primary hover:text-brand-dark transition-colors active:scale-[0.97]"
                     >
                         <iconify-icon icon="solar:close-circle-linear" class="text-xl" />
                     </button>
@@ -336,7 +333,7 @@ function FilterModal({ open, onClose, kasir, kategori, payments, days }) {
                                 onChange={(e) =>
                                     setForm({ ...form, [key]: e.target.value })
                                 }
-                                className="w-full border border-brand-light rounded-xl px-3 py-2 text-sm text-brand-dark focus:outline-none focus:border-brand-secondary bg-white"
+                                className="w-full border border-brand-light rounded-xl px-3 py-2 text-sm text-brand-dark focus:outline-none bg-white cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             >
                                 <option value="">{placeholder}</option>
                                 {options.map((o) => (
@@ -352,13 +349,13 @@ function FilterModal({ open, onClose, kasir, kategori, payments, days }) {
                 <div className="flex gap-3 mt-6">
                     <button
                         onClick={reset}
-                        className="flex-1 py-2.5 text-sm font-bold border border-brand-light rounded-xl text-brand-primary hover:bg-brand-light/30 transition-colors"
+                        className="flex-1 py-2.5 text-sm font-bold border border-brand-light rounded-xl text-brand-primary hover:bg-brand-light/30 transition-colors active:scale-[0.97]"
                     >
                         Reset
                     </button>
                     <button
                         onClick={apply}
-                        className="flex-1 py-2.5 text-sm font-bold bg-gradient-to-r from-brand-primary to-brand-secondary text-white rounded-xl hover:opacity-90 transition-opacity"
+                        className="flex-1 py-2.5 text-sm font-bold bg-gradient-to-r from-brand-primary to-brand-secondary text-white rounded-xl hover:opacity-90 transition-opacity active:scale-[0.97]"
                     >
                         Terapkan
                     </button>
@@ -545,7 +542,7 @@ export default function ReportsIndex() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat data laporan dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -581,7 +578,7 @@ export default function ReportsIndex() {
                         {/* Filter Button */}
                         <button
                             onClick={() => setFilterOpen(true)}
-                            className="text-sm font-bold text-brand-primary bg-white border border-brand-light px-4 py-2.5 rounded-xl shadow-sm hover:bg-brand-light/40 transition-all flex items-center gap-2"
+                            className="text-sm font-bold text-brand-primary bg-white border border-brand-light px-4 py-2.5 rounded-xl shadow-sm hover:bg-brand-light/40 transition-all flex items-center gap-2 active:scale-[0.97]"
                         >
                             <iconify-icon
                                 icon="solar:filter-linear"
@@ -596,7 +593,7 @@ export default function ReportsIndex() {
                         {/* Export */}
                         <button
                             onClick={handleExportExcel}
-                            className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]"
+                            className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.97]"
                         >
                             <iconify-icon
                                 icon="solar:export-linear"
@@ -1015,7 +1012,7 @@ export default function ReportsIndex() {
                                         <button
                                             key={i}
                                             onClick={(e) => handleViewReport(e, report.route)}
-                                            className="w-full text-left flex items-center gap-3 p-3 rounded-xl border border-brand-light hover:bg-brand-light/20 hover:border-brand-secondary transition-all group"
+                                            className="w-full text-left flex items-center gap-3 p-3 rounded-xl border border-brand-light hover:bg-brand-light/20 hover:border-brand-secondary transition-all group active:scale-[0.97]"
                                         >
                                             <div className="w-9 h-9 bg-brand-light/50 rounded-xl flex items-center justify-center flex-shrink-0">
                                                 <iconify-icon
@@ -1063,7 +1060,7 @@ export default function ReportsIndex() {
                             <div className="grid grid-cols-2 gap-3">
                                 <button
                                     onClick={handleExportExcel}
-                                    className="flex flex-col items-center gap-2 p-3 rounded-xl border border-brand-light hover:bg-brand-light/30 hover:border-brand-secondary transition-all group"
+                                    className="flex flex-col items-center gap-2 p-3 rounded-xl border border-brand-light hover:bg-brand-light/30 hover:border-brand-secondary transition-all group active:scale-[0.97]"
                                 >
                                     <iconify-icon
                                         icon="solar:share-linear"
@@ -1075,7 +1072,7 @@ export default function ReportsIndex() {
                                 </button>
                                 <button
                                     onClick={() => window.print()}
-                                    className="flex flex-col items-center gap-2 p-3 rounded-xl border border-brand-light hover:bg-brand-light/30 hover:border-brand-secondary transition-all group"
+                                    className="flex flex-col items-center gap-2 p-3 rounded-xl border border-brand-light hover:bg-brand-light/30 hover:border-brand-secondary transition-all group active:scale-[0.97]"
                                 >
                                     <iconify-icon
                                         icon="solar:printer-linear"
@@ -1098,7 +1095,7 @@ export default function ReportsIndex() {
                                     <button
                                         key={i}
                                         onClick={(e) => handleViewReport(e, item.path)}
-                                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-brand-light/30 hover:text-brand-secondary transition-all group text-left"
+                                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-brand-light/30 hover:text-brand-secondary transition-all group text-left active:scale-[0.97]"
                                     >
                                         <iconify-icon
                                             icon={item.icon}

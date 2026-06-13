@@ -470,7 +470,7 @@ export default function MenusIndex() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat data katalog menu dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -505,14 +505,14 @@ export default function MenusIndex() {
                             </div>
                             <button
                                 onClick={() => setShowCategoryModal(true)}
-                                className="bg-white hover:bg-brand-light/30 border border-brand-light text-brand-primary px-4 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-sm active:scale-[0.98]"
+                                className="bg-white hover:bg-brand-light/30 border border-brand-light text-brand-primary px-4 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-sm active:scale-[0.97]"
                             >
                                 <iconify-icon icon="solar:tag-linear" class="text-lg"></iconify-icon>
                                 Kelola Kategori
                             </button>
                             <button
                                 onClick={() => navigate('/menus/create')}
-                                className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]"
+                                className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.97]"
                             >
                                 + Tambah Menu
                             </button>
@@ -533,7 +533,7 @@ export default function MenusIndex() {
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
                                         placeholder="Cari menu..."
-                                        className="w-full h-10 bg-brand-bg border border-brand-light rounded-xl pl-9 pr-4 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 focus:outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
+                                        className="w-full h-10 bg-brand-bg border border-brand-light rounded-xl pl-9 pr-4 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 focus:outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                 </form>
 
@@ -541,7 +541,7 @@ export default function MenusIndex() {
                                 <select
                                     value={activeStatus}
                                     onChange={handleStatus}
-                                    className="h-10 bg-brand-bg border border-brand-light rounded-xl px-3 text-[13px] font-bold text-brand-primary outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all cursor-pointer"
+                                    className="h-10 bg-brand-bg border border-brand-light rounded-xl px-3 text-[13px] font-bold text-brand-primary outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                 >
                                     <option value="">Semua Status</option>
                                     <option value="active">Tersedia</option>
@@ -550,7 +550,7 @@ export default function MenusIndex() {
 
                                 <button
                                     onClick={handleSearch}
-                                    className="flex items-center gap-2 h-10 px-5 bg-gradient-to-r from-brand-secondary to-brand-primary text-white rounded-xl text-[13px] font-extrabold hover:from-brand-primary hover:to-brand-dark transition-all shadow-md shadow-brand-secondary/30 active:scale-95"
+                                    className="flex items-center gap-2 h-10 px-5 bg-gradient-to-r from-brand-secondary to-brand-primary text-white rounded-xl text-[13px] font-extrabold hover:from-brand-primary hover:to-brand-dark transition-all shadow-md shadow-brand-secondary/30 active:scale-[0.97]"
                                 >
                                     Cari
                                 </button>
@@ -569,11 +569,7 @@ export default function MenusIndex() {
                             <div className="flex items-center gap-2 overflow-x-auto shrink-0">
                                 <button
                                     onClick={() => filter({ category: '', page: 1 })}
-                                    className={`px-3 py-1.5 text-[11px] font-extrabold rounded-full transition-all whitespace-nowrap ${
-                                        !activeCategory
-                                            ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-md'
-                                            : 'bg-white border border-brand-light text-brand-primary hover:bg-brand-light/50 hover:text-brand-dark'
-                                    }`}
+                                    className={`px-3 py-1.5 text-[11px] font-extrabold rounded-full transition-all whitespace-nowrap ${ !activeCategory ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-md' : 'bg-white border border-brand-light text-brand-primary hover:bg-brand-light/50 hover:text-brand-dark' } active:scale-[0.97]`}
                                 >
                                     Semua
                                 </button>
@@ -581,11 +577,7 @@ export default function MenusIndex() {
                                     <button
                                         key={cat.id}
                                         onClick={() => filter({ category: cat.id, page: 1 })}
-                                        className={`px-3 py-1.5 text-[11px] font-extrabold rounded-full transition-all whitespace-nowrap ${
-                                            activeCategory == cat.id
-                                                ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-md'
-                                                : 'bg-white border border-brand-light text-brand-primary hover:bg-brand-light/50 hover:text-brand-dark'
-                                        }`}
+                                        className={`px-3 py-1.5 text-[11px] font-extrabold rounded-full transition-all whitespace-nowrap ${ activeCategory == cat.id ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-md' : 'bg-white border border-brand-light text-brand-primary hover:bg-brand-light/50 hover:text-brand-dark' } active:scale-[0.97]`}
                                     >
                                         {cat.name}
                                     </button>
@@ -597,21 +589,13 @@ export default function MenusIndex() {
                         <div className="flex items-center bg-brand-bg border border-brand-light p-1 rounded-xl shrink-0">
                             <button
                                 onClick={() => setView('grid')}
-                                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
-                                    view === 'grid'
-                                        ? 'bg-white border border-brand-light text-brand-dark shadow-sm'
-                                        : 'text-brand-primary/50 hover:text-brand-primary'
-                                }`}
+                                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${ view === 'grid' ? 'bg-white border border-brand-light text-brand-dark shadow-sm' : 'text-brand-primary/50 hover:text-brand-primary' } active:scale-[0.97]`}
                             >
                                 <iconify-icon icon="solar:widget-linear" class="text-lg"></iconify-icon>
                             </button>
                             <button
                                 onClick={() => setView('list')}
-                                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
-                                    view === 'list'
-                                        ? 'bg-white border border-brand-light text-brand-dark shadow-sm'
-                                        : 'text-brand-primary/50 hover:text-brand-primary'
-                                }`}
+                                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${ view === 'list' ? 'bg-white border border-brand-light text-brand-dark shadow-sm' : 'text-brand-primary/50 hover:text-brand-primary' } active:scale-[0.97]`}
                             >
                                 <iconify-icon icon="solar:list-linear" class="text-lg"></iconify-icon>
                             </button>
@@ -645,7 +629,7 @@ export default function MenusIndex() {
                                                         <p className="text-sm font-bold text-brand-dark">Tidak ada menu ditemukan.</p>
                                                         <button
                                                             onClick={() => navigate('/menus/create')}
-                                                            className="bg-gradient-to-r text-xs from-brand-primary to-brand-secondary text-white px-3 py-1.5 rounded-lg font-bold"
+                                                            className="bg-gradient-to-r text-xs from-brand-primary to-brand-secondary text-white px-3 py-1.5 rounded-lg font-bold transition-all duration-150 active:scale-[0.97]"
                                                         >
                                                             + Tambah Menu Pertama
                                                         </button>
@@ -735,14 +719,14 @@ export default function MenusIndex() {
                                                             </Link>
                                                             <button
                                                                 onClick={() => navigate(`/menus/${menu.id}/edit`)}
-                                                                className="p-2 text-brand-primary hover:text-brand-secondary rounded-xl hover:bg-brand-light/50 inline-flex active:scale-95 transition-all"
+                                                                className="p-2 text-brand-primary hover:text-brand-secondary rounded-xl hover:bg-brand-light/50 inline-flex active:scale-[0.97] transition-all"
                                                                 title="Edit"
                                                             >
                                                                 <iconify-icon icon="solar:pen-linear" class="text-lg"></iconify-icon>
                                                             </button>
                                                             <button
                                                                 onClick={() => handleDelete(menu.id, menu.name)}
-                                                                className="p-2 text-rose-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 inline-flex active:scale-95 transition-all"
+                                                                className="p-2 text-rose-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 inline-flex active:scale-[0.97] transition-all"
                                                                 title="Hapus"
                                                             >
                                                                 <iconify-icon icon="solar:trash-bin-trash-linear" class="text-lg"></iconify-icon>
@@ -783,11 +767,7 @@ export default function MenusIndex() {
                                                 <div className="absolute top-2 right-2" onClick={(e) => e.stopPropagation()}>
                                                     <button
                                                         onClick={() => handleToggleStatus(menu.id)}
-                                                        className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold border transition-all ${
-                                                            menu.is_active
-                                                                ? 'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200'
-                                                                : 'bg-rose-100 text-rose-700 border-rose-200 hover:bg-rose-200'
-                                                        }`}
+                                                        className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold border transition-all ${ menu.is_active ? 'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200' : 'bg-rose-100 text-rose-700 border-rose-200 hover:bg-rose-200' } active:scale-[0.97]`}
                                                     >
                                                         {menu.is_active ? 'Tersedia' : 'Habis'}
                                                     </button>
@@ -814,13 +794,13 @@ export default function MenusIndex() {
                                                 >
                                                     <button
                                                         onClick={() => navigate(`/menus/${menu.id}/edit`)}
-                                                        className="flex-1 flex items-center justify-center gap-1 py-1.5 text-[11px] font-bold text-brand-primary hover:text-brand-secondary hover:bg-brand-light/50 rounded-lg transition-all"
+                                                        className="flex-1 flex items-center justify-center gap-1 py-1.5 text-[11px] font-bold text-brand-primary hover:text-brand-secondary hover:bg-brand-light/50 rounded-lg transition-all active:scale-[0.97]"
                                                     >
                                                         <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon> Edit
                                                     </button>
                                                     <button
                                                         onClick={() => handleDelete(menu.id, menu.name)}
-                                                        className="flex items-center justify-center gap-1 py-1.5 px-2 text-[11px] font-bold text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                                                        className="flex items-center justify-center gap-1 py-1.5 px-2 text-[11px] font-bold text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all active:scale-[0.97]"
                                                     >
                                                         <iconify-icon icon="solar:trash-bin-trash-linear" class="text-sm"></iconify-icon>
                                                     </button>
@@ -841,7 +821,7 @@ export default function MenusIndex() {
                             <div className="flex items-center gap-2">
                                 {/* Prev */}
                                 {menus.current_page === 1 ? (
-                                    <button disabled className="px-4 py-2 text-[12px] font-bold text-brand-primary/40 bg-brand-bg border border-brand-light rounded-xl cursor-not-allowed">
+                                    <button disabled className="px-4 py-2 text-[12px] font-bold text-brand-primary/40 bg-brand-bg border border-brand-light rounded-xl cursor-not-allowed transition-all duration-150 active:scale-[0.97]">
                                         Sebelumnya
                                     </button>
                                 ) : (
@@ -871,7 +851,7 @@ export default function MenusIndex() {
 
                                 {/* Next */}
                                 {!menus.next_page_url ? (
-                                    <button disabled className="px-4 py-2 text-[12px] font-bold text-brand-primary/40 bg-brand-bg border border-brand-light rounded-xl cursor-not-allowed">
+                                    <button disabled className="px-4 py-2 text-[12px] font-bold text-brand-primary/40 bg-brand-bg border border-brand-light rounded-xl cursor-not-allowed transition-all duration-150 active:scale-[0.97]">
                                         Berikutnya
                                     </button>
                                 ) : (
@@ -898,7 +878,7 @@ export default function MenusIndex() {
                                 createForm.reset()
                                 setImagePreview(null)
                             }}
-                            className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-95"
+                            className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-[0.97]"
                         >
                             <iconify-icon icon="material-symbols:close" class="text-xl"></iconify-icon>
                         </button>
@@ -953,7 +933,7 @@ export default function MenusIndex() {
                                         value={createForm.data.name}
                                         onChange={(e) => createForm.setData('name', e.target.value)}
                                         placeholder="Contoh: Es Kopi Susu Gula Aren"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     {createForm.errors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -973,7 +953,7 @@ export default function MenusIndex() {
                                         required
                                         value={createForm.data.category_id}
                                         onChange={(e) => createForm.setData('category_id', e.target.value)}
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all cursor-pointer font-bold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     >
                                         <option value="" disabled>-- Pilih Kategori --</option>
                                         {categories.map((cat) => (
@@ -1001,7 +981,7 @@ export default function MenusIndex() {
                                         value={createForm.data.price}
                                         onChange={(e) => createForm.setData('price', e.target.value)}
                                         placeholder="25000"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-secondary"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-secondary hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     {createForm.errors.price && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1023,7 +1003,7 @@ export default function MenusIndex() {
                                         value={createForm.data.estimated_hpp}
                                         onChange={(e) => createForm.setData('estimated_hpp', e.target.value)}
                                         placeholder="8500"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
                                         *HPP akan diperbarui otomatis setelah resep dihubungkan.
@@ -1047,7 +1027,7 @@ export default function MenusIndex() {
                                         onChange={(e) => createForm.setData('description', e.target.value)}
                                         placeholder="Deskripsi singkat mengenai rasa, komposisi, atau detail penyajian..."
                                         rows={2}
-                                        className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all resize-none font-medium text-brand-dark"
+                                        className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all resize-none font-medium text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     {createForm.errors.description && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1064,9 +1044,7 @@ export default function MenusIndex() {
                                     <button
                                         type="button"
                                         onClick={() => createForm.setData('is_active', !createForm.data.is_active)}
-                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${
-                                            createForm.data.is_active ? 'bg-brand-secondary' : 'bg-brand-light'
-                                        }`}
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${ createForm.data.is_active ? 'bg-brand-secondary' : 'bg-brand-light' } active:scale-[0.97]`}
                                     >
                                         <span
                                             className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
@@ -1092,14 +1070,14 @@ export default function MenusIndex() {
                                         createForm.reset()
                                         setImagePreview(null)
                                     }}
-                                    className="px-6 py-2.5 text-xs font-extrabold text-brand-primary hover:text-brand-dark transition-colors"
+                                    className="px-6 py-2.5 text-xs font-extrabold text-brand-primary hover:text-brand-dark transition-colors active:scale-[0.97]"
                                 >
                                     Batal
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={createForm.processing}
-                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-primary/20 disabled:opacity-50"
+                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-primary/20 disabled:opacity-50 active:scale-[0.97]"
                                 >
                                     {createForm.processing ? 'Menyimpan...' : 'Simpan Menu'}
                                 </button>
@@ -1123,7 +1101,7 @@ export default function MenusIndex() {
                                 setEditMenuId(null)
                                 setImagePreview(null)
                             }}
-                            className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-95"
+                            className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-[0.97]"
                         >
                             <iconify-icon icon="material-symbols:close" class="text-xl"></iconify-icon>
                         </button>
@@ -1178,7 +1156,7 @@ export default function MenusIndex() {
                                         value={editForm.data.name}
                                         onChange={(e) => editForm.setData('name', e.target.value)}
                                         placeholder="Contoh: Es Kopi Susu Gula Aren"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     {editForm.errors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1198,7 +1176,7 @@ export default function MenusIndex() {
                                         required
                                         value={editForm.data.category_id}
                                         onChange={(e) => editForm.setData('category_id', e.target.value)}
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all cursor-pointer font-bold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     >
                                         <option value="" disabled>-- Pilih Kategori --</option>
                                         {categories.map((cat) => (
@@ -1226,7 +1204,7 @@ export default function MenusIndex() {
                                         value={editForm.data.price}
                                         onChange={(e) => editForm.setData('price', e.target.value)}
                                         placeholder="25000"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-secondary"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-secondary hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     {editForm.errors.price && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1248,7 +1226,7 @@ export default function MenusIndex() {
                                         value={editForm.data.estimated_hpp}
                                         onChange={(e) => editForm.setData('estimated_hpp', e.target.value)}
                                         placeholder="8500"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
                                         *HPP akan diperbarui otomatis setelah resep dihubungkan.
@@ -1272,7 +1250,7 @@ export default function MenusIndex() {
                                         onChange={(e) => editForm.setData('description', e.target.value)}
                                         placeholder="Deskripsi..."
                                         rows={2}
-                                        className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all resize-none font-medium text-brand-dark"
+                                        className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all resize-none font-medium text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     {editForm.errors.description && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1289,9 +1267,7 @@ export default function MenusIndex() {
                                     <button
                                         type="button"
                                         onClick={() => editForm.setData('is_active', !editForm.data.is_active)}
-                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${
-                                            editForm.data.is_active ? 'bg-brand-secondary' : 'bg-brand-light'
-                                        }`}
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${ editForm.data.is_active ? 'bg-brand-secondary' : 'bg-brand-light' } active:scale-[0.97]`}
                                     >
                                         <span
                                             className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
@@ -1318,14 +1294,14 @@ export default function MenusIndex() {
                                         setEditMenuId(null)
                                         setImagePreview(null)
                                     }}
-                                    className="px-6 py-2.5 text-xs font-extrabold text-brand-primary hover:text-brand-dark transition-colors"
+                                    className="px-6 py-2.5 text-xs font-extrabold text-brand-primary hover:text-brand-dark transition-colors active:scale-[0.97]"
                                 >
                                     Batal
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={editForm.processing}
-                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-primary/20 disabled:opacity-50"
+                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-primary/20 disabled:opacity-50 active:scale-[0.97]"
                                 >
                                     {editForm.processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                                 </button>
@@ -1346,7 +1322,7 @@ export default function MenusIndex() {
                                 setShowCategoryModal(false)
                                 cancelCategoryEdit()
                             }}
-                            className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-95"
+                            className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-[0.97]"
                         >
                             <iconify-icon icon="material-symbols:close" class="text-xl"></iconify-icon>
                         </button>
@@ -1371,7 +1347,7 @@ export default function MenusIndex() {
                                         value={catName}
                                         onChange={(e) => setCatName(e.target.value)}
                                         placeholder="Contoh: Kopi Khas"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     {catErrors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1389,7 +1365,7 @@ export default function MenusIndex() {
                                         onChange={(e) => setCatDesc(e.target.value)}
                                         placeholder="Keterangan singkat..."
                                         rows={3}
-                                        className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all resize-none font-medium text-brand-dark"
+                                        className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all resize-none font-medium text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     {catErrors.description && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1402,9 +1378,7 @@ export default function MenusIndex() {
                                     <button
                                         type="button"
                                         onClick={() => setCatActive(!catActive)}
-                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${
-                                            catActive ? 'bg-brand-secondary' : 'bg-brand-light'
-                                        }`}
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${ catActive ? 'bg-brand-secondary' : 'bg-brand-light' } active:scale-[0.97]`}
                                     >
                                         <span
                                             className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
@@ -1425,7 +1399,7 @@ export default function MenusIndex() {
                                         <button
                                             type="button"
                                             onClick={cancelCategoryEdit}
-                                            className="flex-1 py-2 bg-brand-bg hover:bg-brand-light/50 text-brand-primary border border-brand-light rounded-xl text-xs font-extrabold transition-all"
+                                            className="flex-1 py-2 bg-brand-bg hover:bg-brand-light/50 text-brand-primary border border-brand-light rounded-xl text-xs font-extrabold transition-all active:scale-[0.97]"
                                         >
                                             Batal
                                         </button>
@@ -1433,7 +1407,7 @@ export default function MenusIndex() {
                                     <button
                                         type="submit"
                                         disabled={catProcessing}
-                                        className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white flex-1 py-2 rounded-xl text-xs font-bold transition-all disabled:opacity-50"
+                                        className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white flex-1 py-2 rounded-xl text-xs font-bold transition-all disabled:opacity-50 active:scale-[0.97]"
                                     >
                                         {catProcessing ? 'Menyimpan...' : (editingCatId ? 'Simpan' : 'Tambah')}
                                     </button>
@@ -1488,14 +1462,14 @@ export default function MenusIndex() {
                                             <div className="flex items-center gap-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <button
                                                     onClick={() => startEditCategory(cat)}
-                                                    className="p-2 text-brand-primary hover:text-brand-secondary rounded-xl hover:bg-brand-light/50 inline-flex active:scale-95 transition-all"
+                                                    className="p-2 text-brand-primary hover:text-brand-secondary rounded-xl hover:bg-brand-light/50 inline-flex active:scale-[0.97] transition-all"
                                                     title="Edit"
                                                 >
                                                     <iconify-icon icon="solar:pen-linear" class="text-lg"></iconify-icon>
                                                 </button>
                                                 <button
                                                     onClick={() => handleDeleteCategory(cat.id, cat.name)}
-                                                    className="p-2 text-rose-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 inline-flex active:scale-95 transition-all"
+                                                    className="p-2 text-rose-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 inline-flex active:scale-[0.97] transition-all"
                                                     title="Hapus"
                                                 >
                                                     <iconify-icon icon="solar:trash-bin-trash-linear" class="text-lg"></iconify-icon>

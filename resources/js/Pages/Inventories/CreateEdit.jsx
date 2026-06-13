@@ -363,7 +363,7 @@ export default function InventoriesCreateEdit() {
                                 type="button"
                                 onClick={handleSubmit}
                                 disabled={processing}
-                                className="px-6 py-2.5 text-xs font-extrabold text-white bg-brand-dark hover:bg-brand-primary rounded-xl transition duration-150 active:scale-95 shadow-md disabled:opacity-60"
+                                className="px-6 py-2.5 text-xs font-extrabold text-white bg-brand-dark hover:bg-brand-primary rounded-xl duration-150 active:scale-[0.97] shadow-md disabled:opacity-60 transition-all"
                             >
                                 {processing ? "Menyimpan..." : "Simpan Bahan"}
                             </button>
@@ -423,9 +423,7 @@ export default function InventoriesCreateEdit() {
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
                                             placeholder="Contoh: Susu UHT Full Cream"
-                                            className={`w-full h-10 px-3 text-xs bg-white border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark ${
-                                                errors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light"
-                                            }`}
+                                            className={`w-full h-10 px-3 text-xs bg-white border rounded-xl focus:outline-none transition-all font-bold text-brand-dark ${ errors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light" } hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                         />
                                         {errors.name && (
                                             <p className="text-[10px] text-rose-500 font-bold mt-1">{errors.name}</p>
@@ -444,9 +442,7 @@ export default function InventoriesCreateEdit() {
                                                     required
                                                     value={categoryId}
                                                     onChange={(e) => setCategoryId(e.target.value)}
-                                                    className={`flex-1 h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all cursor-pointer font-bold text-brand-dark ${
-                                                        errors.inventory_category_id ? "border-rose-300 ring-2 ring-rose-50" : ""
-                                                    }`}
+                                                    className={`flex-1 h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark ${ errors.inventory_category_id ? "border-rose-300 ring-2 ring-rose-50" : "" } focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                                 >
                                                     <option value="" disabled>-- Pilih Kategori --</option>
                                                     {categories.map((cat) => (
@@ -458,7 +454,7 @@ export default function InventoriesCreateEdit() {
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowCategoryModal(true)}
-                                                    className="w-10 h-10 border border-brand-light bg-brand-light/30 rounded-xl flex items-center justify-center text-lg text-brand-primary hover:bg-brand-light transition active:scale-95"
+                                                    className="w-10 h-10 border border-brand-light bg-brand-light/30 rounded-xl flex items-center justify-center text-lg text-brand-primary hover:bg-brand-light active:scale-[0.97] transition-all duration-150"
                                                     title="Tambah Kategori Baru"
                                                 >
                                                     +
@@ -480,9 +476,7 @@ export default function InventoriesCreateEdit() {
                                                 required
                                                 value={unit}
                                                 onChange={(e) => setUnit(e.target.value)}
-                                                className={`w-full h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all cursor-pointer font-bold text-brand-dark ${
-                                                    errors.unit ? "border-rose-300 ring-2 ring-rose-50" : ""
-                                                }`}
+                                                className={`w-full h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark ${ errors.unit ? "border-rose-300 ring-2 ring-rose-50" : "" } focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                             >
                                                 <option value="" disabled>-- Pilih Satuan --</option>
                                                 <option value="Gram">Gram (g)</option>
@@ -522,7 +516,7 @@ export default function InventoriesCreateEdit() {
                                             value={stock}
                                             onChange={(e) => setStock(e.target.value)}
                                             placeholder="0"
-                                            className="w-full h-10 px-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark"
+                                            className="w-full h-10 px-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         />
                                         <span className="text-[10px] text-brand-primary/50 mt-1.5 block leading-normal">
                                             Jumlah stok saat ini yang tersedia di gudang/toko.
@@ -544,7 +538,7 @@ export default function InventoriesCreateEdit() {
                                                 value={minStock}
                                                 onChange={(e) => setMinStock(e.target.value)}
                                                 placeholder="10"
-                                                className="w-full h-10 pl-3 pr-10 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark"
+                                                className="w-full h-10 pl-3 pr-10 text-xs bg-white border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-amber-500 flex items-center text-sm">
                                                 <iconify-icon icon="solar:danger-triangle-linear"></iconify-icon>
@@ -570,7 +564,7 @@ export default function InventoriesCreateEdit() {
                                             value={pricePerUnit}
                                             onChange={(e) => setPricePerUnit(e.target.value)}
                                             placeholder="Rp 0"
-                                            className="w-full h-10 px-3 text-xs bg-brand-light/20 border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-secondary"
+                                            className="w-full h-10 px-3 text-xs bg-brand-light/20 border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-secondary hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         />
                                         {errors.price_per_unit && (
                                             <p className="text-[10px] text-rose-500 font-bold mt-1">{errors.price_per_unit}</p>
@@ -587,7 +581,7 @@ export default function InventoriesCreateEdit() {
                                             value={storageLocation}
                                             onChange={(e) => setStorageLocation(e.target.value)}
                                             placeholder="Contoh: Chiller A, Rak 2"
-                                            className="w-full h-10 px-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all font-bold text-brand-dark"
+                                            className="w-full h-10 px-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         />
                                     </div>
                                 </div>
@@ -609,7 +603,7 @@ export default function InventoriesCreateEdit() {
                                             <select
                                                 value={supplierId}
                                                 onChange={(e) => setSupplierId(e.target.value)}
-                                                className="flex-1 h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all cursor-pointer font-bold text-brand-dark"
+                                                className="flex-1 h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             >
                                                 <option value="">-- Pilih Supplier --</option>
                                                 {suppliers.map((s) => (
@@ -621,7 +615,7 @@ export default function InventoriesCreateEdit() {
                                             <button
                                                 type="button"
                                                 onClick={() => setShowSupplierModal(true)}
-                                                className="w-10 h-10 border border-brand-light bg-brand-light/30 rounded-xl flex items-center justify-center text-lg text-brand-primary hover:bg-brand-light transition active:scale-95"
+                                                className="w-10 h-10 border border-brand-light bg-brand-light/30 rounded-xl flex items-center justify-center text-lg text-brand-primary hover:bg-brand-light active:scale-[0.97] transition-all duration-150"
                                                 title="Tambah Supplier Baru"
                                             >
                                                 +
@@ -639,7 +633,7 @@ export default function InventoriesCreateEdit() {
                                             onChange={(e) => setNotes(e.target.value)}
                                             placeholder="Catatan mengenai cara penyimpanan khusus atau detail lainnya..."
                                             rows={4}
-                                            className="w-full p-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all resize-none font-medium text-brand-dark"
+                                            className="w-full p-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none transition-all resize-none font-medium text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         />
                                     </div>
                                 </div>
@@ -737,7 +731,7 @@ export default function InventoriesCreateEdit() {
                         type="button"
                         onClick={handleSubmit}
                         disabled={processing}
-                        className="px-6 py-2.5 text-xs font-extrabold text-white bg-brand-dark hover:bg-brand-primary rounded-xl transition duration-150 active:scale-95 shadow-md disabled:opacity-60"
+                        className="px-6 py-2.5 text-xs font-extrabold text-white bg-brand-dark hover:bg-brand-primary rounded-xl duration-150 active:scale-[0.97] shadow-md disabled:opacity-60 transition-all"
                     >
                         {processing ? "Menyimpan..." : "Simpan Bahan"}
                     </button>
@@ -756,7 +750,7 @@ export default function InventoriesCreateEdit() {
                                 setCatErrors({});
                                 setNewCatName("");
                             }}
-                            className="absolute top-4 right-4 p-1.5 text-brand-primary/40 hover:text-brand-dark hover:bg-brand-light/35 rounded-xl transition-all"
+                            className="absolute top-4 right-4 p-1.5 text-brand-primary/40 hover:text-brand-dark hover:bg-brand-light/35 rounded-xl transition-all active:scale-[0.97]"
                         >
                             ✕
                         </button>
@@ -779,9 +773,7 @@ export default function InventoriesCreateEdit() {
                                     value={newCatName}
                                     onChange={(e) => setNewCatName(e.target.value)}
                                     placeholder="Contoh: Dairy, Sirup, Coffee"
-                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark ${
-                                        catErrors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light"
-                                    }`}
+                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none font-bold text-brand-dark ${ catErrors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light" } transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                 />
                                 {catErrors.name && (
                                     <p className="text-[9px] text-rose-500 font-bold mt-1">
@@ -798,14 +790,14 @@ export default function InventoriesCreateEdit() {
                                         setCatErrors({});
                                         setNewCatName("");
                                     }}
-                                    className="flex-1 py-2 bg-white border border-brand-light text-brand-primary/65 rounded-lg text-xs font-bold hover:bg-brand-light/30 transition-all"
+                                    className="flex-1 py-2 bg-white border border-brand-light text-brand-primary/65 rounded-lg text-xs font-bold hover:bg-brand-light/30 transition-all active:scale-[0.97]"
                                 >
                                     Batal
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={catProcessing}
-                                    className="flex-1 py-2 bg-brand-dark hover:bg-brand-primary text-white rounded-lg text-xs font-bold transition-all disabled:opacity-50"
+                                    className="flex-1 py-2 bg-brand-dark hover:bg-brand-primary text-white rounded-lg text-xs font-bold transition-all disabled:opacity-50 active:scale-[0.97]"
                                 >
                                     {catProcessing ? "Proses..." : "Simpan"}
                                 </button>
@@ -828,7 +820,7 @@ export default function InventoriesCreateEdit() {
                                 setNewSupplierName("");
                                 setNewSupplierContact("");
                             }}
-                            className="absolute top-4 right-4 p-1.5 text-brand-primary/40 hover:text-brand-dark hover:bg-brand-light/35 rounded-xl transition-all"
+                            className="absolute top-4 right-4 p-1.5 text-brand-primary/40 hover:text-brand-dark hover:bg-brand-light/35 rounded-xl transition-all active:scale-[0.97]"
                         >
                             ✕
                         </button>
@@ -852,9 +844,7 @@ export default function InventoriesCreateEdit() {
                                     value={newSupplierName}
                                     onChange={(e) => setNewSupplierName(e.target.value)}
                                     placeholder="Contoh: PT. Global Dairy Milk"
-                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark ${
-                                        supplierErrors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light"
-                                    }`}
+                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none font-bold text-brand-dark ${ supplierErrors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light" } transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                 />
                                 {supplierErrors.name && (
                                     <p className="text-[9px] text-rose-500 font-bold mt-1">
@@ -874,9 +864,7 @@ export default function InventoriesCreateEdit() {
                                     value={newSupplierContact}
                                     onChange={(e) => setNewSupplierContact(e.target.value)}
                                     placeholder="Contoh: Dian Permata"
-                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark ${
-                                        supplierErrors.contact_name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light"
-                                    }`}
+                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none font-bold text-brand-dark ${ supplierErrors.contact_name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light" } transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                 />
                                 {supplierErrors.contact_name && (
                                     <p className="text-[9px] text-rose-500 font-bold mt-1">
@@ -895,7 +883,7 @@ export default function InventoriesCreateEdit() {
                                     value={newSupplierCategory}
                                     onChange={(e) => setNewSupplierCategory(e.target.value)}
                                     placeholder="Contoh: Bahan Baku, Packaging"
-                                    className="w-full h-9 px-3 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary font-bold text-brand-dark"
+                                    className="w-full h-9 px-3 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none font-bold text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                 />
                             </div>
 
@@ -908,14 +896,14 @@ export default function InventoriesCreateEdit() {
                                         setNewSupplierName("");
                                         setNewSupplierContact("");
                                     }}
-                                    className="flex-1 py-2 bg-white border border-brand-light text-brand-primary/65 rounded-lg text-xs font-bold hover:bg-brand-light/30 transition-all"
+                                    className="flex-1 py-2 bg-white border border-brand-light text-brand-primary/65 rounded-lg text-xs font-bold hover:bg-brand-light/30 transition-all active:scale-[0.97]"
                                 >
                                     Batal
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={supplierProcessing}
-                                    className="flex-1 py-2 bg-brand-dark hover:bg-brand-primary text-white rounded-lg text-xs font-bold transition-all disabled:opacity-50"
+                                    className="flex-1 py-2 bg-brand-dark hover:bg-brand-primary text-white rounded-lg text-xs font-bold transition-all disabled:opacity-50 active:scale-[0.97]"
                                 >
                                     {supplierProcessing ? "Proses..." : "Simpan"}
                                 </button>

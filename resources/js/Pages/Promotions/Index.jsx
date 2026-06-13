@@ -338,7 +338,7 @@ export default function PromotionsIndex() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat data promosi dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -365,7 +365,7 @@ export default function PromotionsIndex() {
                     </div>
                     <button
                         onClick={() => { promoForm.reset(); bundleForm.reset(); setIsCreateModalOpen(true); }}
-                        className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98] text-[13px] self-start"
+                        className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.97] text-[13px] self-start"
                     >
                         <Icon icon="solar:add-circle-linear" className="text-lg" />
                         Buat Promo Baru
@@ -470,11 +470,11 @@ export default function PromotionsIndex() {
                         <div className="flex gap-3 mt-5">
                             <button
                                 onClick={() => highlightCampaign && handleEditCampaignClick(highlightCampaign)}
-                                className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.98]"
+                                className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.97]"
                             >
                                 Kelola Bundel
                             </button>
-                            <button className="px-5 py-2.5 border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors rounded-xl active:scale-[0.98]">
+                            <button className="px-5 py-2.5 border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors rounded-xl active:scale-[0.97]">
                                 Lihat Analitik
                             </button>
                         </div>
@@ -494,11 +494,7 @@ export default function PromotionsIndex() {
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
-                                    className={`px-4 py-1.5 text-xs font-bold rounded-lg border transition-all
-                                        ${activeTab === tab
-                                            ? 'bg-brand-primary text-white border-brand-primary shadow-sm'
-                                            : 'bg-white text-brand-primary border-brand-light hover:bg-brand-light/50 hover:text-brand-dark'
-                                        }`}
+                                    className={`px-4 py-1.5 text-xs font-bold rounded-lg border transition-all ${activeTab === tab ? 'bg-brand-primary text-white border-brand-primary shadow-sm' : 'bg-white text-brand-primary border-brand-light hover:bg-brand-light/50 hover:text-brand-dark' } active:scale-[0.97]`}
                                 >
                                     {tab}
                                 </button>
@@ -571,7 +567,7 @@ export default function PromotionsIndex() {
                                                 onClick={() => setActiveDropdownId(
                                                     activeDropdownId === `${camp.type}-${camp.id}` ? null : `${camp.type}-${camp.id}`
                                                 )}
-                                                className="text-brand-primary/40 hover:text-brand-secondary w-8 h-8 rounded-lg flex items-center justify-center hover:bg-brand-light/50 transition-all ml-auto"
+                                                className="text-brand-primary/40 hover:text-brand-secondary w-8 h-8 rounded-lg flex items-center justify-center hover:bg-brand-light/50 transition-all ml-auto active:scale-[0.97]"
                                             >
                                                 <Icon icon="solar:menu-dots-linear" className="text-base" />
                                             </button>
@@ -579,14 +575,14 @@ export default function PromotionsIndex() {
                                                 <div className="absolute right-0 mt-1 w-40 bg-white border border-brand-light rounded-xl shadow-lg z-10 py-1.5 text-left">
                                                     <button
                                                         onClick={() => handleEditCampaignClick(camp)}
-                                                        className="w-full px-4 py-2 hover:bg-brand-light/30 text-xs font-bold text-brand-dark flex items-center gap-2 transition-colors"
+                                                        className="w-full px-4 py-2 hover:bg-brand-light/30 text-xs font-bold text-brand-dark flex items-center gap-2 transition-colors active:scale-[0.97]"
                                                     >
                                                         <Icon icon="solar:pen-linear" className="text-brand-secondary" />
                                                         Ubah Promo
                                                     </button>
                                                     <button
                                                         onClick={() => handleDeleteCampaign(camp)}
-                                                        className="w-full px-4 py-2 hover:bg-rose-50 text-xs font-bold text-rose-600 flex items-center gap-2 transition-colors"
+                                                        className="w-full px-4 py-2 hover:bg-rose-50 text-xs font-bold text-rose-600 flex items-center gap-2 transition-colors active:scale-[0.97]"
                                                     >
                                                         <Icon icon="solar:trash-bin-trash-linear" />
                                                         Hapus Promo
@@ -605,10 +601,10 @@ export default function PromotionsIndex() {
                             Menampilkan {filteredCampaigns.length} dari {campaigns.length} promosi
                         </span>
                         <div className="flex gap-2">
-                            <button className="px-4 py-2 border border-brand-light rounded-xl bg-white text-xs font-extrabold text-brand-primary/40 cursor-not-allowed">
+                            <button className="px-4 py-2 border border-brand-light rounded-xl bg-white text-xs font-extrabold text-brand-primary/40 cursor-not-allowed transition-all duration-150 active:scale-[0.97]">
                                 Sebelumnya
                             </button>
-                            <button className="px-4 py-2 border border-brand-light rounded-xl bg-white text-xs font-extrabold text-brand-primary hover:bg-brand-light/50 hover:text-brand-dark transition-colors">
+                            <button className="px-4 py-2 border border-brand-light rounded-xl bg-white text-xs font-extrabold text-brand-primary hover:bg-brand-light/50 hover:text-brand-dark transition-colors active:scale-[0.97]">
                                 Berikutnya
                             </button>
                         </div>
@@ -662,11 +658,7 @@ export default function PromotionsIndex() {
                                     <button
                                         key={t.key}
                                         onClick={() => setActiveFormType(t.key)}
-                                        className={`flex-1 py-4 text-sm font-extrabold transition-all flex items-center justify-center gap-2
-                                            ${activeFormType === t.key
-                                                ? 'border-b-2 border-brand-secondary text-brand-secondary bg-brand-light/20'
-                                                : 'text-brand-primary/50 hover:bg-brand-light/20'
-                                            }`}
+                                        className={`flex-1 py-4 text-sm font-extrabold transition-all flex items-center justify-center gap-2 ${activeFormType === t.key ? 'border-b-2 border-brand-secondary text-brand-secondary bg-brand-light/20' : 'text-brand-primary/50 hover:bg-brand-light/20' } active:scale-[0.97]`}
                                     >
                                         <Icon icon={t.icon} className="text-base" />
                                         {t.label}
@@ -680,7 +672,7 @@ export default function PromotionsIndex() {
                                 </h3>
                                 <button
                                     onClick={() => { setIsEditModalOpen(false); setEditingCampaign(null); }}
-                                    className="w-8 h-8 rounded-xl bg-brand-light/50 hover:bg-rose-100 hover:text-rose-600 flex items-center justify-center text-brand-primary transition-colors"
+                                    className="w-8 h-8 rounded-xl bg-brand-light/50 hover:bg-rose-100 hover:text-rose-600 flex items-center justify-center text-brand-primary transition-colors active:scale-[0.97]"
                                 >
                                     <Icon icon="solar:close-circle-linear" className="text-lg" />
                                 </button>
@@ -755,12 +747,12 @@ export default function PromotionsIndex() {
 
                                     <div className="flex items-center gap-3 pt-4 border-t border-brand-light">
                                         <button type="submit" disabled={promoForm.processing}
-                                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-xs font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.98]">
+                                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-xs font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.97]">
                                             {isEditModalOpen ? 'Simpan Perubahan' : 'Terapkan Promosi'}
                                         </button>
                                         <button type="button"
                                             onClick={() => { setIsCreateModalOpen(false); setIsEditModalOpen(false); }}
-                                            className="h-11 px-5 rounded-xl border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors rounded-xl">
+                                            className="h-11 px-5 rounded-xl border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors rounded-xl active:scale-[0.97]">
                                             Batal
                                         </button>
                                     </div>
@@ -785,7 +777,7 @@ export default function PromotionsIndex() {
                                         <textarea rows={2} value={bundleForm.data.description}
                                             onChange={(e) => bundleForm.setData('description', e.target.value)}
                                             placeholder="Tuliskan info bundel..."
-                                            className={`${inputCls} resize-none`} />
+                                            className={`${inputCls} resize-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none`} />
                                     </div>
 
                                     <div>
@@ -803,7 +795,7 @@ export default function PromotionsIndex() {
                                         <div className="flex gap-2">
                                             <select value={selectedMenuToAdd}
                                                 onChange={(e) => setSelectedMenuToAdd(e.target.value)}
-                                                className="flex-1 px-3 py-2 rounded-xl border border-brand-light text-xs font-bold text-brand-dark bg-white focus:outline-none focus:border-brand-secondary">
+                                                className="flex-1 px-3 py-2 rounded-xl border border-brand-light text-xs font-bold text-brand-dark bg-white focus:outline-none cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light">
                                                 <option value="">Pilih Menu...</option>
                                                 {menus.map((m) => (
                                                     <option key={m.id} value={m.id}>{m.name} (Rp {formatRp(m.price)})</option>
@@ -811,9 +803,9 @@ export default function PromotionsIndex() {
                                             </select>
                                             <input type="number" min="1" value={quantityToAdd}
                                                 onChange={(e) => setQuantityToAdd(parseInt(e.target.value) || 1)}
-                                                className="w-16 px-3 py-2 rounded-xl border border-brand-light text-xs font-bold text-brand-dark text-center focus:outline-none focus:border-brand-secondary" />
+                                                className="w-16 px-3 py-2 rounded-xl border border-brand-light text-xs font-bold text-brand-dark text-center focus:outline-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light" />
                                             <button type="button" onClick={handleAddMenuToBundle}
-                                                className="px-3 py-2 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary text-white font-bold text-xs active:scale-[0.98] transition-all shadow-sm">
+                                                className="px-3 py-2 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary text-white font-bold text-xs active:scale-[0.97] transition-all shadow-sm">
                                                 Tambah
                                             </button>
                                         </div>
@@ -823,7 +815,7 @@ export default function PromotionsIndex() {
                                                     <div key={menu.id} className="flex justify-between items-center py-2 text-xs">
                                                         <span className="font-bold text-brand-dark">{menu.qty}x {menu.name}</span>
                                                         <button type="button" onClick={() => handleRemoveMenuFromBundle(menu.id)}
-                                                            className="text-rose-500 hover:text-rose-700 font-extrabold text-[10px]">
+                                                            className="text-rose-500 hover:text-rose-700 font-extrabold text-[10px] transition-all duration-150 active:scale-[0.97]">
                                                             Hapus
                                                         </button>
                                                     </div>
@@ -848,12 +840,12 @@ export default function PromotionsIndex() {
 
                                     <div className="flex items-center gap-3 pt-4 border-t border-brand-light">
                                         <button type="submit" disabled={bundleForm.processing}
-                                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-xs font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.98]">
+                                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-xs font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.97]">
                                             {isEditModalOpen ? 'Simpan Perubahan' : 'Terapkan Bundel'}
                                         </button>
                                         <button type="button"
                                             onClick={() => { setIsCreateModalOpen(false); setIsEditModalOpen(false); }}
-                                            className="h-11 px-5 rounded-xl border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors rounded-xl">
+                                            className="h-11 px-5 rounded-xl border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors rounded-xl active:scale-[0.97]">
                                             Batal
                                         </button>
                                     </div>
@@ -875,7 +867,7 @@ export default function PromotionsIndex() {
                         <p className="text-[10px] text-brand-primary font-bold truncate">{toastMessage}</p>
                     </div>
                     <button onClick={() => setShowToast(false)}
-                        className="text-brand-primary/40 hover:text-brand-dark text-xs font-bold flex-shrink-0">
+                        className="text-brand-primary/40 hover:text-brand-dark text-xs font-bold flex-shrink-0 transition-all duration-150 active:scale-[0.97]">
                         <Icon icon="solar:close-circle-linear" className="text-lg" />
                     </button>
                 </div>

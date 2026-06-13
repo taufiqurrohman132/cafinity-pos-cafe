@@ -253,7 +253,7 @@ export default function TargetPerforma({
                             <button
                                 type="button"
                                 onClick={() => setIsModalOpen(true)}
-                                className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all duration-200 flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]"
+                                className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all duration-200 flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.97]"
                             >
                                 <Icon icon="solar:pen-linear" className="text-sm" />
                                 {target ? 'Ubah Target' : 'Set Target'}
@@ -450,14 +450,14 @@ export default function TargetPerforma({
                     <div className="flex items-center gap-3">
                         <button
                             onClick={handleUndo}
-                            className="text-[10px] font-bold text-brand-primary hover:text-brand-secondary flex items-center gap-1 active:scale-[0.95] transition-all"
+                            className="text-[10px] font-bold text-brand-primary hover:text-brand-secondary flex items-center gap-1 active:scale-[0.97] transition-all"
                         >
                             <Icon icon="solar:restart-linear" className="text-xs" />
                             Urungkan
                         </button>
                         <button
                             onClick={() => setShowSuccessToast(false)}
-                            className="text-brand-primary/40 hover:text-brand-dark active:scale-[0.95] flex-shrink-0 transition-all font-bold"
+                            className="text-brand-primary/40 hover:text-brand-dark active:scale-[0.97] flex-shrink-0 transition-all font-bold"
                         >
                             ✕
                         </button>

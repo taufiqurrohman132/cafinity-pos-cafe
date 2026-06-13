@@ -85,11 +85,7 @@ function TabButton({ id, label, active, onClick }) {
     return (
         <button
             onClick={() => onClick(id)}
-            className={`pb-3 border-b-2 text-sm font-bold transition-all ${
-                active
-                    ? "border-brand-secondary text-brand-secondary"
-                    : "border-transparent text-brand-primary/50 hover:text-brand-primary"
-            }`}
+            className={`pb-3 border-b-2 text-sm font-bold transition-all ${ active ? "border-brand-secondary text-brand-secondary" : "border-transparent text-brand-primary/50 hover:text-brand-primary" } active:scale-[0.97]`}
         >
             {label}
         </button>
@@ -344,7 +340,7 @@ export default function Show() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat data detail menu dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -400,14 +396,14 @@ export default function Show() {
                         <button
                             type="button"
                             onClick={handleShare}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-brand-light text-sm font-bold text-brand-primary bg-white hover:bg-brand-light hover:text-brand-dark transition-all shadow-sm"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-brand-light text-sm font-bold text-brand-primary bg-white hover:bg-brand-light hover:text-brand-dark transition-all shadow-sm active:scale-[0.97]"
                         >
                             <Icon icon="solar:share-linear" /> Bagikan
                         </button>
                         <button
                             type="button"
                             onClick={() => navigate(`/menus/${id}/edit`)}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-bold transition-all shadow-lg shadow-brand-secondary/30"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-bold transition-all shadow-lg shadow-brand-secondary/30 active:scale-[0.97]"
                         >
                             <Icon icon="solar:pen-linear" /> Edit Produk
                         </button>
@@ -801,7 +797,7 @@ export default function Show() {
                                                 key={a.label}
                                                 type="button"
                                                 onClick={a.onClick}
-                                                className="flex items-center gap-2 w-full py-2.5 px-4 bg-white/10 hover:bg-white/20 rounded-xl text-white text-xs font-bold transition-all border border-white/10 text-left"
+                                                className="flex items-center gap-2 w-full py-2.5 px-4 bg-white/10 hover:bg-white/20 rounded-xl text-white text-xs font-bold transition-all border border-white/10 text-left active:scale-[0.97]"
                                             >
                                                 <Icon icon={a.icon} /> {a.label}
                                             </button>
@@ -837,7 +833,7 @@ export default function Show() {
                                 setErrors({});
                                 setImagePreview(menu.image_url ?? null);
                             }}
-                            className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-95"
+                            className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-[0.97]"
                         >
                             <iconify-icon icon="material-symbols:close" class="text-xl"></iconify-icon>
                         </button>
@@ -892,7 +888,7 @@ export default function Show() {
                                         value={formData.name}
                                         onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                                         placeholder="Contoh: Es Kopi Susu Gula Aren"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     {errors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -912,7 +908,7 @@ export default function Show() {
                                         required
                                         value={formData.category_id}
                                         onChange={(e) => setFormData(prev => ({ ...prev, category_id: e.target.value }))}
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all cursor-pointer font-bold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     >
                                         <option value="" disabled>-- Pilih Kategori --</option>
                                         {categories.map((cat) => (
@@ -940,7 +936,7 @@ export default function Show() {
                                         value={formData.price}
                                         onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
                                         placeholder="25000"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-secondary"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-secondary hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     {errors.price && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -962,7 +958,7 @@ export default function Show() {
                                         value={formData.estimated_hpp}
                                         onChange={(e) => setFormData(prev => ({ ...prev, estimated_hpp: e.target.value }))}
                                         placeholder="8500"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
                                         *HPP akan diperbarui otomatis setelah resep dihubungkan.
@@ -986,7 +982,7 @@ export default function Show() {
                                         onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                                         placeholder="Deskripsi..."
                                         rows={2}
-                                        className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all resize-none font-medium text-brand-dark"
+                                        className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all resize-none font-medium text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                     {errors.description && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1003,9 +999,7 @@ export default function Show() {
                                     <button
                                         type="button"
                                         onClick={() => setFormData(prev => ({ ...prev, is_active: !prev.is_active }))}
-                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${
-                                            formData.is_active ? 'bg-brand-secondary' : 'bg-brand-light'
-                                        }`}
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${ formData.is_active ? 'bg-brand-secondary' : 'bg-brand-light' } active:scale-[0.97]`}
                                     >
                                         <span
                                             className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
@@ -1040,14 +1034,14 @@ export default function Show() {
                                         setErrors({});
                                         setImagePreview(menu.image_url ?? null);
                                     }}
-                                    className="px-6 py-2.5 text-xs font-extrabold text-brand-primary hover:text-brand-dark transition-colors"
+                                    className="px-6 py-2.5 text-xs font-extrabold text-brand-primary hover:text-brand-dark transition-colors active:scale-[0.97]"
                                 >
                                     Batal
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-primary/20 disabled:opacity-50"
+                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-primary/20 disabled:opacity-50 active:scale-[0.97]"
                                 >
                                     {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                                 </button>

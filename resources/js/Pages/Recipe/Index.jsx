@@ -171,7 +171,7 @@ export default function RecipeIndex() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat data resep dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -192,7 +192,7 @@ export default function RecipeIndex() {
                         <h2 className="text-lg font-bold text-brand-dark">Katalog Resep</h2>
                         <button
                             onClick={() => setShowCreateModal(true)}
-                            className="w-8 h-8 bg-gradient-to-br from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl flex items-center justify-center font-bold text-lg transition-all shadow-md shadow-brand-secondary/30 active:scale-95"
+                            className="w-8 h-8 bg-gradient-to-br from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl flex items-center justify-center font-bold text-lg transition-all shadow-md shadow-brand-secondary/30 active:scale-[0.97]"
                         >
                             +
                         </button>
@@ -207,7 +207,7 @@ export default function RecipeIndex() {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Cari resep menu..."
-                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
+                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             />
                         </div>
                     </div>
@@ -329,7 +329,7 @@ export default function RecipeIndex() {
                                                 <h3 className="font-bold text-brand-dark">Komposisi Bahan Baku</h3>
                                                 <button
                                                     onClick={() => setShowEditModal(true)}
-                                                    className="flex items-center gap-1.5 text-xs font-bold text-brand-secondary bg-brand-light/30 px-3 py-1.5 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all"
+                                                    className="flex items-center gap-1.5 text-xs font-bold text-brand-secondary bg-brand-light/30 px-3 py-1.5 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all active:scale-[0.97]"
                                                 >
                                                     <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon> Edit Bahan
                                                 </button>
@@ -471,7 +471,7 @@ export default function RecipeIndex() {
                                             </div>
                                             <button
                                                 onClick={() => setSliderVal(0)}
-                                                className="w-full mt-4 flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light/50 active:scale-[0.98] transition-all"
+                                                className="w-full mt-4 flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light/50 active:scale-[0.97] transition-all"
                                             >
                                                 <iconify-icon icon="solar:restart-circle-linear" class="text-base"></iconify-icon> Reset Simulasi
                                             </button>
@@ -484,7 +484,7 @@ export default function RecipeIndex() {
                                                 {['Update Harga Inventory Global', 'Cetak Laporan Profitabilitas', 'Bandingkan dengan Resep Lain'].map((opsi) => (
                                                     <button
                                                         key={opsi}
-                                                        className="w-full flex justify-between items-center py-3 px-4 text-xs font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition-colors"
+                                                        className="w-full flex justify-between items-center py-3 px-4 text-xs font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition-colors active:scale-[0.97]"
                                                     >
                                                         {opsi}
                                                         <span className="text-brand-primary/50">→</span>
@@ -505,7 +505,7 @@ export default function RecipeIndex() {
                                                     Margin pada <span className="font-bold">{menu?.name}</span> mendekati batas minimum 40%.
                                                     Pertimbangkan untuk menaikkan harga jual jika biaya bahan baku naik lebih dari Rp2.000.
                                                 </p>
-                                                <button className="text-xs font-bold text-rose-500 hover:text-rose-600 flex items-center gap-1 bg-white px-3 py-1.5 rounded-lg shadow-sm border border-rose-100 transition-colors relative z-10">
+                                                <button className="text-xs font-bold text-rose-500 hover:text-rose-600 flex items-center gap-1 bg-white px-3 py-1.5 rounded-lg shadow-sm border border-rose-100 transition-colors relative z-10 active:scale-[0.97]">
                                                     Analisis Strategi Harga →
                                                 </button>
                                             </div>
@@ -539,7 +539,7 @@ export default function RecipeIndex() {
                                 </div>
                                 <button
                                     onClick={() => setShowCreateModal(true)}
-                                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white font-bold rounded-xl transition-all shadow-lg shadow-brand-secondary/30 active:scale-95 mt-2"
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white font-bold rounded-xl transition-all shadow-lg shadow-brand-secondary/30 active:scale-[0.97] mt-2"
                                 >
                                     + Tambah Resep Pertama
                                 </button>
@@ -559,7 +559,7 @@ export default function RecipeIndex() {
                                 <h3 className="font-bold text-brand-dark">Edit Komposisi Bahan</h3>
                                 <p className="text-xs text-brand-primary/70 mt-0.5">{selectedRecipe?.menu?.name}</p>
                             </div>
-                            <button onClick={() => setShowEditModal(false)} className="w-8 h-8 rounded-xl text-brand-primary/50 hover:bg-brand-light hover:text-brand-secondary transition flex items-center justify-center">✕</button>
+                            <button onClick={() => setShowEditModal(false)} className="w-8 h-8 rounded-xl text-brand-primary/50 hover:bg-brand-light hover:text-brand-secondary flex items-center justify-center transition-all duration-150 active:scale-[0.97]">✕</button>
                         </div>
                         <form onSubmit={handleEditSubmit} className="flex flex-col flex-1 overflow-hidden">
                             <div className="overflow-y-auto px-6 py-4 space-y-3">
@@ -585,13 +585,13 @@ export default function RecipeIndex() {
                                 <button
                                     type="button"
                                     onClick={() => setIngredients(prev => [...prev, { inventory_id: '', qty: '', unit: '' }])}
-                                    className="flex items-center gap-1.5 text-xs font-bold text-brand-secondary bg-brand-light/30 px-3 py-2 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all"
+                                    className="flex items-center gap-1.5 text-xs font-bold text-brand-secondary bg-brand-light/30 px-3 py-2 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all active:scale-[0.97]"
                                 >
                                     + Tambah Bahan
                                 </button>
                                 <div className="flex items-center gap-3">
-                                    <button type="button" onClick={() => setShowEditModal(false)} className="px-5 py-2.5 text-sm font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition">Batal</button>
-                                    <button type="submit" className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-brand-secondary to-brand-primary rounded-xl transition shadow-lg shadow-brand-secondary/30 active:scale-95">
+                                    <button type="button" onClick={() => setShowEditModal(false)} className="px-5 py-2.5 text-sm font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition-all duration-150 active:scale-[0.97]">Batal</button>
+                                    <button type="submit" className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-brand-secondary to-brand-primary rounded-xl shadow-lg shadow-brand-secondary/30 active:scale-[0.97] transition-all duration-150">
                                         <iconify-icon icon="solar:diskette-linear" class="text-sm"></iconify-icon> Simpan
                                     </button>
                                 </div>
@@ -608,7 +608,7 @@ export default function RecipeIndex() {
                     <div className="relative bg-white rounded-2xl border border-brand-light shadow-2xl w-full max-w-2xl mx-4 flex flex-col h-[90vh]">
                         <div className="px-6 py-5 border-b border-brand-light flex items-center justify-between flex-shrink-0">
                             <h3 className="font-bold text-brand-dark">Tambah Resep Baru</h3>
-                            <button onClick={() => setShowCreateModal(false)} className="w-8 h-8 rounded-xl text-brand-primary/50 hover:bg-brand-light hover:text-brand-secondary transition flex items-center justify-center">✕</button>
+                            <button onClick={() => setShowCreateModal(false)} className="w-8 h-8 rounded-xl text-brand-primary/50 hover:bg-brand-light hover:text-brand-secondary flex items-center justify-center transition-all duration-150 active:scale-[0.97]">✕</button>
                         </div>
                         <form onSubmit={handleCreateSubmit} className="flex flex-col flex-1 overflow-hidden">
                             <div className="overflow-y-auto px-6 py-4 space-y-4">
@@ -618,7 +618,7 @@ export default function RecipeIndex() {
                                         value={createForm.menu_id}
                                         onChange={(e) => setCreateForm(prev => ({ ...prev, menu_id: e.target.value }))}
                                         required
-                                        className="mt-1 w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary transition-all"
+                                        className="mt-1 w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     >
                                         <option value="" disabled>-- Pilih menu --</option>
                                         {menus.map(m => (
@@ -633,7 +633,7 @@ export default function RecipeIndex() {
                                         onChange={(e) => setEditNotes(e.target.value)}
                                         rows={2}
                                         placeholder="Contoh: versi summer, tanpa gula, dll..."
-                                        className="mt-1 w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary transition-all resize-none"
+                                        className="mt-1 w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all resize-none hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     />
                                 </div>
                                 <div className="space-y-3">
@@ -660,13 +660,13 @@ export default function RecipeIndex() {
                                 <button
                                     type="button"
                                     onClick={() => addIngredientRow(setCreateForm)}
-                                    className="flex items-center gap-1.5 text-xs font-bold text-brand-secondary bg-brand-light/30 px-3 py-2 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all"
+                                    className="flex items-center gap-1.5 text-xs font-bold text-brand-secondary bg-brand-light/30 px-3 py-2 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all active:scale-[0.97]"
                                 >
                                     + Tambah Bahan
                                 </button>
                                 <div className="flex items-center gap-3">
-                                    <button type="button" onClick={() => setShowCreateModal(false)} className="px-5 py-2.5 text-sm font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition">Batal</button>
-                                    <button type="submit" className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-brand-secondary to-brand-primary rounded-xl transition shadow-lg shadow-brand-secondary/30 active:scale-95">
+                                    <button type="button" onClick={() => setShowCreateModal(false)} className="px-5 py-2.5 text-sm font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition-all duration-150 active:scale-[0.97]">Batal</button>
+                                    <button type="submit" className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-brand-secondary to-brand-primary rounded-xl shadow-lg shadow-brand-secondary/30 active:scale-[0.97] transition-all duration-150">
                                         <iconify-icon icon="solar:diskette-linear" class="text-sm"></iconify-icon> Simpan
                                     </button>
                                 </div>
@@ -688,7 +688,7 @@ function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove
                     value={row.inventory_id}
                     onChange={(e) => onInventoryChange(e.target.value)}
                     required
-                    className="w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary transition-all"
+                    className="w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                 >
                     <option value="" disabled>-- Pilih bahan --</option>
                     {inventories.map(inv => (
@@ -704,7 +704,7 @@ function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove
                     value={row.qty}
                     onChange={(e) => onChange('qty', e.target.value)}
                     min="0.01" step="0.01" placeholder="Qty" required
-                    className="w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary transition-all"
+                    className="w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                 />
             </div>
             <div className="col-span-3">
@@ -713,7 +713,7 @@ function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove
                     value={row.unit}
                     onChange={(e) => onChange('unit', e.target.value)}
                     placeholder="g, ml..." required
-                    className="w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary transition-all"
+                    className="w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                 />
             </div>
             <div className="col-span-1 flex justify-center">
@@ -721,7 +721,7 @@ function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove
                     type="button"
                     onClick={onRemove}
                     disabled={!canRemove}
-                    className="w-8 h-8 rounded-lg text-rose-400 hover:bg-rose-50 hover:text-rose-600 transition flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+                    className="w-8 h-8 rounded-lg text-rose-400 hover:bg-rose-50 hover:text-rose-600 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 active:scale-[0.97]"
                 >
                     <iconify-icon icon="solar:trash-bin-trash-linear" class="text-lg"></iconify-icon>
                 </button>

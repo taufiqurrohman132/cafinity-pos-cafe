@@ -130,7 +130,7 @@ export default function ProfileEdit() {
                                                 required
                                                 value={name}
                                                 onChange={(e) => setName(e.target.value)}
-                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
+                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                             {errors.name && (
                                                 <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -151,7 +151,7 @@ export default function ProfileEdit() {
                                                 required
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
-                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
+                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                             {errors.email && (
                                                 <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -186,7 +186,7 @@ export default function ProfileEdit() {
                                                 value={currentPassword}
                                                 onChange={(e) => setCurrentPassword(e.target.value)}
                                                 placeholder={password ? "Wajib diisi untuk mengubah sandi" : "••••••••"}
-                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
+                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                             {errors.current_password && (
                                                 <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -207,7 +207,7 @@ export default function ProfileEdit() {
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
                                                 placeholder="Minimal 8 karakter"
-                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
+                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                             {errors.password && (
                                                 <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -229,7 +229,7 @@ export default function ProfileEdit() {
                                                 value={passwordConfirmation}
                                                 onChange={(e) => setPasswordConfirmation(e.target.value)}
                                                 placeholder="Ketik ulang sandi baru"
-                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:border-brand-secondary focus:ring-4 focus:ring-brand-light/30 transition-all font-bold text-brand-dark"
+                                                className="w-full h-11 px-4 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                             {errors.password_confirmation && (
                                                 <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -246,7 +246,7 @@ export default function ProfileEdit() {
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-8 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-primary/20 disabled:opacity-50"
+                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-8 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-primary/20 disabled:opacity-50 active:scale-[0.97]"
                                 >
                                     {processing ? 'Menyimpan...' : 'Simpan Profil'}
                                 </button>

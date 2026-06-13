@@ -116,7 +116,7 @@ function SalesChart({ initialLabels, initialValues }) {
                 {pills.map(pill => (
                     <button key={pill.value}
                         onClick={() => setPeriod(pill.value)}
-                        className={`px-4 py-1.5 text-xs font-bold rounded-lg border transition-all ${activePeriod === pill.value ? 'bg-brand-primary text-white border-brand-primary shadow-sm' : 'bg-white text-brand-primary border-brand-light hover:bg-brand-light/50 hover:text-brand-dark'}`}>
+                        className={`px-4 py-1.5 text-xs font-bold rounded-lg border transition-all ${activePeriod === pill.value ? 'bg-brand-primary text-white border-brand-primary shadow-sm' : 'bg-white text-brand-primary border-brand-light hover:bg-brand-light/50 hover:text-brand-dark'} active:scale-[0.97]`}>
                         {pill.label}
                     </button>
                 ))}
@@ -235,7 +235,7 @@ export default function OwnerDashboard() {
                 </p>
                 <button
                     onClick={() => fetchDashboard()}
-                    className="px-6 py-2.5 bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-bold rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-2"
+                    className="px-6 py-2.5 bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-bold rounded-xl transition-all shadow-md active:scale-[0.97] flex items-center gap-2"
                 >
                     <iconify-icon icon="solar:restart-linear" class="text-lg"></iconify-icon>
                     Coba Lagi
@@ -343,7 +343,7 @@ export default function OwnerDashboard() {
                         <button
                             onClick={() => fetchDashboard(true)}
                             disabled={isRefreshing}
-                            className="bg-white hover:bg-brand-light/50 text-brand-primary p-2.5 rounded-xl border border-brand-light shadow-sm transition-all flex items-center justify-center active:scale-95 disabled:opacity-50 shrink-0"
+                            className="bg-white hover:bg-brand-light/50 text-brand-primary p-2.5 rounded-xl border border-brand-light shadow-sm transition-all flex items-center justify-center active:scale-[0.97] disabled:opacity-50 shrink-0"
                             title="Perbarui Data"
                         >
                             <iconify-icon
@@ -358,7 +358,7 @@ export default function OwnerDashboard() {
                         <button
                             type="button"
                             onClick={exportDashboardSummary}
-                            className="bg-white hover:bg-brand-light/50 text-brand-primary px-4 py-2.5 rounded-xl border border-brand-light shadow-sm transition-all flex items-center gap-2 font-bold active:scale-95 shrink-0 whitespace-nowrap"
+                            className="bg-white hover:bg-brand-light/50 text-brand-primary px-4 py-2.5 rounded-xl border border-brand-light shadow-sm transition-all flex items-center gap-2 font-bold active:scale-[0.97] shrink-0 whitespace-nowrap"
                         >
                             <iconify-icon icon="solar:export-linear" class="text-[18px] text-brand-secondary"></iconify-icon>
                             Ekspor Ringkasan
@@ -671,7 +671,7 @@ export default function OwnerDashboard() {
                                         </p>
                                         {(!currentTarget || dailyGoal.progress < 100) ? (
                                             <button onClick={() => setShowTargetModal(true)}
-                                                className="w-full mt-4 py-2.5 text-xs font-extrabold text-brand-primary bg-brand-light/20 rounded-xl border border-brand-light hover:bg-brand-light hover:text-brand-dark transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
+                                                className="w-full mt-4 py-2.5 text-xs font-extrabold text-brand-primary bg-brand-light/20 rounded-xl border border-brand-light hover:bg-brand-light hover:text-brand-dark transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.97]">
                                                 <iconify-icon icon="solar:target-linear" class="text-sm text-brand-secondary"></iconify-icon>
                                                 {currentTarget ? 'Ubah Target' : 'Set Target Hari Ini'}
                                             </button>

@@ -193,7 +193,7 @@ export default function TransactionHistory() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat data transaksi dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -223,7 +223,7 @@ export default function TransactionHistory() {
                             <button
                                 type="button"
                                 onClick={handleExport}
-                                className="flex items-center gap-2 px-4 py-2.5 bg-white border border-brand-light rounded-xl text-sm font-bold text-brand-primary hover:bg-brand-light/50 hover:text-brand-dark transition-all shadow-sm"
+                                className="flex items-center gap-2 px-4 py-2.5 bg-white border border-brand-light rounded-xl text-sm font-bold text-brand-primary hover:bg-brand-light/50 hover:text-brand-dark transition-all shadow-sm active:scale-[0.97]"
                             >
                                 <Icon icon="solar:download-linear" className="text-lg" />
                                 Ekspor Laporan
@@ -294,14 +294,14 @@ export default function TransactionHistory() {
                                             value={params.search}
                                             onChange={(e) => setParams({ ...params, search: e.target.value })}
                                             placeholder="Cari ID Invoice..."
-                                            className="w-[200px] h-[38px] bg-brand-bg border border-brand-light rounded-xl pl-9 pr-4 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
+                                            className="w-[200px] h-[38px] bg-brand-bg border border-brand-light rounded-xl pl-9 pr-4 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         />
                                     </div>
 
                                     <select
                                         value={params.status}
                                         onChange={(e) => handleParamChange('status', e.target.value)}
-                                        className="h-[38px] bg-brand-bg border border-brand-light rounded-xl px-3 text-[13px] font-bold text-brand-primary outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all cursor-pointer"
+                                        className="h-[38px] bg-brand-bg border border-brand-light rounded-xl px-3 text-[13px] font-bold text-brand-primary outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     >
                                         <option value="">Semua Status</option>
                                         <option value="completed">Selesai</option>
@@ -313,7 +313,7 @@ export default function TransactionHistory() {
                                     <select
                                         value={params.method}
                                         onChange={(e) => handleParamChange('method', e.target.value)}
-                                        className="h-[38px] bg-brand-bg border border-brand-light rounded-xl px-3 text-[13px] font-bold text-brand-primary outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all cursor-pointer"
+                                        className="h-[38px] bg-brand-bg border border-brand-light rounded-xl px-3 text-[13px] font-bold text-brand-primary outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     >
                                         <option value="">Semua Metode</option>
                                         <option value="cash">Cash</option>
@@ -322,12 +322,12 @@ export default function TransactionHistory() {
                                         <option value="debit">Debit</option>
                                     </select>
 
-                                    <button type="submit" className="h-[38px] px-5 bg-gradient-to-r from-brand-secondary to-brand-primary text-white rounded-xl text-[13px] font-extrabold hover:from-brand-primary hover:to-brand-dark shadow-lg shadow-brand-secondary/40 transition-all active:scale-95">
+                                    <button type="submit" className="h-[38px] px-5 bg-gradient-to-r from-brand-secondary to-brand-primary text-white rounded-xl text-[13px] font-extrabold hover:from-brand-primary hover:to-brand-dark shadow-lg shadow-brand-secondary/40 transition-all active:scale-[0.97]">
                                         Cari
                                     </button>
 
                                     {hasActiveFilters && (
-                                        <button type="button" onClick={handleReset} className="h-[38px] px-3 bg-brand-light/30 text-brand-primary rounded-xl text-[13px] font-bold hover:bg-brand-light hover:text-brand-dark transition-all flex items-center gap-1 border border-transparent hover:border-brand-light">
+                                        <button type="button" onClick={handleReset} className="h-[38px] px-3 bg-brand-light/30 text-brand-primary rounded-xl text-[13px] font-bold hover:bg-brand-light hover:text-brand-dark transition-all flex items-center gap-1 border border-transparent hover:border-brand-light active:scale-[0.97]">
                                             <Icon icon="solar:close-circle-linear" className="text-[16px]" />
                                             Reset
                                         </button>
@@ -439,7 +439,7 @@ export default function TransactionHistory() {
                                                         </div>
                                                         <p className="text-sm font-bold text-brand-dark">Tidak ada transaksi ditemukan</p>
                                                         {hasActiveFilters && (
-                                                            <button onClick={handleReset} className="text-xs font-bold text-brand-secondary hover:text-brand-primary transition-colors">
+                                                            <button onClick={handleReset} className="text-xs font-bold text-brand-secondary hover:text-brand-primary transition-colors active:scale-[0.97]">
                                                                 Reset semua filter
                                                             </button>
                                                         )}
@@ -465,7 +465,7 @@ export default function TransactionHistory() {
                                             &larr; Sebelumnya
                                         </Link>
                                     ) : (
-                                        <button className="px-4 py-2 text-[12px] font-bold text-brand-primary/40 bg-brand-bg border border-brand-light rounded-xl cursor-not-allowed" disabled>
+                                        <button className="px-4 py-2 text-[12px] font-bold text-brand-primary/40 bg-brand-bg border border-brand-light rounded-xl cursor-not-allowed transition-all duration-150 active:scale-[0.97]" disabled>
                                             &larr; Sebelumnya
                                         </button>
                                     )}
@@ -478,7 +478,7 @@ export default function TransactionHistory() {
                                             Selanjutnya &rarr;
                                         </Link>
                                     ) : (
-                                        <button className="px-4 py-2 text-[12px] font-bold text-brand-primary/40 bg-brand-bg border border-brand-light rounded-xl cursor-not-allowed" disabled>
+                                        <button className="px-4 py-2 text-[12px] font-bold text-brand-primary/40 bg-brand-bg border border-brand-light rounded-xl cursor-not-allowed transition-all duration-150 active:scale-[0.97]" disabled>
                                             Selanjutnya &rarr;
                                         </button>
                                     )}

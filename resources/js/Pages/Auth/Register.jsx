@@ -116,7 +116,7 @@ export default function Register({ errors: serverErrors }) {
                                             onChange={e => setData('name', e.target.value)}
                                             placeholder="Nama Lengkap Anda"
                                             required autoFocus autoComplete="name"
-                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.name ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:bg-white transition-shadow ${errors.name ? 'border-rose-300 bg-rose-50' : 'border-brand-light'} hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                         />
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@ export default function Register({ errors: serverErrors }) {
                                             onChange={e => setData('email', e.target.value)}
                                             placeholder="nama@email.com"
                                             required autoComplete="username"
-                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-4 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:bg-white transition-shadow ${errors.email ? 'border-rose-300 bg-rose-50' : 'border-brand-light'} hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                         />
                                     </div>
                                 </div>
@@ -152,11 +152,11 @@ export default function Register({ errors: serverErrors }) {
                                             onChange={e => setData('password', e.target.value)}
                                             placeholder="Min. 8 karakter"
                                             required autoComplete="new-password"
-                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-12 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.password ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-12 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:bg-white transition-shadow ${errors.password ? 'border-rose-300 bg-rose-50' : 'border-brand-light'} hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                         />
                                         <button type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 hover:text-brand-secondary transition-colors">
+                                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 hover:text-brand-secondary transition-colors active:scale-[0.97]">
                                             <Icon icon={showPassword ? 'solar:eye-closed-linear' : 'solar:eye-linear'} className="text-lg" />
                                         </button>
                                     </div>
@@ -175,14 +175,14 @@ export default function Register({ errors: serverErrors }) {
                                             onChange={e => setData('password_confirmation', e.target.value)}
                                             placeholder="Ulangi kata sandi"
                                             required autoComplete="new-password"
-                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-12 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary focus:bg-white transition-shadow ${errors.password_confirmation ? 'border-rose-300 bg-rose-50' : 'border-brand-light'}`}
+                                            className={`w-full h-11 rounded-xl border bg-brand-bg text-sm pl-10 pr-12 text-brand-dark font-bold placeholder:font-normal placeholder:text-brand-primary/40 focus:outline-none focus:bg-white transition-shadow ${errors.password_confirmation ? 'border-rose-300 bg-rose-50' : 'border-brand-light'} hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
                                         />
                                     </div>
                                 </div>
 
                                 {/* Submit */}
                                 <button type="submit" disabled={processing}
-                                    className="w-full h-12 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold tracking-wide transition-all duration-200 shadow-lg shadow-brand-secondary/30 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed pt-1">
+                                    className="w-full h-12 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold tracking-wide transition-all duration-200 shadow-lg shadow-brand-secondary/30 active:scale-[0.97] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed pt-1">
                                     {processing ? 'Mendaftar...' : 'Daftar Sebagai Owner'}
                                     {!processing && <Icon icon="solar:arrow-right-linear" className="text-base" />}
                                 </button>

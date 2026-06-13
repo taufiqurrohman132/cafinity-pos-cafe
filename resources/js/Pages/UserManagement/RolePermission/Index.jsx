@@ -135,7 +135,7 @@ export default function RolePermissionIndex({ roles = [], logs = [] }) {
                     </div>
                     <button
                         onClick={() => { setSelectedRole(null); setShowCreateModal(true); }}
-                        className="flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.98] duration-150 whitespace-nowrap"
+                        className="flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.97] duration-150 whitespace-nowrap"
                     >
                         <Icon icon="solar:add-circle-linear" className="text-lg" />
                         + Buat Peran Baru
@@ -180,13 +180,13 @@ export default function RolePermissionIndex({ roles = [], logs = [] }) {
                                             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150" onClick={(e) => e.stopPropagation()}>
                                                 <button
                                                     onClick={() => { setSelectedRole(role); setShowEditModal(true); }}
-                                                    className="p-1.5 text-brand-primary/50 hover:text-brand-secondary hover:bg-brand-light/50 rounded-lg transition-all"
+                                                    className="p-1.5 text-brand-primary/50 hover:text-brand-secondary hover:bg-brand-light/50 rounded-lg transition-all active:scale-[0.97]"
                                                 >
                                                     <Icon icon="solar:pen-linear" className="text-sm" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDeleteRole(role.id, role.name)}
-                                                    className="p-1.5 text-[#ef4444]/50 hover:text-[#ef4444] hover:bg-[#fef2f2] rounded-lg transition-all"
+                                                    className="p-1.5 text-[#ef4444]/50 hover:text-[#ef4444] hover:bg-[#fef2f2] rounded-lg transition-all active:scale-[0.97]"
                                                 >
                                                     <Icon icon="solar:trash-bin-trash-linear" className="text-sm" />
                                                 </button>
@@ -230,14 +230,14 @@ export default function RolePermissionIndex({ roles = [], logs = [] }) {
                                             <div className="flex items-center gap-2 flex-shrink-0">
                                                 <button
                                                     onClick={() => handleDuplicateRole(currentRole)}
-                                                    className="flex items-center gap-1.5 px-3 py-2 border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light rounded-xl transition-all active:scale-[0.98]"
+                                                    className="flex items-center gap-1.5 px-3 py-2 border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light rounded-xl transition-all active:scale-[0.97]"
                                                 >
                                                     <Icon icon="solar:copy-linear" className="text-sm" /> Duplikat
                                                 </button>
                                                 {!['owner', 'admin', 'cashier'].includes(currentRole.name.toLowerCase()) && (
                                                     <button
                                                         onClick={() => { setSelectedRole(currentRole); setShowEditModal(true); }}
-                                                        className="flex items-center gap-1.5 px-3 py-2 border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light rounded-xl transition-all active:scale-[0.98]"
+                                                        className="flex items-center gap-1.5 px-3 py-2 border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light rounded-xl transition-all active:scale-[0.97]"
                                                     >
                                                         <Icon icon="solar:pen-linear" className="text-sm" /> Edit Detail
                                                     </button>
@@ -251,30 +251,21 @@ export default function RolePermissionIndex({ roles = [], logs = [] }) {
                                             <button
                                                 type="button"
                                                 onClick={() => applyPreset('read-only')}
-                                                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg transition-all active:scale-[0.98] text-xs font-bold ${isPresetActive('read-only')
-                                                    ? 'border-brand-secondary bg-brand-secondary text-white shadow-md shadow-brand-secondary/25'
-                                                    : 'border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/50'
-                                                    }`}
+                                                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg transition-all active:scale-[0.97] text-xs font-bold ${isPresetActive('read-only') ? 'border-brand-secondary bg-brand-secondary text-white shadow-md shadow-brand-secondary/25' : 'border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/50' }`}
                                             >
                                                 <Icon icon={isPresetActive('read-only') ? "solar:check-circle-linear" : "solar:lock-keyhole-linear"} className="text-sm" /> Read-Only
                                             </button>
                                             <button
                                                 type="button"
                                                 onClick={() => applyPreset('full')}
-                                                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg transition-all active:scale-[0.98] text-xs font-bold ${isPresetActive('full')
-                                                    ? 'border-brand-secondary bg-brand-secondary text-white shadow-md shadow-brand-secondary/25'
-                                                    : 'border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/50'
-                                                    }`}
+                                                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg transition-all active:scale-[0.97] text-xs font-bold ${isPresetActive('full') ? 'border-brand-secondary bg-brand-secondary text-white shadow-md shadow-brand-secondary/25' : 'border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/50' }`}
                                             >
                                                 <Icon icon={isPresetActive('full') ? "solar:check-circle-linear" : "solar:lock-unlocked-linear"} className="text-sm" /> Full Access
                                             </button>
                                             <button
                                                 type="button"
                                                 onClick={() => applyPreset('pos')}
-                                                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg transition-all active:scale-[0.98] text-xs font-bold ${isPresetActive('pos')
-                                                    ? 'border-brand-secondary bg-brand-secondary text-white shadow-md shadow-brand-secondary/25'
-                                                    : 'border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/50'
-                                                    }`}
+                                                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg transition-all active:scale-[0.97] text-xs font-bold ${isPresetActive('pos') ? 'border-brand-secondary bg-brand-secondary text-white shadow-md shadow-brand-secondary/25' : 'border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/50' }`}
                                             >
                                                 <Icon icon={isPresetActive('pos') ? "solar:check-circle-linear" : "solar:monitor-smartphone-linear"} className="text-sm" /> POS-Only Access
                                             </button>
@@ -338,10 +329,7 @@ export default function RolePermissionIndex({ roles = [], logs = [] }) {
                                                                         <button
                                                                             type="button"
                                                                             onClick={() => handleToggleRowAll(modKey)}
-                                                                            className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all duration-150 mx-auto ${isRowAllChecked
-                                                                                ? 'border-brand-secondary bg-brand-secondary text-white'
-                                                                                : 'border-brand-light text-transparent hover:border-brand-secondary'
-                                                                                }`}
+                                                                            className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all duration-150 mx-auto ${isRowAllChecked ? 'border-brand-secondary bg-brand-secondary text-white' : 'border-brand-light text-transparent hover:border-brand-secondary' } active:scale-[0.97]`}
                                                                         >
                                                                             <Icon icon="solar:check-read-linear" className="text-xs" />
                                                                         </button>
@@ -357,7 +345,7 @@ export default function RolePermissionIndex({ roles = [], logs = [] }) {
                                                 <button
                                                     type="submit"
                                                     disabled={processing}
-                                                    className="flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-brand-primary/20 transition-all active:scale-[0.98] disabled:opacity-50"
+                                                    className="flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-brand-primary/20 transition-all active:scale-[0.97] disabled:opacity-50"
                                                 >
                                                     <Icon icon="solar:diskette-linear" className="text-lg" />
                                                     {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
@@ -456,7 +444,7 @@ function CreateRoleModal({ isOpen, onClose, duplicateRole }) {
                     <h3 className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                         {duplicateRole ? 'Duplikat Peran Kerja' : 'Buat Peran Baru'}
                     </h3>
-                    <button onClick={onClose} className="p-1 rounded-lg text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/30 transition-colors">
+                    <button onClick={onClose} className="p-1 rounded-lg text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/30 transition-colors active:scale-[0.97]">
                         <Icon icon="solar:close-circle-linear" className="text-xl" />
                     </button>
                 </div>
@@ -469,7 +457,7 @@ function CreateRoleModal({ isOpen, onClose, duplicateRole }) {
                             value={data.name}
                             onChange={e => setData('name', e.target.value)}
                             required
-                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             placeholder="Contoh: Kitchen Staff, Supervisor"
                         />
                         {errors.name && <p className="text-xs text-red-500 font-bold mt-1">{errors.name}</p>}
@@ -481,7 +469,7 @@ function CreateRoleModal({ isOpen, onClose, duplicateRole }) {
                             value={data.description}
                             onChange={e => setData('description', e.target.value)}
                             rows={3}
-                            className="w-full bg-brand-bg border border-brand-light rounded-xl p-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all resize-none"
+                            className="w-full bg-brand-bg border border-brand-light rounded-xl p-4 text-sm font-bold text-brand-dark outline-none transition-all resize-none hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             placeholder="Tulis ringkasan cakupan peran ini..."
                         />
                         {errors.description && <p className="text-xs text-red-500 font-bold mt-1">{errors.description}</p>}
@@ -491,14 +479,14 @@ function CreateRoleModal({ isOpen, onClose, duplicateRole }) {
                         <button
                             type="button"
                             onClick={() => { setErrors({}); setDataState({ name: '', description: '' }); onClose(); }}
-                            className="flex-1 h-11 rounded-xl border border-brand-light text-sm font-bold text-brand-primary hover:bg-brand-light/20 transition-all"
+                            className="flex-1 h-11 rounded-xl border border-brand-light text-sm font-bold text-brand-primary hover:bg-brand-light/20 transition-all active:scale-[0.97]"
                         >
                             Batal
                         </button>
                         <button
                             type="submit"
                             disabled={processing}
-                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold shadow-lg shadow-brand-primary/25 disabled:opacity-50 transition-all"
+                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold shadow-lg shadow-brand-primary/25 disabled:opacity-50 transition-all active:scale-[0.97]"
                         >
                             {processing ? 'Menyimpan...' : 'Buat Peran'}
                         </button>
@@ -551,7 +539,7 @@ function EditRoleModal({ isOpen, onClose, role }) {
                     <h3 className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                         Edit Detail Peran
                     </h3>
-                    <button onClick={onClose} className="p-1 rounded-lg text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/30 transition-colors">
+                    <button onClick={onClose} className="p-1 rounded-lg text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/30 transition-colors active:scale-[0.97]">
                         <Icon icon="solar:close-circle-linear" className="text-xl" />
                     </button>
                 </div>
@@ -564,7 +552,7 @@ function EditRoleModal({ isOpen, onClose, role }) {
                             value={data.name}
                             onChange={e => setData('name', e.target.value)}
                             required
-                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         />
                         {errors.name && <p className="text-xs text-red-500 font-bold mt-1">{errors.name}</p>}
                     </div>
@@ -575,7 +563,7 @@ function EditRoleModal({ isOpen, onClose, role }) {
                             value={data.description}
                             onChange={e => setData('description', e.target.value)}
                             rows={3}
-                            className="w-full bg-brand-bg border border-brand-light rounded-xl p-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all resize-none"
+                            className="w-full bg-brand-bg border border-brand-light rounded-xl p-4 text-sm font-bold text-brand-dark outline-none transition-all resize-none hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         />
                         {errors.description && <p className="text-xs text-red-500 font-bold mt-1">{errors.description}</p>}
                     </div>
@@ -584,14 +572,14 @@ function EditRoleModal({ isOpen, onClose, role }) {
                         <button
                             type="button"
                             onClick={() => { setErrors({}); onClose(); }}
-                            className="flex-1 h-11 rounded-xl border border-brand-light text-sm font-bold text-brand-primary hover:bg-brand-light/20 transition-all"
+                            className="flex-1 h-11 rounded-xl border border-brand-light text-sm font-bold text-brand-primary hover:bg-brand-light/20 transition-all active:scale-[0.97]"
                         >
                             Batal
                         </button>
                         <button
                             type="submit"
                             disabled={processing}
-                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold shadow-lg shadow-brand-primary/25 disabled:opacity-50 transition-all"
+                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold shadow-lg shadow-brand-primary/25 disabled:opacity-50 transition-all active:scale-[0.97]"
                         >
                             {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                         </button>

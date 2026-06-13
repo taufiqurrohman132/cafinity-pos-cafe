@@ -161,7 +161,7 @@ export default function SupplierCreateEdit() {
                     </p>
                     <button 
                         onClick={() => window.location.reload()} 
-                        className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all"
+                        className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]"
                     >
                         Coba Lagi
                     </button>
@@ -230,7 +230,7 @@ export default function SupplierCreateEdit() {
                                             type="text"
                                             value={data.name}
                                             onChange={(e) => setData('name', e.target.value)}
-                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
+                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none"
                                             placeholder="PT. Teknologi Maju Utama"
                                             required
                                         />
@@ -244,7 +244,7 @@ export default function SupplierCreateEdit() {
                                                 type="text"
                                                 value={data.code}
                                                 disabled
-                                                className="w-full px-4 py-2.5 text-sm bg-gray-100 border border-brand-light text-gray-500 rounded-xl font-mono cursor-not-allowed"
+                                                className="w-full px-4 py-2.5 text-sm bg-gray-100 border border-brand-light text-gray-500 rounded-xl font-mono cursor-not-allowed transition-all duration-150 hover:border-brand-primary/40 outline-none focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                         </div>
                                         <p className="text-[10px] text-gray-400 font-medium italic flex items-center gap-1">
@@ -261,7 +261,7 @@ export default function SupplierCreateEdit() {
                                             {categoriesList.map(tag => (
                                                 <span key={tag} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-brand-primary/5 text-brand-primary border border-brand-primary/10">
                                                     {tag}
-                                                    <button type="button" onClick={() => handleRemoveCategory(tag)} className="hover:text-red-500 transition text-[10px] mt-0.5">
+                                                    <button type="button" onClick={() => handleRemoveCategory(tag)} className="hover:text-red-500 text-[10px] mt-0.5 transition-all duration-150 active:scale-[0.97]">
                                                         <iconify-icon icon="solar:close-circle-linear"></iconify-icon>
                                                     </button>
                                                 </span>
@@ -276,17 +276,17 @@ export default function SupplierCreateEdit() {
                                                         onKeyDown={(e) => {
                                                             if (e.key === 'Enter') handleAddCategory(e);
                                                         }}
-                                                        className="px-2 py-0.5 text-xs border border-brand-light rounded bg-white focus:outline-none focus:ring-1 focus:ring-brand-primary w-24"
+                                                        className="px-2 py-0.5 text-xs border border-brand-light rounded bg-white focus:outline-none w-24 transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                         placeholder="Kategori..."
                                                         autoFocus
                                                     />
-                                                    <button type="button" onClick={handleAddCategory} className="text-xs font-bold text-brand-primary hover:text-brand-secondary transition-colors">Ok</button>
+                                                    <button type="button" onClick={handleAddCategory} className="text-xs font-bold text-brand-primary hover:text-brand-secondary transition-colors active:scale-[0.97]">Ok</button>
                                                 </div>
                                             ) : (
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowCategoryInput(true)}
-                                                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold text-brand-primary hover:bg-brand-primary/5 transition"
+                                                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold text-brand-primary hover:bg-brand-primary/5 transition-all duration-150 active:scale-[0.97]"
                                                 >
                                                     + Tambah
                                                 </button>
@@ -301,8 +301,7 @@ export default function SupplierCreateEdit() {
                                             <button
                                                 type="button"
                                                 onClick={() => setData('status', data.status === 'active' ? 'inactive' : 'active')}
-                                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${data.status === 'active' ? 'bg-brand-primary' : 'bg-gray-200'
-                                                    }`}
+                                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${data.status === 'active' ? 'bg-brand-primary' : 'bg-gray-200' } active:scale-[0.97]`}
                                             >
                                                 <span
                                                     className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${data.status === 'active' ? 'translate-x-6' : 'translate-x-1'
@@ -330,7 +329,7 @@ export default function SupplierCreateEdit() {
                                         type="text"
                                         value={data.contact_name}
                                         onChange={(e) => setData('contact_name', e.target.value)}
-                                        className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
+                                        className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none"
                                         placeholder="Hendra Wijaya"
                                         required
                                     />
@@ -348,7 +347,7 @@ export default function SupplierCreateEdit() {
                                                 type="text"
                                                 value={data.contact_phone}
                                                 onChange={(e) => setData('contact_phone', e.target.value)}
-                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
+                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none"
                                                 placeholder="+62 812 3456 7890"
                                                 required
                                             />
@@ -367,7 +366,7 @@ export default function SupplierCreateEdit() {
                                                 type="email"
                                                 value={data.contact_email}
                                                 onChange={(e) => setData('contact_email', e.target.value)}
-                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
+                                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none"
                                                 placeholder="hendra.w@tekmajua.co.id"
                                                 required
                                             />
@@ -379,7 +378,7 @@ export default function SupplierCreateEdit() {
                                 <button
                                     type="button"
                                     onClick={() => alert('Fitur tambah kontak sekunder sedang disiapkan.')}
-                                    className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-brand-primary border border-brand-light hover:bg-brand-primary/5 rounded-xl transition"
+                                    className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-brand-primary border border-brand-light hover:bg-brand-primary/5 rounded-xl transition-all duration-150 active:scale-[0.97]"
                                 >
                                     + Tambah Kontak Sekunder
                                 </button>
@@ -397,7 +396,7 @@ export default function SupplierCreateEdit() {
                                     <textarea
                                         value={data.address}
                                         onChange={(e) => setData('address', e.target.value)}
-                                        className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all min-h-[80px]"
+                                        className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white transition-all min-h-[80px] hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none"
                                         placeholder="Jl. Industri No. 45, Kawasan Industri Jababeka, Cikarang"
                                         required
                                     />
@@ -411,7 +410,7 @@ export default function SupplierCreateEdit() {
                                             type="text"
                                             value={data.city}
                                             onChange={(e) => setData('city', e.target.value)}
-                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
+                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none"
                                             placeholder="Bekasi"
                                             required
                                         />
@@ -423,7 +422,7 @@ export default function SupplierCreateEdit() {
                                             type="text"
                                             value={data.province}
                                             onChange={(e) => setData('province', e.target.value)}
-                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
+                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none"
                                             placeholder="Jawa Barat"
                                             required
                                         />
@@ -438,7 +437,7 @@ export default function SupplierCreateEdit() {
                                             type="text"
                                             value={data.payment_term}
                                             onChange={(e) => setData('payment_term', e.target.value)}
-                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
+                                            className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none"
                                             placeholder="e.g. Net 30"
                                             required
                                         />
@@ -451,7 +450,7 @@ export default function SupplierCreateEdit() {
                                                 type="number"
                                                 value={data.lead_time}
                                                 onChange={(e) => setData('lead_time', e.target.value)}
-                                                className="w-full px-4 py-2.5 pr-10 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
+                                                className="w-full px-4 py-2.5 pr-10 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none"
                                                 min="0"
                                                 required
                                             />
@@ -468,7 +467,7 @@ export default function SupplierCreateEdit() {
                                                 type="number"
                                                 value={data.min_order}
                                                 onChange={(e) => setData('min_order', e.target.value)}
-                                                className="w-full px-4 py-2.5 pr-10 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
+                                                className="w-full px-4 py-2.5 pr-10 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none"
                                                 min="0"
                                                 required
                                             />
@@ -493,7 +492,7 @@ export default function SupplierCreateEdit() {
                                     <textarea
                                         value={data.notes}
                                         onChange={(e) => setData('notes', e.target.value)}
-                                        className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary transition-all min-h-[90px]"
+                                        className="w-full px-4 py-2.5 text-sm bg-gray-50/50 border border-brand-light rounded-xl focus:bg-white transition-all min-h-[90px] hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none"
                                         placeholder="Informasi tambahan untuk tim procurement..."
                                     />
                                     {errors.notes && <p className="text-xs text-red-500 font-bold">{errors.notes}</p>}
@@ -532,7 +531,7 @@ export default function SupplierCreateEdit() {
                                                     <button
                                                         type="button"
                                                         onClick={() => handleRemoveFile(file.name)}
-                                                        className="text-red-500 hover:text-red-700 transition p-1 hover:bg-red-50 rounded-lg flex-shrink-0"
+                                                        className="text-red-500 hover:text-red-700 p-1 hover:bg-red-50 rounded-lg flex-shrink-0 transition-all duration-150 active:scale-[0.97]"
                                                     >
                                                         <iconify-icon icon="solar:trash-bin-trash-linear" class="text-sm"></iconify-icon>
                                                     </button>
@@ -636,7 +635,7 @@ export default function SupplierCreateEdit() {
                                         <button
                                             type="submit"
                                             disabled={processing}
-                                            className="w-full py-3 px-4 bg-brand-primary hover:bg-brand-secondary text-white text-xs font-bold rounded-xl transition duration-150 active:scale-95 shadow-sm disabled:opacity-60"
+                                            className="w-full py-3 px-4 bg-brand-primary hover:bg-brand-secondary text-white text-xs font-bold rounded-xl duration-150 active:scale-[0.97] shadow-sm disabled:opacity-60 transition-all"
                                         >
                                             {isEditMode ? "Simpan Perubahan" : "Simpan & Aktifkan"}
                                         </button>
@@ -645,7 +644,7 @@ export default function SupplierCreateEdit() {
                                                 <button
                                                     type="button"
                                                     onClick={() => alert('Draf disimpan.')}
-                                                    className="flex-1 py-2 text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 rounded-xl border border-brand-light transition"
+                                                    className="flex-1 py-2 text-xs font-bold text-gray-700 bg-white hover:bg-gray-50 rounded-xl border border-brand-light transition-all duration-150 active:scale-[0.97]"
                                                 >
                                                     Simpan Draft
                                                 </button>

@@ -289,7 +289,7 @@ export default function PurchaseOrderCreateEdit() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat data dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => navigate('/purchase-orders')} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => navigate('/purchase-orders')} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Kembali ke Daftar PO
                         </button>
                     </div>
@@ -379,7 +379,7 @@ export default function PurchaseOrderCreateEdit() {
                                                 value={searchSupplier}
                                                 onChange={(e) => setSearchSupplier(e.target.value)}
                                                 placeholder="Ketik nama pemasok..."
-                                                className="w-full h-11 pl-9 pr-4 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-light"
+                                                className="w-full h-11 pl-9 pr-4 text-xs bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                         </div>
 
@@ -391,7 +391,7 @@ export default function PurchaseOrderCreateEdit() {
                                                         key={s.id}
                                                         type="button"
                                                         onClick={() => handleSelectSupplier(s)}
-                                                        className="w-full text-left px-4 py-2.5 hover:bg-brand-light/20 text-xs font-medium text-gray-700 transition"
+                                                        className="w-full text-left px-4 py-2.5 hover:bg-brand-light/20 text-xs font-medium text-gray-700 transition-all duration-150 active:scale-[0.97]"
                                                     >
                                                         {s.name}
                                                     </button>
@@ -433,7 +433,7 @@ export default function PurchaseOrderCreateEdit() {
                                             readOnly 
                                             value={isEditMode ? (order?.po_number || '') : ''}
                                             placeholder="PO-2026-XXXX"
-                                            className="w-full h-11 text-xs bg-gray-50 border border-brand-light rounded-xl px-4 text-gray-500 font-bold focus:outline-none" 
+                                            className="w-full h-11 text-xs bg-gray-50 border border-brand-light rounded-xl px-4 text-gray-500 font-bold focus:outline-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light" 
                                         />
                                         <span className="text-[10px] text-gray-400 font-medium block">Tergenerasi otomatis oleh sistem.</span>
                                     </div>
@@ -445,7 +445,7 @@ export default function PurchaseOrderCreateEdit() {
                                             type="text" 
                                             readOnly 
                                             value={isEditMode ? (order?.created_at ? new Date(order.created_at).toISOString().split('T')[0] : '') : new Date().toISOString().split('T')[0]}
-                                            className="w-full h-11 text-xs bg-gray-50 border border-brand-light rounded-xl px-4 text-gray-500 font-bold focus:outline-none" 
+                                            className="w-full h-11 text-xs bg-gray-50 border border-brand-light rounded-xl px-4 text-gray-500 font-bold focus:outline-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light" 
                                         />
                                     </div>
 
@@ -456,7 +456,7 @@ export default function PurchaseOrderCreateEdit() {
                                             type="date"
                                             value={data.delivery_date}
                                             onChange={(e) => setData('delivery_date', e.target.value)}
-                                            className="w-full h-11 text-xs border border-brand-light rounded-xl px-4 text-gray-700 focus:ring-2 focus:ring-brand-light focus:outline-none" 
+                                            className="w-full h-11 text-xs border border-brand-light rounded-xl px-4 text-gray-700 focus:outline-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light" 
                                         />
                                     </div>
                                 </div>
@@ -468,7 +468,7 @@ export default function PurchaseOrderCreateEdit() {
                                         <select 
                                             value={data.delivery_location}
                                             onChange={(e) => setData('delivery_location', e.target.value)}
-                                            className="w-full h-11 text-xs border border-brand-light rounded-xl px-4 text-gray-700 focus:ring-2 focus:ring-brand-light focus:outline-none bg-brand-bg"
+                                            className="w-full h-11 text-xs border border-brand-light rounded-xl px-4 text-gray-700 focus:outline-none bg-brand-bg cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         >
                                             <option value="">Pilih Gudang atau Alamat...</option>
                                             <option value="Gudang Utama">Gudang Utama</option>
@@ -483,7 +483,7 @@ export default function PurchaseOrderCreateEdit() {
                                         <select 
                                             value={data.payment_term}
                                             onChange={(e) => setData('payment_term', e.target.value)}
-                                            className="w-full h-11 text-xs border border-brand-light rounded-xl px-4 text-gray-700 focus:ring-2 focus:ring-brand-light focus:outline-none bg-brand-bg"
+                                            className="w-full h-11 text-xs border border-brand-light rounded-xl px-4 text-gray-700 focus:outline-none bg-brand-bg cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         >
                                             <option value="">Pilih Ketentuan (e.g. Net 30)...</option>
                                             <option value="COD">COD</option>
@@ -505,7 +505,7 @@ export default function PurchaseOrderCreateEdit() {
                                     <button 
                                         type="button" 
                                         onClick={() => alert('Impor produk secara massal sedang dikonfigurasi.')}
-                                        className="flex items-center gap-1.5 border border-brand-light hover:bg-brand-light/20 text-brand-primary px-3.5 py-1.5 rounded-lg text-[10px] font-bold transition"
+                                        className="flex items-center gap-1.5 border border-brand-light hover:bg-brand-light/20 text-brand-primary px-3.5 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 active:scale-[0.97]"
                                     >
                                         <iconify-icon icon="solar:import-linear" class="text-xs"></iconify-icon>
                                         Impor dari Inventori
@@ -535,7 +535,7 @@ export default function PurchaseOrderCreateEdit() {
                                                         <select
                                                             value={row.inventory_id}
                                                             onChange={(e) => updateItemRow(idx, 'inventory_id', e.target.value)}
-                                                            className="w-full text-xs border border-brand-light rounded-lg py-1.5 px-2.5 focus:ring-brand-light focus:outline-none bg-brand-bg"
+                                                            className="w-full text-xs border border-brand-light rounded-lg py-1.5 px-2.5 focus:outline-none bg-brand-bg cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                         >
                                                             <option value="">Cari...</option>
                                                             {inventories.map((inv) => (
@@ -550,7 +550,7 @@ export default function PurchaseOrderCreateEdit() {
                                                             value={row.description}
                                                             onChange={(e) => updateItemRow(idx, 'description', e.target.value)}
                                                             placeholder="Deskripsi"
-                                                            className="w-full text-xs border border-brand-light rounded-lg py-1.5 px-2 focus:ring-brand-light focus:outline-none bg-brand-bg"
+                                                            className="w-full text-xs border border-brand-light rounded-lg py-1.5 px-2 focus:outline-none bg-brand-bg transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                         />
                                                     </td>
                                                     {/* Unit */}
@@ -560,7 +560,7 @@ export default function PurchaseOrderCreateEdit() {
                                                             readOnly
                                                             value={row.unit}
                                                             placeholder="Unit"
-                                                            className="w-16 text-xs bg-gray-50 border border-brand-light rounded-lg py-1.5 px-2 text-gray-500 font-bold focus:outline-none text-center"
+                                                            className="w-16 text-xs bg-gray-50 border border-brand-light rounded-lg py-1.5 px-2 text-gray-500 font-bold focus:outline-none text-center transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                         />
                                                     </td>
                                                     {/* Qty */}
@@ -571,7 +571,7 @@ export default function PurchaseOrderCreateEdit() {
                                                             step="0.01"
                                                             value={row.qty}
                                                             onChange={(e) => updateItemRow(idx, 'qty', Number(e.target.value))}
-                                                            className="w-16 text-xs border border-brand-light rounded-lg py-1.5 px-2 focus:ring-brand-light focus:outline-none"
+                                                            className="w-16 text-xs border border-brand-light rounded-lg py-1.5 px-2 focus:outline-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                         />
                                                     </td>
                                                     {/* Price */}
@@ -583,7 +583,7 @@ export default function PurchaseOrderCreateEdit() {
                                                                 min="0"
                                                                 value={row.price_per_unit}
                                                                 onChange={(e) => updateItemRow(idx, 'price_per_unit', Number(e.target.value))}
-                                                                className="w-24 pl-7 pr-2 py-1.5 text-xs border border-brand-light rounded-lg focus:ring-brand-light focus:outline-none font-bold text-right"
+                                                                className="w-24 pl-7 pr-2 py-1.5 text-xs border border-brand-light rounded-lg focus:outline-none font-bold text-right transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                             />
                                                         </div>
                                                     </td>
@@ -596,7 +596,7 @@ export default function PurchaseOrderCreateEdit() {
                                                                 max="100"
                                                                 value={row.discount}
                                                                 onChange={(e) => updateItemRow(idx, 'discount', Number(e.target.value))}
-                                                                className="w-16 pr-5 pl-2 py-1.5 text-xs border border-brand-light rounded-lg focus:ring-brand-light focus:outline-none font-bold text-right"
+                                                                className="w-16 pr-5 pl-2 py-1.5 text-xs border border-brand-light rounded-lg focus:outline-none font-bold text-right transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                             />
                                                             <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">%</span>
                                                         </div>
@@ -606,9 +606,7 @@ export default function PurchaseOrderCreateEdit() {
                                                         <button 
                                                             type="button"
                                                             onClick={() => updateItemRow(idx, 'tax_enabled', !row.tax_enabled)}
-                                                            className={`px-2 py-1.5 rounded-lg border text-[10px] font-bold transition ${row.tax_enabled 
-                                                                ? 'bg-emerald-50 text-emerald-600 border-emerald-200' 
-                                                                : 'bg-gray-100 text-gray-400 border-gray-200'}`}
+                                                            className={`px-2 py-1.5 rounded-lg border text-[10px] font-bold ${row.tax_enabled ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-gray-100 text-gray-400 border-gray-200'} transition-all duration-150 active:scale-[0.97]`}
                                                         >
                                                             PPN
                                                         </button>
@@ -637,7 +635,7 @@ export default function PurchaseOrderCreateEdit() {
                                 <button 
                                     type="button" 
                                     onClick={addRow}
-                                    className="flex items-center gap-1 text-xs text-brand-primary hover:text-brand-secondary font-bold transition pt-2"
+                                    className="flex items-center gap-1 text-xs text-brand-primary hover:text-brand-secondary font-bold pt-2 transition-all duration-150 active:scale-[0.97]"
                                 >
                                     <iconify-icon icon="solar:plus-circle-linear" class="text-lg"></iconify-icon>
                                     Tambah Baris Baru
@@ -655,7 +653,7 @@ export default function PurchaseOrderCreateEdit() {
                                     onChange={(e) => setData('notes', e.target.value)}
                                     placeholder="Tambahkan catatan internal atau ketentuan khusus untuk pemasok..."
                                     rows="4" 
-                                    className="w-full text-xs border border-brand-light rounded-xl p-4 focus:ring-2 focus:ring-brand-light focus:outline-none bg-brand-bg"
+                                    className="w-full text-xs border border-brand-light rounded-xl p-4 focus:outline-none bg-brand-bg transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                 />
                             </div>
 
@@ -702,7 +700,7 @@ export default function PurchaseOrderCreateEdit() {
                                                     max="100"
                                                     value={data.discount_global}
                                                     onChange={(e) => setData('discount_global', Number(e.target.value))}
-                                                    className="w-20 pr-5 pl-2 py-1.5 text-xs border border-brand-light rounded-lg focus:outline-none font-bold text-right"
+                                                    className="w-20 pr-5 pl-2 py-1.5 text-xs border border-brand-light rounded-lg focus:outline-none font-bold text-right transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                                 />
                                                 <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</span>
                                             </div>
@@ -723,7 +721,7 @@ export default function PurchaseOrderCreateEdit() {
                                                 min="0"
                                                 value={data.shipping_cost}
                                                 onChange={(e) => setData('shipping_cost', Number(e.target.value))}
-                                                className="w-24 pl-3 pr-2 py-1.5 text-xs border border-brand-light rounded-lg focus:outline-none font-bold text-right"
+                                                className="w-24 pl-3 pr-2 py-1.5 text-xs border border-brand-light rounded-lg focus:outline-none font-bold text-right transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                         </div>
 
@@ -738,7 +736,7 @@ export default function PurchaseOrderCreateEdit() {
                                         <button 
                                             type="submit" 
                                             disabled={processing}
-                                            className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-xs transition shadow-sm active:scale-[0.98]"
+                                            className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-xs shadow-sm active:scale-[0.97] transition-all duration-150"
                                         >
                                             <iconify-icon icon="solar:check-circle-linear" class="text-base"></iconify-icon>
                                             {isEditMode ? "Simpan Perubahan PO" : "Kirim untuk Approval"}
@@ -749,7 +747,7 @@ export default function PurchaseOrderCreateEdit() {
                                                 <button 
                                                     type="button" 
                                                     onClick={() => alert('Draf PO disimpan.')}
-                                                    className="w-full border border-brand-light hover:bg-gray-50 text-gray-700 py-2.5 rounded-xl font-bold text-xs transition"
+                                                    className="w-full border border-brand-light hover:bg-gray-50 text-gray-700 py-2.5 rounded-xl font-bold text-xs transition-all duration-150 active:scale-[0.97]"
                                                 >
                                                     Simpan Draft
                                                 </button>

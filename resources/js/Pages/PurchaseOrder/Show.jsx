@@ -132,7 +132,7 @@ export default function PurchaseOrderShow() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat detail purchase order dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -179,11 +179,11 @@ export default function PurchaseOrderShow() {
 
                         {/* Top Actions */}
                         <div className="flex items-center gap-2.5 self-start md:self-center">
-                            <button className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition">
+                            <button className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition-all duration-150 active:scale-[0.97]">
                                 <iconify-icon icon="solar:printer-linear" class="text-base"></iconify-icon>
                                 Cetak PDF
                             </button>
-                            <button className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition">
+                            <button className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition-all duration-150 active:scale-[0.97]">
                                 <iconify-icon icon="solar:download-linear" class="text-base"></iconify-icon>
                                 Download
                             </button>
@@ -199,7 +199,7 @@ export default function PurchaseOrderShow() {
                                     </Link>
                                     <button
                                         onClick={handleCancel}
-                                        className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-white bg-[#b91c1c] hover:bg-[#991b1b] rounded-xl transition shadow-sm"
+                                        className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-white bg-[#b91c1c] hover:bg-[#991b1b] rounded-xl shadow-sm transition-all duration-150 active:scale-[0.97]"
                                     >
                                         <iconify-icon icon="solar:close-square-linear" class="text-base"></iconify-icon>
                                         Batalkan PO
@@ -287,7 +287,7 @@ export default function PurchaseOrderShow() {
                                     {order.status === 'approved' && (
                                         <button
                                             onClick={handleReceive}
-                                            className="flex items-center gap-1.5 bg-brand-primary hover:bg-brand-secondary text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm"
+                                            className="flex items-center gap-1.5 bg-brand-primary hover:bg-brand-secondary text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition-all duration-150 active:scale-[0.97]"
                                         >
                                             <iconify-icon icon="solar:box-linear" class="text-base"></iconify-icon>
                                             Terima Barang
@@ -453,7 +453,7 @@ export default function PurchaseOrderShow() {
                                             <button
                                                 type="button"
                                                 onClick={handleApprove}
-                                                className="w-full bg-[#059669] hover:bg-[#065f46] text-white py-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 text-xs transition"
+                                                className="w-full bg-[#059669] hover:bg-[#065f46] text-white py-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 text-xs transition-all duration-150 active:scale-[0.97]"
                                             >
                                                 <iconify-icon icon="solar:check-circle-linear" class="text-base"></iconify-icon>
                                                 Setujui PO
@@ -461,7 +461,7 @@ export default function PurchaseOrderShow() {
                                             <button
                                                 type="button"
                                                 onClick={handleReject}
-                                                className="w-full border border-[#fecaca] hover:bg-[#fef2f2] text-[#991b1b] py-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 text-xs transition"
+                                                className="w-full border border-[#fecaca] hover:bg-[#fef2f2] text-[#991b1b] py-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 text-xs transition-all duration-150 active:scale-[0.97]"
                                             >
                                                 <iconify-icon icon="solar:close-circle-linear" class="text-base"></iconify-icon>
                                                 Tolak

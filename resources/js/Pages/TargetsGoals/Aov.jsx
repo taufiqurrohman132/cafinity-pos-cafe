@@ -235,10 +235,7 @@ export default function AovReport({
                                         key={period}
                                         type="button"
                                         onClick={() => handlePeriodChange(period)}
-                                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 active:scale-[0.98] ${selectedPeriod === period
-                                                ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20"
-                                                : "text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/20"
-                                            }`}
+                                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 active:scale-[0.97] ${selectedPeriod === period ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20" : "text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/20" }`}
                                     >
                                         {period}
                                     </button>
@@ -249,7 +246,7 @@ export default function AovReport({
                             <button
                                 type="button"
                                 onClick={handleExportPdf}
-                                className="flex items-center gap-2 bg-white border border-brand-light px-4 py-2.5 rounded-xl text-xs font-extrabold text-brand-primary hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98] shadow-sm whitespace-nowrap"
+                                className="flex items-center gap-2 bg-white border border-brand-light px-4 py-2.5 rounded-xl text-xs font-extrabold text-brand-primary hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.97] shadow-sm whitespace-nowrap"
                             >
                                 <Icon icon="solar:document-text-linear" className="text-base text-brand-secondary" />
                                 <span>Ekspor PDF</span>
@@ -285,7 +282,7 @@ export default function AovReport({
                                 <button
                                     type="submit"
                                     disabled={selectedPeriod !== "Kustom"}
-                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-4 py-2 rounded-xl text-xs font-extrabold active:scale-[0.98] transition-all shadow-sm disabled:opacity-50 h-[38px]"
+                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-4 py-2 rounded-xl text-xs font-extrabold active:scale-[0.97] transition-all shadow-sm disabled:opacity-50 h-[38px]"
                                 >
                                     Terapkan
                                 </button>
@@ -342,7 +339,7 @@ export default function AovReport({
                                         <span className="w-2.5 h-2.5 rounded-full bg-brand-secondary" />
                                         <span>AOV (IDR)</span>
                                     </div>
-                                    <button className="text-xs text-brand-primary hover:text-brand-dark p-1 transition-colors">
+                                    <button className="text-xs text-brand-primary hover:text-brand-dark p-1 transition-colors active:scale-[0.97]">
                                         <Icon icon="solar:filter-linear" className="text-base" />
                                     </button>
                                 </div>

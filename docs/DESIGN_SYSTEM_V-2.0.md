@@ -224,17 +224,17 @@ fontFamily: {
 ## 5. Spacing & Layout
 
 ### Spacing Scale (4px base)
-| Token | Value | Tailwind | Contoh penggunaan |
-|---|---|---|---|
-| `space-1` | 4px | `p-1` | Jarak antar ikon dan teks |
-| `space-2` | 8px | `p-2` | Padding badge, gap inline |
-| `space-3` | 12px | `p-3` | Padding tombol kecil |
-| `space-4` | 16px | `p-4` | Padding card standar |
-| `space-5` | 20px | `p-5` | Padding card besar |
-| `space-6` | 24px | `p-6` | Gap antar section dalam halaman |
-| `space-8` | 32px | `p-8` | Padding container |
-| `space-12` | 48px | `p-12` | Jarak antar blok besar |
-| `space-16` | 64px | `p-16` | Padding layout halaman |
+| Token      | Value | Tailwind | Contoh penggunaan               |
+| ------------| -------| ----------| ---------------------------------|
+| `space-1`  | 4px   | `p-1`    | Jarak antar ikon dan teks       |
+| `space-2`  | 8px   | `p-2`    | Padding badge, gap inline       |
+| `space-3`  | 12px  | `p-3`    | Padding tombol kecil            |
+| `space-4`  | 16px  | `p-4`    | Padding card standar            |
+| `space-5`  | 20px  | `p-5`    | Padding card besar              |
+| `space-6`  | 24px  | `p-6`    | Gap antar section dalam halaman |
+| `space-8`  | 32px  | `p-8`    | Padding container               |
+| `space-12` | 48px  | `p-12`   | Jarak antar blok besar          |
+| `space-16` | 64px  | `p-16`   | Padding layout halaman          |
 
 ### Grid System
 | Breakpoint | Width | Kolom | Padding samping |

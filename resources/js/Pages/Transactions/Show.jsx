@@ -139,7 +139,7 @@ export default function Show({ transaction }) {
                             <div className="relative">
                                 <button
                                     onClick={() => setShowDropdown(!showDropdown)}
-                                    className="px-4 py-2 bg-brand-primary hover:bg-brand-secondary text-white rounded-xl text-xs font-bold transition-all shadow-sm active:scale-[0.98] flex items-center gap-2"
+                                    className="px-4 py-2 bg-brand-primary hover:bg-brand-secondary text-white rounded-xl text-xs font-bold transition-all shadow-sm active:scale-[0.97] flex items-center gap-2"
                                 >
                                     <span>Tindakan Transaksi</span>
                                     <iconify-icon icon="solar:alt-arrow-down-linear" class="text-xs" />
@@ -162,7 +162,7 @@ export default function Show({ transaction }) {
                                                     setShowDropdown(false);
                                                     handleRefund();
                                                 }}
-                                                className="w-full px-4 py-2 text-xs text-rose-600 hover:bg-rose-50 font-bold text-left transition-colors flex items-center gap-2"
+                                                className="w-full px-4 py-2 text-xs text-rose-600 hover:bg-rose-50 font-bold text-left transition-colors flex items-center gap-2 active:scale-[0.97]"
                                             >
                                                 <iconify-icon icon="solar:refresh-circle-broken-linear" class="text-base text-rose-400" />
                                                 Refund Transaksi
@@ -499,7 +499,7 @@ export default function Show({ transaction }) {
                                     <div className="space-y-3">
                                         <button
                                             onClick={handlePrint}
-                                            className="w-full py-3 px-4 bg-[#10b981] hover:bg-emerald-600 text-white font-bold text-xs rounded-xl transition-all shadow-sm active:scale-[0.98] flex items-center justify-center gap-2"
+                                            className="w-full py-3 px-4 bg-[#10b981] hover:bg-emerald-600 text-white font-bold text-xs rounded-xl transition-all shadow-sm active:scale-[0.97] flex items-center justify-center gap-2"
                                         >
                                             <iconify-icon icon="solar:printer-minimalistic-linear" class="text-base" />
                                             <span>Cetak Ulang Struk (Reprint)</span>
@@ -508,7 +508,7 @@ export default function Show({ transaction }) {
                                         <button
                                             onClick={handleRefund}
                                             disabled={transaction.status === "refunded"}
-                                            className="w-full py-3 px-4 bg-white border border-brand-light hover:bg-brand-bg disabled:opacity-50 disabled:hover:bg-white text-brand-dark font-bold text-xs rounded-xl transition-all shadow-sm active:scale-[0.98] flex items-center justify-center gap-2"
+                                            className="w-full py-3 px-4 bg-white border border-brand-light hover:bg-brand-bg disabled:opacity-50 disabled:hover:bg-white text-brand-dark font-bold text-xs rounded-xl transition-all shadow-sm active:scale-[0.97] flex items-center justify-center gap-2"
                                         >
                                             <iconify-icon icon="solar:refresh-circle-linear" class="text-base text-brand-primary/60" />
                                             <span>Ajukan Pengembalian (Refund)</span>
@@ -519,7 +519,7 @@ export default function Show({ transaction }) {
                                                 setNoteText(transaction.notes ?? "");
                                                 setShowNoteModal(true);
                                             }}
-                                            className="w-full py-3 px-4 bg-white border border-brand-light hover:bg-brand-bg text-brand-dark font-bold text-xs rounded-xl transition-all shadow-sm active:scale-[0.98] flex items-center justify-center gap-2"
+                                            className="w-full py-3 px-4 bg-white border border-brand-light hover:bg-brand-bg text-brand-dark font-bold text-xs rounded-xl transition-all shadow-sm active:scale-[0.97] flex items-center justify-center gap-2"
                                         >
                                             <iconify-icon icon="solar:document-add-linear" class="text-base text-brand-primary/60" />
                                             <span>
@@ -567,18 +567,18 @@ export default function Show({ transaction }) {
                             value={noteText}
                             onChange={(e) => setNoteText(e.target.value)}
                             placeholder="Tulis catatan internal untuk transaksi ini..."
-                            className="w-full h-32 px-4 py-3 border border-brand-light rounded-xl text-xs focus:ring-2 focus:ring-brand-light focus:border-brand-secondary resize-none font-medium text-brand-dark focus:outline-none"
+                            className="w-full h-32 px-4 py-3 border border-brand-light rounded-xl text-xs resize-none font-medium text-brand-dark focus:outline-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         />
                         <div className="flex justify-end gap-3 mt-4">
                             <button
                                 onClick={() => setShowNoteModal(false)}
-                                className="px-4 py-2 border border-brand-light rounded-lg text-xs font-bold text-brand-primary/80 hover:bg-brand-bg transition-colors"
+                                className="px-4 py-2 border border-brand-light rounded-lg text-xs font-bold text-brand-primary/80 hover:bg-brand-bg transition-colors active:scale-[0.97]"
                             >
                                 Batal
                             </button>
                             <button
                                 onClick={handleSaveNote}
-                                className="px-4 py-2 bg-brand-primary text-white rounded-lg text-xs font-bold hover:bg-brand-secondary transition-colors shadow-sm active:scale-[0.98]"
+                                className="px-4 py-2 bg-brand-primary text-white rounded-lg text-xs font-bold hover:bg-brand-secondary transition-colors shadow-sm active:scale-[0.97]"
                             >
                                 Simpan
                             </button>

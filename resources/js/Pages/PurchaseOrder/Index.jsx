@@ -142,7 +142,7 @@ export default function PurchaseOrderIndex() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat data purchase order dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -168,11 +168,11 @@ export default function PurchaseOrderIndex() {
                                 <p className="text-xs md:text-sm text-brand-primary/60 font-medium mt-1">Kelola dan pantau semua pesanan pembelian perusahaan Anda di satu tempat.</p>
                             </div>
                             <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 shrink-0">
-                                <button className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98] whitespace-nowrap">
+                                <button className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.97] whitespace-nowrap">
                                     <iconify-icon icon="solar:import-linear" class="text-base"></iconify-icon>
                                     Import
                                 </button>
-                                <button className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98] whitespace-nowrap">
+                                <button className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.97] whitespace-nowrap">
                                     <iconify-icon icon="solar:export-linear" class="text-base"></iconify-icon>
                                     Export CSV
                                 </button>
@@ -242,7 +242,7 @@ export default function PurchaseOrderIndex() {
                                             value={search}
                                             onChange={(e) => setSearch(e.target.value)}
                                             placeholder="Cari Nomor PO, Supplier, atau Approver..."
-                                            className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
+                                            className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none transition-all duration-200 shadow-sm font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         />
                                     </form>
                                     {(search || status) && (
@@ -256,7 +256,7 @@ export default function PurchaseOrderIndex() {
                                     <select
                                         value={status}
                                         onChange={(e) => handleStatus(e.target.value)}
-                                        className="text-xs border border-brand-light rounded-xl py-2.5 px-4 focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-bold text-brand-dark"
+                                        className="text-xs border border-brand-light rounded-xl py-2.5 px-4 bg-brand-bg transition-all outline-none font-bold text-brand-dark cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     >
                                         <option value="">Semua Status</option>
                                         <option value="pending">Pending Approval</option>
@@ -359,14 +359,14 @@ export default function PurchaseOrderIndex() {
                                                                 <>
                                                                     <button
                                                                         onClick={() => handleApprove(order.id)}
-                                                                        className="w-8 h-8 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-emerald-500 hover:border-emerald-300 hover:shadow-sm active:scale-90 transition-all duration-150"
+                                                                        className="w-8 h-8 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-emerald-500 hover:border-emerald-300 hover:shadow-sm active:scale-[0.97] transition-all duration-150"
                                                                         title="Approve"
                                                                     >
                                                                         <iconify-icon icon="solar:check-circle-linear" class="text-lg"></iconify-icon>
                                                                     </button>
                                                                     <button
                                                                         onClick={() => handleReject(order.id)}
-                                                                        className="w-8 h-8 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-rose-500 hover:border-rose-300 hover:shadow-sm active:scale-90 transition-all duration-150"
+                                                                        className="w-8 h-8 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-rose-500 hover:border-rose-300 hover:shadow-sm active:scale-[0.97] transition-all duration-150"
                                                                         title="Reject"
                                                                     >
                                                                         <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
@@ -384,7 +384,7 @@ export default function PurchaseOrderIndex() {
                                                             {order.status === 'approved' && (
                                                                 <button
                                                                     onClick={() => handleReceive(order.id)}
-                                                                    className="w-8 h-8 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-blue-500 hover:border-blue-300 hover:shadow-sm active:scale-90 transition-all duration-150"
+                                                                    className="w-8 h-8 rounded-xl bg-white border border-brand-light flex items-center justify-center text-gray-500 hover:text-blue-500 hover:border-blue-300 hover:shadow-sm active:scale-[0.97] transition-all duration-150"
                                                                     title="Terima Barang"
                                                                 >
                                                                     <iconify-icon icon="solar:box-linear" class="text-lg"></iconify-icon>
@@ -499,7 +499,7 @@ export default function PurchaseOrderIndex() {
                                 </p>
                             </div>
 
-                            <button className="w-full border border-brand-light bg-white text-brand-primary hover:bg-brand-light hover:text-brand-dark py-2.5 rounded-xl text-xs font-bold transition-all duration-150 active:scale-[0.98] flex items-center justify-center gap-2">
+                            <button className="w-full border border-brand-light bg-white text-brand-primary hover:bg-brand-light hover:text-brand-dark py-2.5 rounded-xl text-xs font-bold transition-all duration-150 active:scale-[0.97] flex items-center justify-center gap-2">
                                 Buka Laporan Keterlambatan
                             </button>
                         </div>

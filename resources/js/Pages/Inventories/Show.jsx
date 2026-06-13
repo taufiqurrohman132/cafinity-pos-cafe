@@ -88,7 +88,7 @@ export default function InventoriesShow() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat data detail bahan baku dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -247,10 +247,7 @@ export default function InventoriesShow() {
                                                     key={item.value}
                                                     type="button"
                                                     onClick={() => setAdjustType(item.value)}
-                                                    className={`py-1.5 text-xs font-bold rounded-lg transition-all ${adjustType === item.value
-                                                            ? 'bg-white text-brand-primary shadow-sm border border-brand-light'
-                                                            : 'text-brand-primary/60 hover:text-brand-primary'
-                                                        }`}
+                                                    className={`py-1.5 text-xs font-bold rounded-lg transition-all ${adjustType === item.value ? 'bg-white text-brand-primary shadow-sm border border-brand-light' : 'text-brand-primary/60 hover:text-brand-primary' } active:scale-[0.97]`}
                                                 >
                                                     {item.label}
                                                 </button>
@@ -266,10 +263,7 @@ export default function InventoriesShow() {
                                                 <button
                                                     type="button"
                                                     onClick={() => setAdjustDirection('in')}
-                                                    className={`py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition-all ${adjustDirection === 'in'
-                                                            ? 'bg-emerald-50 border-emerald-200 text-emerald-600 shadow-sm'
-                                                            : 'bg-white border-brand-light text-brand-primary/60 hover:bg-brand-bg'
-                                                        }`}
+                                                    className={`py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition-all ${adjustDirection === 'in' ? 'bg-emerald-50 border-emerald-200 text-emerald-600 shadow-sm' : 'bg-white border-brand-light text-brand-primary/60 hover:bg-brand-bg' } active:scale-[0.97]`}
                                                 >
                                                     <iconify-icon icon="solar:arrow-left-down-linear"></iconify-icon>
                                                     Masuk (+)
@@ -277,10 +271,7 @@ export default function InventoriesShow() {
                                                 <button
                                                     type="button"
                                                     onClick={() => setAdjustDirection('out')}
-                                                    className={`py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition-all ${adjustDirection === 'out'
-                                                            ? 'bg-rose-50 border-rose-200 text-rose-600 shadow-sm'
-                                                            : 'bg-white border-brand-light text-brand-primary/60 hover:bg-brand-bg'
-                                                        }`}
+                                                    className={`py-2 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 transition-all ${adjustDirection === 'out' ? 'bg-rose-50 border-rose-200 text-rose-600 shadow-sm' : 'bg-white border-brand-light text-brand-primary/60 hover:bg-brand-bg' } active:scale-[0.97]`}
                                                 >
                                                     <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon>
                                                     Keluar (-)
@@ -298,7 +289,7 @@ export default function InventoriesShow() {
                                             onChange={e => setAdjustQty(e.target.value)}
                                             placeholder="Masukkan kuantitas..."
                                             min="0.01" step="0.01" required
-                                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary font-bold text-brand-dark"
+                                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none font-bold text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         />
                                     </div>
 
@@ -310,7 +301,7 @@ export default function InventoriesShow() {
                                             onChange={e => setAdjustNotes(e.target.value)}
                                             placeholder={adjustType === 'waste' ? 'Susu tumpah, sayur layu, dll...' : 'Keterangan tambahan...'}
                                             rows="2"
-                                            className="w-full p-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none focus:ring-2 focus:ring-brand-primary resize-none font-medium text-brand-dark"
+                                            className="w-full p-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none resize-none font-medium text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         />
                                     </div>
 
@@ -318,10 +309,7 @@ export default function InventoriesShow() {
                                     <button
                                         type="submit"
                                         disabled={processingAdjust}
-                                        className={`w-full py-2.5 rounded-xl text-sm font-bold text-white transition-all shadow-md active:scale-[0.98] disabled:opacity-60 bg-gradient-to-r ${adjustDirection === 'in'
-                                                ? 'from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary'
-                                                : 'from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700'
-                                            }`}
+                                        className={`w-full py-2.5 rounded-xl text-sm font-bold text-white transition-all shadow-md active:scale-[0.97] disabled:opacity-60 bg-gradient-to-r ${adjustDirection === 'in' ? 'from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary' : 'from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700' }`}
                                     >
                                         {processingAdjust ? 'Memproses...' : 'Simpan Penyesuaian'}
                                     </button>

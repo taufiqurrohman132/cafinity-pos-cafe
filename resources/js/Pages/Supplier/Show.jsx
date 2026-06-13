@@ -176,21 +176,21 @@ export default function SupplierShow({ supplier }) {
                             </Link>
                             <button
                                 onClick={() => alert('Mengekspor laporan ke PDF...')}
-                                className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-gray-50 active:scale-95 transition"
+                                className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-gray-50 active:scale-[0.97] transition-all duration-150"
                             >
                                 <iconify-icon icon="solar:document-linear" class="text-sm"></iconify-icon>
                                 Export PDF
                             </button>
                             <button
                                 onClick={() => handleStatusChange(supplier.status === 'active' ? 'inactive' : 'active')}
-                                className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-red-500 bg-white border border-red-200 rounded-xl hover:bg-red-50 active:scale-95 transition"
+                                className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-red-500 bg-white border border-red-200 rounded-xl hover:bg-red-50 active:scale-[0.97] transition-all duration-150"
                             >
                                 <iconify-icon icon="solar:close-circle-linear" class="text-sm"></iconify-icon>
                                 {supplier.status === 'active' ? 'Nonaktifkan' : 'Aktifkan'}
                             </button>
                             <button
                                 onClick={() => handleStatusChange('blacklist')}
-                                className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl active:scale-95 transition shadow-sm"
+                                className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl active:scale-[0.97] shadow-sm transition-all duration-150"
                             >
                                 <iconify-icon icon="solar:danger-circle-linear" class="text-sm"></iconify-icon>
                                 Blacklist
@@ -214,7 +214,7 @@ export default function SupplierShow({ supplier }) {
                             </div>
                             <button
                                 onClick={() => alert('Membuka tiket laporan kendala supplier...')}
-                                className="px-4 py-2 bg-white border border-red-200 hover:bg-red-50 text-red-600 text-xs font-extrabold rounded-xl transition flex-shrink-0"
+                                className="px-4 py-2 bg-white border border-red-200 hover:bg-red-50 text-red-600 text-xs font-extrabold rounded-xl flex-shrink-0 transition-all duration-150 active:scale-[0.97]"
                             >
                                 Tinjau Masalah
                             </button>
@@ -276,7 +276,7 @@ export default function SupplierShow({ supplier }) {
                                     </h3>
                                     <button
                                         onClick={() => alert('Menambahkan kontak PIC baru...')}
-                                        className="text-xs font-extrabold text-brand-primary hover:text-brand-secondary transition-colors"
+                                        className="text-xs font-extrabold text-brand-primary hover:text-brand-secondary transition-colors active:scale-[0.97]"
                                     >
                                         + Tambah PIC
                                     </button>
@@ -396,7 +396,7 @@ export default function SupplierShow({ supplier }) {
                                             <button
                                                 type="button"
                                                 onClick={() => alert(`Mengunduh berkas ${doc.name}...`)}
-                                                className="text-brand-primary hover:text-brand-secondary transition p-1 hover:bg-brand-primary/5 rounded-lg flex-shrink-0"
+                                                className="text-brand-primary hover:text-brand-secondary p-1 hover:bg-brand-primary/5 rounded-lg flex-shrink-0 transition-all duration-150 active:scale-[0.97]"
                                             >
                                                 <iconify-icon icon="solar:download-linear" class="text-lg"></iconify-icon>
                                             </button>
@@ -565,7 +565,7 @@ export default function SupplierShow({ supplier }) {
 
                                 <button
                                     onClick={() => alert('Memuat log aktivitas lebih lama...')}
-                                    className="w-full text-center text-xs font-bold text-gray-500 hover:text-gray-700 pt-2 border-t border-brand-light/40 block"
+                                    className="w-full text-center text-xs font-bold text-gray-500 hover:text-gray-700 pt-2 border-t border-brand-light/40 block transition-all duration-150 active:scale-[0.97]"
                                 >
                                     Muat Lebih Banyak
                                 </button>
@@ -582,7 +582,7 @@ export default function SupplierShow({ supplier }) {
                                     value={noteInput}
                                     onChange={(e) => setNoteInput(e.target.value)}
                                     placeholder="Tulis catatan internal atau pesan untuk PIC..."
-                                    className="w-full text-xs border border-brand-light rounded-xl py-2 px-3 focus:ring-2 focus:ring-brand-primary/10 focus:border-brand-primary focus:outline-none min-h-[70px] bg-gray-50/50"
+                                    className="w-full text-xs border border-brand-light rounded-xl py-2 px-3 focus:outline-none min-h-[70px] bg-gray-50/50 transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                 />
 
                                 <div className="flex items-center gap-2">
@@ -594,7 +594,7 @@ export default function SupplierShow({ supplier }) {
                                                 setNoteInput('');
                                             }
                                         }}
-                                        className="flex-1 py-2 px-3 bg-brand-primary hover:bg-brand-secondary text-white text-xs font-extrabold rounded-xl transition duration-150 active:scale-95 shadow-sm"
+                                        className="flex-1 py-2 px-3 bg-brand-primary hover:bg-brand-secondary text-white text-xs font-extrabold rounded-xl duration-150 active:scale-[0.97] shadow-sm transition-all"
                                     >
                                         Kirim Pesan
                                     </button>
@@ -606,7 +606,7 @@ export default function SupplierShow({ supplier }) {
                                                 setNoteInput('');
                                             }
                                         }}
-                                        className="py-2 px-4 bg-white border border-brand-light text-gray-700 text-xs font-extrabold rounded-xl hover:bg-gray-50 transition"
+                                        className="py-2 px-4 bg-white border border-brand-light text-gray-700 text-xs font-extrabold rounded-xl hover:bg-gray-50 transition-all duration-150 active:scale-[0.97]"
                                     >
                                         Simpan Catatan
                                     </button>

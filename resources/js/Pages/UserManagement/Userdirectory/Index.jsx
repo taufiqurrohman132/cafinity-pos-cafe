@@ -127,14 +127,14 @@ export default function UsersIndex({
                                 <div className="flex flex-wrap items-center gap-3">
                                     <button
                                         onClick={handleExportCsv}
-                                        className="flex items-center gap-2 px-4 py-2.5 border border-brand-light bg-white text-brand-primary text-sm font-bold hover:bg-brand-light rounded-xl transition-all"
+                                        className="flex items-center gap-2 px-4 py-2.5 border border-brand-light bg-white text-brand-primary text-sm font-bold hover:bg-brand-light rounded-xl transition-all active:scale-[0.97]"
                                     >
                                         <iconify-icon icon="solar:download-square-linear" class="text-lg"></iconify-icon>
                                         Export CSV
                                     </button>
                                     <button
                                         onClick={() => setShowCreateModal(true)}
-                                        className="flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-brand-primary/30 transition-all"
+                                        className="flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.97]"
                                     >
                                         <iconify-icon icon="solar:user-plus-rounded-linear" class="text-lg"></iconify-icon>
                                         Tambah Pengguna
@@ -178,19 +178,19 @@ export default function UsersIndex({
                                             value={search}
                                             onChange={e => setSearch(e.target.value)}
                                             placeholder="Nama, email, atau ID..."
-                                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl pl-11 pr-4 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all"
+                                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl pl-11 pr-4 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         />
                                     </div>
                                     <div className="flex flex-wrap items-center gap-2">
                                         <select value={role} onChange={e => setRole(e.target.value)}
-                                            className="h-11 px-4 border border-brand-light bg-white text-brand-primary text-sm font-bold rounded-xl outline-none">
+                                            className="h-11 px-4 border border-brand-light bg-white text-brand-primary text-sm font-bold rounded-xl outline-none cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light">
                                             <option value="">Semua Role</option>
                                             <option value="owner">Owner</option>
                                             <option value="admin">Admin</option>
                                             <option value="cashier">Kasir</option>
                                         </select>
                                         <select value={status} onChange={e => setStatus(e.target.value)}
-                                            className="h-11 px-4 border border-brand-light bg-white text-brand-primary text-sm font-bold rounded-xl outline-none">
+                                            className="h-11 px-4 border border-brand-light bg-white text-brand-primary text-sm font-bold rounded-xl outline-none cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light">
                                             <option value="">Semua Status</option>
                                             <option value="active">Active</option>
                                             <option value="inactive">Inactive</option>
@@ -198,12 +198,12 @@ export default function UsersIndex({
                                             <option value="deactivated">Deactivated</option>
                                         </select>
                                         <button type="submit"
-                                            className="flex items-center gap-2 h-11 px-4 bg-brand-primary text-white text-sm font-bold rounded-xl">
+                                            className="flex items-center gap-2 h-11 px-4 bg-brand-primary text-white text-sm font-bold rounded-xl transition-all duration-150 active:scale-[0.97]">
                                             <iconify-icon icon="solar:filter-linear" class="text-lg"></iconify-icon>
                                             Filter
                                         </button>
                                         <button type="button" onClick={handleReset}
-                                            className="h-11 px-4 border border-transparent bg-brand-bg text-brand-primary/70 text-sm font-bold hover:bg-brand-light rounded-xl">
+                                            className="h-11 px-4 border border-transparent bg-brand-bg text-brand-primary/70 text-sm font-bold hover:bg-brand-light rounded-xl transition-all duration-150 active:scale-[0.97]">
                                             Reset
                                         </button>
                                     </div>
@@ -369,35 +369,35 @@ function UserActions({ user, canManage, onToggle, onReset, onDelete, onEdit, onS
             <button
                 onClick={() => setOpen(!open)}
                 onBlur={() => setTimeout(() => setOpen(false), 150)}
-                className="p-2 text-brand-primary/50 hover:text-brand-secondary hover:bg-brand-light/50 rounded-xl transition-all"
+                className="p-2 text-brand-primary/50 hover:text-brand-secondary hover:bg-brand-light/50 rounded-xl transition-all active:scale-[0.97]"
             >
                 <iconify-icon icon="solar:menu-dots-linear" class="text-lg"></iconify-icon>
             </button>
             {open && (
                 <div className="absolute right-0 mt-1 w-48 bg-white border border-brand-light rounded-xl shadow-xl z-20 overflow-hidden">
                     <button onClick={() => onShowDetail(user)}
-                        className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full">
+                        className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full transition-all duration-150 active:scale-[0.97]">
                         <iconify-icon icon="solar:eye-linear" class="text-brand-primary"></iconify-icon>
                         Lihat Detail
                     </button>
                     {canManage && <>
                         <button onClick={() => onEdit(user)}
-                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full">
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full transition-all duration-150 active:scale-[0.97]">
                             <iconify-icon icon="solar:pen-linear" class="text-brand-primary"></iconify-icon>
                             Edit Pengguna
                         </button>
                         <button onClick={() => onToggle(user.id)}
-                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full">
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full transition-all duration-150 active:scale-[0.97]">
                             <iconify-icon icon="solar:shield-warning-linear" class="text-amber-500"></iconify-icon>
                             {user.status === 'active' ? 'Nonaktifkan' : 'Aktifkan'}
                         </button>
                         <button onClick={() => onReset(user.id)}
-                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full">
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full transition-all duration-150 active:scale-[0.97]">
                             <iconify-icon icon="solar:key-linear" class="text-brand-primary"></iconify-icon>
                             Reset Password
                         </button>
                         <button onClick={() => onDelete(user.id, user.name)}
-                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 font-bold hover:bg-[#fef2f2] border-t border-brand-light text-left w-full">
+                            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 font-bold hover:bg-[#fef2f2] border-t border-brand-light text-left w-full transition-all duration-150 active:scale-[0.97]">
                             <iconify-icon icon="solar:trash-bin-trash-linear" class="text-red-500"></iconify-icon>
                             Hapus
                         </button>
@@ -443,7 +443,7 @@ function CreateUserModal({ isOpen, onClose }) {
                     <h3 className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                         Tambah Pengguna Baru
                     </h3>
-                    <button onClick={onClose} className="p-1 rounded-lg text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/30 transition-colors">
+                    <button onClick={onClose} className="p-1 rounded-lg text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/30 transition-colors active:scale-[0.97]">
                         <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
                     </button>
                 </div>
@@ -456,7 +456,7 @@ function CreateUserModal({ isOpen, onClose }) {
                             value={data.name}
                             onChange={e => setData('name', e.target.value)}
                             required
-                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             placeholder="Nama Lengkap"
                         />
                         {errors.name && <p className="text-xs text-red-500 font-bold mt-1">{errors.name}</p>}
@@ -469,7 +469,7 @@ function CreateUserModal({ isOpen, onClose }) {
                             value={data.email}
                             onChange={e => setData('email', e.target.value)}
                             required
-                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             placeholder="nama@email.com"
                         />
                         {errors.email && <p className="text-xs text-red-500 font-bold mt-1">{errors.email}</p>}
@@ -481,7 +481,7 @@ function CreateUserModal({ isOpen, onClose }) {
                             <select
                                 value={data.role}
                                 onChange={e => setData('role', e.target.value)}
-                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             >
                                 <option value="cashier">Kasir</option>
                                 <option value="admin">Admin</option>
@@ -495,7 +495,7 @@ function CreateUserModal({ isOpen, onClose }) {
                             <select
                                 value={data.status}
                                 onChange={e => setData('status', e.target.value)}
-                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             >
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
@@ -514,7 +514,7 @@ function CreateUserModal({ isOpen, onClose }) {
                                 value={data.password}
                                 onChange={e => setData('password', e.target.value)}
                                 required
-                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                 placeholder="Min. 8 karakter"
                             />
                             {errors.password && <p className="text-xs text-red-500 font-bold mt-1">{errors.password}</p>}
@@ -527,7 +527,7 @@ function CreateUserModal({ isOpen, onClose }) {
                                 value={data.password_confirmation}
                                 onChange={e => setData('password_confirmation', e.target.value)}
                                 required
-                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                 placeholder="Ulangi password"
                             />
                         </div>
@@ -537,14 +537,14 @@ function CreateUserModal({ isOpen, onClose }) {
                         <button
                             type="button"
                             onClick={() => { clearErrors(); reset(); onClose(); }}
-                            className="flex-1 h-11 rounded-xl border border-brand-light text-sm font-bold text-brand-primary hover:bg-brand-light/20 transition-all"
+                            className="flex-1 h-11 rounded-xl border border-brand-light text-sm font-bold text-brand-primary hover:bg-brand-light/20 transition-all active:scale-[0.97]"
                         >
                             Batal
                         </button>
                         <button
                             type="submit"
                             disabled={processing}
-                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold shadow-lg shadow-brand-primary/25 disabled:opacity-50 transition-all"
+                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold shadow-lg shadow-brand-primary/25 disabled:opacity-50 transition-all active:scale-[0.97]"
                         >
                             {processing ? 'Menyimpan...' : 'Simpan'}
                         </button>
@@ -599,7 +599,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                     <h3 className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                         Edit Profil Pengguna
                     </h3>
-                    <button onClick={onClose} className="p-1 rounded-lg text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/30 transition-colors">
+                    <button onClick={onClose} className="p-1 rounded-lg text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/30 transition-colors active:scale-[0.97]">
                         <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
                     </button>
                 </div>
@@ -612,7 +612,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                             value={data.name}
                             onChange={e => setData('name', e.target.value)}
                             required
-                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         />
                         {errors.name && <p className="text-xs text-red-500 font-bold mt-1">{errors.name}</p>}
                     </div>
@@ -624,7 +624,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                             value={data.email}
                             onChange={e => setData('email', e.target.value)}
                             required
-                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         />
                         {errors.email && <p className="text-xs text-red-500 font-bold mt-1">{errors.email}</p>}
                     </div>
@@ -635,7 +635,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                             <select
                                 value={data.role}
                                 onChange={e => setData('role', e.target.value)}
-                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             >
                                 <option value="cashier">Kasir</option>
                                 <option value="admin">Admin</option>
@@ -649,7 +649,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                             <select
                                 value={data.status}
                                 onChange={e => setData('status', e.target.value)}
-                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             >
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
@@ -669,7 +669,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                                     type="password"
                                     value={data.password}
                                     onChange={e => setData('password', e.target.value)}
-                                    className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                                    className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     placeholder="Min. 8 karakter"
                                 />
                                 {errors.password && <p className="text-xs text-red-500 font-bold mt-1">{errors.password}</p>}
@@ -681,7 +681,7 @@ function EditUserModal({ isOpen, onClose, user }) {
                                     type="password"
                                     value={data.password_confirmation}
                                     onChange={e => setData('password_confirmation', e.target.value)}
-                                    className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none focus:ring-2 focus:ring-brand-light focus:border-brand-secondary transition-all"
+                                    className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                     placeholder="Ulangi password"
                                 />
                             </div>
@@ -692,14 +692,14 @@ function EditUserModal({ isOpen, onClose, user }) {
                         <button
                             type="button"
                             onClick={() => { clearErrors(); reset(); onClose(); }}
-                            className="flex-1 h-11 rounded-xl border border-brand-light text-sm font-bold text-brand-primary hover:bg-brand-light/20 transition-all"
+                            className="flex-1 h-11 rounded-xl border border-brand-light text-sm font-bold text-brand-primary hover:bg-brand-light/20 transition-all active:scale-[0.97]"
                         >
                             Batal
                         </button>
                         <button
                             type="submit"
                             disabled={processing}
-                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold shadow-lg shadow-brand-primary/25 disabled:opacity-50 transition-all"
+                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-extrabold shadow-lg shadow-brand-primary/25 disabled:opacity-50 transition-all active:scale-[0.97]"
                         >
                             {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                         </button>
@@ -751,7 +751,7 @@ function DetailUserModal({ isOpen, onClose, user }) {
                     <h3 className="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                         Detail Personel
                     </h3>
-                    <button onClick={onClose} className="p-1 rounded-lg text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/30 transition-colors">
+                    <button onClick={onClose} className="p-1 rounded-lg text-brand-primary/60 hover:text-brand-dark hover:bg-brand-light/30 transition-colors active:scale-[0.97]">
                         <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
                     </button>
                 </div>
@@ -813,7 +813,7 @@ function DetailUserModal({ isOpen, onClose, user }) {
                 <div className="pt-4 border-t border-brand-light mt-6">
                     <button
                         onClick={onClose}
-                        className="w-full h-11 bg-gradient-to-r from-brand-light to-brand-bg border border-brand-light text-sm font-bold text-brand-dark hover:bg-brand-light/30 active:scale-[0.98] transition-all"
+                        className="w-full h-11 bg-gradient-to-r from-brand-light to-brand-bg border border-brand-light text-sm font-bold text-brand-dark hover:bg-brand-light/30 active:scale-[0.97] transition-all"
                     >
                         Tutup Detail
                     </button>

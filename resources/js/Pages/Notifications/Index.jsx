@@ -74,7 +74,7 @@ function NotifActions({ notification, onRead, onDelete }) {
             {!notification.is_read && (
                 <button
                     onClick={() => onRead(notification.id)}
-                    className="p-2 text-brand-primary hover:text-brand-secondary hover:bg-brand-light/40 rounded-xl transition-all duration-150"
+                    className="p-2 text-brand-primary hover:text-brand-secondary hover:bg-brand-light/40 rounded-xl transition-all duration-150 active:scale-[0.97]"
                     title="Tandai dibaca"
                 >
                     <Icon icon="solar:check-read-linear" className="text-lg" />
@@ -82,7 +82,7 @@ function NotifActions({ notification, onRead, onDelete }) {
             )}
             <button
                 onClick={() => onDelete(notification.id)}
-                className="p-2 text-rose-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all duration-150"
+                className="p-2 text-rose-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all duration-150 active:scale-[0.97]"
                 title="Hapus"
             >
                 <Icon icon="solar:trash-bin-trash-linear" className="text-lg" />
@@ -321,18 +321,14 @@ export default function Index({ notifications: initialNotifications, stats: init
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => setShowFilterPanel(!showFilterPanel)}
-                            className={`flex items-center gap-2 px-4 py-2.5 bg-white border rounded-xl text-sm font-bold transition-all active:scale-[0.98] duration-150 ${
-                                showFilterPanel
-                                    ? 'border-brand-primary text-brand-primary shadow-sm shadow-brand-primary/10'
-                                    : 'border-brand-light text-brand-dark hover:bg-brand-light/20'
-                            }`}
+                            className={`flex items-center gap-2 px-4 py-2.5 bg-white border rounded-xl text-sm font-bold transition-all active:scale-[0.97] duration-150 ${ showFilterPanel ? 'border-brand-primary text-brand-primary shadow-sm shadow-brand-primary/10' : 'border-brand-light text-brand-dark hover:bg-brand-light/20' }`}
                         >
                             <Icon icon="solar:filter-linear" className="text-lg" />
                             Filter Lanjutan
                         </button>
                         <button
                             onClick={handleReadAll}
-                            className="flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-brand-primary/25 transition-all active:scale-[0.98] duration-150 whitespace-nowrap"
+                            className="flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-brand-primary/25 transition-all active:scale-[0.97] duration-150 whitespace-nowrap"
                         >
                             <Icon icon="solar:check-read-linear" className="text-lg" />
                             Tandai Semua Dibaca
@@ -362,11 +358,7 @@ export default function Index({ notifications: initialNotifications, stats: init
                                     key={opt.id}
                                     type="button"
                                     onClick={() => setFilterStatus(opt.id)}
-                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all active:scale-[0.97] ${
-                                        filterStatus === opt.id
-                                            ? "border-brand-primary bg-brand-primary text-white shadow-sm"
-                                            : "border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/30"
-                                    }`}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all active:scale-[0.97] ${ filterStatus === opt.id ? "border-brand-primary bg-brand-primary text-white shadow-sm" : "border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/30" }`}
                                 >
                                     {opt.label}
                                 </button>
@@ -389,11 +381,7 @@ export default function Index({ notifications: initialNotifications, stats: init
                                     key={opt.id}
                                     type="button"
                                     onClick={() => setFilterPriority(opt.id)}
-                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all active:scale-[0.97] ${
-                                        filterPriority === opt.id
-                                            ? "border-brand-primary bg-brand-primary text-white shadow-sm"
-                                            : "border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/30"
-                                    }`}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all active:scale-[0.97] ${ filterPriority === opt.id ? "border-brand-primary bg-brand-primary text-white shadow-sm" : "border-brand-light bg-brand-bg text-brand-dark hover:bg-brand-light/30" }`}
                                 >
                                     {opt.label}
                                 </button>
@@ -444,11 +432,7 @@ export default function Index({ notifications: initialNotifications, stats: init
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`pb-4 text-sm font-extrabold transition-all duration-300 border-b-2 relative ${
-                                    activeTab === tab.id
-                                        ? "text-brand-primary border-brand-primary"
-                                        : "text-brand-dark/50 border-transparent hover:text-brand-dark"
-                                }`}
+                                className={`pb-4 text-sm font-extrabold transition-all duration-300 border-b-2 relative ${ activeTab === tab.id ? "text-brand-primary border-brand-primary" : "text-brand-dark/50 border-transparent hover:text-brand-dark" } active:scale-[0.97]`}
                             >
                                 {tab.label}
                             </button>
@@ -491,7 +475,7 @@ export default function Index({ notifications: initialNotifications, stats: init
                     <div className="flex justify-center pt-4">
                         <button
                             onClick={handleLoadMore}
-                            className="flex items-center gap-2 px-6 py-2.5 border border-brand-light bg-white text-brand-primary rounded-xl text-sm font-bold hover:bg-brand-light/20 transition-all active:scale-[0.98]"
+                            className="flex items-center gap-2 px-6 py-2.5 border border-brand-light bg-white text-brand-primary rounded-xl text-sm font-bold hover:bg-brand-light/20 transition-all active:scale-[0.97]"
                         >
                             Muat Lebih Banyak
                             <Icon icon="solar:alt-arrow-down-linear" className="text-lg animate-bounce" />

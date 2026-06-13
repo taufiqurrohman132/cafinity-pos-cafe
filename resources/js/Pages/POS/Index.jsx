@@ -338,7 +338,7 @@ export default function POS() {
                         <p className="text-sm text-brand-primary/70 mb-6">
                             Gagal memuat data POS dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -375,7 +375,7 @@ export default function POS() {
                                     value={search}
                                     onChange={e => setSearch(e.target.value)}
                                     placeholder="Cari menu..."
-                                    className="w-full h-[46px] rounded-xl bg-white border border-brand-light pl-11 pr-4 text-[13px] outline-none focus:border-brand-secondary focus:ring-2 focus:ring-brand-light transition-colors font-bold text-brand-dark placeholder-brand-primary/50 shadow-sm"
+                                    className="w-full h-[46px] rounded-xl bg-white border border-brand-light pl-11 pr-4 text-[13px] outline-none transition-colors font-bold text-brand-dark placeholder-brand-primary/50 shadow-sm hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                 />
                             </div>
                         </div>
@@ -386,11 +386,7 @@ export default function POS() {
                             <div className="w-[92px] overflow-y-auto flex flex-col gap-4 flex-shrink-0 pb-4">
                                 <button
                                     onClick={() => setSelectedCategory(null)}
-                                    className={`rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300 ${
-                                        selectedCategory === null
-                                            ? 'bg-gradient-to-b from-brand-secondary to-brand-primary text-white shadow-lg shadow-brand-primary/30 border-none'
-                                            : 'bg-white text-brand-primary border border-brand-light hover:bg-gradient-to-br hover:from-white hover:to-brand-light/50 hover:text-brand-dark hover:border-brand-secondary hover:shadow-sm'
-                                    }`}
+                                    className={`rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300 ${ selectedCategory === null ? 'bg-gradient-to-b from-brand-secondary to-brand-primary text-white shadow-lg shadow-brand-primary/30 border-none' : 'bg-white text-brand-primary border border-brand-light hover:bg-gradient-to-br hover:from-white hover:to-brand-light/50 hover:text-brand-dark hover:border-brand-secondary hover:shadow-sm' } active:scale-[0.97]`}
                                 >
                                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${selectedCategory === null ? 'bg-white/20' : 'bg-brand-light/50'}`}>
                                         <iconify-icon icon="solar:widget-linear" class="text-[18px]" />
@@ -402,11 +398,7 @@ export default function POS() {
                                     <button
                                         key={cat.id}
                                         onClick={() => setSelectedCategory(cat.id)}
-                                        className={`rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300 ${
-                                            selectedCategory === cat.id
-                                                ? 'bg-gradient-to-b from-brand-secondary to-brand-primary text-white shadow-lg shadow-brand-primary/30 border-none'
-                                                : 'bg-white text-brand-primary border border-brand-light hover:bg-gradient-to-br hover:from-white hover:to-brand-light/50 hover:text-brand-dark hover:border-brand-secondary hover:shadow-sm'
-                                        }`}
+                                        className={`rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300 ${ selectedCategory === cat.id ? 'bg-gradient-to-b from-brand-secondary to-brand-primary text-white shadow-lg shadow-brand-primary/30 border-none' : 'bg-white text-brand-primary border border-brand-light hover:bg-gradient-to-br hover:from-white hover:to-brand-light/50 hover:text-brand-dark hover:border-brand-secondary hover:shadow-sm' } active:scale-[0.97]`}
                                     >
                                         <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${selectedCategory === cat.id ? 'bg-white/20' : 'bg-brand-light/50'}`}>
                                             <iconify-icon icon={cat.icon} class="text-[18px]" />
@@ -484,9 +476,7 @@ export default function POS() {
                                     <button
                                         key={held.id}
                                         onClick={() => resumeOrder(held.id)}
-                                        className={`text-left px-3 py-2 rounded-xl bg-white border border-brand-light shadow-sm hover:border-brand-secondary flex-shrink-0 transition-all duration-300 ease-in-out held-order-item ${
-                                            held.isEntering ? 'entering' : ''
-                                        } ${held.isExiting ? 'exiting' : ''}`}
+                                        className={`text-left px-3 py-2 rounded-xl bg-white border border-brand-light shadow-sm hover:border-brand-secondary flex-shrink-0 transition-all duration-300 ease-in-out held-order-item ${ held.isEntering ? 'entering' : '' } ${held.isExiting ? 'exiting' : ''} active:scale-[0.97]`}
                                     >
                                         <div className={`transition-opacity duration-300 ${held.isEntering || held.isExiting ? 'opacity-0' : 'opacity-100'}`}>
                                             <p className="text-[11px] font-extrabold text-brand-dark">{held.label}</p>
@@ -525,19 +515,19 @@ export default function POS() {
                                     </div>
                                     <div className="flex items-center gap-1 flex-shrink-0 bg-gradient-to-br from-brand-light/40 to-brand-light/10 rounded-lg p-1 border border-brand-light">
                                         <button onClick={() => decreaseQty(index)}
-                                            className="w-6 h-6 rounded-md bg-white border border-brand-light text-brand-primary text-sm font-bold hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm flex items-center justify-center">
+                                            className="w-6 h-6 rounded-md bg-white border border-brand-light text-brand-primary text-sm font-bold hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm flex items-center justify-center active:scale-[0.97]">
                                             &minus;
                                         </button>
                                         <span className="text-[12px] font-extrabold w-6 text-center text-brand-dark">{item.qty}</span>
                                         <button onClick={() => increaseQty(index)}
-                                            className="w-6 h-6 rounded-md bg-gradient-to-br from-brand-secondary to-brand-primary text-white text-sm font-bold hover:from-brand-primary hover:to-brand-dark transition-colors shadow-sm flex items-center justify-center">
+                                            className="w-6 h-6 rounded-md bg-gradient-to-br from-brand-secondary to-brand-primary text-white text-sm font-bold hover:from-brand-primary hover:to-brand-dark transition-colors shadow-sm flex items-center justify-center active:scale-[0.97]">
                                             +
                                         </button>
                                     </div>
                                     <div className="text-right flex-shrink-0 flex flex-col items-end pt-0.5 ml-2">
                                         <p className="text-[13px] font-black text-brand-secondary">{formatRupiah(item.price * item.qty)}</p>
                                         <button onClick={() => removeFromCart(index)}
-                                            className="text-[10px] font-bold text-red-400 hover:text-red-600 mt-1.5 transition-colors capitalize tracking-wider">
+                                            className="text-[10px] font-bold text-red-400 hover:text-red-600 mt-1.5 transition-colors capitalize tracking-wider active:scale-[0.97]">
                                             Hapus
                                         </button>
                                     </div>
@@ -582,14 +572,14 @@ export default function POS() {
                             <button
                                 onClick={holdOrder}
                                 disabled={!cart.length || loading}
-                                className="flex-1 h-[52px] rounded-xl border border-brand-primary text-brand-primary font-bold text-[13px] hover:bg-gradient-to-br hover:from-brand-light hover:to-white disabled:opacity-40 transition-all shadow-sm flex items-center justify-center gap-1.5 bg-white"
+                                className="flex-1 h-[52px] rounded-xl border border-brand-primary text-brand-primary font-bold text-[13px] hover:bg-gradient-to-br hover:from-brand-light hover:to-white disabled:opacity-40 transition-all shadow-sm flex items-center justify-center gap-1.5 bg-white active:scale-[0.97]"
                             >
                                 <iconify-icon icon="solar:pause-circle-linear" class="text-lg" /> Tahan
                             </button>
                             <button
                                 onClick={() => setShowPayment(true)}
                                 disabled={!cart.length || loading}
-                                className="flex-[2] h-[52px] rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary disabled:opacity-50 transition-all text-white font-extrabold flex items-center justify-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]"
+                                className="flex-[2] h-[52px] rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary disabled:opacity-50 transition-all text-white font-extrabold flex items-center justify-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.97]"
                             >
                                 <span className="text-[14px]">{loading ? 'Memproses...' : 'Bayar Sekarang'}</span>
                                 {!loading && <iconify-icon icon="solar:arrow-right-linear" class="text-[20px]" />}
@@ -626,7 +616,7 @@ export default function POS() {
                         <select
                             value={paymentMethod}
                             onChange={e => setPaymentMethod(e.target.value)}
-                            className="w-full mb-5 h-12 rounded-xl border border-brand-light bg-gradient-to-r from-brand-light/30 to-brand-bg text-sm font-bold text-brand-dark px-4 focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:bg-white focus:border-brand-secondary transition-all cursor-pointer"
+                            className="w-full mb-5 h-12 rounded-xl border border-brand-light bg-gradient-to-r from-brand-light/30 to-brand-bg text-sm font-bold text-brand-dark px-4 focus:outline-none focus:bg-white transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         >
                             <option value="cash">💵 Tunai (Cash)</option>
                             <option value="qris">📱 QRIS</option>
@@ -645,7 +635,7 @@ export default function POS() {
                                 onChange={e => setPaidAmount(Number(e.target.value))}
                                 min={0}
                                 step={1000}
-                                className="w-full h-12 rounded-xl border border-brand-light bg-brand-light/10 text-lg font-black text-brand-dark pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:bg-white focus:border-brand-secondary transition-colors"
+                                className="w-full h-12 rounded-xl border border-brand-light bg-brand-light/10 text-lg font-black text-brand-dark pl-12 pr-4 focus:outline-none focus:bg-white transition-colors hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             />
                         </div>
                         <div className="flex gap-2 flex-wrap mb-5">
@@ -654,11 +644,7 @@ export default function POS() {
                                     key={cash}
                                     type="button"
                                     onClick={() => setPaidAmount(cash)}
-                                    className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-95 ${
-                                        paidAmount === cash
-                                            ? 'bg-brand-primary text-white border-brand-primary shadow-sm'
-                                            : 'bg-brand-light/30 text-brand-primary border-brand-light hover:bg-brand-light/75'
-                                    }`}
+                                    className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${ paidAmount === cash ? 'bg-brand-primary text-white border-brand-primary shadow-sm' : 'bg-brand-light/30 text-brand-primary border-brand-light hover:bg-brand-light/75' }`}
                                 >
                                     {cash === total ? 'Pas' : formatRupiah(cash)}
                                 </button>
@@ -676,13 +662,13 @@ export default function POS() {
 
                         <div className="flex gap-3">
                             <button onClick={() => setShowPayment(false)}
-                                className="flex-1 h-12 rounded-xl border border-brand-light bg-white text-sm font-bold text-brand-primary hover:bg-gradient-to-r hover:from-white hover:to-brand-light/50 hover:text-brand-dark transition-colors">
+                                className="flex-1 h-12 rounded-xl border border-brand-light bg-white text-sm font-bold text-brand-primary hover:bg-gradient-to-r hover:from-white hover:to-brand-light/50 hover:text-brand-dark transition-colors active:scale-[0.97]">
                                 Batal
                             </button>
                             <button
                                 onClick={checkout}
                                 disabled={loading || paidAmount < total}
-                                className="flex-1 h-12 rounded-xl bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white text-sm font-extrabold shadow-lg shadow-brand-secondary/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex justify-center items-center gap-2 active:scale-[0.98]"
+                                className="flex-1 h-12 rounded-xl bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white text-sm font-extrabold shadow-lg shadow-brand-secondary/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex justify-center items-center gap-2 active:scale-[0.97]"
                             >
                                 <iconify-icon icon="solar:check-circle-linear" class="text-[18px]" />
                                 Konfirmasi

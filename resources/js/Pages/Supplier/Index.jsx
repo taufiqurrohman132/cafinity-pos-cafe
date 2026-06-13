@@ -238,16 +238,13 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                 placeholder="Cari supplier..."
                                                 value={search}
                                                 onChange={(e) => setSearch(e.target.value)}
-                                                className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all duration-200 shadow-sm font-bold text-brand-dark"
+                                                className="w-full h-11 pl-10 pr-4 text-[13px] bg-brand-bg border border-brand-light rounded-xl placeholder-brand-primary/50 outline-none transition-all duration-200 shadow-sm font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                             />
                                         </form>
 
                                         <button
                                             onClick={() => setShowFilterModal(!showFilterModal)}
-                                            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold border rounded-xl transition-all duration-200 active:scale-[0.98] whitespace-nowrap ${showFilterModal || status || category
-                                                ? 'bg-brand-light text-brand-dark border-brand-primary'
-                                                : 'bg-white border-brand-light text-brand-primary hover:bg-brand-light hover:text-brand-dark'
-                                                }`}
+                                            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold border rounded-xl transition-all duration-200 active:scale-[0.97] whitespace-nowrap ${showFilterModal || status || category ? 'bg-brand-light text-brand-dark border-brand-primary' : 'bg-white border-brand-light text-brand-primary hover:bg-brand-light hover:text-brand-dark' }`}
                                         >
                                             <iconify-icon icon="solar:filter-linear" class="text-base"></iconify-icon>
                                             Filter
@@ -282,7 +279,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                         <select
                                             value={status}
                                             onChange={(e) => setStatus(e.target.value)}
-                                            className="w-full px-3 py-2.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-bold text-brand-dark"
+                                            className="w-full px-3 py-2.5 text-xs border border-brand-light rounded-xl bg-brand-bg transition-all outline-none font-bold text-brand-dark cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         >
                                             <option value="">Semua Status</option>
                                             <option value="active">Aktif</option>
@@ -295,7 +292,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                         <select
                                             value={category}
                                             onChange={(e) => setCategory(e.target.value)}
-                                            className="w-full px-3 py-2.5 text-xs border border-brand-light rounded-xl focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary bg-brand-bg transition-all outline-none font-bold text-brand-dark"
+                                            className="w-full px-3 py-2.5 text-xs border border-brand-light rounded-xl bg-brand-bg transition-all outline-none font-bold text-brand-dark cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                         >
                                             <option value="">Semua Kategori</option>
                                             {categories.map(cat => (
@@ -306,13 +303,13 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                     <div className="flex items-end gap-2">
                                         <button
                                             onClick={handleFilterApply}
-                                            className="flex-1 px-4 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition-all duration-200 active:scale-[0.98]"
+                                            className="flex-1 px-4 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition-all duration-200 active:scale-[0.97]"
                                         >
                                             Terapkan
                                         </button>
                                         <button
                                             onClick={handleFilterReset}
-                                            className="px-4 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.98]"
+                                            className="px-4 py-2.5 text-xs font-bold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-all duration-200 active:scale-[0.97]"
                                         >
                                             Reset
                                         </button>
@@ -406,7 +403,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                                                     </Link>
                                                                     <button
                                                                         onClick={() => handleDelete(supplier.id, supplier.name)}
-                                                                        className="w-8 h-8 rounded-xl bg-white border border-red-100 flex items-center justify-center text-red-500 hover:text-red-600 hover:border-red-300 hover:shadow-sm active:scale-90 transition-all duration-150"
+                                                                        className="w-8 h-8 rounded-xl bg-white border border-red-100 flex items-center justify-center text-red-500 hover:text-red-600 hover:border-red-300 hover:shadow-sm active:scale-[0.97] transition-all duration-150"
                                                                     >
                                                                         <iconify-icon icon="solar:trash-bin-trash-linear" class="text-sm"></iconify-icon>
                                                                     </button>
