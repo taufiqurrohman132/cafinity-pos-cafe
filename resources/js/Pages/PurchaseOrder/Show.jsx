@@ -40,10 +40,10 @@ export default function PurchaseOrderShow() {
     // Status color mapping helper
     const getStatusMeta = (status) => {
         const meta = {
-            pending: { bg: 'bg-[#fffbeb]', text: 'text-[#92400e]', border: 'border-[#fde68a]', label: 'Pending Approval' },
-            approved: { bg: 'bg-[#ecfdf5]', text: 'text-[#065f46]', border: 'border-[#d1fae5]', label: 'Approved (Waiting Delivery)' },
-            received: { bg: 'bg-[#eff6ff]', text: 'text-[#1e40af]', border: 'border-[#dbeafe]', label: 'Received (Stok Diperbarui)' },
-            rejected: { bg: 'bg-[#fef2f2]', text: 'text-[#991b1b]', border: 'border-[#fecaca]', label: 'Rejected (Ditolak)' }
+            pending: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-100', label: 'Pending Approval' },
+            approved: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-100', label: 'Approved (Waiting Delivery)' },
+            received: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-100', label: 'Received (Stok Diperbarui)' },
+            rejected: { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-100', label: 'Rejected (Ditolak)' }
         }
         return meta[status] || { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-100', label: status }
     }
@@ -179,37 +179,37 @@ export default function PurchaseOrderShow() {
                         <div className="flex items-center gap-4">
                             <Link
                                 to="/purchase-orders"
-                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
+                                className="w-10 h-10 rounded-full bg-white border border-[#D0D0D0] flex items-center justify-center text-black/60 hover:text-black hover:border-black transition shadow-sm shrink-0"
                             >
                                 <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
                             </Link>
                             <div>
-                                <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium mb-1">
-                                    <Link to="/purchase-orders" className="hover:text-brand-primary transition-colors">Purchase Order</Link>
-                                    <span className="text-brand-primary/40">›</span>
-                                    <span className="text-brand-dark font-bold">Detail PO #{order.po_number || String(order.id).padStart(4, '0')}</span>
+                                <nav className="flex items-center gap-2 text-xs sm:text-[13px] font-semibold text-black/60 leading-[18px] mb-1">
+                                    <Link to="/purchase-orders" className="hover:text-black transition-colors">Purchase Order</Link>
+                                    <span className="text-black/40">›</span>
+                                    <span className="text-black font-semibold">Detail PO #{order.po_number || String(order.id).padStart(4, '0')}</span>
                                 </nav>
                                 <div className="flex items-center gap-3">
-                                    <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                                    <h1 className="text-2xl sm:text-[28px] lg:text-[32px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary leading-10 tracking-[-0.5px]">
                                         PO #{order.po_number || String(order.id).padStart(4, '0')}
                                     </h1>
-                                    <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${statusMeta.bg} ${statusMeta.text} ${statusMeta.border} capitalize`}>
+                                    <span className={`px-2.5 py-1 text-[11px] font-semibold leading-[14px] rounded-lg border ${statusMeta.bg} ${statusMeta.text} ${statusMeta.border} capitalize`}>
                                         {statusMeta.label}
                                     </span>
                                 </div>
-                                <p className="text-xs text-gray-500 mt-1">
-                                    Dibuat pada {formatDate(order.ordered_at || order.created_at)} oleh <span className="font-bold text-gray-700">{order.createdBy?.name || order.user?.name || 'N/A'}</span>
+                                <p className="text-[13px] font-normal leading-[18px] text-black/60 mt-1">
+                                    Dibuat pada {formatDate(order.ordered_at || order.created_at)} oleh <span className="font-semibold text-black">{order.createdBy?.name || order.user?.name || 'N/A'}</span>
                                 </p>
                             </div>
                         </div>
 
                         {/* Top Actions */}
                         <div className="flex items-center gap-2.5 self-start md:self-center">
-                            <button className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition-all duration-150 active:scale-[0.97]">
+                            <button className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold leading-5 tracking-[0.5px] text-black bg-transparent border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] hover:border-[#999999] transition-all duration-150 active:scale-[0.97]">
                                 <iconify-icon icon="solar:printer-linear" class="text-base"></iconify-icon>
                                 Cetak PDF
                             </button>
-                            <button className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-gray-700 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition-all duration-150 active:scale-[0.97]">
+                            <button className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold leading-5 tracking-[0.5px] text-black bg-transparent border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] hover:border-[#999999] transition-all duration-150 active:scale-[0.97]">
                                 <iconify-icon icon="solar:download-linear" class="text-base"></iconify-icon>
                                 Download
                             </button>
@@ -218,14 +218,14 @@ export default function PurchaseOrderShow() {
                                 <>
                                     <Link
                                         to={`/purchase-orders/${order.id}/edit`}
-                                        className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-brand-primary bg-brand-light/50 border border-brand-light rounded-xl hover:bg-brand-light transition"
+                                        className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold leading-5 tracking-[0.5px] text-black bg-transparent border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] hover:border-[#999999] transition-all duration-150 active:scale-[0.97]"
                                     >
                                         <iconify-icon icon="solar:pen-linear" class="text-base"></iconify-icon>
                                         Edit
                                     </Link>
                                     <button
                                         onClick={handleCancel}
-                                        className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-white bg-[#b91c1c] hover:bg-[#991b1b] rounded-xl shadow-sm transition-all duration-150 active:scale-[0.97]"
+                                        className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold leading-5 tracking-[0.5px] text-white bg-[#FF3B30] hover:bg-[#E03128] rounded-xl shadow-sm transition-all duration-150 active:scale-[0.97] border-0"
                                     >
                                         <iconify-icon icon="solar:close-square-linear" class="text-base"></iconify-icon>
                                         Batalkan PO
@@ -241,79 +241,79 @@ export default function PurchaseOrderShow() {
                         <div className="lg:col-span-8 space-y-6">
 
                             {/* 1. Informasi Pengiriman & Supplier Card */}
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-6">
-                                <h3 className="text-sm font-extrabold text-brand-dark flex items-center gap-2">
-                                    <iconify-icon icon="solar:delivery-linear" class="text-brand-primary text-lg"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-level-1 space-y-6">
+                                <h3 className="text-base font-semibold text-black tracking-[-0.3px] leading-6 flex items-center gap-2 mb-4">
+                                    <iconify-icon icon="solar:delivery-linear" class="text-black/60 text-lg"></iconify-icon>
                                     Informasi Pengiriman & Supplier
                                 </h3>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {/* Supplier Card */}
-                                    <div className="bg-brand-bg border border-brand-light rounded-xl p-4 flex gap-3.5">
-                                        <div className="w-10 h-10 rounded-lg bg-brand-light text-brand-primary flex items-center justify-center flex-shrink-0">
+                                    <div className="bg-neutral-50 border border-[#E6E6E6] rounded-xl p-4 flex gap-3.5">
+                                        <div className="w-10 h-10 rounded-lg bg-[#E6E6E6]/60 text-black flex items-center justify-center flex-shrink-0 shadow-sm">
                                             <iconify-icon icon="solar:users-group-rounded-bold" class="text-xl"></iconify-icon>
                                         </div>
                                         <div className="text-xs space-y-1">
-                                            <span className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wide block">Supplier</span>
-                                            <p className="font-bold text-brand-dark">{order.supplier?.name || '-'}</p>
-                                            <p className="text-gray-500 leading-normal">{order.supplier?.address || '-'}</p>
+                                            <span className="text-[11px] font-semibold text-black/50 uppercase tracking-wide leading-[14px] block mb-0.5">Supplier</span>
+                                            <p className="text-sm font-semibold leading-5 text-black">{order.supplier?.name || '-'}</p>
+                                            <p className="text-[13px] font-normal leading-[18px] text-black/60">{order.supplier?.address || '-'}</p>
                                         </div>
                                     </div>
 
                                     {/* Shipping Address Card */}
-                                    <div className="bg-brand-bg border border-brand-light rounded-xl p-4 flex gap-3.5">
-                                        <div className="w-10 h-10 rounded-lg bg-brand-light text-brand-primary flex items-center justify-center flex-shrink-0">
+                                    <div className="bg-neutral-50 border border-[#E6E6E6] rounded-xl p-4 flex gap-3.5">
+                                        <div className="w-10 h-10 rounded-lg bg-[#E6E6E6]/60 text-black flex items-center justify-center flex-shrink-0 shadow-sm">
                                             <iconify-icon icon="solar:map-point-bold" class="text-xl"></iconify-icon>
                                         </div>
                                         <div className="text-xs space-y-1">
-                                            <span className="text-[10px] font-bold text-brand-primary/60 capitalize tracking-wide block">Alamat Pengiriman</span>
-                                            <p className="font-bold text-brand-dark">{order.delivery_location || 'Gudang Utama - Jakarta Central'}</p>
-                                            <p className="text-gray-500 leading-normal">Jl. Gatot Subroto No. 45, Kuningan Timur, Setiabudi, Jakarta Selatan 12950</p>
+                                            <span className="text-[11px] font-semibold text-black/50 uppercase tracking-wide leading-[14px] block mb-0.5">Alamat Pengiriman</span>
+                                            <p className="text-sm font-semibold leading-5 text-black">{order.delivery_location || 'Gudang Utama - Jakarta Central'}</p>
+                                            <p className="text-[13px] font-normal leading-[18px] text-black/60">Jl. Gatot Subroto No. 45, Kuningan Timur, Setiabudi, Jakarta Selatan 12950</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Metadata metrics */}
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-2 border-t border-brand-light/50">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-4 border-t border-[#E6E6E6]">
                                     <div className="text-xs space-y-1">
-                                        <span className="text-[10px] font-bold text-gray-400 capitalize flex items-center gap-1">
+                                        <span className="text-[11px] font-semibold text-black/50 uppercase leading-[14px] flex items-center gap-1">
                                             <iconify-icon icon="solar:card-linear" class="text-base"></iconify-icon> ID Supplier
                                         </span>
-                                        <p className="font-bold text-gray-900">{order.supplier?.code || 'SUP-002931'}</p>
+                                        <p className="text-[13px] font-semibold leading-[18px] text-black">{order.supplier?.code || 'SUP-002931'}</p>
                                     </div>
                                     <div className="text-xs space-y-1">
-                                        <span className="text-[10px] font-bold text-gray-400 capitalize flex items-center gap-1">
+                                        <span className="text-[11px] font-semibold text-black/50 uppercase leading-[14px] flex items-center gap-1">
                                             <iconify-icon icon="solar:wallet-linear" class="text-base"></iconify-icon> Metode Bayar
                                         </span>
-                                        <p className="font-bold text-gray-900">{order.payment_term || 'Net 30 Days'}</p>
+                                        <p className="text-[13px] font-semibold leading-[18px] text-black">{order.payment_term || 'Net 30 Days'}</p>
                                     </div>
                                     <div className="text-xs space-y-1">
-                                        <span className="text-[10px] font-bold text-gray-400 capitalize flex items-center gap-1">
+                                        <span className="text-[11px] font-semibold text-black/50 uppercase leading-[14px] flex items-center gap-1">
                                             <iconify-icon icon="solar:calendar-minimalistic-linear" class="text-base"></iconify-icon> Est. Pengiriman
                                         </span>
-                                        <p className="font-bold text-gray-900">{formatDate(order.delivery_date) || '-'}</p>
+                                        <p className="text-[13px] font-semibold leading-[18px] text-black">{formatDate(order.delivery_date) || '-'}</p>
                                     </div>
                                     <div className="text-xs space-y-1">
-                                        <span className="text-[10px] font-bold text-gray-400 capitalize flex items-center gap-1">
+                                        <span className="text-[11px] font-semibold text-black/50 uppercase leading-[14px] flex items-center gap-1">
                                             <iconify-icon icon="solar:user-circle-linear" class="text-base"></iconify-icon> PIC Penerima
                                         </span>
-                                        <p className="font-bold text-gray-900">Budi Santoso</p>
+                                        <p className="text-[13px] font-semibold leading-[18px] text-black">Budi Santoso</p>
                                     </div>
                                 </div>
                             </div>
 
                             {/* 2. Rincian Barang & Jasa Table */}
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
-                                <div className="flex items-center justify-between border-b border-brand-light/50 pb-3">
-                                    <h3 class="text-sm font-extrabold text-brand-dark flex items-center gap-2">
-                                        <iconify-icon icon="solar:box-linear" class="text-brand-primary text-lg"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-level-1 space-y-4">
+                                <div className="flex items-center justify-between border-b border-[#E6E6E6] pb-3 mb-4">
+                                    <h3 className="text-base font-semibold text-black tracking-[-0.3px] leading-6 flex items-center gap-2">
+                                        <iconify-icon icon="solar:box-linear" class="text-black/60 text-lg"></iconify-icon>
                                         Rincian Barang & Jasa
                                     </h3>
 
                                     {order.status === 'approved' && (
                                         <button
                                             onClick={handleReceive}
-                                            className="flex items-center gap-1.5 bg-brand-primary hover:bg-brand-secondary text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition-all duration-150 active:scale-[0.97]"
+                                            className="flex items-center gap-1.5 bg-[#BFFF00] hover:bg-[#C8FF5E] hover:shadow-[0_4px_12px_rgba(191,255,0,0.3)] text-black px-4 py-2 rounded-xl text-sm font-semibold leading-5 tracking-[0.5px] shadow-md transition-all duration-150 active:scale-[0.97]"
                                         >
                                             <iconify-icon icon="solar:box-linear" class="text-base"></iconify-icon>
                                             Terima Barang
@@ -324,17 +324,17 @@ export default function PurchaseOrderShow() {
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left min-w-[700px]">
                                         <thead>
-                                            <tr className="text-[10px] font-bold text-gray-400 bg-gray-50 border-b border-brand-light capitalize">
-                                                <th className="px-4 py-3">Informasi Item</th>
-                                                <th className="px-3 py-3 text-center">Qty Dipesan</th>
-                                                <th className="px-3 py-3 text-center">Qty Diterima</th>
-                                                <th className="px-3 py-3">Satuan</th>
-                                                <th className="px-3 py-3 text-right">Harga Satuan</th>
-                                                <th className="px-3 py-3 text-right">Pajak (11%)</th>
-                                                <th className="px-4 py-3 text-right">Subtotal</th>
+                                            <tr className="text-xs font-semibold text-black/60 bg-[#E6E6E6]/40 border-b border-[#E6E6E6] capitalize leading-4">
+                                                <th className="px-4 py-3 pb-3 border-b border-[#E6E6E6]">Informasi Item</th>
+                                                <th className="px-3 py-3 pb-3 border-b border-[#E6E6E6] text-center">Qty Dipesan</th>
+                                                <th className="px-3 py-3 pb-3 border-b border-[#E6E6E6] text-center">Qty Diterima</th>
+                                                <th className="px-3 py-3 pb-3 border-b border-[#E6E6E6]">Satuan</th>
+                                                <th className="px-3 py-3 pb-3 border-b border-[#E6E6E6] text-right">Harga Satuan</th>
+                                                <th className="px-3 py-3 pb-3 border-b border-[#E6E6E6] text-right">Pajak (11%)</th>
+                                                <th className="px-4 py-3 pb-3 border-b border-[#E6E6E6] text-right">Subtotal</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="text-xs divide-y divide-brand-light/50">
+                                        <tbody className="text-[13px] font-normal leading-[18px] divide-y divide-[#E6E6E6]">
                                             {order.items?.map((item) => {
                                                 const itemName = item.inventory?.name || 'Item N/A'
                                                 const itemCode = item.inventory?.category?.name || 'Bahan Baku'
@@ -343,32 +343,32 @@ export default function PurchaseOrderShow() {
                                                 const finalSub = subtotal + taxAmount
 
                                                 return (
-                                                    <tr key={item.id} className="hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all cursor-pointer">
+                                                    <tr key={item.id} className="hover:bg-[#E6E6E6]/20 transition-all cursor-pointer">
                                                         <td className="px-4 py-4">
-                                                            <p className="font-bold text-gray-900">{itemName}</p>
-                                                            <p className="text-[10px] text-gray-400 mt-0.5 tracking-wider capitalize font-bold">{itemCode}</p>
+                                                            <p className="text-sm font-semibold leading-5 text-black">{itemName}</p>
+                                                            <p className="text-[11px] font-semibold leading-[14px] text-black/50 mt-0.5 tracking-wider capitalize">{itemCode}</p>
                                                         </td>
-                                                        <td className="px-3 py-4 text-center font-bold text-gray-800">
+                                                        <td className="px-3 py-4 text-center font-semibold text-black text-[13px] leading-[18px]">
                                                             {item.qty}
                                                         </td>
                                                         <td className="px-3 py-4 text-center">
-                                                            <span className={`px-2 py-0.5 rounded font-bold text-[10px] border 
+                                                            <span className={`px-2 py-0.5 rounded-lg font-semibold text-[11px] leading-[14px] border 
                                                                 ${order.status === 'received'
-                                                                    ? 'bg-[#ecfdf5] text-[#065f46] border-[#d1fae5]'
-                                                                    : 'bg-gray-100 text-gray-400 border-gray-200'}`}>
+                                                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
+                                                                    : 'bg-neutral-100 text-black/40 border-[#D0D0D0]'}`}>
                                                                 {order.status === 'received' ? item.qty : 0}
                                                             </span>
                                                         </td>
-                                                        <td className="px-3 py-4 text-gray-500 font-medium">
+                                                        <td className="px-3 py-4 text-black/60 font-normal text-[13px] leading-[18px]">
                                                             {item.unit || 'Unit'}
                                                         </td>
-                                                        <td className="px-3 py-4 text-right font-black text-brand-secondary">
+                                                        <td className="px-3 py-4 text-right font-semibold text-black text-[13px] leading-[18px]">
                                                             {formatRupiah(item.price_per_unit)}
                                                         </td>
-                                                        <td className="px-3 py-4 text-right font-black text-brand-secondary">
+                                                        <td className="px-3 py-4 text-right font-semibold text-black text-[13px] leading-[18px]">
                                                             {formatRupiah(taxAmount)}
                                                         </td>
-                                                        <td className="px-4 py-4 text-right font-black text-brand-secondary">
+                                                        <td className="px-4 py-4 text-right font-semibold text-black text-[13px] leading-[18px]">
                                                             {formatRupiah(finalSub)}
                                                         </td>
                                                     </tr>
@@ -376,21 +376,21 @@ export default function PurchaseOrderShow() {
                                             })}
 
                                             {/* Cost Calculations */}
-                                            <tr className="bg-gray-50/50 font-bold border-t border-brand-light">
-                                                <td colSpan="6" className="px-6 py-4 text-right text-gray-900 text-xs">Total Pembelian (Sebelum Pajak)</td>
-                                                <td className="px-4 py-4 text-right text-xs font-black text-brand-secondary">
+                                            <tr className="bg-[#E6E6E6]/10 font-semibold border-t border-[#E6E6E6]">
+                                                <td colSpan="6" className="px-6 py-4 text-right text-black/60 text-[13px] font-semibold leading-[18px]">Total Pembelian (Sebelum Pajak)</td>
+                                                <td className="px-4 py-4 text-right text-[13px] font-semibold leading-[18px] text-black">
                                                     {formatRupiah(order.total_amount)}
                                                 </td>
                                             </tr>
-                                            <tr className="bg-gray-50/50 font-bold">
-                                                <td colSpan="6" className="px-6 py-4 text-right text-gray-900 text-xs">Total PPN (11%)</td>
-                                                <td className="px-4 py-4 text-right text-xs font-black text-brand-secondary">
+                                            <tr className="bg-[#E6E6E6]/10 font-semibold">
+                                                <td colSpan="6" className="px-6 py-4 text-right text-black/60 text-[13px] font-semibold leading-[18px]">Total PPN (11%)</td>
+                                                <td className="px-4 py-4 text-right text-[13px] font-semibold leading-[18px] text-black">
                                                     {formatRupiah(order.total_amount * 0.11)}
                                                 </td>
                                             </tr>
-                                            <tr className="bg-gray-50/50 font-bold">
-                                                <td colSpan="6" className="px-6 py-4 text-right text-brand-primary text-xs">Total Pembayaran Keseluruhan</td>
-                                                <td className="px-4 py-4 text-right text-sm font-black text-brand-secondary">
+                                            <tr className="bg-[#E6E6E6]/10 font-semibold border-b border-[#E6E6E6]">
+                                                <td colSpan="6" className="px-6 py-4 text-right text-sm font-semibold leading-5 text-black">Total Pembayaran Keseluruhan</td>
+                                                <td className="px-4 py-4 text-right text-lg font-extrabold leading-6 text-black">
                                                     {formatRupiah(order.total_amount * 1.11)}
                                                 </td>
                                             </tr>
@@ -399,9 +399,9 @@ export default function PurchaseOrderShow() {
                                 </div>
 
                                 {/* Terms & Notes under table */}
-                                <div className="pt-4 border-t border-brand-light/50">
-                                    <span className="text-[10px] font-bold text-gray-400 capitalize tracking-wide block mb-1">Catatan & Syarat</span>
-                                    <p className="text-[11px] text-gray-500 leading-normal italic bg-gray-50 p-4 rounded-xl border border-gray-100">
+                                <div className="pt-4 border-t border-[#E6E6E6]">
+                                    <span className="text-[11px] font-semibold text-black/50 uppercase tracking-wide leading-[14px] block mb-1">Catatan & Syarat</span>
+                                    <p className="text-xs font-normal leading-4 text-black/60 italic bg-neutral-50 p-4 rounded-xl border border-[#E6E6E6]">
                                         {order.notes || "*Barang harap dikirimkan sebelum jam operasional gudang berakhir (17:00 WIB). Lampirkan surat jalan asli dan copy PO saat pengiriman."}
                                     </p>
                                 </div>
@@ -413,35 +413,35 @@ export default function PurchaseOrderShow() {
                         <div className="lg:col-span-4 space-y-6">
 
                             {/* 1. Status Persetujuan */}
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-6">
-                                <h3 className="text-xs font-bold text-gray-900 flex items-center gap-2 uppercase tracking-wide">
-                                    <iconify-icon icon="solar:history-linear" class="text-brand-primary text-base"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-level-1 space-y-6">
+                                <h3 className="text-xs font-semibold text-black flex items-center gap-2 uppercase tracking-wider leading-4 mb-4">
+                                    <iconify-icon icon="solar:history-linear" class="text-black/60 text-base"></iconify-icon>
                                     Status Persetujuan
                                 </h3>
 
-                                <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-brand-light">
+                                <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-[#E6E6E6]">
 
                                     {/* Creator ( Sarah Admin ) */}
                                     <div className="relative pl-8">
-                                        <span className="absolute left-0 top-1.5 w-4 h-4 bg-[#059669] border-4 border-white rounded-full"></span>
+                                        <span className="absolute left-0 top-1.5 w-4 h-4 bg-emerald-500 border-4 border-white rounded-full"></span>
                                         <div className="text-xs">
-                                            <p className="font-bold text-gray-900">Sarah Admin</p>
-                                            <p className="text-[10px] text-gray-400 mt-0.5">Creator • {formatDate(order.created_at, true)}</p>
-                                            <span className="inline-block mt-1 px-2 py-0.5 text-[9px] font-bold bg-[#ecfdf5] text-[#065f46] border border-[#d1fae5] rounded">Approved</span>
+                                            <p className="text-sm font-semibold leading-5 text-black">Sarah Admin</p>
+                                            <p className="text-xs font-normal leading-4 text-black/50 mt-0.5">Creator • {formatDate(order.created_at, true)}</p>
+                                            <span className="inline-block mt-1 px-2 py-0.5 text-[11px] font-semibold leading-[14px] bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-lg">Approved</span>
                                         </div>
                                     </div>
 
                                     {/* Level 1 Approval ( Jane Manager ) */}
                                     <div className="relative pl-8">
                                         <span className={`absolute left-0 top-1.5 w-4 h-4 border-4 border-white rounded-full 
-                                            ${order.status !== 'pending' && order.status !== 'rejected' ? 'bg-[#059669]' : 'bg-gray-300'}`} />
+                                            ${order.status !== 'pending' && order.status !== 'rejected' ? 'bg-emerald-500' : 'bg-black/20'}`} />
                                         <div className="text-xs">
-                                            <p className="font-bold text-gray-900">Jane Manager</p>
-                                            <p className="text-[10px] text-gray-400 mt-0.5">Operational Manager • 14 Okt 2024, 11:45</p>
-                                            <span className={`inline-block mt-1 px-2 py-0.5 text-[9px] font-bold border rounded 
+                                            <p className="text-sm font-semibold leading-5 text-black">Jane Manager</p>
+                                            <p className="text-xs font-normal leading-4 text-black/50 mt-0.5">Operational Manager • 14 Okt 2024, 11:45</p>
+                                            <span className={`inline-block mt-1 px-2 py-0.5 text-[11px] font-semibold leading-[14px] border rounded-lg 
                                                 ${order.status !== 'pending' && order.status !== 'rejected'
-                                                    ? 'bg-[#ecfdf5] text-[#065f46] border-[#d1fae5]'
-                                                    : 'bg-gray-100 text-gray-400 border-gray-200'}`}>
+                                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
+                                                    : 'bg-neutral-100 text-black/40 border-[#D0D0D0]'}`}>
                                                 {order.status !== 'pending' && order.status !== 'rejected' ? 'Approved' : 'Waiting...'}
                                             </span>
                                         </div>
@@ -451,19 +451,19 @@ export default function PurchaseOrderShow() {
                                     <div className="relative pl-8">
                                         <span className={`absolute left-0 top-1.5 w-4 h-4 border-4 border-white rounded-full 
                                             ${order.status === 'approved' || order.status === 'received'
-                                                ? 'bg-[#059669]'
+                                                ? 'bg-emerald-500'
                                                 : order.status === 'rejected'
-                                                    ? 'bg-[#b91c1c]'
-                                                    : 'bg-[#92400e]'}`} />
+                                                    ? 'bg-rose-500'
+                                                    : 'bg-amber-500'}`} />
                                         <div className="text-xs">
-                                            <p className="font-bold text-gray-900">Alex Manager</p>
-                                            <p className="text-[10px] text-gray-400 mt-0.5">Finance Owner • {order.status === 'pending' ? 'Waiting...' : 'Processed'}</p>
-                                            <span className={`inline-block mt-1 px-2 py-0.5 text-[9px] font-bold border rounded 
+                                            <p className="text-sm font-semibold leading-5 text-black">Alex Manager</p>
+                                            <p className="text-xs font-normal leading-4 text-black/50 mt-0.5">Finance Owner • {order.status === 'pending' ? 'Waiting...' : 'Processed'}</p>
+                                            <span className={`inline-block mt-1 px-2 py-0.5 text-[11px] font-semibold leading-[14px] border rounded-lg 
                                                 ${order.status === 'approved' || order.status === 'received'
-                                                    ? 'bg-[#ecfdf5] text-[#065f46] border-[#d1fae5]'
+                                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
                                                     : order.status === 'rejected'
-                                                        ? 'bg-[#fef2f2] text-[#991b1b] border-[#fecaca]'
-                                                        : 'bg-[#fffbeb] text-[#92400e] border-[#fde68a]'}`}>
+                                                        ? 'bg-rose-50 text-rose-700 border-rose-100'
+                                                        : 'bg-amber-50 text-amber-700 border-amber-100'}`}>
                                                 {order.status === 'approved' || order.status === 'received' ? 'Approved' : order.status === 'rejected' ? 'Rejected' : 'Pending'}
                                             </span>
                                         </div>
@@ -472,14 +472,14 @@ export default function PurchaseOrderShow() {
 
                                 {/* Dynamic Approval Actions (Role-based, showing for Alex Manager or Admin) */}
                                 {order.status === 'pending' && (
-                                    <div className="pt-4 border-t border-brand-light/50 space-y-2.5">
-                                        <span className="text-[10px] font-bold text-gray-400 capitalize tracking-wide block">Aksi Persetujuan (Role: Owner / Admin)</span>
+                                    <div className="pt-4 border-t border-[#E6E6E6] space-y-2.5">
+                                        <span className="text-xs font-semibold leading-4 tracking-wide text-black/40 uppercase block mb-2">Aksi Persetujuan (Role: Owner / Admin)</span>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                                             <button
                                                 type="button"
                                                 onClick={handleApprove}
-                                                className="w-full bg-[#059669] hover:bg-[#065f46] text-white py-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 text-xs transition-all duration-150 active:scale-[0.97]"
+                                                className="w-full bg-[#BFFF00] hover:bg-[#C8FF5E] hover:shadow-[0_4px_12px_rgba(191,255,0,0.3)] text-black py-2.5 rounded-xl font-semibold flex items-center justify-center gap-1.5 text-sm leading-5 tracking-[0.5px] transition-all duration-150 active:scale-[0.97]"
                                             >
                                                 <iconify-icon icon="solar:check-circle-linear" class="text-base"></iconify-icon>
                                                 Setujui PO
@@ -487,7 +487,7 @@ export default function PurchaseOrderShow() {
                                             <button
                                                 type="button"
                                                 onClick={handleReject}
-                                                className="w-full border border-[#fecaca] hover:bg-[#fef2f2] text-[#991b1b] py-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 text-xs transition-all duration-150 active:scale-[0.97]"
+                                                className="w-full border border-[#D0D0D0] hover:bg-[#E6E6E6] text-black py-2.5 rounded-xl font-semibold flex items-center justify-center gap-1.5 text-sm leading-5 tracking-[0.5px] transition-all duration-150 active:scale-[0.97]"
                                             >
                                                 <iconify-icon icon="solar:close-circle-linear" class="text-base"></iconify-icon>
                                                 Tolak
@@ -498,23 +498,23 @@ export default function PurchaseOrderShow() {
                             </div>
 
                             {/* 2. Jejak Audit & Aktivitas */}
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-6">
-                                <h3 className="text-xs font-bold text-gray-900 flex items-center gap-2 capitalize tracking-wide">
-                                    <iconify-icon icon="solar:history-linear" class="text-brand-primary text-base"></iconify-icon>
+                            <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-level-1 space-y-6">
+                                <h3 className="text-xs font-semibold text-black flex items-center gap-2 uppercase tracking-wider leading-4 mb-4">
+                                    <iconify-icon icon="solar:history-linear" class="text-black/60 text-base"></iconify-icon>
                                     Jejak Audit & Aktivitas
                                 </h3>
 
-                                <div className="space-y-5 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-brand-light">
+                                <div className="space-y-5 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-[#E6E6E6]">
                                     {auditLogs && auditLogs.length > 0 ? (
                                         auditLogs.map((log) => (
                                             <div key={log.id} className="relative pl-8">
-                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-brand-primary border-4 border-white rounded-full"></span>
+                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-black/60 border-4 border-white rounded-full"></span>
                                                 <div className="flex justify-between items-start text-xs">
                                                     <div>
-                                                        <p className="font-bold text-gray-900">{log.action}</p>
-                                                        <p className="text-[10px] text-gray-400 mt-0.5">Oleh {log.user?.name || 'System'}</p>
+                                                        <p className="text-[13px] font-semibold leading-[18px] text-black">{log.action}</p>
+                                                        <p className="text-xs font-normal leading-4 text-black/50 mt-0.5">Oleh {log.user?.name || 'System'}</p>
                                                     </div>
-                                                    <span className="text-[9px] text-gray-400 font-bold">{formatDate(log.created_at, true)}</span>
+                                                    <span className="text-xs font-semibold leading-4 text-black/40">{formatDate(log.created_at, true)}</span>
                                                 </div>
                                             </div>
                                         ))
@@ -522,13 +522,13 @@ export default function PurchaseOrderShow() {
                                         <>
                                             {/* Static fallback timeline matching mockup */}
                                             <div className="relative pl-8">
-                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-gray-400 border-4 border-white rounded-full"></span>
+                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-black/60 border-4 border-white rounded-full"></span>
                                                 <div className="flex justify-between items-start text-xs">
                                                     <div>
-                                                        <p className="font-bold text-gray-900">PO Baru Dibuat (Draft)</p>
-                                                        <p className="text-[10px] text-gray-400 mt-0.5">Oleh Sarah Admin</p>
+                                                        <p className="text-[13px] font-semibold leading-[18px] text-black">PO Baru Dibuat (Draft)</p>
+                                                        <p className="text-xs font-normal leading-4 text-black/50 mt-0.5">Oleh Sarah Admin</p>
                                                     </div>
-                                                    <span className="text-[9px] text-gray-400 font-bold">14/10/24 09:12</span>
+                                                    <span className="text-xs font-semibold leading-4 text-black/40">14/10/24 09:12</span>
                                                 </div>
                                             </div>
 
@@ -536,39 +536,39 @@ export default function PurchaseOrderShow() {
                                                 <span className="absolute left-0 top-1.5 w-4 h-4 bg-indigo-500 border-4 border-white rounded-full"></span>
                                                 <div className="flex justify-between items-start text-xs">
                                                     <div>
-                                                        <p className="font-bold text-gray-900">Dikirim untuk Persetujuan</p>
-                                                        <p className="text-[10px] text-gray-400 mt-0.5">Oleh Sarah Admin</p>
+                                                        <p className="text-[13px] font-semibold leading-[18px] text-black">Dikirim untuk Persetujuan</p>
+                                                        <p className="text-xs font-normal leading-4 text-black/50 mt-0.5">Oleh Sarah Admin</p>
                                                     </div>
-                                                    <span className="text-[9px] text-gray-400 font-bold">14/10/24 09:15</span>
+                                                    <span className="text-xs font-semibold leading-4 text-black/40">14/10/24 09:15</span>
                                                 </div>
                                             </div>
 
                                             <div className="relative pl-8">
-                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-[#92400e] border-4 border-white rounded-full"></span>
+                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-amber-500 border-4 border-white rounded-full"></span>
                                                 <div className="flex justify-between items-start text-xs">
                                                     <div>
-                                                        <p className="font-bold text-gray-900">Ditinjau oleh Ops Manager</p>
-                                                        <p className="text-[10px] text-gray-400 mt-0.5">Oleh Jane Manager</p>
+                                                        <p className="text-[13px] font-semibold leading-[18px] text-black">Ditinjau oleh Ops Manager</p>
+                                                        <p className="text-xs font-normal leading-4 text-black/50 mt-0.5">Oleh Jane Manager</p>
                                                     </div>
-                                                    <span className="text-[9px] text-gray-400 font-bold">14/10/24 10:30</span>
+                                                    <span className="text-xs font-semibold leading-4 text-black/40">14/10/24 10:30</span>
                                                 </div>
                                             </div>
 
                                             <div className="relative pl-8">
-                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-[#059669] border-4 border-white rounded-full"></span>
+                                                <span className="absolute left-0 top-1.5 w-4 h-4 bg-emerald-500 border-4 border-white rounded-full"></span>
                                                 <div className="flex justify-between items-start text-xs">
                                                     <div>
-                                                        <p className="font-bold text-gray-900">Disetujui Level 1</p>
-                                                        <p className="text-[10px] text-gray-400 mt-0.5">Oleh Jane Manager</p>
+                                                        <p className="text-[13px] font-semibold leading-[18px] text-black">Disetujui Level 1</p>
+                                                        <p className="text-xs font-normal leading-4 text-black/50 mt-0.5">Oleh Jane Manager</p>
                                                     </div>
-                                                    <span className="text-[9px] text-gray-400 font-bold">14/10/24 11:45</span>
+                                                    <span className="text-xs font-semibold leading-4 text-black/40">14/10/24 11:45</span>
                                                 </div>
                                             </div>
                                         </>
                                     )}
                                 </div>
 
-                                <a href="#" className="block text-center text-brand-primary hover:text-brand-secondary font-bold text-xs mt-6 transition-colors">
+                                <a href="#" className="block text-center text-sm font-semibold leading-5 text-black hover:underline mt-6 transition-colors">
                                     Lihat Semua Aktivitas
                                 </a>
                             </div>
@@ -580,12 +580,12 @@ export default function PurchaseOrderShow() {
                 </div>
 
                 {/* Footer bar */}
-                <div className="border-t border-brand-light bg-white px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-2 mt-6">
-                    <p className="text-[10px] text-gray-400">© 2024 Purchase Order Management System</p>
-                    <div className="flex items-center gap-4 text-[10px] text-gray-400">
-                        <a href="#" className="hover:text-brand-primary transition-colors">Support</a>
-                        <a href="#" className="hover:text-brand-primary transition-colors">Privacy Policy</a>
-                        <a href="#" className="hover:text-brand-primary transition-colors">Terms of Service</a>
+                <div className="border-t border-[#E6E6E6] bg-white px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-2 mt-6">
+                    <p className="text-[10px] text-black/40">© 2024 Purchase Order Management System</p>
+                    <div className="flex items-center gap-4 text-[10px] text-black/40">
+                        <a href="#" className="hover:text-black transition-colors">Support</a>
+                        <a href="#" className="hover:text-black transition-colors">Privacy Policy</a>
+                        <a href="#" className="hover:text-black transition-colors">Terms of Service</a>
                     </div>
                 </div>
             </div>

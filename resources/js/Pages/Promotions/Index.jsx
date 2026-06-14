@@ -276,20 +276,20 @@ export default function PromotionsIndex() {
         datasets: [{
             label: 'Jumlah Penebusan Promo',
             data: chartData,
-            borderColor: getBrandColor('--color-brand-secondary', '68, 61, 255'),
+            borderColor: '#0E0E0E',
             backgroundColor: (context) => {
                 const chart = context.chart;
                 const ctx = chart?.ctx;
-                if (!ctx) return getBrandColor('--color-brand-secondary', '68, 61, 255', 0.08);
+                if (!ctx) return 'rgba(14, 14, 14, 0.04)';
                 const gradient = ctx.createLinearGradient(0, 0, 0, 220);
-                gradient.addColorStop(0, getBrandColor('--color-brand-secondary', '68, 61, 255', 0.18));
-                gradient.addColorStop(1, getBrandColor('--color-brand-secondary', '68, 61, 255', 0.00));
+                gradient.addColorStop(0, 'rgba(14, 14, 14, 0.12)');
+                gradient.addColorStop(1, 'rgba(14, 14, 14, 0.00)');
                 return gradient;
             },
             borderWidth: 2.5,
             pointRadius: 4,
-            pointBackgroundColor: getBrandColor('--color-brand-secondary', '68, 61, 255'),
-            pointBorderColor: '#fff',
+            pointBackgroundColor: '#0E0E0E',
+            pointBorderColor: '#ffffff',
             pointBorderWidth: 2,
             tension: 0.45,
             fill: true,
@@ -302,8 +302,8 @@ export default function PromotionsIndex() {
         plugins: {
             legend: { display: false },
             tooltip: {
-                backgroundColor: getBrandColor('--color-brand-dark', '5, 3, 22'),
-                titleColor: getBrandColor('--color-brand-light', '221, 219, 255'),
+                backgroundColor: '#0E0E0E',
+                titleColor: '#999999',
                 bodyColor: '#fff',
                 padding: 10,
                 cornerRadius: 10,
@@ -313,18 +313,18 @@ export default function PromotionsIndex() {
         scales: {
             x: {
                 grid: { display: false },
-                ticks: { color: getBrandColor('--color-brand-primary', '47, 39, 206'), font: { weight: '700', size: 11 } },
+                ticks: { color: '#666666', font: { weight: '500', size: 11 } },
             },
             y: {
                 border: { dash: [4, 4] },
-                grid: { color: getBrandColor('--color-brand-light', '221, 219, 255', 0.4) },
-                ticks: { color: getBrandColor('--color-brand-primary', '47, 39, 206'), font: { size: 10, weight: '600' } },
+                grid: { color: '#E6E6E6' },
+                ticks: { color: '#666666', font: { size: 10, weight: '500' } },
             },
         },
     };
 
     // Input class reusable
-    const inputCls = "w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 py-2.5 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 outline-none focus:ring-4 focus:ring-brand-light/50 focus:border-brand-secondary transition-all shadow-sm";
+    const inputCls = "w-full h-11 bg-white border border-[#D0D0D0] rounded-xl px-4 py-2.5 text-sm font-normal text-black placeholder-[#999999] placeholder:italic outline-none focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10 transition-all";
 
     if (loading) {
         return (
@@ -364,16 +364,16 @@ export default function PromotionsIndex() {
                 {/* ── HEADER ── */}
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-center justify-between">
                     <div>
-                        <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                        <h1 className="text-2xl sm:text-[28px] lg:text-[32px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                             Promosi & Bundling
                         </h1>
-                        <p className="text-xs md:text-sm text-brand-primary/60 font-medium mt-1">
+                        <p className="text-xs md:text-sm text-black/60 font-medium mt-1">
                             Kelola kampanye pemasaran dan tingkatkan penjualan dengan penawaran menarik.
                         </p>
                     </div>
                     <button
                         onClick={() => { promoForm.reset(); bundleForm.reset(); setIsCreateModalOpen(true); }}
-                        className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.97] text-[13px] self-start"
+                        className="bg-[#BFFF00] text-black hover:bg-[#C8FF5E] hover:shadow-[0_4px_12px_rgba(191,255,0,0.3)] transition-all flex items-center gap-2 active:scale-[0.98] text-sm font-semibold rounded-xl px-6 py-2.5 self-start"
                     >
                         <Icon icon="solar:add-circle-linear" className="text-lg" />
                         Buat Promo Baru
@@ -383,94 +383,94 @@ export default function PromotionsIndex() {
                 {/* ── STAT CARDS ── */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
                     {/* Card 1 */}
-                    <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
-                        <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm">
-                            <Icon icon="solar:ticket-linear" className="text-[22px] text-brand-secondary" />
+                    <div className="bg-white border border-[#E6E6E6] p-5 rounded-2xl shadow-level-1 flex items-center gap-4 stat-card-glow transition-all duration-300 group">
+                        <div className="w-11 h-11 rounded-xl bg-[#E6E6E6]/50 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm text-black">
+                            <Icon icon="solar:ticket-linear" className="text-[22px]" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">Total Redemptions</p>
-                            <p className="text-2xl font-black text-brand-secondary leading-tight">{formatRp(totalRedemptions)}</p>
-                            <p className="text-[10px] font-extrabold text-emerald-600 mt-0.5">+12% <span className="font-medium text-brand-primary/60">bulan ini</span></p>
+                            <p className="text-xs font-semibold text-black/60 tracking-tight">Total Redemptions</p>
+                            <p className="text-2xl font-extrabold text-brand-dark leading-tight">{formatRp(totalRedemptions)}</p>
+                            <p className="text-xs font-semibold text-emerald-600 mt-0.5">+12% <span className="font-medium text-black/60">bulan ini</span></p>
                         </div>
                     </div>
 
                     {/* Card 2 */}
-                    <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
-                        <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm">
-                            <Icon icon="solar:graph-up-linear" className="text-[22px] text-brand-secondary" />
+                    <div className="bg-white border border-[#E6E6E6] p-5 rounded-2xl shadow-level-1 flex items-center gap-4 stat-card-glow transition-all duration-300 group">
+                        <div className="w-11 h-11 rounded-xl bg-[#E6E6E6]/50 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm text-black">
+                            <Icon icon="solar:graph-up-linear" className="text-[22px]" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">Estimasi Revenue</p>
-                            <p className="text-xl font-black text-brand-secondary leading-tight">
+                            <p className="text-xs font-semibold text-black/60 tracking-tight">Estimasi Revenue</p>
+                            <p className="text-xl font-extrabold text-brand-dark leading-tight">
                                 Rp {(estimasiRevenue / 1000000).toFixed(2)}M
                             </p>
-                            <p className="text-[10px] font-extrabold text-emerald-600 mt-0.5">+8.4% <span className="font-medium text-brand-primary/60">vs bulan lalu</span></p>
+                            <p className="text-xs font-semibold text-emerald-600 mt-0.5">+8.4% <span className="font-medium text-black/60">vs bulan lalu</span></p>
                         </div>
                     </div>
 
                     {/* Card 3 */}
-                    <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
-                        <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm">
-                            <Icon icon="solar:tag-linear" className="text-[22px] text-brand-secondary" />
+                    <div className="bg-white border border-[#E6E6E6] p-5 rounded-2xl shadow-level-1 flex items-center gap-4 stat-card-glow transition-all duration-300 group">
+                        <div className="w-11 h-11 rounded-xl bg-[#E6E6E6]/50 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm text-black">
+                            <Icon icon="solar:tag-linear" className="text-[22px]" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">Kampanye Aktif</p>
+                            <p className="text-xs font-semibold text-black/60 tracking-tight">Kampanye Aktif</p>
                             <p className="text-2xl font-extrabold text-brand-dark leading-tight">{kampanyeAktif}</p>
-                            <p className="text-[10px] font-extrabold text-amber-500 mt-0.5">2 akan berakhir</p>
+                            <p className="text-xs font-semibold text-amber-600 mt-0.5">2 akan berakhir</p>
                         </div>
                     </div>
 
                     {/* Card 4 */}
-                    <div className="bg-white border border-brand-light p-5 rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
-                        <div className="w-11 h-11 rounded-xl bg-brand-light flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm">
-                            <Icon icon="solar:star-linear" className="text-[22px] text-brand-secondary" />
+                    <div className="bg-white border border-[#E6E6E6] p-5 rounded-2xl shadow-level-1 flex items-center gap-4 stat-card-glow transition-all duration-300 group">
+                        <div className="w-11 h-11 rounded-xl bg-[#E6E6E6]/50 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm text-black">
+                            <Icon icon="solar:star-linear" className="text-[22px]" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest">Efisiensi Promo</p>
+                            <p className="text-xs font-semibold text-black/60 tracking-tight">Efisiensi Promo</p>
                             <p className="text-2xl font-extrabold text-brand-dark leading-tight">{efisiensiPromo}%</p>
-                            <p className="text-[10px] font-extrabold text-emerald-600 mt-0.5">+1.2% <span className="font-medium text-brand-primary/60">peningkatan</span></p>
+                            <p className="text-xs font-semibold text-emerald-600 mt-0.5">+1.2% <span className="font-medium text-black/60">peningkatan</span></p>
                         </div>
                     </div>
                 </div>
 
                 {/* ── SPOTLIGHT / HIGHLIGHT CAMPAIGN ── */}
-                <div className="bg-white border border-brand-light rounded-2xl p-6 shadow-sm relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-brand-light/20 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+                <div className="bg-white border border-[#E6E6E6] rounded-2xl p-6 shadow-level-1 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#E6E6E6]/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
                     <div className="relative z-10">
                         <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-                            <div className="flex items-center gap-2">
-                                <Icon icon="solar:graph-up-linear" className="text-lg text-brand-secondary" />
-                                <span className="text-[10px] font-extrabold text-brand-secondary capitalize tracking-widest">Bundel Spesial</span>
+                            <div className="flex items-center gap-2 text-black">
+                                <Icon icon="solar:graph-up-linear" className="text-lg" />
+                                <span className="text-xs font-semibold text-black/60 tracking-tight">Bundel Spesial</span>
                             </div>
-                            <span className="text-[10px] font-extrabold bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-3 py-1 rounded-full tracking-wide">
+                            <span className="text-[10px] font-bold bg-black text-white px-3 py-1 rounded-lg tracking-wide">
                                 Kampanye Utama
                             </span>
                         </div>
 
-                        <h2 className="text-xl font-extrabold text-brand-dark tracking-tight">
+                        <h2 className="text-xl font-bold text-brand-dark tracking-[-0.5px]">
                             {highlightCampaign?.name || 'Weekend Bundle'}
                         </h2>
-                        <p className="text-xs font-medium text-brand-primary mt-1.5 max-w-xl leading-relaxed">
+                        <p className="text-sm font-normal text-black/70 mt-1.5 max-w-xl leading-relaxed">
                             {highlightCampaign?.description || 'Dapatkan diskon 10% untuk setiap pembelian kombinasi 1 Croissant dan 1 Kopi varian apapun di akhir pekan (Sabtu & Minggu).'}
                         </p>
 
-                        <div className="grid grid-cols-3 gap-6 max-w-lg mt-5 pt-5 border-t border-brand-light">
+                        <div className="grid grid-cols-3 gap-6 max-w-lg mt-5 pt-5 border-t border-[#E6E6E6]">
                             <div>
-                                <p className="text-[10px] font-extrabold text-brand-primary/50 capitalize tracking-widest mb-1">Diskon</p>
-                                <p className="text-lg font-extrabold text-brand-secondary">
+                                <p className="text-xs font-semibold text-black/50 mb-1">Diskon</p>
+                                <p className="text-lg font-bold text-black">
                                     {highlightCampaign?.discount_display || 'Diskon 10%'}
                                 </p>
                             </div>
                             <div>
-                                <p className="text-[10px] font-extrabold text-brand-primary/50 capitalize tracking-widest mb-1">Total Pendapatan</p>
-                                <p className="text-lg font-extrabold text-brand-dark">
+                                <p className="text-xs font-semibold text-black/50 mb-1">Total Pendapatan</p>
+                                <p className="text-lg font-bold text-black">
                                     Rp {formatRp(highlightCampaign?.revenue || 4260000)}
                                 </p>
                             </div>
                             <div>
-                                <p className="text-[10px] font-extrabold text-brand-primary/50 capitalize tracking-widest mb-1">Penebusan</p>
-                                <p className="text-lg font-extrabold text-brand-dark">
-                                    {highlightCampaign?.redemptions || 142} <span className="text-xs text-brand-primary/50 font-medium">Kali</span>
+                                <p className="text-xs font-semibold text-black/50 mb-1">Penebusan</p>
+                                <p className="text-lg font-bold text-black">
+                                    {highlightCampaign?.redemptions || 142} <span className="text-xs text-black/50 font-medium">Kali</span>
                                 </p>
                             </div>
                         </div>
@@ -478,11 +478,11 @@ export default function PromotionsIndex() {
                         <div className="flex gap-3 mt-5">
                             <button
                                 onClick={() => highlightCampaign && handleEditCampaignClick(highlightCampaign)}
-                                className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.97]"
+                                className="bg-[#BFFF00] text-black hover:bg-[#C8FF5E] hover:shadow-[0_4px_12px_rgba(191,255,0,0.3)] transition-all px-6 py-2.5 rounded-xl font-semibold active:scale-[0.98] text-sm"
                             >
                                 Kelola Bundel
                             </button>
-                            <button className="px-5 py-2.5 border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors rounded-xl active:scale-[0.97]">
+                            <button className="px-5 py-2.5 border border-[#D0D0D0] bg-transparent text-black text-xs font-semibold hover:bg-[#E6E6E6] hover:border-[#999999] transition-all rounded-xl active:scale-[0.98]">
                                 Lihat Analitik
                             </button>
                         </div>
@@ -490,11 +490,11 @@ export default function PromotionsIndex() {
                 </div>
 
                 {/* ── DAFTAR KAMPANYE ── */}
-                <div className="bg-white border border-brand-light rounded-2xl p-6 shadow-sm">
+                <div className="bg-white border border-[#E6E6E6] rounded-2xl p-6 shadow-level-1">
                     <div className="flex justify-between items-center mb-5 flex-wrap gap-3">
                         <div>
-                            <h3 className="text-base font-extrabold text-brand-dark tracking-tight">Daftar Kampanye</h3>
-                            <p className="text-xs font-medium text-brand-primary mt-0.5">Semua promosi yang terdaftar dalam sistem.</p>
+                            <h3 className="text-base font-semibold text-brand-dark tracking-[-0.3px]">Daftar Kampanye</h3>
+                            <p className="text-xs font-normal text-black/50 mt-0.5">Semua promosi yang terdaftar dalam sistem.</p>
                         </div>
                         {/* Filter tabs */}
                         <div className="flex items-center gap-2">
@@ -502,7 +502,7 @@ export default function PromotionsIndex() {
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
-                                    className={`px-4 py-1.5 text-xs font-bold rounded-lg border transition-all ${activeTab === tab ? 'bg-brand-primary text-white border-brand-primary shadow-sm' : 'bg-white text-brand-primary border-brand-light hover:bg-brand-light/50 hover:text-brand-dark' } active:scale-[0.97]`}
+                                    className={`px-4 py-1.5 text-xs font-semibold rounded-xl border transition-all ${activeTab === tab ? 'bg-[#BFFF00] text-black border-[#BFFF00] shadow-sm font-bold' : 'bg-transparent text-black/70 border-[#D0D0D0] hover:bg-[#E6E6E6] hover:text-black' } active:scale-[0.97]`}
                                 >
                                     {tab}
                                 </button>
@@ -513,14 +513,14 @@ export default function PromotionsIndex() {
                     <div className="overflow-x-auto">
                         <table className="w-full text-left min-w-[700px]">
                             <thead>
-                                <tr className="text-[10px] text-brand-primary border-b border-brand-light capitalize tracking-wider">
-                                    <th className="pb-3 font-extrabold">Nama Promo</th>
-                                    <th className="pb-3 font-extrabold">Potongan</th>
-                                    <th className="pb-3 font-extrabold">Periode</th>
-                                    <th className="pb-3 font-extrabold w-40">Penebusan</th>
-                                    <th className="pb-3 font-extrabold">Total Revenue</th>
-                                    <th className="pb-3 font-extrabold">Status</th>
-                                    <th className="pb-3 font-extrabold text-right">Aksi</th>
+                                <tr className="text-xs font-semibold text-black/60 border-b border-[#E6E6E6]">
+                                    <th className="pb-3">Nama Promo</th>
+                                    <th className="pb-3">Potongan</th>
+                                    <th className="pb-3">Periode</th>
+                                    <th className="pb-3 w-40">Penebusan</th>
+                                    <th className="pb-3">Total Revenue</th>
+                                    <th className="pb-3">Status</th>
+                                    <th className="pb-3 text-right">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody className="text-sm">
@@ -620,20 +620,20 @@ export default function PromotionsIndex() {
                 </div>
 
                 {/* ── CHART TREN ── */}
-                <div className="bg-white border border-brand-light rounded-2xl p-6 shadow-sm">
+                <div className="bg-white border border-[#E6E6E6] rounded-2xl p-6 shadow-level-1">
                     <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
                         <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-xl bg-brand-light flex items-center justify-center">
-                                <Icon icon="solar:graph-up-linear" className="text-lg text-brand-secondary" />
+                            <div className="w-9 h-9 rounded-xl bg-[#E6E6E6]/50 flex items-center justify-center text-black">
+                                <Icon icon="solar:graph-up-linear" className="text-lg" />
                             </div>
                             <div>
-                                <h3 className="text-sm font-extrabold text-brand-dark tracking-tight">Tren Penebusan Mingguan</h3>
-                                <p className="text-[10px] font-medium text-brand-primary mt-0.5">
+                                <h3 className="text-sm font-semibold text-brand-dark tracking-[-0.3px]">Tren Penebusan Mingguan</h3>
+                                <p className="text-xs font-normal text-black/50 mt-0.5">
                                     Fluktuasi penggunaan promo dan voucher dalam 7 hari terakhir.
                                 </p>
                             </div>
                         </div>
-                        <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-rose-600 bg-rose-50 border border-rose-100 px-3 py-1 rounded-full">
+                        <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-rose-700 bg-rose-50 border border-rose-100 px-3 py-1 rounded-full">
                             <span className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-pulse"></span>
                             Live Data
                         </span>
@@ -641,9 +641,9 @@ export default function PromotionsIndex() {
                     <div className="h-56 relative w-full">
                         <Line data={chartRenderData} options={chartOptions} />
                     </div>
-                    <div className="flex items-center justify-center gap-6 mt-4 text-[11px] font-bold text-brand-primary">
+                    <div className="flex items-center justify-center gap-6 mt-4 text-xs font-semibold text-black/50">
                         <span className="flex items-center gap-2">
-                            <span className="w-3 h-0.5 bg-brand-secondary rounded-full inline-block"></span>
+                            <span className="w-3 h-0.5 bg-black rounded-full inline-block"></span>
                             Jumlah Penebusan
                         </span>
                     </div>
@@ -653,12 +653,12 @@ export default function PromotionsIndex() {
 
             {/* ── MODAL CREATE / EDIT ── */}
             {(isCreateModalOpen || isEditModalOpen) && (
-                <div className="fixed inset-0 bg-brand-dark/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white border border-brand-light rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden">
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-white border border-[#E6E6E6] rounded-3xl w-full max-w-lg shadow-level-3 overflow-hidden">
 
                         {/* Modal Header */}
                         {!isEditModalOpen ? (
-                            <div className="flex border-b border-brand-light">
+                            <div className="flex border-b border-[#E6E6E6]">
                                 {[
                                     { key: 'promotion', label: 'Diskon Promosi', icon: 'solar:ticket-sale-linear' },
                                     { key: 'bundle', label: 'Bundling Menu', icon: 'solar:box-linear' },
@@ -666,7 +666,7 @@ export default function PromotionsIndex() {
                                     <button
                                         key={t.key}
                                         onClick={() => setActiveFormType(t.key)}
-                                        className={`flex-1 py-4 text-sm font-extrabold transition-all flex items-center justify-center gap-2 ${activeFormType === t.key ? 'border-b-2 border-brand-secondary text-brand-secondary bg-brand-light/20' : 'text-brand-primary/50 hover:bg-brand-light/20' } active:scale-[0.97]`}
+                                        className={`flex-1 py-4 text-sm font-semibold transition-all flex items-center justify-center gap-2 ${activeFormType === t.key ? 'border-b-2 border-[#BFFF00] text-black bg-transparent font-bold' : 'text-black/50 hover:text-black hover:bg-neutral-50' } active:scale-[0.97]`}
                                     >
                                         <Icon icon={t.icon} className="text-base" />
                                         {t.label}
@@ -674,13 +674,13 @@ export default function PromotionsIndex() {
                                 ))}
                             </div>
                         ) : (
-                            <div className="px-6 py-4 border-b border-brand-light flex justify-between items-center">
-                                <h3 className="text-base font-extrabold text-brand-dark">
+                            <div className="px-6 py-4 border-b border-[#E6E6E6] flex justify-between items-center">
+                                <h3 className="text-base font-semibold text-brand-dark tracking-[-0.3px]">
                                     Ubah {activeFormType === 'promotion' ? 'Promosi' : 'Bundling'}
                                 </h3>
                                 <button
                                     onClick={() => { setIsEditModalOpen(false); setEditingCampaign(null); }}
-                                    className="w-8 h-8 rounded-xl bg-brand-light/50 hover:bg-rose-100 hover:text-rose-600 flex items-center justify-center text-brand-primary transition-colors active:scale-[0.97]"
+                                    className="w-8 h-8 rounded-xl bg-transparent border border-[#D0D0D0] hover:bg-[#E6E6E6] flex items-center justify-center text-black transition-colors active:scale-[0.97]"
                                 >
                                     <Icon icon="solar:close-circle-linear" className="text-lg" />
                                 </button>
@@ -693,7 +693,7 @@ export default function PromotionsIndex() {
                             {activeFormType === 'promotion' && (
                                 <form onSubmit={handlePromoSubmit} className="space-y-4">
                                     <div>
-                                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">
+                                        <label className="block text-sm font-semibold text-black mb-1.5">
                                             Nama Promo <span className="text-rose-500">*</span>
                                         </label>
                                         <input type="text" required value={promoForm.data.name}
@@ -704,7 +704,7 @@ export default function PromotionsIndex() {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">Tipe Potongan</label>
+                                            <label className="block text-sm font-semibold text-black mb-1.5">Tipe Potongan</label>
                                             <select value={promoForm.data.type}
                                                 onChange={(e) => promoForm.setData('type', e.target.value)}
                                                 className={inputCls}>
@@ -713,7 +713,7 @@ export default function PromotionsIndex() {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">Nilai Potongan</label>
+                                            <label className="block text-sm font-semibold text-black mb-1.5">Nilai Potongan</label>
                                             <input type="number" required min="0" value={promoForm.data.value}
                                                 onChange={(e) => promoForm.setData('value', e.target.value)}
                                                 placeholder={promoForm.data.type === 'percentage' ? '10' : '5000'}
@@ -722,7 +722,7 @@ export default function PromotionsIndex() {
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">Minimal Pembelian (Rp)</label>
+                                        <label className="block text-sm font-semibold text-black mb-1.5">Minimal Pembelian (Rp)</label>
                                         <input type="number" min="0" value={promoForm.data.min_purchase}
                                             onChange={(e) => promoForm.setData('min_purchase', e.target.value)}
                                             placeholder="30000" className={inputCls} />
@@ -730,13 +730,13 @@ export default function PromotionsIndex() {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">Tanggal Mulai</label>
+                                            <label className="block text-sm font-semibold text-black mb-1.5">Tanggal Mulai</label>
                                             <input type="date" required value={promoForm.data.start_date}
                                                 onChange={(e) => promoForm.setData('start_date', e.target.value)}
                                                 className={inputCls} />
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">Tanggal Selesai</label>
+                                            <label className="block text-sm font-semibold text-black mb-1.5">Tanggal Selesai</label>
                                             <input type="date" required value={promoForm.data.end_date}
                                                 onChange={(e) => promoForm.setData('end_date', e.target.value)}
                                                 className={inputCls} />
@@ -747,20 +747,20 @@ export default function PromotionsIndex() {
                                         <input type="checkbox" id="promoActiveToggle"
                                             checked={promoForm.data.is_active}
                                             onChange={(e) => promoForm.setData('is_active', e.target.checked)}
-                                            className="w-4 h-4 accent-brand-secondary rounded border-brand-light" />
-                                        <label htmlFor="promoActiveToggle" className="text-xs font-bold text-brand-primary/70 cursor-pointer">
+                                            className="w-4 h-4 accent-black rounded border-[#D0D0D0]" />
+                                        <label htmlFor="promoActiveToggle" className="text-xs font-semibold text-black/70 cursor-pointer">
                                             Aktifkan promosi ini segera
                                         </label>
                                     </div>
 
-                                    <div className="flex items-center gap-3 pt-4 border-t border-brand-light">
+                                    <div className="flex items-center gap-3 pt-4 border-t border-[#E6E6E6]">
                                         <button type="submit" disabled={promoForm.processing}
-                                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-xs font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.97]">
+                                            className="flex-1 h-11 rounded-xl bg-[#BFFF00] hover:bg-[#C8FF5E] text-black text-sm font-semibold shadow-md shadow-[#BFFF00]/20 transition-all active:scale-[0.98] disabled:bg-[#999999] disabled:text-[#666666] disabled:cursor-not-allowed">
                                             {isEditModalOpen ? 'Simpan Perubahan' : 'Terapkan Promosi'}
                                         </button>
                                         <button type="button"
                                             onClick={() => { setIsCreateModalOpen(false); setIsEditModalOpen(false); }}
-                                            className="h-11 px-5 rounded-xl border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors rounded-xl active:scale-[0.97]">
+                                            className="h-11 px-5 rounded-xl border border-[#D0D0D0] bg-transparent text-black text-sm font-semibold hover:bg-[#E6E6E6] hover:border-[#999999] transition-all active:scale-[0.98]">
                                             Batal
                                         </button>
                                     </div>
@@ -771,7 +771,7 @@ export default function PromotionsIndex() {
                             {activeFormType === 'bundle' && (
                                 <form onSubmit={handleBundleSubmit} className="space-y-4">
                                     <div>
-                                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">
+                                        <label className="block text-sm font-semibold text-black mb-1.5">
                                             Nama Bundel <span className="text-rose-500">*</span>
                                         </label>
                                         <input type="text" required value={bundleForm.data.name}
@@ -781,15 +781,15 @@ export default function PromotionsIndex() {
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">Deskripsi Kampanye</label>
+                                        <label className="block text-sm font-semibold text-black mb-1.5">Deskripsi Kampanye</label>
                                         <textarea rows={2} value={bundleForm.data.description}
                                             onChange={(e) => bundleForm.setData('description', e.target.value)}
                                             placeholder="Tuliskan info bundel..."
-                                            className={`${inputCls} resize-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light outline-none`} />
+                                            className="w-full bg-white border border-[#D0D0D0] rounded-xl px-4 py-2.5 text-sm font-normal text-black placeholder-[#999999] placeholder:italic outline-none focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10 transition-all resize-none" />
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wide mb-1.5">
+                                        <label className="block text-sm font-semibold text-black mb-1.5">
                                             Harga Bundel Spesial (Rp) <span className="text-rose-500">*</span>
                                         </label>
                                         <input type="number" required min="0" value={bundleForm.data.price}
@@ -798,12 +798,12 @@ export default function PromotionsIndex() {
                                     </div>
 
                                     {/* Menu Selector */}
-                                    <div className="bg-brand-light/20 border border-brand-light p-4 rounded-xl space-y-3">
-                                        <p className="text-xs font-extrabold text-brand-dark">Menu yang Termasuk dalam Paket</p>
+                                    <div className="bg-neutral-50 border border-[#E6E6E6] p-4 rounded-xl space-y-3">
+                                        <p className="text-xs font-semibold text-black/80">Menu yang Termasuk dalam Paket</p>
                                         <div className="flex gap-2">
                                             <select value={selectedMenuToAdd}
                                                 onChange={(e) => setSelectedMenuToAdd(e.target.value)}
-                                                className="flex-1 px-3 py-2 rounded-xl border border-brand-light text-xs font-bold text-brand-dark bg-white focus:outline-none cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light">
+                                                className="flex-1 px-3 py-2.5 rounded-xl border border-[#D0D0D0] text-xs font-semibold text-black bg-white focus:outline-none cursor-pointer transition-all duration-150 focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10">
                                                 <option value="">Pilih Menu...</option>
                                                 {menus.map((m) => (
                                                     <option key={m.id} value={m.id}>{m.name} (Rp {formatRp(m.price)})</option>
@@ -811,26 +811,26 @@ export default function PromotionsIndex() {
                                             </select>
                                             <input type="number" min="1" value={quantityToAdd}
                                                 onChange={(e) => setQuantityToAdd(parseInt(e.target.value) || 1)}
-                                                className="w-16 px-3 py-2 rounded-xl border border-brand-light text-xs font-bold text-brand-dark text-center focus:outline-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light" />
+                                                className="w-16 px-3 py-2.5 rounded-xl border border-[#D0D0D0] text-xs font-semibold text-black text-center focus:outline-none transition-all duration-150 focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10" />
                                             <button type="button" onClick={handleAddMenuToBundle}
-                                                className="px-3 py-2 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary text-white font-bold text-xs active:scale-[0.97] transition-all shadow-sm">
+                                                className="px-4 py-2.5 rounded-xl bg-[#BFFF00] hover:bg-[#C8FF5E] text-black font-semibold text-xs active:scale-[0.98] transition-all shadow-sm shadow-[#BFFF00]/10">
                                                 Tambah
                                             </button>
                                         </div>
                                         {bundleForm.data.menus.length > 0 ? (
-                                            <div className="divide-y divide-brand-light max-h-32 overflow-y-auto">
+                                            <div className="divide-y divide-[#E6E6E6] max-h-32 overflow-y-auto">
                                                 {bundleForm.data.menus.map((menu) => (
                                                     <div key={menu.id} className="flex justify-between items-center py-2 text-xs">
-                                                        <span className="font-bold text-brand-dark">{menu.qty}x {menu.name}</span>
+                                                        <span className="font-semibold text-brand-dark">{menu.qty}x {menu.name}</span>
                                                         <button type="button" onClick={() => handleRemoveMenuFromBundle(menu.id)}
-                                                            className="text-rose-500 hover:text-rose-700 font-extrabold text-[10px] transition-all duration-150 active:scale-[0.97]">
+                                                            className="text-rose-600 hover:underline font-semibold text-xs transition-all duration-150 active:scale-[0.97]">
                                                             Hapus
                                                         </button>
                                                     </div>
                                                 ))}
                                             </div>
                                         ) : (
-                                            <p className="text-[10px] text-brand-primary/50 font-medium text-center py-2">
+                                            <p className="text-xs text-black/50 font-normal text-center py-2">
                                                 Belum ada menu terpilih.
                                             </p>
                                         )}
@@ -840,20 +840,20 @@ export default function PromotionsIndex() {
                                         <input type="checkbox" id="bundleActiveToggle"
                                             checked={bundleForm.data.is_active}
                                             onChange={(e) => bundleForm.setData('is_active', e.target.checked)}
-                                            className="w-4 h-4 accent-brand-secondary rounded border-brand-light" />
-                                        <label htmlFor="bundleActiveToggle" className="text-xs font-bold text-brand-primary/70 cursor-pointer">
+                                            className="w-4 h-4 accent-black rounded border-[#D0D0D0]" />
+                                        <label htmlFor="bundleActiveToggle" className="text-xs font-semibold text-black/70 cursor-pointer">
                                             Aktifkan bundel ini segera
                                         </label>
                                     </div>
 
-                                    <div className="flex items-center gap-3 pt-4 border-t border-brand-light">
+                                    <div className="flex items-center gap-3 pt-4 border-t border-[#E6E6E6]">
                                         <button type="submit" disabled={bundleForm.processing}
-                                            className="flex-1 h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-xs font-bold shadow-lg shadow-brand-primary/30 transition-all active:scale-[0.97]">
+                                            className="flex-1 h-11 rounded-xl bg-[#BFFF00] hover:bg-[#C8FF5E] text-black text-sm font-semibold shadow-md shadow-[#BFFF00]/20 transition-all active:scale-[0.98] disabled:bg-[#999999] disabled:text-[#666666] disabled:cursor-not-allowed">
                                             {isEditModalOpen ? 'Simpan Perubahan' : 'Terapkan Bundel'}
                                         </button>
                                         <button type="button"
                                             onClick={() => { setIsCreateModalOpen(false); setIsEditModalOpen(false); }}
-                                            className="h-11 px-5 rounded-xl border border-brand-light bg-white text-brand-primary text-xs font-bold hover:bg-brand-light hover:text-brand-dark transition-colors rounded-xl active:scale-[0.97]">
+                                            className="h-11 px-5 rounded-xl border border-[#D0D0D0] bg-transparent text-black text-sm font-semibold hover:bg-[#E6E6E6] hover:border-[#999999] transition-all active:scale-[0.98]">
                                             Batal
                                         </button>
                                     </div>
@@ -866,16 +866,16 @@ export default function PromotionsIndex() {
 
             {/* ── TOAST ── */}
             {showToast && (
-                <div className="fixed bottom-6 right-6 z-[100] bg-white border border-brand-light rounded-2xl p-4 shadow-xl flex items-center gap-3 max-w-sm">
-                    <div className="w-8 h-8 rounded-full bg-brand-light flex items-center justify-center flex-shrink-0">
-                        <Icon icon="solar:check-circle-linear" className="text-xl text-brand-secondary" />
+                <div className="fixed bottom-6 right-6 z-[100] bg-white border border-[#E6E6E6] rounded-2xl p-4 shadow-level-3 flex items-center gap-3 max-w-sm">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-500 flex items-center justify-center flex-shrink-0">
+                        <Icon icon="solar:check-circle-linear" className="text-xl" />
                     </div>
                     <div className="flex-1 min-w-0 pr-2">
-                        <p className="text-xs font-extrabold text-brand-dark">Sukses!</p>
-                        <p className="text-[10px] text-brand-primary font-bold truncate">{toastMessage}</p>
+                        <p className="text-xs font-semibold text-black">Sukses!</p>
+                        <p className="text-xs font-normal text-black/60 truncate">{toastMessage}</p>
                     </div>
                     <button onClick={() => setShowToast(false)}
-                        className="text-brand-primary/40 hover:text-brand-dark text-xs font-bold flex-shrink-0 transition-all duration-150 active:scale-[0.97]">
+                        className="text-black/40 hover:text-black text-xs font-bold flex-shrink-0 transition-all duration-150 active:scale-[0.97]">
                         <Icon icon="solar:close-circle-linear" className="text-lg" />
                     </button>
                 </div>

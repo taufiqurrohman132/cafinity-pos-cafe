@@ -164,14 +164,14 @@ export default function RecipeIndex() {
         return (
             <>
                 <Head title="Recipe Costing" />
-                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
-                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
-                        <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
-                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
-                        <p className="text-sm text-brand-primary/70 mb-6">
+                <div className="min-h-screen flex items-center justify-center bg-[#E6E6E6]/30 p-4">
+                    <div className="bg-white p-8 rounded-3xl border border-[#E6E6E6] max-w-md w-full shadow-[0_8px_24px_rgba(0,0,0,0.12)] text-center">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-[#FF3B30] text-5xl mb-4 mx-auto block"></iconify-icon>
+                        <h3 className="text-base font-semibold text-black mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-sm text-[#666666] mb-6">
                             Gagal memuat data resep dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-[#BFFF00] hover:bg-[#C8FF5E] text-black py-2.5 rounded-xl font-semibold shadow-md active:scale-[0.97] transition-all">
                             Coba Lagi
                         </button>
                     </div>
@@ -184,15 +184,15 @@ export default function RecipeIndex() {
         <>
             <Head title="Recipe Costing" />
 
-            <div className="flex h-[calc(100vh-72px)] bg-brand-bg overflow-hidden">
+            <div className="flex h-[calc(100vh-72px)] bg-[#E6E6E6]/30 overflow-hidden">
 
                 {/* ── SIDEBAR KIRI ── */}
-                <div className="w-80 min-w-[280px] bg-white border-r border-brand-light flex flex-col z-10 shadow-[10px_0_30px_rgb(var(--color-brand-primary)/0.03)]">
-                    <div className="p-5 border-b border-brand-light/50 flex items-center justify-between bg-brand-bg/50">
-                        <h2 className="text-lg font-bold text-brand-dark">Katalog Resep</h2>
+                <div className="w-80 min-w-[280px] bg-white border-r border-[#E6E6E6] flex flex-col z-10 shadow-[2px_0_8px_rgba(0,0,0,0.02)]">
+                    <div className="p-5 border-b border-[#E6E6E6] flex items-center justify-between bg-white">
+                        <h2 className="text-base font-semibold text-black">Katalog Resep</h2>
                         <button
                             onClick={() => setShowCreateModal(true)}
-                            className="w-8 h-8 bg-gradient-to-br from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl flex items-center justify-center font-bold text-lg transition-all shadow-md shadow-brand-secondary/30 active:scale-[0.97]"
+                            className="w-8 h-8 bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black rounded-xl flex items-center justify-center font-bold text-lg transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] active:scale-[0.97]"
                         >
                             +
                         </button>
@@ -201,20 +201,20 @@ export default function RecipeIndex() {
                     {/* Search */}
                     <div className="px-4 pt-5 pb-2">
                         <div className="relative">
-                            <iconify-icon icon="solar:magnifer-linear" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/70 text-sm"></iconify-icon>
+                            <iconify-icon icon="solar:magnifer-linear" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#999999] text-sm"></iconify-icon>
                             <input
                                 type="text"
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Cari resep menu..."
-                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                className="w-full pl-10 pr-4 py-2.5 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10 text-black placeholder-[#999999] transition-all"
                             />
                         </div>
                     </div>
 
                     {/* List */}
                     <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2">
-                        <p className="text-[10px] font-bold text-brand-primary capitalize tracking-widest mb-3 pl-1">Terakhir Diupdate</p>
+                        <p className="text-[10px] font-bold text-[#666666] capitalize tracking-widest mb-3 pl-1">Terakhir Diupdate</p>
 
                         {filteredRecipes.map((resep) => {
                             const isActive = selectedRecipe?.id === resep.id
@@ -222,32 +222,32 @@ export default function RecipeIndex() {
                                 <Link
                                     key={resep.id}
                                     to={`/recipe-costing?id=${resep.id}`}
-                                    className="block focus:outline-none focus:ring-2 focus:ring-brand-secondary rounded-xl"
+                                    className="block focus:outline-none focus:ring-2 focus:ring-[#BFFF00]/20 rounded-xl"
                                 >
                                     <div className={`p-4 rounded-xl cursor-pointer transition-all duration-200 group relative overflow-hidden ${isActive
-                                        ? 'bg-gradient-to-br from-brand-secondary to-brand-primary border-transparent shadow-lg shadow-brand-secondary/20'
-                                        : 'bg-white border border-brand-light hover:border-brand-secondary hover:shadow-md'
+                                        ? 'bg-[#0E0E0E] text-white border-transparent shadow-[0_0_12px_rgba(191,255,0,0.15)]'
+                                        : 'bg-white border border-[#D0D0D0] hover:border-[#BFFF00] hover:shadow-md text-black'
                                         }`}>
                                         {isActive && (
                                             <div className="absolute top-0 right-0 w-16 h-16 bg-white opacity-5 rounded-full blur-xl -mr-5 -mt-5 pointer-events-none" />
                                         )}
                                         <div className="flex justify-between items-start mb-1.5 relative z-10">
-                                            <p className={`text-sm font-bold line-clamp-1 pr-2 ${isActive ? 'text-white' : 'text-brand-dark group-hover:text-brand-secondary transition-colors'}`}>
+                                            <p className={`text-sm font-semibold line-clamp-1 pr-2 ${isActive ? 'text-white' : 'text-black group-hover:text-black transition-colors'}`}>
                                                 {resep.menu?.name ?? 'Menu Dihapus'}
                                             </p>
-                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${isActive ? 'bg-brand-dark/20 text-white border border-white/10' : 'bg-brand-light/50 text-brand-primary border border-brand-light'
+                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${isActive ? 'bg-[#1A1A1A] text-[#BFFF00] border border-[#BFFF00]/20' : 'bg-[#E6E6E6] text-black border border-[#D0D0D0]'
                                                 }`}>
                                                 {resep.margin}%
                                             </span>
                                         </div>
-                                        <p className={`text-[10px] font-bold mb-2 relative z-10 ${isActive ? 'text-brand-light' : 'text-brand-primary/70'}`}>
+                                        <p className={`text-[10px] font-medium mb-2 relative z-10 ${isActive ? 'text-[#999999]' : 'text-[#666666]'}`}>
                                             {resep.menu?.category?.name ?? 'N/A'}
                                         </p>
-                                        <div className={`flex justify-between items-center relative z-10 mt-2 pt-2 border-t ${isActive ? 'border-white/25' : 'border-brand-light'}`}>
-                                            <span className={`text-[10px] ${isActive ? 'text-brand-light' : 'text-brand-primary/70'}`}>
-                                                HPP: <span className={`font-black ${isActive ? 'text-white' : 'text-brand-secondary'}`}>Rp {Number(resep.total_hpp).toLocaleString('id-ID')}</span>
+                                        <div className={`flex justify-between items-center relative z-10 mt-2 pt-2 border-t ${isActive ? 'border-[#1A1A1A]' : 'border-[#E6E6E6]'}`}>
+                                            <span className={`text-[10px] ${isActive ? 'text-[#999999]' : 'text-[#666666]'}`}>
+                                                HPP: <span className={`font-bold ${isActive ? 'text-white' : 'text-black'}`}>Rp {Number(resep.total_hpp).toLocaleString('id-ID')}</span>
                                             </span>
-                                            <span className={`text-xs font-black ${isActive ? 'text-white' : 'text-brand-secondary'}`}>
+                                            <span className={`text-xs font-semibold ${isActive ? 'text-[#BFFF00]' : 'text-black'}`}>
                                                 Rp {Number(resep.menu?.price ?? 0).toLocaleString('id-ID')}
                                             </span>
                                         </div>
@@ -257,34 +257,34 @@ export default function RecipeIndex() {
                         })}
                     </div>
 
-                    <div className="p-4 border-t border-brand-light bg-brand-bg text-[10px] text-brand-primary/50 text-center">
+                    <div className="p-4 border-t border-[#E6E6E6] bg-white text-[10px] text-[#999999] text-center">
                         © {new Date().getFullYear()} Devora POS v2.4.0
                     </div>
                 </div>
 
                 {/* ── KONTEN UTAMA ── */}
-                <div className="flex-1 overflow-y-auto flex flex-col bg-brand-bg">
+                <div className="flex-1 overflow-y-auto flex flex-col bg-[#E6E6E6]/30">
 
                     {selectedRecipe ? (
                         <>
                             {/* Top Bar */}
-                            <div className="bg-white/80 backdrop-blur-md border-b border-brand-light px-8 py-5 flex items-center justify-between sticky top-0 z-20 shadow-sm">
+                            <div className="bg-white/80 backdrop-blur-md border-b border-[#E6E6E6] px-8 py-5 flex items-center justify-between sticky top-0 z-20 shadow-sm">
                                 <div>
                                     <div className="flex items-center gap-3 mb-1.5">
-                                        <h1 className="text-2xl sm:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight">{menu?.name ?? 'Menu Dihapus'}</h1>
-                                        <span className="text-xs font-bold text-brand-secondary bg-brand-light/30 border border-brand-light px-3 py-1 rounded-full">
+                                        <h1 className="text-3xl font-extrabold tracking-[-0.5px] leading-10 text-transparent bg-clip-text bg-gradient-to-r from-black to-[#333333]">{menu?.name ?? 'Menu Dihapus'}</h1>
+                                        <span className="text-xs font-semibold text-black bg-[#E6E6E6] border border-[#D0D0D0] px-3 py-1 rounded-full">
                                             {menu?.category?.name ?? 'N/A'}
                                         </span>
                                     </div>
-                                    <p className="text-xs text-brand-primary flex items-center gap-1">
-                                        <iconify-icon icon="solar:info-circle-linear" class="text-sm text-brand-primary"></iconify-icon> Terakhir disinkronisasi dengan harga inventory: 2 jam yang lalu
+                                    <p className="text-xs text-[#666666] flex items-center gap-1 font-normal">
+                                        <iconify-icon icon="solar:info-circle-linear" class="text-sm text-[#666666]"></iconify-icon> Terakhir disinkronisasi dengan harga inventory: 2 jam yang lalu
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-3">
                                     {menu?.id && (
                                         <Link
                                             to={`/menus?edit=${menu.id}`}
-                                            className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-secondary hover:to-brand-primary rounded-xl transition-all shadow-md shadow-brand-secondary/30 active:scale-95"
+                                            className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-black bg-[#BFFF00] hover:bg-[#C8FF5E] rounded-xl transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(191,255,0,0.3)] active:scale-95"
                                         >
                                             Edit Menu
                                         </Link>
@@ -296,24 +296,24 @@ export default function RecipeIndex() {
 
                                 {/* Stat Cards */}
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    <div className="bg-gradient-to-br from-brand-light/50 to-white border border-brand-light rounded-2xl p-6 shadow-sm relative overflow-hidden">
-                                        <iconify-icon icon="solar:wallet-money-linear" class="absolute -right-4 -bottom-4 text-6xl opacity-10 text-brand-secondary"></iconify-icon>
-                                        <p className="text-[10px] font-bold text-brand-primary capitalize tracking-widest mb-2">Total HPP</p>
-                                        <p className="text-2xl font-black text-brand-secondary relative z-10">
+                                    <div className="bg-white border border-[#E6E6E6] rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_25px_-4px_rgba(191,255,0,0.16),_0_4px_12px_-2px_rgba(191,255,0,0.10)] transition-all duration-300 relative overflow-hidden group">
+                                        <iconify-icon icon="solar:wallet-money-linear" class="absolute -right-4 -bottom-4 text-6xl opacity-10 text-black"></iconify-icon>
+                                        <p className="text-xs font-semibold text-[#666666] uppercase tracking-wider mb-2">Total HPP</p>
+                                        <p className="text-2xl font-bold text-black relative z-10">
                                             Rp {Number(selectedRecipe.total_hpp).toLocaleString('id-ID')}
                                         </p>
                                     </div>
-                                    <div className="bg-white border border-brand-light rounded-2xl p-6 shadow-sm">
-                                        <p className="text-[10px] font-bold text-brand-primary capitalize tracking-widest mb-2">Harga Jual</p>
-                                        <p className="text-2xl font-black text-brand-secondary">
+                                    <div className="bg-white border border-[#E6E6E6] rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_25px_-4px_rgba(191,255,0,0.16),_0_4px_12px_-2px_rgba(191,255,0,0.10)] transition-all duration-300 relative overflow-hidden group">
+                                        <p className="text-xs font-semibold text-[#666666] uppercase tracking-wider mb-2">Harga Jual</p>
+                                        <p className="text-2xl font-bold text-black">
                                             Rp {Number(menu?.price ?? 0).toLocaleString('id-ID')}
                                         </p>
                                     </div>
-                                    <div className="bg-white border border-brand-light rounded-2xl p-6 shadow-sm">
-                                        <p className="text-[10px] font-bold text-brand-primary capitalize tracking-widest mb-2">Margin Kotor</p>
+                                    <div className="bg-white border border-[#E6E6E6] rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_25px_-4px_rgba(191,255,0,0.16),_0_4px_12px_-2px_rgba(191,255,0,0.10)] transition-all duration-300 relative overflow-hidden group">
+                                        <p className="text-xs font-semibold text-[#666666] uppercase tracking-wider mb-2">Margin Kotor</p>
                                         <div className="flex items-center gap-2">
-                                            <p className="text-2xl font-bold text-brand-dark">{selectedRecipe.margin}%</p>
-                                            <iconify-icon icon="solar:graph-up-linear" class="text-[#059669] text-xl"></iconify-icon>
+                                            <p className="text-2xl font-bold text-black">{selectedRecipe.margin}%</p>
+                                            <iconify-icon icon="solar:graph-up-linear" class="text-emerald-700 text-xl"></iconify-icon>
                                         </div>
                                     </div>
                                 </div>
@@ -324,12 +324,12 @@ export default function RecipeIndex() {
                                     <div className="xl:col-span-8 space-y-6">
 
                                         {/* Komposisi Bahan */}
-                                        <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-6">
+                                        <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-6">
                                             <div className="flex justify-between items-center mb-6">
-                                                <h3 className="font-bold text-brand-dark">Komposisi Bahan Baku</h3>
+                                                <h3 className="text-base font-semibold text-black">Komposisi Bahan Baku</h3>
                                                 <button
                                                     onClick={() => setShowEditModal(true)}
-                                                    className="flex items-center gap-1.5 text-xs font-bold text-brand-secondary bg-brand-light/30 px-3 py-1.5 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all active:scale-[0.97]"
+                                                    className="flex items-center gap-1.5 text-xs font-semibold text-black bg-transparent border border-[#D0D0D0] hover:bg-[#E6E6E6] hover:border-[#999999] px-3 py-1.5 rounded-xl transition-all active:scale-[0.97]"
                                                 >
                                                     <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon> Edit Bahan
                                                 </button>
@@ -337,29 +337,29 @@ export default function RecipeIndex() {
                                             <div className="overflow-x-auto">
                                                 <table className="w-full text-sm">
                                                     <thead>
-                                                        <tr className="text-[10px] font-bold text-brand-primary capitalize tracking-wider border-b border-brand-light/50 bg-brand-bg/50">
+                                                        <tr className="text-xs font-semibold text-[#666666] uppercase tracking-wider border-b border-[#E6E6E6] bg-[#E6E6E6]/40">
                                                             <th className="py-3 px-4 text-left">Nama Bahan</th>
                                                             <th className="py-3 px-4 text-left">Kuantitas</th>
                                                             <th className="py-3 px-4 text-left">Harga Satuan</th>
                                                             <th className="py-3 px-4 text-right">Subtotal</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody className="divide-y divide-brand-light/50">
+                                                    <tbody className="divide-y divide-[#E6E6E6]">
                                                         {selectedRecipe.ingredients.map((bahan) => {
                                                             const subtotal = bahan.pivot.qty * bahan.price_per_unit
                                                             return (
-                                                                <tr key={bahan.id} className="hover:bg-brand-light/10 transition-colors">
+                                                                <tr key={bahan.id} className="hover:bg-[#E6E6E6]/10 transition-colors">
                                                                     <td className="py-4 px-4">
-                                                                        <p className="font-medium text-brand-dark">{bahan.name}</p>
-                                                                        <p className="text-[10px] text-brand-primary/70">ID: {bahan.id}</p>
+                                                                        <p className="font-medium text-black">{bahan.name}</p>
+                                                                        <p className="text-xs text-[#999999] font-mono">ID: {bahan.id}</p>
                                                                     </td>
-                                                                    <td className="py-4 px-4 text-brand-dark">
+                                                                    <td className="py-4 px-4 text-black">
                                                                         {bahan.pivot.qty} {bahan.pivot.unit}
                                                                     </td>
-                                                                    <td className="py-4 px-4 font-black text-brand-secondary">
+                                                                    <td className="py-4 px-4 font-semibold text-black">
                                                                         Rp {Number(bahan.price_per_unit).toLocaleString('id-ID')}
                                                                     </td>
-                                                                    <td className="py-4 px-4 font-black text-brand-secondary text-right">
+                                                                    <td className="py-4 px-4 font-semibold text-black text-right">
                                                                         Rp {Number(subtotal).toLocaleString('id-ID')}
                                                                     </td>
                                                                 </tr>
@@ -367,11 +367,11 @@ export default function RecipeIndex() {
                                                         })}
                                                     </tbody>
                                                     <tfoot>
-                                                        <tr className="border-t-2 border-brand-light">
-                                                            <td colSpan={3} className="pt-4 px-4 text-xs font-bold text-brand-primary capitalize tracking-wider text-right">
+                                                        <tr className="border-t-2 border-[#E6E6E6]">
+                                                            <td colSpan={3} className="pt-4 px-4 text-sm font-semibold text-[#666666] uppercase tracking-wider text-right">
                                                                 Total Kalkulasi Biaya
                                                             </td>
-                                                            <td className="pt-4 px-4 font-black text-brand-secondary text-base text-right">
+                                                            <td className="pt-4 px-4 font-bold text-black text-base text-right">
                                                                 Rp {Number(selectedRecipe.total_hpp).toLocaleString('id-ID')}
                                                             </td>
                                                         </tr>
@@ -381,35 +381,35 @@ export default function RecipeIndex() {
                                         </div>
 
                                         {/* Struktur Harga */}
-                                        <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-6">
-                                            <h3 className="font-bold text-brand-dark mb-4">Struktur Harga vs Biaya</h3>
+                                        <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-6">
+                                            <h3 className="text-base font-semibold text-black mb-4">Struktur Harga vs Biaya</h3>
                                             <div className="flex items-center justify-between mb-2">
                                                 <div className="flex items-center gap-2">
-                                                    <span className="w-3 h-3 rounded-full bg-[#059669] inline-block" />
-                                                    <span className="text-xs text-brand-primary">Cost of Goods Sold (HPP)</span>
+                                                    <span className="w-3 h-3 rounded-full bg-[#1A1A1A] inline-block" />
+                                                    <span className="text-xs text-[#666666] font-medium">Cost of Goods Sold (HPP)</span>
                                                 </div>
-                                                <span className="text-xs font-bold text-brand-dark">{cogsPercent}%</span>
+                                                <span className="text-xs font-semibold text-black">{cogsPercent}%</span>
                                             </div>
-                                            <div className="w-full bg-brand-light/30 h-3 rounded-full overflow-hidden mb-5 shadow-inner">
+                                            <div className="w-full bg-[#E6E6E6] h-3 rounded-full overflow-hidden mb-5 shadow-inner">
                                                 <div
-                                                    className="bg-gradient-to-r from-[#10b981] to-[#059669] h-full rounded-full transition-all duration-500"
+                                                    className="bg-[#1A1A1A] h-full rounded-full transition-all duration-500"
                                                     style={{ width: `${cogsPercent}%` }}
                                                 />
                                             </div>
                                             <div className="grid grid-cols-2 gap-4">
-                                                <div className="bg-brand-bg rounded-xl p-4 border border-brand-light">
-                                                    <p className="text-[10px] font-bold text-brand-primary capitalize tracking-wider mb-1">Laba Per Porsi</p>
-                                                    <p className="text-xl font-black text-brand-secondary">
+                                                <div className="bg-[#E6E6E6]/40 rounded-xl p-4 border border-[#D0D0D0]">
+                                                    <p className="text-[10px] font-bold text-[#666666] capitalize tracking-wider mb-1">Laba Per Porsi</p>
+                                                    <p className="text-lg font-bold text-black">
                                                         Rp {Number(profitPerServing).toLocaleString('id-ID')}
                                                     </p>
                                                 </div>
-                                                <div className="bg-gradient-to-br from-brand-dark to-brand-primary rounded-xl p-4 border border-brand-primary shadow-lg shadow-brand-primary/20">
-                                                    <p className="text-[10px] font-bold text-brand-light capitalize tracking-wider mb-1">Rekomendasi Harga</p>
-                                                    <div className="flex items-center gap-2">
-                                                        <p className="text-xl font-black text-white">
+                                                <div className="bg-[#0E0E0E] text-white rounded-xl p-4 border border-black shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
+                                                    <p className="text-[10px] font-bold text-[#999999] capitalize tracking-wider mb-1">Rekomendasi Harga</p>
+                                                    <div className="flex items-center justify-between gap-2">
+                                                        <p className="text-lg font-bold text-[#BFFF00]">
                                                             Rp {Number(recommendedPrice).toLocaleString('id-ID')}
                                                         </p>
-                                                        <span className="text-[10px] font-bold text-[#065f46] bg-[#ecfdf5] border border-[#d1fae5] px-2 py-0.5 rounded-md">Optimal</span>
+                                                        <span className="text-[10px] font-semibold text-black bg-[#BFFF00] px-2 py-0.5 rounded-md">Optimal</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -420,16 +420,16 @@ export default function RecipeIndex() {
                                     <div className="xl:col-span-4 space-y-6">
 
                                         {/* What-If Simulator */}
-                                        <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-6 transition-all duration-300 hover:shadow-md">
-                                            <div className="flex items-center gap-2 mb-4 border-b border-brand-light/50 pb-4">
-                                                <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-500">
+                                        <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-6 transition-all duration-300 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
+                                            <div className="flex items-center gap-2 mb-4 border-b border-[#E6E6E6] pb-4">
+                                                <div className="w-8 h-8 rounded-lg bg-[#E6E6E6]/50 flex items-center justify-center text-black">
                                                     <iconify-icon icon="solar:chart-2-linear" class="text-lg"></iconify-icon>
                                                 </div>
-                                                <h3 className="text-sm font-bold text-brand-dark">Simulator "What-If"</h3>
+                                                <h3 className="text-base font-semibold text-black">Simulator "What-If"</h3>
                                             </div>
                                             <div className="flex justify-between items-center mb-3">
-                                                <p className="text-xs font-medium text-brand-primary">Kenaikan Biaya Bahan</p>
-                                                <span className="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-100">
+                                                <p className="text-xs font-medium text-[#666666]">Kenaikan Biaya Bahan</p>
+                                                <span className="text-xs font-bold text-[#FF3B30] bg-[#FF3B30]/10 px-2.5 py-1 rounded-lg border border-[#FF3B30]/20">
                                                     +{sliderVal}%
                                                 </span>
                                             </div>
@@ -442,52 +442,52 @@ export default function RecipeIndex() {
                                                     onChange={(e) => setSliderVal(parseInt(e.target.value))}
                                                     className="custom-slider w-full cursor-ew-resize appearance-none"
                                                     style={{
-                                                        background: `linear-gradient(to right, rgb(var(--color-brand-secondary)) 0%, rgb(var(--color-brand-secondary)) ${sliderVal * 2}%, rgb(var(--color-brand-light)) ${sliderVal * 2}%, rgb(var(--color-brand-light)) 100%)`
+                                                        background: `linear-gradient(to right, #BFFF00 0%, #BFFF00 ${sliderVal * 2}%, #E6E6E6 ${sliderVal * 2}%, #E6E6E6 100%)`
                                                     }}
                                                 />
                                             </div>
-                                            <p className="text-[10px] text-brand-primary/70 italic mb-4 leading-normal">
+                                            <p className="text-[10px] text-[#666666] italic mb-4 leading-normal">
                                                 *Simulasikan kenaikan harga pasar global pada resep ini untuk melihat dampaknya pada margin profit.
                                             </p>
-                                            <div className="space-y-3 bg-brand-bg border border-brand-light p-4 rounded-xl">
+                                            <div className="space-y-3 bg-[#E6E6E6]/30 border border-[#D0D0D0] p-4 rounded-xl">
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-xs text-brand-primary">Proyeksi HPP Baru</span>
-                                                    <span className="text-xs font-black text-brand-secondary">
+                                                    <span className="text-xs text-[#666666]">Proyeksi HPP Baru</span>
+                                                    <span className="text-sm font-semibold text-black">
                                                         Rp {Math.round(hppBaru).toLocaleString('id-ID')}
                                                     </span>
                                                 </div>
-                                                <div className="flex justify-between items-center border-t border-brand-light/50 pt-3">
-                                                    <span className="text-xs text-brand-primary">Proyeksi Margin</span>
-                                                    <span className="text-xs font-bold text-brand-dark">
+                                                <div className="flex justify-between items-center border-t border-[#D0D0D0]/50 pt-3">
+                                                    <span className="text-xs text-[#666666]">Proyeksi Margin</span>
+                                                    <span className="text-sm font-semibold text-black">
                                                         {marginBaru.toFixed(1)}%
                                                     </span>
                                                 </div>
-                                                <div className="flex justify-between items-center border-t border-brand-light/50 pt-3">
-                                                    <span className="text-[10px] font-bold text-[#b91c1c] capitalize tracking-wider">Dampak pada Profit</span>
-                                                    <span className={`text-xs font-bold flex items-center gap-1 ${impactPersen >= 0 ? 'text-[#059669]' : 'text-[#b91c1c]'}`}>
+                                                <div className="flex justify-between items-center border-t border-[#D0D0D0]/50 pt-3">
+                                                    <span className="text-[10px] font-semibold text-[#FF3B30] uppercase tracking-wider">Dampak pada Profit</span>
+                                                    <span className={`text-sm font-semibold flex items-center gap-1 ${impactPersen >= 0 ? 'text-emerald-700' : 'text-[#FF3B30]'}`}>
                                                         {impactPersen >= 0 ? '↗ +' : '↘ '}{impactPersen}%
                                                     </span>
                                                 </div>
                                             </div>
                                             <button
                                                 onClick={() => setSliderVal(0)}
-                                                className="w-full mt-4 flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light/50 active:scale-[0.97] transition-all"
+                                                className="w-full mt-4 flex items-center justify-center gap-2 py-2.5 text-xs font-semibold text-black border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] active:scale-[0.98] transition-all"
                                             >
                                                 <iconify-icon icon="solar:restart-circle-linear" class="text-base"></iconify-icon> Reset Simulasi
                                             </button>
                                         </div>
 
                                         {/* Opsi Strategis */}
-                                        <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-5">
-                                            <h3 className="text-sm font-bold text-brand-dark mb-3">Opsi Strategis</h3>
+                                        <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-5">
+                                            <h3 className="text-base font-semibold text-black mb-3">Opsi Strategis</h3>
                                             <div className="space-y-2">
                                                 {['Update Harga Inventory Global', 'Cetak Laporan Profitabilitas', 'Bandingkan dengan Resep Lain'].map((opsi) => (
                                                     <button
                                                         key={opsi}
-                                                        className="w-full flex justify-between items-center py-3 px-4 text-xs font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition-colors active:scale-[0.97]"
+                                                        className="w-full flex justify-between items-center py-3 px-4 text-xs font-semibold text-black border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] active:scale-[0.98] transition-colors"
                                                     >
                                                         {opsi}
-                                                        <span className="text-brand-primary/50">→</span>
+                                                        <span className="text-[#999999]">→</span>
                                                     </button>
                                                 ))}
                                             </div>
@@ -495,17 +495,17 @@ export default function RecipeIndex() {
 
                                         {/* Peringatan Margin */}
                                         {showWarning && (
-                                            <div className="bg-rose-50 rounded-2xl border border-rose-100 shadow-sm p-5 relative overflow-hidden">
-                                                <div className="absolute -right-4 -top-4 w-16 h-16 bg-rose-500/10 rounded-full blur-xl" />
+                                            <div className="bg-[#FF3B30]/5 rounded-2xl border border-[#FF3B30]/10 shadow-[0_2px_8px_rgba(0,0,0,0.02)] p-5 relative overflow-hidden">
+                                                <div className="absolute -right-4 -top-4 w-16 h-16 bg-[#FF3B30]/10 rounded-full blur-xl" />
                                                 <div className="flex items-center gap-2 mb-3 relative z-10">
-                                                    <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-xl"></iconify-icon>
-                                                    <h3 className="text-xs font-bold text-rose-500 capitalize tracking-wider">Peringatan Margin</h3>
+                                                    <iconify-icon icon="solar:danger-triangle-linear" class="text-[#FF3B30] text-xl"></iconify-icon>
+                                                    <h3 className="text-xs font-semibold text-[#FF3B30] uppercase tracking-wider">Peringatan Margin</h3>
                                                 </div>
-                                                <p className="text-xs text-rose-800 leading-relaxed mb-4 relative z-10">
+                                                <p className="text-xs text-black/80 leading-relaxed mb-4 relative z-10">
                                                     Margin pada <span className="font-bold">{menu?.name}</span> mendekati batas minimum 40%.
                                                     Pertimbangkan untuk menaikkan harga jual jika biaya bahan baku naik lebih dari Rp2.000.
                                                 </p>
-                                                <button className="text-xs font-bold text-rose-500 hover:text-rose-600 flex items-center gap-1 bg-white px-3 py-1.5 rounded-lg shadow-sm border border-rose-100 transition-colors relative z-10 active:scale-[0.97]">
+                                                <button className="text-xs font-semibold text-[#FF3B30] hover:bg-[#FF3B30]/5 flex items-center gap-1 bg-white px-3 py-1.5 rounded-xl border border-[#FF3B30]/20 shadow-sm transition-colors relative z-10 active:scale-[0.98]">
                                                     Analisis Strategi Harga →
                                                 </button>
                                             </div>
@@ -515,11 +515,11 @@ export default function RecipeIndex() {
                             </div>
 
                             {/* Footer */}
-                            <div className="mt-auto px-8 py-4 border-t border-brand-light bg-white flex justify-between items-center text-[10px] text-brand-primary/60">
+                            <div className="mt-auto px-8 py-4 border-t border-[#E6E6E6] bg-white flex justify-between items-center text-[10px] text-[#999999]">
                                 <span>© {new Date().getFullYear()} Devora POS v2.4.0</span>
                                 <div className="flex items-center gap-3">
-                                    <span className="flex items-center gap-1.5 text-[#059669]">
-                                        <span className="w-2 h-2 bg-[#059669] rounded-full animate-pulse" />
+                                    <span className="flex items-center gap-1.5 text-emerald-700">
+                                        <span className="w-2 h-2 bg-emerald-700 rounded-full animate-pulse" />
                                         System Online
                                     </span>
                                     <span>Support ID: #POS-8821</span>
@@ -530,16 +530,16 @@ export default function RecipeIndex() {
                         /* Empty State */
                         <div className="flex-1 flex items-center justify-center p-8">
                             <div className="text-center space-y-4 max-w-sm">
-                                <div className="w-24 h-24 bg-gradient-to-br from-brand-light to-brand-bg border border-brand-light rounded-full flex items-center justify-center mx-auto shadow-inner">
-                                    <iconify-icon icon="solar:notebook-linear" class="text-5xl text-brand-secondary"></iconify-icon>
+                                <div className="w-24 h-24 bg-gradient-to-br from-[#E6E6E6]/50 to-white border border-[#E6E6E6] rounded-full flex items-center justify-center mx-auto shadow-inner">
+                                    <iconify-icon icon="solar:notebook-linear" class="text-5xl text-black"></iconify-icon>
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold text-brand-dark">Belum ada resep</h2>
-                                    <p className="text-sm text-brand-primary">Tambahkan resep menu pertama untuk mulai menganalisis margin dan struktur HPP bisnis Anda.</p>
+                                    <h2 className="text-base font-semibold text-black">Belum ada resep</h2>
+                                    <p className="text-sm text-[#666666]">Tambahkan resep menu pertama untuk mulai menganalisis margin dan struktur HPP bisnis Anda.</p>
                                 </div>
                                 <button
                                     onClick={() => setShowCreateModal(true)}
-                                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white font-bold rounded-xl transition-all shadow-lg shadow-brand-secondary/30 active:scale-[0.97] mt-2"
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black font-semibold rounded-xl text-sm transition-all shadow-md active:scale-[0.97] mt-2"
                                 >
                                     + Tambah Resep Pertama
                                 </button>
@@ -551,21 +551,21 @@ export default function RecipeIndex() {
 
             {/* ── MODAL EDIT BAHAN ── */}
             {showEditModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-bg">
-                    <div className="absolute inset-0 bg-brand-dark/50" onClick={() => setShowEditModal(false)} />
-                    <div className="relative bg-white rounded-2xl border border-brand-light shadow-2xl w-full max-w-2xl mx-4 flex flex-col h-[90vh]">
-                        <div className="px-6 py-5 border-b border-brand-light flex items-center justify-between flex-shrink-0">
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-[#0E0E0E]/40 backdrop-blur-md" onClick={() => setShowEditModal(false)} />
+                    <div className="relative bg-white rounded-3xl border border-[#E6E6E6] shadow-[0_8px_24px_rgba(0,0,0,0.12)] w-full max-w-2xl mx-4 flex flex-col h-[90vh] z-10">
+                        <div className="px-6 py-5 border-b border-[#E6E6E6] flex items-center justify-between flex-shrink-0">
                             <div>
-                                <h3 className="font-bold text-brand-dark">Edit Komposisi Bahan</h3>
-                                <p className="text-xs text-brand-primary/70 mt-0.5">{selectedRecipe?.menu?.name}</p>
+                                <h3 className="text-base font-semibold text-black">Edit Komposisi Bahan</h3>
+                                <p className="text-xs text-[#666666] mt-0.5 font-normal">{selectedRecipe?.menu?.name}</p>
                             </div>
-                            <button onClick={() => setShowEditModal(false)} className="w-8 h-8 rounded-xl text-brand-primary/50 hover:bg-brand-light hover:text-brand-secondary flex items-center justify-center transition-all duration-150 active:scale-[0.97]">✕</button>
+                            <button onClick={() => setShowEditModal(false)} className="w-8 h-8 rounded-xl text-[#999999] hover:bg-[#E6E6E6] hover:text-black flex items-center justify-center transition-all duration-150 active:scale-[0.98]">✕</button>
                         </div>
                         <form onSubmit={handleEditSubmit} className="flex flex-col flex-1 overflow-hidden">
                             <div className="overflow-y-auto px-6 py-4 space-y-3">
                                 <div className="grid grid-cols-12 gap-3 px-1">
                                     {['Bahan', 'Qty', 'Satuan', ''].map((h, i) => (
-                                        <p key={i} className={`${i === 0 ? 'col-span-5' : i === 3 ? 'col-span-1' : 'col-span-3'} text-[10px] font-bold text-brand-primary capitalize tracking-wider`}>{h}</p>
+                                        <p key={i} className={`${i === 0 ? 'col-span-5' : i === 3 ? 'col-span-1' : 'col-span-3'} text-xs font-semibold text-[#666666] uppercase tracking-wider`}>{h}</p>
                                     ))}
                                 </div>
                                 {ingredients.map((row, index) => (
@@ -581,17 +581,17 @@ export default function RecipeIndex() {
                                     />
                                 ))}
                             </div>
-                            <div className="px-6 py-4 border-t border-brand-light flex items-center justify-between flex-shrink-0">
+                            <div className="px-6 py-4 border-t border-[#E6E6E6] flex items-center justify-between flex-shrink-0">
                                 <button
                                     type="button"
                                     onClick={() => setIngredients(prev => [...prev, { inventory_id: '', qty: '', unit: '' }])}
-                                    className="flex items-center gap-1.5 text-xs font-bold text-brand-secondary bg-brand-light/30 px-3 py-2 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all active:scale-[0.97]"
+                                    className="flex items-center gap-1.5 text-xs font-semibold text-black bg-transparent border border-[#D0D0D0] hover:bg-[#E6E6E6] px-3 py-2 rounded-xl transition-all active:scale-[0.98]"
                                 >
                                     + Tambah Bahan
                                 </button>
                                 <div className="flex items-center gap-3">
-                                    <button type="button" onClick={() => setShowEditModal(false)} className="px-5 py-2.5 text-sm font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition-all duration-150 active:scale-[0.97]">Batal</button>
-                                    <button type="submit" className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-brand-secondary to-brand-primary rounded-xl shadow-lg shadow-brand-secondary/30 active:scale-[0.97] transition-all duration-150">
+                                    <button type="button" onClick={() => setShowEditModal(false)} className="px-5 py-2.5 text-sm font-semibold text-black border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] transition-all duration-150 active:scale-[0.98]">Batal</button>
+                                    <button type="submit" className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-black bg-[#BFFF00] hover:bg-[#C8FF5E] rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] active:scale-[0.98] transition-all duration-150">
                                         <iconify-icon icon="solar:diskette-linear" class="text-sm"></iconify-icon> Simpan
                                     </button>
                                 </div>
@@ -604,21 +604,21 @@ export default function RecipeIndex() {
             {/* ── MODAL CREATE RESEP ── */}
             {showCreateModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center">
-                    <div className="absolute inset-0 bg-brand-dark/50" onClick={() => setShowCreateModal(false)} />
-                    <div className="relative bg-white rounded-2xl border border-brand-light shadow-2xl w-full max-w-2xl mx-4 flex flex-col h-[90vh]">
-                        <div className="px-6 py-5 border-b border-brand-light flex items-center justify-between flex-shrink-0">
-                            <h3 className="font-bold text-brand-dark">Tambah Resep Baru</h3>
-                            <button onClick={() => setShowCreateModal(false)} className="w-8 h-8 rounded-xl text-brand-primary/50 hover:bg-brand-light hover:text-brand-secondary flex items-center justify-center transition-all duration-150 active:scale-[0.97]">✕</button>
+                    <div className="absolute inset-0 bg-[#0E0E0E]/40 backdrop-blur-md" onClick={() => setShowCreateModal(false)} />
+                    <div className="relative bg-white rounded-3xl border border-[#E6E6E6] shadow-[0_8px_24px_rgba(0,0,0,0.12)] w-full max-w-2xl mx-4 flex flex-col h-[90vh] z-10">
+                        <div className="px-6 py-5 border-b border-[#E6E6E6] flex items-center justify-between flex-shrink-0">
+                            <h3 className="text-base font-semibold text-black">Tambah Resep Baru</h3>
+                            <button onClick={() => setShowCreateModal(false)} className="w-8 h-8 rounded-xl text-[#999999] hover:bg-[#E6E6E6] hover:text-black flex items-center justify-center transition-all duration-150 active:scale-[0.98]">✕</button>
                         </div>
                         <form onSubmit={handleCreateSubmit} className="flex flex-col flex-1 overflow-hidden">
                             <div className="overflow-y-auto px-6 py-4 space-y-4">
                                 <div>
-                                    <label className="text-[10px] font-bold text-brand-primary capitalize tracking-wider">Menu</label>
+                                    <label className="text-xs font-semibold text-[#666666] uppercase tracking-wider">Menu</label>
                                     <select
                                         value={createForm.menu_id}
                                         onChange={(e) => setCreateForm(prev => ({ ...prev, menu_id: e.target.value }))}
                                         required
-                                        className="mt-1 w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="mt-1 w-full px-3 py-2.5 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10 text-black transition-all cursor-pointer"
                                     >
                                         <option value="" disabled>-- Pilih menu --</option>
                                         {menus.map(m => (
@@ -626,20 +626,20 @@ export default function RecipeIndex() {
                                         ))}
                                     </select>
                                 </div>
-                                <div className="px-6 pt-4">
-                                    <label className="text-[10px] font-bold text-brand-primary capitalize tracking-wider">Catatan (opsional)</label>
+                                <div className="px-0 pt-0">
+                                    <label className="text-xs font-semibold text-[#666666] uppercase tracking-wider">Catatan (opsional)</label>
                                     <textarea
                                         value={editNotes}
                                         onChange={(e) => setEditNotes(e.target.value)}
                                         rows={2}
                                         placeholder="Contoh: versi summer, tanpa gula, dll..."
-                                        className="mt-1 w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all resize-none hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="mt-1 w-full px-3 py-2.5 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10 text-black transition-all resize-none placeholder-[#999999]"
                                     />
                                 </div>
                                 <div className="space-y-3">
                                     <div className="grid grid-cols-12 gap-3 px-1">
                                         {['Bahan', 'Qty', 'Satuan', ''].map((h, i) => (
-                                            <p key={i} className={`${i === 0 ? 'col-span-5' : i === 3 ? 'col-span-1' : 'col-span-3'} text-[10px] font-bold text-brand-primary capitalize tracking-wider`}>{h}</p>
+                                            <p key={i} className={`${i === 0 ? 'col-span-5' : i === 3 ? 'col-span-1' : 'col-span-3'} text-xs font-semibold text-[#666666] uppercase tracking-wider`}>{h}</p>
                                         ))}
                                     </div>
                                     {createForm.ingredients.map((row, index) => (
@@ -656,17 +656,17 @@ export default function RecipeIndex() {
                                     ))}
                                 </div>
                             </div>
-                            <div className="px-6 py-4 border-t border-brand-light flex items-center justify-between flex-shrink-0">
+                            <div className="px-6 py-4 border-t border-[#E6E6E6] flex items-center justify-between flex-shrink-0">
                                 <button
                                     type="button"
                                     onClick={() => addIngredientRow(setCreateForm)}
-                                    className="flex items-center gap-1.5 text-xs font-bold text-brand-secondary bg-brand-light/30 px-3 py-2 rounded-lg border border-transparent hover:border-brand-secondary hover:bg-brand-light transition-all active:scale-[0.97]"
+                                    className="flex items-center gap-1.5 text-xs font-semibold text-black bg-transparent border border-[#D0D0D0] hover:bg-[#E6E6E6] px-3 py-2 rounded-xl transition-all active:scale-[0.98]"
                                 >
                                     + Tambah Bahan
                                 </button>
                                 <div className="flex items-center gap-3">
-                                    <button type="button" onClick={() => setShowCreateModal(false)} className="px-5 py-2.5 text-sm font-bold text-brand-dark border border-brand-light rounded-xl hover:bg-brand-light transition-all duration-150 active:scale-[0.97]">Batal</button>
-                                    <button type="submit" className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-brand-secondary to-brand-primary rounded-xl shadow-lg shadow-brand-secondary/30 active:scale-[0.97] transition-all duration-150">
+                                    <button type="button" onClick={() => setShowCreateModal(false)} className="px-5 py-2.5 text-sm font-semibold text-black border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] transition-all duration-150 active:scale-[0.98]">Batal</button>
+                                    <button type="submit" className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-black bg-[#BFFF00] hover:bg-[#C8FF5E] rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] active:scale-[0.98] transition-all duration-150">
                                         <iconify-icon icon="solar:diskette-linear" class="text-sm"></iconify-icon> Simpan
                                     </button>
                                 </div>
@@ -688,7 +688,7 @@ function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove
                     value={row.inventory_id}
                     onChange={(e) => onInventoryChange(e.target.value)}
                     required
-                    className="w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                    className="w-full px-3 py-2.5 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10 text-black transition-all cursor-pointer"
                 >
                     <option value="" disabled>-- Pilih bahan --</option>
                     {inventories.map(inv => (
@@ -704,7 +704,7 @@ function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove
                     value={row.qty}
                     onChange={(e) => onChange('qty', e.target.value)}
                     min="0.01" step="0.01" placeholder="Qty" required
-                    className="w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                    className="w-full px-3 py-2.5 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10 text-black transition-all"
                 />
             </div>
             <div className="col-span-3">
@@ -713,7 +713,7 @@ function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove
                     value={row.unit}
                     onChange={(e) => onChange('unit', e.target.value)}
                     placeholder="g, ml..." required
-                    className="w-full px-3 py-2.5 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                    className="w-full px-3 py-2.5 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10 text-black transition-all"
                 />
             </div>
             <div className="col-span-1 flex justify-center">
@@ -721,7 +721,7 @@ function IngredientRow({ row, inventories, onChange, onInventoryChange, onRemove
                     type="button"
                     onClick={onRemove}
                     disabled={!canRemove}
-                    className="w-8 h-8 rounded-lg text-rose-400 hover:bg-rose-50 hover:text-rose-600 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 active:scale-[0.97]"
+                    className="w-8 h-8 rounded-lg text-[#FF3B30] hover:bg-[#FF3B30]/10 hover:text-[#FF3B30] flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 active:scale-[0.98]"
                 >
                     <iconify-icon icon="solar:trash-bin-trash-linear" class="text-lg"></iconify-icon>
                 </button>
