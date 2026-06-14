@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\BelongsToTenant;
+
 class Inventory extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     protected $fillable = [
-        'name', 'unit', 'stock', 'min_stock',
+        'tenant_id', 'name', 'unit', 'stock', 'min_stock',
         'price_per_unit', 'supplier_id', 'inventory_category_id',
     ];
 

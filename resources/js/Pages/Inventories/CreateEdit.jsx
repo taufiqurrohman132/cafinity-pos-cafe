@@ -111,7 +111,7 @@ export default function InventoriesCreateEdit() {
         if (!categoryName) {
             return (
                 <>
-                    Pilih kategori <span className="font-bold text-brand-secondary">dairy</span>, <span className="font-bold text-brand-secondary">coffee</span>, atau <span className="font-bold text-brand-secondary">sirup</span> untuk melihat saran stok minimum yang ideal.
+                    Pilih kategori <span className="font-bold text-black">dairy</span>, <span className="font-bold text-black">coffee</span>, atau <span className="font-bold text-black">sirup</span> untuk melihat saran stok minimum yang ideal.
                 </>
             );
         }
@@ -122,25 +122,25 @@ export default function InventoriesCreateEdit() {
         if (catLower.includes("dairy") || catLower.includes("susu")) {
             return (
                 <>
-                    Berdasarkan data kategori <span className="font-bold text-brand-secondary">Dairy</span>, kami menyarankan stok awal minimal <span className="font-bold text-brand-secondary">12 {currentUnit}</span> untuk memenuhi kebutuhan operasional <span className="font-bold text-brand-secondary">3 hari</span> ke depan.
+                    Berdasarkan data kategori <span className="font-bold text-black">Dairy</span>, kami menyarankan stok awal minimal <span className="font-bold text-black">12 {currentUnit}</span> untuk memenuhi kebutuhan operasional <span className="font-bold text-black">3 hari</span> ke depan.
                 </>
             );
         } else if (catLower.includes("coffee") || catLower.includes("biji kopi") || catLower.includes("kopi")) {
             return (
                 <>
-                    Berdasarkan data kategori <span className="font-bold text-brand-secondary">Coffee</span>, kami menyarankan stok awal minimal <span className="font-bold text-brand-secondary">5 {currentUnit}</span> untuk memenuhi kebutuhan operasional <span className="font-bold text-brand-secondary">7 hari</span> ke depan.
+                    Berdasarkan data kategori <span className="font-bold text-black">Coffee</span>, kami menyarankan stok awal minimal <span className="font-bold text-black">5 {currentUnit}</span> untuk memenuhi kebutuhan operasional <span className="font-bold text-black">7 hari</span> ke depan.
                 </>
             );
         } else if (catLower.includes("sirup") || catLower.includes("syrup") || catLower.includes("sauce")) {
             return (
                 <>
-                    Berdasarkan data kategori <span className="font-bold text-brand-secondary">Syrup</span>, kami menyarankan stok awal minimal <span className="font-bold text-brand-secondary">6 {currentUnit}</span> untuk memenuhi kebutuhan operasional <span className="font-bold text-brand-secondary">5 hari</span> ke depan.
+                    Berdasarkan data kategori <span className="font-bold text-black">Syrup</span>, kami menyarankan stok awal minimal <span className="font-bold text-black">6 {currentUnit}</span> untuk memenuhi kebutuhan operasional <span className="font-bold text-black">5 hari</span> ke depan.
                 </>
             );
         } else {
             return (
                 <>
-                    Berdasarkan data kategori <span className="font-bold text-brand-secondary">{categoryName}</span>, kami menyarankan stok awal minimal <span className="font-bold text-brand-secondary">10 {currentUnit}</span> untuk memenuhi kebutuhan operasional standar.
+                    Berdasarkan data kategori <span className="font-bold text-black">{categoryName}</span>, kami menyarankan stok awal minimal <span className="font-bold text-black">10 {currentUnit}</span> untuk memenuhi kebutuhan operasional standar.
                 </>
             );
         }
@@ -334,20 +334,20 @@ export default function InventoriesCreateEdit() {
                         <div className="flex items-center gap-4">
                             <Link 
                                 to="/inventories" 
-                                className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
+                                className="w-10 h-10 rounded-full bg-white border border-[#D0D0D0] flex items-center justify-center text-brand-primary/60 hover:text-black hover:border-black transition shadow-sm shrink-0"
                             >
                                 <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
                             </Link>
                             <div>
                                 <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium mb-1">
-                                    <Link to="/inventories" className="hover:text-brand-primary transition-colors">Inventori</Link>
+                                    <Link to="/inventories" className="hover:text-black transition-colors">Inventori</Link>
                                     <span className="text-brand-primary/40">›</span>
                                     <span className="text-brand-dark font-bold">{isEditMode ? "Edit Bahan" : "Tambah Bahan"}</span>
                                 </nav>
-                                <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                                <h1 className="text-2xl sm:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight pt-1">
                                     {isEditMode ? "Edit Detail Bahan Baku" : "Tambah Bahan Baku Baru"}
                                 </h1>
-                                <p className="text-brand-primary/60 font-medium text-xs mt-1">
+                                <p className="text-brand-primary/60 mt-1 text-body-compact">
                                     Kelola spesifikasi bahan baku, status stok awal, dan integrasi supplier utama.
                                 </p>
                             </div>
@@ -355,7 +355,7 @@ export default function InventoriesCreateEdit() {
                         <div className="flex items-center gap-3 shrink-0">
                             <Link
                                 to="/inventories"
-                                className="px-5 py-2.5 text-xs font-extrabold text-brand-dark/75 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition duration-150 active:scale-95 shadow-sm"
+                                className="px-5 py-2.5 text-xs font-semibold text-black bg-white border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] hover:border-[#999999] transition duration-150 active:scale-95 shadow-sm"
                             >
                                 Batal
                             </Link>
@@ -363,7 +363,7 @@ export default function InventoriesCreateEdit() {
                                 type="button"
                                 onClick={handleSubmit}
                                 disabled={processing}
-                                className="px-6 py-2.5 text-xs font-extrabold text-white bg-brand-dark hover:bg-brand-primary rounded-xl duration-150 active:scale-[0.97] shadow-md disabled:opacity-60 transition-all"
+                                className="px-6 py-2.5 text-xs font-semibold text-black bg-[#BFFF00] hover:bg-[#C8FF5E] rounded-xl duration-150 active:bg-[#AFEE00] active:scale-[0.97] shadow-level-1 hover:shadow-level-2 disabled:opacity-60 transition-all"
                             >
                                 {processing ? "Menyimpan..." : "Simpan Bahan"}
                             </button>
@@ -401,9 +401,9 @@ export default function InventoriesCreateEdit() {
                         <div className="lg:col-span-8 space-y-6">
 
                             {/* Card 1: Informasi Dasar */}
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
+                            <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-level-1 space-y-4">
                                 <div className="flex items-center gap-1.5 mb-2">
-                                    <h3 className="font-bold text-brand-dark text-base flex items-center gap-1.5">
+                                    <h3 className="font-semibold text-black text-base flex items-center gap-1.5">
                                         Informasi Dasar
                                     </h3>
                                     <span className="text-brand-primary/40 hover:text-brand-dark cursor-pointer flex items-center text-sm" title="Informasi detail mengenai bahan baku">
@@ -414,7 +414,7 @@ export default function InventoriesCreateEdit() {
                                 <div className="space-y-4">
                                     {/* Nama Bahan */}
                                     <div>
-                                        <label className="text-xs font-bold text-brand-dark block mb-1.5">
+                                        <label className="text-xs font-semibold text-black block mb-1.5">
                                             Nama Bahan <span className="text-rose-500">*</span>
                                         </label>
                                         <input
@@ -423,7 +423,7 @@ export default function InventoriesCreateEdit() {
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
                                             placeholder="Contoh: Susu UHT Full Cream"
-                                            className={`w-full h-10 px-3 text-xs bg-white border rounded-xl focus:outline-none transition-all font-bold text-brand-dark ${ errors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light" } hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
+                                            className={`w-full h-10 px-3 text-xs bg-white border rounded-xl focus:outline-none transition-all font-medium text-black ${ errors.name ? "border-rose-300 focus:border-rose-500" : "border-[#D0D0D0] hover:border-[#999999]" } focus:border-[#BFFF00]`}
                                         />
                                         {errors.name && (
                                             <p className="text-[10px] text-rose-500 font-bold mt-1">{errors.name}</p>
@@ -434,7 +434,7 @@ export default function InventoriesCreateEdit() {
                                     <div className="grid grid-cols-2 gap-4">
                                         {/* Kategori Select with Add Button */}
                                         <div>
-                                            <label className="text-xs font-bold text-brand-dark block mb-1.5">
+                                            <label className="text-xs font-semibold text-black block mb-1.5">
                                                 Kategori <span className="text-rose-500">*</span>
                                             </label>
                                             <div className="flex gap-2">
@@ -442,7 +442,7 @@ export default function InventoriesCreateEdit() {
                                                     required
                                                     value={categoryId}
                                                     onChange={(e) => setCategoryId(e.target.value)}
-                                                    className={`flex-1 h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark ${ errors.inventory_category_id ? "border-rose-300 ring-2 ring-rose-50" : "" } focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
+                                                    className={`flex-1 h-10 px-3 text-xs bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl focus:outline-none transition-all cursor-pointer font-medium text-black ${ errors.inventory_category_id ? "border-rose-300" : "" } focus:border-[#BFFF00]`}
                                                 >
                                                     <option value="" disabled>-- Pilih Kategori --</option>
                                                     {categories.map((cat) => (
@@ -454,7 +454,7 @@ export default function InventoriesCreateEdit() {
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowCategoryModal(true)}
-                                                    className="w-10 h-10 border border-brand-light bg-brand-light/30 rounded-xl flex items-center justify-center text-lg text-brand-primary hover:bg-brand-light active:scale-[0.97] transition-all duration-150"
+                                                    className="w-10 h-10 border border-[#D0D0D0] bg-white rounded-xl flex items-center justify-center text-lg text-black hover:bg-[#E6E6E6] hover:border-[#999999] active:scale-[0.97] transition-all duration-150 shadow-sm"
                                                     title="Tambah Kategori Baru"
                                                 >
                                                     +
@@ -469,14 +469,14 @@ export default function InventoriesCreateEdit() {
 
                                         {/* Satuan Select/Combo Input */}
                                         <div>
-                                            <label className="text-xs font-bold text-brand-dark block mb-1.5">
+                                            <label className="text-xs font-semibold text-black block mb-1.5">
                                                 Satuan <span className="text-rose-500">*</span>
                                             </label>
                                             <select
                                                 required
                                                 value={unit}
                                                 onChange={(e) => setUnit(e.target.value)}
-                                                className={`w-full h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark ${ errors.unit ? "border-rose-300 ring-2 ring-rose-50" : "" } focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
+                                                className={`w-full h-10 px-3 text-xs bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl focus:outline-none transition-all cursor-pointer font-medium text-black ${ errors.unit ? "border-rose-300" : "" } focus:border-[#BFFF00]`}
                                             >
                                                 <option value="" disabled>-- Pilih Satuan --</option>
                                                 <option value="Gram">Gram (g)</option>
@@ -499,15 +499,15 @@ export default function InventoriesCreateEdit() {
                             </div>
 
                             {/* Card 2: Manajemen Stok & Harga */}
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
+                            <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-level-1 space-y-4">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <h3 className="font-bold text-brand-dark text-base">Manajemen Stok & Harga</h3>
+                                    <h3 className="font-semibold text-black text-base">Manajemen Stok & Harga</h3>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4">
                                     {/* Stok Awal */}
                                     <div>
-                                        <label className="text-xs font-bold text-brand-dark block mb-1.5">
+                                        <label className="text-xs font-semibold text-black block mb-1.5">
                                             Stok Awal
                                         </label>
                                         <input
@@ -516,9 +516,9 @@ export default function InventoriesCreateEdit() {
                                             value={stock}
                                             onChange={(e) => setStock(e.target.value)}
                                             placeholder="0"
-                                            className="w-full h-10 px-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                            className="w-full h-10 px-3 text-xs bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl focus:outline-none transition-all font-medium text-black focus:border-[#BFFF00]"
                                         />
-                                        <span className="text-[10px] text-brand-primary/50 mt-1.5 block leading-normal">
+                                        <span className="text-[10px] text-brand-primary/60 mt-1.5 block leading-normal">
                                             Jumlah stok saat ini yang tersedia di gudang/toko.
                                         </span>
                                         {errors.stock && (
@@ -528,7 +528,7 @@ export default function InventoriesCreateEdit() {
 
                                     {/* Minimum Stock Alert */}
                                     <div>
-                                        <label className="text-xs font-bold text-brand-dark block mb-1.5">
+                                        <label className="text-xs font-semibold text-black block mb-1.5">
                                             Minimum Stock Alert
                                         </label>
                                         <div className="relative">
@@ -538,13 +538,13 @@ export default function InventoriesCreateEdit() {
                                                 value={minStock}
                                                 onChange={(e) => setMinStock(e.target.value)}
                                                 placeholder="10"
-                                                className="w-full h-10 pl-3 pr-10 text-xs bg-white border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                                className="w-full h-10 pl-3 pr-10 text-xs bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl focus:outline-none transition-all font-medium text-black focus:border-[#BFFF00]"
                                             />
                                             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-amber-500 flex items-center text-sm">
                                                 <iconify-icon icon="solar:danger-triangle-linear"></iconify-icon>
                                             </span>
                                         </div>
-                                        <span className="text-[10px] text-brand-primary/50 mt-1.5 block leading-normal">
+                                        <span className="text-[10px] text-brand-primary/60 mt-1.5 block leading-normal">
                                             Sistem akan memberi notifikasi jika stok di bawah angka ini.
                                         </span>
                                         {errors.min_stock && (
@@ -556,7 +556,7 @@ export default function InventoriesCreateEdit() {
                                 <div className="grid grid-cols-2 gap-4">
                                     {/* Harga Rata-rata (Rp) */}
                                     <div>
-                                        <label className="text-xs font-bold text-brand-dark block mb-1.5">
+                                        <label className="text-xs font-semibold text-black block mb-1.5">
                                             Harga Rata-rata (Rp)
                                         </label>
                                         <input
@@ -564,7 +564,7 @@ export default function InventoriesCreateEdit() {
                                             value={pricePerUnit}
                                             onChange={(e) => setPricePerUnit(e.target.value)}
                                             placeholder="Rp 0"
-                                            className="w-full h-10 px-3 text-xs bg-brand-light/20 border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-secondary hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                            className="w-full h-10 px-3 text-xs bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl focus:outline-none transition-all font-medium text-black focus:border-[#BFFF00]"
                                         />
                                         {errors.price_per_unit && (
                                             <p className="text-[10px] text-rose-500 font-bold mt-1">{errors.price_per_unit}</p>
@@ -573,7 +573,7 @@ export default function InventoriesCreateEdit() {
 
                                     {/* Lokasi Penyimpanan */}
                                     <div>
-                                        <label className="text-xs font-bold text-brand-dark block mb-1.5">
+                                        <label className="text-xs font-semibold text-black block mb-1.5">
                                             Lokasi Penyimpanan
                                         </label>
                                         <input
@@ -581,29 +581,29 @@ export default function InventoriesCreateEdit() {
                                             value={storageLocation}
                                             onChange={(e) => setStorageLocation(e.target.value)}
                                             placeholder="Contoh: Chiller A, Rak 2"
-                                            className="w-full h-10 px-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                            className="w-full h-10 px-3 text-xs bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl focus:outline-none transition-all font-medium text-black focus:border-[#BFFF00]"
                                         />
                                     </div>
                                 </div>
                             </div>
 
                             {/* Card 3: Supplier & Keterangan */}
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm space-y-4">
+                            <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-level-1 space-y-4">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <h3 className="font-bold text-brand-dark text-base">Supplier & Keterangan</h3>
+                                    <h3 className="font-semibold text-black text-base">Supplier & Keterangan</h3>
                                 </div>
 
                                 <div className="space-y-4">
                                     {/* Supplier Select with Add Button */}
                                     <div>
-                                        <label className="text-xs font-bold text-brand-dark block mb-1.5">
+                                        <label className="text-xs font-semibold text-black block mb-1.5">
                                             Supplier Utama
                                         </label>
                                         <div className="flex gap-2">
                                             <select
                                                 value={supplierId}
                                                 onChange={(e) => setSupplierId(e.target.value)}
-                                                className="flex-1 h-10 px-3 text-xs bg-brand-light/30 border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                                className="flex-1 h-10 px-3 text-xs bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl focus:outline-none transition-all cursor-pointer font-medium text-black focus:border-[#BFFF00]"
                                             >
                                                 <option value="">-- Pilih Supplier --</option>
                                                 {suppliers.map((s) => (
@@ -615,7 +615,7 @@ export default function InventoriesCreateEdit() {
                                             <button
                                                 type="button"
                                                 onClick={() => setShowSupplierModal(true)}
-                                                className="w-10 h-10 border border-brand-light bg-brand-light/30 rounded-xl flex items-center justify-center text-lg text-brand-primary hover:bg-brand-light active:scale-[0.97] transition-all duration-150"
+                                                className="w-10 h-10 border border-[#D0D0D0] bg-white rounded-xl flex items-center justify-center text-lg text-black hover:bg-[#E6E6E6] hover:border-[#999999] active:scale-[0.97] transition-all duration-150 shadow-sm"
                                                 title="Tambah Supplier Baru"
                                             >
                                                 +
@@ -625,7 +625,7 @@ export default function InventoriesCreateEdit() {
 
                                     {/* Keterangan Tambahan */}
                                     <div>
-                                        <label className="text-xs font-bold text-brand-dark block mb-1.5">
+                                        <label className="text-xs font-semibold text-black block mb-1.5">
                                             Keterangan Tambahan
                                         </label>
                                         <textarea
@@ -633,7 +633,7 @@ export default function InventoriesCreateEdit() {
                                             onChange={(e) => setNotes(e.target.value)}
                                             placeholder="Catatan mengenai cara penyimpanan khusus atau detail lainnya..."
                                             rows={4}
-                                            className="w-full p-3 text-xs bg-white border border-brand-light rounded-xl focus:outline-none transition-all resize-none font-medium text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                            className="w-full p-3 text-xs bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl focus:outline-none transition-all resize-none font-medium text-black focus:border-[#BFFF00]"
                                         />
                                     </div>
                                 </div>
@@ -645,29 +645,29 @@ export default function InventoriesCreateEdit() {
                         <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-6">
                             
                             {/* Card 1: RINGKASAN INPUT */}
-                            <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm flex flex-col justify-between relative overflow-hidden">
+                            <div className="bg-white p-5 rounded-2xl border border-[#E6E6E6] shadow-level-1 flex flex-col justify-between relative overflow-hidden">
                                 <div className="relative z-10 space-y-4">
-                                    <p className="text-[11px] font-bold capitalize tracking-widest text-gray-400">
+                                    <p className="text-[10px] font-semibold uppercase tracking-wider text-brand-primary/60">
                                         Ringkasan Input
                                     </p>
                                     
-                                    <div className="flex items-center justify-between border-b border-brand-light pb-3">
-                                        <p className="text-xs font-bold text-gray-600">Nama Bahan</p>
-                                        <p className={`text-xs font-bold ${!name.trim() ? "italic text-gray-400" : "text-brand-dark"}`}>
+                                    <div className="flex items-center justify-between border-b border-[#E6E6E6] pb-3">
+                                        <p className="text-xs font-medium text-brand-primary/60">Nama Bahan</p>
+                                        <p className={`text-xs font-semibold ${!name.trim() ? "italic text-gray-400" : "text-black"}`}>
                                             {name.trim() ? name.trim() : "Belum diisi"}
                                         </p>
                                     </div>
 
-                                    <div className="flex items-center justify-between border-b border-brand-light pb-3">
-                                        <p className="text-xs font-bold text-gray-600">Estimasi Nilai</p>
-                                        <p className="text-xs font-black text-brand-secondary">
+                                    <div className="flex items-center justify-between border-b border-[#E6E6E6] pb-3">
+                                        <p className="text-xs font-medium text-brand-primary/60">Estimasi Nilai</p>
+                                        <p className="text-xs font-bold text-black">
                                             Rp {fmt(estimatedValue)}
                                         </p>
                                     </div>
 
                                     <div className="flex items-center justify-between">
-                                        <p className="text-xs font-bold text-gray-600">Status Awal</p>
-                                        <span className="inline-block px-2.5 py-0.5 bg-brand-light text-brand-primary rounded text-[9px] font-black tracking-wider capitalize">
+                                        <p className="text-xs font-medium text-brand-primary/60">Status Awal</p>
+                                        <span className="inline-block px-2.5 py-0.5 bg-[#E6E6E6] text-black rounded text-[9px] font-bold tracking-wider capitalize">
                                             {isEditMode ? "TERSEDIA" : "DRAFT"}
                                         </span>
                                     </div>
@@ -675,28 +675,28 @@ export default function InventoriesCreateEdit() {
                             </div>
 
                             {/* Card 2: Saran Restock */}
-                            <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm space-y-3">
-                                <div className="flex items-center gap-2 text-brand-dark font-bold text-xs">
+                            <div className="bg-white p-5 rounded-2xl border border-[#E6E6E6] shadow-level-1 space-y-3">
+                                <div className="flex items-center gap-2 text-black font-semibold text-xs">
                                     <span className="text-base text-brand-primary flex items-center">
                                         <iconify-icon icon="solar:notebook-linear"></iconify-icon>
                                     </span>
                                     Saran Restock
                                 </div>
-                                <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-3.5 text-[10px] text-brand-secondary font-bold leading-relaxed">
+                                <div className="bg-emerald-50/40 border border-emerald-100 rounded-xl p-3.5 text-xs text-emerald-800 font-medium leading-relaxed">
                                     {getRestockAdvisory()}
                                 </div>
                             </div>
 
                             {/* Card 3: Quick Help */}
-                            <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm space-y-3">
-                                <h4 className="text-brand-dark font-bold text-xs">Quick Help</h4>
-                                <ul className="space-y-2 text-[10px] text-brand-primary/60 font-bold leading-relaxed">
+                            <div className="bg-white p-5 rounded-2xl border border-[#E6E6E6] shadow-level-1 space-y-3">
+                                <h4 className="text-black font-semibold text-xs">Quick Help</h4>
+                                <ul className="space-y-2 text-[10px] text-brand-primary/60 font-semibold leading-relaxed">
                                     <li className="flex gap-2 items-start">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-brand-primary mt-1.5 flex-shrink-0" />
+                                        <span className="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0" />
                                         <span>Gunakan Satuan Terkecil untuk akurasi resep yang lebih baik.</span>
                                     </li>
                                     <li className="flex gap-2 items-start">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-brand-primary mt-1.5 flex-shrink-0" />
+                                        <span className="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0" />
                                         <span>Foto label bahan bisa diunggah di bagian keterangan (Opsional).</span>
                                     </li>
                                 </ul>
@@ -713,17 +713,17 @@ export default function InventoriesCreateEdit() {
             </div>
 
             {/* STICKY BOTTOM FOOTER BANNER */}
-            <div className="fixed bottom-0 left-[260px] right-0 z-40 bg-white border-t border-brand-light py-4 px-6 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="fixed bottom-0 left-0 lg:left-[260px] right-0 z-40 bg-white border-t border-[#E6E6E6] py-4 px-6 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 transition-all duration-300">
                 <div className="flex items-center gap-3">
                     <span className="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse" />
-                    <span className="text-xs font-bold text-brand-primary/60">
+                    <span className="text-xs font-semibold text-brand-primary/60">
                         Perubahan belum disimpan
                     </span>
                 </div>
                 <div className="flex items-center gap-3">
                     <Link
                         to="/inventories"
-                        className="px-5 py-2.5 text-xs font-bold text-brand-dark/75 bg-white border border-brand-light rounded-xl hover:bg-brand-bg transition duration-150 shadow-sm active:scale-95"
+                        className="px-5 py-2.5 text-xs font-semibold text-black bg-white border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] hover:border-[#999999] transition duration-150 shadow-sm active:scale-95"
                     >
                         Batalkan
                     </Link>
@@ -731,17 +731,16 @@ export default function InventoriesCreateEdit() {
                         type="button"
                         onClick={handleSubmit}
                         disabled={processing}
-                        className="px-6 py-2.5 text-xs font-extrabold text-white bg-brand-dark hover:bg-brand-primary rounded-xl duration-150 active:scale-[0.97] shadow-md disabled:opacity-60 transition-all"
+                        className="px-6 py-2.5 text-xs font-semibold text-black bg-[#BFFF00] hover:bg-[#C8FF5E] rounded-xl duration-150 active:bg-[#AFEE00] active:scale-[0.97] shadow-level-1 hover:shadow-level-2 disabled:opacity-60 transition-all"
                     >
                         {processing ? "Menyimpan..." : "Simpan Bahan"}
                     </button>
                 </div>
             </div>
-
             {/* INLINE CATEGORY QUICK CREATION MODAL */}
             {showCategoryModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
-                    <div className="bg-white rounded-3xl border border-brand-light p-6 w-full max-w-sm shadow-xl relative my-8 animate-fadeIn">
+                    <div className="bg-white rounded-3xl border border-[#E6E6E6] p-6 w-full max-w-sm shadow-level-3 relative my-8 animate-fadeIn">
                         
                         <button
                             type="button"
@@ -750,21 +749,21 @@ export default function InventoriesCreateEdit() {
                                 setCatErrors({});
                                 setNewCatName("");
                             }}
-                            className="absolute top-4 right-4 p-1.5 text-brand-primary/40 hover:text-brand-dark hover:bg-brand-light/35 rounded-xl transition-all active:scale-[0.97]"
+                            className="absolute top-4 right-4 p-1.5 text-black/40 hover:text-black hover:bg-[#E6E6E6]/40 rounded-xl transition-all active:scale-[0.97]"
                         >
                             ✕
                         </button>
 
-                        <h3 className="font-extrabold text-md text-brand-dark mb-1">
+                        <h3 className="font-semibold text-base text-black mb-1">
                             Tambah Kategori Baru
                         </h3>
-                        <p className="text-[10px] text-brand-primary/60 mb-5">
+                        <p className="text-caption text-black/60 mb-5">
                             Buat kategori bahan baku baru di outlet Anda.
                         </p>
 
                         <form onSubmit={handleCategorySubmit} className="space-y-4">
                             <div>
-                                <label className="text-[10px] font-bold text-brand-dark capitalize block mb-1">
+                                <label className="text-caption font-semibold text-black capitalize block mb-1">
                                     Nama Kategori <span className="text-rose-500">*</span>
                                 </label>
                                 <input
@@ -773,16 +772,16 @@ export default function InventoriesCreateEdit() {
                                     value={newCatName}
                                     onChange={(e) => setNewCatName(e.target.value)}
                                     placeholder="Contoh: Dairy, Sirup, Coffee"
-                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none font-bold text-brand-dark ${ catErrors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light" } transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
+                                    className={`w-full h-10 px-3 text-xs bg-white border rounded-xl focus:outline-none font-medium text-black ${ catErrors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-[#D0D0D0] hover:border-[#999999]" } transition-all duration-150 focus:border-[#BFFF00]`}
                                 />
                                 {catErrors.name && (
-                                    <p className="text-[9px] text-rose-500 font-bold mt-1">
+                                    <p className="text-[9px] text-rose-500 font-semibold mt-1">
                                         {catErrors.name}
                                     </p>
                                 )}
                             </div>
 
-                            <div className="flex items-center gap-2 pt-2 border-t border-brand-light">
+                            <div className="flex items-center gap-2 pt-2 border-t border-[#E6E6E6]">
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -790,14 +789,14 @@ export default function InventoriesCreateEdit() {
                                         setCatErrors({});
                                         setNewCatName("");
                                     }}
-                                    className="flex-1 py-2 bg-white border border-brand-light text-brand-primary/65 rounded-lg text-xs font-bold hover:bg-brand-light/30 transition-all active:scale-[0.97]"
+                                    className="flex-1 py-2 bg-white border border-[#D0D0D0] text-black rounded-xl text-xs font-semibold hover:bg-[#E6E6E6] hover:border-[#999999] transition-all active:scale-[0.97]"
                                 >
                                     Batal
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={catProcessing}
-                                    className="flex-1 py-2 bg-brand-dark hover:bg-brand-primary text-white rounded-lg text-xs font-bold transition-all disabled:opacity-50 active:scale-[0.97]"
+                                    className="flex-1 py-2 bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black rounded-xl text-xs font-semibold transition-all disabled:opacity-50 active:scale-[0.97]"
                                 >
                                     {catProcessing ? "Proses..." : "Simpan"}
                                 </button>
@@ -810,7 +809,7 @@ export default function InventoriesCreateEdit() {
             {/* INLINE SUPPLIER QUICK CREATION MODAL */}
             {showSupplierModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
-                    <div className="bg-white rounded-3xl border border-brand-light p-6 w-full max-w-sm shadow-xl relative my-8 animate-fadeIn">
+                    <div className="bg-white rounded-3xl border border-[#E6E6E6] p-6 w-full max-w-sm shadow-level-3 relative my-8 animate-fadeIn">
                         
                         <button
                             type="button"
@@ -820,22 +819,22 @@ export default function InventoriesCreateEdit() {
                                 setNewSupplierName("");
                                 setNewSupplierContact("");
                             }}
-                            className="absolute top-4 right-4 p-1.5 text-brand-primary/40 hover:text-brand-dark hover:bg-brand-light/35 rounded-xl transition-all active:scale-[0.97]"
+                            className="absolute top-4 right-4 p-1.5 text-black/40 hover:text-black hover:bg-[#E6E6E6]/40 rounded-xl transition-all active:scale-[0.97]"
                         >
                             ✕
                         </button>
 
-                        <h3 className="font-extrabold text-md text-brand-dark mb-1">
+                        <h3 className="font-semibold text-base text-black mb-1">
                             Tambah Supplier Baru
                         </h3>
-                        <p className="text-[10px] text-brand-primary/60 mb-5">
+                        <p className="text-caption text-black/60 mb-5">
                             Daftarkan supplier utama baru untuk pengadaan inventaris.
                         </p>
 
                         <form onSubmit={handleSupplierSubmit} className="space-y-4">
                             {/* Supplier Name */}
                             <div>
-                                <label className="text-[10px] font-bold text-brand-dark capitalize block mb-1">
+                                <label className="text-caption font-semibold text-black capitalize block mb-1">
                                     Nama Supplier <span className="text-rose-500">*</span>
                                 </label>
                                 <input
@@ -844,10 +843,10 @@ export default function InventoriesCreateEdit() {
                                     value={newSupplierName}
                                     onChange={(e) => setNewSupplierName(e.target.value)}
                                     placeholder="Contoh: PT. Global Dairy Milk"
-                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none font-bold text-brand-dark ${ supplierErrors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light" } transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
+                                    className={`w-full h-10 px-3 text-xs bg-white border rounded-xl focus:outline-none font-medium text-black ${ supplierErrors.name ? "border-rose-300 ring-2 ring-rose-50" : "border-[#D0D0D0] hover:border-[#999999]" } transition-all duration-150 focus:border-[#BFFF00]`}
                                 />
                                 {supplierErrors.name && (
-                                    <p className="text-[9px] text-rose-500 font-bold mt-1">
+                                    <p className="text-[9px] text-rose-500 font-semibold mt-1">
                                         {supplierErrors.name}
                                     </p>
                                 )}
@@ -855,7 +854,7 @@ export default function InventoriesCreateEdit() {
 
                             {/* Contact Name */}
                             <div>
-                                <label className="text-[10px] font-bold text-brand-dark capitalize block mb-1">
+                                <label className="text-caption font-semibold text-black capitalize block mb-1">
                                     Nama Kontak Person <span className="text-rose-500">*</span>
                                 </label>
                                 <input
@@ -864,10 +863,10 @@ export default function InventoriesCreateEdit() {
                                     value={newSupplierContact}
                                     onChange={(e) => setNewSupplierContact(e.target.value)}
                                     placeholder="Contoh: Dian Permata"
-                                    className={`w-full h-9 px-3 text-xs bg-brand-bg border rounded-lg focus:outline-none font-bold text-brand-dark ${ supplierErrors.contact_name ? "border-rose-300 ring-2 ring-rose-50" : "border-brand-light" } transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light`}
+                                    className={`w-full h-10 px-3 text-xs bg-white border rounded-xl focus:outline-none font-medium text-black ${ supplierErrors.contact_name ? "border-rose-300 ring-2 ring-rose-50" : "border-[#D0D0D0] hover:border-[#999999]" } transition-all duration-150 focus:border-[#BFFF00]`}
                                 />
                                 {supplierErrors.contact_name && (
-                                    <p className="text-[9px] text-rose-500 font-bold mt-1">
+                                    <p className="text-[9px] text-rose-500 font-semibold mt-1">
                                         {supplierErrors.contact_name}
                                     </p>
                                 )}
@@ -875,7 +874,7 @@ export default function InventoriesCreateEdit() {
 
                             {/* Supplier Category */}
                             <div>
-                                <label className="text-[10px] font-bold text-brand-dark capitalize block mb-1">
+                                <label className="text-caption font-semibold text-black capitalize block mb-1">
                                     Kategori Kemitraan
                                 </label>
                                 <input
@@ -883,11 +882,11 @@ export default function InventoriesCreateEdit() {
                                     value={newSupplierCategory}
                                     onChange={(e) => setNewSupplierCategory(e.target.value)}
                                     placeholder="Contoh: Bahan Baku, Packaging"
-                                    className="w-full h-9 px-3 text-xs bg-brand-bg border border-brand-light rounded-lg focus:outline-none font-bold text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                    className="w-full h-10 px-3 text-xs bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl focus:outline-none font-medium text-black transition-all duration-150 focus:border-[#BFFF00]"
                                 />
                             </div>
 
-                            <div className="flex items-center gap-2 pt-2 border-t border-brand-light">
+                            <div className="flex items-center gap-2 pt-2 border-t border-[#E6E6E6]">
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -896,14 +895,14 @@ export default function InventoriesCreateEdit() {
                                         setNewSupplierName("");
                                         setNewSupplierContact("");
                                     }}
-                                    className="flex-1 py-2 bg-white border border-brand-light text-brand-primary/65 rounded-lg text-xs font-bold hover:bg-brand-light/30 transition-all active:scale-[0.97]"
+                                    className="flex-1 py-2 bg-white border border-[#D0D0D0] text-black rounded-xl text-xs font-semibold hover:bg-[#E6E6E6] hover:border-[#999999] transition-all active:scale-[0.97]"
                                 >
                                     Batal
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={supplierProcessing}
-                                    className="flex-1 py-2 bg-brand-dark hover:bg-brand-primary text-white rounded-lg text-xs font-bold transition-all disabled:opacity-50 active:scale-[0.97]"
+                                    className="flex-1 py-2 bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black rounded-xl text-xs font-semibold transition-all disabled:opacity-50 active:scale-[0.97]"
                                 >
                                     {supplierProcessing ? "Proses..." : "Simpan"}
                                 </button>

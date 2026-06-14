@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\BelongsToTenant;
+
 class Notification extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     protected $fillable = [
-        'user_id', 'title', 'body', 'type', 'is_read', 'read_at',
+        'tenant_id', 'user_id', 'title', 'body', 'type', 'is_read', 'read_at',
     ];
 
     protected $casts = [

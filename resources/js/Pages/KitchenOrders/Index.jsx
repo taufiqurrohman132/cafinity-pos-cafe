@@ -7,22 +7,22 @@ import KitchenOrdersSkeleton from '@/Components/Skeletons/KitchenOrdersSkeleton'
 
 const STATUS_CONFIG = {
     preparing: {
-        badge: 'bg-brand-secondary/10 text-brand-secondary border-brand-secondary/20',
+        badge: 'bg-indigo-50 text-indigo-700 border-indigo-100',
         icon: 'solar:fire-linear',
         label: 'Sedang Dimasak',
-        card: 'bg-gradient-to-b from-[#eeeeff] to-white border-[#c4c0ff]',
+        card: 'bg-white border-[#E6E6E6]',
     },
     pending: {
-        badge: 'bg-amber-100 text-amber-700 border-amber-200',
+        badge: 'bg-amber-50 text-amber-700 border-amber-100',
         icon: 'solar:clock-circle-linear',
         label: 'Menunggu',
-        card: 'bg-gradient-to-b from-amber-50 to-white border-amber-200',
+        card: 'bg-white border-[#E6E6E6]',
     },
     ready: {
-        badge: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+        badge: 'bg-emerald-50 text-emerald-700 border-emerald-100',
         icon: 'solar:check-circle-linear',
         label: 'Siap Diambil',
-        card: 'bg-gradient-to-b from-emerald-50 to-white border-emerald-200',
+        card: 'bg-white border-[#E6E6E6]',
     },
 };
 
@@ -52,7 +52,7 @@ function LiveClock() {
         return () => clearInterval(id);
     }, []);
 
-    return <span className="font-bold text-brand-dark">{time}</span>;
+    return <span className="font-bold text-black">{time}</span>;
 }
 
 export default function KitchenOrdersIndex() {
@@ -151,14 +151,14 @@ export default function KitchenOrdersIndex() {
         return (
             <>
                 <Head title="Antrean Dapur" />
-                <div className="min-h-screen flex items-center justify-center bg-brand-bg p-4">
-                    <div className="bg-white p-8 rounded-3xl border border-brand-light max-w-md w-full shadow-lg text-center">
+                <div className="min-h-screen flex items-center justify-center bg-white p-4">
+                    <div className="bg-white p-8 rounded-2xl border border-[#E6E6E6] max-w-md w-full shadow-level-3 text-center">
                         <iconify-icon icon="solar:danger-triangle-linear" class="text-rose-500 text-5xl mb-4 mx-auto block"></iconify-icon>
-                        <h3 className="text-lg font-extrabold text-brand-dark mb-2">Terjadi Kesalahan</h3>
-                        <p className="text-sm text-brand-primary/70 mb-6">
+                        <h3 className="text-heading text-black mb-2">Terjadi Kesalahan</h3>
+                        <p className="text-body-compact text-black/60 mb-6">
                             Gagal memuat data antrean dapur dari server. Silakan coba lagi.
                         </p>
-                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-brand-primary text-white py-2.5 rounded-xl font-bold shadow-md hover:bg-brand-dark transition-all active:scale-[0.97]">
+                        <button onClick={() => setRefreshTrigger(prev => prev + 1)} className="w-full bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black py-2.5 rounded-xl font-semibold transition-all active:scale-[0.97]">
                             Coba Lagi
                         </button>
                     </div>
@@ -170,36 +170,36 @@ export default function KitchenOrdersIndex() {
     if (!orders || !stats) return null;
 
     const statCards = [
-        { label: 'Pesanan Aktif', value: stats.active_orders, icon: 'solar:clipboard-list-linear', iconBg: 'bg-brand-light', iconColor: 'text-brand-secondary', labelColor: 'text-brand-primary' },
-        { label: 'Rata-rata Masak', value: stats.avg_cook_time, icon: 'solar:stopwatch-linear', iconBg: 'bg-brand-light', iconColor: 'text-brand-secondary', labelColor: 'text-brand-primary' },
-        { label: 'Pesanan Terlambat', value: stats.late_orders, icon: 'solar:danger-triangle-linear', iconBg: 'bg-rose-100', iconColor: 'text-rose-500', labelColor: 'text-rose-500' },
-        { label: 'Selesai Hari Ini', value: stats.completed_today, icon: 'solar:check-circle-linear', iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600', labelColor: 'text-emerald-600' },
+        { label: 'Pesanan Aktif', value: stats.active_orders, icon: 'solar:clipboard-list-linear', iconBg: 'bg-[#E6E6E6]', iconColor: 'text-black', labelColor: 'text-black/60' },
+        { label: 'Rata-rata Masak', value: stats.avg_cook_time, icon: 'solar:stopwatch-linear', iconBg: 'bg-[#E6E6E6]', iconColor: 'text-black', labelColor: 'text-black/60' },
+        { label: 'Pesanan Terlambat', value: stats.late_orders, icon: 'solar:danger-triangle-linear', iconBg: 'bg-rose-50', iconColor: 'text-rose-600 border border-rose-100', labelColor: 'text-rose-700' },
+        { label: 'Selesai Hari Ini', value: stats.completed_today, icon: 'solar:check-circle-linear', iconBg: 'bg-emerald-50', iconColor: 'text-emerald-600 border border-emerald-100', labelColor: 'text-emerald-700' },
     ];
 
     return (
         <>
             <Head title="Antrean Dapur" />
 
-            <div className="space-y-6 p-4 md:p-6 bg-brand-bg min-h-screen">
+            <div className="space-y-6 p-4 md:p-6 bg-white min-h-screen">
 
                 {/* ── Header ── */}
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                        <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight">
                             Antrean Dapur
                         </h1>
-                        <p className="text-brand-primary mt-1 text-sm font-medium">
+                        <p className="text-black/60 mt-1 text-xs font-semibold">
                             Kelola persiapan makanan dan minuman secara real-time.
                         </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-3">
-                        <div className="text-[13px] text-brand-primary bg-white px-4 py-2.5 rounded-xl border border-brand-light shadow-sm flex items-center gap-2 font-medium">
-                            <iconify-icon icon="solar:clock-circle-linear" class="text-lg text-brand-secondary" />
+                        <div className="text-[13px] text-black bg-white px-4 py-2.5 rounded-xl border border-[#D0D0D0] shadow-sm flex items-center gap-2 font-semibold">
+                            <iconify-icon icon="solar:clock-circle-linear" class="text-lg text-black/50" />
                             <span>Sekarang: <LiveClock /></span>
                         </div>
                         <Link to="/pos"
-                            className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98] text-[13px]">
-                            <iconify-icon icon="solar:card-2-linear" class="text-[18px]" />
+                            className="bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black px-6 py-2.5 rounded-xl font-semibold transition-all flex items-center gap-2 shadow-level-1 hover:shadow-level-2 active:scale-[0.98] text-[13px]">
+                            <iconify-icon icon="solar:card-2-linear" class="text-[18px] text-black" />
                             Buka POS
                         </Link>
                     </div>
@@ -208,49 +208,49 @@ export default function KitchenOrdersIndex() {
                 {/* ── Stat Cards ── */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
                     {statCards.map((card, i) => (
-                        <div key={i} className="bg-white rounded-2xl border border-brand-light shadow-sm p-5 flex items-center gap-4 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
+                        <div key={i} className="bg-white rounded-2xl border border-[#E6E6E6] shadow-level-1 p-5 flex items-center gap-4 hover:shadow-level-2 hover:border-[#D0D0D0] transition-all duration-300 group">
                             <div className={`w-11 h-11 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
                                 <iconify-icon icon={card.icon} class={`text-[22px] ${card.iconColor}`} />
                             </div>
                             <div>
-                                <p className={`text-[10px] font-extrabold capitalize tracking-widest ${card.labelColor}`}>
+                                <p className={`text-[10px] font-semibold uppercase tracking-wider ${card.labelColor}`}>
                                     {card.label}
                                 </p>
-                                <p className="text-2xl font-extrabold text-brand-dark leading-tight">{card.value}</p>
+                                <p className="text-2xl font-bold text-black leading-tight mt-0.5">{card.value}</p>
                             </div>
                         </div>
                     ))}
                 </div>
 
                 {/* ── Filter Tabs ── */}
-                <div className="bg-white rounded-2xl border border-brand-light shadow-sm px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-level-1 px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="flex items-center gap-2 flex-wrap">
                         {FILTER_TABS.map(tab => (
                             <Link
                                 key={tab.key}
                                 to={tab.key === 'all' ? '/kitchen-orders' : `/kitchen-orders?filter=${tab.key}`}
-                                className={`px-4 py-1.5 text-xs font-bold rounded-lg border transition-all ${filter === tab.key
-                                        ? 'bg-brand-primary text-white border-brand-primary shadow-sm'
-                                        : 'bg-white text-brand-primary border-brand-light hover:bg-brand-light/50 hover:text-brand-dark'
+                                className={`px-4 py-1.5 text-xs font-semibold rounded-lg border transition-all ${filter === tab.key
+                                        ? 'bg-[#BFFF00] text-black border-[#BFFF00] shadow-sm'
+                                        : 'bg-white text-black/60 border-[#D0D0D0] hover:bg-[#E6E6E6] hover:border-[#999999] hover:text-black'
                                     }`}
                             >
                                 {tab.label}
                             </Link>
                         ))}
                     </div>
-                    <div className="flex items-center gap-2 text-[11px] text-brand-primary font-bold">
-                        <span className="w-1.5 h-1.5 bg-brand-secondary rounded-full animate-pulse" />
-                        Diperbarui otomatis setiap 30 detik
+                    <div className="flex items-center gap-2 text-[11px] text-black/60 font-semibold">
+                        <span className="w-1.5 h-1.5 bg-[#BFFF00] rounded-full animate-pulse" />
+                        Diperbarui otomatis setiap 5 detik
                     </div>
                 </div>
 
                 {/* ── Order Cards ── */}
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                     {orders.length === 0 ? (
-                        <div className="col-span-full bg-white rounded-2xl border border-brand-light shadow-sm p-14 text-center">
-                            <iconify-icon icon="solar:clipboard-list-linear" class="text-5xl text-brand-light" />
-                            <p className="mt-3 text-sm font-bold text-brand-primary">Tidak ada pesanan di dapur saat ini.</p>
-                            <p className="text-xs text-brand-primary/60 mt-1 font-medium">
+                        <div className="col-span-full bg-white rounded-2xl border border-[#E6E6E6] shadow-level-1 p-14 text-center">
+                            <iconify-icon icon="solar:clipboard-list-linear" class="text-5xl text-black/20" />
+                            <p className="mt-3 text-sm font-semibold text-black">Tidak ada pesanan di dapur saat ini.</p>
+                            <p className="text-xs text-black/60 mt-1 font-medium">
                                 Pesanan baru akan muncul di sini secara otomatis.
                             </p>
                         </div>
@@ -260,22 +260,22 @@ export default function KitchenOrdersIndex() {
                         const diffMin = Math.floor((Date.now() - new Date(order.created_at).getTime()) / 60000);
 
                         return (
-                            <div key={order.id} className={`rounded-2xl overflow-hidden flex flex-col shadow-sm border transition-all hover:shadow-md ${cfg.card}`}>
+                            <div key={order.id} className={`rounded-2xl overflow-hidden flex flex-col shadow-level-1 border border-[#E6E6E6] bg-white transition-all hover:shadow-level-2 hover:border-[#D0D0D0] ${cfg.card}`}>
                                 <div className="p-5 flex flex-col gap-3 flex-1">
 
                                     {/* Header */}
                                     <div className="flex items-start justify-between gap-2">
                                         <div className="flex items-center gap-2 flex-wrap">
-                                            <span className="text-base font-black text-brand-dark tracking-tight">
+                                            <span className="text-base font-bold text-black tracking-tight">
                                                 #KO-{String(order.id).padStart(4, '0')}
                                             </span>
                                             {late && (
-                                                <span className="text-[9px] font-extrabold bg-rose-100 text-rose-600 border border-rose-200 px-2 py-0.5 rounded-md tracking-wide capitalize">
+                                                <span className="text-[9px] font-semibold bg-rose-50 text-rose-700 border border-rose-100 px-2 py-0.5 rounded-md tracking-wide capitalize">
                                                     Terlambat
                                                 </span>
                                             )}
                                         </div>
-                                        <span className={`inline-flex items-center gap-1 text-[10px] font-extrabold px-2.5 py-1 rounded-lg border flex-shrink-0 ${cfg.badge}`}>
+                                        <span className={`inline-flex items-center gap-1 text-[10px] font-semibold px-2.5 py-1 rounded-lg border flex-shrink-0 ${cfg.badge}`}>
                                             <iconify-icon icon={cfg.icon} class="text-[12px]" />
                                             {cfg.label}
                                         </span>
@@ -283,11 +283,11 @@ export default function KitchenOrdersIndex() {
 
                                     {/* Transaksi + waktu */}
                                     <div className="flex items-center justify-between gap-2">
-                                        <span className="text-xs font-bold text-brand-dark/50">
+                                        <span className="text-xs font-semibold text-black/40">
                                             Transaksi #{order.transaction_id}
                                         </span>
-                                        <span className="flex items-center gap-1 text-[11px] font-bold text-brand-dark/40 flex-shrink-0">
-                                            <iconify-icon icon="solar:clock-circle-linear" class="text-xs" />
+                                        <span className="flex items-center gap-1 text-[11px] font-semibold text-black/40 flex-shrink-0">
+                                            <iconify-icon icon="solar:clock-circle-linear" class="text-xs text-black/30" />
                                             {diffMin} menit lalu
                                         </span>
                                     </div>
@@ -295,8 +295,8 @@ export default function KitchenOrdersIndex() {
                                     {/* Notes */}
                                     {order.notes && (
                                         <div className="flex items-start gap-1.5 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2">
-                                            <iconify-icon icon="solar:danger-triangle-linear" class="text-amber-500 text-sm flex-shrink-0 mt-0.5" />
-                                            <p className="text-[11px] font-bold text-amber-700 italic leading-relaxed">{order.notes}</p>
+                                            <iconify-icon icon="solar:danger-triangle-linear" class="text-amber-600 text-sm flex-shrink-0 mt-0.5" />
+                                            <p className="text-[11px] font-semibold text-amber-700 italic leading-relaxed">{order.notes}</p>
                                         </div>
                                     )}
 
@@ -306,16 +306,16 @@ export default function KitchenOrdersIndex() {
                                             const drink = isDrinkCategory(item.menu?.category?.name);
                                             return (
                                                 <div key={i} className="flex items-start gap-2.5">
-                                                    <span className="text-xs font-black text-brand-secondary/70 w-7 flex-shrink-0 pt-0.5">
+                                                    <span className="text-xs font-bold text-black w-7 flex-shrink-0 pt-0.5">
                                                         {item.qty}x
                                                     </span>
                                                     <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-bold text-brand-dark leading-snug">
+                                                        <p className="text-sm font-semibold text-black leading-snug">
                                                             {item.menu?.name ?? '—'}
                                                         </p>
                                                         {item.notes && (
-                                                            <p className="text-[10px] text-brand-primary/60 mt-0.5 flex items-center gap-1 italic">
-                                                                <iconify-icon icon="solar:chat-round-line-linear" class="text-[11px] flex-shrink-0" />
+                                                            <p className="text-[10px] text-black/50 mt-0.5 flex items-center gap-1 italic font-medium">
+                                                                <iconify-icon icon="solar:chat-round-line-linear" class="text-[11px] flex-shrink-0 text-black/30" />
                                                                 {item.notes}
                                                             </p>
                                                         )}
@@ -335,7 +335,7 @@ export default function KitchenOrdersIndex() {
                                     {order.status === 'pending' && (
                                         <button
                                             onClick={() => postAction(`/kitchen-orders/${order.id}/prepare`)}
-                                            className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md shadow-brand-primary/20 active:scale-[0.97]"
+                                            className="flex-1 py-2.5 text-xs font-semibold bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black rounded-xl transition-all shadow-level-1 active:scale-[0.97]"
                                         >
                                             Mulai Memasak
                                         </button>
@@ -344,15 +344,15 @@ export default function KitchenOrdersIndex() {
                                     {order.status === 'preparing' && (<>
                                         <button
                                             onClick={() => postAction(`/kitchen-orders/${order.id}/back`)}
-                                            className="py-2.5 px-4 text-xs font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light/40 transition-colors flex items-center gap-1.5 flex-shrink-0 active:scale-[0.97]"
+                                            className="py-2.5 px-4 text-xs font-semibold text-black bg-white border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] hover:border-[#999999] transition-all flex items-center gap-1.5 flex-shrink-0 active:scale-[0.97]"
                                             title="Kembalikan Status"
                                         >
-                                            <iconify-icon icon="solar:undo-left-round-linear" class="text-sm text-brand-secondary" />
+                                            <iconify-icon icon="solar:undo-left-round-linear" class="text-sm text-black/60" />
                                             Batal
                                         </button>
                                         <button
                                             onClick={() => postAction(`/kitchen-orders/${order.id}/ready`)}
-                                            className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md shadow-brand-primary/20 active:scale-[0.97]"
+                                            className="flex-1 py-2.5 text-xs font-semibold bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black rounded-xl transition-all shadow-level-1 active:scale-[0.97]"
                                         >
                                             Siap Diambil
                                         </button>
@@ -361,15 +361,15 @@ export default function KitchenOrdersIndex() {
                                     {order.status === 'ready' && (<>
                                         <button
                                             onClick={() => postAction(`/kitchen-orders/${order.id}/back`)}
-                                            className="py-2.5 px-4 text-xs font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light/40 transition-colors flex items-center gap-1.5 flex-shrink-0 active:scale-[0.97]"
+                                            className="py-2.5 px-4 text-xs font-semibold text-black bg-white border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] hover:border-[#999999] transition-all flex items-center gap-1.5 flex-shrink-0 active:scale-[0.97]"
                                             title="Kembalikan Status"
                                         >
-                                            <iconify-icon icon="solar:undo-left-round-linear" class="text-sm text-brand-secondary" />
+                                            <iconify-icon icon="solar:undo-left-round-linear" class="text-sm text-black/60" />
                                             Batal
                                         </button>
                                         <button
                                             onClick={() => postAction(`/kitchen-orders/${order.id}/complete`)}
-                                            className="flex-1 py-2.5 text-xs font-extrabold bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white rounded-xl transition-all shadow-md active:scale-[0.97] flex items-center justify-center gap-2"
+                                            className="flex-1 py-2.5 text-xs font-semibold bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black rounded-xl transition-all shadow-level-1 active:scale-[0.97] flex items-center justify-center gap-2"
                                         >
                                             <iconify-icon icon="solar:check-circle-linear" class="text-sm" />
                                             Telah Diambil
@@ -382,26 +382,26 @@ export default function KitchenOrdersIndex() {
                 </div>
 
                 {/* ── Tips Banner ── */}
-                <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+                <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-level-1 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
                     <div className="flex-1">
-                        <p className="text-sm font-extrabold text-brand-secondary mb-2 flex items-center gap-2">
-                            <iconify-icon icon="solar:fire-linear" class="text-base" />
+                        <p className="text-sm font-semibold text-black mb-2 flex items-center gap-2">
+                            <iconify-icon icon="solar:fire-linear" class="text-base text-black" />
                             Tips Dapur Hari Ini
                         </p>
-                        <p className="text-xs font-medium text-brand-primary leading-relaxed">
+                        <p className="text-xs font-semibold text-black/60 leading-relaxed">
                             Ingat untuk menandai item yang sudah selesai secepat mungkin agar pelayan
                             dapat segera mengantarkannya ke pelanggan. Pesanan yang melebihi{' '}
-                            <span className="font-extrabold text-brand-dark">15 menit</span>{' '}
+                            <span className="font-bold text-black">15 menit</span>{' '}
                             akan otomatis ditandai terlambat.
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-3 flex-shrink-0">
                         <Link to="/targets-goals"
-                            className="px-5 py-2.5 text-xs font-extrabold text-brand-primary bg-brand-light/30 border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors">
+                            className="px-5 py-2.5 text-xs font-semibold text-black bg-white border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] hover:border-[#999999] transition-colors active:scale-95 shadow-sm">
                             Lihat Target Harian
                         </Link>
                         <Link to="/dashboard"
-                            className="px-5 py-2.5 text-xs font-extrabold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary rounded-xl transition-all shadow-sm shadow-brand-primary/20">
+                            className="px-5 py-2.5 text-xs font-semibold text-black bg-white border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] hover:border-[#999999] transition-colors active:scale-95 shadow-sm">
                             Laporan Performa
                         </Link>
                     </div>

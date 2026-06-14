@@ -4,6 +4,36 @@ Cafinity POS adalah platform Point of Sale (Kasir) dan Manajemen Cafe modern ber
 
 ---
 
+## ☕ Masalah Operasional Kafe & Solusi Fitur Cafinity
+
+Platform ini dirancang khusus untuk memecahkan masalah nyata yang sering dihadapi oleh pemilik dan staf kafe di lapangan:
+
+### 1. Antrean Kasir Macet saat Pelanggan Belum Siap Membayar
+*   **Masalah di Kafe**: Ketika antrean ramai, transaksi sering tertunda karena pelanggan di depan kasir masih mencari dompet, mengganti metode pembayaran, atau ingin memesan menu tambahan. Ini membuat pelanggan di belakangnya menunggu terlalu lama dan menurunkan tingkat kepuasan.
+*   **Solusi Fitur**: Fitur **Hold & Resume** pada POS Kasir memungkinkan kasir menyimpan keranjang pesanan pelanggan tersebut sementara waktu untuk melayani pelanggan berikutnya. Setelah pembayaran siap, pesanan yang di-hold dapat dilanjutkan kembali (*resume*) secara instan tanpa perlu input ulang dari awal.
+
+### 2. Miskomunikasi & Pesanan Tertukar antara Kasir dan Dapur
+*   **Masalah di Kafe**: Penggunaan kertas struk fisik rawan hilang, basah, atau terselip di dapur. Urutan pesanan yang dimasak menjadi tidak beraturan, menyebabkan pesanan pelanggan datang terlambat atau salah penyajian.
+*   **Solusi Fitur**: Layar **Live Kitchen Queue (Antrean Dapur Real-time)** mendigitalisasi antrean dapur. Staf dapur dapat memantau pesanan secara real-time dengan transisi status yang jelas (Pending ➔ Preparing ➔ Ready ➔ Completed), lengkap dengan pencatat durasi waktu untuk memastikan pesanan disajikan tepat waktu sesuai urutan masuk.
+
+### 3. Kebocoran Stok Bahan Baku & Kehabisan Stok Mendadak
+*   **Masalah di Kafe**: Bahan baku utama (seperti biji kopi atau susu) tiba-tiba habis di tengah operasional sibuk, memaksa kafe menolak pesanan pelanggan. Selain itu, selisih stok fisik akibat tumpah atau pencurian sulit dilacak.
+*   **Solusi Fitur**: Fitur **Low Stock Warning** otomatis memicu notifikasi sistem ketika stok menyentuh batas minimum. Setiap pergerakan stok dicatat otomatis di **Inventory Log** (stok berkurang setiap kali menu terjual berdasarkan gramasi resep), dan fitur **Stock Opname (Adjustments)** mendokumentasikan alasan selisih stok secara transparan.
+
+### 4. Menentukan Harga Jual Menu & Menjaga Margin Laba
+*   **Masalah di Kafe**: Pemilik kafe sering kali menebak-nebak harga jual menu tanpa mengetahui secara pasti biaya riil per porsi (HPP), atau terlambat menyadari bahwa margin laba menipis akibat kenaikan harga bahan baku dari supplier.
+*   **Solusi Fitur**: Modul **Recipe Costing** secara otomatis menghitung HPP per porsi berdasarkan porsi bahan baku yang digunakan. Ketika harga bahan baku dari supplier berubah melalui proses penerimaan barang (PO), sistem akan otomatis mengalkulasi ulang HPP menu secara real-time dan menyajikan analisis margin keuntungan (*Profitability Analysis*).
+
+### 5. Kehilangan Uang akibat Kecurangan Staf (Fraud)
+*   **Masalah di Kafe**: Staf kasir rawan melakukan manipulasi transaksi, seperti melakukan refund fiktif atau menghapus item pesanan setelah menerima uang tunai dari pelanggan untuk dikantongi sendiri.
+*   **Solusi Fitur**: Pembatasan hak akses berbasis peran menggunakan **Spatie RBAC** membatasi aksi-aksi sensitif (seperti refund transaksi, mengubah stok inventaris, atau membatalkan pesanan) hanya untuk staf yang berwenang. Setiap tindakan staf juga dicatat permanen dalam sistem **Audit Log** untuk pengawasan berkala.
+
+### 6. Pemilik Sulit Memantau Bisnis saat Sedang Tidak Berada di Kafe
+*   **Masalah di Kafe**: Pemilik kafe (*owner*) harus terus-menerus menghubungi manajer kafe melalui chat atau telepon untuk memantau performa penjualan, mengecek omzet harian, atau memastikan target penjualan tercapai.
+*   **Solusi Fitur**: **Multi-Role Dashboard (Owner Dashboard)** menyajikan visualisasi data bisnis tingkat tinggi (total omzet harian, estimasi laba bersih, rata-rata nilai transaksi/AOV, jam sibuk, serta grafik tren penjualan) secara real-time yang dapat diakses langsung oleh Owner dari mana saja.
+
+---
+
 ## 🚀 Fitur Utama & Modul
 
 Aplikasi ini memiliki modul fitur lengkap yang mencakup kebutuhan Owner, Admin, Kasir, hingga kru dapur:

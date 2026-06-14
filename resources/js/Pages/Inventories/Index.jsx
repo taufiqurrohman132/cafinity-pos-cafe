@@ -174,16 +174,16 @@ export default function InventoriesIndex() {
                         : 'blue'
         const label = { red: 'Habis', orange: 'Kritis', yellow: 'Menipis', blue: 'Aman' }[color]
         const badgeCls = {
-            blue: 'bg-brand-light text-brand-primary',
-            yellow: 'bg-yellow-100 text-yellow-700',
-            orange: 'bg-orange-100 text-orange-600',
-            red: 'bg-red-100 text-red-600',
+            blue: 'bg-emerald-50 border border-emerald-100 text-emerald-700',
+            yellow: 'bg-amber-50 border border-amber-100 text-amber-700',
+            orange: 'bg-amber-50 border border-amber-200 text-amber-800',
+            red: 'bg-rose-50 border border-rose-100 text-rose-700',
         }[color]
         const barCls = {
-            blue: 'bg-brand-primary',
-            yellow: 'bg-yellow-400',
-            orange: 'bg-orange-400',
-            red: 'bg-red-400',
+            blue: 'bg-[#BFFF00]',
+            yellow: 'bg-amber-400',
+            orange: 'bg-amber-500',
+            red: 'bg-rose-500',
         }[color]
         return { percent, label, badgeCls, barCls }
     }
@@ -201,15 +201,15 @@ export default function InventoriesIndex() {
                         {/* Header */}
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div>
-                                <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight">Manajemen Inventaris</h1>
-                                <p className="text-gray-500 text-sm mt-1">Lacak dan kelola stok bahan baku operasional kafe Anda secara real-time.</p>
+                                <h1 className="text-2xl sm:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight leading-tight pt-1">Manajemen Inventaris</h1>
+                                <p className="text-brand-primary/60 mt-1 text-body-compact">Lacak dan kelola stok bahan baku operasional kafe Anda secara real-time.</p>
                             </div>
                             <div className="flex items-center gap-3 self-end sm:self-auto">
                                 <Link
                                     to="/inventories/create"
-                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-5 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.98]"
+                                    className="bg-[#BFFF00] hover:bg-[#C8FF5E] text-black px-6 py-2.5 rounded-xl font-semibold transition-all flex items-center gap-2 shadow-level-1 hover:shadow-level-2 active:bg-[#AFEE00] active:scale-[0.98]"
                                 >
-                                    <iconify-icon icon="solar:add-circle-linear" class="text-lg"></iconify-icon>
+                                    <iconify-icon icon="solar:add-circle-linear" class="text-lg text-black"></iconify-icon>
                                     Tambah Bahan
                                 </Link>
                             </div>
@@ -222,35 +222,38 @@ export default function InventoriesIndex() {
                                     label: 'Total Nilai Inventaris',
                                     value: `Rp ${totalValue.toLocaleString('id-ID')}`,
                                     sub: 'Nilai stok keseluruhan',
-                                    subColor: 'text-green-500',
+                                    subColor: 'text-emerald-600',
                                     icon: 'solar:box-linear',
-                                    iconBg: 'bg-brand-light text-brand-primary',
+                                    iconBg: 'bg-[#E6E6E6]',
+                                    iconColor: 'text-black',
                                 },
                                 {
                                     label: 'Peringatan Stok Rendah',
                                     value: `${lowStockCount} Item`,
                                     sub: 'Perlu segera dipesan',
-                                    subColor: 'text-red-500',
+                                    subColor: 'text-rose-600',
                                     icon: 'solar:danger-triangle-linear',
-                                    iconBg: 'bg-orange-100 text-orange-500',
+                                    iconBg: 'bg-rose-50',
+                                    iconColor: 'text-rose-600 border border-rose-100',
                                 },
                                 {
                                     label: 'Saran Restock',
                                     value: `${restockCount} Item`,
                                     sub: 'Berdasarkan batas minimum stok',
-                                    subColor: 'text-gray-400',
+                                    subColor: 'text-brand-primary/60',
                                     icon: 'solar:graph-up-linear',
-                                    iconBg: 'bg-brand-light text-brand-primary',
+                                    iconBg: 'bg-[#E6E6E6]',
+                                    iconColor: 'text-black',
                                 },
                             ].map((card) => (
-                                <div key={card.label} className="bg-white rounded-2xl border border-brand-light shadow-sm p-6 hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
+                                <div key={card.label} className="bg-white p-5 rounded-2xl border border-brand-light shadow-level-1 stat-card-glow group">
                                     <div className="flex justify-between items-start">
-                                        <div>
-                                            <p className="text-sm text-gray-500">{card.label}</p>
-                                            <h2 className="text-2xl font-black text-brand-secondary mt-3">{card.value}</h2>
-                                            <p className={`text-xs font-bold mt-3 ${card.subColor}`}>{card.sub}</p>
+                                        <div className="min-w-0">
+                                            <p className="text-body-compact text-brand-primary/60 font-medium truncate">{card.label}</p>
+                                            <h2 className="text-[20px] font-semibold mt-1 tracking-tight truncate text-black">{card.value}</h2>
+                                            <span className={`text-caption font-semibold mt-2.5 block ${card.subColor}`}>{card.sub}</span>
                                         </div>
-                                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm ${card.iconBg}`}>
+                                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm ${card.iconBg} ${card.iconColor || ''}`}>
                                             <iconify-icon icon={card.icon} class="text-xl"></iconify-icon>
                                         </div>
                                     </div>
@@ -268,7 +271,7 @@ export default function InventoriesIndex() {
                                     <select
                                         value={categoryId}
                                         onChange={handleCategoryChange}
-                                        className="h-10 px-4 text-xs font-bold text-gray-700 bg-brand-bg border border-brand-light rounded-xl cursor-pointer focus:outline-none transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="h-10 px-4 text-[13px] font-medium text-black bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl cursor-pointer focus:outline-none transition-all duration-150 focus:border-[#BFFF00]"
                                     >
                                         <option value="">Semua Kategori</option>
                                         {categories.map(cat => (
@@ -278,7 +281,7 @@ export default function InventoriesIndex() {
                                     <select
                                         value={status}
                                         onChange={handleStatus}
-                                        className="h-10 px-4 text-xs font-bold text-gray-700 bg-brand-bg border border-brand-light rounded-xl cursor-pointer focus:outline-none transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="h-10 px-4 text-[13px] font-medium text-black bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl cursor-pointer focus:outline-none transition-all duration-150 focus:border-[#BFFF00]"
                                     >
                                         <option value="">Semua Status</option>
                                         <option value="safe">Aman</option>
@@ -293,7 +296,7 @@ export default function InventoriesIndex() {
                                                 value={search}
                                                 onChange={(e) => setSearch(e.target.value)}
                                                 placeholder="Cari bahan..."
-                                                className="w-full lg:w-64 h-10 pl-9 pr-4 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                                className="w-full lg:w-64 h-10 pl-9 pr-4 text-sm bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl focus:outline-none transition-all duration-150 focus:border-[#BFFF00]"
                                             />
                                         </div>
                                     </form>
@@ -304,13 +307,13 @@ export default function InventoriesIndex() {
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left min-w-[800px]">
                                         <thead>
-                                            <tr className="text-xs font-bold text-gray-400 bg-brand-bg border-b border-brand-light capitalize">
+                                            <tr className="text-caption font-semibold text-brand-primary/60 border-b border-[#E6E6E6] bg-brand-bg/50 capitalize">
                                                 {['Nama Bahan', 'Kategori', 'Stok Saat Ini', 'Satuan', 'Harga/Satuan', 'Status', 'Aksi'].map((h) => (
                                                     <th key={h} className="px-6 py-3">{h}</th>
                                                 ))}
                                             </tr>
                                         </thead>
-                                        <tbody className="text-sm divide-y divide-brand-light">
+                                        <tbody className="text-sm divide-y divide-[#E6E6E6]">
                                             {inventories.data.length === 0 ? (
                                                 <tr>
                                                     <td colSpan={7} className="px-6 py-10 text-center text-gray-400 text-sm">
@@ -327,33 +330,33 @@ export default function InventoriesIndex() {
                                             ) : inventories.data.map((item) => {
                                                 const { percent, label, badgeCls, barCls } = getStockMeta(item)
                                                 return (
-                                                    <tr key={item.id} className="hover:bg-brand-bg transition">
+                                                    <tr key={item.id} className="hover:bg-[#E6E6E6]/40 transition-all duration-150">
                                                         <td className="px-6 py-4">
                                                             <div className="flex items-center gap-3">
-                                                                <div className="w-9 h-9 rounded-xl bg-brand-light text-brand-primary font-bold text-sm flex items-center justify-center flex-shrink-0">
+                                                                <div className="w-9 h-9 rounded-xl bg-[#E6E6E6] text-black font-semibold text-sm flex items-center justify-center flex-shrink-0">
                                                                     {item.name.charAt(0).toUpperCase()}
                                                                 </div>
-                                                                <p className="font-bold text-brand-dark">{item.name}</p>
+                                                                <p className="font-semibold text-black">{item.name}</p>
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-4">
-                                                            <span className="px-2.5 py-1 rounded-full bg-brand-bg border border-brand-light text-gray-600 text-xs font-bold">
+                                                            <span className="px-2.5 py-1 rounded-full bg-white border border-[#D0D0D0] text-black text-xs font-medium">
                                                                 {item.category?.name ?? '-'}
                                                             </span>
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             <div className="space-y-1.5">
                                                                 <div className="flex items-center justify-between text-xs">
-                                                                    <span className="font-bold text-brand-dark">{item.stock} / {item.min_stock}</span>
-                                                                    <span className="text-gray-400">{percent}%</span>
+                                                                    <span className="font-semibold text-black">{item.stock} / {item.min_stock}</span>
+                                                                    <span className="text-brand-primary/60">{percent}%</span>
                                                                 </div>
-                                                                <div className="w-28 h-1.5 rounded-full bg-brand-light overflow-hidden">
+                                                                <div className="w-28 h-1.5 rounded-full bg-[#E6E6E6] overflow-hidden">
                                                                     <div className={`h-full rounded-full ${barCls}`} style={{ width: `${percent}%` }} />
                                                                 </div>
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-4 text-gray-600">{item.unit}</td>
-                                                        <td className="px-6 py-4 font-black text-brand-secondary">
+                                                        <td className="px-6 py-4 font-semibold text-black">
                                                             Rp {Number(item.price_per_unit).toLocaleString('id-ID')}
                                                         </td>
                                                         <td className="px-6 py-4">
@@ -407,26 +410,26 @@ export default function InventoriesIndex() {
                             <div className="space-y-3">
                                 <button
                                     onClick={() => setShowAdjustModal(true)}
-                                    className="w-full bg-brand-primary hover:bg-brand-secondary rounded-2xl p-4 text-left text-white flex items-center gap-3 active:scale-[0.97] shadow-sm cursor-pointer transition-all duration-150"
+                                    className="w-full bg-[#0E0E0E] hover:bg-black rounded-2xl p-4 text-left text-white flex items-center gap-3 active:scale-[0.97] shadow-level-1 cursor-pointer transition-all duration-150 group border border-white/10"
                                 >
-                                    <div className="w-10 h-10 rounded-xl bg-white/20 text-white flex items-center justify-center flex-shrink-0 text-xl">
+                                    <div className="w-10 h-10 rounded-xl bg-white/10 text-[#BFFF00] flex items-center justify-center flex-shrink-0 text-xl group-hover:scale-105 transition-transform">
                                         <iconify-icon icon="solar:restart-linear"></iconify-icon>
                                     </div>
                                     <div>
-                                        <h4 className="text-sm font-bold">Penyesuaian Stok</h4>
-                                        <p className="text-xs text-brand-light/95 mt-0.5">Input stok masuk/keluar manual</p>
+                                        <h4 className="text-sm font-semibold text-white">Penyesuaian Stok</h4>
+                                        <p className="text-xs text-white/60 mt-0.5">Input stok masuk/keluar manual</p>
                                     </div>
                                 </button>
                                 <button
                                     onClick={() => setShowOpnameModal(true)}
-                                    className="w-full bg-white border border-brand-light hover:border-brand-primary hover:bg-brand-bg rounded-2xl p-4 text-left flex items-center gap-3 active:scale-[0.97] shadow-sm cursor-pointer transition-all duration-150"
+                                    className="w-full bg-white border border-[#D0D0D0] hover:border-[#999999] hover:bg-[#E6E6E6]/30 rounded-2xl p-4 text-left flex items-center gap-3 active:scale-[0.97] shadow-level-1 cursor-pointer transition-all duration-150 group"
                                 >
-                                    <div className="w-10 h-10 rounded-xl bg-brand-light/40 text-brand-primary flex items-center justify-center flex-shrink-0 text-xl">
+                                    <div className="w-10 h-10 rounded-xl bg-[#E6E6E6] text-black flex items-center justify-center flex-shrink-0 text-xl group-hover:scale-105 transition-transform">
                                         <iconify-icon icon="solar:clipboard-check-linear"></iconify-icon>
                                     </div>
                                     <div>
-                                        <h4 className="text-sm font-bold text-brand-dark">Stock Opname</h4>
-                                        <p className="text-xs text-gray-400 mt-0.5">Audit fisik vs sistem mingguan</p>
+                                        <h4 className="text-sm font-semibold text-black">Stock Opname</h4>
+                                        <p className="text-xs text-brand-primary/60 mt-0.5">Audit fisik vs sistem mingguan</p>
                                     </div>
                                 </button>
                             </div>
@@ -570,24 +573,24 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="absolute inset-0 bg-brand-dark/40 backdrop-blur-sm" onClick={onClose} />
-            <div className="relative bg-white rounded-3xl border border-brand-light shadow-2xl w-full max-w-md mx-4 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
-                <div className="px-6 pt-5 pb-3 flex items-center justify-between border-b border-brand-light">
-                    <h3 className="font-bold text-brand-dark flex items-center gap-2">
-                        <iconify-icon icon="solar:restart-linear" class="text-brand-secondary text-lg"></iconify-icon>
+            <div className="absolute inset-0 bg-[#000000]/40 backdrop-blur-sm" onClick={onClose} />
+            <div className="relative bg-white rounded-3xl border border-[#E6E6E6] shadow-level-3 w-full max-w-md mx-4 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
+                <div className="px-6 pt-5 pb-3 flex items-center justify-between border-b border-[#E6E6E6]">
+                    <h3 className="text-heading text-black flex items-center gap-2">
+                        <iconify-icon icon="solar:restart-linear" class="text-black text-lg"></iconify-icon>
                         Penyesuaian Stok Cepat
                     </h3>
-                    <button type="button" onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-all duration-150 active:scale-[0.97]">
+                    <button type="button" onClick={onClose} className="text-brand-primary/60 hover:text-black transition-all duration-150 active:scale-[0.97]">
                         <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
                     </button>
                 </div>
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
                     <div>
-                        <label className="block text-xs font-bold text-brand-dark mb-1.5">Bahan Baku</label>
+                        <label className="block text-xs font-semibold text-black mb-1.5">Bahan Baku</label>
                         <select
                             value={selectedId}
                             onChange={e => setSelectedId(e.target.value)}
-                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                            className="w-full h-11 px-4 text-sm border border-[#D0D0D0] rounded-xl bg-white focus:outline-none cursor-pointer transition-all duration-150 font-medium text-black focus:border-[#BFFF00]"
                         >
                             {items.map(item => (
                                 <option key={item.id} value={item.id}>{item.name} ({item.unit})</option>
@@ -597,11 +600,11 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
                     
                     <div className="grid grid-cols-2 gap-3">
                         <div>
-                            <label className="block text-xs font-bold text-brand-dark mb-1.5">Jenis</label>
+                            <label className="block text-xs font-semibold text-black mb-1.5">Jenis</label>
                             <select
                                 value={type}
                                 onChange={e => setType(e.target.value)}
-                                className="w-full h-11 px-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                className="w-full h-11 px-3 text-sm border border-[#D0D0D0] rounded-xl bg-white focus:outline-none cursor-pointer transition-all duration-150 font-medium text-black focus:border-[#BFFF00]"
                             >
                                 <option value="restock">Restock</option>
                                 <option value="adjustment">Koreksi</option>
@@ -609,12 +612,12 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
                             </select>
                         </div>
                         <div>
-                            <label className="block text-xs font-bold text-brand-dark mb-1.5">Arah Stok</label>
+                            <label className="block text-xs font-semibold text-black mb-1.5">Arah Stok</label>
                             <select
                                 value={direction}
                                 onChange={e => setDirection(e.target.value)}
                                 disabled={type === 'waste'}
-                                className="w-full h-11 px-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none disabled:opacity-50 cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                className="w-full h-11 px-3 text-sm border border-[#D0D0D0] rounded-xl bg-white focus:outline-none disabled:opacity-50 cursor-pointer transition-all duration-150 font-medium text-black focus:border-[#BFFF00]"
                             >
                                 <option value="in">Masuk (+)</option>
                                 <option value="out">Keluar (-)</option>
@@ -623,7 +626,7 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold text-brand-dark mb-1.5">
+                        <label className="block text-xs font-semibold text-black mb-1.5">
                             Jumlah {selectedItem ? `(${selectedItem.unit})` : ''}
                         </label>
                         <input
@@ -632,25 +635,25 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
                             onChange={e => setQty(e.target.value)}
                             placeholder="Kuantitas..."
                             min="0.01" step="0.01" required
-                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none font-bold text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                            className="w-full h-11 px-4 text-sm border border-[#D0D0D0] rounded-xl bg-white focus:outline-none font-semibold text-black transition-all duration-150 focus:border-[#BFFF00]"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold text-brand-dark mb-1.5">Keterangan</label>
+                        <label className="block text-xs font-semibold text-black mb-1.5">Keterangan</label>
                         <textarea
                             value={notes}
                             onChange={e => setNotes(e.target.value)}
                             placeholder="Catatan penyesuaian..."
                             rows="2"
-                            className="w-full p-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none resize-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                            className="w-full p-3 text-sm border border-[#D0D0D0] rounded-xl bg-white focus:outline-none resize-none transition-all duration-150 focus:border-[#BFFF00]"
                         />
                     </div>
 
                     <button
                         type="submit"
                         disabled={processing}
-                        className="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-brand-primary hover:bg-brand-secondary disabled:opacity-50 active:scale-[0.97] transition-all duration-150"
+                        className="w-full py-2.5 rounded-xl text-sm font-semibold text-black bg-[#BFFF00] hover:bg-[#C8FF5E] disabled:opacity-50 active:scale-[0.97] transition-all duration-150 shadow-sm"
                     >
                         {processing ? 'Memproses...' : 'Simpan Penyesuaian'}
                     </button>
@@ -715,27 +718,27 @@ function StockOpnameModal({ isOpen, onClose, items, onSaveSuccess }) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="absolute inset-0 bg-brand-dark/40 backdrop-blur-sm" onClick={onClose} />
-            <div className="relative bg-white rounded-3xl border border-brand-light shadow-2xl w-full max-w-md mx-4 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
-                <div className="px-6 pt-5 pb-3 flex items-center justify-between border-b border-brand-light">
-                    <h3 className="font-bold text-brand-dark flex items-center gap-2">
-                        <iconify-icon icon="solar:clipboard-check-linear" class="text-brand-secondary text-lg"></iconify-icon>
+            <div className="absolute inset-0 bg-[#000000]/40 backdrop-blur-sm" onClick={onClose} />
+            <div className="relative bg-white rounded-3xl border border-[#E6E6E6] shadow-level-3 w-full max-w-md mx-4 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
+                <div className="px-6 pt-5 pb-3 flex items-center justify-between border-b border-[#E6E6E6]">
+                    <h3 className="text-heading text-black flex items-center gap-2">
+                        <iconify-icon icon="solar:clipboard-check-linear" class="text-black text-lg"></iconify-icon>
                         Pencatatan Stock Opname
                     </h3>
-                    <button type="button" onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-all duration-150 active:scale-[0.97]">
+                    <button type="button" onClick={onClose} className="text-brand-primary/60 hover:text-black transition-all duration-150 active:scale-[0.97]">
                         <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
                     </button>
                 </div>
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
                     <div>
-                        <label className="block text-xs font-bold text-brand-dark mb-1.5">Bahan Baku</label>
+                        <label className="block text-xs font-semibold text-black mb-1.5">Bahan Baku</label>
                         <select
                             value={selectedId}
                             onChange={e => {
                                 setSelectedId(e.target.value);
                                 setPhysicalStock('');
                             }}
-                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                            className="w-full h-11 px-4 text-sm border border-[#D0D0D0] rounded-xl bg-white focus:outline-none cursor-pointer transition-all duration-150 font-medium text-black focus:border-[#BFFF00]"
                         >
                             {items.map(item => (
                                 <option key={item.id} value={item.id}>{item.name} ({item.unit})</option>
@@ -743,7 +746,7 @@ function StockOpnameModal({ isOpen, onClose, items, onSaveSuccess }) {
                         </select>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 bg-brand-bg p-4 rounded-2xl border border-brand-light text-center">
+                    <div className="grid grid-cols-2 gap-4 bg-[#E6E6E6]/30 p-4 rounded-2xl border border-[#E6E6E6] text-center">
                         <div>
                             <span className="text-[10px] font-extrabold text-brand-primary/60 capitalize">Stok Sistem</span>
                             <p className="text-xl font-extrabold text-brand-dark mt-1">
@@ -763,7 +766,7 @@ function StockOpnameModal({ isOpen, onClose, items, onSaveSuccess }) {
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold text-brand-dark mb-1.5">
+                        <label className="block text-xs font-semibold text-black mb-1.5">
                             Stok Fisik Sebenarnya ({selectedItem?.unit})
                         </label>
                         <input
@@ -772,25 +775,25 @@ function StockOpnameModal({ isOpen, onClose, items, onSaveSuccess }) {
                             onChange={e => setPhysicalStock(e.target.value)}
                             placeholder="Masukkan stok di lapangan..."
                             step="0.01" required
-                            className="w-full h-11 px-4 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none font-bold text-brand-dark transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                            className="w-full h-11 px-4 text-sm border border-[#D0D0D0] rounded-xl bg-white focus:outline-none font-semibold text-black transition-all duration-150 focus:border-[#BFFF00]"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold text-brand-dark mb-1.5">Catatan Perbedaan</label>
+                        <label className="block text-xs font-semibold text-black mb-1.5">Catatan Perbedaan</label>
                         <textarea
                             value={notes}
                             onChange={e => setNotes(e.target.value)}
                             placeholder="Contoh: Koreksi selisih timbangan, barang rusak..."
                             rows="2"
-                            className="w-full p-3 text-sm border border-brand-light rounded-xl bg-brand-bg focus:outline-none resize-none transition-all duration-150 hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                            className="w-full p-3 text-sm border border-[#D0D0D0] rounded-xl bg-white focus:outline-none resize-none transition-all duration-150 focus:border-[#BFFF00]"
                         />
                     </div>
 
                     <button
                         type="submit"
                         disabled={processing}
-                        className="w-full py-2.5 rounded-xl text-sm font-bold text-white bg-brand-primary hover:bg-brand-secondary disabled:opacity-50 active:scale-[0.97] transition-all duration-150"
+                        className="w-full py-2.5 rounded-xl text-sm font-semibold text-black bg-[#BFFF00] hover:bg-[#C8FF5E] disabled:opacity-50 active:scale-[0.97] transition-all duration-150 shadow-sm"
                     >
                         {processing ? 'Memproses...' : 'Simpan Stock Opname'}
                     </button>
@@ -808,31 +811,31 @@ function InventoryActions({ item, onDelete }) {
             <button
                 onClick={() => setOpen(!open)}
                 onBlur={() => setTimeout(() => setOpen(false), 150)}
-                className="p-2 text-brand-primary/50 hover:text-brand-secondary hover:bg-brand-light/50 rounded-xl transition-all active:scale-[0.97]"
+                className="p-2 text-brand-primary/60 hover:text-black hover:bg-[#E6E6E6] rounded-xl transition-all active:scale-[0.97]"
             >
                 <iconify-icon icon="solar:menu-dots-linear" class="text-lg"></iconify-icon>
             </button>
             {open && (
-                <div className="absolute right-0 mt-1 w-36 bg-white border border-brand-light rounded-xl shadow-xl z-20 overflow-hidden">
+                <div className="absolute right-0 mt-1 w-36 bg-white border border-[#D0D0D0] rounded-xl shadow-level-2 z-20 overflow-hidden">
                     <Link
                         to={`/inventories/${item.id}`}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full"
+                        className="flex items-center gap-2 px-4 py-2.5 text-xs text-black font-semibold hover:bg-[#E6E6E6] text-left w-full"
                     >
-                        <iconify-icon icon="solar:eye-linear" class="text-brand-primary"></iconify-icon>
+                        <iconify-icon icon="solar:eye-linear" class="text-black"></iconify-icon>
                         Detail
                     </Link>
                     <Link
                         to={`/inventories/${item.id}/edit`}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-brand-dark font-bold hover:bg-brand-light/30 text-left w-full"
+                        className="flex items-center gap-2 px-4 py-2.5 text-xs text-black font-semibold hover:bg-[#E6E6E6] text-left w-full"
                     >
-                        <iconify-icon icon="solar:pen-linear" class="text-brand-primary"></iconify-icon>
+                        <iconify-icon icon="solar:pen-linear" class="text-black"></iconify-icon>
                         Edit
                     </Link>
                     <button
                         onClick={() => onDelete(item.id, item.name)}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 font-bold hover:bg-[#fef2f2] border-t border-brand-light text-left w-full transition-all duration-150 active:scale-[0.97]"
+                        className="flex items-center gap-2 px-4 py-2.5 text-xs text-rose-600 font-semibold hover:bg-rose-50 border-t border-[#E6E6E6] text-left w-full transition-all duration-150 active:scale-[0.97]"
                     >
-                        <iconify-icon icon="solar:trash-bin-trash-linear" class="text-red-500"></iconify-icon>
+                        <iconify-icon icon="solar:trash-bin-trash-linear" class="text-rose-500"></iconify-icon>
                         Hapus
                     </button>
                 </div>

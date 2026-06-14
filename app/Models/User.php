@@ -8,13 +8,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles; // ← tambah ini
+use App\Traits\BelongsToTenant;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasRoles, HasApiTokens; // ← tambah HasRoles di sini
+    use HasFactory, Notifiable, HasRoles, HasApiTokens, BelongsToTenant; // ← tambah HasRoles di sini
 
     protected $fillable = [
+        'tenant_id',
         'name',
         'email',
         'password',

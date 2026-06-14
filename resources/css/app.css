@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 :root {
-    --color-brand-primary: 47 39 206;
-    /* #2f27ce */
-    --color-brand-secondary: 68 61 255;
-    /* #443dff */
-    --color-brand-light: 221 219 255;
-    /* #dddbff */
-    --color-brand-bg: 251 251 254;
-    /* #fbfbfe */
-    --color-brand-dark: 5 3 22;
-    /* #050316 */
+    --color-brand-primary: 14 14 14;
+    /* Charcoal / Sidebar Dark #0E0E0E */
+    --color-brand-secondary: 191 255 0;
+    /* Neon Green / Brand Action #BFFF00 */
+    --color-brand-light: 208 208 208;
+    /* Light Gray Border #D0D0D0 */
+    --color-brand-bg: 255 255 255;
+    /* White #FFFFFF */
+    --color-brand-dark: 0 0 0;
+    /* Pure Black #000000 */
 }
 
 @tailwind base;
@@ -20,6 +20,42 @@
 @layer base {
     body {
         font-family: "Inter", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: 0px;
+    }
+
+    h1 {
+        font-family: "Inter", sans-serif;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 40px;
+        letter-spacing: -0.5px;
+    }
+
+    h2 {
+        font-family: "Inter", sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+        letter-spacing: -0.3px;
+    }
+
+    h3 {
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: 0px;
+    }
+
+    p {
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: 0px;
     }
 
     input,
@@ -39,28 +75,66 @@
     }
 }
 
-/* ============================ */
-/* hide scrollbar default */
-/* ============================ */
-.scrollbar-auto::-webkit-scrollbar {
+/* ========================================================== */
+/* MODERN SCROLLBAR STYLES (V-3.0)                            */
+/* ========================================================== */
+
+/* Global scrollbar rules (for Webkit browsers: Chrome, Safari, Edge) */
+::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
 
-.scrollbar-auto::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.scrollbar-auto::-webkit-scrollbar-thumb {
-    background: rgba(156, 163, 175, 0);
-    border-radius: 10px;
-    transition: background 0.3s ease, opacity 0.3s ease;
-    opacity: 0;
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 9999px;
+    transition: background-color 0.2s ease;
 }
 
-/* saat scroll aktif */
-.scrollbar-auto.scrolling::-webkit-scrollbar-thumb {
-    background: rgba(156, 163, 175, 0.6);
-    opacity: 1;
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Scrollbar styles for dark themed panels / sidebar (aside) */
+aside ::-webkit-scrollbar-thumb,
+.bg-brand-dark ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+aside ::-webkit-scrollbar-thumb:hover,
+.bg-brand-dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Redefine scrollbar-auto to use the modern styling without buggy opacity toggles */
+.scrollbar-auto::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.scrollbar-auto::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scrollbar-auto::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 9999px;
+}
+.scrollbar-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+aside,
+.bg-brand-dark {
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
 
 /* ============================ */
@@ -224,4 +298,183 @@
 
 .animate-slide-in-bottom {
     animation: slide-in-bottom 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ========================================================== */
+/* DESIGN SYSTEM V-3.0 GLOBAL OVERRIDES & COMPONENT STYLES    */
+/* ========================================================== */
+
+/* 1. Primary CTA Buttons (Solid Neon Green with Black Text) */
+.bg-brand-primary,
+.bg-brand-secondary,
+.bg-gradient-to-r.from-brand-primary.to-brand-secondary,
+.bg-gradient-to-br.from-brand-primary.to-brand-secondary,
+.bg-gradient-to-br.from-brand-secondary.to-brand-primary,
+.bg-gradient-to-r.from-brand-secondary.to-brand-primary {
+    background-color: #BFFF00 !important;
+    background-image: none !important;
+    color: #000000 !important;
+    border-color: #BFFF00 !important;
+    box-shadow: 0 4px 12px rgba(191, 255, 0, 0.15) !important;
+}
+
+/* Ensure text and icon colors inside primary components are black */
+.bg-brand-primary *,
+.bg-brand-secondary *,
+.bg-gradient-to-r.from-brand-primary.to-brand-secondary *,
+.bg-gradient-to-br.from-brand-primary.to-brand-secondary *,
+.bg-gradient-to-br.from-brand-secondary.to-brand-primary *,
+.bg-gradient-to-r.from-brand-secondary.to-brand-primary * {
+    color: #000000 !important;
+}
+
+/* Primary Button Hover State: Soft Green Highlight #C8FF5E */
+.bg-brand-primary:hover,
+.bg-brand-secondary:hover,
+.bg-gradient-to-r.from-brand-primary.to-brand-secondary:hover,
+.bg-gradient-to-br.from-brand-primary.to-brand-secondary:hover,
+.bg-gradient-to-br.from-brand-secondary.to-brand-primary:hover,
+.bg-gradient-to-r.from-brand-secondary.to-brand-primary:hover {
+    background-color: #C8FF5E !important;
+    color: #000000 !important;
+    box-shadow: 0 4px 16px rgba(191, 255, 0, 0.35) !important;
+}
+
+/* Primary Button Active State: #AFEE00 */
+.bg-brand-primary:active,
+.bg-brand-secondary:active,
+.bg-gradient-to-r.from-brand-primary.to-brand-secondary:active,
+.bg-gradient-to-br.from-brand-primary.to-brand-secondary:active,
+.bg-gradient-to-br.from-brand-secondary.to-brand-primary:active,
+.bg-gradient-to-r.from-brand-secondary.to-brand-primary:active {
+    background-color: #AFEE00 !important;
+    transform: scale(0.98);
+}
+
+/* Disabled buttons */
+.bg-brand-primary:disabled,
+.bg-brand-secondary:disabled {
+    background-color: #999999 !important;
+    color: #666666 !important;
+    box-shadow: none !important;
+    cursor: not-allowed !important;
+}
+
+/* 2. Text Readability Overrides for Light Backgrounds */
+/* Force text using brand primary/secondary to be charcoal/black on light layouts */
+.text-brand-primary,
+.text-brand-secondary {
+    color: #0E0E0E !important;
+}
+
+/* Exceptions: Allow neon green text inside dark containers or explicitly defined */
+aside .text-brand-primary,
+aside .text-brand-secondary,
+.bg-brand-dark .text-brand-primary,
+.bg-brand-dark .text-brand-secondary,
+.text-transparent.bg-clip-text {
+    color: inherit !important;
+}
+
+/* 3. Link & Interactive Text Hovers (Neon Green on Hover) */
+.hover\:text-brand-primary:hover,
+.hover\:text-brand-secondary:hover {
+    color: #BFFF00 !important;
+}
+
+/* 4. Text Input & Select Focus Glow (V-3.0 Style) */
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #BFFF00 !important;
+    --tw-ring-offset-shadow: none !important;
+    --tw-ring-shadow: none !important;
+    box-shadow: 0 0 0 3px rgba(191, 255, 0, 0.2) !important;
+}
+
+/* 5. Custom styling for tags & labels (e.g. status active / role badges) */
+.bg-brand-secondary.text-white,
+.bg-brand-primary.text-white {
+    background-color: #BFFF00 !important;
+    color: #000000 !important;
+}
+
+/* ========================================================== */
+/* DESIGN SYSTEM V-3.0 DEPTH & ELEVATION UTILITIES            */
+/* ========================================================== */
+.shadow-level-0 {
+    box-shadow: none !important;
+}
+.shadow-level-1 {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+.shadow-level-2 {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+}
+.shadow-level-3 {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* ========================================================== */
+/* DESIGN SYSTEM V-3.0 TYPOGRAPHY UTILITIES                   */
+/* ========================================================== */
+.text-display {
+    font-size: 32px !important;
+    font-weight: 600 !important;
+    line-height: 40px !important;
+    letter-spacing: -0.5px !important;
+}
+.text-heading {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    line-height: 24px !important;
+    letter-spacing: -0.3px !important;
+}
+.text-subheading {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: 20px !important;
+    letter-spacing: 0px !important;
+}
+.text-body {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 20px !important;
+    letter-spacing: 0px !important;
+}
+.text-body-compact {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 18px !important;
+    letter-spacing: 0px !important;
+}
+.text-btn {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 20px !important;
+    letter-spacing: 0.5px !important;
+}
+.text-caption {
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 16px !important;
+    letter-spacing: 0px !important;
+}
+.text-code {
+    font-family: "SF Mono", Monaco, monospace !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 16px !important;
+    letter-spacing: 0px !important;
+}
+
+/* Stat Card Hover Neon Glow (V-3.0 Override) */
+.stat-card-glow {
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.stat-card-glow:hover,
+.stat-card-glow:focus-within {
+    box-shadow: 0 10px 25px -4px rgba(191, 255, 0, 0.16),
+                0 4px 12px -2px rgba(191, 255, 0, 0.10) !important;
 }

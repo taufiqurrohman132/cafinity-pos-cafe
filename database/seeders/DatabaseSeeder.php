@@ -13,6 +13,11 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        \App\Models\Tenant::firstOrCreate(['id' => 1], [
+            'name' => 'Default Cafe',
+            'slug' => 'default-cafe',
+        ]);
+
         $this->call([
             UserSeeder::class,
             CategorySeeder::class,

@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\BelongsToTenant;
+
 class Transaction extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     protected $fillable = [
-        'cashier_id', 'status', 'total_amount',
+        'tenant_id', 'cashier_id', 'status', 'total_amount',
         'discount', 'tax', 'payment_method',
         'paid_amount', 'change_amount', 'notes',
     ];

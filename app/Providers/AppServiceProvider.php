@@ -76,5 +76,13 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
         }
+        // Register Custom Sanctum Token Model
+        \Laravel\Sanctum\Sanctum::usePersonalAccessTokenModel(\App\Models\PersonalAccessToken::class);
+
+        // Define API Rate Limiting per Tenant
+        \Illuminate\Support\Facades\RateLimiter::for('api', function (\Illuminate\Http\Request $request) {
+            $tenantId = $request->user()?->tenant_id ?? 'guest';
+            return \Illuminate\Cache\RateLimiting\Limit::perMinute(600)->by($tenantId);
+        });
     }
 }

@@ -505,28 +505,28 @@ export default function MenusIndex() {
                     {/* Header */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                            <h1 className="text-2xl md:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                                 Katalog Menu
                             </h1>
-                            <p className="text-brand-primary font-medium text-sm mt-1">
+                            <p className="text-black/60 font-semibold text-sm mt-1">
                                 Kelola item menu, harga jual, dan pantau margin keuntungan Anda.
                             </p>
                         </div>
                         <div className="flex items-center gap-3">
                             <div className="hidden sm:block text-right mr-2">
-                                <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-wider">Total Menu</p>
-                                <p className="text-2xl font-black text-brand-secondary leading-none mt-0.5">{totalMenus}</p>
+                                <p className="text-[10px] font-extrabold text-black/40 capitalize tracking-wider">Total Menu</p>
+                                <p className="text-2xl font-black text-black leading-none mt-0.5">{totalMenus}</p>
                             </div>
                             <button
                                 onClick={() => setShowCategoryModal(true)}
-                                className="bg-white hover:bg-brand-light/30 border border-brand-light text-brand-primary px-4 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-sm active:scale-[0.97]"
+                                className="bg-white hover:bg-[#E6E6E6] border border-[#D0D0D0] hover:border-[#999999] text-black px-4 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-sm active:scale-[0.97]"
                             >
-                                <iconify-icon icon="solar:tag-linear" class="text-lg"></iconify-icon>
+                                <iconify-icon icon="solar:tag-linear" class="text-lg text-black/60"></iconify-icon>
                                 Kelola Kategori
                             </button>
                             <button
                                 onClick={() => navigate('/menus/create')}
-                                className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.97]"
+                                className="bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-level-1 active:scale-[0.97]"
                             >
                                 + Tambah Menu
                             </button>
@@ -534,20 +534,20 @@ export default function MenusIndex() {
                     </div>
 
                     {/* Toolbar */}
-                    <div className="bg-white p-4 rounded-2xl border border-brand-light shadow-sm flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-4">
+                    <div className="bg-white p-4 rounded-2xl border border-[#E6E6E6] shadow-level-1 flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-4">
 
                         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 flex-1">
                             <div className="flex items-center gap-3 flex-1">
 
                                 {/* Search */}
                                 <form onSubmit={handleSearch} className="relative flex-1 max-w-xs">
-                                    <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-brand-primary/70 text-[18px]"></iconify-icon>
+                                    <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-black/50 text-[18px]"></iconify-icon>
                                     <input
                                         type="text"
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
                                         placeholder="Cari menu..."
-                                        className="w-full h-10 bg-brand-bg border border-brand-light rounded-xl pl-9 pr-4 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 focus:outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 bg-white border border-[#D0D0D0] rounded-xl pl-9 pr-4 text-[13px] font-semibold text-black placeholder-[#808080] focus:outline-none transition-all hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                 </form>
 
@@ -555,7 +555,7 @@ export default function MenusIndex() {
                                 <select
                                     value={activeStatus}
                                     onChange={handleStatus}
-                                    className="h-10 bg-brand-bg border border-brand-light rounded-xl px-3 text-[13px] font-bold text-brand-primary outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                    className="h-10 bg-white border border-[#D0D0D0] rounded-xl px-3 text-[13px] font-semibold text-black outline-none transition-all cursor-pointer hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                 >
                                     <option value="">Semua Status</option>
                                     <option value="active">Tersedia</option>
@@ -564,7 +564,7 @@ export default function MenusIndex() {
 
                                 <button
                                     onClick={handleSearch}
-                                    className="flex items-center gap-2 h-10 px-5 bg-gradient-to-r from-brand-secondary to-brand-primary text-white rounded-xl text-[13px] font-extrabold hover:from-brand-primary hover:to-brand-dark transition-all shadow-md shadow-brand-secondary/30 active:scale-[0.97]"
+                                    className="flex items-center gap-2 h-10 px-5 bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black rounded-xl text-[13px] font-semibold transition-all active:scale-[0.97]"
                                 >
                                     Cari
                                 </button>
@@ -572,7 +572,7 @@ export default function MenusIndex() {
                                 {(params.get('search') || params.get('status') || params.get('category')) && (
                                     <Link
                                         to="/menus"
-                                        className="h-10 px-3 bg-brand-light/30 text-brand-primary rounded-xl text-[13px] font-bold hover:bg-brand-light hover:text-brand-dark transition-all flex items-center border border-transparent hover:border-brand-light"
+                                        className="h-10 px-3 bg-white border border-[#D0D0D0] text-black rounded-xl text-[13px] font-semibold hover:bg-[#E6E6E6] hover:border-[#999999] transition-all flex items-center shadow-sm"
                                     >
                                         Reset
                                     </Link>
@@ -583,7 +583,7 @@ export default function MenusIndex() {
                             <div className="flex items-center gap-2 overflow-x-auto shrink-0">
                                 <button
                                     onClick={() => filter({ category: '', page: 1 })}
-                                    className={`px-3 py-1.5 text-[11px] font-extrabold rounded-full transition-all whitespace-nowrap ${ !activeCategory ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-md' : 'bg-white border border-brand-light text-brand-primary hover:bg-brand-light/50 hover:text-brand-dark' } active:scale-[0.97]`}
+                                    className={`px-3.5 py-1.5 text-[11px] font-bold rounded-full transition-all whitespace-nowrap ${ !activeCategory ? 'bg-[#BFFF00] text-black' : 'bg-white border border-[#D0D0D0] text-black/70 hover:bg-[#E6E6E6] hover:text-black hover:border-[#999999]' } active:scale-[0.97]`}
                                 >
                                     Semua
                                 </button>
@@ -591,7 +591,7 @@ export default function MenusIndex() {
                                     <button
                                         key={cat.id}
                                         onClick={() => filter({ category: cat.id, page: 1 })}
-                                        className={`px-3 py-1.5 text-[11px] font-extrabold rounded-full transition-all whitespace-nowrap ${ activeCategory == cat.id ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-md' : 'bg-white border border-brand-light text-brand-primary hover:bg-brand-light/50 hover:text-brand-dark' } active:scale-[0.97]`}
+                                        className={`px-3.5 py-1.5 text-[11px] font-bold rounded-full transition-all whitespace-nowrap ${ activeCategory == cat.id ? 'bg-[#BFFF00] text-black' : 'bg-white border border-[#D0D0D0] text-black/70 hover:bg-[#E6E6E6] hover:text-black hover:border-[#999999]' } active:scale-[0.97]`}
                                     >
                                         {cat.name}
                                     </button>
@@ -600,16 +600,16 @@ export default function MenusIndex() {
                         </div>
 
                         {/* View Toggle */}
-                        <div className="flex items-center bg-brand-bg border border-brand-light p-1 rounded-xl shrink-0">
+                        <div className="flex items-center bg-neutral-50 border border-[#E6E6E6] p-1 rounded-xl shrink-0">
                             <button
                                 onClick={() => setView('grid')}
-                                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${ view === 'grid' ? 'bg-white border border-brand-light text-brand-dark shadow-sm' : 'text-brand-primary/50 hover:text-brand-primary' } active:scale-[0.97]`}
+                                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${ view === 'grid' ? 'bg-white border border-[#E6E6E6] text-black shadow-sm' : 'text-black/40 hover:text-black' } active:scale-[0.97]`}
                             >
                                 <iconify-icon icon="solar:widget-linear" class="text-lg"></iconify-icon>
                             </button>
                             <button
                                 onClick={() => setView('list')}
-                                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${ view === 'list' ? 'bg-white border border-brand-light text-brand-dark shadow-sm' : 'text-brand-primary/50 hover:text-brand-primary' } active:scale-[0.97]`}
+                                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${ view === 'list' ? 'bg-white border border-[#E6E6E6] text-black shadow-sm' : 'text-black/40 hover:text-black' } active:scale-[0.97]`}
                             >
                                 <iconify-icon icon="solar:list-linear" class="text-lg"></iconify-icon>
                             </button>
@@ -617,33 +617,33 @@ export default function MenusIndex() {
                     </div>
 
                     {/* Table / Grid Card */}
-                    <div className="bg-white rounded-2xl border border-brand-light shadow-sm overflow-hidden">
+                    <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-level-1 overflow-hidden">
 
                         {/* ── TABLE VIEW ── */}
                         {view === 'list' && (
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left min-w-[700px]">
                                     <thead>
-                                        <tr className="bg-brand-bg/50 border-b border-brand-light">
+                                        <tr className="bg-neutral-50 border-b border-[#E6E6E6]">
                                             {['Foto', 'Nama Menu', 'Kategori', 'Harga Jual', 'HPP', 'Margin', 'Status', 'Aksi'].map((h) => (
-                                                <th key={h} className="px-6 py-3 text-[11px] font-extrabold text-brand-primary capitalize tracking-wider">
+                                                <th key={h} className="px-6 py-3.5 text-[11px] font-bold text-black/60 uppercase tracking-wider">
                                                     {h}
                                                 </th>
                                             ))}
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-brand-light/50">
+                                    <tbody className="divide-y divide-[#E6E6E6]">
                                         {menus.data.length === 0 ? (
                                             <tr>
                                                 <td colSpan={8} className="px-6 py-16 text-center">
                                                     <div className="flex flex-col items-center justify-center gap-3">
-                                                        <div className="w-16 h-16 rounded-full bg-brand-light/50 flex items-center justify-center text-brand-secondary">
+                                                        <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center text-black/40">
                                                             <iconify-icon icon="solar:cookie-linear" class="text-3xl"></iconify-icon>
                                                         </div>
-                                                        <p className="text-sm font-bold text-brand-dark">Tidak ada menu ditemukan.</p>
+                                                        <p className="text-sm font-bold text-black">Tidak ada menu ditemukan.</p>
                                                         <button
                                                             onClick={() => navigate('/menus/create')}
-                                                            className="bg-gradient-to-r text-xs from-brand-primary to-brand-secondary text-white px-3 py-1.5 rounded-lg font-bold transition-all duration-150 active:scale-[0.97]"
+                                                            className="bg-[#BFFF00] text-xs text-black px-4 py-2 rounded-xl font-bold transition-all active:scale-[0.97]"
                                                         >
                                                             + Tambah Menu Pertama
                                                         </button>
@@ -656,7 +656,7 @@ export default function MenusIndex() {
                                             return (
                                                 <tr
                                                     key={menu.id}
-                                                    className="hover:bg-brand-light/10 transition-colors group cursor-pointer"
+                                                    className="hover:bg-[#E6E6E6]/40 transition-colors group cursor-pointer"
                                                     onClick={() => navigate(`/menus/${menu.id}`)}
                                                 >
                                                     {/* Foto */}
@@ -668,11 +668,11 @@ export default function MenusIndex() {
 
                                                     {/* Nama */}
                                                     <td className="px-6 py-4">
-                                                        <p className="font-extrabold text-brand-dark text-[13px] group-hover:text-brand-secondary transition-colors">
+                                                        <p className="font-bold text-black text-[13px] group-hover:text-black/80 transition-colors">
                                                             {menu.name}
                                                         </p>
                                                         {menu.description && (
-                                                            <p className="text-[11px] text-brand-primary/50 font-medium mt-0.5 truncate max-w-[180px]">
+                                                            <p className="text-[11px] text-black/50 font-medium mt-0.5 truncate max-w-[180px]">
                                                                 {menu.description}
                                                             </p>
                                                         )}
@@ -680,42 +680,42 @@ export default function MenusIndex() {
 
                                                     {/* Kategori */}
                                                     <td className="px-6 py-4">
-                                                        <span className="flex items-center gap-1.5 text-[12px] font-bold text-brand-primary">
-                                                            <iconify-icon icon="solar:tag-linear" class="text-base text-brand-secondary"></iconify-icon>
+                                                        <span className="flex items-center gap-1.5 text-[12px] font-semibold text-black/70">
+                                                            <iconify-icon icon="solar:tag-linear" class="text-base text-black/40"></iconify-icon>
                                                             {menu.category?.name ?? '-'}
                                                         </span>
                                                     </td>
 
                                                     {/* Harga */}
-                                                    <td className="px-6 py-4 font-black text-brand-secondary text-[13px]">
+                                                    <td className="px-6 py-4 font-bold text-black text-[13px]">
                                                         Rp {Number(menu.price).toLocaleString('id-ID')}
                                                     </td>
 
                                                     {/* HPP */}
-                                                    <td className="px-6 py-4 text-[13px] font-bold text-brand-dark/60">
+                                                    <td className="px-6 py-4 text-[13px] font-semibold text-black/60">
                                                         {hpp > 0
                                                             ? `Rp ${Number(hpp).toLocaleString('id-ID')}`
-                                                            : <span className="text-brand-primary/30 italic text-[11px]">Belum diset</span>
+                                                            : <span className="text-black/30 italic text-[11px]">Belum diset</span>
                                                         }
                                                     </td>
 
                                                     {/* Margin */}
                                                     <td className="px-6 py-4">
                                                         {hpp > 0 ? (
-                                                            <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-extrabold border ${getMarginStyle(margin)}`}>
+                                                            <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold border ${getMarginStyle(margin)}`}>
                                                                 {margin}%
                                                             </span>
                                                         ) : (
-                                                            <span className="text-brand-primary/30 italic text-[11px]">-</span>
+                                                            <span className="text-black/30 italic text-[11px]">-</span>
                                                         )}
                                                     </td>
 
                                                     {/* Status */}
                                                     <td className="px-6 py-4">
-                                                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold border ${
+                                                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border ${
                                                             menu.is_active
-                                                                ? 'bg-emerald-100 text-emerald-700 border-emerald-200'
-                                                                : 'bg-rose-100 text-rose-700 border-rose-200'
+                                                                ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
+                                                                : 'bg-rose-50 text-rose-700 border-rose-100'
                                                         }`}>
                                                             {menu.is_active ? 'Tersedia' : 'Habis'}
                                                         </span>
@@ -726,21 +726,21 @@ export default function MenusIndex() {
                                                         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all">
                                                             <Link
                                                                 to={`/menus/${menu.id}`}
-                                                                className="p-2 text-brand-primary hover:text-brand-secondary rounded-xl hover:bg-brand-light/50 inline-flex active:scale-95 transition-all"
+                                                                className="p-2 text-black/60 hover:text-black rounded-xl hover:bg-[#E6E6E6] inline-flex active:scale-95 transition-all"
                                                                 title="Lihat Detail"
                                                             >
                                                                 <iconify-icon icon="solar:eye-linear" class="text-lg"></iconify-icon>
                                                             </Link>
                                                             <button
                                                                 onClick={() => navigate(`/menus/${menu.id}/edit`)}
-                                                                className="p-2 text-brand-primary hover:text-brand-secondary rounded-xl hover:bg-brand-light/50 inline-flex active:scale-[0.97] transition-all"
+                                                                className="p-2 text-black/60 hover:text-black rounded-xl hover:bg-[#E6E6E6] inline-flex active:scale-[0.97] transition-all"
                                                                 title="Edit"
                                                             >
                                                                 <iconify-icon icon="solar:pen-linear" class="text-lg"></iconify-icon>
                                                             </button>
                                                             <button
                                                                 onClick={() => handleDelete(menu.id, menu.name)}
-                                                                className="p-2 text-rose-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 inline-flex active:scale-[0.97] transition-all"
+                                                                className="p-2 text-rose-500 hover:text-rose-700 rounded-xl hover:bg-rose-50 inline-flex active:scale-[0.97] transition-all"
                                                                 title="Hapus"
                                                             >
                                                                 <iconify-icon icon="solar:trash-bin-trash-linear" class="text-lg"></iconify-icon>
@@ -760,10 +760,10 @@ export default function MenusIndex() {
                             <div className="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
                                 {menus.data.length === 0 ? (
                                     <div className="col-span-full py-16 text-center">
-                                        <div className="w-16 h-16 rounded-full bg-brand-light/50 flex items-center justify-center mb-3 mx-auto text-brand-secondary">
+                                        <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center mb-3 mx-auto text-black/40">
                                             <iconify-icon icon="solar:cookie-linear" class="text-3xl"></iconify-icon>
                                         </div>
-                                        <p className="text-sm font-bold text-brand-dark">Tidak ada menu ditemukan.</p>
+                                        <p className="text-sm font-bold text-black">Tidak ada menu ditemukan.</p>
                                     </div>
                                 ) : menus.data.map((menu) => {
                                     const hpp = menu.recipe?.total_hpp ?? 0
@@ -771,17 +771,17 @@ export default function MenusIndex() {
                                     return (
                                         <div
                                             key={menu.id}
-                                            className="group bg-brand-bg border border-brand-light rounded-2xl overflow-hidden hover:border-brand-secondary hover:shadow-md transition-all cursor-pointer"
+                                            className="group bg-white border border-[#E6E6E6] rounded-2xl overflow-hidden hover:border-black hover:shadow-level-2 transition-all cursor-pointer shadow-level-1"
                                             onClick={() => navigate(`/menus/${menu.id}`)}
                                         >
                                             {/* Foto */}
-                                            <div className="relative aspect-square overflow-hidden bg-brand-light/20">
+                                            <div className="relative aspect-square overflow-hidden bg-neutral-50">
                                                 <MenuImage src={menu.image_url} name={menu.name} categoryName={menu.category?.name} />
                                                 {/* Status toggle */}
                                                 <div className="absolute top-2 right-2" onClick={(e) => e.stopPropagation()}>
                                                     <button
                                                         onClick={() => handleToggleStatus(menu.id)}
-                                                        className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold border transition-all ${ menu.is_active ? 'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200' : 'bg-rose-100 text-rose-700 border-rose-200 hover:bg-rose-200' } active:scale-[0.97]`}
+                                                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold border transition-all ${ menu.is_active ? 'bg-emerald-50 text-emerald-700 border-emerald-100 hover:bg-emerald-100' : 'bg-rose-50 text-rose-700 border-rose-100 hover:bg-rose-100' } active:scale-[0.97]`}
                                                     >
                                                         {menu.is_active ? 'Tersedia' : 'Habis'}
                                                     </button>
@@ -790,31 +790,31 @@ export default function MenusIndex() {
 
                                             {/* Info */}
                                             <div className="p-3">
-                                                <p className="font-extrabold text-brand-dark text-[12px] truncate">{menu.name}</p>
-                                                <p className="text-[11px] text-brand-primary/60 font-medium mt-0.5">{menu.category?.name ?? '-'}</p>
-                                                <p className="text-[13px] font-black text-brand-secondary mt-1.5">
+                                                <p className="font-bold text-black text-[12px] truncate">{menu.name}</p>
+                                                <p className="text-[11px] text-black/50 font-medium mt-0.5">{menu.category?.name ?? '-'}</p>
+                                                <p className="text-[13px] font-bold text-black mt-1.5">
                                                     Rp {Number(menu.price).toLocaleString('id-ID')}
                                                 </p>
                                                 {hpp > 0 && (
-                                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold border mt-1 ${getMarginStyle(margin)}`}>
+                                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border mt-1 ${getMarginStyle(margin)}`}>
                                                         Margin {margin}%
                                                     </span>
                                                 )}
 
                                                 {/* Aksi */}
                                                 <div
-                                                    className="flex items-center gap-1 mt-2 pt-2 border-t border-brand-light/50 opacity-0 group-hover:opacity-100 transition-all"
+                                                    className="flex items-center gap-1 mt-2 pt-2 border-t border-[#E6E6E6] opacity-0 group-hover:opacity-100 transition-all"
                                                     onClick={(e) => e.stopPropagation()}
                                                 >
                                                     <button
                                                         onClick={() => navigate(`/menus/${menu.id}/edit`)}
-                                                        className="flex-1 flex items-center justify-center gap-1 py-1.5 text-[11px] font-bold text-brand-primary hover:text-brand-secondary hover:bg-brand-light/50 rounded-lg transition-all active:scale-[0.97]"
+                                                        className="flex-1 flex items-center justify-center gap-1 py-1.5 text-[11px] font-semibold text-black hover:bg-[#E6E6E6] border border-[#D0D0D0] hover:border-[#999999] rounded-lg transition-all active:scale-[0.97]"
                                                     >
                                                         <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon> Edit
                                                     </button>
                                                     <button
                                                         onClick={() => handleDelete(menu.id, menu.name)}
-                                                        className="flex items-center justify-center gap-1 py-1.5 px-2 text-[11px] font-bold text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all active:scale-[0.97]"
+                                                        className="flex items-center justify-center gap-1 py-1.5 px-2 text-[11px] font-semibold text-rose-500 hover:text-rose-700 border border-[#D0D0D0] hover:border-rose-200 hover:bg-rose-50 rounded-lg transition-all active:scale-[0.97]"
                                                     >
                                                         <iconify-icon icon="solar:trash-bin-trash-linear" class="text-sm"></iconify-icon>
                                                     </button>
@@ -827,19 +827,19 @@ export default function MenusIndex() {
                         )}
 
                         {/* Pagination */}
-                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t border-brand-light/50 bg-brand-bg/30">
-                            <p className="text-[12px] font-medium text-brand-primary">
-                                Menampilkan <span className="font-bold text-brand-dark">{menus.data.length}</span>{' '}
-                                dari <span className="font-bold text-brand-dark">{menus.total}</span> menu
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t border-[#E6E6E6] bg-neutral-50/50">
+                            <p className="text-[12px] font-medium text-black/60">
+                                Menampilkan <span className="font-bold text-black">{menus.data.length}</span>{' '}
+                                dari <span className="font-bold text-black">{menus.total}</span> menu
                             </p>
                             <div className="flex items-center gap-2">
                                 {/* Prev */}
                                 {menus.current_page === 1 ? (
-                                    <button disabled className="px-4 py-2 text-[12px] font-bold text-brand-primary/40 bg-brand-bg border border-brand-light rounded-xl cursor-not-allowed transition-all duration-150 active:scale-[0.97]">
+                                    <button disabled className="px-4 py-2 text-[12px] font-semibold text-black/30 bg-neutral-50 border border-[#E6E6E6] rounded-xl cursor-not-allowed">
                                         Sebelumnya
                                     </button>
                                 ) : (
-                                    <Link to={getRelativeUrl(menus.prev_page_url)} className="px-4 py-2 text-[12px] font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm">
+                                    <Link to={getRelativeUrl(menus.prev_page_url)} className="px-4 py-2 text-[12px] font-bold text-black bg-white border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] hover:border-[#999999] transition-all shadow-sm">
                                         Sebelumnya
                                     </Link>
                                 )}
@@ -847,15 +847,15 @@ export default function MenusIndex() {
                                 {/* Page numbers */}
                                 {getPages().map((page, i) =>
                                     page === '...' ? (
-                                        <span key={`dot-${i}`} className="w-9 h-9 flex items-center justify-center text-[12px] font-bold text-brand-primary/40">…</span>
+                                        <span key={`dot-${i}`} className="w-9 h-9 flex items-center justify-center text-[12px] font-semibold text-black/30">…</span>
                                     ) : (
                                         <Link
                                             key={page}
                                             to={getRelativeUrl(menus.links?.find(l => l.label == page)?.url)}
-                                            className={`w-9 h-9 flex items-center justify-center text-[12px] font-extrabold rounded-xl border transition-colors shadow-sm ${
+                                            className={`w-9 h-9 flex items-center justify-center text-[12px] font-bold rounded-xl border transition-all ${
                                                 page === menus.current_page
-                                                    ? 'bg-gradient-to-r from-brand-secondary to-brand-primary text-white border-brand-secondary shadow-brand-secondary/30'
-                                                    : 'bg-white text-brand-primary border-brand-light hover:bg-brand-light hover:text-brand-dark'
+                                                    ? 'bg-[#BFFF00] text-black border-transparent font-bold'
+                                                    : 'bg-white text-black border-[#D0D0D0] hover:bg-[#E6E6E6] hover:border-[#999999]'
                                             }`}
                                         >
                                             {page}
@@ -865,11 +865,11 @@ export default function MenusIndex() {
 
                                 {/* Next */}
                                 {!menus.next_page_url ? (
-                                    <button disabled className="px-4 py-2 text-[12px] font-bold text-brand-primary/40 bg-brand-bg border border-brand-light rounded-xl cursor-not-allowed transition-all duration-150 active:scale-[0.97]">
+                                    <button disabled className="px-4 py-2 text-[12px] font-semibold text-black/30 bg-neutral-50 border border-[#E6E6E6] rounded-xl cursor-not-allowed">
                                         Berikutnya
                                     </button>
                                 ) : (
-                                    <Link to={getRelativeUrl(menus.next_page_url)} className="px-4 py-2 text-[12px] font-extrabold text-brand-primary bg-white border border-brand-light rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm">
+                                    <Link to={getRelativeUrl(menus.next_page_url)} className="px-4 py-2 text-[12px] font-bold text-black bg-white border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] hover:border-[#999999] transition-all shadow-sm">
                                         Berikutnya
                                     </Link>
                                 )}
@@ -881,9 +881,9 @@ export default function MenusIndex() {
 
               {/* Create Menu Modal */}
             {showCreateModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
-                    <div className="bg-white rounded-3xl border border-brand-light p-8 w-full max-w-xl shadow-xl relative my-8">
-                        <div className="absolute top-0 right-0 w-24 h-24 bg-brand-light/40 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
+                    <div className="bg-white rounded-3xl border border-[#E6E6E6] p-8 w-full max-w-xl shadow-level-3 relative my-8">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-neutral-100 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
                         
                         {/* Close button X */}
                         <button
@@ -897,25 +897,25 @@ export default function MenusIndex() {
                             <iconify-icon icon="material-symbols:close" class="text-xl"></iconify-icon>
                         </button>
 
-                        <h3 className="font-extrabold text-xl text-brand-dark mb-1 relative z-10">
+                        <h3 className="font-bold text-xl text-black mb-1 relative z-10">
                             Tambah Menu Baru
                         </h3>
-                        <p className="text-xs text-brand-primary/60 mb-8 relative z-10">
+                        <p className="text-xs text-black/60 mb-8 relative z-10">
                             Isi informasi dasar menu. Anda dapat mengatur resep detail di layar Recipe Costing.
                         </p>
 
                         <form onSubmit={handleCreateSubmit} className="space-y-5 relative z-10">
                             {/* Row 1: Foto Menu */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-semibold text-black/80 capitalize tracking-wider">
                                     Foto Menu
                                 </label>
                                 <div className="col-span-8 flex items-center gap-4">
-                                    <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-brand-light bg-brand-bg flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm relative cursor-pointer hover:border-brand-secondary transition-colors group">
+                                    <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-[#D0D0D0] bg-neutral-50 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm relative cursor-pointer hover:border-[#999999] transition-colors group">
                                         {imagePreview ? (
                                             <img src={imagePreview} className="w-full h-full object-cover" />
                                         ) : (
-                                            <iconify-icon icon="solar:add-circle-linear" class="text-2xl text-brand-primary/50 group-hover:text-brand-secondary transition-colors"></iconify-icon>
+                                            <iconify-icon icon="solar:add-circle-linear" class="text-2xl text-black/40 group-hover:text-black transition-colors"></iconify-icon>
                                         )}
                                         <input
                                             type="file"
@@ -924,7 +924,7 @@ export default function MenusIndex() {
                                             className="absolute inset-0 opacity-0 cursor-pointer"
                                         />
                                     </div>
-                                    <div className="text-[11px] text-brand-primary/60 font-medium leading-relaxed max-w-[220px]">
+                                    <div className="text-[11px] text-black/55 font-medium leading-relaxed max-w-[220px]">
                                         Format JPG, PNG atau WebP.<br />Maksimal ukuran file 2MB.
                                     </div>
                                 </div>
@@ -937,7 +937,7 @@ export default function MenusIndex() {
 
                             {/* Row 2: Nama Menu */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-semibold text-black/80 capitalize tracking-wider">
                                     Nama Menu
                                 </label>
                                 <div className="col-span-8">
@@ -947,7 +947,7 @@ export default function MenusIndex() {
                                         value={createForm.data.name}
                                         onChange={(e) => createForm.setData('name', e.target.value)}
                                         placeholder="Contoh: Es Kopi Susu Gula Aren"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     {createForm.errors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -959,7 +959,7 @@ export default function MenusIndex() {
 
                             {/* Row 3: Kategori */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-semibold text-black/80 capitalize tracking-wider">
                                     Kategori
                                 </label>
                                 <div className="col-span-8">
@@ -967,7 +967,7 @@ export default function MenusIndex() {
                                         required
                                         value={createForm.data.category_id}
                                         onChange={(e) => createForm.setData('category_id', e.target.value)}
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all cursor-pointer font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     >
                                         <option value="" disabled>-- Pilih Kategori --</option>
                                         {categories.map((cat) => (
@@ -984,7 +984,7 @@ export default function MenusIndex() {
 
                             {/* Row 4: Harga Jual (Rp) */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-semibold text-black/80 capitalize tracking-wider">
                                     Harga Jual (Rp)
                                 </label>
                                 <div className="col-span-8">
@@ -995,7 +995,7 @@ export default function MenusIndex() {
                                         value={createForm.data.price}
                                         onChange={(e) => createForm.setData('price', e.target.value)}
                                         placeholder="25000"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-secondary hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     {createForm.errors.price && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1007,7 +1007,7 @@ export default function MenusIndex() {
 
                             {/* Row 5: Estimasi HPP (Rp) */}
                             <div className="grid grid-cols-12 gap-x-4 items-start">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider mt-2.5">
+                                <label className="col-span-4 text-right pr-6 text-xs font-semibold text-black/80 capitalize tracking-wider mt-2.5">
                                     Estimasi HPP (Rp)
                                 </label>
                                 <div className="col-span-8">
@@ -1017,7 +1017,7 @@ export default function MenusIndex() {
                                         value={createForm.data.estimated_hpp}
                                         onChange={(e) => createForm.setData('estimated_hpp', e.target.value)}
                                         placeholder="8500"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
                                         *HPP akan diperbarui otomatis setelah resep dihubungkan.
@@ -1032,7 +1032,7 @@ export default function MenusIndex() {
 
                             {/* Row 6: Deskripsi */}
                             <div className="grid grid-cols-12 gap-x-4 items-start">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider mt-2.5">
+                                <label className="col-span-4 text-right pr-6 text-xs font-semibold text-black/80 capitalize tracking-wider mt-2.5">
                                     Deskripsi
                                 </label>
                                 <div className="col-span-8">
@@ -1041,7 +1041,7 @@ export default function MenusIndex() {
                                         onChange={(e) => createForm.setData('description', e.target.value)}
                                         placeholder="Deskripsi singkat mengenai rasa, komposisi, atau detail penyajian..."
                                         rows={2}
-                                        className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all resize-none font-medium text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all resize-none font-medium text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     {createForm.errors.description && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1058,7 +1058,7 @@ export default function MenusIndex() {
                                     <button
                                         type="button"
                                         onClick={() => createForm.setData('is_active', !createForm.data.is_active)}
-                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${ createForm.data.is_active ? 'bg-brand-secondary' : 'bg-brand-light' } active:scale-[0.97]`}
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-black ${ createForm.data.is_active ? 'bg-black' : 'bg-[#E6E6E6]' } active:scale-[0.97]`}
                                     >
                                         <span
                                             className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
@@ -1068,7 +1068,7 @@ export default function MenusIndex() {
                                     </button>
                                     <span
                                         onClick={() => createForm.setData('is_active', !createForm.data.is_active)}
-                                        className="text-xs font-bold text-brand-dark cursor-pointer select-none"
+                                        className="text-xs font-semibold text-black cursor-pointer select-none"
                                     >
                                         Aktif & Tampilkan di POS
                                     </span>
@@ -1076,7 +1076,7 @@ export default function MenusIndex() {
                             </div>
 
                             {/* Action Buttons */}
-                            <div className="flex justify-end items-center gap-4 mt-8 pt-4 border-t border-brand-light/30">
+                            <div className="flex justify-end items-center gap-4 mt-8 pt-4 border-t border-neutral-100">
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -1084,14 +1084,14 @@ export default function MenusIndex() {
                                         createForm.reset()
                                         setImagePreview(null)
                                     }}
-                                    className="px-6 py-2.5 text-xs font-extrabold text-brand-primary hover:text-brand-dark transition-colors active:scale-[0.97]"
+                                    className="px-6 py-2.5 text-xs font-bold text-black/60 hover:text-black transition-colors active:scale-[0.97]"
                                 >
                                     Batal
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={createForm.processing}
-                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-primary/20 disabled:opacity-50 active:scale-[0.97]"
+                                    className="bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-level-1 disabled:opacity-50 active:scale-[0.97]"
                                 >
                                     {createForm.processing ? 'Menyimpan...' : 'Simpan Menu'}
                                 </button>
@@ -1103,9 +1103,9 @@ export default function MenusIndex() {
 
             {/* Edit Menu Modal */}
             {showEditModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
-                    <div className="bg-white rounded-3xl border border-brand-light p-8 w-full max-w-xl shadow-xl relative my-8">
-                        <div className="absolute top-0 right-0 w-24 h-24 bg-brand-light/40 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
+                    <div className="bg-white rounded-3xl border border-[#E6E6E6] p-8 w-full max-w-xl shadow-level-3 relative my-8">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-neutral-100 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
                         
                         {/* Close button X */}
                         <button
@@ -1120,25 +1120,25 @@ export default function MenusIndex() {
                             <iconify-icon icon="material-symbols:close" class="text-xl"></iconify-icon>
                         </button>
 
-                        <h3 className="font-extrabold text-xl text-brand-dark mb-1 relative z-10">
+                        <h3 className="font-bold text-xl text-black mb-1 relative z-10">
                             Edit Detail Menu
                         </h3>
-                        <p className="text-xs text-brand-primary/60 mb-8 relative z-10">
+                        <p className="text-xs text-black/60 mb-8 relative z-10">
                             Ubah rincian informasi, harga jual, dan estimasi HPP menu hidangan.
                         </p>
 
                         <form onSubmit={handleEditSubmit} className="space-y-5 relative z-10">
                             {/* Row 1: Foto Menu */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-semibold text-black/80 capitalize tracking-wider">
                                     Foto Menu
                                 </label>
                                 <div className="col-span-8 flex items-center gap-4">
-                                    <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-brand-light bg-brand-bg flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm relative cursor-pointer hover:border-brand-secondary transition-colors group">
+                                    <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-[#D0D0D0] bg-neutral-50 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm relative cursor-pointer hover:border-[#999999] transition-colors group">
                                         {imagePreview ? (
                                             <img src={imagePreview} className="w-full h-full object-cover" />
                                         ) : (
-                                            <iconify-icon icon="solar:add-circle-linear" class="text-2xl text-brand-primary/50 group-hover:text-brand-secondary transition-colors"></iconify-icon>
+                                            <iconify-icon icon="solar:add-circle-linear" class="text-2xl text-black/40 group-hover:text-black transition-colors"></iconify-icon>
                                         )}
                                         <input
                                             type="file"
@@ -1147,7 +1147,7 @@ export default function MenusIndex() {
                                             className="absolute inset-0 opacity-0 cursor-pointer"
                                         />
                                     </div>
-                                    <div className="text-[11px] text-brand-primary/60 font-medium leading-relaxed max-w-[220px]">
+                                    <div className="text-[11px] text-black/55 font-medium leading-relaxed max-w-[220px]">
                                         Format JPG, PNG atau WebP.<br />Maksimal ukuran file 2MB.
                                     </div>
                                 </div>
@@ -1160,7 +1160,7 @@ export default function MenusIndex() {
 
                             {/* Row 2: Nama Menu */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-semibold text-black/80 capitalize tracking-wider">
                                     Nama Menu
                                 </label>
                                 <div className="col-span-8">
@@ -1170,7 +1170,7 @@ export default function MenusIndex() {
                                         value={editForm.data.name}
                                         onChange={(e) => editForm.setData('name', e.target.value)}
                                         placeholder="Contoh: Es Kopi Susu Gula Aren"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     {editForm.errors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1182,7 +1182,7 @@ export default function MenusIndex() {
 
                             {/* Row 3: Kategori */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-semibold text-black/80 capitalize tracking-wider">
                                     Kategori
                                 </label>
                                 <div className="col-span-8">
@@ -1190,7 +1190,7 @@ export default function MenusIndex() {
                                         required
                                         value={editForm.data.category_id}
                                         onChange={(e) => editForm.setData('category_id', e.target.value)}
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all cursor-pointer font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     >
                                         <option value="" disabled>-- Pilih Kategori --</option>
                                         {categories.map((cat) => (
@@ -1207,7 +1207,7 @@ export default function MenusIndex() {
 
                             {/* Row 4: Harga Jual (Rp) */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-semibold text-black/80 capitalize tracking-wider">
                                     Harga Jual (Rp)
                                 </label>
                                 <div className="col-span-8">
@@ -1218,7 +1218,7 @@ export default function MenusIndex() {
                                         value={editForm.data.price}
                                         onChange={(e) => editForm.setData('price', e.target.value)}
                                         placeholder="25000"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-secondary hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     {editForm.errors.price && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1230,7 +1230,7 @@ export default function MenusIndex() {
 
                             {/* Row 5: Estimasi HPP (Rp) */}
                             <div className="grid grid-cols-12 gap-x-4 items-start">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider mt-2.5">
+                                <label className="col-span-4 text-right pr-6 text-xs font-semibold text-black/80 capitalize tracking-wider mt-2.5">
                                     Estimasi HPP (Rp)
                                 </label>
                                 <div className="col-span-8">
@@ -1240,7 +1240,7 @@ export default function MenusIndex() {
                                         value={editForm.data.estimated_hpp}
                                         onChange={(e) => editForm.setData('estimated_hpp', e.target.value)}
                                         placeholder="8500"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
                                         *HPP akan diperbarui otomatis setelah resep dihubungkan.
@@ -1255,7 +1255,7 @@ export default function MenusIndex() {
 
                             {/* Row 6: Deskripsi */}
                             <div className="grid grid-cols-12 gap-x-4 items-start">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider mt-2.5">
+                                <label className="col-span-4 text-right pr-6 text-xs font-semibold text-black/80 capitalize tracking-wider mt-2.5">
                                     Deskripsi
                                 </label>
                                 <div className="col-span-8">
@@ -1264,7 +1264,7 @@ export default function MenusIndex() {
                                         onChange={(e) => editForm.setData('description', e.target.value)}
                                         placeholder="Deskripsi..."
                                         rows={2}
-                                        className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all resize-none font-medium text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all resize-none font-medium text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     {editForm.errors.description && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1281,7 +1281,7 @@ export default function MenusIndex() {
                                     <button
                                         type="button"
                                         onClick={() => editForm.setData('is_active', !editForm.data.is_active)}
-                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${ editForm.data.is_active ? 'bg-brand-secondary' : 'bg-brand-light' } active:scale-[0.97]`}
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-black ${ editForm.data.is_active ? 'bg-black' : 'bg-[#E6E6E6]' } active:scale-[0.97]`}
                                     >
                                         <span
                                             className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
@@ -1291,7 +1291,7 @@ export default function MenusIndex() {
                                     </button>
                                     <span
                                         onClick={() => editForm.setData('is_active', !editForm.data.is_active)}
-                                        className="text-xs font-bold text-brand-dark cursor-pointer select-none"
+                                        className="text-xs font-semibold text-black cursor-pointer select-none"
                                     >
                                         Aktif & Tampilkan di POS
                                     </span>
@@ -1299,7 +1299,7 @@ export default function MenusIndex() {
                             </div>
 
                             {/* Action Buttons */}
-                            <div className="flex justify-end items-center gap-4 mt-8 pt-4 border-t border-brand-light/30">
+                            <div className="flex justify-end items-center gap-4 mt-8 pt-4 border-t border-neutral-100">
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -1308,14 +1308,14 @@ export default function MenusIndex() {
                                         setEditMenuId(null)
                                         setImagePreview(null)
                                     }}
-                                    className="px-6 py-2.5 text-xs font-extrabold text-brand-primary hover:text-brand-dark transition-colors active:scale-[0.97]"
+                                    className="px-6 py-2.5 text-xs font-bold text-black/60 hover:text-black transition-colors active:scale-[0.97]"
                                 >
                                     Batal
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={editForm.processing}
-                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-primary/20 disabled:opacity-50 active:scale-[0.97]"
+                                    className="bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-level-1 disabled:opacity-50 active:scale-[0.97]"
                                 >
                                     {editForm.processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                                 </button>
@@ -1327,8 +1327,8 @@ export default function MenusIndex() {
 
             {/* Category Manager Modal */}
             {showCategoryModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
-                    <div className="bg-white rounded-3xl border border-brand-light p-6 md:p-8 w-full max-w-4xl shadow-xl relative my-8 flex flex-col md:flex-row gap-6 h-[85vh] overflow-hidden">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
+                    <div className="bg-white rounded-3xl border border-[#E6E6E6] p-6 md:p-8 w-full max-w-4xl shadow-level-3 relative my-8 flex flex-col md:flex-row gap-6 h-[85vh] overflow-hidden">
                         
                         {/* Close button */}
                         <button
@@ -1342,17 +1342,17 @@ export default function MenusIndex() {
                         </button>
 
                         {/* Left Side: Create / Edit Form */}
-                        <div className="w-full md:w-[320px] flex-shrink-0 flex flex-col justify-start border-b md:border-b-0 md:border-r border-brand-light/60 pb-6 md:pb-0 md:pr-6">
-                            <h3 className="font-extrabold text-lg text-brand-dark mb-1">
+                        <div className="w-full md:w-[320px] flex-shrink-0 flex flex-col justify-start border-b md:border-b-0 md:border-r border-[#E6E6E6] pb-6 md:pb-0 md:pr-6">
+                            <h3 className="font-bold text-lg text-black mb-1">
                                 {editingCatId ? 'Edit Kategori' : 'Tambah Kategori'}
                             </h3>
-                            <p className="text-xs text-brand-primary/60 mb-6">
+                            <p className="text-xs text-black/60 mb-6">
                                 {editingCatId ? 'Perbarui detail informasi kategori menu.' : 'Buat kategori menu hidangan baru.'}
                             </p>
 
                             <form onSubmit={handleCategorySubmit} className="space-y-4">
                                 <div>
-                                    <label className="text-xs font-bold text-brand-dark capitalize tracking-wider block mb-1.5">
+                                    <label className="text-xs font-semibold text-black/80 capitalize tracking-wider block mb-1.5">
                                         Nama Kategori
                                     </label>
                                     <input
@@ -1361,7 +1361,7 @@ export default function MenusIndex() {
                                         value={catName}
                                         onChange={(e) => setCatName(e.target.value)}
                                         placeholder="Contoh: Kopi Khas"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     {catErrors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1371,7 +1371,7 @@ export default function MenusIndex() {
                                 </div>
 
                                 <div>
-                                    <label className="text-xs font-bold text-brand-dark capitalize tracking-wider block mb-1.5">
+                                    <label className="text-xs font-semibold text-black/80 capitalize tracking-wider block mb-1.5">
                                         Deskripsi
                                     </label>
                                     <textarea
@@ -1379,7 +1379,7 @@ export default function MenusIndex() {
                                         onChange={(e) => setCatDesc(e.target.value)}
                                         placeholder="Keterangan singkat..."
                                         rows={3}
-                                        className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all resize-none font-medium text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all resize-none font-medium text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     {catErrors.description && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -1392,7 +1392,7 @@ export default function MenusIndex() {
                                     <button
                                         type="button"
                                         onClick={() => setCatActive(!catActive)}
-                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${ catActive ? 'bg-brand-secondary' : 'bg-brand-light' } active:scale-[0.97]`}
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-black ${ catActive ? 'bg-black' : 'bg-[#E6E6E6]' } active:scale-[0.97]`}
                                     >
                                         <span
                                             className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
@@ -1402,7 +1402,7 @@ export default function MenusIndex() {
                                     </button>
                                     <span
                                         onClick={() => setCatActive(!catActive)}
-                                        className="text-xs font-bold text-brand-dark cursor-pointer select-none"
+                                        className="text-xs font-semibold text-black cursor-pointer select-none"
                                     >
                                         Status Aktif
                                     </span>
@@ -1413,7 +1413,7 @@ export default function MenusIndex() {
                                         <button
                                             type="button"
                                             onClick={cancelCategoryEdit}
-                                            className="flex-1 py-2 bg-brand-bg hover:bg-brand-light/50 text-brand-primary border border-brand-light rounded-xl text-xs font-extrabold transition-all active:scale-[0.97]"
+                                            className="flex-1 py-2 bg-white hover:bg-[#E6E6E6] text-black border border-[#D0D0D0] hover:border-[#999999] rounded-xl text-xs font-bold transition-all active:scale-[0.97]"
                                         >
                                             Batal
                                         </button>
@@ -1421,7 +1421,7 @@ export default function MenusIndex() {
                                     <button
                                         type="submit"
                                         disabled={catProcessing}
-                                        className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white flex-1 py-2 rounded-xl text-xs font-bold transition-all disabled:opacity-50 active:scale-[0.97]"
+                                        className="bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black flex-1 py-2 rounded-xl text-xs font-bold transition-all disabled:opacity-50 active:scale-[0.97]"
                                     >
                                         {catProcessing ? 'Menyimpan...' : (editingCatId ? 'Simpan' : 'Tambah')}
                                     </button>
@@ -1431,44 +1431,44 @@ export default function MenusIndex() {
 
                         {/* Right Side: Category List */}
                         <div className="flex-1 flex flex-col min-w-0">
-                            <h3 className="font-extrabold text-lg text-brand-dark mb-4">
+                            <h3 className="font-bold text-lg text-black mb-4">
                                 Daftar Kategori
                             </h3>
 
                             {catLoading ? (
                                 <div className="flex-1 flex flex-col items-center justify-center gap-2">
-                                    <iconify-icon icon="line-md:loading-twotone-loop" class="text-3xl text-brand-secondary"></iconify-icon>
-                                    <span className="text-xs font-bold text-brand-primary">Memuat...</span>
+                                    <iconify-icon icon="line-md:loading-twotone-loop" class="text-3xl text-black/50"></iconify-icon>
+                                    <span className="text-xs font-bold text-black/50">Memuat...</span>
                                 </div>
                             ) : managerCategories.length === 0 ? (
-                                <div className="flex-1 flex flex-col items-center justify-center text-center p-6 bg-brand-bg rounded-2xl border border-brand-light border-dashed">
-                                    <iconify-icon icon="solar:tag-linear" class="text-3xl text-brand-primary/60 mb-2"></iconify-icon>
-                                    <p className="text-xs font-bold text-brand-dark">Belum ada kategori</p>
+                                <div className="flex-1 flex flex-col items-center justify-center text-center p-6 bg-neutral-50 rounded-2xl border border-[#E6E6E6] border-dashed">
+                                    <iconify-icon icon="solar:tag-linear" class="text-3xl text-black/40 mb-2"></iconify-icon>
+                                    <p className="text-xs font-bold text-black/60">Belum ada kategori</p>
                                 </div>
                             ) : (
-                                <div className="flex-1 overflow-y-auto divide-y divide-brand-light/40 border border-brand-light rounded-2xl bg-brand-bg/20 pr-1">
+                                <div className="flex-1 overflow-y-auto divide-y divide-[#E6E6E6] border border-[#E6E6E6] rounded-2xl bg-neutral-50/30 pr-1">
                                     {managerCategories.map((cat) => (
-                                        <div key={cat.id} className="p-4 flex items-center justify-between hover:bg-white/60 transition-colors group">
+                                        <div key={cat.id} className="p-4 flex items-center justify-between hover:bg-[#E6E6E6]/30 transition-colors group">
                                             <div className="min-w-0 pr-4">
                                                 <div className="flex items-center gap-2">
-                                                    <span className="font-extrabold text-sm text-brand-dark">
+                                                    <span className="font-bold text-sm text-black">
                                                         {cat.name}
                                                     </span>
-                                                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-extrabold border ${
+                                                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold border ${
                                                         cat.is_active
-                                                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                                                            : 'bg-rose-50 text-rose-700 border-rose-200'
+                                                            ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
+                                                            : 'bg-rose-50 text-rose-700 border-rose-100'
                                                     }`}>
                                                         {cat.is_active ? 'Aktif' : 'Non-aktif'}
                                                     </span>
                                                 </div>
                                                 {cat.description && (
-                                                    <p className="text-xs text-brand-primary/70 font-medium mt-1 leading-normal">
+                                                    <p className="text-xs text-black/60 font-medium mt-1 leading-normal">
                                                         {cat.description}
                                                     </p>
                                                 )}
-                                                <p className="text-[10px] text-brand-primary/50 font-bold mt-1 flex items-center gap-1">
-                                                    <iconify-icon icon="solar:clipboard-list-linear" class="text-xs"></iconify-icon>
+                                                <p className="text-[10px] text-black/40 font-semibold mt-1 flex items-center gap-1">
+                                                    <iconify-icon icon="solar:clipboard-list-linear" class="text-xs text-black/40"></iconify-icon>
                                                     {cat.menus_count ?? 0} menu hidangan
                                                 </p>
                                             </div>
@@ -1476,14 +1476,14 @@ export default function MenusIndex() {
                                             <div className="flex items-center gap-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <button
                                                     onClick={() => startEditCategory(cat)}
-                                                    className="p-2 text-brand-primary hover:text-brand-secondary rounded-xl hover:bg-brand-light/50 inline-flex active:scale-[0.97] transition-all"
+                                                    className="p-2 text-black/60 hover:text-black rounded-xl hover:bg-[#E6E6E6] inline-flex active:scale-[0.97] transition-all"
                                                     title="Edit"
                                                 >
                                                     <iconify-icon icon="solar:pen-linear" class="text-lg"></iconify-icon>
                                                 </button>
                                                 <button
                                                     onClick={() => handleDeleteCategory(cat.id, cat.name)}
-                                                    className="p-2 text-rose-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 inline-flex active:scale-[0.97] transition-all"
+                                                    className="p-2 text-rose-500 hover:text-rose-700 rounded-xl hover:bg-rose-50 inline-flex active:scale-[0.97] transition-all"
                                                     title="Hapus"
                                                 >
                                                     <iconify-icon icon="solar:trash-bin-trash-linear" class="text-lg"></iconify-icon>

@@ -5,10 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use App\Traits\BelongsToTenant;
+
 class AuditLog extends Model
 {
+    use BelongsToTenant;
+
     protected $fillable = [
-        'user_id', 'action', 'target_type', 'target_id', 'metadata',
+        'tenant_id', 'user_id', 'action', 'target_type', 'target_id', 'metadata',
     ];
 
     protected $casts = [

@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\BelongsToTenant;
+
 class KitchenOrder extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     protected $fillable = [
-        'transaction_id', 'status', 'notes', 'prepared_at', 'completed_at',
+        'tenant_id', 'transaction_id', 'status', 'notes', 'prepared_at', 'completed_at',
     ];
 
     protected $casts = [

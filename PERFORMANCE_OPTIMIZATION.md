@@ -10,9 +10,9 @@ Metrik performa diukur menggunakan skrip pengujian beban k6 (`tests/Performance/
 
 | Parameter                 | Baseline (Sebelum) | Target SaaS | Progress Saat Ini | Status        |
 | :--------------------------| :------------------:| :-----------:| :-----------------:| :-------------:|
-| **Response Time (p95)**   | 14.78s             | < 500ms     | **~7s**           | 🟡 On Progress |
-| **Average Response Time** | 11.23s             | < 200ms     | **~4s**           | 🟡 On Progress |
-| **Throughput (req/s)**    | 1.23 req/s         | 50 req/s+   | **2.5 req/s**     | 🟡 On Progress |
+| **Response Time (p95)**   | 14.78s             | < 500ms     | **8.15s**          | 🟡 On Progress |
+| **Average Response Time** | 11.23s             | < 200ms     | **4.96s**          | 🟡 On Progress |
+| **Throughput (req/s)**    | 1.23 req/s         | 50 req/s+   | **2.34 req/s**     | 🟡 On Progress |
 | **Concurrent Users**      | 1 VU               | 500+ VUs    | **20 VUs**        | 🟡 On Progress |
 
 ---
@@ -100,15 +100,15 @@ Fase ini berfokus pada optimasi tingkat server, penataan cache dasar, pembersiha
 
 Fase ini merombak struktur kode agar lebih scalable di tingkat tenant dan API.
 
-- [ ] **Multi-tenancy Implementation**
+- [x] **Multi-tenancy Implementation**
   - *Deskripsi*: Pemisahan data per penyewa (tenant) menggunakan scope query global `TenantScope` atau skema database terpisah.
-- [ ] **API Rate Limiting per Tenant**
+- [x] **API Rate Limiting per Tenant**
   - *Deskripsi*: Mencegah satu tenant memonopoli resource API menggunakan throttle middleware Laravel.
-- [ ] **Sanctum Token Expiration & Cache**
+- [x] **Sanctum Token Expiration & Cache**
   - *Deskripsi*: Cache verifikasi token Sanctum agar tidak memicu query tabel `personal_access_tokens` pada setiap request API.
-- [ ] **Response Pagination Enforcement**
+- [x] **Response Pagination Enforcement**
   - *Deskripsi*: Membatasi ukuran hasil data API (misalnya max 50 items per page) untuk mencegah server kehabisan memory.
-- [ ] **Select Specific Columns**
+- [x] **Select Specific Columns**
   - *Deskripsi*: Mengubah query Eloquent agar hanya memuat kolom yang diperlukan (menghindari `SELECT *`).
 
 ---
@@ -171,3 +171,4 @@ k6 run tests/Performance/k6-load-test.js
 | **Baseline** | 14.78s | 11.23s | 1.23 req/s | Pengukuran awal tanpa optimasi |
 | **Fase 1 (Awal)** | ~7s | ~4s | 2.50 req/s | Perhitungan HPP & cache menu selesai |
 | **Fase 1 (Lengkap)** | 10.46s | 5.96s | 2.08 req/s | OPcache, Gzip, Redis & Queues diaktifkan (20 VUs) |
+| **Fase 2 (Architecture)** | 8.15s | 4.96s | 2.34 req/s | Multi-tenancy, rate limiting, Sanctum token caching, pagination & column selection (20 VUs, 0% error rate) |

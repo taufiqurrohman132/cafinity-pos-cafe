@@ -305,7 +305,9 @@ class TransactionController extends Controller
 
     public function history(Request $request)
     {
-        $query = Transaction::with(['cashier', 'items'])->latest();
+        $query = Transaction::select(['id', 'cashier_id', 'status', 'total_amount', 'discount', 'tax', 'payment_method', 'paid_amount', 'change_amount', 'notes', 'created_at'])
+            ->with(['cashier:id,name', 'items:id,transaction_id,menu_id,qty,price,subtotal'])
+            ->latest();
 
         if ($request->filled('search')) {
             $query->where('id', 'like', '%' . $request->search . '%');

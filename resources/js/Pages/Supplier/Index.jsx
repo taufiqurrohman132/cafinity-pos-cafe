@@ -14,6 +14,54 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
     const [selectedIds, setSelectedIds] = useState([]);
     const [showFilterModal, setShowFilterModal] = useState(false);
 
+    // Data for stat cards
+    const statCards = [
+        {
+            label: 'Total Supplier Aktif',
+            value: stats.total_active,
+            icon: 'solar:users-group-two-rounded-linear',
+            iconBg: 'bg-brand-light text-brand-secondary',
+            trendIcon: 'solar:arrow-left-up-linear',
+            trendIconClass: 'rotate-45 text-emerald-500',
+            trendText: '+8.2%',
+            trendTextClass: 'text-emerald-600',
+            trendSubtext: 'vs kemarin'
+        },
+        {
+            label: 'Supplier Baru Bulan Ini',
+            value: `+${stats.new_this_month}`,
+            icon: 'solar:add-circle-linear',
+            iconBg: 'bg-brand-light text-brand-secondary',
+            trendIcon: 'solar:calendar-add-linear',
+            trendIconClass: 'text-brand-primary',
+            trendText: 'Aktif bertambah',
+            trendTextClass: 'text-brand-primary',
+            trendSubtext: ''
+        },
+        {
+            label: 'Rata-rata Lead Time',
+            value: `${stats.avg_lead_time} Hari`,
+            icon: 'solar:clock-circle-linear',
+            iconBg: 'bg-amber-50 text-amber-500',
+            trendIcon: 'solar:arrow-left-down-linear',
+            trendIconClass: 'rotate-45 text-rose-500',
+            trendText: '-0.5 hari',
+            trendTextClass: 'text-rose-600',
+            trendSubtext: 'vs kemarin'
+        },
+        {
+            label: 'Skor Performa Global',
+            value: `${stats.avg_rating}/5.0`,
+            icon: 'solar:ranking-linear',
+            iconBg: 'bg-emerald-50 text-emerald-500',
+            trendIcon: 'solar:graph-up-linear',
+            trendIconClass: 'text-emerald-500',
+            trendText: 'Stabil & Prima',
+            trendTextClass: 'text-emerald-600',
+            trendSubtext: ''
+        }
+    ];
+
     // Sync input search state if filters change from outside
     useEffect(() => {
         setSearch(filters.search || '');
@@ -166,58 +214,7 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
 
                             {/* Stat Cards */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
-                                {[
-                                    {
-                                        label: 'Total Supplier Aktif',
-                                        value: stats.total_active,
-                                        icon: 'solar:users-group-two-rounded-linear',
-                                        iconBg: 'bg-brand-light text-brand-secondary',
-                                        trend: (
-                                            <div className="flex items-center gap-1 mt-2">
-                                                <iconify-icon icon="solar:arrow-left-up-linear" class="rotate-45 text-emerald-500 text-sm font-bold"></iconify-icon>
-                                                <span className="text-xs font-bold text-emerald-600">+8.2%</span>
-                                                <span className="text-xs text-gray-400">vs kemarin</span>
-                                            </div>
-                                        )
-                                    },
-                                    {
-                                        label: 'Supplier Baru Bulan Ini',
-                                        value: `+${stats.new_this_month}`,
-                                        icon: 'solar:add-circle-linear',
-                                        iconBg: 'bg-brand-light text-brand-secondary',
-                                        trend: (
-                                            <div className="flex items-center gap-1 mt-2">
-                                                <iconify-icon icon="solar:calendar-add-linear" class="text-brand-primary text-sm"></iconify-icon>
-                                                <span className="text-xs font-bold text-brand-primary">Aktif bertambah</span>
-                                            </div>
-                                        )
-                                    },
-                                    {
-                                        label: 'Rata-rata Lead Time',
-                                        value: `${stats.avg_lead_time} Hari`,
-                                        icon: 'solar:clock-circle-linear',
-                                        iconBg: 'bg-amber-50 text-amber-500',
-                                        trend: (
-                                            <div className="flex items-center gap-1 mt-2">
-                                                <iconify-icon icon="solar:arrow-left-down-linear" class="rotate-45 text-rose-500 text-sm font-bold"></iconify-icon>
-                                                <span className="text-xs font-bold text-rose-600">-0.5 hari</span>
-                                                <span className="text-xs text-gray-400">vs kemarin</span>
-                                            </div>
-                                        )
-                                    },
-                                    {
-                                        label: 'Skor Performa Global',
-                                        value: `${stats.avg_rating}/5.0`,
-                                        icon: 'solar:ranking-linear',
-                                        iconBg: 'bg-emerald-50 text-emerald-500',
-                                        trend: (
-                                            <div className="flex items-center gap-1 mt-2">
-                                                <iconify-icon icon="solar:graph-up-linear" class="text-emerald-500 text-sm"></iconify-icon>
-                                                <span className="text-xs font-bold text-emerald-600">Stabil &amp; Prima</span>
-                                            </div>
-                                        )
-                                    },
-                                ].map((card) => (
+                                {statCards.map((card) => (
                                     <div key={card.label} className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group">
                                         <div className="flex items-start justify-between mb-4">
                                             <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shadow-sm ${card.iconBg}`}>
@@ -226,7 +223,13 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                         </div>
                                         <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-1">{card.label}</p>
                                         <p className="text-2xl font-black text-brand-secondary">{card.value}</p>
-                                        {card.trend}
+                                        <div className="flex items-center gap-1 mt-2">
+                                            <iconify-icon icon={card.trendIcon} class={`${card.trendIconClass} text-sm font-bold`}></iconify-icon>
+                                            <span className={`text-xs font-bold ${card.trendTextClass}`}>{card.trendText}</span>
+                                            {card.trendSubtext && (
+                                                <span className="text-xs text-gray-400">{card.trendSubtext}</span>
+                                            )}
+                                        </div>
                                     </div>
                                 ))}
                             </div>

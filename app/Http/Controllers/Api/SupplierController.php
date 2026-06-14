@@ -13,9 +13,10 @@ class SupplierController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Supplier::with(['contacts' => function($q) {
-            $q->where('is_primary', true);
-        }]);
+        $query = Supplier::select(['id', 'name', 'phone', 'email', 'address', 'city', 'province', 'category', 'payment_term', 'lead_time', 'min_order', 'status', 'code', 'is_active'])
+            ->with(['contacts' => function($q) {
+                $q->select(['id', 'supplier_id', 'name', 'phone', 'email', 'position', 'is_primary'])->where('is_primary', true);
+            }]);
 
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;

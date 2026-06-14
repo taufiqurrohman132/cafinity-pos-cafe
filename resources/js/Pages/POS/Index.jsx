@@ -202,11 +202,11 @@ export default function POS() {
     }, [menus, search, selectedCategory]);
 
     const cartItemCount = cart.reduce((s, i) => s + i.qty, 0);
-    const subtotal      = cart.reduce((s, i) => s + i.price * i.qty, 0);
-    const tax           = Math.round(subtotal * taxPercent / 100);
-    const discount      = 0;
-    const total         = Math.max(0, subtotal + tax - discount);
-    const changeAmount  = paidAmount - total;
+    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const tax = Math.round(subtotal * taxPercent / 100);
+    const discount = 0;
+    const total = Math.max(0, subtotal + tax - discount);
+    const changeAmount = paidAmount - total;
 
     useEffect(() => {
         if (paidAmount < total) setPaidAmount(total);
@@ -360,11 +360,11 @@ export default function POS() {
                         {/* Header */}
                         <div className="flex items-center justify-between mb-6 flex-shrink-0">
                             <div>
-                                <h1 className="text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                                <h1 className="text-2xl sm:text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
                                     POS Transaksi
                                 </h1>
-                                <p className="text-[12px] font-medium text-brand-primary mt-0.5">
-                                    Kasir: <span className="text-brand-dark font-bold">{cashierName}</span>
+                                <p className="text-xs font-medium text-brand-dark/60 mt-0.5">
+                                    Kasir: <span className="text-brand-dark font-semibold">{cashierName}</span>
                                 </p>
                             </div>
                             <div className="relative w-[330px]">
@@ -375,7 +375,7 @@ export default function POS() {
                                     value={search}
                                     onChange={e => setSearch(e.target.value)}
                                     placeholder="Cari menu..."
-                                    className="w-full h-[46px] rounded-xl bg-white border border-brand-light pl-11 pr-4 text-[13px] outline-none transition-colors font-bold text-brand-dark placeholder-brand-primary/50 shadow-sm hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                    className="w-full h-[46px] rounded-xl bg-white border border-brand-light pl-11 pr-4 text-sm font-normal text-brand-dark placeholder-brand-dark/40 outline-none transition-colors shadow-sm hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                                 />
                             </div>
                         </div>
@@ -386,24 +386,24 @@ export default function POS() {
                             <div className="w-[92px] overflow-y-auto flex flex-col gap-4 flex-shrink-0 pb-4">
                                 <button
                                     onClick={() => setSelectedCategory(null)}
-                                    className={`rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300 ${ selectedCategory === null ? 'bg-gradient-to-b from-brand-secondary to-brand-primary text-white shadow-lg shadow-brand-primary/30 border-none' : 'bg-white text-brand-primary border border-brand-light hover:bg-gradient-to-br hover:from-white hover:to-brand-light/50 hover:text-brand-dark hover:border-brand-secondary hover:shadow-sm' } active:scale-[0.97]`}
+                                    className={`rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300 ${selectedCategory === null ? 'bg-gradient-to-b from-brand-secondary to-brand-primary text-white shadow-lg shadow-brand-primary/30 border-none' : 'bg-white text-brand-primary border border-brand-light hover:bg-gradient-to-br hover:from-white hover:to-brand-light/50 hover:text-brand-dark hover:border-brand-secondary hover:shadow-sm'} active:scale-[0.97]`}
                                 >
                                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${selectedCategory === null ? 'bg-white/20' : 'bg-brand-light/50'}`}>
                                         <iconify-icon icon="solar:widget-linear" class="text-[18px]" />
                                     </div>
-                                    <span className="text-[11px] font-extrabold tracking-wide">Semua</span>
+                                    <span className="text-xs font-bold tracking-wide">Semua</span>
                                 </button>
 
                                 {categories.map(cat => (
                                     <button
                                         key={cat.id}
                                         onClick={() => setSelectedCategory(cat.id)}
-                                        className={`rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300 ${ selectedCategory === cat.id ? 'bg-gradient-to-b from-brand-secondary to-brand-primary text-white shadow-lg shadow-brand-primary/30 border-none' : 'bg-white text-brand-primary border border-brand-light hover:bg-gradient-to-br hover:from-white hover:to-brand-light/50 hover:text-brand-dark hover:border-brand-secondary hover:shadow-sm' } active:scale-[0.97]`}
+                                        className={`rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300 ${selectedCategory === cat.id ? 'bg-gradient-to-b from-brand-secondary to-brand-primary text-white shadow-lg shadow-brand-primary/30 border-none' : 'bg-white text-brand-primary border border-brand-light hover:bg-gradient-to-br hover:from-white hover:to-brand-light/50 hover:text-brand-dark hover:border-brand-secondary hover:shadow-sm'} active:scale-[0.97]`}
                                     >
                                         <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${selectedCategory === cat.id ? 'bg-white/20' : 'bg-brand-light/50'}`}>
                                             <iconify-icon icon={cat.icon} class="text-[18px]" />
                                         </div>
-                                        <span className="text-[11px] font-bold text-center leading-tight px-1">{cat.name}</span>
+                                        <span className="text-xs font-semibold text-center leading-tight px-1">{cat.name}</span>
                                     </button>
                                 ))}
                             </div>
@@ -424,11 +424,11 @@ export default function POS() {
                                             </div>
                                             <div className="p-3.5 flex flex-col flex-1 bg-white z-20">
                                                 <div className="space-y-1 mb-3 flex-1">
-                                                    <h3 className="text-[13px] font-extrabold text-brand-dark leading-snug line-clamp-2">{menu.name}</h3>
-                                                    <p className="text-[11px] font-medium text-gray-600 line-clamp-1">{menu.description || menu.category_name}</p>
+                                                    <h3 className="text-sm font-bold text-brand-dark leading-snug line-clamp-2">{menu.name}</h3>
+                                                    <p className="text-xs font-normal text-brand-dark/50 line-clamp-1">{menu.description || menu.category_name}</p>
                                                 </div>
                                                 <div className="flex items-center justify-between mt-auto">
-                                                    <span className="text-brand-secondary font-black text-[14px]">{formatRupiah(menu.price)}</span>
+                                                    <span className="text-sm font-extrabold text-brand-dark">{formatRupiah(menu.price)}</span>
                                                     <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-light/50 to-brand-light/30 text-brand-primary flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-brand-secondary group-hover:to-brand-primary group-hover:text-white transition-all duration-150 shadow-sm">
                                                         <iconify-icon icon="solar:add-circle-linear" class="text-[20px]" />
                                                     </div>
@@ -448,7 +448,7 @@ export default function POS() {
                 </div>
 
                 {/* ── CART ── */}
-                <div className="w-[380px] bg-white border-l border-brand-light shadow-[-10px_0_30px_rgb(var(--color-brand-primary)/0.08)] flex flex-col h-[calc(100vh-72px)] relative z-10 flex-shrink-0">
+                <div className="w-[340px] bg-white border-l border-brand-light shadow-[-10px_0_30px_rgb(var(--color-brand-primary)/0.08)] flex flex-col h-[calc(100vh-72px)] relative z-10 flex-shrink-0">
 
                     {/* Cart header */}
                     <div className="h-[76px] border-b border-brand-light px-5 flex items-center justify-between flex-shrink-0 bg-white/80 backdrop-blur-md">
@@ -456,31 +456,30 @@ export default function POS() {
                             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-light to-white border border-brand-light/50 flex items-center justify-center">
                                 <iconify-icon icon="solar:cart-large-2-linear" class="text-brand-secondary text-[18px]" />
                             </div>
-                            <h3 className="font-extrabold text-[15px] text-brand-dark tracking-tight">Pesanan Aktif</h3>
+                            <h3 className="text-sm font-bold text-brand-dark tracking-tight">Pesanan Aktif</h3>
                         </div>
-                        <span className="text-[11px] font-black bg-gradient-to-r from-brand-secondary to-brand-primary text-white px-2.5 py-1 rounded-md shadow-sm">
+                        <span className="text-xs font-bold bg-[#1A1A1A] text-white px-2.5 py-1 rounded-lg shadow-sm">
                             {cartItemCount} Item
                         </span>
                     </div>
 
                     {/* Held orders */}
                     {localHeldOrders.length > 0 && (
-                        <div className={`px-5 py-3 border-b border-brand-light flex-shrink-0 bg-gradient-to-b from-brand-light/30 to-transparent held-order-container ${
-                            localHeldOrders.filter(h => !h.isExiting).length === 0 ? 'collapsed' : ''
-                        }`}>
-                            <p className="text-[10px] font-extrabold text-brand-primary capitalize tracking-widest mb-2.5 flex items-center gap-1">
-                                <span className="w-1.5 h-1.5 rounded-full bg-brand-secondary animate-pulse" /> Tertahan
+                        <div className={`px-5 py-3 border-b border-brand-light flex-shrink-0 bg-gradient-to-b from-brand-light/30 to-transparent held-order-container ${localHeldOrders.filter(h => !h.isExiting).length === 0 ? 'collapsed' : ''
+                            }`}>
+                            <p className="text-xs font-extrabold text-brand-dark/60 tracking-wider mb-2.5 flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#BFFF00] animate-pulse" /> Tertahan
                             </p>
                             <div className="flex gap-2.5 overflow-x-auto pb-1.5">
                                 {localHeldOrders.map(held => (
                                     <button
                                         key={held.id}
                                         onClick={() => resumeOrder(held.id)}
-                                        className={`text-left px-3 py-2 rounded-xl bg-white border border-brand-light shadow-sm hover:border-brand-secondary flex-shrink-0 transition-all duration-300 ease-in-out held-order-item ${ held.isEntering ? 'entering' : '' } ${held.isExiting ? 'exiting' : ''} active:scale-[0.97]`}
+                                        className={`text-left px-3 py-2 rounded-xl bg-white border border-brand-light shadow-sm hover:border-brand-secondary flex-shrink-0 transition-all duration-300 ease-in-out held-order-item ${held.isEntering ? 'entering' : ''} ${held.isExiting ? 'exiting' : ''} active:scale-[0.97]`}
                                     >
                                         <div className={`transition-opacity duration-300 ${held.isEntering || held.isExiting ? 'opacity-0' : 'opacity-100'}`}>
-                                            <p className="text-[11px] font-extrabold text-brand-dark">{held.label}</p>
-                                            <p className="text-[10px] font-medium text-brand-secondary mt-0.5 whitespace-nowrap">
+                                            <p className="text-xs font-bold text-brand-dark">{held.label}</p>
+                                            <p className="text-xs font-normal text-brand-dark/50 mt-0.5 whitespace-nowrap">
                                                 {held.items_count} item · {formatRupiah(held.total)}
                                             </p>
                                         </div>
@@ -493,41 +492,39 @@ export default function POS() {
                     {/* Cart items */}
                     <div className="flex-1 overflow-y-auto px-5 py-4 relative scrollbar-auto">
                         {/* Empty Cart Placeholder */}
-                        <div className={`absolute inset-0 flex flex-col items-center justify-center text-center px-9 cart-empty-state ${
-                            cart.length === 0 ? '' : 'hidden-state hidden'
-                        }`}>
+                        <div className={`absolute inset-0 flex flex-col items-center justify-center text-center px-9 cart-empty-state ${cart.length === 0 ? '' : 'hidden-state hidden'
+                            }`}>
                             <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-light/50 to-white border border-brand-light flex items-center justify-center mb-4 shadow-inner">
                                 <iconify-icon icon="solar:cookie-linear" class="text-[38px] text-brand-secondary" />
                             </div>
-                            <h4 className="text-[14px] font-bold text-brand-primary">Keranjang masih kosong</h4>
-                            <p className="text-[11px] text-brand-primary mt-1">Pilih menu di sebelah kiri untuk menambahkan.</p>
+                            <h4 className="text-sm font-bold text-brand-dark">Keranjang masih kosong</h4>
+                            <p className="text-xs font-normal text-brand-dark/50 mt-1">Pilih menu di sebelah kiri untuk menambahkan.</p>
                         </div>
 
                         {/* Active Cart Items */}
-                        <div className={`space-y-4 cart-active-state ${
-                            cart.length > 0 ? '' : 'hidden-state hidden'
-                        }`}>
+                        <div className={`space-y-4 cart-active-state ${cart.length > 0 ? '' : 'hidden-state hidden'
+                            }`}>
                             {cart.map((item, index) => (
                                 <div key={`${item.menu_id}-${index}`} className="flex gap-3 items-start pb-4 border-b border-brand-light/50 last:border-0 last:pb-0 animate-in fade-in slide-in-from-bottom-2 duration-200">
                                     <div className="flex-1 min-w-0 pt-0.5">
-                                        <p className="text-[13px] font-bold text-brand-dark truncate">{item.name}</p>
-                                        <p className="text-[11px] font-black text-brand-secondary mt-0.5">{formatRupiah(item.price)} / item</p>
+                                        <p className="text-sm font-semibold text-brand-dark truncate">{item.name}</p>
+                                        <p className="text-xs font-medium text-brand-dark/60 mt-0.5">{formatRupiah(item.price)} / item</p>
                                     </div>
                                     <div className="flex items-center gap-1 flex-shrink-0 bg-gradient-to-br from-brand-light/40 to-brand-light/10 rounded-lg p-1 border border-brand-light">
                                         <button onClick={() => decreaseQty(index)}
                                             className="w-6 h-6 rounded-md bg-white border border-brand-light text-brand-primary text-sm font-bold hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm flex items-center justify-center active:scale-[0.97]">
                                             &minus;
                                         </button>
-                                        <span className="text-[12px] font-extrabold w-6 text-center text-brand-dark">{item.qty}</span>
+                                        <span className="text-xs font-bold w-6 text-center text-brand-dark">{item.qty}</span>
                                         <button onClick={() => increaseQty(index)}
                                             className="w-6 h-6 rounded-md bg-gradient-to-br from-brand-secondary to-brand-primary text-white text-sm font-bold hover:from-brand-primary hover:to-brand-dark transition-colors shadow-sm flex items-center justify-center active:scale-[0.97]">
                                             +
                                         </button>
                                     </div>
                                     <div className="text-right flex-shrink-0 flex flex-col items-end pt-0.5 ml-2">
-                                        <p className="text-[13px] font-black text-brand-secondary">{formatRupiah(item.price * item.qty)}</p>
+                                        <p className="text-sm font-bold text-black">{formatRupiah(item.price * item.qty)}</p>
                                         <button onClick={() => removeFromCart(index)}
-                                            className="text-[10px] font-bold text-red-400 hover:text-red-600 mt-1.5 transition-colors capitalize tracking-wider active:scale-[0.97]">
+                                            className="text-xs font-semibold text-rose-500 hover:text-rose-600 mt-1.5 transition-colors active:scale-[0.97]">
                                             Hapus
                                         </button>
                                     </div>
@@ -539,16 +536,16 @@ export default function POS() {
                     {/* Footer */}
                     <div className="border-t border-brand-light p-5 flex-shrink-0 bg-gradient-to-t from-brand-light/30 to-transparent">
                         <div className="space-y-2.5">
-                            <div className="flex items-center justify-between text-[13px] font-medium text-brand-primary">
+                            <div className="flex items-center justify-between text-sm font-medium text-brand-dark/60">
                                 <span>Subtotal</span>
-                                <span className="font-black text-brand-secondary">{formatRupiah(subtotal)}</span>
+                                <span className="font-semibold text-brand-dark">{formatRupiah(subtotal)}</span>
                             </div>
-                            <div className="flex items-center justify-between text-[13px] font-medium text-brand-primary">
+                            <div className="flex items-center justify-between text-sm font-medium text-brand-dark/60">
                                 <span>Pajak ({taxPercent}%)</span>
-                                <span className="font-black text-brand-secondary">{formatRupiah(tax)}</span>
+                                <span className="font-semibold text-brand-dark">{formatRupiah(tax)}</span>
                             </div>
                             {discount > 0 && (
-                                <div className="flex items-center justify-between text-[13px] font-extrabold text-brand-secondary">
+                                <div className="flex items-center justify-between text-sm font-semibold text-emerald-600">
                                     <span>Diskon</span>
                                     <span>- {formatRupiah(discount)}</span>
                                 </div>
@@ -556,14 +553,14 @@ export default function POS() {
                         </div>
 
                         <div className="flex items-center justify-between mt-4 mb-5 pt-4 border-t border-brand-light border-dashed">
-                            <span className="font-extrabold text-brand-dark capitalize tracking-wide text-sm">Total Tagihan</span>
-                            <span className="font-black text-[24px] text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">
+                            <span className="text-sm font-extrabold text-brand-dark">Total Tagihan</span>
+                            <span className="text-2xl font-extrabold text-black">
                                 {formatRupiah(total)}
                             </span>
                         </div>
 
                         {errorMessage && (
-                            <p className="text-[11px] font-bold text-red-500 bg-red-50 p-2 rounded-lg border border-red-100 mb-3 text-center">
+                            <p className="text-xs font-semibold text-rose-600 bg-rose-50 border border-rose-100 p-2.5 rounded-xl mb-3 text-center">
                                 {errorMessage}
                             </p>
                         )}
@@ -572,16 +569,16 @@ export default function POS() {
                             <button
                                 onClick={holdOrder}
                                 disabled={!cart.length || loading}
-                                className="flex-1 h-[52px] rounded-xl border border-brand-primary text-brand-primary font-bold text-[13px] hover:bg-gradient-to-br hover:from-brand-light hover:to-white disabled:opacity-40 transition-all shadow-sm flex items-center justify-center gap-1.5 bg-white active:scale-[0.97]"
+                                className="flex-1 h-[52px] rounded-xl border border-brand-primary text-brand-primary font-semibold text-sm hover:bg-gradient-to-br hover:from-brand-light hover:to-white disabled:opacity-40 transition-all shadow-sm flex items-center justify-center gap-1.5 bg-white active:scale-[0.97]"
                             >
                                 <iconify-icon icon="solar:pause-circle-linear" class="text-lg" /> Tahan
                             </button>
                             <button
                                 onClick={() => setShowPayment(true)}
                                 disabled={!cart.length || loading}
-                                className="flex-[2] h-[52px] rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary disabled:opacity-50 transition-all text-white font-extrabold flex items-center justify-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.97]"
+                                className="flex-[2] h-[52px] rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary disabled:opacity-50 transition-all text-white flex items-center justify-center gap-2 shadow-lg shadow-brand-primary/30 active:scale-[0.97]"
                             >
-                                <span className="text-[14px]">{loading ? 'Memproses...' : 'Bayar Sekarang'}</span>
+                                <span className="text-sm font-semibold">{loading ? 'Memproses...' : 'Bayar Sekarang'}</span>
                                 {!loading && <iconify-icon icon="solar:arrow-right-linear" class="text-[20px]" />}
                             </button>
                         </div>
@@ -601,22 +598,22 @@ export default function POS() {
                         onClick={e => e.stopPropagation()}>
 
                         <div className="mb-6 border-b border-brand-light pb-5">
-                            <h3 className="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight">
+                            <h3 className="text-lg font-bold text-brand-dark tracking-tight">
                                 Selesaikan Pembayaran
                             </h3>
                             <div className="mt-2 flex justify-between items-end">
-                                <p className="text-sm font-medium text-brand-primary">Total Tagihan</p>
-                                <p className="font-black text-2xl text-brand-secondary">{formatRupiah(total)}</p>
+                                <p className="text-sm font-medium text-brand-dark/60">Total Tagihan</p>
+                                <p className="font-extrabold text-2xl text-black">{formatRupiah(total)}</p>
                             </div>
                         </div>
 
-                        <label className="block text-[11px] font-extrabold text-brand-primary capitalize tracking-widest mb-2">
+                        <label className="block text-xs font-extrabold text-brand-dark/60 tracking-wider mb-2">
                             Metode Pembayaran
                         </label>
                         <select
                             value={paymentMethod}
                             onChange={e => setPaymentMethod(e.target.value)}
-                            className="w-full mb-5 h-12 rounded-xl border border-brand-light bg-gradient-to-r from-brand-light/30 to-brand-bg text-sm font-bold text-brand-dark px-4 focus:outline-none focus:bg-white transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                            className="w-full mb-5 h-12 rounded-xl border border-brand-light bg-gradient-to-r from-brand-light/30 to-brand-bg text-sm font-medium text-brand-dark px-4 focus:outline-none focus:bg-white transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                         >
                             <option value="cash">💵 Tunai (Cash)</option>
                             <option value="qris">📱 QRIS</option>
@@ -624,18 +621,18 @@ export default function POS() {
                             <option value="debit">💳 Kartu Debit/Kredit</option>
                         </select>
 
-                        <label className="block text-[11px] font-extrabold text-brand-primary capitalize tracking-widest mb-2">
+                        <label className="block text-xs font-extrabold text-brand-dark/60 tracking-wider mb-2">
                             Jumlah Dibayar
                         </label>
                         <div className="relative mb-3">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-brand-primary">Rp</span>
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-brand-dark/50">Rp</span>
                             <input
                                 type="number"
                                 value={paidAmount}
                                 onChange={e => setPaidAmount(Number(e.target.value))}
                                 min={0}
                                 step={1000}
-                                className="w-full h-12 rounded-xl border border-brand-light bg-brand-light/10 text-lg font-black text-brand-dark pl-12 pr-4 focus:outline-none focus:bg-white transition-colors hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                className="w-full h-12 rounded-xl border border-brand-light bg-brand-light/10 text-lg font-bold text-brand-dark pl-12 pr-4 focus:outline-none focus:bg-white transition-colors hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
                             />
                         </div>
                         <div className="flex gap-2 flex-wrap mb-5">
@@ -644,7 +641,7 @@ export default function POS() {
                                     key={cash}
                                     type="button"
                                     onClick={() => setPaidAmount(cash)}
-                                    className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${ paidAmount === cash ? 'bg-brand-primary text-white border-brand-primary shadow-sm' : 'bg-brand-light/30 text-brand-primary border-brand-light hover:bg-brand-light/75' }`}
+                                    className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all active:scale-[0.97] ${paidAmount === cash ? 'bg-brand-primary text-white border-brand-primary shadow-sm' : 'bg-brand-light/30 text-brand-primary border-brand-light hover:bg-brand-light/75'}`}
                                 >
                                     {cash === total ? 'Pas' : formatRupiah(cash)}
                                 </button>
@@ -652,8 +649,8 @@ export default function POS() {
                         </div>
 
                         <div className="bg-gradient-to-r from-brand-light/50 to-brand-light/20 p-4 rounded-xl border border-brand-light mb-6 flex justify-between items-center">
-                            <p className="text-xs font-bold text-brand-primary capitalize tracking-wide">Kembalian</p>
-                            <p className={`text-lg font-black ${changeAmount >= 0 ? 'text-brand-secondary' : 'text-red-500'}`}>
+                            <p className="text-xs font-semibold text-brand-dark/60 capitalize tracking-wide">Kembalian</p>
+                            <p className={`text-lg font-bold ${changeAmount >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
                                 {changeAmount >= 0
                                     ? formatRupiah(changeAmount)
                                     : `Kurang ${formatRupiah(Math.abs(changeAmount))}`}
@@ -662,13 +659,13 @@ export default function POS() {
 
                         <div className="flex gap-3">
                             <button onClick={() => setShowPayment(false)}
-                                className="flex-1 h-12 rounded-xl border border-brand-light bg-white text-sm font-bold text-brand-primary hover:bg-gradient-to-r hover:from-white hover:to-brand-light/50 hover:text-brand-dark transition-colors active:scale-[0.97]">
+                                className="flex-1 h-12 rounded-xl border border-brand-light bg-white text-sm font-semibold text-brand-dark hover:bg-gradient-to-r hover:from-white hover:to-brand-light/50 hover:text-brand-dark transition-colors active:scale-[0.97]">
                                 Batal
                             </button>
                             <button
                                 onClick={checkout}
                                 disabled={loading || paidAmount < total}
-                                className="flex-1 h-12 rounded-xl bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white text-sm font-extrabold shadow-lg shadow-brand-secondary/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex justify-center items-center gap-2 active:scale-[0.97]"
+                                className="flex-1 h-12 rounded-xl bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-dark text-white text-sm font-semibold shadow-lg shadow-brand-secondary/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex justify-center items-center gap-2 active:scale-[0.97]"
                             >
                                 <iconify-icon icon="solar:check-circle-linear" class="text-[18px]" />
                                 Konfirmasi

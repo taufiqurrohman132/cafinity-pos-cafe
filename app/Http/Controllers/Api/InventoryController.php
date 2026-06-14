@@ -13,7 +13,9 @@ class InventoryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Inventory::with(['supplier', 'category'])->latest();
+        $query = Inventory::select(['id', 'name', 'unit', 'stock', 'min_stock', 'price_per_unit', 'supplier_id', 'inventory_category_id'])
+            ->with(['supplier:id,name', 'category:id,name'])
+            ->latest();
 
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
@@ -35,7 +37,11 @@ class InventoryController extends Controller
         $totalValue    = Inventory::sum(DB::raw('stock * price_per_unit'));
         $lowStockCount = Inventory::whereColumn('stock', '<=', 'min_stock')->where('stock', '>', 0)->count();
         $restockCount  = Inventory::whereColumn('stock', '<=', DB::raw('min_stock * 1.5'))->count();
-        $recentLogs    = \App\Models\InventoryLog::with(['inventory', 'user'])->latest()->limit(5)->get();
+        $recentLogs    = \App\Models\InventoryLog::select(['id', 'inventory_id', 'user_id', 'type', 'qty', 'stock_before', 'stock_after', 'notes', 'created_at'])
+            ->with(['inventory:id,name', 'user:id,name'])
+            ->latest()
+            ->limit(5)
+            ->get();
         $criticalItem  = Inventory::whereColumn('stock', '<=', 'min_stock')
             ->where('stock', '>', 0)
             ->orderByRaw('stock / min_stock ASC')

@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\BelongsToTenant;
+
 class Promotion extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     protected $fillable = [
-        'name', 'type', 'value', 'min_purchase',
+        'tenant_id', 'name', 'type', 'value', 'min_purchase',
         'start_date', 'end_date', 'is_active',
     ];
 

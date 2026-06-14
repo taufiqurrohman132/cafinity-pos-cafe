@@ -40,7 +40,7 @@ function MenuImage({ src, name, categoryName }) {
         else if (lower.includes('snack') || lower.includes('cemilan')) icon = 'solar:donut-linear';
 
         return (
-            <div className="w-full h-full bg-brand-light/30 rounded-2xl border border-brand-light flex items-center justify-center text-6xl text-brand-secondary">
+            <div className="w-full h-full bg-[#E6E6E6]/30 rounded-2xl border border-[#E6E6E6] flex items-center justify-center text-6xl text-black/60">
                 <iconify-icon icon={icon} class="text-6xl"></iconify-icon>
             </div>
         );
@@ -54,7 +54,7 @@ function MenuImage({ src, name, categoryName }) {
         <img
             src={src}
             alt={name}
-            className="w-full h-full object-cover rounded-2xl border border-brand-light"
+            className="w-full h-full object-cover rounded-2xl border border-[#E6E6E6]"
             onError={() => setHasError(true)}
         />
     );
@@ -63,15 +63,15 @@ function MenuImage({ src, name, categoryName }) {
 function StatCard({ label, children, accent = false }) {
     return (
         <div
-            className={`p-4 rounded-2xl border shadow-sm hover:shadow-lg hover:shadow-brand-primary/10 transition-all duration-300 group ${
+            className={`p-4 rounded-2xl border shadow-sm hover:shadow-md transition-all duration-300 group ${
                 accent
-                    ? "border-emerald-200 bg-emerald-50/50"
-                    : "border-brand-light bg-white"
+                    ? "border-emerald-200 bg-emerald-50/40"
+                    : "border-[#E6E6E6] bg-white hover:border-[#D0D0D0]"
             }`}
         >
             <p
-                className={`text-xs font-extrabold mb-1 capitalize tracking-wide ${
-                    accent ? "text-emerald-700" : "text-brand-primary"
+                className={`text-[10px] font-extrabold mb-1 uppercase tracking-wider ${
+                    accent ? "text-emerald-700" : "text-black/40"
                 }`}
             >
                 {label}
@@ -85,7 +85,7 @@ function TabButton({ id, label, active, onClick }) {
     return (
         <button
             onClick={() => onClick(id)}
-            className={`pb-3 border-b-2 text-sm font-bold transition-all ${ active ? "border-brand-secondary text-brand-secondary" : "border-transparent text-brand-primary/50 hover:text-brand-primary" } active:scale-[0.97]`}
+            className={`pb-3 border-b-2 text-sm font-bold transition-all ${ active ? "border-[#BFFF00] text-black" : "border-transparent text-black/50 hover:text-black hover:border-black/20" } active:scale-[0.97]`}
         >
             {label}
         </button>
@@ -133,12 +133,12 @@ function WeeklyChart({ data = [40, 35, 55, 50, 70, 95, 90] }) {
                     {
                         label: "Unit Terjual",
                         data: data,
-                        borderColor: "rgb(var(--color-brand-secondary))",
-                        backgroundColor: "rgb(var(--color-brand-secondary) / 0.08)",
+                        borderColor: "#000000",
+                        backgroundColor: "rgba(0, 0, 0, 0.04)",
                         borderWidth: 2.5,
                         fill: true,
                         tension: 0.4,
-                        pointBackgroundColor: "rgb(var(--color-brand-secondary))",
+                        pointBackgroundColor: "#000000",
                         pointRadius: 3,
                         pointHoverRadius: 5,
                     },
@@ -159,14 +159,14 @@ function WeeklyChart({ data = [40, 35, 55, 50, 70, 95, 90] }) {
                     x: {
                         grid: { display: false },
                         ticks: {
-                            color: "rgb(var(--color-brand-primary))",
+                            color: "rgba(0, 0, 0, 0.6)",
                             font: { weight: "bold", size: 11 },
                         },
                     },
                     y: {
-                        grid: { color: "rgb(var(--color-brand-light))", lineWidth: 0.8 },
+                        grid: { color: "#E6E6E6", lineWidth: 0.8 },
                         ticks: {
-                            color: "rgb(var(--color-brand-primary))",
+                            color: "rgba(0, 0, 0, 0.6)",
                             font: { size: 10 },
                             stepSize: 1,
                         },
@@ -377,33 +377,33 @@ export default function Show() {
                     <div className="flex items-center gap-4">
                         <Link 
                             to="/menus" 
-                            className="w-10 h-10 rounded-full bg-white border border-brand-light flex items-center justify-center text-brand-primary/60 hover:text-brand-primary hover:border-brand-primary transition shadow-sm shrink-0"
+                            className="w-10 h-10 rounded-full bg-white border border-[#D0D0D0] flex items-center justify-center text-black/60 hover:text-black hover:bg-[#E6E6E6] hover:border-[#999999] transition shadow-sm shrink-0"
                         >
                             <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
                         </Link>
-                        <nav className="flex items-center gap-2 text-xs sm:text-sm text-brand-primary/60 font-medium">
+                        <nav className="flex items-center gap-2 text-xs sm:text-sm text-black/60 font-semibold">
                             <Link
                                 to="/menus"
-                                className="hover:text-brand-primary transition-colors"
+                                className="hover:text-black transition-colors"
                             >
                                 Menu
                             </Link>
-                            <span className="text-brand-primary/40">›</span>
-                            <span className="text-brand-dark font-bold">Detail {menu.name}</span>
+                            <span className="text-black/30">›</span>
+                            <span className="text-black font-extrabold">Detail {menu.name}</span>
                         </nav>
                     </div>
                     <div className="flex items-center gap-3">
                         <button
                             type="button"
                             onClick={handleShare}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-brand-light text-sm font-bold text-brand-primary bg-white hover:bg-brand-light hover:text-brand-dark transition-all shadow-sm active:scale-[0.97]"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#D0D0D0] text-sm font-bold text-black bg-white hover:bg-[#E6E6E6] hover:border-[#999999] transition-all shadow-sm active:scale-[0.97]"
                         >
                             <Icon icon="solar:share-linear" /> Bagikan
                         </button>
                         <button
                             type="button"
                             onClick={() => navigate(`/menus/${id}/edit`)}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white text-sm font-bold transition-all shadow-lg shadow-brand-secondary/30 active:scale-[0.97]"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black text-sm font-bold transition-all shadow-sm active:scale-[0.97]"
                         >
                             <Icon icon="solar:pen-linear" /> Edit Produk
                         </button>
@@ -411,14 +411,14 @@ export default function Show() {
                 </div>
 
                 {/* ── HERO ── */}
-                <div className="bg-white rounded-2xl border border-brand-light shadow-sm p-6 mb-6">
+                <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-sm p-6 mb-6">
                     <div className="flex flex-col lg:flex-row gap-8">
 
                         {/* Image */}
                         <div className="relative w-full lg:w-72 h-64 lg:h-72 flex-shrink-0">
                             <MenuImage src={menu.image_url} name={menu.name} categoryName={menu.category?.name} />
                             {menu.is_best_seller && (
-                                <span className="absolute top-3 left-3 bg-brand-secondary text-white text-[10px] font-extrabold px-3 py-1.5 rounded-lg shadow-md tracking-wide flex items-center gap-1">
+                                <span className="absolute top-3 left-3 bg-[#1A1A1A] text-white text-[10px] font-extrabold px-3 py-1.5 rounded-lg shadow-md tracking-wide flex items-center gap-1">
                                     <iconify-icon icon="solar:cup-linear" class="text-xs"></iconify-icon> Terlaris #1
                                 </span>
                             )}
@@ -428,10 +428,10 @@ export default function Show() {
                         <div className="flex-1 flex flex-col justify-between">
                             <div>
                                 <div className="flex items-center gap-2 mb-3">
-                                    <span className="text-[11px] font-extrabold bg-brand-light text-brand-primary px-3 py-1 rounded-full border border-brand-light">
+                                    <span className="text-[11px] font-bold bg-[#E6E6E6] text-black px-3 py-1 rounded-full">
                                         {menu.category?.name ?? "Uncategorized"}
                                     </span>
-                                    <span className="text-[11px] font-medium text-brand-primary/60 flex items-center gap-1">
+                                    <span className="text-[11px] font-semibold text-black/50 flex items-center gap-1">
                                         <Icon icon="solar:tag-linear" className="text-xs" />
                                         SKU: {menu.sku ?? "N/A"}
                                     </span>
@@ -439,7 +439,7 @@ export default function Show() {
                                 <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-dark to-brand-primary tracking-tight mb-2">
                                     {menu.name}
                                 </h1>
-                                <p className="text-sm text-brand-primary/70 font-medium leading-relaxed mb-6">
+                                <p className="text-sm text-black/60 font-semibold leading-relaxed mb-6">
                                     {menu.description ?? "Tidak ada deskripsi."}
                                 </p>
                             </div>
@@ -448,28 +448,28 @@ export default function Show() {
                             <div className="grid grid-cols-2 gap-4">
                                 <StatCard label="Harga Jual">
                                     <div className="flex items-center justify-between">
-                                        <p className="text-2xl font-extrabold text-brand-dark">
+                                        <p className="text-2xl font-black text-black">
                                             Rp {fmt(menu.price)}
                                         </p>
-                                        <div className="w-9 h-9 bg-brand-light/50 rounded-xl flex items-center justify-center border border-brand-light transition-transform duration-300 group-hover:scale-105 shadow-sm">
-                                            <Icon icon="solar:dollar-minimalistic-linear" className="text-lg text-brand-secondary" />
+                                        <div className="w-9 h-9 bg-neutral-50 rounded-xl flex items-center justify-center border border-[#E6E6E6] transition-transform duration-300 group-hover:scale-105 shadow-sm">
+                                            <Icon icon="solar:dollar-minimalistic-linear" className="text-lg text-black/60" />
                                         </div>
                                     </div>
-                                    <p className="text-[10px] text-brand-primary/60 font-medium mt-1">
+                                    <p className="text-[10px] text-black/50 font-bold mt-1">
                                         Harga standar outlet
                                     </p>
                                 </StatCard>
 
                                 <StatCard label="HPP (COGS)">
                                     <div className="flex items-center justify-between">
-                                        <p className="text-2xl font-extrabold text-brand-dark">
+                                        <p className="text-2xl font-black text-black">
                                             Rp {fmt(hpp)}
                                         </p>
-                                        <div className="w-9 h-9 bg-brand-light/50 rounded-xl flex items-center justify-center border border-brand-light transition-transform duration-300 group-hover:scale-105 shadow-sm">
-                                            <Icon icon="solar:cart-linear" className="text-lg text-brand-secondary" />
+                                        <div className="w-9 h-9 bg-neutral-50 rounded-xl flex items-center justify-center border border-[#E6E6E6] transition-transform duration-300 group-hover:scale-105 shadow-sm">
+                                            <Icon icon="solar:cart-linear" className="text-lg text-black/60" />
                                         </div>
                                     </div>
-                                    <p className="text-[10px] text-brand-primary/60 font-medium mt-1">
+                                    <p className="text-[10px] text-black/50 font-bold mt-1">
                                         Biaya bahan baku per porsi
                                     </p>
                                 </StatCard>
@@ -477,16 +477,16 @@ export default function Show() {
                                 <StatCard label="Laba Bersih" accent>
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <p className="text-2xl font-extrabold text-emerald-600">
+                                            <p className="text-2xl font-black text-emerald-600">
                                                 +Rp {fmt(laba)}
                                             </p>
                                             {menu.profit_trend && (
-                                                <p className="text-[10px] font-bold text-emerald-500 mt-0.5">
+                                                <p className="text-[10px] font-bold text-emerald-600 mt-0.5">
                                                     {menu.profit_trend} vs bulan lalu
                                                 </p>
                                             )}
                                         </div>
-                                        <div className="w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center border border-emerald-200 transition-transform duration-300 group-hover:scale-105 shadow-sm">
+                                        <div className="w-9 h-9 bg-emerald-100/60 rounded-xl flex items-center justify-center border border-emerald-200 transition-transform duration-300 group-hover:scale-105 shadow-sm">
                                             <Icon icon="solar:graph-up-linear" className="text-lg text-emerald-600" />
                                         </div>
                                     </div>
@@ -495,15 +495,15 @@ export default function Show() {
                                 <StatCard label="Margin Profit">
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <p className="text-2xl font-extrabold text-brand-dark">
+                                            <p className="text-2xl font-black text-black">
                                                 {margin}%
                                             </p>
-                                            <p className="text-[10px] font-medium text-brand-primary/60 mt-0.5">
+                                            <p className="text-[10px] font-bold text-black/50 mt-0.5">
                                                 {marginLabel(margin)}
                                             </p>
                                         </div>
-                                        <div className="w-9 h-9 bg-brand-light/50 rounded-xl flex items-center justify-center border border-brand-light transition-transform duration-300 group-hover:scale-105 shadow-sm">
-                                            <Icon icon="solar:pie-chart-2-linear" className="text-lg text-brand-secondary" />
+                                        <div className="w-9 h-9 bg-neutral-50 rounded-xl flex items-center justify-center border border-[#E6E6E6] transition-transform duration-300 group-hover:scale-105 shadow-sm">
+                                            <Icon icon="solar:pie-chart-2-linear" className="text-lg text-black/60" />
                                         </div>
                                     </div>
                                 </StatCard>
@@ -513,7 +513,7 @@ export default function Show() {
                 </div>
 
                 {/* ── TAB NAV ── */}
-                <div className="border-b border-brand-light mb-6 bg-white rounded-t-2xl px-6 pt-4">
+                <div className="border-b border-[#E6E6E6] mb-6 bg-white rounded-t-2xl px-6 pt-4">
                     <div className="flex gap-6">
                         {[
                             { id: "ringkasan", label: "Ringkasan Performa" },
@@ -540,19 +540,19 @@ export default function Show() {
 
                         {/* Ringkasan */}
                         {tab === "ringkasan" && (
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm">
+                            <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-sm">
                                 <div className="flex items-center justify-between mb-1">
                                     <div>
-                                        <h3 className="font-extrabold text-brand-dark tracking-tight">
+                                        <h3 className="font-extrabold text-black tracking-tight">
                                             Tren Penjualan Mingguan
                                         </h3>
-                                        <p className="text-xs text-brand-primary/60 font-medium">
+                                        <p className="text-xs text-black/60 font-semibold mt-0.5">
                                             Volume penjualan per hari (7 hari terakhir)
                                         </p>
                                     </div>
                                     <Link
                                         to="/reports"
-                                        className="text-xs font-bold border border-brand-light text-brand-primary px-4 py-2 rounded-xl hover:bg-brand-light hover:text-brand-dark transition-colors"
+                                        className="text-xs font-bold border border-[#D0D0D0] hover:border-[#999999] hover:bg-[#E6E6E6] text-black px-4 py-2 rounded-xl transition-colors"
                                     >
                                         Detail Laporan
                                     </Link>
@@ -560,11 +560,10 @@ export default function Show() {
 
                                 <WeeklyChart data={weeklySales ?? [40, 35, 55, 50, 70, 95, 90]} />
 
-
                                 {/* Legend */}
-                                <div className="flex items-center gap-6 mt-4 text-xs font-bold text-brand-primary">
+                                <div className="flex items-center gap-6 mt-4 text-xs font-bold text-black/60">
                                     <span className="flex items-center gap-2">
-                                        <span className="w-3 h-3 rounded-full bg-brand-secondary shadow-sm" />
+                                        <span className="w-3 h-3 rounded-full bg-black shadow-sm" />
                                         Unit Terjual
                                     </span>
                                     {weeklyGrowth && (
@@ -579,37 +578,37 @@ export default function Show() {
 
                         {/* Bahan Baku */}
                         {tab === "bahan" && (
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm">
-                                <h3 className="font-extrabold text-brand-dark mb-5 tracking-tight">
+                            <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-sm">
+                                <h3 className="font-extrabold text-black mb-5 tracking-tight">
                                     Komposisi Bahan Baku
                                 </h3>
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left min-w-[500px]">
                                         <thead>
-                                            <tr className="text-xs text-brand-primary border-b border-brand-light capitalize tracking-wider">
-                                                <th className="pb-3 font-extrabold">Bahan</th>
-                                                <th className="pb-3 font-extrabold">Qty</th>
-                                                <th className="pb-3 font-extrabold">Satuan</th>
-                                                <th className="pb-3 font-extrabold text-right">Biaya</th>
+                                            <tr className="text-xs text-black/60 border-b border-[#E6E6E6] bg-neutral-50/50 uppercase tracking-wider">
+                                                <th className="px-4 py-3 font-extrabold text-left">Bahan</th>
+                                                <th className="px-4 py-3 font-extrabold text-left">Qty</th>
+                                                <th className="px-4 py-3 font-extrabold text-left">Satuan</th>
+                                                <th className="px-4 py-3 font-extrabold text-right">Biaya</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="text-sm">
+                                        <tbody className="text-sm divide-y divide-[#E6E6E6]/50">
                                             {menu.recipe?.ingredients?.length > 0 ? (
                                                 menu.recipe.ingredients.map((ing, i) => (
                                                     <tr
                                                         key={i}
-                                                        className="border-b border-brand-light/50 last:border-0 hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all cursor-pointer"
+                                                        className="hover:bg-neutral-50/50 transition-all cursor-pointer"
                                                     >
-                                                        <td className="py-3 font-bold text-brand-dark">
+                                                        <td className="px-4 py-3.5 font-bold text-black">
                                                             {ing.name}
                                                         </td>
-                                                        <td className="py-3 text-brand-dark/70 font-medium">
+                                                        <td className="px-4 py-3.5 text-black/70 font-semibold">
                                                             {ing.pivot?.qty}
                                                         </td>
-                                                        <td className="py-3 text-brand-dark/70 font-medium">
+                                                        <td className="px-4 py-3.5 text-black/70 font-semibold">
                                                             {ing.unit}
                                                         </td>
-                                                        <td className="py-3 text-right font-extrabold text-brand-dark">
+                                                        <td className="px-4 py-3.5 text-right font-black text-black">
                                                             Rp {fmt(ing.pivot?.qty * (ing.price_per_unit ?? 0))}
                                                         </td>
                                                     </tr>
@@ -618,7 +617,7 @@ export default function Show() {
                                                 <tr>
                                                     <td
                                                         colSpan={4}
-                                                        className="py-8 text-center text-brand-primary italic text-sm"
+                                                        className="py-8 text-center text-black/50 italic text-sm"
                                                     >
                                                         Belum ada resep yang ditambahkan.
                                                     </td>
@@ -632,11 +631,11 @@ export default function Show() {
 
                         {/* Ulasan */}
                         {tab === "ulasan" && (
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm">
-                                <h3 className="font-extrabold text-brand-dark mb-5 tracking-tight">
+                            <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-sm">
+                                <h3 className="font-extrabold text-black mb-5 tracking-tight">
                                     Ulasan Pelanggan
                                 </h3>
-                                <p className="text-sm text-brand-primary italic text-center py-8">
+                                <p className="text-sm text-black/50 italic text-center py-8">
                                     Belum ada ulasan untuk menu ini.
                                 </p>
                             </div>
@@ -644,8 +643,8 @@ export default function Show() {
 
                         {/* Riwayat */}
                         {tab === "riwayat" && (
-                            <div className="bg-white p-6 rounded-2xl border border-brand-light shadow-sm">
-                                <h3 className="font-extrabold text-brand-dark mb-5 tracking-tight">
+                            <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-sm">
+                                <h3 className="font-extrabold text-black mb-5 tracking-tight">
                                     Riwayat Perubahan
                                 </h3>
                                 <div className="space-y-4">
@@ -653,21 +652,21 @@ export default function Show() {
                                         menu.audits.map((audit, i) => (
                                             <div
                                                 key={i}
-                                                className="flex gap-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent border border-transparent hover:border-brand-light/80 transition-all duration-300 hover:shadow-md hover:shadow-brand-primary/5 group"
+                                                className="flex gap-3 p-3 rounded-xl hover:bg-neutral-50 border border-transparent hover:border-[#E6E6E6] transition-all duration-300 group"
                                             >
-                                                <div className="w-2 h-2 mt-1.5 rounded-full bg-brand-secondary flex-shrink-0" />
+                                                <div className="w-2 h-2 mt-1.5 rounded-full bg-black flex-shrink-0" />
                                                 <div>
-                                                    <p className="text-xs font-bold text-brand-dark">
+                                                    <p className="text-xs font-bold text-black">
                                                         {audit.event} oleh {audit.user?.name ?? "System"}
                                                     </p>
-                                                    <p className="text-[10px] font-medium text-brand-primary/60 mt-0.5">
+                                                    <p className="text-[10px] font-semibold text-black/50 mt-0.5">
                                                         {audit.created_at_human}
                                                     </p>
                                                 </div>
                                             </div>
                                         ))
                                     ) : (
-                                        <p className="text-sm text-brand-primary italic text-center py-8">
+                                        <p className="text-sm text-black/50 italic text-center py-8">
                                             Belum ada riwayat perubahan.
                                         </p>
                                     )}
@@ -680,10 +679,10 @@ export default function Show() {
                     <div className="xl:col-span-4 space-y-6">
 
                         {/* Status Bahan Baku */}
-                        <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm">
+                        <div className="bg-white p-5 rounded-2xl border border-[#E6E6E6] shadow-sm">
                             <div className="flex items-center gap-2 mb-5">
-                                <Icon icon="solar:box-minimalistic-linear" className="text-xl text-brand-secondary" />
-                                <h3 className="font-extrabold text-brand-dark tracking-tight">
+                                <Icon icon="solar:box-minimalistic-linear" className="text-xl text-black" />
+                                <h3 className="font-extrabold text-black tracking-tight">
                                     Status Bahan Baku
                                 </h3>
                             </div>
@@ -692,14 +691,14 @@ export default function Show() {
                                     menu.recipe.ingredients.map((ing, i) => {
                                         const state = stockState(ing);
                                         const colors = {
-                                            empty: "border-rose-200 bg-rose-50/50",
-                                            low:   "border-amber-200 bg-amber-50/50",
-                                            safe:  "border-brand-light bg-brand-bg",
+                                            empty: "border-rose-200 bg-rose-50/30",
+                                            low:   "border-amber-200 bg-amber-50/30",
+                                            safe:  "border-[#E6E6E6] bg-white",
                                         };
                                         const badgeColors = {
-                                            empty: "bg-rose-100 text-rose-700 border-rose-200",
-                                            low:   "bg-amber-100 text-amber-700 border-amber-200",
-                                            safe:  "bg-emerald-100 text-emerald-700 border-emerald-200",
+                                            empty: "bg-rose-50/50 text-rose-700 border-rose-100",
+                                            low:   "bg-amber-50/50 text-amber-700 border-amber-100",
+                                            safe:  "bg-emerald-50/50 text-emerald-700 border-emerald-100",
                                         };
                                         const badgeLabels = {
                                             empty: "Habis",
@@ -712,20 +711,20 @@ export default function Show() {
                                                 className={`flex items-center justify-between p-3 rounded-xl border ${colors[state]}`}
                                             >
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-lg bg-brand-light/30 border border-brand-light flex items-center justify-center">
-                                                        <Icon icon="solar:box-linear" className="text-sm text-brand-secondary" />
+                                                    <div className="w-8 h-8 rounded-lg bg-neutral-50 border border-[#E6E6E6] flex items-center justify-center">
+                                                        <Icon icon="solar:box-linear" className="text-sm text-black/60" />
                                                     </div>
                                                     <div>
-                                                        <p className="text-xs font-extrabold text-brand-dark">
+                                                        <p className="text-xs font-bold text-black">
                                                             {ing.name}
                                                         </p>
-                                                        <p className="text-[10px] font-medium text-brand-primary/60">
+                                                        <p className="text-[10px] font-semibold text-black/50">
                                                             {ing.stock ?? 0} {ing.unit}
                                                         </p>
                                                     </div>
                                                 </div>
                                                 <span
-                                                    className={`text-[9px] font-extrabold px-2 py-1 rounded-md border ${badgeColors[state]}`}
+                                                    className={`text-[9px] font-bold px-2 py-1 rounded-md border ${badgeColors[state]}`}
                                                 >
                                                     {badgeLabels[state]}
                                                 </span>
@@ -733,49 +732,49 @@ export default function Show() {
                                         );
                                     })
                                 ) : (
-                                    <p className="text-xs text-brand-primary italic text-center py-3">
+                                    <p className="text-xs text-black/50 italic text-center py-3">
                                         Belum ada bahan baku terdaftar.
                                     </p>
                                 )}
                             </div>
                             <Link
                                 to="/inventories"
-                                className="block w-full mt-4 py-2.5 text-xs font-extrabold text-brand-secondary border border-brand-light bg-brand-bg rounded-xl hover:bg-brand-light hover:text-brand-dark text-center transition-colors"
+                                className="block w-full mt-4 py-2.5 text-xs font-bold text-black border border-[#D0D0D0] hover:border-[#999999] hover:bg-[#E6E6E6] bg-white rounded-xl text-center transition-all active:scale-[0.97]"
                             >
                                 Buat Pesanan Pembelian
                             </Link>
                         </div>
 
                         {/* Promo Aktif */}
-                        <div className="bg-white p-5 rounded-2xl border border-brand-light shadow-sm">
+                        <div className="bg-white p-5 rounded-2xl border border-[#E6E6E6] shadow-sm">
                             <div className="flex items-center gap-3 mb-1">
-                                <div className="w-10 h-10 rounded-xl bg-brand-light/30 border border-brand-light flex items-center justify-center text-xl">
+                                <div className="w-10 h-10 rounded-xl bg-neutral-50 border border-[#E6E6E6] flex items-center justify-center text-xl">
                                     ☕
                                 </div>
                                 <div>
-                                    <p className="text-xs font-extrabold text-brand-dark">
+                                    <p className="text-xs font-bold text-black">
                                         {menu.active_bundle ? menu.active_bundle.name : "Promo Aktif"}
                                     </p>
-                                    <p className="text-[10px] font-medium text-brand-primary/70 mt-0.5">
+                                    <p className="text-[10px] font-semibold text-black/50 mt-0.5">
                                         {menu.active_bundle ? menu.active_bundle.description : "Tidak ada promo aktif saat ini."}
                                     </p>
                                 </div>
                             </div>
                             <Link
                                 to="/promotions"
-                                className="block mt-3 text-xs font-extrabold text-brand-secondary hover:text-brand-primary transition-colors"
+                                className="block mt-3 text-xs font-bold text-black/60 hover:text-black transition-colors"
                             >
                                 Lihat Pengaturan Promo →
                             </Link>
                         </div>
 
                         {/* Quick Actions */}
-                        <div className="bg-gradient-to-br from-brand-dark via-brand-primary to-brand-secondary p-5 rounded-2xl border border-brand-primary relative overflow-hidden">
+                        <div className="bg-[#0E0E0E] p-5 rounded-2xl border border-black relative overflow-hidden">
                             <div className="absolute inset-0 opacity-10"
                                 style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cubes.png')" }}
                             />
                             <div className="relative z-10">
-                                <p className="text-[10px] font-extrabold text-brand-light mb-3 tracking-widest capitalize">
+                                <p className="text-[10px] font-extrabold text-[#BFFF00] mb-3 tracking-widest uppercase">
                                     ⚡ Aksi Cepat
                                 </p>
                                 <div className="space-y-2">
@@ -788,7 +787,7 @@ export default function Show() {
                                             <Link
                                                 key={a.label}
                                                 to={a.href}
-                                                className="flex items-center gap-2 w-full py-2.5 px-4 bg-white/10 hover:bg-white/20 rounded-xl text-white text-xs font-bold transition-all border border-white/10"
+                                                className="flex items-center gap-2 w-full py-2.5 px-4 bg-white/10 hover:bg-[#BFFF00] hover:text-black rounded-xl text-white text-xs font-bold transition-all border border-white/5 active:scale-[0.97]"
                                             >
                                                 <Icon icon={a.icon} /> {a.label}
                                             </Link>
@@ -797,7 +796,7 @@ export default function Show() {
                                                 key={a.label}
                                                 type="button"
                                                 onClick={a.onClick}
-                                                className="flex items-center gap-2 w-full py-2.5 px-4 bg-white/10 hover:bg-white/20 rounded-xl text-white text-xs font-bold transition-all border border-white/10 text-left active:scale-[0.97]"
+                                                className="flex items-center gap-2 w-full py-2.5 px-4 bg-white/10 hover:bg-[#BFFF00] hover:text-black rounded-xl text-white text-xs font-bold transition-all border border-white/5 text-left active:scale-[0.97]"
                                             >
                                                 <Icon icon={a.icon} /> {a.label}
                                             </button>
@@ -813,9 +812,9 @@ export default function Show() {
 
             {/* Edit Menu Modal */}
             {showEditModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
-                    <div className="bg-white rounded-3xl border border-brand-light p-8 w-full max-w-xl shadow-xl relative my-8">
-                        <div className="absolute top-0 right-0 w-24 h-24 bg-brand-light/40 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
+                    <div className="bg-white rounded-3xl border border-[#E6E6E6] p-8 w-full max-w-xl shadow-xl relative my-8">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-neutral-50 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
                         
                         {/* Close button X */}
                         <button
@@ -833,30 +832,30 @@ export default function Show() {
                                 setErrors({});
                                 setImagePreview(menu.image_url ?? null);
                             }}
-                            className="absolute top-6 right-6 p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-[0.97]"
+                            className="absolute top-6 right-6 p-1.5 text-black/40 hover:text-black hover:bg-neutral-50 rounded-xl transition-all z-20 flex items-center justify-center active:scale-[0.97]"
                         >
                             <iconify-icon icon="material-symbols:close" class="text-xl"></iconify-icon>
                         </button>
 
-                        <h3 className="font-extrabold text-xl text-brand-dark mb-1 relative z-10">
+                        <h3 className="font-extrabold text-xl text-black mb-1 relative z-10">
                             Edit Detail Menu
                         </h3>
-                        <p className="text-xs text-brand-primary/60 mb-8 relative z-10">
+                        <p className="text-xs text-black/60 mb-8 relative z-10">
                             Ubah rincian informasi, harga jual, dan estimasi HPP menu hidangan.
                         </p>
 
                         <form onSubmit={handleEditSubmit} className="space-y-5 relative z-10">
                             {/* Row 1: Foto Menu */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-black uppercase tracking-wider">
                                     Foto Menu
                                 </label>
                                 <div className="col-span-8 flex items-center gap-4">
-                                    <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-brand-light bg-brand-bg flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm relative cursor-pointer hover:border-brand-secondary transition-colors group">
+                                    <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-[#D0D0D0] hover:border-[#999999] bg-neutral-50 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm relative cursor-pointer transition-colors group">
                                         {imagePreview ? (
                                             <img src={imagePreview} className="w-full h-full object-cover" />
                                         ) : (
-                                            <iconify-icon icon="solar:add-circle-linear" class="text-2xl text-brand-primary/50 group-hover:text-brand-secondary transition-colors"></iconify-icon>
+                                            <iconify-icon icon="solar:add-circle-linear" class="text-2xl text-black/40 group-hover:text-black transition-colors"></iconify-icon>
                                         )}
                                         <input
                                             type="file"
@@ -865,7 +864,7 @@ export default function Show() {
                                             className="absolute inset-0 opacity-0 cursor-pointer"
                                         />
                                     </div>
-                                    <div className="text-[11px] text-brand-primary/60 font-medium leading-relaxed max-w-[220px]">
+                                    <div className="text-[11px] text-black/60 font-semibold leading-relaxed max-w-[220px]">
                                         Format JPG, PNG atau WebP.<br />Maksimal ukuran file 2MB.
                                     </div>
                                 </div>
@@ -878,7 +877,7 @@ export default function Show() {
 
                             {/* Row 2: Nama Menu */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-black uppercase tracking-wider">
                                     Nama Menu
                                 </label>
                                 <div className="col-span-8">
@@ -888,7 +887,7 @@ export default function Show() {
                                         value={formData.name}
                                         onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                                         placeholder="Contoh: Es Kopi Susu Gula Aren"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     {errors.name && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -900,7 +899,7 @@ export default function Show() {
 
                             {/* Row 3: Kategori */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-black uppercase tracking-wider">
                                     Kategori
                                 </label>
                                 <div className="col-span-8">
@@ -908,7 +907,7 @@ export default function Show() {
                                         required
                                         value={formData.category_id}
                                         onChange={(e) => setFormData(prev => ({ ...prev, category_id: e.target.value }))}
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all cursor-pointer font-bold text-brand-dark focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all cursor-pointer font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     >
                                         <option value="" disabled>-- Pilih Kategori --</option>
                                         {categories.map((cat) => (
@@ -925,7 +924,7 @@ export default function Show() {
 
                             {/* Row 4: Harga Jual (Rp) */}
                             <div className="grid grid-cols-12 gap-x-4 items-center">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-black uppercase tracking-wider">
                                     Harga Jual (Rp)
                                 </label>
                                 <div className="col-span-8">
@@ -936,7 +935,7 @@ export default function Show() {
                                         value={formData.price}
                                         onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
                                         placeholder="25000"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-secondary hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all font-bold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     {errors.price && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -948,7 +947,7 @@ export default function Show() {
 
                             {/* Row 5: Estimasi HPP (Rp) */}
                             <div className="grid grid-cols-12 gap-x-4 items-start">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider mt-2.5">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-black uppercase tracking-wider mt-2.5">
                                     Estimasi HPP (Rp)
                                 </label>
                                 <div className="col-span-8">
@@ -958,7 +957,7 @@ export default function Show() {
                                         value={formData.estimated_hpp}
                                         onChange={(e) => setFormData(prev => ({ ...prev, estimated_hpp: e.target.value }))}
                                         placeholder="8500"
-                                        className="w-full h-10 px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all font-bold text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     <span className="text-[10px] text-neutral-400 mt-1 italic block leading-normal">
                                         *HPP akan diperbarui otomatis setelah resep dihubungkan.
@@ -973,7 +972,7 @@ export default function Show() {
 
                             {/* Row 6: Deskripsi */}
                             <div className="grid grid-cols-12 gap-x-4 items-start">
-                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-brand-dark capitalize tracking-wider mt-2.5">
+                                <label className="col-span-4 text-right pr-6 text-xs font-bold text-black uppercase tracking-wider mt-2.5">
                                     Deskripsi
                                 </label>
                                 <div className="col-span-8">
@@ -982,7 +981,7 @@ export default function Show() {
                                         onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                                         placeholder="Deskripsi..."
                                         rows={2}
-                                        className="w-full px-3 py-2 text-sm bg-brand-bg border border-brand-light rounded-xl focus:outline-none transition-all resize-none font-medium text-brand-dark hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                        className="w-full px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all resize-none font-medium text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
                                     />
                                     {errors.description && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
@@ -999,7 +998,7 @@ export default function Show() {
                                     <button
                                         type="button"
                                         onClick={() => setFormData(prev => ({ ...prev, is_active: !prev.is_active }))}
-                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:ring-offset-2 ${ formData.is_active ? 'bg-brand-secondary' : 'bg-brand-light' } active:scale-[0.97]`}
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-black focus:ring-offset-2 ${ formData.is_active ? 'bg-black' : 'bg-[#E6E6E6]' } active:scale-[0.97]`}
                                     >
                                         <span
                                             className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
@@ -1009,7 +1008,7 @@ export default function Show() {
                                     </button>
                                     <span
                                         onClick={() => setFormData(prev => ({ ...prev, is_active: !prev.is_active }))}
-                                        className="text-xs font-bold text-brand-dark cursor-pointer select-none"
+                                        className="text-xs font-bold text-black cursor-pointer select-none"
                                     >
                                         Aktif & Tampilkan di POS
                                     </span>
@@ -1017,7 +1016,7 @@ export default function Show() {
                             </div>
 
                             {/* Action Buttons */}
-                            <div className="flex justify-end items-center gap-4 mt-8 pt-4 border-t border-brand-light/30">
+                            <div className="flex justify-end items-center gap-4 mt-8 pt-4 border-t border-[#E6E6E6]/30">
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -1034,14 +1033,14 @@ export default function Show() {
                                         setErrors({});
                                         setImagePreview(menu.image_url ?? null);
                                     }}
-                                    className="px-6 py-2.5 text-xs font-extrabold text-brand-primary hover:text-brand-dark transition-colors active:scale-[0.97]"
+                                    className="px-6 py-2.5 text-xs font-extrabold text-black/60 hover:text-black transition-colors active:scale-[0.97]"
                                 >
                                     Batal
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-dark hover:to-brand-primary text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-md shadow-brand-primary/20 disabled:opacity-50 active:scale-[0.97]"
+                                    className="bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black px-6 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm disabled:opacity-50 active:scale-[0.97]"
                                 >
                                     {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                                 </button>

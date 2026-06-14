@@ -53,7 +53,7 @@ export default function POSSkeleton() {
             </div>
 
             {/* ── RIGHT CART AREA SKELETON ── */}
-            <div className="w-[380px] bg-white border-l border-brand-light flex flex-col h-[calc(100vh-72px)] flex-shrink-0">
+            <div className="w-[340px] bg-white border-l border-brand-light flex flex-col h-[calc(100vh-72px)] flex-shrink-0">
                 {/* Cart Header */}
                 <div className="h-[76px] border-b border-brand-light px-5 flex items-center justify-between flex-shrink-0">
                     <div className="flex items-center gap-2.5">

@@ -15,8 +15,10 @@ class MenuController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Category::where('is_active', true)->orderBy('name')->get();
-        $query = Menu::with(['category', 'recipe'])->latest();
+        $categories = Category::where('is_active', true)->orderBy('name')->get(['id', 'name', 'slug']);
+        $query = Menu::select(['id', 'category_id', 'name', 'slug', 'description', 'price', 'image', 'is_active'])
+            ->with(['category:id,name', 'recipe:id,menu_id,total_hpp'])
+            ->latest();
 
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');

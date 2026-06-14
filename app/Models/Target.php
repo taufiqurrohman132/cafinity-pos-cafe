@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\BelongsToTenant;
+
 class Target extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     protected $fillable = [
-        'label', 'type', 'target_value', 'current_value',
+        'tenant_id', 'label', 'type', 'target_value', 'current_value',
         'period', 'start_date', 'end_date',
     ];
 
