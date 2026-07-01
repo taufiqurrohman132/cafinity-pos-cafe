@@ -612,3 +612,107 @@ Whitespace is actively used to create breathing room and guide visual hierarchy.
 9. **Breakpoint logic:** At mobile (`< 600px`), sidebar becomes icon-only, grid becomes 1-column, detail panel becomes modal. At tablet (`600px–1023px`), grid is 2-column. At desktop (`≥ 1024px`), full 3-column + sidebar + detail panel visible.
 
 10. **Color contrast is critical** — all body text must achieve 4.5:1 contrast (WCAG AA). Use `#000000` text on light backgrounds; `#FFFFFF` or `#E6E6E6` text on dark backgrounds.
+
+
+Oh, khusus untuk **table pattern**-nya saja! Ini:
+
+---
+
+**CAFINITY — TABLE DESIGN SYSTEM**
+
+---
+
+**Container**
+```
+bg-white
+rounded-2xl
+border border-[#E6E6E6]
+shadow-[0_2px_8px_rgba(0,0,0,0.04)]
+overflow-hidden
+```
+
+---
+
+**Table Header**
+```
+bg: #E6E6E6/20
+border-bottom: #E6E6E6
+font-size: 11px
+font-weight: bold
+uppercase
+tracking-wider
+color: #999999
+padding: px-6 py-3
+```
+
+---
+
+**Table Row**
+```
+height: auto
+padding cell: px-6 py-4
+divider: divide-y #E6E6E6/50
+hover: bg-[#E6E6E6]/30
+active: bg-[#E6E6E6]/60
+transition: duration-200
+cursor: pointer (jika clickable)
+```
+
+---
+
+**Cell Typography**
+
+| Tipe Konten | Size | Weight | Color |
+|-------------|------|--------|-------|
+| ID/Kode | 12px mono | semibold | #000000 |
+| Tanggal/Waktu | 13px | normal | #666666 |
+| Nama | 13px | medium | #000000 |
+| Angka/Nominal | 14px | semibold | #000000 |
+| Teks biasa | 13px | normal | #666666 |
+
+---
+
+**Badge dalam Cell**
+
+Status Badge → `rounded-full`
+```
+completed : emerald-700 / emerald-50 / emerald-200
+pending   : amber-700 / amber-50 / amber-200
+cancelled : rose-700 / rose-50 / rose-200
+refunded  : #666666 / #E6E6E6 / #D0D0D0
+```
+
+Label Badge → `rounded-lg`
+```
+bg: #E6E6E6
+border: #D0D0D0
+text: 11px bold uppercase
+```
+
+---
+
+**Empty State**
+```
+colSpan full
+py-16 centered
+Icon 64px dalam circle bg-[#E6E6E6]/50
+text-sm font-semibold text-black
+```
+
+---
+
+**Pagination**
+```
+border-top: #E6E6E6
+padding: px-6 py-4
+info text: 12px text-[#999999]
+button aktif: bg-white border-[#D0D0D0] rounded-xl
+button disabled: bg-[#E6E6E6] text-[#999999] cursor-not-allowed
+```
+
+---
+
+Label Badge → dari rounded-lg bg-[#E6E6E6] sekarang jadi rounded-full bg-[#E6E6E6]/60 — lebih transparan, stroke #D0D0D0 tetap, bentuk pill
+Teks panjang → Nama pakai line-clamp-2 max-w-[200px], Deskripsi line-clamp-2 max-w-[240px], kolom lain truncate + title
+
+Simpan sebagai `TABLE_SYSTEM.md` — tinggal paste ke Claude setiap mau buat table baru supaya langsung konsisten.

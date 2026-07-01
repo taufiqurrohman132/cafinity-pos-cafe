@@ -262,11 +262,11 @@ export default function InventoriesIndex() {
                         </div>
 
                         {/* Table Card */}
-                        <div className="bg-white rounded-2xl border border-brand-light shadow-sm overflow-hidden">
+                        <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden">
 
                             {/* Table Header */}
-                            <div className="px-6 py-5 border-b border-brand-light flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                                <h3 className="font-bold text-brand-dark">Daftar Bahan Baku</h3>
+                            <div className="px-6 py-5 border-b border-[#E6E6E6] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                                <h3 className="text-base font-semibold text-black">Daftar Bahan Baku</h3>
                                 <div className="flex flex-wrap items-center gap-3">
                                     <select
                                         value={categoryId}
@@ -290,37 +290,40 @@ export default function InventoriesIndex() {
                                     </select>
                                     <form onSubmit={handleSearch}>
                                         <div className="relative">
-                                            <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-base"></iconify-icon>
+                                            <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-[#999999] text-base"></iconify-icon>
                                             <input
                                                 type="text"
                                                 value={search}
                                                 onChange={(e) => setSearch(e.target.value)}
                                                 placeholder="Cari bahan..."
-                                                className="w-full lg:w-64 h-10 pl-9 pr-4 text-sm bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl focus:outline-none transition-all duration-150 focus:border-[#BFFF00]"
+                                                className="w-full lg:w-64 h-10 pl-9 pr-4 text-[13px] bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl focus:outline-none transition-all duration-150 focus:border-[#BFFF00]"
                                             />
                                         </div>
                                     </form>
                                 </div>
                             </div>
+
                             <div className={`transition-opacity duration-200 ${loading ? 'opacity-60 pointer-events-none' : ''}`}>
                                 {/* Table */}
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left min-w-[800px]">
                                         <thead>
-                                            <tr className="text-caption font-semibold text-brand-primary/60 border-b border-[#E6E6E6] bg-brand-bg/50 capitalize">
+                                            <tr className="bg-[#E6E6E6]/20 border-b border-[#E6E6E6]">
                                                 {['Nama Bahan', 'Kategori', 'Stok Saat Ini', 'Satuan', 'Harga/Satuan', 'Status', 'Aksi'].map((h) => (
-                                                    <th key={h} className="px-6 py-3">{h}</th>
+                                                    <th key={h} className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">{h}</th>
                                                 ))}
                                             </tr>
                                         </thead>
-                                        <tbody className="text-sm divide-y divide-[#E6E6E6]">
+                                        <tbody className="divide-y divide-[#E6E6E6]/50">
                                             {inventories.data.length === 0 ? (
                                                 <tr>
-                                                    <td colSpan={7} className="px-6 py-10 text-center text-gray-400 text-sm">
-                                                        <div className="flex flex-col items-center gap-2">
-                                                            <iconify-icon icon="solar:box-linear" class="text-4xl text-brand-secondary"></iconify-icon>
-                                                            <p>Belum ada data inventaris.</p>
-                                                            <Link to="/inventories/create" className="text-brand-primary hover:text-brand-secondary font-bold text-xs flex items-center gap-1.5 transition-colors">
+                                                    <td colSpan={7} className="px-6 py-16 text-center">
+                                                        <div className="flex flex-col items-center gap-3">
+                                                            <div className="w-16 h-16 rounded-full bg-[#E6E6E6]/50 flex items-center justify-center">
+                                                                <iconify-icon icon="solar:box-linear" class="text-3xl text-[#999999]"></iconify-icon>
+                                                            </div>
+                                                            <p className="text-sm font-semibold text-black">Belum ada data inventaris.</p>
+                                                            <Link to="/inventories/create" className="text-[13px] font-semibold text-[#666666] hover:text-black flex items-center gap-1.5 transition-colors">
                                                                 <iconify-icon icon="solar:add-circle-linear" class="text-sm"></iconify-icon>
                                                                 Tambah bahan pertama
                                                             </Link>
@@ -330,37 +333,42 @@ export default function InventoriesIndex() {
                                             ) : inventories.data.map((item) => {
                                                 const { percent, label, badgeCls, barCls } = getStockMeta(item)
                                                 return (
-                                                    <tr key={item.id} className="hover:bg-[#E6E6E6]/40 transition-all duration-150">
+                                                    <tr key={item.id} className="hover:bg-[#E6E6E6]/30 active:bg-[#E6E6E6]/60 transition-all duration-200">
                                                         <td className="px-6 py-4">
                                                             <div className="flex items-center gap-3">
-                                                                <div className="w-9 h-9 rounded-xl bg-[#E6E6E6] text-black font-semibold text-sm flex items-center justify-center flex-shrink-0">
+                                                                <div className="w-9 h-9 rounded-xl bg-[#E6E6E6] text-[#000000] font-semibold text-sm flex items-center justify-center flex-shrink-0">
                                                                     {item.name.charAt(0).toUpperCase()}
                                                                 </div>
-                                                                <p className="font-semibold text-black">{item.name}</p>
+                                                                <p
+                                                                    className="text-[13px] font-medium text-[#000000] line-clamp-2 max-w-[200px]"
+                                                                    title={item.name}
+                                                                >
+                                                                    {item.name}
+                                                                </p>
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-4">
-                                                            <span className="px-2.5 py-1 rounded-full bg-white border border-[#D0D0D0] text-black text-xs font-medium">
+                                                            <span className="px-3 py-1 rounded-full bg-[#E6E6E6]/60 border border-[#D0D0D0] text-[11px] font-bold uppercase truncate tracking-wide text-[#666666]">
                                                                 {item.category?.name ?? '-'}
                                                             </span>
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             <div className="space-y-1.5">
                                                                 <div className="flex items-center justify-between text-xs">
-                                                                    <span className="font-semibold text-black">{item.stock} / {item.min_stock}</span>
-                                                                    <span className="text-brand-primary/60">{percent}%</span>
+                                                                    <span className="text-[12px] font-semibold font-mono text-[#000000]">{item.stock} / {item.min_stock}</span>
+                                                                    <span className="text-[12px] text-[#999999]">{percent}%</span>
                                                                 </div>
                                                                 <div className="w-28 h-1.5 rounded-full bg-[#E6E6E6] overflow-hidden">
                                                                     <div className={`h-full rounded-full ${barCls}`} style={{ width: `${percent}%` }} />
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td className="px-6 py-4 text-gray-600">{item.unit}</td>
-                                                        <td className="px-6 py-4 font-semibold text-black">
+                                                        <td className="px-6 py-4 text-[13px] text-[#666666]">{item.unit}</td>
+                                                        <td className="px-6 py-4 text-[14px] font-semibold text-[#000000]">
                                                             Rp {Number(item.price_per_unit).toLocaleString('id-ID')}
                                                         </td>
                                                         <td className="px-6 py-4">
-                                                            <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${badgeCls}`}>{label}</span>
+                                                            <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold ${badgeCls}`}>{label}</span>
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             <InventoryActions item={item} onDelete={handleDelete} />
@@ -372,25 +380,27 @@ export default function InventoriesIndex() {
                                     </table>
                                 </div>
 
-                                {/* Table Footer */}
-                                <div className="px-6 py-4 border-t border-brand-light flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-                                    <p className="text-xs text-gray-400">
+                                {/* Pagination */}
+                                <div className="px-6 py-4 border-t border-[#E6E6E6] flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+                                    <p className="text-[12px] text-[#999999]">
                                         Menampilkan {inventories.from ?? 0}–{inventories.to ?? 0} dari {inventories.total} jenis bahan baku
                                     </p>
                                     <div className="flex items-center gap-4">
-                                        <button onClick={handleDownloadReport} className="text-xs font-bold text-gray-500 hover:text-brand-primary transition-all duration-150 active:scale-[0.97]">
+                                        <button
+                                            onClick={handleDownloadReport}
+                                            className="text-[12px] font-semibold text-[#666666] hover:text-[#000000] transition-all duration-150 active:scale-[0.97]"
+                                        >
                                             Unduh Laporan Stok
                                         </button>
-                                        {/* Pagination */}
                                         <div className="flex items-center gap-1">
                                             {inventories.links?.map((link, i) => (
                                                 <Link
                                                     key={i}
                                                     to={getRelativeUrl(link.url)}
-                                                    className={`px-3 py-1 text-xs rounded-lg border transition ${link.active
-                                                            ? 'bg-brand-primary text-white border-brand-primary'
-                                                            : 'border-brand-light text-gray-500 hover:border-brand-primary hover:text-brand-primary'
-                                                        } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
+                                                    className={`px-3 py-1.5 text-[12px] font-semibold rounded-xl border transition-all duration-150 active:scale-[0.97] ${link.active
+                                                        ? 'bg-white border-[#D0D0D0] text-[#000000]'
+                                                        : 'bg-[#E6E6E6] border-[#E6E6E6] text-[#999999]'
+                                                        } ${!link.url ? 'opacity-40 pointer-events-none cursor-not-allowed' : ''}`}
                                                     dangerouslySetInnerHTML={{ __html: link.label }}
                                                 />
                                             ))}
@@ -597,7 +607,7 @@ function AdjustStockModal({ isOpen, onClose, items, onSaveSuccess }) {
                             ))}
                         </select>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-3">
                         <div>
                             <label className="block text-xs font-semibold text-black mb-1.5">Jenis</label>
@@ -687,7 +697,7 @@ function StockOpnameModal({ isOpen, onClose, items, onSaveSuccess }) {
             alert('Masukkan stok fisik.');
             return;
         }
-        
+
         if (difference === 0) {
             alert('Stok fisik sama dengan stok sistem. Tidak ada perubahan yang disimpan.');
             onClose();
@@ -755,11 +765,10 @@ function StockOpnameModal({ isOpen, onClose, items, onSaveSuccess }) {
                         </div>
                         <div>
                             <span className="text-[10px] font-extrabold text-brand-primary/60 capitalize">Selisih</span>
-                            <p className={`text-xl font-extrabold mt-1 ${
-                                difference === 0 ? 'text-brand-dark' 
-                                : difference > 0 ? 'text-emerald-500' 
-                                : 'text-rose-500'
-                            }`}>
+                            <p className={`text-xl font-extrabold mt-1 ${difference === 0 ? 'text-brand-dark'
+                                : difference > 0 ? 'text-emerald-500'
+                                    : 'text-rose-500'
+                                }`}>
                                 {difference > 0 ? '+' : ''}{difference.toFixed(2)} <span className="text-xs font-medium text-gray-500">{selectedItem?.unit}</span>
                             </p>
                         </div>
@@ -811,31 +820,32 @@ function InventoryActions({ item, onDelete }) {
             <button
                 onClick={() => setOpen(!open)}
                 onBlur={() => setTimeout(() => setOpen(false), 150)}
-                className="p-2 text-brand-primary/60 hover:text-black hover:bg-[#E6E6E6] rounded-xl transition-all active:scale-[0.97]"
+                className="w-8 h-8 flex items-center justify-center text-[#999999] hover:text-black hover:bg-[#E6E6E6] rounded-xl transition-all active:scale-[0.97]"
             >
-                <iconify-icon icon="solar:menu-dots-linear" class="text-lg"></iconify-icon>
+                <iconify-icon icon="solar:menu-dots-linear" class="text-base"></iconify-icon>
             </button>
             {open && (
-                <div className="absolute right-0 mt-1 w-36 bg-white border border-[#D0D0D0] rounded-xl shadow-level-2 z-20 overflow-hidden">
+                <div className="absolute right-0 mt-1 w-36 bg-white border border-[#E6E6E6] rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] z-20 overflow-hidden py-1">
                     <Link
                         to={`/inventories/${item.id}`}
-                        className="flex items-center gap-2 px-4 py-2.5 text-xs text-black font-semibold hover:bg-[#E6E6E6] text-left w-full"
+                        className="flex items-center gap-2.5 px-4 py-2 text-[12px] text-[#000000] font-semibold hover:bg-[#E6E6E6]/50 w-full transition-all duration-150"
                     >
-                        <iconify-icon icon="solar:eye-linear" class="text-black"></iconify-icon>
+                        <iconify-icon icon="solar:eye-linear" class="text-base text-[#666666] flex-shrink-0"></iconify-icon>
                         Detail
                     </Link>
                     <Link
                         to={`/inventories/${item.id}/edit`}
-                        className="flex items-center gap-2 px-4 py-2.5 text-xs text-black font-semibold hover:bg-[#E6E6E6] text-left w-full"
+                        className="flex items-center gap-2.5 px-4 py-2 text-[12px] text-[#000000] font-semibold hover:bg-[#E6E6E6]/50 w-full transition-all duration-150"
                     >
-                        <iconify-icon icon="solar:pen-linear" class="text-black"></iconify-icon>
+                        <iconify-icon icon="solar:pen-linear" class="text-base text-[#666666] flex-shrink-0"></iconify-icon>
                         Edit
                     </Link>
+                    <div className="mx-3 border-t border-[#E6E6E6]" />
                     <button
                         onClick={() => onDelete(item.id, item.name)}
-                        className="flex items-center gap-2 px-4 py-2.5 text-xs text-rose-600 font-semibold hover:bg-rose-50 border-t border-[#E6E6E6] text-left w-full transition-all duration-150 active:scale-[0.97]"
+                        className="flex items-center gap-2.5 px-4 py-2 text-[12px] text-rose-600 font-semibold hover:bg-rose-50 w-full transition-all duration-150 active:scale-[0.97]"
                     >
-                        <iconify-icon icon="solar:trash-bin-trash-linear" class="text-rose-500"></iconify-icon>
+                        <iconify-icon icon="solar:trash-bin-trash-linear" class="text-base text-rose-500 flex-shrink-0"></iconify-icon>
                         Hapus
                     </button>
                 </div>

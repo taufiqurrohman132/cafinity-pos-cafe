@@ -180,44 +180,55 @@ export default function UsersIndex({
                         </div>
 
                         {/* Table Card */}
-                        <div className="bg-white rounded-2xl border border-brand-light shadow-sm overflow-hidden">
+                        <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden">
 
                             {/* Toolbar */}
                             <form onSubmit={handleFilter}>
-                                <div className="px-5 py-4 border-b border-brand-light flex flex-col sm:flex-row items-stretch sm:items-center gap-3 bg-brand-bg/50">
+                                <div className="px-6 py-4 border-b border-[#E6E6E6] flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                                     <div className="relative flex-1 max-w-sm">
-                                        <iconify-icon icon="solar:magnifer-linear" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-primary/50 text-lg"></iconify-icon>
+                                        <iconify-icon icon="solar:magnifer-linear" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#999999] text-base"></iconify-icon>
                                         <input
                                             type="text"
                                             value={search}
                                             onChange={e => setSearch(e.target.value)}
                                             placeholder="Nama, email, atau ID..."
-                                            className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl pl-11 pr-4 text-[13px] font-bold text-brand-dark placeholder-brand-primary/50 outline-none transition-all hover:border-brand-primary/40 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
+                                            className="w-full h-10 bg-white border border-[#D0D0D0] rounded-xl pl-10 pr-4 text-[13px] text-black placeholder-[#999999] outline-none transition-all hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
                                         />
                                     </div>
                                     <div className="flex flex-wrap items-center gap-2">
-                                        <select value={role} onChange={e => setRole(e.target.value)}
-                                            className="h-11 px-4 border border-brand-light bg-white text-brand-primary text-sm font-bold rounded-xl outline-none cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light">
+                                        <select
+                                            value={role}
+                                            onChange={e => setRole(e.target.value)}
+                                            className="h-10 px-4 border border-[#D0D0D0] hover:border-[#999999] bg-white text-black text-[13px] font-medium rounded-xl outline-none cursor-pointer transition-all focus:border-[#BFFF00]"
+                                        >
                                             <option value="">Semua Role</option>
                                             <option value="owner">Owner</option>
                                             <option value="admin">Admin</option>
                                             <option value="cashier">Kasir</option>
                                         </select>
-                                        <select value={status} onChange={e => setStatus(e.target.value)}
-                                            className="h-11 px-4 border border-brand-light bg-white text-brand-primary text-sm font-bold rounded-xl outline-none cursor-pointer transition-all duration-150 focus:border-brand-secondary focus:ring-2 focus:ring-brand-light">
+                                        <select
+                                            value={status}
+                                            onChange={e => setStatus(e.target.value)}
+                                            className="h-10 px-4 border border-[#D0D0D0] hover:border-[#999999] bg-white text-black text-[13px] font-medium rounded-xl outline-none cursor-pointer transition-all focus:border-[#BFFF00]"
+                                        >
                                             <option value="">Semua Status</option>
                                             <option value="active">Active</option>
                                             <option value="inactive">Inactive</option>
                                             <option value="pending">Pending</option>
                                             <option value="deactivated">Deactivated</option>
                                         </select>
-                                        <button type="submit"
-                                            className="flex items-center gap-2 h-11 px-4 bg-brand-primary text-white text-sm font-bold rounded-xl transition-all duration-150 active:scale-[0.97]">
-                                            <iconify-icon icon="solar:filter-linear" class="text-lg"></iconify-icon>
+                                        <button
+                                            type="submit"
+                                            className="flex items-center gap-2 h-10 px-4 bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black text-[13px] font-semibold rounded-xl transition-all active:scale-[0.97]"
+                                        >
+                                            <iconify-icon icon="solar:filter-linear" class="text-base"></iconify-icon>
                                             Filter
                                         </button>
-                                        <button type="button" onClick={handleReset}
-                                            className="h-11 px-4 border border-transparent bg-brand-bg text-brand-primary/70 text-sm font-bold hover:bg-brand-light rounded-xl transition-all duration-150 active:scale-[0.97]">
+                                        <button
+                                            type="button"
+                                            onClick={handleReset}
+                                            className="h-10 px-4 border border-[#D0D0D0] hover:bg-[#E6E6E6] hover:border-[#999999] text-black text-[13px] font-semibold rounded-xl transition-all active:scale-[0.97]"
+                                        >
                                             Reset
                                         </button>
                                     </div>
@@ -228,55 +239,59 @@ export default function UsersIndex({
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left min-w-[640px]">
                                     <thead>
-                                        <tr className="border-b border-brand-light bg-white">
+                                        <tr className="bg-[#E6E6E6]/20 border-b border-[#E6E6E6]">
                                             {['Nama Pengguna', 'Role', 'Bergabung', 'Status', 'Aksi'].map(h => (
-                                                <th key={h} className="px-5 py-4 text-xs font-bold text-brand-primary/70">{h}</th>
+                                                <th key={h} className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">{h}</th>
                                             ))}
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-brand-light/50 text-sm bg-white">
+                                    <tbody className="divide-y divide-[#E6E6E6]/50">
                                         {users.data.length === 0 ? (
                                             <tr>
-                                                <td colSpan={5} className="px-5 py-16 text-center">
+                                                <td colSpan={5} className="px-6 py-16 text-center">
                                                     <div className="flex flex-col items-center gap-3">
-                                                        <div className="w-14 h-14 rounded-2xl bg-brand-light/30 flex items-center justify-center text-brand-primary/30 text-3xl">
-                                                            <iconify-icon icon="solar:users-group-rounded-linear"></iconify-icon>
+                                                        <div className="w-16 h-16 rounded-full bg-[#E6E6E6]/50 flex items-center justify-center">
+                                                            <iconify-icon icon="solar:users-group-rounded-linear" class="text-3xl text-[#999999]"></iconify-icon>
                                                         </div>
-                                                        <p className="font-bold text-brand-dark">Tidak ada pengguna ditemukan</p>
-                                                        <p className="text-sm text-brand-primary/50">Coba ubah filter atau tambah pengguna baru.</p>
+                                                        <p className="text-sm font-semibold text-black">Tidak ada pengguna ditemukan</p>
+                                                        <p className="text-[13px] text-[#666666]">Coba ubah filter atau tambah pengguna baru.</p>
                                                     </div>
                                                 </td>
                                             </tr>
                                         ) : users.data.map(user => {
                                             const s = statusStyles[user.status] ?? statusStyles.inactive;
                                             return (
-                                                <tr key={user.id} className="hover:bg-brand-light/20 transition-colors group">
-                                                    <td className="px-5 py-4">
+                                                <tr key={user.id} className="hover:bg-[#E6E6E6]/30 active:bg-[#E6E6E6]/60 transition-all duration-200">
+                                                    <td className="px-6 py-4">
                                                         <div className="flex items-center gap-3">
-                                                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-white font-black text-sm flex-shrink-0">
+                                                            <div className="w-9 h-9 rounded-xl bg-[#E6E6E6] text-[#000000] font-semibold text-sm flex items-center justify-center flex-shrink-0">
                                                                 {user.name.substring(0, 2).toUpperCase()}
                                                             </div>
                                                             <div>
-                                                                <p className="font-bold text-brand-dark">{user.name}</p>
-                                                                <p className="text-xs text-brand-primary/70 font-medium">{user.email}</p>
+                                                                <p className="text-[13px] font-medium text-[#000000] truncate max-w-[160px]" title={user.name}>
+                                                                    {user.name}
+                                                                </p>
+                                                                <p className="text-[12px] text-[#666666] mt-0.5 truncate max-w-[160px]" title={user.email}>
+                                                                    {user.email}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td className="px-5 py-4">
-                                                        <span className={`px-3 py-1.5 rounded-lg text-xs font-bold ${roleStyles[user.role] ?? 'bg-gray-100 text-gray-600'}`}>
+                                                    <td className="px-6 py-4">
+                                                        <span className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide border bg-[#E6E6E6]/60 border-[#D0D0D0] text-[#666666] ${roleStyles[user.role] ?? ''}`}>
                                                             {roleLabels[user.role] ?? user.role}
                                                         </span>
                                                     </td>
-                                                    <td className="px-5 py-4 text-sm font-medium text-brand-primary/70">
+                                                    <td className="px-6 py-4 text-[13px] text-[#666666]">
                                                         {user.created_at_diff}
                                                     </td>
-                                                    <td className="px-5 py-4">
-                                                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-bold ${s.bg} ${s.text}`}>
-                                                            <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`}></span>
+                                                    <td className="px-6 py-4">
+                                                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold border ${s.bg} ${s.text}`}>
+                                                            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${s.dot}`}></span>
                                                             {s.label}
                                                         </span>
                                                     </td>
-                                                    <td className="px-5 py-4 text-right">
+                                                    <td className="px-6 py-4 text-right">
                                                         <UserActions
                                                             user={user}
                                                             canManage={can.manage_users}
@@ -295,19 +310,19 @@ export default function UsersIndex({
                             </div>
 
                             {/* Pagination */}
-                            <div className="flex flex-col sm:flex-row items-center justify-between px-5 py-4 border-t border-brand-light bg-brand-bg/50 gap-4">
-                                <p className="text-xs font-medium text-brand-primary/70">
-                                    Menampilkan <span className="font-bold text-brand-dark">{users.from ?? 0}</span>–<span className="font-bold text-brand-dark">{users.to ?? 0}</span> dari <span className="font-bold text-brand-dark">{users.total}</span> pengguna
+                            <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 border-t border-[#E6E6E6] gap-4">
+                                <p className="text-[12px] text-[#999999]">
+                                    Menampilkan <span className="font-semibold text-[#000000]">{users.from ?? 0}</span>–<span className="font-semibold text-[#000000]">{users.to ?? 0}</span> dari <span className="font-semibold text-[#000000]">{users.total}</span> pengguna
                                 </p>
-                                <div className="flex items-center gap-1.5">
+                                <div className="flex items-center gap-1">
                                     {users.links?.map((link, i) => (
                                         <Link
                                             key={i}
                                             to={getRelativeUrl(link.url)}
-                                            className={`px-3 py-1.5 text-xs rounded-lg border transition ${link.active
-                                                ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-white border-brand-primary'
-                                                : 'border-brand-light text-brand-primary hover:bg-brand-light'
-                                                } ${!link.url ? 'opacity-40 pointer-events-none' : ''}`}
+                                            className={`px-3 py-1.5 text-[12px] font-semibold rounded-xl border transition-all duration-150 active:scale-[0.97] ${link.active
+                                                    ? 'bg-white border-[#D0D0D0] text-[#000000]'
+                                                    : 'bg-[#E6E6E6] border-[#E6E6E6] text-[#999999]'
+                                                } ${!link.url ? 'opacity-40 pointer-events-none cursor-not-allowed' : ''}`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
                                     ))}

@@ -23,6 +23,15 @@ export default function PageLoader({ component: Component, apiPath, skeleton: Sk
         resolvedPath = location.pathname;
     }
 
+    // Reset page loader state when resolved path changes during transition
+    const [prevPath, setPrevPath] = useState(resolvedPath);
+    if (resolvedPath !== prevPath) {
+        setPrevPath(resolvedPath);
+        setLoading(true);
+        setData(null);
+        setError(null);
+    }
+
     const loadData = async () => {
         setLoading(true);
         try {

@@ -490,8 +490,8 @@ export default function PromotionsIndex() {
                 </div>
 
                 {/* ── DAFTAR KAMPANYE ── */}
-                <div className="bg-white border border-[#E6E6E6] rounded-2xl p-6 shadow-level-1">
-                    <div className="flex justify-between items-center mb-5 flex-wrap gap-3">
+                <div className="bg-white border border-[#E6E6E6] rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden">
+                    <div className="flex justify-between items-center px-6 py-5 flex-wrap gap-3">
                         <div>
                             <h3 className="text-base font-semibold text-brand-dark tracking-[-0.3px]">Daftar Kampanye</h3>
                             <p className="text-xs font-normal text-black/50 mt-0.5">Semua promosi yang terdaftar dalam sistem.</p>
@@ -502,7 +502,7 @@ export default function PromotionsIndex() {
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
-                                    className={`px-4 py-1.5 text-xs font-semibold rounded-xl border transition-all ${activeTab === tab ? 'bg-[#BFFF00] text-black border-[#BFFF00] shadow-sm font-bold' : 'bg-transparent text-black/70 border-[#D0D0D0] hover:bg-[#E6E6E6] hover:text-black' } active:scale-[0.97]`}
+                                    className={`px-4 py-1.5 text-xs font-semibold rounded-xl border transition-all ${activeTab === tab ? 'bg-[#BFFF00] text-black border-[#BFFF00] shadow-sm font-bold' : 'bg-transparent text-black/70 border-[#D0D0D0] hover:bg-[#E6E6E6] hover:text-black'} active:scale-[0.97]`}
                                 >
                                     {tab}
                                 </button>
@@ -513,79 +513,81 @@ export default function PromotionsIndex() {
                     <div className="overflow-x-auto">
                         <table className="w-full text-left min-w-[700px]">
                             <thead>
-                                <tr className="text-xs font-semibold text-black/60 border-b border-[#E6E6E6]">
-                                    <th className="pb-3">Nama Promo</th>
-                                    <th className="pb-3">Potongan</th>
-                                    <th className="pb-3">Periode</th>
-                                    <th className="pb-3 w-40">Penebusan</th>
-                                    <th className="pb-3">Total Revenue</th>
-                                    <th className="pb-3">Status</th>
-                                    <th className="pb-3 text-right">Aksi</th>
+                                <tr className="bg-[#E6E6E6]/20 border-b border-[#E6E6E6]">
+                                    <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Nama Promo</th>
+                                    <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Potongan</th>
+                                    <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Periode</th>
+                                    <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999] w-40">Penebusan</th>
+                                    <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Total Revenue</th>
+                                    <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Status</th>
+                                    <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999] text-right">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody className="text-sm">
+                            <tbody className="divide-y divide-[#E6E6E6]/50">
                                 {filteredCampaigns.map((camp) => (
-                                    <tr key={`${camp.type}-${camp.id}`}
-                                        className="border-b border-brand-light/30 last:border-0 hover:bg-gradient-to-r hover:from-brand-light/40 hover:to-transparent transition-all">
-                                        <td className="py-4 pr-3">
-                                            <p className="font-extrabold text-brand-dark">{camp.name}</p>
+                                    <tr
+                                        key={`${camp.type}-${camp.id}`}
+                                        className="hover:bg-[#E6E6E6]/30 active:bg-[#E6E6E6]/60 transition-all duration-200 cursor-pointer"
+                                    >
+                                        <td className="px-6 py-4">
+                                            <p className="text-[13px] font-medium text-[#000000]">{camp.name}</p>
                                             {camp.description && (
-                                                <p className="text-[10px] text-brand-primary/60 mt-0.5 truncate max-w-[200px]">{camp.description}</p>
+                                                <p className="text-[11px] text-[#999999] mt-0.5 truncate max-w-[200px]">{camp.description}</p>
                                             )}
                                             {camp.menus?.length > 0 && (
-                                                <p className="text-[10px] text-brand-secondary mt-0.5">
+                                                <p className="text-[11px] text-[#666666] mt-0.5">
                                                     {camp.menus.map((m) => `${m.qty}x ${m.name}`).join(' + ')}
                                                 </p>
                                             )}
                                         </td>
-                                        <td className="py-4 font-extrabold text-brand-secondary">{camp.discount_display}</td>
-                                        <td className="py-4 text-xs text-brand-primary/70 font-medium">
-                                            <span className="flex items-center gap-1.5">
-                                                <Icon icon="solar:calendar-linear" className="text-sm text-brand-secondary" />
+                                        <td className="px-6 py-4 text-[14px] font-semibold text-[#000000]">{camp.discount_display}</td>
+                                        <td className="px-6 py-4">
+                                            <span className="flex items-center gap-1.5 text-[13px] text-[#666666]">
+                                                <Icon icon="solar:calendar-linear" className="text-sm text-[#999999]" />
                                                 {camp.period_display}
                                             </span>
                                         </td>
-                                        <td className="py-4 pr-6">
+                                        <td className="px-6 py-4 pr-6">
                                             <div className="flex items-center gap-3">
-                                                <span className="font-extrabold text-brand-dark w-8 text-right text-xs">{camp.redemptions}</span>
-                                                <div className="flex-1 h-1.5 bg-brand-light/50 rounded-full overflow-hidden">
+                                                <span className="text-[12px] font-semibold text-[#000000] font-mono w-8 text-right">{camp.redemptions}</span>
+                                                <div className="flex-1 h-1.5 bg-[#E6E6E6]/50 rounded-full overflow-hidden">
                                                     <div
-                                                        className="h-full bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full"
+                                                        className="h-full bg-[#000000] rounded-full"
                                                         style={{ width: `${Math.min(100, (camp.redemptions / 540) * 100)}%` }}
                                                     />
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="py-4 font-extrabold text-brand-dark text-xs">
+                                        <td className="px-6 py-4 text-[14px] font-semibold text-[#000000]">
                                             Rp {formatRp(camp.revenue)}
                                         </td>
-                                        <td className="py-4">
-                                            <span className={`text-[9px] font-extrabold px-2.5 py-1 rounded-lg border tracking-wide
-                                                ${camp.status === 'Aktif'
-                                                    ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
+                                        <td className="px-6 py-4">
+                                            <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full border tracking-wide
+                                ${camp.status === 'Aktif'
+                                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                                                     : camp.status === 'Terjadwal'
-                                                        ? 'bg-brand-light text-brand-primary border-[#c4c0ff]'
-                                                        : 'bg-brand-light/40 text-brand-primary/60 border-brand-light'
+                                                        ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                                        : 'bg-[#E6E6E6] text-[#666666] border-[#D0D0D0]'
                                                 }`}>
                                                 {camp.status}
                                             </span>
                                         </td>
-                                        <td className="py-4 text-right relative">
+                                        <td className="px-6 py-4 text-right relative">
                                             <button
                                                 onClick={() => setActiveDropdownId(
                                                     activeDropdownId === `${camp.type}-${camp.id}` ? null : `${camp.type}-${camp.id}`
                                                 )}
-                                                className="text-brand-primary/40 hover:text-brand-secondary w-8 h-8 rounded-lg flex items-center justify-center hover:bg-brand-light/50 transition-all ml-auto active:scale-[0.97]"
+                                                className="text-[#999999] hover:text-[#000000] w-8 h-8 rounded-lg flex items-center justify-center hover:bg-[#E6E6E6]/50 transition-all ml-auto active:scale-[0.97]"
                                             >
                                                 <Icon icon="solar:menu-dots-linear" className="text-base" />
                                             </button>
                                             {activeDropdownId === `${camp.type}-${camp.id}` && (
-                                                <div className="absolute right-0 mt-1 w-40 bg-white border border-brand-light rounded-xl shadow-lg z-10 py-1.5 text-left">
+                                                <div className="absolute right-0 mt-1 w-40 bg-white border border-[#E6E6E6] rounded-xl shadow-lg z-10 py-1.5 text-left">
                                                     <button
                                                         onClick={() => handleEditCampaignClick(camp)}
-                                                        className="w-full px-4 py-2 hover:bg-brand-light/30 text-xs font-bold text-brand-dark flex items-center gap-2 transition-colors active:scale-[0.97]"
+                                                        className="w-full px-4 py-2 hover:bg-[#E6E6E6]/30 text-xs font-bold text-[#000000] flex items-center gap-2 transition-colors active:scale-[0.97]"
                                                     >
-                                                        <Icon icon="solar:pen-linear" className="text-brand-secondary" />
+                                                        <Icon icon="solar:pen-linear" className="text-[#666666]" />
                                                         Ubah Promo
                                                     </button>
                                                     <button
@@ -604,15 +606,16 @@ export default function PromotionsIndex() {
                         </table>
                     </div>
 
-                    <div className="flex justify-between items-center mt-5 pt-5 border-t border-brand-light/50">
-                        <span className="text-[11px] font-bold text-brand-primary/60">
+                    {/* Pagination */}
+                    <div className="flex justify-between items-center px-6 py-4 border-t border-[#E6E6E6]">
+                        <span className="text-[12px] text-[#999999]">
                             Menampilkan {filteredCampaigns.length} dari {campaigns.length} promosi
                         </span>
                         <div className="flex gap-2">
-                            <button className="px-4 py-2 border border-brand-light rounded-xl bg-white text-xs font-extrabold text-brand-primary/40 cursor-not-allowed transition-all duration-150 active:scale-[0.97]">
+                            <button className="px-4 py-2 border border-[#E6E6E6] rounded-xl bg-[#E6E6E6] text-xs font-semibold text-[#999999] cursor-not-allowed transition-all duration-150">
                                 Sebelumnya
                             </button>
-                            <button className="px-4 py-2 border border-brand-light rounded-xl bg-white text-xs font-extrabold text-brand-primary hover:bg-brand-light/50 hover:text-brand-dark transition-colors active:scale-[0.97]">
+                            <button className="px-4 py-2 border border-[#D0D0D0] rounded-xl bg-white text-xs font-semibold text-[#000000] hover:bg-[#E6E6E6]/30 transition-colors active:scale-[0.97]">
                                 Berikutnya
                             </button>
                         </div>
@@ -666,7 +669,7 @@ export default function PromotionsIndex() {
                                     <button
                                         key={t.key}
                                         onClick={() => setActiveFormType(t.key)}
-                                        className={`flex-1 py-4 text-sm font-semibold transition-all flex items-center justify-center gap-2 ${activeFormType === t.key ? 'border-b-2 border-[#BFFF00] text-black bg-transparent font-bold' : 'text-black/50 hover:text-black hover:bg-neutral-50' } active:scale-[0.97]`}
+                                        className={`flex-1 py-4 text-sm font-semibold transition-all flex items-center justify-center gap-2 ${activeFormType === t.key ? 'border-b-2 border-[#BFFF00] text-black bg-transparent font-bold' : 'text-black/50 hover:text-black hover:bg-neutral-50'} active:scale-[0.97]`}
                                     >
                                         <Icon icon={t.icon} className="text-base" />
                                         {t.label}

@@ -192,9 +192,10 @@ export default function RecipeIndex() {
                         <h2 className="text-base font-semibold text-black">Katalog Resep</h2>
                         <button
                             onClick={() => setShowCreateModal(true)}
-                            className="w-8 h-8 bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black rounded-xl flex items-center justify-center font-bold text-lg transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] active:scale-[0.97]"
+                            className="w-9 h-9 bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black rounded-xl flex items-center justify-center transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] active:scale-[0.97]"
+                            title="Tambah"
                         >
-                            +
+                            <iconify-icon icon="solar:add-circle-linear" class="text-lg"></iconify-icon>
                         </button>
                     </div>
 
@@ -214,7 +215,7 @@ export default function RecipeIndex() {
 
                     {/* List */}
                     <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2">
-                        <p className="text-[10px] font-bold text-[#666666] capitalize tracking-widest mb-3 pl-1">Terakhir Diupdate</p>
+                        <p className="text-xs font-bold text-[#666666] capitalize tracking-widest mb-3 pl-1">Terakhir Diupdate</p>
 
                         {filteredRecipes.map((resep) => {
                             const isActive = selectedRecipe?.id === resep.id
@@ -235,7 +236,7 @@ export default function RecipeIndex() {
                                             <p className={`text-sm font-semibold line-clamp-1 pr-2 ${isActive ? 'text-white' : 'text-black group-hover:text-black transition-colors'}`}>
                                                 {resep.menu?.name ?? 'Menu Dihapus'}
                                             </p>
-                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${isActive ? 'bg-[#1A1A1A] text-[#BFFF00] border border-[#BFFF00]/20' : 'bg-[#E6E6E6] text-black border border-[#D0D0D0]'
+                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${isActive ? 'bg-[#1A1A1A] text-[#BFFF00] border border-[#BFFF00]/40' : 'bg-[#E6E6E6] text-black border border-[#D0D0D0]'
                                                 }`}>
                                                 {resep.margin}%
                                             </span>
@@ -243,7 +244,7 @@ export default function RecipeIndex() {
                                         <p className={`text-[10px] font-medium mb-2 relative z-10 ${isActive ? 'text-[#999999]' : 'text-[#666666]'}`}>
                                             {resep.menu?.category?.name ?? 'N/A'}
                                         </p>
-                                        <div className={`flex justify-between items-center relative z-10 mt-2 pt-2 border-t ${isActive ? 'border-[#1A1A1A]' : 'border-[#E6E6E6]'}`}>
+                                        <div className={`flex justify-between items-center relative z-10 mt-2 pt-2 border-t ${isActive ? 'border-[#BFFF00]/40' : 'border-[#E6E6E6]'}`}>
                                             <span className={`text-[10px] ${isActive ? 'text-[#999999]' : 'text-[#666666]'}`}>
                                                 HPP: <span className={`font-bold ${isActive ? 'text-white' : 'text-black'}`}>Rp {Number(resep.total_hpp).toLocaleString('id-ID')}</span>
                                             </span>
@@ -324,8 +325,8 @@ export default function RecipeIndex() {
                                     <div className="xl:col-span-8 space-y-6">
 
                                         {/* Komposisi Bahan */}
-                                        <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-6">
-                                            <div className="flex justify-between items-center mb-6">
+                                        <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden">
+                                            <div className="flex justify-between items-center px-6 py-5">
                                                 <h3 className="text-base font-semibold text-black">Komposisi Bahan Baku</h3>
                                                 <button
                                                     onClick={() => setShowEditModal(true)}
@@ -334,32 +335,33 @@ export default function RecipeIndex() {
                                                     <iconify-icon icon="solar:pen-linear" class="text-sm"></iconify-icon> Edit Bahan
                                                 </button>
                                             </div>
+
                                             <div className="overflow-x-auto">
                                                 <table className="w-full text-sm">
                                                     <thead>
-                                                        <tr className="text-xs font-semibold text-[#666666] uppercase tracking-wider border-b border-[#E6E6E6] bg-[#E6E6E6]/40">
-                                                            <th className="py-3 px-4 text-left">Nama Bahan</th>
-                                                            <th className="py-3 px-4 text-left">Kuantitas</th>
-                                                            <th className="py-3 px-4 text-left">Harga Satuan</th>
-                                                            <th className="py-3 px-4 text-right">Subtotal</th>
+                                                        <tr className="bg-[#E6E6E6]/20 border-b border-[#E6E6E6]">
+                                                            <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-[#999999]">Nama Bahan</th>
+                                                            <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-[#999999]">Kuantitas</th>
+                                                            <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-[#999999]">Harga Satuan</th>
+                                                            <th className="px-6 py-3 text-right text-[11px] font-bold uppercase tracking-wider text-[#999999]">Subtotal</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody className="divide-y divide-[#E6E6E6]">
+                                                    <tbody className="divide-y divide-[#E6E6E6]/50">
                                                         {selectedRecipe.ingredients.map((bahan) => {
                                                             const subtotal = bahan.pivot.qty * bahan.price_per_unit
                                                             return (
-                                                                <tr key={bahan.id} className="hover:bg-[#E6E6E6]/10 transition-colors">
-                                                                    <td className="py-4 px-4">
-                                                                        <p className="font-medium text-black">{bahan.name}</p>
-                                                                        <p className="text-xs text-[#999999] font-mono">ID: {bahan.id}</p>
+                                                                <tr key={bahan.id} className="hover:bg-[#E6E6E6]/30 active:bg-[#E6E6E6]/60 transition-all duration-200">
+                                                                    <td className="px-6 py-4">
+                                                                        <p className="text-[13px] font-medium text-[#000000]">{bahan.name}</p>
+                                                                        <p className="text-[12px] font-semibold text-[#999999] font-mono mt-0.5">#{bahan.id}</p>
                                                                     </td>
-                                                                    <td className="py-4 px-4 text-black">
+                                                                    <td className="px-6 py-4 text-[13px] text-[#666666]">
                                                                         {bahan.pivot.qty} {bahan.pivot.unit}
                                                                     </td>
-                                                                    <td className="py-4 px-4 font-semibold text-black">
+                                                                    <td className="px-6 py-4 text-[14px] font-semibold text-[#000000]">
                                                                         Rp {Number(bahan.price_per_unit).toLocaleString('id-ID')}
                                                                     </td>
-                                                                    <td className="py-4 px-4 font-semibold text-black text-right">
+                                                                    <td className="px-6 py-4 text-[14px] font-semibold text-[#000000] text-right">
                                                                         Rp {Number(subtotal).toLocaleString('id-ID')}
                                                                     </td>
                                                                 </tr>
@@ -367,11 +369,11 @@ export default function RecipeIndex() {
                                                         })}
                                                     </tbody>
                                                     <tfoot>
-                                                        <tr className="border-t-2 border-[#E6E6E6]">
-                                                            <td colSpan={3} className="pt-4 px-4 text-sm font-semibold text-[#666666] uppercase tracking-wider text-right">
+                                                        <tr className="border-t border-[#E6E6E6] bg-[#E6E6E6]/20">
+                                                            <td colSpan={3} className="px-6 py-4 text-[11px] font-bold text-[#999999] uppercase tracking-wider text-right">
                                                                 Total Kalkulasi Biaya
                                                             </td>
-                                                            <td className="pt-4 px-4 font-bold text-black text-base text-right">
+                                                            <td className="px-6 py-4 text-[14px] font-semibold text-[#000000] text-right">
                                                                 Rp {Number(selectedRecipe.total_hpp).toLocaleString('id-ID')}
                                                             </td>
                                                         </tr>
@@ -398,13 +400,13 @@ export default function RecipeIndex() {
                                             </div>
                                             <div className="grid grid-cols-2 gap-4">
                                                 <div className="bg-[#E6E6E6]/40 rounded-xl p-4 border border-[#D0D0D0]">
-                                                    <p className="text-[10px] font-bold text-[#666666] capitalize tracking-wider mb-1">Laba Per Porsi</p>
+                                                    <p className="text-xs font-bold text-[#666666] capitalize tracking-wider mb-1">Laba Per Porsi</p>
                                                     <p className="text-lg font-bold text-black">
                                                         Rp {Number(profitPerServing).toLocaleString('id-ID')}
                                                     </p>
                                                 </div>
                                                 <div className="bg-[#0E0E0E] text-white rounded-xl p-4 border border-black shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
-                                                    <p className="text-[10px] font-bold text-[#999999] capitalize tracking-wider mb-1">Rekomendasi Harga</p>
+                                                    <p className="text-xs font-bold text-[#999999] capitalize tracking-wider mb-1">Rekomendasi Harga</p>
                                                     <div className="flex items-center justify-between gap-2">
                                                         <p className="text-lg font-bold text-[#BFFF00]">
                                                             Rp {Number(recommendedPrice).toLocaleString('id-ID')}
@@ -446,7 +448,7 @@ export default function RecipeIndex() {
                                                     }}
                                                 />
                                             </div>
-                                            <p className="text-[10px] text-[#666666] italic mb-4 leading-normal">
+                                            <p className="text-xs text-[#666666] italic mb-4 leading-normal">
                                                 *Simulasikan kenaikan harga pasar global pada resep ini untuk melihat dampaknya pada margin profit.
                                             </p>
                                             <div className="space-y-3 bg-[#E6E6E6]/30 border border-[#D0D0D0] p-4 rounded-xl">

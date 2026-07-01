@@ -301,7 +301,7 @@ function FilterModal({ open, onClose, kasir, kategori, payments, days }) {
                             key: "kasir_id",
                             options: kasir.map((k) => ({
                                 value: k.id,
-                                  label: k.name,
+                                label: k.name,
                             })),
                             placeholder: "Semua Kasir",
                         },
@@ -749,17 +749,14 @@ export default function ReportsIndex() {
                         </div>
 
                         {/* Produk Terlaris */}
-                        <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-                            <div className="flex justify-between items-center mb-5">
+                        <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden">
+                            <div className="flex justify-between items-center px-6 py-5">
                                 <div>
-                                    <h3 className="text-base font-semibold text-black">
-                                        Produk Terlaris
-                                    </h3>
+                                    <h3 className="text-base font-semibold text-black">Produk Terlaris</h3>
                                     <p className="text-xs text-[#666666] font-normal mt-0.5">
-                                        Item dengan volume penjualan and profitabilitas tertinggi.
+                                        Item dengan volume penjualan dan profitabilitas tertinggi.
                                     </p>
                                 </div>
-
                                 <Link
                                     to="/menus"
                                     className="text-xs text-black border-b border-[#D0D0D0] hover:border-black font-semibold pb-0.5 flex items-center gap-1 transition-all"
@@ -768,54 +765,55 @@ export default function ReportsIndex() {
                                     <iconify-icon icon="solar:arrow-right-linear" />
                                 </Link>
                             </div>
+
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left min-w-[600px]">
                                     <thead>
-                                        <tr className="text-xs font-semibold text-[#666666] uppercase tracking-wider border-b border-[#E6E6E6] pb-3">
-                                            <th className="pb-3">Nama Menu</th>
-                                            <th className="pb-3">Kategori</th>
-                                            <th className="pb-3 text-center">Qty Terjual</th>
-                                            <th className="pb-3 text-right">Total Pendapatan</th>
-                                            <th className="pb-3 text-right">Estimasi Margin</th>
+                                        <tr className="bg-[#E6E6E6]/20 border-b border-[#E6E6E6]">
+                                            <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Nama Menu</th>
+                                            <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Kategori</th>
+                                            <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999] text-center">Qty Terjual</th>
+                                            <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999] text-right">Total Pendapatan</th>
+                                            <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999] text-right">Est. Margin</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="text-sm">
+                                    <tbody className="divide-y divide-[#E6E6E6]/50">
                                         {bestMenus.length > 0 ? (
                                             bestMenus.map((menu, i) => (
-                                                <tr
-                                                    key={i}
-                                                    className="border-b border-[#E6E6E6]/50 last:border-0 hover:bg-[#E6E6E6]/10 transition-colors"
-                                                >
-                                                    <td className="py-4 font-semibold text-black">
-                                                        {menu.name}
+                                                <tr key={i} className="hover:bg-[#E6E6E6]/30 active:bg-[#E6E6E6]/60 transition-all duration-200">
+                                                    <td className="px-6 py-4">
+                                                        <p className="text-[13px] font-medium text-[#000000] truncate max-w-[200px]" title={menu.name}>
+                                                            {menu.name}
+                                                        </p>
                                                     </td>
-                                                    <td className="py-4">
-                                                        <span
-                                                            className={`text-xs font-bold px-2.5 py-1 rounded-lg ${categoryColors[menu.category] ??
-                                                                "bg-[#E6E6E6] text-black border border-[#D0D0D0]"
-                                                                }`}
-                                                        >
+                                                    <td className="px-6 py-4">
+                                                        <span className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide border ${categoryColors[menu.category] ?? 'bg-[#E6E6E6]/60 text-[#666666] border-[#D0D0D0]'
+                                                            }`}>
                                                             {menu.category}
                                                         </span>
                                                     </td>
-                                                    <td className="py-4 text-center font-normal text-black">
+                                                    <td className="px-6 py-4 text-center text-[13px] text-[#666666]">
                                                         {fmtNum(menu.qty)}
                                                     </td>
-                                                    <td className="py-4 text-right font-semibold text-black">
+                                                    <td className="px-6 py-4 text-right text-[14px] font-semibold text-[#000000]">
                                                         {fmt(menu.revenue)}
                                                     </td>
-                                                    <td className="py-4 text-right font-semibold text-emerald-700">
+                                                    <td className="px-6 py-4 text-right text-[14px] font-semibold text-emerald-700">
                                                         {menu.margin}%
                                                     </td>
                                                 </tr>
                                             ))
                                         ) : (
                                             <tr>
-                                                <td
-                                                    colSpan={5}
-                                                    className="py-8 text-center text-[#999999] italic text-sm"
-                                                >
-                                                    Belum ada data penjualan dalam {days} hari terakhir.
+                                                <td colSpan={5} className="py-16 text-center">
+                                                    <div className="flex flex-col items-center gap-3">
+                                                        <div className="w-16 h-16 rounded-full bg-[#E6E6E6]/50 flex items-center justify-center">
+                                                            <iconify-icon icon="solar:chart-linear" class="text-3xl text-[#999999]"></iconify-icon>
+                                                        </div>
+                                                        <p className="text-sm font-semibold text-black">
+                                                            Belum ada data penjualan dalam {days} hari terakhir.
+                                                        </p>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         )}

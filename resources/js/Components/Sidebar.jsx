@@ -4,12 +4,10 @@ import { useAuth } from '../context/AuthContext';
 
 function SidebarLink({ to, icon, label, isActive, onClick, isCollapsed, activeClass, inactiveClass, suffix }) {
     const isLinkActive = typeof isActive === 'function' ? isActive() : isActive;
-    
-    const className = `flex items-center ${
-        isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-3'
-    } rounded-xl transition-all duration-200 ${
-        isLinkActive ? activeClass : inactiveClass
-    } relative group`;
+
+    const className = `flex items-center ${isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-3'
+        } rounded-xl transition-all duration-200 ${isLinkActive ? activeClass : inactiveClass
+        } relative group`;
 
     const content = (
         <>
@@ -82,7 +80,7 @@ export default function Sidebar() {
         return '/dashboard';
     };
 
-    const active = 'bg-gradient-to-r from-[#BFFF00] to-[#BFFF00]/30 text-black font-extrabold shadow-sm shadow-[#BFFF00]/20';
+    const active = 'bg-gradient-to-r from-[#BFFF00] to-[#BFFF00]/50 text-black font-extrabold shadow-sm shadow-[#BFFF00]/20';
     const inactive = 'text-white/70 font-medium hover:bg-[#BFFF00]/10 hover:text-[#BFFF00]';
 
     const activeSub = 'text-[#BFFF00] bg-[#BFFF00]/10 font-bold shadow-sm';
@@ -116,19 +114,25 @@ export default function Sidebar() {
             <div>
                 {/* Logo */}
                 <div className={`py-6 border-b border-white/10 flex items-center relative overflow-hidden transition-all duration-300 ${isCollapsed ? 'px-4 justify-center' : 'px-6'}`}>
-                    <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-12 h-12 rounded-xl bg-[#BFFF00] flex items-center justify-center text-black font-extrabold text-xl hover:bg-[#C8FF5E] hover:scale-105 transition-all shadow-md shadow-[#BFFF00]/10 flex-shrink-0">
-                            C
+                    <div className="flex items-center gap-2 min-w-0">
+                        <div
+                            onClick={toggleCollapse}
+                            className="w-12 h-12 rounded-xl bg-gradient-to-b from-black to-[#BFFF00] flex items-center justify-center text-black font-extrabold text-xl hover:scale-105 transition-all shadow-md flex-shrink-0 cursor-pointer">
+                            <img
+                                src="/image/logo.png"
+                                alt="Logo Cafinity"
+                                className="w-full h-full object-cover"
+                            />
                         </div>
                         {!isCollapsed && (
                             <h1 className="text-xl font-black text-white tracking-tight whitespace-nowrap">
-                                afinity <span className="text-[#BFFF00]">POS</span>
+                                afelion <span className="text-[#BFFF00]">POS</span>
                             </h1>
                         )}
                     </div>
                 </div>
 
-                <nav className={`space-y-1.5 overflow-y-auto max-h-[calc(100vh-180px)] transition-all duration-300 ${isCollapsed ? 'p-2' : 'p-4'}`}>
+                <nav className={`space-y-1.5 overflow-y-auto overflow-x-hidden max-h-[calc(100vh-180px)] transition-all duration-300 ${isCollapsed ? 'p-2' : 'p-4'}`}>
                     <SidebarLink
                         to={dashboardRoute()}
                         icon="solar:home-2-linear"

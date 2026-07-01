@@ -291,24 +291,27 @@ export default function PurchaseOrderIndex() {
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left min-w-[900px]">
                                     <thead>
-                                        <tr className="text-xs font-semibold text-black/60 border-b border-[#E6E6E6] tracking-tight capitalize">
-                                            <th className="pl-6 pr-3 py-3.5 w-4">
-                                                <input type="checkbox" className="rounded border-[#D0D0D0] text-black focus:ring-2 focus:ring-[#BFFF00]/10 focus:border-[#BFFF00] transition-all" />
+                                        <tr className="bg-[#E6E6E6]/20 border-b border-[#E6E6E6]">
+                                            <th className="pl-6 pr-3 py-3 w-4">
+                                                <input type="checkbox" className="rounded border-[#D0D0D0] focus:ring-2 focus:ring-[#BFFF00]/10 focus:border-[#BFFF00] transition-all" />
                                             </th>
                                             {['Nomor PO', 'Tanggal', 'Supplier', 'Total Nilai', 'Est. Kirim', 'Status', 'Pembuat', 'Aksi'].map((h) => (
-                                                <th key={h} className="px-6 py-3.5 pb-3">{h}</th>
+                                                <th key={h} className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">{h}</th>
                                             ))}
                                         </tr>
                                     </thead>
-                                    <tbody className="text-sm divide-y divide-[#E6E6E6]">
+                                    <tbody className="divide-y divide-[#E6E6E6]/50">
                                         {orders.data.length === 0 ? (
                                             <tr>
-                                                <td colSpan={9} className="px-6 py-10 text-center text-gray-400 text-sm">
-                                                    <div className="flex flex-col items-center gap-2">
-                                                        <iconify-icon icon="solar:document-text-linear" class="text-4xl text-black/40"></iconify-icon>
-                                                        <p>Belum ada data purchase order.</p>
-                                                        <Link to="/purchase-orders/create" className="text-black font-semibold hover:underline transition-colors text-xs">
-                                                            + Buat purchase order pertama
+                                                <td colSpan={9} className="px-6 py-16 text-center">
+                                                    <div className="flex flex-col items-center gap-3">
+                                                        <div className="w-16 h-16 rounded-full bg-[#E6E6E6]/50 flex items-center justify-center">
+                                                            <iconify-icon icon="solar:document-text-linear" class="text-3xl text-[#999999]"></iconify-icon>
+                                                        </div>
+                                                        <p className="text-sm font-semibold text-black">Belum ada data purchase order.</p>
+                                                        <Link to="/purchase-orders/create" className="text-[13px] font-semibold text-[#666666] hover:text-black flex items-center gap-1.5 transition-colors">
+                                                            <iconify-icon icon="solar:add-circle-linear" class="text-sm"></iconify-icon>
+                                                            Buat purchase order pertama
                                                         </Link>
                                                     </div>
                                                 </td>
@@ -317,86 +320,95 @@ export default function PurchaseOrderIndex() {
                                             const poNumber = order.po_number || `PO-${String(order.id).padStart(4, '0')}`
                                             const isUrgent = order.status === 'pending' && (!order.delivery_date || new Date(order.delivery_date) <= new Date())
                                             const statusClass = {
-                                                approved: 'bg-emerald-50 text-emerald-700 border border-emerald-100',
-                                                pending: 'bg-amber-50 text-amber-700 border border-amber-100',
-                                                received: 'bg-blue-50 text-blue-700 border border-blue-100',
-                                                rejected: 'bg-rose-50 text-rose-700 border border-rose-100',
-                                            }[order.status] || 'bg-neutral-50 text-neutral-600 border border-neutral-200'
+                                                approved: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                                                pending: 'bg-amber-50 text-amber-700 border-amber-200',
+                                                received: 'bg-blue-50 text-blue-700 border-blue-200',
+                                                rejected: 'bg-rose-50 text-rose-700 border-rose-200',
+                                            }[order.status] || 'bg-[#E6E6E6] text-[#666666] border-[#D0D0D0]'
 
                                             const statusText = {
                                                 approved: 'Approved',
-                                                pending: 'Pending Approval',
+                                                pending: 'Pending',
                                                 received: 'Received',
                                                 rejected: 'Rejected',
                                             }[order.status] || order.status
 
                                             return (
-                                                <tr key={order.id} className="hover:bg-neutral-50 transition-all border-b border-[#E6E6E6] cursor-pointer">
+                                                <tr key={order.id} className="hover:bg-[#E6E6E6]/30 active:bg-[#E6E6E6]/60 transition-all duration-200 cursor-pointer">
                                                     <td className="pl-6 pr-3 py-4">
-                                                        <input type="checkbox" className="rounded border-[#D0D0D0] text-black focus:ring-2 focus:ring-[#BFFF00]/10 focus:border-[#BFFF00] transition-all" />
-                                                    </td>
-                                                    <td className="px-6 py-4 font-semibold text-black hover:underline cursor-pointer">
-                                                        <Link to={`/purchase-orders/${order.id}`}>
-                                                            {poNumber}
-                                                        </Link>
-                                                        {isUrgent && (
-                                                            <span className="ml-1.5 px-2 py-0.5 text-[9px] font-semibold rounded bg-rose-50 text-rose-700 border border-rose-100 capitalize tracking-wide">Urgent</span>
-                                                        )}
-                                                    </td>
-                                                    <td className="px-6 py-4 text-gray-500 font-medium">
-                                                        {formatDate(order.ordered_at || order.created_at)}
-                                                    </td>
-                                                    <td className="px-6 py-4 font-semibold text-brand-dark">
-                                                        {order.supplier?.name || '-'}
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        <span className="text-xs font-extrabold text-black">
-                                                            {formatRupiah(order.total_amount)}
-                                                        </span>
-                                                    </td>
-                                                    <td className="px-6 py-4 text-gray-500 font-medium">
-                                                        {formatDate(order.delivery_date)}
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        <span className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${statusClass}`}>
-                                                            {statusText}
-                                                        </span>
-                                                    </td>
-                                                    <td className="px-6 py-4 text-gray-500 font-medium">
-                                                        {order.created_by_user?.name || order.user?.name || '-'}
+                                                        <input type="checkbox" className="rounded border-[#D0D0D0] focus:ring-2 focus:ring-[#BFFF00]/10 focus:border-[#BFFF00] transition-all" />
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         <div className="flex items-center gap-2">
                                                             <Link
                                                                 to={`/purchase-orders/${order.id}`}
-                                                                className="w-8 h-8 rounded-xl bg-transparent border border-[#D0D0D0] hover:bg-[#E6E6E6] hover:border-[#999999] flex items-center justify-center text-black/75 hover:text-black active:scale-[0.97] transition-all"
+                                                                className="text-[12px] font-semibold text-[#000000] font-mono hover:underline"
+                                                            >
+                                                                {poNumber}
+                                                            </Link>
+                                                            {isUrgent && (
+                                                                <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-rose-50 text-rose-700 border border-rose-200 uppercase tracking-wide">
+                                                                    Urgent
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-[13px] text-[#666666]">
+                                                        {formatDate(order.ordered_at || order.created_at)}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <p className="text-[13px] font-medium text-[#000000] truncate max-w-[160px]" title={order.supplier?.name || '-'}>
+                                                            {order.supplier?.name || '-'}
+                                                        </p>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-[14px] font-semibold text-[#000000]">
+                                                        {formatRupiah(order.total_amount)}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-[13px] text-[#666666]">
+                                                        {formatDate(order.delivery_date)}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold border ${statusClass}`}>
+                                                            {statusText}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <p className="text-[13px] text-[#666666] truncate max-w-[120px]" title={order.created_by_user?.name || order.user?.name || '-'}>
+                                                            {order.created_by_user?.name || order.user?.name || '-'}
+                                                        </p>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center gap-1.5">
+                                                            <Link
+                                                                to={`/purchase-orders/${order.id}`}
+                                                                className="w-8 h-8 rounded-xl bg-transparent border border-[#D0D0D0] hover:bg-[#E6E6E6] hover:border-[#999999] flex items-center justify-center text-[#666666] hover:text-black active:scale-[0.97] transition-all"
                                                                 title="Detail"
                                                             >
-                                                                <iconify-icon icon="solar:eye-linear" class="text-lg"></iconify-icon>
+                                                                <iconify-icon icon="solar:eye-linear" class="text-base"></iconify-icon>
                                                             </Link>
 
                                                             {order.status === 'pending' && (
                                                                 <>
                                                                     <button
                                                                         onClick={() => handleApprove(order.id)}
-                                                                        className="w-8 h-8 rounded-xl bg-transparent border border-[#D0D0D0] hover:bg-[#E6E6E6] hover:border-[#999999] flex items-center justify-center text-black/75 hover:text-emerald-600 active:scale-[0.97] transition-all"
+                                                                        className="w-8 h-8 rounded-xl bg-transparent border border-[#D0D0D0] hover:bg-emerald-50 hover:border-emerald-200 flex items-center justify-center text-[#666666] hover:text-emerald-600 active:scale-[0.97] transition-all"
                                                                         title="Approve"
                                                                     >
-                                                                        <iconify-icon icon="solar:check-circle-linear" class="text-lg"></iconify-icon>
+                                                                        <iconify-icon icon="solar:check-circle-linear" class="text-base"></iconify-icon>
                                                                     </button>
                                                                     <button
                                                                         onClick={() => handleReject(order.id)}
-                                                                        className="w-8 h-8 rounded-xl bg-transparent border border-[#D0D0D0] hover:bg-[#E6E6E6] hover:border-[#999999] flex items-center justify-center text-black/75 hover:text-rose-600 active:scale-[0.97] transition-all"
+                                                                        className="w-8 h-8 rounded-xl bg-transparent border border-[#D0D0D0] hover:bg-rose-50 hover:border-rose-200 flex items-center justify-center text-[#666666] hover:text-rose-600 active:scale-[0.97] transition-all"
                                                                         title="Reject"
                                                                     >
-                                                                        <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
+                                                                        <iconify-icon icon="solar:close-circle-linear" class="text-base"></iconify-icon>
                                                                     </button>
                                                                     <Link
                                                                         to={`/purchase-orders/${order.id}/edit`}
-                                                                        className="w-8 h-8 rounded-xl bg-transparent border border-[#D0D0D0] hover:bg-[#E6E6E6] hover:border-[#999999] flex items-center justify-center text-black/75 hover:text-amber-600 active:scale-[0.97] transition-all"
+                                                                        className="w-8 h-8 rounded-xl bg-transparent border border-[#D0D0D0] hover:bg-amber-50 hover:border-amber-200 flex items-center justify-center text-[#666666] hover:text-amber-600 active:scale-[0.97] transition-all"
                                                                         title="Edit"
                                                                     >
-                                                                        <iconify-icon icon="solar:pen-linear" class="text-lg"></iconify-icon>
+                                                                        <iconify-icon icon="solar:pen-linear" class="text-base"></iconify-icon>
                                                                     </Link>
                                                                 </>
                                                             )}
@@ -404,10 +416,10 @@ export default function PurchaseOrderIndex() {
                                                             {order.status === 'approved' && (
                                                                 <button
                                                                     onClick={() => handleReceive(order.id)}
-                                                                    className="w-8 h-8 rounded-xl bg-transparent border border-[#D0D0D0] hover:bg-[#E6E6E6] hover:border-[#999999] flex items-center justify-center text-black/75 hover:text-blue-600 active:scale-[0.97] transition-all"
+                                                                    className="w-8 h-8 rounded-xl bg-transparent border border-[#D0D0D0] hover:bg-blue-50 hover:border-blue-200 flex items-center justify-center text-[#666666] hover:text-blue-600 active:scale-[0.97] transition-all"
                                                                     title="Terima Barang"
                                                                 >
-                                                                    <iconify-icon icon="solar:box-linear" class="text-lg"></iconify-icon>
+                                                                    <iconify-icon icon="solar:box-linear" class="text-base"></iconify-icon>
                                                                 </button>
                                                             )}
                                                         </div>

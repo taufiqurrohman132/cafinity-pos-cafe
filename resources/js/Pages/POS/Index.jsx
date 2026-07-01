@@ -429,7 +429,7 @@ export default function POS() {
                                                 </div>
                                                 <div className="flex items-center justify-between mt-auto">
                                                     <span className="text-sm font-extrabold text-brand-dark">{formatRupiah(menu.price)}</span>
-                                                    <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-light/50 to-brand-light/30 text-brand-primary flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-brand-secondary group-hover:to-brand-primary group-hover:text-white transition-all duration-150 shadow-sm">
+                                                    <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-light/50 to-brand-light/30 text-brand-white flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-brand-secondary group-hover:to-brand-primary group-hover:text-white transition-all duration-150 shadow-sm">
                                                         <iconify-icon icon="solar:add-circle-linear" class="text-[20px]" />
                                                     </div>
                                                 </div>

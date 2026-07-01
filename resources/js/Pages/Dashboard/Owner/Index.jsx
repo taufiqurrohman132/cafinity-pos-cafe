@@ -528,45 +528,39 @@ export default function OwnerDashboard() {
                         </div>
 
                         {/* Analisis Profitabilitas */}
-                        <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-level-1">
-                            <div className="flex justify-between items-center mb-5">
-                                <h3 className="text-heading text-black tracking-tight">Analisis Profitabilitas</h3>
-                                <Link to="/recipe-costing" className="text-[13px] font-medium border border-[#D0D0D0] text-black bg-white px-4 py-1.5 rounded-lg hover:bg-[#E6E6E6] hover:border-[#999999] transition-colors shadow-sm">
+                        <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden">
+                            <div className="flex justify-between items-center px-6 py-5">
+                                <h3 className="text-base font-semibold text-black">Analisis Profitabilitas</h3>
+                                <Link
+                                    to="/recipe-costing"
+                                    className="text-xs font-semibold text-black bg-transparent border border-[#D0D0D0] hover:bg-[#E6E6E6] hover:border-[#999999] px-4 py-1.5 rounded-xl transition-all active:scale-[0.97]"
+                                >
                                     Detail HPP
                                 </Link>
                             </div>
+
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left min-w-[700px]">
                                     <thead>
-                                        <tr className="text-caption text-brand-primary/60 border-b border-[#E6E6E6] capitalize tracking-wider">
-                                            <th className="px-6 py-3.5 font-semibold">Nama Menu</th>
-                                            <th className="px-6 py-3.5 font-semibold">Harga Jual</th>
-                                            <th className="px-6 py-3.5 font-semibold">Estimasi HPP</th>
-                                            <th className="px-6 py-3.5 font-semibold">Profit / Item</th>
-                                            <th className="px-6 py-3.5 font-semibold text-right">Margin (%)</th>
+                                        <tr className="bg-[#E6E6E6]/20 border-b border-[#E6E6E6]">
+                                            <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Nama Menu</th>
+                                            <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Harga Jual</th>
+                                            <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Estimasi HPP</th>
+                                            <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Profit / Item</th>
+                                            <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999] text-right">Margin (%)</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="text-sm">
+                                    <tbody className="divide-y divide-[#E6E6E6]/50">
                                         {pageLoading ? (
                                             Array.from({ length: 5 }).map((_, i) => (
-                                                <tr key={i} className="border-b border-[#E6E6E6]/50 last:border-0 animate-pulse">
-                                                    <td className="py-4 px-6">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="h-4 bg-[#E6E6E6] rounded w-36"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="py-4 px-6">
-                                                        <div className="h-4 bg-[#E6E6E6] rounded w-20"></div>
-                                                    </td>
-                                                    <td className="py-4 px-6">
-                                                        <div className="h-4 bg-[#E6E6E6]/60 rounded w-16"></div>
-                                                    </td>
-                                                    <td className="py-4 px-6">
-                                                        <div className="h-4 bg-[#E6E6E6] rounded w-24"></div>
-                                                    </td>
-                                                    <td className="py-4 px-6">
+                                                <tr key={i} className="animate-pulse">
+                                                    <td className="px-6 py-4"><div className="h-4 bg-[#E6E6E6] rounded w-36"></div></td>
+                                                    <td className="px-6 py-4"><div className="h-4 bg-[#E6E6E6] rounded w-20"></div></td>
+                                                    <td className="px-6 py-4"><div className="h-4 bg-[#E6E6E6] rounded w-16"></div></td>
+                                                    <td className="px-6 py-4"><div className="h-4 bg-[#E6E6E6] rounded w-24"></div></td>
+                                                    <td className="px-6 py-4">
                                                         <div className="flex items-center justify-end gap-3">
-                                                            <div className="w-16 bg-[#E6E6E6]/30 h-2 rounded-full hidden sm:block"></div>
+                                                            <div className="w-16 bg-[#E6E6E6] h-2 rounded-full hidden sm:block"></div>
                                                             <div className="h-4 bg-[#E6E6E6] rounded w-10"></div>
                                                         </div>
                                                     </td>
@@ -574,54 +568,58 @@ export default function OwnerDashboard() {
                                             ))
                                         ) : profitability.length === 0 ? (
                                             <tr>
-                                                <td colSpan={5} className="py-8 text-center text-brand-primary italic">
-                                                    Tambahkan menu dan resep untuk melihat analisis profit.
+                                                <td colSpan={5} className="py-16 text-center">
+                                                    <div className="flex flex-col items-center gap-3">
+                                                        <div className="w-16 h-16 rounded-full bg-[#E6E6E6]/50 flex items-center justify-center">
+                                                            <iconify-icon icon="solar:chart-2-linear" class="text-3xl text-[#999999]"></iconify-icon>
+                                                        </div>
+                                                        <p className="text-sm font-semibold text-black">Tambahkan menu dan resep untuk melihat analisis profit.</p>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ) : profitability.map((row, i) => (
                                             <tr
                                                 key={i}
-                                                className="border-b border-[#E6E6E6]/50 last:border-0 hover:bg-[#E6E6E6]/40 transition-all cursor-pointer"
+                                                className="hover:bg-[#E6E6E6]/30 active:bg-[#E6E6E6]/60 transition-all duration-200 cursor-pointer"
                                             >
-                                                <td className="p-0 font-semibold text-black">
-                                                    <Link to={`/menus/${row.id}`} className="block py-4 px-6 hover:text-black transition-colors">
-                                                        <div className="flex items-center gap-2">
-                                                            <span>{row.name}</span>
-                                                            {row.margin_pct >= 50 && (
-                                                                <span className="text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100 px-2 py-0.5 rounded-md">
-                                                                    High Margin
-                                                                </span>
-                                                            )}
-                                                        </div>
+                                                <td className="p-0">
+                                                    <Link to={`/menus/${row.id}`} className="flex items-center gap-2 px-6 py-4">
+                                                        <span className="text-[13px] font-medium text-[#000000] truncate max-w-[180px]" title={row.name}>
+                                                            {row.name}
+                                                        </span>
+                                                        {row.margin_pct >= 50 && (
+                                                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex-shrink-0">
+                                                                High Margin
+                                                            </span>
+                                                        )}
                                                     </Link>
                                                 </td>
-                                                <td className="p-0 font-semibold text-black/80">
-                                                    <Link to={`/menus/${row.id}`} className="block py-4 px-6">
+                                                <td className="p-0">
+                                                    <Link to={`/menus/${row.id}`} className="block px-6 py-4 text-[14px] font-semibold text-[#000000]">
                                                         {row.price}
                                                     </Link>
                                                 </td>
-                                                <td className="p-0 font-normal text-brand-primary/60">
-                                                    <Link to={`/menus/${row.id}`} className="block py-4 px-6">
+                                                <td className="p-0">
+                                                    <Link to={`/menus/${row.id}`} className="block px-6 py-4 text-[13px] text-[#666666]">
                                                         {row.hpp}
                                                     </Link>
                                                 </td>
-                                                <td className="p-0 text-emerald-600 font-semibold">
-                                                    <Link to={`/menus/${row.id}`} className="block py-4 px-6">
+                                                <td className="p-0">
+                                                    <Link to={`/menus/${row.id}`} className="block px-6 py-4 text-[14px] font-semibold text-emerald-700">
                                                         {row.profit}
                                                     </Link>
                                                 </td>
                                                 <td className="p-0">
-                                                    <Link to={`/menus/${row.id}`} className="block py-4 px-6">
-                                                        <div className="flex items-center justify-end gap-3">
-                                                            <div className="w-16 bg-[#E6E6E6] h-2 rounded-full overflow-hidden hidden sm:block">
-                                                                <div
-                                                                    className={`h-full rounded-full ${row.margin_pct >= 50 ? 'bg-[#BFFF00]' : 'bg-[#1A1A1A]'
-                                                                        }`}
-                                                                    style={{ width: `${row.margin_pct}%` }}
-                                                                ></div>
-                                                            </div>
-                                                            <span className="font-semibold text-black text-right min-w-[32px]">{row.margin}</span>
+                                                    <Link to={`/menus/${row.id}`} className="flex items-center justify-end gap-3 px-6 py-4">
+                                                        <div className="w-16 bg-[#E6E6E6] h-1.5 rounded-full overflow-hidden hidden sm:block">
+                                                            <div
+                                                                className={`h-full rounded-full ${row.margin_pct >= 50 ? 'bg-[#BFFF00]' : 'bg-[#1A1A1A]'}`}
+                                                                style={{ width: `${row.margin_pct}%` }}
+                                                            />
                                                         </div>
+                                                        <span className="text-[14px] font-semibold text-[#000000] min-w-[32px] text-right">
+                                                            {row.margin}
+                                                        </span>
                                                     </Link>
                                                 </td>
                                             </tr>

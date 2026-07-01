@@ -63,16 +63,14 @@ function MenuImage({ src, name, categoryName }) {
 function StatCard({ label, children, accent = false }) {
     return (
         <div
-            className={`p-4 rounded-2xl border shadow-sm hover:shadow-md transition-all duration-300 group ${
-                accent
+            className={`p-4 rounded-2xl border shadow-sm hover:shadow-md transition-all duration-300 group ${accent
                     ? "border-emerald-200 bg-emerald-50/40"
                     : "border-[#E6E6E6] bg-white hover:border-[#D0D0D0]"
-            }`}
+                }`}
         >
             <p
-                className={`text-[10px] font-extrabold mb-1 uppercase tracking-wider ${
-                    accent ? "text-emerald-700" : "text-black/40"
-                }`}
+                className={`text-[10px] font-extrabold mb-1 uppercase tracking-wider ${accent ? "text-emerald-700" : "text-black/40"
+                    }`}
             >
                 {label}
             </p>
@@ -85,7 +83,7 @@ function TabButton({ id, label, active, onClick }) {
     return (
         <button
             onClick={() => onClick(id)}
-            className={`pb-3 border-b-2 text-sm font-bold transition-all ${ active ? "border-[#BFFF00] text-black" : "border-transparent text-black/50 hover:text-black hover:border-black/20" } active:scale-[0.97]`}
+            className={`pb-3 border-b-2 text-sm font-bold transition-all ${active ? "border-[#BFFF00] text-black" : "border-transparent text-black/50 hover:text-black hover:border-black/20"} active:scale-[0.97]`}
         >
             {label}
         </button>
@@ -268,7 +266,7 @@ export default function Show() {
                 if (formData.estimated_hpp !== undefined && formData.estimated_hpp !== null && formData.estimated_hpp !== '') {
                     dataObj.append('estimated_hpp', formData.estimated_hpp);
                 }
-                
+
                 await client.post(`/menus/${menu.id}`, dataObj, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -316,7 +314,7 @@ export default function Show() {
                 title: menu.name,
                 text: menu.description || `Cek menu ${menu.name} di Cafinity!`,
                 url: window.location.href,
-            }).catch(() => {});
+            }).catch(() => { });
         }
     };
 
@@ -375,8 +373,8 @@ export default function Show() {
                 {/* ── TOP NAV ── */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
-                        <Link 
-                            to="/menus" 
+                        <Link
+                            to="/menus"
                             className="w-10 h-10 rounded-full bg-white border border-[#D0D0D0] flex items-center justify-center text-black/60 hover:text-black hover:bg-[#E6E6E6] hover:border-[#999999] transition shadow-sm shrink-0"
                         >
                             <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon>
@@ -517,9 +515,9 @@ export default function Show() {
                     <div className="flex gap-6">
                         {[
                             { id: "ringkasan", label: "Ringkasan Performa" },
-                            { id: "bahan",     label: "Bahan Baku" },
-                            { id: "ulasan",    label: "Ulasan Pelanggan" },
-                            { id: "riwayat",   label: "Riwayat Perubahan" },
+                            { id: "bahan", label: "Bahan Baku" },
+                            { id: "ulasan", label: "Ulasan Pelanggan" },
+                            { id: "riwayat", label: "Riwayat Perubahan" },
                         ].map((t) => (
                             <TabButton
                                 key={t.id}
@@ -578,48 +576,49 @@ export default function Show() {
 
                         {/* Bahan Baku */}
                         {tab === "bahan" && (
-                            <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-sm">
-                                <h3 className="font-extrabold text-black mb-5 tracking-tight">
-                                    Komposisi Bahan Baku
-                                </h3>
+                            <div className="bg-white rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden">
+                                <div className="px-6 py-5 border-b border-[#E6E6E6]">
+                                    <h3 className="text-base font-semibold text-black">Komposisi Bahan Baku</h3>
+                                </div>
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left min-w-[500px]">
                                         <thead>
-                                            <tr className="text-xs text-black/60 border-b border-[#E6E6E6] bg-neutral-50/50 uppercase tracking-wider">
-                                                <th className="px-4 py-3 font-extrabold text-left">Bahan</th>
-                                                <th className="px-4 py-3 font-extrabold text-left">Qty</th>
-                                                <th className="px-4 py-3 font-extrabold text-left">Satuan</th>
-                                                <th className="px-4 py-3 font-extrabold text-right">Biaya</th>
+                                            <tr className="bg-[#E6E6E6]/20 border-b border-[#E6E6E6]">
+                                                <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Bahan</th>
+                                                <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Qty</th>
+                                                <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">Satuan</th>
+                                                <th className="px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-[#999999] text-right">Biaya</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="text-sm divide-y divide-[#E6E6E6]/50">
+                                        <tbody className="divide-y divide-[#E6E6E6]/50">
                                             {menu.recipe?.ingredients?.length > 0 ? (
                                                 menu.recipe.ingredients.map((ing, i) => (
-                                                    <tr
-                                                        key={i}
-                                                        className="hover:bg-neutral-50/50 transition-all cursor-pointer"
-                                                    >
-                                                        <td className="px-4 py-3.5 font-bold text-black">
-                                                            {ing.name}
+                                                    <tr key={i} className="hover:bg-[#E6E6E6]/30 active:bg-[#E6E6E6]/60 transition-all duration-200">
+                                                        <td className="px-6 py-4">
+                                                            <p className="text-[13px] font-medium text-[#000000] truncate max-w-[200px]" title={ing.name}>
+                                                                {ing.name}
+                                                            </p>
                                                         </td>
-                                                        <td className="px-4 py-3.5 text-black/70 font-semibold">
+                                                        <td className="px-6 py-4 text-[12px] font-semibold text-[#000000] font-mono">
                                                             {ing.pivot?.qty}
                                                         </td>
-                                                        <td className="px-4 py-3.5 text-black/70 font-semibold">
+                                                        <td className="px-6 py-4 text-[13px] text-[#666666]">
                                                             {ing.unit}
                                                         </td>
-                                                        <td className="px-4 py-3.5 text-right font-black text-black">
+                                                        <td className="px-6 py-4 text-[14px] font-semibold text-[#000000] text-right">
                                                             Rp {fmt(ing.pivot?.qty * (ing.price_per_unit ?? 0))}
                                                         </td>
                                                     </tr>
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td
-                                                        colSpan={4}
-                                                        className="py-8 text-center text-black/50 italic text-sm"
-                                                    >
-                                                        Belum ada resep yang ditambahkan.
+                                                    <td colSpan={4} className="py-16 text-center">
+                                                        <div className="flex flex-col items-center gap-3">
+                                                            <div className="w-16 h-16 rounded-full bg-[#E6E6E6]/50 flex items-center justify-center">
+                                                                <iconify-icon icon="solar:bowl-spoon-linear" class="text-3xl text-[#999999]"></iconify-icon>
+                                                            </div>
+                                                            <p className="text-sm font-semibold text-black">Belum ada resep yang ditambahkan.</p>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             )}
@@ -692,18 +691,18 @@ export default function Show() {
                                         const state = stockState(ing);
                                         const colors = {
                                             empty: "border-rose-200 bg-rose-50/30",
-                                            low:   "border-amber-200 bg-amber-50/30",
-                                            safe:  "border-[#E6E6E6] bg-white",
+                                            low: "border-amber-200 bg-amber-50/30",
+                                            safe: "border-[#E6E6E6] bg-white",
                                         };
                                         const badgeColors = {
                                             empty: "bg-rose-50/50 text-rose-700 border-rose-100",
-                                            low:   "bg-amber-50/50 text-amber-700 border-amber-100",
-                                            safe:  "bg-emerald-50/50 text-emerald-700 border-emerald-100",
+                                            low: "bg-amber-50/50 text-amber-700 border-amber-100",
+                                            safe: "bg-emerald-50/50 text-emerald-700 border-emerald-100",
                                         };
                                         const badgeLabels = {
                                             empty: "Habis",
-                                            low:   "Menipis",
-                                            safe:  "Aman",
+                                            low: "Menipis",
+                                            safe: "Aman",
                                         };
                                         return (
                                             <div
@@ -779,9 +778,9 @@ export default function Show() {
                                 </p>
                                 <div className="space-y-2">
                                     {[
-                                        { onClick: () => navigate(`/menus/${id}/edit`), icon: "solar:pen-linear",      label: "Edit Detail Menu" },
-                                        { href: "/recipe-costing",          icon: "solar:notebook-linear", label: "Kelola Resep & HPP" },
-                                        { href: "/promotions",         icon: "solar:gift-linear",     label: "Buat Promo Bundle" },
+                                        { onClick: () => navigate(`/menus/${id}/edit`), icon: "solar:pen-linear", label: "Edit Detail Menu" },
+                                        { href: "/recipe-costing", icon: "solar:notebook-linear", label: "Kelola Resep & HPP" },
+                                        { href: "/promotions", icon: "solar:gift-linear", label: "Buat Promo Bundle" },
                                     ].map((a) => (
                                         a.href ? (
                                             <Link
@@ -815,7 +814,7 @@ export default function Show() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
                     <div className="bg-white rounded-3xl border border-[#E6E6E6] p-8 w-full max-w-xl shadow-xl relative my-8">
                         <div className="absolute top-0 right-0 w-24 h-24 bg-neutral-50 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
-                        
+
                         {/* Close button X */}
                         <button
                             onClick={() => {
@@ -998,12 +997,11 @@ export default function Show() {
                                     <button
                                         type="button"
                                         onClick={() => setFormData(prev => ({ ...prev, is_active: !prev.is_active }))}
-                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-black focus:ring-offset-2 ${ formData.is_active ? 'bg-black' : 'bg-[#E6E6E6]' } active:scale-[0.97]`}
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-black focus:ring-offset-2 ${formData.is_active ? 'bg-black' : 'bg-[#E6E6E6]'} active:scale-[0.97]`}
                                     >
                                         <span
-                                            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                                formData.is_active ? 'translate-x-5' : 'translate-x-0'
-                                            }`}
+                                            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${formData.is_active ? 'translate-x-5' : 'translate-x-0'
+                                                }`}
                                         />
                                     </button>
                                     <span
