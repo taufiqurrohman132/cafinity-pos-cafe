@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\KitchenOrder;
 use App\Events\OrderReady;
+use App\Traits\PortableSql;
 use Illuminate\Http\Request;
 
 class KitchenOrderController extends Controller
 {
+    use PortableSql;
+
     public function index(Request $request)
     {
         $filter = $request->get('filter', 'all');
@@ -59,7 +62,7 @@ class KitchenOrderController extends Controller
             ->whereDate('completed_at', today())
             ->whereNotNull('prepared_at')
             ->whereNotNull('completed_at')
-            ->selectRaw('AVG(TIMESTAMPDIFF(MINUTE, prepared_at, completed_at)) as avg_minutes')
+            ->selectRaw('AVG(' . $this->minutesBetween('prepared_at', 'completed_at') . ') as avg_minutes')
             ->value('avg_minutes');
 
         if (!$avg) return '—';

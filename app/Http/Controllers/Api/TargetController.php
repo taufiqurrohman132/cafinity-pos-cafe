@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Target;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
+use App\Traits\PortableSql;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 
 class TargetController extends Controller
 {
+    use PortableSql;
+
     public function index(Request $request)
     {
         $today  = today();
@@ -132,7 +135,7 @@ class TargetController extends Controller
                 now(),
             ])
             ->select(
-                DB::raw('HOUR(created_at) as hour'),
+                DB::raw($this->hourOf('created_at') . ' as hour'),
                 DB::raw('COUNT(*) as total')
             )
             ->groupBy('hour')
@@ -365,7 +368,7 @@ class TargetController extends Controller
         if ($period === 'Hari Ini') {
             $hourlyAov = Transaction::where('status', 'completed')
                 ->whereBetween('created_at', [$start, $end])
-                ->selectRaw('HOUR(created_at) as hour, AVG(total_amount) as avg_amount')
+                ->selectRaw($this->hourOf('created_at') . ' as hour, AVG(total_amount) as avg_amount')
                 ->groupBy('hour')
                 ->pluck('avg_amount', 'hour')
                 ->toArray();
@@ -433,7 +436,7 @@ class TargetController extends Controller
 
         $heatmapRaw = Transaction::where('status', 'completed')
             ->whereBetween('created_at', [$start, $end])
-            ->selectRaw('HOUR(created_at) as hour, COUNT(*) as count, AVG(total_amount) as avg_amount')
+            ->selectRaw($this->hourOf('created_at') . ' as hour, COUNT(*) as count, AVG(total_amount) as avg_amount')
             ->groupBy('hour')
             ->get()
             ->keyBy('hour')

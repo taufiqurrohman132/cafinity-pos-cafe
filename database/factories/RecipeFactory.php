@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Menu;
 use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -10,15 +11,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class RecipeFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'menu_id'   => Menu::factory(),
+            'notes'     => fake()->sentence(),
+            'total_hpp' => fake()->numberBetween(1000, 20000),
         ];
     }
 }

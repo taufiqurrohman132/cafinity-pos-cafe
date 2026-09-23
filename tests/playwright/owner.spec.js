@@ -90,7 +90,8 @@ test.describe('Owner Pages and Modals tests', () => {
 
     // Navigate to Low Stock List
     await page.goto('/inventories/low-stock/list');
-    await expect(page.locator('text=Stok Menipis')).toBeVisible();
+    // Heading role — teks "Stok Menipis" juga ada di breadcrumb (strict mode violation).
+    await expect(page.getByRole('heading', { name: 'Stok Menipis' })).toBeVisible();
   });
 
   test('Reports Page', async ({ page }) => {
@@ -136,6 +137,7 @@ test.describe('Owner Pages and Modals tests', () => {
 
     // Profile Page
     await page.goto('/profile');
-    await expect(page.locator('text=Pengaturan Profil')).toBeVisible({ timeout: 15000 });
+    // Heading role — teks "Pengaturan Profil" juga ada di breadcrumb (strict mode violation).
+    await expect(page.getByRole('heading', { name: 'Pengaturan Profil' })).toBeVisible({ timeout: 15000 });
   });
 });

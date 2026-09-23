@@ -11,10 +11,13 @@ use App\Models\Transaction;
 use App\Models\TransactionItem;
 use App\Models\Target;
 use App\Models\User;
+use App\Traits\PortableSql;
 use Illuminate\Support\Facades\DB;
 
 class DashboardService
 {
+    use PortableSql;
+
     /**
      * Get dashboard data depending on the user's role.
      */
@@ -77,7 +80,7 @@ class DashboardService
 
         $kitchenQueue = KitchenOrder::with(['transaction', 'items.menu'])
             ->whereIn('status', ['pending', 'preparing', 'ready'])
-            ->orderByRaw("FIELD(status, 'preparing', 'pending', 'ready')")
+            ->orderByRaw($this->statusPriority('status', ['preparing', 'pending', 'ready']))
             ->orderBy('created_at')
             ->limit(5)
             ->get()
@@ -140,7 +143,7 @@ class DashboardService
             ->whereDate('completed_at', today())
             ->whereNotNull('prepared_at')
             ->whereNotNull('completed_at')
-            ->selectRaw('AVG(TIMESTAMPDIFF(MINUTE, prepared_at, completed_at)) as avg_minutes')
+            ->selectRaw('AVG(' . $this->minutesBetween('prepared_at', 'completed_at') . ') as avg_minutes')
             ->value('avg_minutes');
         
         $avgTime = $avg ? round($avg, 1) . ' Menit' : '—';
@@ -207,7 +210,7 @@ class DashboardService
         $hourly = Transaction::query()
             ->where('status', 'completed')
             ->whereDate('created_at', $date)
-            ->select(DB::raw('HOUR(created_at) as hour'), DB::raw('SUM(total_amount) as total'))
+            ->select(DB::raw($this->hourOf('created_at') . ' as hour'), DB::raw('SUM(total_amount) as total'))
             ->groupBy('hour')
             ->orderBy('hour')
             ->pluck('total', 'hour');
@@ -349,7 +352,7 @@ class DashboardService
         $hourly = Transaction::query()
             ->where('status', 'completed')
             ->whereDate('created_at', $date)
-            ->select(DB::raw('HOUR(created_at) as hour'), DB::raw('COUNT(*) as total'))
+            ->select(DB::raw($this->hourOf('created_at') . ' as hour'), DB::raw('COUNT(*) as total'))
             ->groupBy('hour')
             ->pluck('total', 'hour');
 

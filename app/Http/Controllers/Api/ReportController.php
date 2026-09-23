@@ -10,11 +10,14 @@ use App\Models\Target;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
 use App\Models\User;
+use App\Traits\PortableSql;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
+    use PortableSql;
+
     public function index(Request $request)
     {
         $days = (int) $request->get('days', 7);
@@ -171,7 +174,7 @@ class ReportController extends Controller
             ->whereBetween('created_at', [$startDate, $endDate])
             ->when($kasirId,       fn($q) => $q->where('cashier_id', $kasirId))
             ->when($paymentMethod, fn($q) => $q->where('payment_method', $paymentMethod))
-            ->selectRaw('HOUR(created_at) as hour, COUNT(*) as total')
+            ->selectRaw($this->hourOf('created_at') . ' as hour, COUNT(*) as total')
             ->groupBy('hour')
             ->orderBy('hour')
             ->pluck('total', 'hour');
@@ -284,6 +287,112 @@ class ReportController extends Controller
             ->orderBy('date')
             ->get();
         return response()->json($revenue);
+    }
+
+    /**
+     * Laporan penjualan bulan berjalan.
+     */
+    public function sales()
+    {
+        AuditLog::record('report.viewed', null, ['report' => 'sales']);
+
+        $transactions = Transaction::where('status', 'completed')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->with('cashier:id,name')
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'transactions'  => $transactions,
+            'total_revenue' => (int) $transactions->sum('total_amount'),
+            'total_orders'  => $transactions->count(),
+            'period'        => now()->format('F Y'),
+        ]);
+    }
+
+    /**
+     * Laporan stok inventaris.
+     */
+    public function inventory()
+    {
+        AuditLog::record('report.viewed', null, ['report' => 'inventory']);
+
+        $inventories = Inventory::with(['category:id,name', 'supplier:id,name'])
+            ->orderBy('name')
+            ->get();
+
+        return response()->json([
+            'inventories'  => $inventories,
+            'total_items'  => $inventories->count(),
+            'low_stock'    => $inventories->filter(fn ($item) => $item->isLowStock())->count(),
+            'total_value'  => (int) $inventories->sum(fn ($item) => $item->stock * $item->price_per_unit),
+        ]);
+    }
+
+    /**
+     * Laporan harian.
+     */
+    public function daily()
+    {
+        AuditLog::record('report.viewed', null, ['report' => 'daily']);
+
+        $transactions = Transaction::whereDate('created_at', today())
+            ->with('cashier:id,name')
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'transactions'  => $transactions,
+            'total_revenue' => (int) $transactions->where('status', 'completed')->sum('total_amount'),
+            'total_orders'  => $transactions->where('status', 'completed')->count(),
+            'date'          => today()->toDateString(),
+        ]);
+    }
+
+    /**
+     * Laporan bulanan.
+     */
+    public function monthly()
+    {
+        AuditLog::record('report.viewed', null, ['report' => 'monthly']);
+
+        $transactions = Transaction::where('status', 'completed')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->with('cashier:id,name')
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'transactions'  => $transactions,
+            'total_revenue' => (int) $transactions->sum('total_amount'),
+            'total_orders'  => $transactions->count(),
+            'period'        => now()->format('F Y'),
+        ]);
+    }
+
+    /**
+     * Laporan laba/rugi (omzet - HPP).
+     */
+    public function profitLoss()
+    {
+        AuditLog::record('report.viewed', null, ['report' => 'profit-loss']);
+
+        $revenue = (int) Transaction::where('status', 'completed')->sum('total_amount');
+        $hpp = (int) TransactionItem::whereHas('transaction', fn ($q) => $q->where('status', 'completed'))
+            ->with('menu.recipe')
+            ->get()
+            ->sum(fn ($item) => ($item->menu?->recipe?->total_hpp ?? 0) * $item->qty);
+        $transactions = Transaction::where('status', 'completed')->count();
+
+        return response()->json([
+            'revenue'      => $revenue,
+            'hpp'          => $hpp,
+            'profit'       => max(0, $revenue - $hpp),
+            'transactions' => $transactions,
+            'margin'       => $revenue > 0 ? round((($revenue - $hpp) / $revenue) * 100, 1) : 0,
+        ]);
     }
 
     public function profit()

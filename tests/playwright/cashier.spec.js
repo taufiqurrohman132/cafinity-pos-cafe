@@ -59,14 +59,16 @@ test.describe('Cashier Pages and Modals tests', () => {
       await firstTrxRow.click();
       // Verifies navigation to details page (/transactions/:id)
       await expect(page).toHaveURL(/\/transactions\/\w+/);
-      await expect(page.locator('text=Detail Transaksi')).toBeVisible();
+      // Pakai heading role: teks "Detail Transaksi" juga muncul di breadcrumb/link,
+      // sehingga locator `text=` kena strict mode violation (2 elemen).
+      await expect(page.getByRole('heading', { name: 'Detail Transaksi' })).toBeVisible();
 
       // Click view invoice
       const invoiceBtn = page.locator('a:has-text("Invoice"), a:has-text("Cetak")').first();
       if (await invoiceBtn.count() > 0) {
         await invoiceBtn.click();
         await expect(page).toHaveURL(/.*invoice/);
-        await expect(page.locator('text=Invoice')).toBeVisible();
+        await expect(page.locator('text=Invoice').first()).toBeVisible();
       }
     }
   });

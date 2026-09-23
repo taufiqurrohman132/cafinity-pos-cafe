@@ -64,6 +64,7 @@ class TransactionController extends Controller
                 'total'       => $tx->total_amount,
                 'items_count' => $tx->items->sum('qty'),
                 'time_ago'    => $tx->created_at->diffForHumans(short: true),
+                'created_at'  => $tx->created_at->toIso8601String(),
             ]);
 
         $initialCart          = [];
@@ -109,6 +110,7 @@ class TransactionController extends Controller
                 'checkout' => '/api/pos/checkout',
                 'hold'     => '/api/pos/hold',
                 'resume'   => '/api/pos/resume/__ID__',
+                'cancel'   => '/api/pos/cancel/__ID__',
             ],
         ]);
     }

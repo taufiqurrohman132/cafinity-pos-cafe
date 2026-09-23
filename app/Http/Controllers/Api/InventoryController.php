@@ -178,7 +178,7 @@ class InventoryController extends Controller
         }
 
         $type = $data['type'];
-        $notes = $data['notes'] ?: null;
+        $notes = $data['notes'] ?? null; // 'notes' nullable & boleh tidak dikirim
 
         $inventory->adjustStock($qty, $type, $notes);
 

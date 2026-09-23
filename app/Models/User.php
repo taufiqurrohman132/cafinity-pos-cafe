@@ -34,6 +34,17 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /**
+     * Guard Spatie permission untuk user ini.
+     *
+     * Saat request API diautentikasi lewat auth:sanctum, default guard berubah
+     * menjadi 'sanctum' (AuthManager::shouldUse mengubah config auth.defaults.guard).
+     * Spatie lalu mencari role/permission dengan guard 'sanctum' dan melempar
+     * RoleDoesNotExist/PermissionDoesNotExist (semua data permission dibuat di guard 'web').
+     * Dengan properti ini, resolusi guard selalu 'web'.
+     */
+    protected $guard_name = 'web';
+
     protected $appends = ['created_at_diff'];
 
     public function getCreatedAtDiffAttribute()

@@ -68,6 +68,7 @@ class TransactionController extends Controller
                 'total'       => $tx->total_amount,
                 'items_count' => $tx->items->sum('qty'),
                 'time_ago'    => $tx->created_at->diffForHumans(short: true),
+                'created_at'  => $tx->created_at->toIso8601String(),
             ]);
 
         $initialCart          = [];

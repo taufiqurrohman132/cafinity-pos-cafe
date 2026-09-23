@@ -64,7 +64,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
     Route::apiResource('purchase-orders', PurchaseOrderController::class);
 
     // Promotions & Bundles
-    Route::apiResource('promotions', PromotionController::class);
+    Route::apiResource('promotions', PromotionController::class)->except(['show']);
     Route::apiResource('bundles', BundleController::class);
 
     // Recipe Costing
@@ -89,7 +89,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
 
     // Targets & Goals
     Route::get('/targets-goals/aov', [TargetController::class, 'aov']);
-    Route::apiResource('targets-goals', TargetController::class);
+    Route::apiResource('targets-goals', TargetController::class)->except(['show']);
 
     // POS & Transactions
     Route::get('/pos', [TransactionController::class, 'pos']);
@@ -102,19 +102,19 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
     Route::get('/transactions/{id}/invoice', [TransactionController::class, 'invoice']);
     Route::post('/transactions/{id}/print', [TransactionController::class, 'print']);
     Route::post('/transactions/{id}/refund', [TransactionController::class, 'refund']);
-    Route::apiResource('transactions', TransactionController::class);
+    Route::apiResource('transactions', TransactionController::class)->except(['store', 'destroy']);
 
     // Kitchen Orders
     Route::post('/kitchen-orders/{id}/prepare', [KitchenOrderController::class, 'prepare'])->name('kitchen-orders.prepare');
     Route::post('/kitchen-orders/{id}/ready', [KitchenOrderController::class, 'ready'])->name('kitchen-orders.ready');
     Route::post('/kitchen-orders/{id}/complete', [KitchenOrderController::class, 'complete'])->name('kitchen-orders.complete');
     Route::post('/kitchen-orders/{id}/back', [KitchenOrderController::class, 'back'])->name('kitchen-orders.back');
-    Route::apiResource('kitchen-orders', KitchenOrderController::class);
+    Route::apiResource('kitchen-orders', KitchenOrderController::class)->except(['store', 'update', 'destroy']);
 
     // Users
     Route::post('/users/{id}/reset-password', [UserController::class, 'resetPassword']);
     Route::post('/users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
-    Route::apiResource('users', UserController::class);
+    Route::apiResource('users', UserController::class)->except(['show']);
 
     // Role Permissions
     Route::get('/user-management/role-permission', [RolePermissionController::class, 'index']);
@@ -126,7 +126,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
     // Notifications
     Route::post('/notifications/read-all', [NotificationController::class, 'readAll']);
     Route::post('/notifications/{id}/read', [NotificationController::class, 'read']);
-    Route::apiResource('notifications', NotificationController::class);
+    Route::apiResource('notifications', NotificationController::class)->except(['store', 'show', 'update']);
 
     // Search
     Route::get('/search', [SearchController::class, 'index']);

@@ -15,8 +15,14 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
      */
     public static function findToken($token)
     {
-        $hashedToken = hash('sha256', $token);
-        
+        // Kunci cache harus bisa dihitung ulang dari data yang tersimpan di row
+        // (hash secret) agar save()/delete() benar-benar meng-invalidasinya.
+        // Meng-hash seluruh string bearer "id|secret" membuat kunci berbeda dari
+        // yang di-forget delete(), sehingga token yang sudah dicabut masih lolos
+        // autentikasi dari cache sampai TTL (5 menit) habis.
+        $secret = str_contains($token, '|') ? explode('|', $token, 2)[1] : $token;
+        $hashedToken = hash('sha256', $secret);
+
         $attributes = Cache::remember("sanctum_token:{$hashedToken}", 300, function () use ($token) {
             $tokenInstance = parent::findToken($token);
             return $tokenInstance ? $tokenInstance->getAttributes() : null;

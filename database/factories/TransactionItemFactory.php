@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Menu;
+use App\Models\Transaction;
 use App\Models\TransactionItem;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -10,15 +12,19 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TransactionItemFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
+        $qty    = fake()->numberBetween(1, 3);
+        $price  = fake()->randomElement([15000, 20000, 25000]);
+
         return [
-            //
+            'transaction_id' => Transaction::factory(),
+            'menu_id'        => Menu::factory(),
+            'qty'            => $qty,
+            'price'          => $price,
+            'discount'       => 0,
+            'subtotal'       => $qty * $price,
+            'notes'          => null,
         ];
     }
 }

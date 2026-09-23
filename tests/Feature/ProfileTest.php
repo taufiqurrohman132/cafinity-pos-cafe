@@ -4,96 +4,103 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
+/**
+ * Profil via API: PUT /api/profile (pengganti route web /profile yang sudah tidak ada).
+ */
 class ProfileTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_profile_page_is_displayed(): void
+    private User $user;
+
+    protected function setUp(): void
     {
-        $user = User::factory()->create();
+        parent::setUp();
 
-        $response = $this
-            ->actingAs($user)
-            ->get('/profile');
-
-        $response->assertOk();
+        $this->user = $this->makeUser('cashier');
     }
 
     public function test_profile_information_can_be_updated(): void
     {
-        $user = User::factory()->create();
+        $response = $this->apiAs($this->user)->putJson('/api/profile', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
 
-        $response = $this
-            ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-            ]);
+        $response->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('user.name', 'Test User')
+            ->assertJsonPath('user.email', 'test@example.com');
 
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
-
-        $user->refresh();
-
-        $this->assertSame('Test User', $user->name);
-        $this->assertSame('test@example.com', $user->email);
-        $this->assertNull($user->email_verified_at);
+        $this->assertSame('Test User', $this->user->fresh()->name);
+        $this->assertSame('test@example.com', $this->user->fresh()->email);
     }
 
-    public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
+    public function test_profile_update_requires_name_and_valid_email(): void
     {
-        $user = User::factory()->create();
-
-        $response = $this
-            ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => $user->email,
-            ]);
-
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
-
-        $this->assertNotNull($user->refresh()->email_verified_at);
+        $this->apiAs($this->user)->putJson('/api/profile', [
+            'email' => 'not-an-email',
+        ])->assertStatus(422)->assertJsonValidationErrors(['name', 'email']);
     }
 
-    public function test_user_can_delete_their_account(): void
+    public function test_profile_email_must_be_unique(): void
     {
-        $user = User::factory()->create();
+        $other = $this->makeUser('cashier');
 
-        $response = $this
-            ->actingAs($user)
-            ->delete('/profile', [
-                'password' => 'password',
-            ]);
-
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/');
-
-        $this->assertGuest();
-        $this->assertNull($user->fresh());
+        $this->apiAs($this->user)->putJson('/api/profile', [
+            'name' => $this->user->name,
+            'email' => $other->email,
+        ])->assertStatus(422)->assertJsonValidationErrors('email');
     }
 
-    public function test_correct_password_must_be_provided_to_delete_account(): void
+    public function test_password_can_be_changed_with_correct_current_password(): void
     {
-        $user = User::factory()->create();
+        $response = $this->apiAs($this->user)->putJson('/api/profile', [
+            'name' => $this->user->name,
+            'email' => $this->user->email,
+            'current_password' => 'password',
+            'password' => 'new-secret-123',
+            'password_confirmation' => 'new-secret-123',
+        ]);
 
-        $response = $this
-            ->actingAs($user)
-            ->from('/profile')
-            ->delete('/profile', [
-                'password' => 'wrong-password',
-            ]);
+        $response->assertOk()->assertJsonPath('success', true);
 
-        $response
-            ->assertSessionHasErrorsIn('userDeletion', 'password')
-            ->assertRedirect('/profile');
+        $this->assertTrue(Hash::check('new-secret-123', $this->user->fresh()->password));
+        $this->assertFalse(Hash::check('password', $this->user->fresh()->password));
+    }
 
-        $this->assertNotNull($user->fresh());
+    public function test_password_change_fails_with_wrong_current_password(): void
+    {
+        $this->apiAs($this->user)->putJson('/api/profile', [
+            'name' => $this->user->name,
+            'email' => $this->user->email,
+            'current_password' => 'wrong-password',
+            'password' => 'new-secret-123',
+            'password_confirmation' => 'new-secret-123',
+        ])->assertStatus(422)->assertJsonValidationErrors('current_password');
+
+        $this->assertTrue(Hash::check('password', $this->user->fresh()->password));
+    }
+
+    public function test_new_password_must_be_at_least_eight_characters(): void
+    {
+        $this->apiAs($this->user)->putJson('/api/profile', [
+            'name' => $this->user->name,
+            'email' => $this->user->email,
+            'current_password' => 'password',
+            'password' => 'short',
+            'password_confirmation' => 'short',
+        ])->assertStatus(422)->assertJsonValidationErrors('password');
+    }
+
+    public function test_guest_cannot_update_profile(): void
+    {
+        $this->putJson('/api/profile', [
+            'name' => 'Hacker',
+            'email' => 'hacker@example.com',
+        ])->assertStatus(401);
     }
 }
