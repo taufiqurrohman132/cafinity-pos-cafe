@@ -300,20 +300,20 @@ export default function RecipeIndex() {
                                     <div className="bg-white border border-[#E6E6E6] rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_25px_-4px_rgba(191,255,0,0.16),_0_4px_12px_-2px_rgba(191,255,0,0.10)] transition-all duration-300 relative overflow-hidden group">
                                         <iconify-icon icon="solar:wallet-money-linear" class="absolute -right-4 -bottom-4 text-6xl opacity-10 text-black"></iconify-icon>
                                         <p className="text-xs font-semibold text-[#666666] uppercase tracking-wider mb-2">Total HPP</p>
-                                        <p className="text-2xl font-bold text-black relative z-10">
+                                        <p className="text-xl md:text-2xl font-extrabold mt-0.5 tracking-tight truncate text-black leading-tight z-10">
                                             Rp {Number(selectedRecipe.total_hpp).toLocaleString('id-ID')}
                                         </p>
                                     </div>
                                     <div className="bg-white border border-[#E6E6E6] rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_25px_-4px_rgba(191,255,0,0.16),_0_4px_12px_-2px_rgba(191,255,0,0.10)] transition-all duration-300 relative overflow-hidden group">
                                         <p className="text-xs font-semibold text-[#666666] uppercase tracking-wider mb-2">Harga Jual</p>
-                                        <p className="text-2xl font-bold text-black">
+                                        <p className="text-xl md:text-2xl font-extrabold mt-0.5 tracking-tight truncate text-black leading-tight">
                                             Rp {Number(menu?.price ?? 0).toLocaleString('id-ID')}
                                         </p>
                                     </div>
                                     <div className="bg-white border border-[#E6E6E6] rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_25px_-4px_rgba(191,255,0,0.16),_0_4px_12px_-2px_rgba(191,255,0,0.10)] transition-all duration-300 relative overflow-hidden group">
                                         <p className="text-xs font-semibold text-[#666666] uppercase tracking-wider mb-2">Margin Kotor</p>
                                         <div className="flex items-center gap-2">
-                                            <p className="text-2xl font-bold text-black">{selectedRecipe.margin}%</p>
+                                            <p className="text-xl md:text-2xl font-extrabold mt-0.5 tracking-tight truncate text-black leading-tight">{selectedRecipe.margin}%</p>
                                             <iconify-icon icon="solar:graph-up-linear" class="text-emerald-700 text-xl"></iconify-icon>
                                         </div>
                                     </div>

@@ -92,7 +92,7 @@ function StatCard({ title, value, trend, trendType, iconBg, iconColor, icon }) {
             <p className="text-xs font-semibold text-[#666666] uppercase tracking-wider mb-2 truncate">
                 {title}
             </p>
-            <p className="text-xl mt-0.5 font-bold text-black truncate">
+            <p className="text-xl md:text-2xl font-extrabold mt-0.5 tracking-tight truncate text-black leading-tight">
                 {value}
             </p>
         </div>

@@ -254,7 +254,7 @@ Aplikasi ini dilengkapi pengujian terintegrasi untuk menjamin kualitas kode:
 * **Backend Unit & Feature Test**:
   ```bash
   composer run test
-  ```
+```
 * **Frontend E2E Test (Playwright)**:
   ```bash
   npm run test:e2e

@@ -5,6 +5,7 @@ import Head from '@/Components/Head'
 import client from '@/api/client'
 import MenusSkeleton from '@/Components/Skeletons/MenusSkeleton'
 import { useConfirm } from '@/context/ConfirmContext'
+import CustomSelect from '@/Components/CustomSelect'
 
 function MenuImage({ src, name, categoryName, isThumbnail = false }) {
     const [hasError, setHasError] = useState(false);
@@ -552,15 +553,17 @@ export default function MenusIndex() {
                                 </form>
 
                                 {/* Status Filter */}
-                                <select
+                                <CustomSelect
                                     value={activeStatus}
-                                    onChange={handleStatus}
-                                    className="h-10 bg-white border border-[#D0D0D0] rounded-xl px-3 text-[13px] font-semibold text-black outline-none transition-all cursor-pointer hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
-                                >
-                                    <option value="">Semua Status</option>
-                                    <option value="active">Tersedia</option>
-                                    <option value="inactive">Habis</option>
-                                </select>
+                                    onChange={(val) => handleStatus({ target: { value: val } })}
+                                    options={[
+                                        { value: '', label: 'Semua Status' },
+                                        { value: 'active', label: 'Tersedia' },
+                                        { value: 'inactive', label: 'Habis' }
+                                    ]}
+                                    placeholder="Semua Status"
+                                    className="w-[140px]"
+                                />
 
                                 <button
                                     onClick={handleSearch}
@@ -963,17 +966,13 @@ export default function MenusIndex() {
                                     Kategori
                                 </label>
                                 <div className="col-span-8">
-                                    <select
-                                        required
+                                    <CustomSelect
                                         value={createForm.data.category_id}
-                                        onChange={(e) => createForm.setData('category_id', e.target.value)}
-                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all cursor-pointer font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
-                                    >
-                                        <option value="" disabled>-- Pilih Kategori --</option>
-                                        {categories.map((cat) => (
-                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
-                                        ))}
-                                    </select>
+                                        onChange={(val) => createForm.setData('category_id', val)}
+                                        options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
+                                        placeholder="Pilih Kategori"
+                                        className="w-full h-10"
+                                    />
                                     {createForm.errors.category_id && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
                                             {createForm.errors.category_id}
@@ -1186,17 +1185,13 @@ export default function MenusIndex() {
                                     Kategori
                                 </label>
                                 <div className="col-span-8">
-                                    <select
-                                        required
+                                    <CustomSelect
                                         value={editForm.data.category_id}
-                                        onChange={(e) => editForm.setData('category_id', e.target.value)}
-                                        className="w-full h-10 px-3 py-2 text-sm bg-white border border-[#D0D0D0] rounded-xl focus:outline-none transition-all cursor-pointer font-semibold text-black hover:border-[#999999] focus:border-black focus:ring-1 focus:ring-black"
-                                    >
-                                        <option value="" disabled>-- Pilih Kategori --</option>
-                                        {categories.map((cat) => (
-                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
-                                        ))}
-                                    </select>
+                                        onChange={(val) => editForm.setData('category_id', val)}
+                                        options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
+                                        placeholder="Pilih Kategori"
+                                        className="w-full h-10"
+                                    />
                                     {editForm.errors.category_id && (
                                         <p className="text-[11px] text-rose-500 font-bold mt-1">
                                             {editForm.errors.category_id}

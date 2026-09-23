@@ -5,6 +5,7 @@ import Head from '@/Components/Head'
 import client from '@/api/client'
 import PurchaseOrderSkeleton from '@/Components/Skeletons/PurchaseOrderSkeleton'
 import { useConfirm } from '@/context/ConfirmContext'
+import CustomSelect from '@/Components/CustomSelect'
 
 export default function PurchaseOrderIndex() {
     const confirm = useConfirm()
@@ -273,17 +274,19 @@ export default function PurchaseOrderIndex() {
                                 </div>
 
                                 <div className="flex items-center gap-2">
-                                    <select
+                                    <CustomSelect
                                         value={status}
-                                        onChange={(e) => handleStatus(e.target.value)}
-                                        className="text-xs border border-[#D0D0D0] rounded-xl py-2.5 px-4 bg-white transition-all outline-none font-semibold text-black cursor-pointer focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
-                                    >
-                                        <option value="">Semua Status</option>
-                                        <option value="pending">Pending Approval</option>
-                                        <option value="approved">Approved</option>
-                                        <option value="received">Received</option>
-                                        <option value="rejected">Rejected</option>
-                                    </select>
+                                        onChange={(val) => handleStatus(val)}
+                                        options={[
+                                            { value: '', label: 'Semua Status' },
+                                            { value: 'pending', label: 'Pending Approval' },
+                                            { value: 'approved', label: 'Approved' },
+                                            { value: 'received', label: 'Received' },
+                                            { value: 'rejected', label: 'Rejected' }
+                                        ]}
+                                        placeholder="Semua Status"
+                                        className="w-[180px]"
+                                    />
                                 </div>
                             </div>
 

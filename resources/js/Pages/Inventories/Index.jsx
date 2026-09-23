@@ -5,6 +5,7 @@ import Head from '@/Components/Head'
 import client from '@/api/client'
 import InventoriesSkeleton from '@/Components/Skeletons/InventoriesSkeleton'
 import { useConfirm } from '@/context/ConfirmContext'
+import CustomSelect from '@/Components/CustomSelect'
 
 export default function InventoriesIndex() {
     const confirm = useConfirm()
@@ -250,7 +251,7 @@ export default function InventoriesIndex() {
                                     <div className="flex justify-between items-start">
                                         <div className="min-w-0">
                                             <p className="text-body-compact text-brand-primary/60 font-medium truncate">{card.label}</p>
-                                            <h2 className="text-[20px] font-semibold mt-1 tracking-tight truncate text-black">{card.value}</h2>
+                                            <h2 className="text-xl md:text-2xl font-extrabold mt-0.5 tracking-tight truncate text-black leading-tight">{card.value}</h2>
                                             <span className={`text-caption font-semibold mt-2.5 block ${card.subColor}`}>{card.sub}</span>
                                         </div>
                                         <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm ${card.iconBg} ${card.iconColor || ''}`}>
@@ -268,26 +269,28 @@ export default function InventoriesIndex() {
                             <div className="px-6 py-5 border-b border-[#E6E6E6] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                                 <h3 className="text-base font-semibold text-black">Daftar Bahan Baku</h3>
                                 <div className="flex flex-wrap items-center gap-3">
-                                    <select
+                                    <CustomSelect
                                         value={categoryId}
-                                        onChange={handleCategoryChange}
-                                        className="h-10 px-4 text-[13px] font-medium text-black bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl cursor-pointer focus:outline-none transition-all duration-150 focus:border-[#BFFF00]"
-                                    >
-                                        <option value="">Semua Kategori</option>
-                                        {categories.map(cat => (
-                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
-                                        ))}
-                                    </select>
-                                    <select
+                                        onChange={(val) => handleCategoryChange({ target: { value: val } })}
+                                        options={[
+                                            { value: '', label: 'Semua Kategori' },
+                                            ...categories.map(cat => ({ value: cat.id, label: cat.name }))
+                                        ]}
+                                        placeholder="Semua Kategori"
+                                        className="w-[160px]"
+                                    />
+                                    <CustomSelect
                                         value={status}
-                                        onChange={handleStatus}
-                                        className="h-10 px-4 text-[13px] font-medium text-black bg-white border border-[#D0D0D0] hover:border-[#999999] rounded-xl cursor-pointer focus:outline-none transition-all duration-150 focus:border-[#BFFF00]"
-                                    >
-                                        <option value="">Semua Status</option>
-                                        <option value="safe">Aman</option>
-                                        <option value="low">Stok Rendah</option>
-                                        <option value="empty">Habis</option>
-                                    </select>
+                                        onChange={(val) => handleStatus({ target: { value: val } })}
+                                        options={[
+                                            { value: '', label: 'Semua Status' },
+                                            { value: 'safe', label: 'Aman' },
+                                            { value: 'low', label: 'Stok Rendah' },
+                                            { value: 'empty', label: 'Habis' }
+                                        ]}
+                                        placeholder="Semua Status"
+                                        className="w-[140px]"
+                                    />
                                     <form onSubmit={handleSearch}>
                                         <div className="relative">
                                             <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-[#999999] text-base"></iconify-icon>

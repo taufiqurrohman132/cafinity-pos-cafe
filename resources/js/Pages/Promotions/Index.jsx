@@ -401,7 +401,7 @@ export default function PromotionsIndex() {
                         </div>
                         <div>
                             <p className="text-xs font-semibold text-black/60 tracking-tight">Estimasi Revenue</p>
-                            <p className="text-xl font-extrabold text-brand-dark leading-tight">
+                            <p className="text-2xl font-extrabold text-brand-dark leading-tight">
                                 Rp {(estimasiRevenue / 1000000).toFixed(2)}M
                             </p>
                             <p className="text-xs font-semibold text-emerald-600 mt-0.5">+8.4% <span className="font-medium text-black/60">vs bulan lalu</span></p>

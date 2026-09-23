@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Head from '@/Components/Head';
 import client from '@/api/client';
 import { useConfirm } from '@/context/ConfirmContext';
+import CustomSelect from '@/Components/CustomSelect';
 
 export default function UsersIndex({
     users = { data: [], links: [], from: 0, to: 0, total: 0 },
@@ -196,27 +197,31 @@ export default function UsersIndex({
                                         />
                                     </div>
                                     <div className="flex flex-wrap items-center gap-2">
-                                        <select
+                                        <CustomSelect
                                             value={role}
-                                            onChange={e => setRole(e.target.value)}
-                                            className="h-10 px-4 border border-[#D0D0D0] hover:border-[#999999] bg-white text-black text-[13px] font-medium rounded-xl outline-none cursor-pointer transition-all focus:border-[#BFFF00]"
-                                        >
-                                            <option value="">Semua Role</option>
-                                            <option value="owner">Owner</option>
-                                            <option value="admin">Admin</option>
-                                            <option value="cashier">Kasir</option>
-                                        </select>
-                                        <select
+                                            onChange={val => setRole(val)}
+                                            options={[
+                                                { value: '', label: 'Semua Role' },
+                                                { value: 'owner', label: 'Owner' },
+                                                { value: 'admin', label: 'Admin' },
+                                                { value: 'cashier', label: 'Kasir' }
+                                            ]}
+                                            placeholder="Semua Role"
+                                            className="w-[140px]"
+                                        />
+                                        <CustomSelect
                                             value={status}
-                                            onChange={e => setStatus(e.target.value)}
-                                            className="h-10 px-4 border border-[#D0D0D0] hover:border-[#999999] bg-white text-black text-[13px] font-medium rounded-xl outline-none cursor-pointer transition-all focus:border-[#BFFF00]"
-                                        >
-                                            <option value="">Semua Status</option>
-                                            <option value="active">Active</option>
-                                            <option value="inactive">Inactive</option>
-                                            <option value="pending">Pending</option>
-                                            <option value="deactivated">Deactivated</option>
-                                        </select>
+                                            onChange={val => setStatus(val)}
+                                            options={[
+                                                { value: '', label: 'Semua Status' },
+                                                { value: 'active', label: 'Active' },
+                                                { value: 'inactive', label: 'Inactive' },
+                                                { value: 'pending', label: 'Pending' },
+                                                { value: 'deactivated', label: 'Deactivated' }
+                                            ]}
+                                            placeholder="Semua Status"
+                                            className="w-[140px]"
+                                        />
                                         <button
                                             type="submit"
                                             className="flex items-center gap-2 h-10 px-4 bg-[#BFFF00] hover:bg-[#C8FF5E] active:bg-[#AFEE00] text-black text-[13px] font-semibold rounded-xl transition-all active:scale-[0.97]"
@@ -507,30 +512,34 @@ function CreateUserModal({ isOpen, onClose }) {
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Role / Peran</label>
-                            <select
+                            <CustomSelect
                                 value={data.role}
-                                onChange={e => setData('role', e.target.value)}
-                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
-                            >
-                                <option value="cashier">Kasir</option>
-                                <option value="admin">Admin</option>
-                                <option value="owner">Owner</option>
-                            </select>
+                                onChange={val => setData('role', val)}
+                                options={[
+                                    { value: 'cashier', label: 'Kasir' },
+                                    { value: 'admin', label: 'Admin' },
+                                    { value: 'owner', label: 'Owner' }
+                                ]}
+                                placeholder="Pilih Role"
+                                className="w-full h-11"
+                            />
                             {errors.role && <p className="text-xs text-red-500 font-bold mt-1">{errors.role}</p>}
                         </div>
 
                         <div>
                             <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Status Awal</label>
-                            <select
+                            <CustomSelect
                                 value={data.status}
-                                onChange={e => setData('status', e.target.value)}
-                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
-                            >
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                                <option value="pending">Pending</option>
-                                <option value="deactivated">Deactivated</option>
-                            </select>
+                                onChange={val => setData('status', val)}
+                                options={[
+                                    { value: 'active', label: 'Active' },
+                                    { value: 'inactive', label: 'Inactive' },
+                                    { value: 'pending', label: 'Pending' },
+                                    { value: 'deactivated', label: 'Deactivated' }
+                                ]}
+                                placeholder="Pilih Status"
+                                className="w-full h-11"
+                            />
                             {errors.status && <p className="text-xs text-red-500 font-bold mt-1">{errors.status}</p>}
                         </div>
                     </div>
@@ -661,30 +670,34 @@ function EditUserModal({ isOpen, onClose, user }) {
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Role / Peran</label>
-                            <select
+                            <CustomSelect
                                 value={data.role}
-                                onChange={e => setData('role', e.target.value)}
-                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
-                            >
-                                <option value="cashier">Kasir</option>
-                                <option value="admin">Admin</option>
-                                <option value="owner">Owner</option>
-                            </select>
+                                onChange={val => setData('role', val)}
+                                options={[
+                                    { value: 'cashier', label: 'Kasir' },
+                                    { value: 'admin', label: 'Admin' },
+                                    { value: 'owner', label: 'Owner' }
+                                ]}
+                                placeholder="Pilih Role"
+                                className="w-full h-11"
+                            />
                             {errors.role && <p className="text-xs text-red-500 font-bold mt-1">{errors.role}</p>}
                         </div>
 
                         <div>
                             <label className="block text-xs font-extrabold text-brand-primary capitalize tracking-wider mb-1.5">Status Akun</label>
-                            <select
+                            <CustomSelect
                                 value={data.status}
-                                onChange={e => setData('status', e.target.value)}
-                                className="w-full h-11 bg-brand-bg border border-brand-light rounded-xl px-4 text-sm font-bold text-brand-dark outline-none transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
-                            >
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                                <option value="pending">Pending</option>
-                                <option value="deactivated">Deactivated</option>
-                            </select>
+                                onChange={val => setData('status', val)}
+                                options={[
+                                    { value: 'active', label: 'Active' },
+                                    { value: 'inactive', label: 'Inactive' },
+                                    { value: 'pending', label: 'Pending' },
+                                    { value: 'deactivated', label: 'Deactivated' }
+                                ]}
+                                placeholder="Pilih Status"
+                                className="w-full h-11"
+                            />
                             {errors.status && <p className="text-xs text-red-500 font-bold mt-1">{errors.status}</p>}
                         </div>
                     </div>

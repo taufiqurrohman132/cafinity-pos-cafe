@@ -4,6 +4,7 @@ import Head from '@/Components/Head';
 import { Icon } from '@iconify/react';
 // Sesuaikan path layout Anda
 import ModernDatePicker from '@/Components/ModernDatePicker';
+import CustomSelect from '@/Components/CustomSelect';
 import client from '@/api/client';
 import TransactionsSkeleton from '@/Components/Skeletons/TransactionsSkeleton';
 
@@ -298,29 +299,33 @@ export default function TransactionHistory() {
                                         />
                                     </div>
 
-                                    <select
+                                    <CustomSelect
                                         value={params.status}
-                                        onChange={(e) => handleParamChange('status', e.target.value)}
-                                        className="h-[40px] bg-white border border-[#D0D0D0] rounded-xl px-3 text-sm font-normal text-black outline-none transition-all duration-150 cursor-pointer hover:border-[#999999] focus:border-[#BFFF00] focus:ring-4 focus:ring-[#BFFF00]/10"
-                                    >
-                                        <option value="">Semua Status</option>
-                                        <option value="completed">Selesai</option>
-                                        <option value="pending">Pending</option>
-                                        <option value="cancelled">Dibatalkan</option>
-                                        <option value="refunded">Refund</option>
-                                    </select>
+                                        onChange={(val) => handleParamChange('status', val)}
+                                        options={[
+                                            { value: '', label: 'Semua Status' },
+                                            { value: 'completed', label: 'Selesai' },
+                                            { value: 'pending', label: 'Pending' },
+                                            { value: 'cancelled', label: 'Dibatalkan' },
+                                            { value: 'refunded', label: 'Refund' }
+                                        ]}
+                                        placeholder="Semua Status"
+                                        className="w-[140px]"
+                                    />
 
-                                    <select
+                                    <CustomSelect
                                         value={params.method}
-                                        onChange={(e) => handleParamChange('method', e.target.value)}
-                                        className="h-[40px] bg-white border border-[#D0D0D0] rounded-xl px-3 text-sm font-normal text-black outline-none transition-all duration-150 cursor-pointer hover:border-[#999999] focus:border-[#BFFF00] focus:ring-4 focus:ring-[#BFFF00]/10"
-                                    >
-                                        <option value="">Semua Metode</option>
-                                        <option value="cash">Cash</option>
-                                        <option value="qris">QRIS</option>
-                                        <option value="transfer">Transfer</option>
-                                        <option value="debit">Debit</option>
-                                    </select>
+                                        onChange={(val) => handleParamChange('method', val)}
+                                        options={[
+                                            { value: '', label: 'Semua Metode' },
+                                            { value: 'cash', label: 'Cash' },
+                                            { value: 'qris', label: 'QRIS' },
+                                            { value: 'transfer', label: 'Transfer' },
+                                            { value: 'debit', label: 'Debit' }
+                                        ]}
+                                        placeholder="Semua Metode"
+                                        className="w-[140px]"
+                                    />
 
                                     <button type="submit" className="h-[40px] px-6 bg-[#BFFF00] text-black border border-[#BFFF00] rounded-xl text-sm font-semibold hover:bg-[#C8FF5E] hover:shadow-[0_4px_12px_rgba(191,255,0,0.3)] transition-all duration-200 active:scale-[0.98]">
                                         Cari

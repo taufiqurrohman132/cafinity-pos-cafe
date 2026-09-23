@@ -3,6 +3,7 @@ import Head from '@/Components/Head';
 import client from '@/api/client';
 import SettingsSkeleton from '@/Components/Skeletons/SettingsSkeleton';
 import { useConfirm } from '@/context/ConfirmContext';
+import CustomSelect from '@/Components/CustomSelect';
 
 export default function SettingsIndex() {
     const confirm = useConfirm();
@@ -226,15 +227,15 @@ export default function SettingsIndex() {
     };
 
     const handleSelectUser = (id) => {
-        setSelectedUserIds(prev => 
+        setSelectedUserIds(prev =>
             prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
         );
     };
 
     // Filters for 2FA user modal list
     const filteredUsers = users2fa.filter(user => {
-        const matchesSearch = user.name.toLowerCase().includes(modalSearch.toLowerCase()) || 
-                              user.email.toLowerCase().includes(modalSearch.toLowerCase());
+        const matchesSearch = user.name.toLowerCase().includes(modalSearch.toLowerCase()) ||
+            user.email.toLowerCase().includes(modalSearch.toLowerCase());
         const matchesRole = modalRoleFilter === '' || user.role.toLowerCase() === modalRoleFilter.toLowerCase();
         const matchesStatus = modalStatusFilter === '' || user.status.toLowerCase() === modalStatusFilter.toLowerCase();
         return matchesSearch && matchesRole && matchesStatus;
@@ -275,7 +276,7 @@ export default function SettingsIndex() {
 
             <div className="min-h-screen bg-[#E6E6E6]/30 p-4 md:p-6 lg:p-8">
                 <div className="max-w-[1450px] mx-auto space-y-6">
-                    
+
                     {/* Header */}
                     <div className="text-left space-y-1">
                         <h1 className="text-2xl sm:text-[28px] lg:text-[32px] font-extrabold tracking-[-0.5px] leading-10 text-transparent bg-clip-text bg-gradient-to-r from-black to-[#333333]">Pengaturan Bisnis</h1>
@@ -283,7 +284,7 @@ export default function SettingsIndex() {
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                        
+
                         {/* ── LEFT COLUMN: SIDEBAR NAVIGATION TABS ── */}
                         <div className="lg:col-span-3 space-y-2 bg-white p-4 rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-left">
                             {[
@@ -293,7 +294,7 @@ export default function SettingsIndex() {
                                 { id: 'localization', label: 'Lokalisasi', icon: 'solar:global-linear' },
                                 { id: 'security', label: 'Keamanan', icon: 'solar:shield-keyhole-linear' }
                             ].map((tab) => (
-                                <button 
+                                <button
                                     key={tab.id}
                                     onClick={async () => {
                                         if (hasUnsavedChanges) {
@@ -308,7 +309,7 @@ export default function SettingsIndex() {
                                         setActiveTab(tab.id);
                                         setHasUnsavedChanges(false);
                                     }}
-                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-[0.97] ${ activeTab === tab.id ? 'bg-[#BFFF00] text-black shadow-sm' : 'text-[#666666] hover:bg-[#E6E6E6]/60 hover:text-black' }`}
+                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-[0.97] ${activeTab === tab.id ? 'bg-[#BFFF00] text-black shadow-sm' : 'text-[#666666] hover:bg-[#E6E6E6]/60 hover:text-black'}`}
                                 >
                                     <iconify-icon icon={tab.icon} class="text-lg"></iconify-icon>
                                     {tab.label}
@@ -318,7 +319,7 @@ export default function SettingsIndex() {
 
                         {/* ── RIGHT COLUMN: SETTINGS CONTENT CARDS ── */}
                         <div className="lg:col-span-9 space-y-6">
-                            
+
                             {/* TAB 1: PROFIL TOKO */}
                             {activeTab === 'profile' && (
                                 <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] space-y-5 text-left animate-fadeIn">
@@ -331,9 +332,9 @@ export default function SettingsIndex() {
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                        <div className="space-y-1.5">
-                                            <label className="text-xs font-semibold text-black mb-1.5 block">Nama Bisnis</label>
-                                            <input 
+                                        <div className="flex flex-col gap-1.5">
+                                            <label className="text-xs font-semibold text-black block">Nama Bisnis</label>
+                                            <input
                                                 type="text"
                                                 value={cafeName}
                                                 onChange={(e) => { setCafeName(e.target.value); triggerChange(); }}
@@ -341,18 +342,21 @@ export default function SettingsIndex() {
                                                 placeholder="Nama Toko"
                                             />
                                         </div>
-                                        <div className="space-y-1.5">
-                                            <label className="text-xs font-semibold text-black mb-1.5 block">Kategori Bisnis</label>
-                                            <select 
+
+                                        <div className="flex flex-col gap-1.5">
+                                            <label className="text-xs font-semibold text-black block">Kategori Bisnis</label>
+                                            <CustomSelect
                                                 value={cafeCategory}
-                                                onChange={(e) => { setCafeCategory(e.target.value); triggerChange(); }}
-                                                className="w-full h-11 px-4 py-2.5 text-[13px] bg-white border border-[#D0D0D0] rounded-xl outline-none transition-all duration-200 font-normal text-black cursor-pointer hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
-                                            >
-                                                <option value="Cafe & Restaurant">Cafe &amp; Restaurant</option>
-                                                <option value="Retail">Retail</option>
-                                                <option value="Co-Working Space">Co-Working Space</option>
-                                                <option value="Lainnya">Lainnya</option>
-                                            </select>
+                                                onChange={(val) => { setCafeCategory(val); triggerChange(); }}
+                                                options={[
+                                                    { value: 'Cafe & Restaurant', label: 'Cafe & Restaurant' },
+                                                    { value: 'Retail', label: 'Retail' },
+                                                    { value: 'Co-Working Space', label: 'Co-Working Space' },
+                                                    { value: 'Lainnya', label: 'Lainnya' }
+                                                ]}
+                                                placeholder="Pilih Kategori"
+                                                className="w-full h-11"
+                                            />
                                         </div>
                                     </div>
 
@@ -362,7 +366,7 @@ export default function SettingsIndex() {
                                             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-black/40 flex items-center justify-center">
                                                 <iconify-icon icon="solar:map-point-linear" class="text-base"></iconify-icon>
                                             </span>
-                                            <input 
+                                            <input
                                                 type="text"
                                                 value={cafeAddress}
                                                 onChange={(e) => { setCafeAddress(e.target.value); triggerChange(); }}
@@ -379,7 +383,7 @@ export default function SettingsIndex() {
                                                 <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-black/40 flex items-center justify-center">
                                                     <iconify-icon icon="solar:phone-linear" class="text-base"></iconify-icon>
                                                 </span>
-                                                <input 
+                                                <input
                                                     type="text"
                                                     value={cafePhone}
                                                     onChange={(e) => { setCafePhone(e.target.value); triggerChange(); }}
@@ -394,7 +398,7 @@ export default function SettingsIndex() {
                                                 <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-black/40 flex items-center justify-center">
                                                     <iconify-icon icon="solar:letter-linear" class="text-base"></iconify-icon>
                                                 </span>
-                                                <input 
+                                                <input
                                                     type="email"
                                                     value={cafeEmail}
                                                     onChange={(e) => { setCafeEmail(e.target.value); triggerChange(); }}
@@ -424,31 +428,30 @@ export default function SettingsIndex() {
                                             return (
                                                 <div key={day} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-2.5 border-b border-[#E6E6E6]/60 last:border-none">
                                                     <div className="flex items-center gap-3 w-28 flex-shrink-0">
-                                                        <button 
+                                                        <button
                                                             type="button"
                                                             onClick={() => handleHourToggle(day)}
-                                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${ schedule.active ? 'bg-[#BFFF00]' : 'bg-[#E6E6E6]' } active:scale-[0.97]`}
+                                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${schedule.active ? 'bg-[#BFFF00]' : 'bg-[#E6E6E6]'} active:scale-[0.97]`}
                                                         >
-                                                            <span 
-                                                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                                                    schedule.active ? 'translate-x-6' : 'translate-x-1'
-                                                                }`}
+                                                            <span
+                                                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${schedule.active ? 'translate-x-6' : 'translate-x-1'
+                                                                    }`}
                                                             />
                                                         </button>
                                                         <span className="text-sm font-semibold text-black">{day}</span>
                                                     </div>
- 
+
                                                     {schedule.active ? (
                                                         <div className="flex items-center gap-3 text-xs font-semibold text-[#666666]">
-                                                            <input 
-                                                                type="time" 
+                                                            <input
+                                                                type="time"
                                                                 value={schedule.open}
                                                                 onChange={(e) => handleTimeChange(day, 'open', e.target.value)}
                                                                 className="px-3 py-1.5 text-xs border border-[#D0D0D0] rounded-xl bg-white transition-all outline-none font-normal text-black hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
                                                             />
                                                             <span>sampai</span>
-                                                            <input 
-                                                                type="time" 
+                                                            <input
+                                                                type="time"
                                                                 value={schedule.close}
                                                                 onChange={(e) => handleTimeChange(day, 'close', e.target.value)}
                                                                 className="px-3 py-1.5 text-xs border border-[#D0D0D0] rounded-xl bg-white transition-all outline-none font-normal text-black hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
@@ -483,7 +486,7 @@ export default function SettingsIndex() {
                                         <div className="space-y-1.5">
                                             <label className="text-xs font-semibold text-black mb-1.5 block">Pajak Penjualan (PPN %)</label>
                                             <div className="relative">
-                                                <input 
+                                                <input
                                                     type="number"
                                                     value={taxRate}
                                                     onChange={(e) => { setTaxRate(e.target.value); triggerChange(); }}
@@ -496,7 +499,7 @@ export default function SettingsIndex() {
                                         <div className="space-y-1.5">
                                             <label className="text-xs font-semibold text-black mb-1.5 block">Biaya Layanan (%)</label>
                                             <div className="relative">
-                                                <input 
+                                                <input
                                                     type="number"
                                                     value={serviceCharge}
                                                     onChange={(e) => { setServiceCharge(e.target.value); triggerChange(); }}
@@ -507,22 +510,21 @@ export default function SettingsIndex() {
                                             </div>
                                         </div>
                                     </div>
- 
+
                                     {/* Tax Inclusive Switch */}
                                     <div className="p-4 bg-gray-50/40 border border-[#E6E6E6] rounded-xl flex items-center justify-between">
                                         <div className="space-y-0.5">
                                             <h4 className="text-sm font-semibold text-black">Pajak Termasuk dalam Harga</h4>
                                             <p className="text-[13px] text-[#999999] font-normal">Aktifkan jika harga menu sudah termasuk PPN.</p>
                                         </div>
-                                        <button 
+                                        <button
                                             type="button"
                                             onClick={() => { setTaxInclusive(!taxInclusive); triggerChange(); }}
-                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${ taxInclusive ? 'bg-[#BFFF00]' : 'bg-[#E6E6E6]' } active:scale-[0.97]`}
+                                            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${taxInclusive ? 'bg-[#BFFF00]' : 'bg-[#E6E6E6]'} active:scale-[0.97]`}
                                         >
-                                            <span 
-                                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                                    taxInclusive ? 'translate-x-6' : 'translate-x-1'
-                                                }`}
+                                            <span
+                                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${taxInclusive ? 'translate-x-6' : 'translate-x-1'
+                                                    }`}
                                             />
                                         </button>
                                     </div>
@@ -547,15 +549,18 @@ export default function SettingsIndex() {
                                                 <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-black/40 flex items-center justify-center pointer-events-none">
                                                     <iconify-icon icon="solar:wallet-money-linear" class="text-base"></iconify-icon>
                                                 </span>
-                                                <select 
-                                                    value={currency} 
-                                                    onChange={(e) => { setCurrency(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-white border border-[#D0D0D0] rounded-xl outline-none transition-all duration-200 font-normal text-black cursor-pointer hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
-                                                >
-                                                    <option value="IDR (Indonesian Rupiah)">IDR (Indonesian Rupiah)</option>
-                                                    <option value="USD (US Dollar)">USD (US Dollar)</option>
-                                                    <option value="SGD (Singapore Dollar)">SGD (Singapore Dollar)</option>
-                                                </select>
+                                                <CustomSelect
+                                                    value={currency}
+                                                    onChange={(val) => { setCurrency(val); triggerChange(); }}
+                                                    options={[
+                                                        { value: 'IDR (Indonesian Rupiah)', label: 'IDR (Indonesian Rupiah)' },
+                                                        { value: 'USD (US Dollar)', label: 'USD (US Dollar)' },
+                                                        { value: 'SGD (Singapore Dollar)', label: 'SGD (Singapore Dollar)' }
+                                                    ]}
+                                                    placeholder="Pilih Mata Uang"
+                                                    className="w-full h-11"
+                                                    buttonClassName="pl-10 text-[13px]"
+                                                />
                                             </div>
                                         </div>
                                         <div className="space-y-1.5">
@@ -564,29 +569,35 @@ export default function SettingsIndex() {
                                                 <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-black/40 flex items-center justify-center pointer-events-none">
                                                     <iconify-icon icon="solar:clock-circle-linear" class="text-base"></iconify-icon>
                                                 </span>
-                                                <select 
-                                                    value={timezone} 
-                                                    onChange={(e) => { setTimezone(e.target.value); triggerChange(); }}
-                                                    className="w-full h-11 pl-10 pr-4 text-[13px] bg-white border border-[#D0D0D0] rounded-xl outline-none transition-all duration-200 font-normal text-black cursor-pointer hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
-                                                >
-                                                    <option value="(GMT+07:00) Asia/Jakarta">(GMT+07:00) Asia/Jakarta</option>
-                                                    <option value="(GMT+08:00) Asia/Makassar">(GMT+08:00) Asia/Makassar</option>
-                                                    <option value="(GMT+09:00) Asia/Jayapura">(GMT+09:00) Asia/Jayapura</option>
-                                                </select>
+                                                <CustomSelect
+                                                    value={timezone}
+                                                    onChange={(val) => { setTimezone(val); triggerChange(); }}
+                                                    options={[
+                                                        { value: '(GMT+07:00) Asia/Jakarta', label: '(GMT+07:00) Asia/Jakarta' },
+                                                        { value: '(GMT+08:00) Asia/Makassar', label: '(GMT+08:00) Asia/Makassar' },
+                                                        { value: '(GMT+09:00) Asia/Jayapura', label: '(GMT+09:00) Asia/Jayapura' }
+                                                    ]}
+                                                    placeholder="Pilih Zona Waktu"
+                                                    className="w-full h-11"
+                                                    buttonClassName="pl-10 text-[13px]"
+                                                />
                                             </div>
                                         </div>
                                     </div>
- 
+
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-semibold text-black mb-1.5 block">Bahasa Sistem</label>
-                                        <select 
-                                            value={language} 
-                                            onChange={(e) => { setLanguage(e.target.value); triggerChange(); }}
-                                            className="w-full h-11 px-4 py-2.5 text-[13px] bg-white border border-[#D0D0D0] rounded-xl outline-none transition-all duration-200 font-normal text-black cursor-pointer hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
-                                        >
-                                            <option value="Bahasa Indonesia (ID)">Bahasa Indonesia (ID)</option>
-                                            <option value="English (US)">English (US)</option>
-                                        </select>
+                                        <CustomSelect
+                                            value={language}
+                                            onChange={(val) => { setLanguage(val); triggerChange(); }}
+                                            options={[
+                                                { value: 'Bahasa Indonesia (ID)', label: 'Bahasa Indonesia (ID)' },
+                                                { value: 'English (US)', label: 'English (US)' }
+                                            ]}
+                                            placeholder="Pilih Bahasa"
+                                            className="w-full h-11"
+                                            buttonClassName="text-[13px]"
+                                        />
                                     </div>
                                 </div>
                             )}
@@ -594,7 +605,7 @@ export default function SettingsIndex() {
                             {/* TAB 5: KEAMANAN (MOCKUP VISLY REDESIGN) */}
                             {activeTab === 'security' && (
                                 <div className="space-y-6 text-left animate-fadeIn">
-                                    
+
                                     {/* Card 1: Kebijakan Kata Sandi */}
                                     <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] space-y-6">
                                         <div>
@@ -614,7 +625,7 @@ export default function SettingsIndex() {
                                                         <span className="bg-[#E6E6E6]/60 text-black px-3 py-1 rounded-lg font-mono text-sm">{minPasswordLength}</span>
                                                     </div>
                                                     <div className="flex items-center gap-3">
-                                                        <input 
+                                                        <input
                                                             type="range"
                                                             min="8"
                                                             max="32"
@@ -637,7 +648,7 @@ export default function SettingsIndex() {
                                                             { id: 'symbols', label: 'Simbol (!@#$%)' }
                                                         ].map(opt => (
                                                             <label key={opt.id} className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-black">
-                                                                <input 
+                                                                <input
                                                                     type="checkbox"
                                                                     checked={passwordComplexity[opt.id]}
                                                                     onChange={() => {
@@ -652,7 +663,7 @@ export default function SettingsIndex() {
                                                     </div>
                                                 </div>
                                             </div>
- 
+
                                             {/* Right side: Expiry & Roles */}
                                             <div className="space-y-4">
                                                 <div className="space-y-1.5">
@@ -661,28 +672,34 @@ export default function SettingsIndex() {
                                                     <div className="space-y-3">
                                                         <div className="space-y-1">
                                                             <span className="text-xs font-semibold text-[#666666] block mb-1">Kedaluwarsa Sandi</span>
-                                                            <select 
+                                                            <CustomSelect
                                                                 value={passwordExpiry}
-                                                                onChange={(e) => { setPasswordExpiry(e.target.value); triggerChange(); }}
-                                                                className="w-full px-3 py-2.5 text-[13px] bg-white border border-[#D0D0D0] rounded-xl transition-all outline-none font-normal text-black cursor-pointer hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
-                                                            >
-                                                                <option value="30">Setiap 30 Hari</option>
-                                                                <option value="90">Setiap 90 Hari</option>
-                                                                <option value="180">Setiap 180 Hari</option>
-                                                                <option value="never">Tidak Pernah</option>
-                                                            </select>
+                                                                onChange={(val) => { setPasswordExpiry(val); triggerChange(); }}
+                                                                options={[
+                                                                    { value: '30', label: 'Setiap 30 Hari' },
+                                                                    { value: '90', label: 'Setiap 90 Hari' },
+                                                                    { value: '180', label: 'Setiap 180 Hari' },
+                                                                    { value: 'never', label: 'Tidak Pernah' }
+                                                                ]}
+                                                                placeholder="Pilih Masa Berlaku"
+                                                                className="w-full h-11"
+                                                                buttonClassName="text-[13px]"
+                                                            />
                                                         </div>
                                                         <div className="space-y-1">
                                                             <span className="text-xs font-semibold text-[#666666] block mb-1">Cegah Penggunaan Sandi Lama</span>
-                                                            <select 
+                                                            <CustomSelect
                                                                 value={preventOldPassword}
-                                                                onChange={(e) => { setPreventOldPassword(e.target.value); triggerChange(); }}
-                                                                className="w-full px-3 py-2.5 text-[13px] bg-white border border-[#D0D0D0] rounded-xl transition-all outline-none font-normal text-black cursor-pointer hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
-                                                            >
-                                                                <option value="3">3 Sandi Terakhir</option>
-                                                                <option value="5">5 Sandi Terakhir</option>
-                                                                <option value="10">10 Sandi Terakhir</option>
-                                                            </select>
+                                                                onChange={(val) => { setPreventOldPassword(val); triggerChange(); }}
+                                                                options={[
+                                                                    { value: '3', label: '3 Sandi Terakhir' },
+                                                                    { value: '5', label: '5 Sandi Terakhir' },
+                                                                    { value: '10', label: '10 Sandi Terakhir' }
+                                                                ]}
+                                                                placeholder="Pilih Batasan"
+                                                                className="w-full h-11"
+                                                                buttonClassName="text-[13px]"
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -698,7 +715,7 @@ export default function SettingsIndex() {
                                                             { id: 'cashier', label: 'Kasir' }
                                                         ].map(role => (
                                                             <label key={role.id} className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-black">
-                                                                <input 
+                                                                <input
                                                                     type="checkbox"
                                                                     checked={requireRole2fa[role.id]}
                                                                     onChange={() => {
@@ -715,7 +732,7 @@ export default function SettingsIndex() {
                                             </div>
                                         </div>
                                     </div>
- 
+
                                     {/* Card 2: Autentikasi Dua Faktor (2FA) */}
                                     <div className="bg-white p-6 rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] space-y-6">
                                         <div className="flex items-center justify-between border-b border-[#E6E6E6]/60 pb-3">
@@ -728,10 +745,10 @@ export default function SettingsIndex() {
                                             </div>
                                             <div className="flex items-center gap-2.5 bg-[#E6E6E6]/40 px-3 py-1.5 rounded-xl border border-[#E6E6E6]">
                                                 <span className="text-xs font-semibold text-black capitalize">Status Global:</span>
-                                                <button 
+                                                <button
                                                     type="button"
                                                     onClick={() => { setGlobal2fa(!global2fa); triggerChange(); }}
-                                                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${ global2fa ? 'bg-[#BFFF00]' : 'bg-[#E6E6E6]' } active:scale-[0.97]`}
+                                                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${global2fa ? 'bg-[#BFFF00]' : 'bg-[#E6E6E6]'} active:scale-[0.97]`}
                                                 >
                                                     <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${global2fa ? 'translate-x-6' : 'translate-x-1'}`} />
                                                 </button>
@@ -771,7 +788,7 @@ export default function SettingsIndex() {
                                                     <div className="relative w-12 h-12 flex items-center justify-center flex-shrink-0">
                                                         <svg className="w-full h-full transform -rotate-90">
                                                             <circle cx="24" cy="24" r="20" stroke="#E6E6E6" strokeWidth="4" fill="transparent" />
-                                                            <circle cx="24" cy="24" r="20" stroke="#BFFF00" strokeWidth="4" fill="transparent" 
+                                                            <circle cx="24" cy="24" r="20" stroke="#BFFF00" strokeWidth="4" fill="transparent"
                                                                 strokeDasharray={`${2 * Math.PI * 20}`}
                                                                 strokeDashoffset={`${2 * Math.PI * 20 * (1 - 0.6)}`}
                                                             />
@@ -783,7 +800,7 @@ export default function SettingsIndex() {
                                                         <p className="text-xs text-[#666666] font-normal">Telah mengaktifkan 2FA.</p>
                                                     </div>
                                                 </div>
-                                                <button 
+                                                <button
                                                     type="button"
                                                     onClick={() => setShow2faModal(true)}
                                                     className="w-full py-2 bg-[#BFFF00] hover:bg-[#C8FF5E] text-black text-sm font-semibold rounded-xl duration-150 active:scale-[0.97] shadow-sm transition-all"
@@ -804,7 +821,7 @@ export default function SettingsIndex() {
                                                 </h3>
                                                 <p className="text-[13px] text-[#999999] mt-1">Daftar perangkat yang saat ini masuk ke akun Anda.</p>
                                             </div>
-                                            <button 
+                                            <button
                                                 type="button"
                                                 onClick={handleLogoutAllSessions}
                                                 className="px-3.5 py-1.5 text-xs font-semibold text-[#FF3B30] border border-[#FF3B30]/20 hover:bg-[#FF3B30]/5 rounded-xl transition-all duration-200 active:scale-[0.97]"
@@ -847,7 +864,7 @@ export default function SettingsIndex() {
                                                             </td>
                                                             <td className="px-5 py-3.5 text-right">
                                                                 {s.last_active !== 'Sekarang' ? (
-                                                                    <button 
+                                                                    <button
                                                                         onClick={() => handleTerminateSession(s.id, s.device)}
                                                                         className="text-xs font-semibold text-black border-b border-[#D0D0D0] hover:border-black transition-colors duration-150 active:scale-[0.97]"
                                                                     >
@@ -881,14 +898,14 @@ export default function SettingsIndex() {
                                     )}
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <button 
+                                    <button
                                         type="button"
                                         onClick={handleCancel}
                                         className="px-6 py-2.5 text-sm font-semibold text-black bg-white border border-[#D0D0D0] rounded-xl hover:bg-[#E6E6E6] transition-all duration-200 active:scale-[0.98] shadow-sm"
                                     >
                                         Batalkan
                                     </button>
-                                    <button 
+                                    <button
                                         type="button"
                                         onClick={handleSave}
                                         className="px-7 py-2.5 text-sm font-semibold text-black bg-[#BFFF00] hover:bg-[#C8FF5E] rounded-xl transition-all duration-200 active:scale-[0.98] shadow-md shadow-[#BFFF00]/10"
@@ -901,7 +918,7 @@ export default function SettingsIndex() {
                     </div>
                 </div>
             </div>
-                {/* ── MODAL: KELOLA 2FA PER USER ── */}
+            {/* ── MODAL: KELOLA 2FA PER USER ── */}
             {show2faModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fadeIn">
                     <div className="bg-white rounded-3xl max-w-6xl w-full mx-4 shadow-[0_8px_24px_rgba(0,0,0,0.12)] border border-[#E6E6E6] overflow-hidden animate-slideUp">
@@ -916,21 +933,21 @@ export default function SettingsIndex() {
                                     <p className="text-[13px] text-[#999999] font-normal mt-0.5">Daftar pengguna dan status keamanan autentikasi mereka</p>
                                 </div>
                             </div>
-                            <button 
+                            <button
                                 onClick={() => { setShow2faModal(false); setSelectedUserIds([]); }}
                                 className="w-8 h-8 rounded-full border border-[#D0D0D0] text-black/50 hover:text-black bg-white hover:bg-[#E6E6E6] flex items-center justify-center active:scale-[0.98] transition-all duration-150"
                             >
                                 <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
                             </button>
                         </div>
- 
+
                         {/* Search & Filters */}
                         <div className="px-6 py-4 bg-[#E6E6E6]/10 border-b border-[#E6E6E6]/60 flex flex-col sm:flex-row gap-3">
                             <div className="relative flex-1">
                                 <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-black/40 flex items-center justify-center pointer-events-none">
                                     <iconify-icon icon="solar:magnifer-linear" class="text-base"></iconify-icon>
                                 </span>
-                                <input 
+                                <input
                                     type="text"
                                     placeholder="Cari nama atau email..."
                                     value={modalSearch}
@@ -938,29 +955,33 @@ export default function SettingsIndex() {
                                     className="w-full h-11 pl-10 pr-4 text-[13px] bg-white border border-[#D0D0D0] rounded-xl placeholder-[#999999] placeholder:italic outline-none transition-all duration-200 shadow-sm font-normal text-black hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
                                 />
                             </div>
- 
-                            <select 
-                                value={modalRoleFilter} 
-                                onChange={(e) => setModalRoleFilter(e.target.value)}
-                                className="px-3 py-2.5 text-xs border border-[#D0D0D0] rounded-xl bg-white transition-all outline-none font-normal text-black cursor-pointer hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
-                            >
-                                <option value="">Semua Role</option>
-                                <option value="owner">Owner</option>
-                                <option value="manager">Manager</option>
-                                <option value="admin">Admin</option>
-                                <option value="employee">Employee</option>
-                                <option value="cashier">Cashier</option>
-                            </select>
- 
-                            <select 
-                                value={modalStatusFilter} 
-                                onChange={(e) => setModalStatusFilter(e.target.value)}
-                                className="px-3 py-2.5 text-xs border border-[#D0D0D0] rounded-xl bg-white transition-all outline-none font-normal text-black cursor-pointer hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
-                            >
-                                <option value="">Semua Status</option>
-                                <option value="terdaftar">Terdaftar</option>
-                                <option value="belum aktif">Belum Aktif</option>
-                            </select>
+
+                            <CustomSelect
+                                value={modalRoleFilter}
+                                onChange={(val) => setModalRoleFilter(val)}
+                                options={[
+                                    { value: '', label: 'Semua Role' },
+                                    { value: 'owner', label: 'Owner' },
+                                    { value: 'manager', label: 'Manager' },
+                                    { value: 'admin', label: 'Admin' },
+                                    { value: 'employee', label: 'Employee' },
+                                    { value: 'cashier', label: 'Cashier' }
+                                ]}
+                                placeholder="Semua Role"
+                                className="w-[140px]"
+                            />
+
+                            <CustomSelect
+                                value={modalStatusFilter}
+                                onChange={(val) => setModalStatusFilter(val)}
+                                options={[
+                                    { value: '', label: 'Semua Status' },
+                                    { value: 'terdaftar', label: 'Terdaftar' },
+                                    { value: 'belum aktif', label: 'Belum Aktif' }
+                                ]}
+                                placeholder="Semua Status"
+                                className="w-[140px]"
+                            />
                         </div>
 
                         {/* Modal Users Table */}
@@ -969,7 +990,7 @@ export default function SettingsIndex() {
                                 <thead>
                                     <tr className="text-xs font-semibold text-[#666666] bg-[#E6E6E6]/30 border-b border-[#E6E6E6] tracking-wider text-[11px] capitalize">
                                         <th className="px-6 py-3.5 w-12 text-center">
-                                            <input 
+                                            <input
                                                 type="checkbox"
                                                 onChange={handleSelectAllUsers}
                                                 checked={selectedUserIds.length === filteredUsers.length && filteredUsers.length > 0}
@@ -995,7 +1016,7 @@ export default function SettingsIndex() {
                                         filteredUsers.map(user => (
                                             <tr key={user.id} className="hover:bg-[#E6E6E6]/30 transition-all cursor-pointer font-normal text-black">
                                                 <td className="px-6 py-3 text-center">
-                                                    <input 
+                                                    <input
                                                         type="checkbox"
                                                         checked={selectedUserIds.includes(user.id)}
                                                         onChange={() => handleSelectUser(user.id)}
@@ -1018,40 +1039,39 @@ export default function SettingsIndex() {
                                                 </td>
                                                 <td className="px-6 py-3 text-left">
                                                     <span className="inline-flex items-center gap-1.5 font-semibold text-black">
-                                                        <iconify-icon 
-                                                            icon={user.method === 'None' ? 'solar:shield-warning-linear' : user.method === 'SMS' ? 'solar:letter-linear' : 'solar:shield-keyhole-linear'} 
+                                                        <iconify-icon
+                                                            icon={user.method === 'None' ? 'solar:shield-warning-linear' : user.method === 'SMS' ? 'solar:letter-linear' : 'solar:shield-keyhole-linear'}
                                                             class={user.method === 'None' ? 'text-[#999999]' : 'text-black'}
                                                         ></iconify-icon>
                                                         {user.method}
                                                     </span>
                                                 </td>
                                                 <td className="px-6 py-3 text-left">
-                                                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize tracking-wider border ${
-                                                        user.status === 'Terdaftar' 
-                                                            ? 'bg-emerald-50 text-emerald-700 border-emerald-100' 
+                                                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize tracking-wider border ${user.status === 'Terdaftar'
+                                                            ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
                                                             : 'bg-[#E6E6E6]/20 text-[#666666] border-[#D0D0D0]'
-                                                    }`}>
+                                                        }`}>
                                                         {user.status}
                                                     </span>
                                                 </td>
                                                 <td className="px-6 py-3 text-left text-[#666666] font-semibold">{user.last_verified}</td>
                                                 <td className="px-6 py-3 text-right">
                                                     <div className="flex items-center justify-end gap-1.5">
-                                                        <button 
+                                                        <button
                                                             onClick={() => alert(`Kirim pengingat pendaftaran 2FA ke ${user.name}`)}
                                                             className="w-7 h-7 rounded-xl bg-white border border-[#D0D0D0] flex items-center justify-center text-[#666666] hover:text-black hover:border-black hover:shadow-sm active:scale-[0.97] transition-all duration-150"
                                                             title="Kirim Pengingat"
                                                         >
                                                             <iconify-icon icon="solar:letter-linear" class="text-xs"></iconify-icon>
                                                         </button>
-                                                        <button 
+                                                        <button
                                                             onClick={() => alert(`Reset kunci 2FA untuk ${user.name}`)}
                                                             className="w-7 h-7 rounded-xl bg-white border border-[#D0D0D0] flex items-center justify-center text-[#666666] hover:text-[#FF3B30] hover:border-[#FF3B30] hover:shadow-sm active:scale-[0.97] transition-all duration-150"
                                                             title="Reset 2FA"
                                                         >
                                                             <iconify-icon icon="solar:history-linear" class="text-xs"></iconify-icon>
                                                         </button>
-                                                        <button 
+                                                        <button
                                                             onClick={() => alert(`Kelola hak akses/opsi 2FA untuk ${user.name}`)}
                                                             className="w-7 h-7 rounded-xl bg-white border border-[#D0D0D0] flex items-center justify-center text-[#666666] hover:text-black hover:border-black hover:shadow-sm active:scale-[0.97] transition-all duration-150"
                                                             title="Kelola User"
@@ -1066,14 +1086,14 @@ export default function SettingsIndex() {
                                 </tbody>
                             </table>
                         </div>
- 
+
                         {/* Modal Footer */}
                         <div className="px-6 py-4 bg-[#E6E6E6]/10 border-t border-[#E6E6E6] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div className="text-[13px] font-semibold text-[#666666] text-left">
                                 {selectedUserIds.length} User Terpilih <span className="text-gray-300 font-normal px-1">|</span> <span className="font-semibold text-[#999999]">Pilih user untuk melakukan aksi massal</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <button 
+                                <button
                                     onClick={() => {
                                         if (selectedUserIds.length === 0) return alert('Silakan pilih setidaknya 1 user.');
                                         alert(`Mengirim pesan email pengingat masal ke ${selectedUserIds.length} user...`);
@@ -1084,7 +1104,7 @@ export default function SettingsIndex() {
                                     <iconify-icon icon="solar:letter-linear" class="text-sm"></iconify-icon>
                                     Kirim Pengingat Masal
                                 </button>
-                                <button 
+                                <button
                                     onClick={async () => {
                                         if (selectedUserIds.length === 0) return alert('Silakan pilih setidaknya 1 user.');
                                         if (await confirm({

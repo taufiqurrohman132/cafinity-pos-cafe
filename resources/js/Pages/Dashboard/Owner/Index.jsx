@@ -42,7 +42,7 @@ function StatCard({ title, value, trend, trendType, trend_type, icon, iconBg, ic
             </div>
             <div className="mt-1">
                 <p className="text-body-compact text-brand-primary/60 font-medium truncate">{title}</p>
-                <p className="text-[20px] font-semibold mt-1 tracking-tight truncate text-black">{value}</p>
+                <p className="text-xl md:text-2xl font-extrabold mt-0.5 tracking-tight truncate text-black leading-tight">{value}</p>
             </div>
         </div>
     );

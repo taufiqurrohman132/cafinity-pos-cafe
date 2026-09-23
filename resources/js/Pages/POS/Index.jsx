@@ -4,9 +4,29 @@ import Head from '@/Components/Head';
 import client from '@/api/client';
 import { useNotifications } from '@/context/NotificationContext';
 import POSSkeleton from '@/Components/Skeletons/POSSkeleton';
+import CustomSelect from '@/Components/CustomSelect';
 
 function formatRupiah(amount) {
     return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
+}
+
+function formatRelativeTime(timestamp) {
+    if (!timestamp) return '';
+    const now = new Date();
+    const then = new Date(timestamp);
+    const diffMs = now - then;
+    const diffMin = Math.floor(diffMs / 60000);
+
+    if (diffMin < 1) return 'Baru saja';
+    if (diffMin < 60) return `${diffMin} menit lalu`;
+    const diffHour = Math.floor(diffMin / 60);
+    return `${diffHour} jam lalu`;
+}
+
+function isHeldOrderStale(timestamp) {
+    if (!timestamp) return false;
+    const diffMs = new Date() - new Date(timestamp);
+    return diffMs > 15 * 60 * 1000; // > 15 menit dianggap stale
 }
 
 function getQuickCashSuggestions(totalAmount) {
@@ -318,6 +338,24 @@ export default function POS() {
         }
     };
 
+    const deleteHeldOrder = async (id) => {
+        setLocalHeldOrders(prev =>
+            prev.map(h => h.id === id ? { ...h, isExiting: true } : h)
+        );
+        // Delay sesuai durasi animasi exit sebelum benar-benar dihapus dari state
+        setTimeout(async () => {
+            setLocalHeldOrders(prev => prev.filter(h => h.id !== id));
+            try {
+                const url = (urls.cancel || '/api/pos/cancel/__ID__').replace('__ID__', id).replace(/^\/api/, '');
+                await client.post(url);
+                setRefreshTrigger(prev => prev + 1);
+            } catch (e) {
+                console.error("Gagal membatalkan transaksi tertahan:", e);
+                setErrorMessage(e.response?.data?.message || e.message || 'Gagal membatalkan transaksi tertahan.');
+            }
+        }, 300);
+    };
+
     if (loadingData && menus.length === 0) {
         return (
             <>
@@ -386,9 +424,9 @@ export default function POS() {
                             <div className="w-[92px] overflow-y-auto flex flex-col gap-4 flex-shrink-0 pb-4">
                                 <button
                                     onClick={() => setSelectedCategory(null)}
-                                    className={`rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300 ${selectedCategory === null ? 'bg-gradient-to-b from-brand-secondary to-brand-primary text-white shadow-lg shadow-brand-primary/30 border-none' : 'bg-white text-brand-primary border border-brand-light hover:bg-gradient-to-br hover:from-white hover:to-brand-light/50 hover:text-brand-dark hover:border-brand-secondary hover:shadow-sm'} active:scale-[0.97]`}
+                                    className={`rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300 ${selectedCategory === null ? 'bg-black text-[#BFFF00] shadow-lg shadow-brand-primary/30 border-none' : 'bg-white text-brand-primary border border-brand-light hover:bg-gradient-to-br hover:from-white hover:to-brand-light/50 hover:text-brand-dark hover:border-brand-secondary hover:shadow-sm'} active:scale-[0.97]`}
                                 >
-                                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${selectedCategory === null ? 'bg-white/20' : 'bg-brand-light/50'}`}>
+                                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${selectedCategory === null ? 'bg-[#BFFF00]/20' : 'bg-brand-light/50'}`}>
                                         <iconify-icon icon="solar:widget-linear" class="text-[18px]" />
                                     </div>
                                     <span className="text-xs font-bold tracking-wide">Semua</span>
@@ -398,9 +436,9 @@ export default function POS() {
                                     <button
                                         key={cat.id}
                                         onClick={() => setSelectedCategory(cat.id)}
-                                        className={`rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300 ${selectedCategory === cat.id ? 'bg-gradient-to-b from-brand-secondary to-brand-primary text-white shadow-lg shadow-brand-primary/30 border-none' : 'bg-white text-brand-primary border border-brand-light hover:bg-gradient-to-br hover:from-white hover:to-brand-light/50 hover:text-brand-dark hover:border-brand-secondary hover:shadow-sm'} active:scale-[0.97]`}
+                                        className={`rounded-2xl h-[82px] flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all duration-300 ${selectedCategory === cat.id ? 'bg-black text-[#BFFF00] shadow-lg shadow-brand-primary/30 border-none' : 'bg-white text-brand-primary border border-brand-light hover:bg-gradient-to-br hover:from-white hover:to-brand-light/50 hover:text-brand-dark hover:border-brand-secondary hover:shadow-sm'} active:scale-[0.97]`}
                                     >
-                                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${selectedCategory === cat.id ? 'bg-white/20' : 'bg-brand-light/50'}`}>
+                                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${selectedCategory === cat.id ? 'bg-[#BFFF00]/20' : 'bg-brand-light/50'}`}>
                                             <iconify-icon icon={cat.icon} class="text-[18px]" />
                                         </div>
                                         <span className="text-xs font-semibold text-center leading-tight px-1">{cat.name}</span>
@@ -429,7 +467,7 @@ export default function POS() {
                                                 </div>
                                                 <div className="flex items-center justify-between mt-auto">
                                                     <span className="text-sm font-extrabold text-brand-dark">{formatRupiah(menu.price)}</span>
-                                                    <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-light/50 to-brand-light/30 text-brand-white flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-brand-secondary group-hover:to-brand-primary group-hover:text-white transition-all duration-150 shadow-sm">
+                                                    <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-light/50 to-brand-light/30 text-brand-white flex items-center justify-center group-hover:bg-none group-hover:bg-black group-hover:text-white transition-all duration-150 shadow-sm">
                                                         <iconify-icon icon="solar:add-circle-linear" class="text-[20px]" />
                                                     </div>
                                                 </div>
@@ -448,7 +486,7 @@ export default function POS() {
                 </div>
 
                 {/* ── CART ── */}
-                <div className="w-[340px] bg-white border-l border-brand-light shadow-[-10px_0_30px_rgb(var(--color-brand-primary)/0.08)] flex flex-col h-[calc(100vh-72px)] relative z-10 flex-shrink-0">
+                <div className="w-[340px] bg-white border-l border-brand-light shadow-[-10px_0_30px_rgb(var(--color-brand-primary)/0.08)] flex flex-col h-[calc(100dvh-72px)] relative z-10 flex-shrink-0">
 
                     {/* Cart header */}
                     <div className="h-[76px] border-b border-brand-light px-5 flex items-center justify-between flex-shrink-0 bg-white/80 backdrop-blur-md">
@@ -468,69 +506,116 @@ export default function POS() {
                         <div className={`px-5 py-3 border-b border-brand-light flex-shrink-0 bg-gradient-to-b from-brand-light/30 to-transparent held-order-container ${localHeldOrders.filter(h => !h.isExiting).length === 0 ? 'collapsed' : ''
                             }`}>
                             <p className="text-xs font-extrabold text-brand-dark/60 tracking-wider mb-2.5 flex items-center gap-1">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#BFFF00] animate-pulse" /> Tertahan
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#BFFF00] animate-pulse" />
+                                Tertahan
+                                <span className="text-brand-dark/40 font-semibold">({localHeldOrders.length})</span>
                             </p>
-                            <div className="flex gap-2.5 overflow-x-auto pb-1.5">
-                                {localHeldOrders.map(held => (
-                                    <button
-                                        key={held.id}
-                                        onClick={() => resumeOrder(held.id)}
-                                        className={`text-left px-3 py-2 rounded-xl bg-white border border-brand-light shadow-sm hover:border-brand-secondary flex-shrink-0 transition-all duration-300 ease-in-out held-order-item ${held.isEntering ? 'entering' : ''} ${held.isExiting ? 'exiting' : ''} active:scale-[0.97]`}
-                                    >
-                                        <div className={`transition-opacity duration-300 ${held.isEntering || held.isExiting ? 'opacity-0' : 'opacity-100'}`}>
-                                            <p className="text-xs font-bold text-brand-dark">{held.label}</p>
-                                            <p className="text-xs font-normal text-brand-dark/50 mt-0.5 whitespace-nowrap">
-                                                {held.items_count} item · {formatRupiah(held.total)}
-                                            </p>
+                            <div className="relative">
+                                {/* pt-2 dikasih di sini biar tombol silang yang nongol ke atas ga kepotong sama overflow-x-auto */}
+                                <div className="flex gap-2.5 overflow-x-auto pt-2 pb-1.5 scrollbar-hide">
+                                    {localHeldOrders.map(held => (
+                                        <div
+                                            key={held.id}
+                                            className={`group relative flex-shrink-0 held-order-item ${held.isEntering ? 'entering' : ''} ${held.isExiting ? 'exiting' : ''}`}
+                                        >
+                                            <button
+                                                onClick={() => resumeOrder(held.id)}
+                                                aria-label={`Lanjutkan pesanan ${held.label}, ${held.items_count} item, total ${formatRupiah(held.total)}`}
+                                                className="text-left px-3 py-2 pr-6 rounded-xl bg-white border border-brand-light shadow-sm hover:border-brand-secondary transition-all duration-300 ease-in-out active:scale-[0.97] w-full"
+                                            >
+                                                <div className={`transition-all duration-300 ${held.isEntering || held.isExiting ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
+                                                    <p className="text-xs font-bold text-brand-dark truncate max-w-[140px]">{held.label}</p>
+                                                    <p className="text-xs font-normal text-brand-dark/50 mt-0.5 whitespace-nowrap">
+                                                        {held.items_count} item · {formatRupiah(held.total)}
+                                                    </p>
+                                                    <p className={`text-[10px] font-medium mt-0.5 ${isHeldOrderStale(held.created_at) ? 'text-rose-500' : 'text-brand-dark/40'
+                                                        }`}>
+                                                        {formatRelativeTime(held.created_at)}
+                                                    </p>
+                                                </div>
+                                            </button>
+
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); deleteHeldOrder(held.id); }}
+                                                aria-label={`Hapus pesanan tertahan ${held.label}`}
+                                                className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center shadow-sm hover:bg-rose-600 active:scale-[0.9] transition-colors z-10"
+                                            >
+                                                ×
+                                            </button>
                                         </div>
-                                    </button>
-                                ))}
+                                    ))}
+                                </div>
+                                {/* Fade dipertegas biar kelihatan jelas masih ada card berikutnya */}
+                                <div className="absolute right-0 top-2 bottom-1.5 w-10 bg-gradient-to-l from-brand-light/60 via-brand-light/20 to-transparent pointer-events-none" />
                             </div>
                         </div>
                     )}
 
                     {/* Cart items */}
-                    <div className="flex-1 overflow-y-auto px-5 py-4 relative scrollbar-auto">
-                        {/* Empty Cart Placeholder */}
-                        <div className={`absolute inset-0 flex flex-col items-center justify-center text-center px-9 cart-empty-state ${cart.length === 0 ? '' : 'hidden-state hidden'
-                            }`}>
-                            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-light/50 to-white border border-brand-light flex items-center justify-center mb-4 shadow-inner">
-                                <iconify-icon icon="solar:cookie-linear" class="text-[38px] text-brand-secondary" />
-                            </div>
-                            <h4 className="text-sm font-bold text-brand-dark">Keranjang masih kosong</h4>
-                            <p className="text-xs font-normal text-brand-dark/50 mt-1">Pilih menu di sebelah kiri untuk menambahkan.</p>
-                        </div>
-
-                        {/* Active Cart Items */}
-                        <div className={`space-y-4 cart-active-state ${cart.length > 0 ? '' : 'hidden-state hidden'
-                            }`}>
-                            {cart.map((item, index) => (
-                                <div key={`${item.menu_id}-${index}`} className="flex gap-3 items-start pb-4 border-b border-brand-light/50 last:border-0 last:pb-0 animate-in fade-in slide-in-from-bottom-2 duration-200">
-                                    <div className="flex-1 min-w-0 pt-0.5">
-                                        <p className="text-sm font-semibold text-brand-dark truncate">{item.name}</p>
-                                        <p className="text-xs font-medium text-brand-dark/60 mt-0.5">{formatRupiah(item.price)} / item</p>
-                                    </div>
-                                    <div className="flex items-center gap-1 flex-shrink-0 bg-gradient-to-br from-brand-light/40 to-brand-light/10 rounded-lg p-1 border border-brand-light">
-                                        <button onClick={() => decreaseQty(index)}
-                                            className="w-6 h-6 rounded-md bg-white border border-brand-light text-brand-primary text-sm font-bold hover:bg-brand-light hover:text-brand-dark transition-colors shadow-sm flex items-center justify-center active:scale-[0.97]">
-                                            &minus;
-                                        </button>
-                                        <span className="text-xs font-bold w-6 text-center text-brand-dark">{item.qty}</span>
-                                        <button onClick={() => increaseQty(index)}
-                                            className="w-6 h-6 rounded-md bg-gradient-to-br from-brand-secondary to-brand-primary text-white text-sm font-bold hover:from-brand-primary hover:to-brand-dark transition-colors shadow-sm flex items-center justify-center active:scale-[0.97]">
-                                            +
-                                        </button>
-                                    </div>
-                                    <div className="text-right flex-shrink-0 flex flex-col items-end pt-0.5 ml-2">
-                                        <p className="text-sm font-bold text-black">{formatRupiah(item.price * item.qty)}</p>
-                                        <button onClick={() => removeFromCart(index)}
-                                            className="text-xs font-semibold text-rose-500 hover:text-rose-600 mt-1.5 transition-colors active:scale-[0.97]">
-                                            Hapus
-                                        </button>
-                                    </div>
+                    <div className="flex-1 min-h-0 relative flex flex-col">
+                        <div className="flex-1 overflow-y-auto px-5 py-4 relative scrollbar-auto">
+                            {/* Empty Cart Placeholder */}
+                            <div className={`absolute inset-0 flex flex-col items-center justify-center text-center px-9 cart-empty-state ${cart.length === 0 ? '' : 'hidden-state hidden'
+                                }`}>
+                                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-light/50 to-white border border-brand-light flex items-center justify-center mb-4 shadow-inner">
+                                    <iconify-icon icon="solar:cookie-linear" class="text-[38px] text-brand-secondary" />
                                 </div>
-                            ))}
+                                <h4 className="text-sm font-bold text-brand-dark">Keranjang masih kosong</h4>
+                                <p className="text-xs font-normal text-brand-dark/50 mt-1">Pilih menu di sebelah kiri untuk menambahkan.</p>
+                            </div>
+
+                            {/* Active Cart Items */}
+                            <div className={`space-y-4 cart-active-state ${cart.length > 0 ? '' : 'hidden-state hidden'
+                                }`}>
+                                {cart.map((item, index) => (
+                                    <div key={`${item.menu_id}-${index}`} className="grid grid-cols-[1fr_92px_88px] gap-3 items-start pb-4 border-b border-brand-light last:border-0 last:pb-0">
+                                        {/* Kolom 1: Nama + harga satuan */}
+                                        <div className="min-w-0 pt-0.5">
+                                            <p className="text-sm font-semibold text-brand-dark line-clamp-2">{item.name}</p>
+                                            <p className="text-xs font-medium text-brand-dark/60 mt-0.5">{formatRupiah(item.price)} / item</p>
+                                        </div>
+
+                                        {/* Kolom 2: Stepper qty — kontras tombol minus dipertegas */}
+                                        <div className="flex items-center justify-self-start gap-2">
+                                            <button
+                                                onClick={() => decreaseQty(index)}
+                                                disabled={loading || item.qty <= 1}
+                                                aria-label={`Kurangi jumlah ${item.name}`}
+                                                className="w-7 h-7 rounded-full bg-neutral-100 border border-[#D0D0D0] text-brand-dark text-sm font-bold flex items-center justify-center hover:bg-brand-light hover:border-brand-secondary active:scale-[0.97] shadow-sm disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-neutral-100 disabled:hover:border-[#D0D0D0]"
+                                            >
+                                                &minus;
+                                            </button>
+                                            <span className="text-xs font-bold w-5 text-center text-brand-dark">{item.qty}</span>
+                                            <button
+                                                onClick={() => increaseQty(index)}
+                                                disabled={loading || (item.stock !== undefined && item.qty >= item.stock)}
+                                                aria-label={`Tambah jumlah ${item.name}`}
+                                                className="w-7 h-7 rounded-full bg-gradient-to-br from-brand-secondary to-brand-primary text-white text-sm font-bold flex items-center justify-center hover:from-brand-primary hover:to-brand-dark active:scale-[0.97] shadow-sm disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:from-brand-secondary disabled:hover:to-brand-primary"
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+
+                                        {/* Kolom 3: Total + Hapus */}
+                                        <div className="text-right flex flex-col items-end pt-0.5">
+                                            <p className="text-sm font-bold text-black whitespace-nowrap">{formatRupiah(item.price * item.qty)}</p>
+                                            <button
+                                                onClick={() => removeFromCart(index)}
+                                                disabled={loading}
+                                                aria-label={`Hapus ${item.name} dari keranjang`}
+                                                className="text-xs font-semibold text-rose-500 mt-1.5 px-2.5 py-1 rounded-full hover:bg-rose-50 hover:text-rose-600 focus:bg-rose-50 focus:text-rose-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-200 transition-colors active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed"
+                                            >
+                                                Hapus
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
+                        {/* Fade indicator — nunjukkin area cart items masih bisa discroll */}
+                        {cart.length > 0 && (
+                            <div className="h-6 bg-gradient-to-t from-white to-transparent relative z-10 pointer-events-none flex-shrink-0 -mt-6" />
+                        )}
                     </div>
 
                     {/* Footer */}
@@ -610,16 +695,17 @@ export default function POS() {
                         <label className="block text-xs font-extrabold text-brand-dark/60 tracking-wider mb-2">
                             Metode Pembayaran
                         </label>
-                        <select
+                        <CustomSelect
                             value={paymentMethod}
-                            onChange={e => setPaymentMethod(e.target.value)}
-                            className="w-full mb-5 h-12 rounded-xl border border-brand-light bg-gradient-to-r from-brand-light/30 to-brand-bg text-sm font-medium text-brand-dark px-4 focus:outline-none focus:bg-white transition-all cursor-pointer focus:border-brand-secondary focus:ring-2 focus:ring-brand-light"
-                        >
-                            <option value="cash">💵 Tunai (Cash)</option>
-                            <option value="qris">📱 QRIS</option>
-                            <option value="transfer">🏦 Transfer Bank</option>
-                            <option value="debit">💳 Kartu Debit/Kredit</option>
-                        </select>
+                            onChange={val => setPaymentMethod(val)}
+                            options={[
+                                { value: 'cash', label: '💵 Tunai (Cash)' },
+                                { value: 'qris', label: '📱 QRIS' },
+                                { value: 'transfer', label: '🏦 Transfer Bank' },
+                                { value: 'debit', label: '💳 Kartu Debit/Kredit' }
+                            ]}
+                            className="w-full mb-5 h-12"
+                        />
 
                         <label className="block text-xs font-extrabold text-brand-dark/60 tracking-wider mb-2">
                             Jumlah Dibayar

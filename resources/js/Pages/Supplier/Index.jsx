@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Head from '@/Components/Head';
 import client from '@/api/client';
 import { useConfirm } from '@/context/ConfirmContext';
+import CustomSelect from '@/Components/CustomSelect';
 
 export default function SupplierIndex({ suppliers, filters, categories, stats, recent_activities }) {
     const confirm = useConfirm();
@@ -20,45 +21,37 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
             label: 'Total Supplier Aktif',
             value: stats.total_active,
             icon: 'solar:users-group-two-rounded-linear',
-            iconBg: 'bg-neutral-100 text-black',
-            trendIcon: 'solar:arrow-left-up-linear',
-            trendIconClass: 'rotate-45 text-emerald-600',
-            trendText: '+8.2%',
-            trendTextClass: 'text-emerald-700 font-semibold',
-            trendSubtext: 'vs kemarin'
+            iconBg: 'bg-[#E6E6E6]',
+            iconColor: 'text-black',
+            trend: '+8.2%',
+            trendType: 'up',
         },
         {
             label: 'Supplier Baru Bulan Ini',
             value: `+${stats.new_this_month}`,
             icon: 'solar:add-circle-linear',
-            iconBg: 'bg-neutral-100 text-black',
-            trendIcon: 'solar:calendar-add-linear',
-            trendIconClass: 'text-black',
-            trendText: 'Aktif bertambah',
-            trendTextClass: 'text-black font-semibold',
-            trendSubtext: ''
+            iconBg: 'bg-[#E6E6E6]',
+            iconColor: 'text-black',
+            trend: 'Bertambah',
+            trendType: 'up',
         },
         {
             label: 'Rata-rata Lead Time',
             value: `${stats.avg_lead_time} Hari`,
             icon: 'solar:clock-circle-linear',
-            iconBg: 'bg-neutral-100 text-black',
-            trendIcon: 'solar:arrow-left-down-linear',
-            trendIconClass: 'rotate-45 text-rose-600',
-            trendText: '-0.5 hari',
-            trendTextClass: 'text-rose-700 font-semibold',
-            trendSubtext: 'vs kemarin'
+            iconBg: 'bg-[#E6E6E6]',
+            iconColor: 'text-black',
+            trend: '-0.5 hari',
+            trendType: 'down',
         },
         {
             label: 'Skor Performa Global',
             value: `${stats.avg_rating}/5.0`,
             icon: 'solar:ranking-linear',
-            iconBg: 'bg-neutral-100 text-black',
-            trendIcon: 'solar:graph-up-linear',
-            trendIconClass: 'text-emerald-600',
-            trendText: 'Stabil & Prima',
-            trendTextClass: 'text-emerald-700 font-semibold',
-            trendSubtext: ''
+            iconBg: 'bg-[#E6E6E6]',
+            iconColor: 'text-black',
+            trend: 'Stabil & Prima',
+            trendType: 'up',
         }
     ];
 
@@ -218,24 +211,31 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
 
                             {/* Stat Cards */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
-                                {statCards.map((card) => (
-                                    <div key={card.label} className="bg-white p-5 rounded-2xl border border-[#E6E6E6] shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-all duration-300 stat-card-glow group">
-                                        <div className="flex items-start justify-between mb-4">
-                                            <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shadow-sm ${card.iconBg}`}>
-                                                <iconify-icon icon={card.icon} class="text-xl"></iconify-icon>
+                                {statCards.map((card) => {
+                                    const isUp = card.trendType === 'up';
+                                    return (
+                                        <div key={card.label} className="bg-white p-5 rounded-2xl border border-brand-light shadow-level-1 stat-card-glow group">
+                                            <div className="flex items-start justify-between mb-3">
+                                                <div className={`w-11 h-11 rounded-xl ${card.iconBg} flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm`}>
+                                                    <iconify-icon icon={card.icon} class={`text-2xl ${card.iconColor}`}></iconify-icon>
+                                                </div>
+                                                {card.trend && (
+                                                    <span className={`inline-flex items-center gap-1 text-caption font-semibold px-2.5 py-1 rounded-full border ${isUp
+                                                        ? 'bg-emerald-50 border-emerald-100 text-emerald-600'
+                                                        : 'bg-rose-50 border-rose-100 text-rose-600'
+                                                        }`}>
+                                                        <iconify-icon icon={isUp ? 'uil:arrow-growth' : 'streamline:graph-arrow-decrease-remix'} class="text-sm"></iconify-icon>
+                                                        <span>{card.trend}</span>
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="mt-1">
+                                                <p className="text-body-compact text-brand-primary/60 font-medium truncate">{card.label}</p>
+                                                <p className="text-xl md:text-2xl font-extrabold mt-0.5 tracking-tight truncate text-black leading-tight">{card.value}</p>
                                             </div>
                                         </div>
-                                        <p className="text-[11px] font-bold uppercase tracking-wider text-[#999999] mb-1">{card.label}</p>
-                                        <p className="text-2xl font-extrabold text-black">{card.value}</p>
-                                        <div className="flex items-center gap-1 mt-2">
-                                            <iconify-icon icon={card.trendIcon} class={`${card.trendIconClass} text-sm font-bold`}></iconify-icon>
-                                            <span className={`text-xs font-semibold ${card.trendTextClass}`}>{card.trendText}</span>
-                                            {card.trendSubtext && (
-                                                <span className="text-xs text-[#999999] font-normal ml-0.5">{card.trendSubtext}</span>
-                                            )}
-                                        </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
 
                             {/* Table Control and Search Bar */}
@@ -291,40 +291,42 @@ export default function SupplierIndex({ suppliers, filters, categories, stats, r
                                     }`}>
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-semibold text-[#666666]/60 capitalize tracking-wide">Status</label>
-                                        <select
+                                        <CustomSelect
                                             value={status}
-                                            onChange={(e) => setStatus(e.target.value)}
-                                            className="w-full px-3 py-2.5 text-xs border border-[#D0D0D0] rounded-xl bg-white transition-all outline-none font-normal text-black cursor-pointer hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
-                                        >
-                                            <option value="">Semua Status</option>
-                                            <option value="active">Aktif</option>
-                                            <option value="inactive">Nonaktif</option>
-                                            <option value="blacklist">Blacklist</option>
-                                        </select>
+                                            onChange={(val) => setStatus(val)}
+                                            options={[
+                                                { value: '', label: 'Semua Status' },
+                                                { value: 'active', label: 'Aktif' },
+                                                { value: 'inactive', label: 'Nonaktif' },
+                                                { value: 'blacklist', label: 'Blacklist' }
+                                            ]}
+                                            placeholder="Semua Status"
+                                            className="w-full"
+                                        />
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-semibold text-[#666666]/60 capitalize tracking-wide">Kategori</label>
-                                        <select
+                                        <CustomSelect
                                             value={category}
-                                            onChange={(e) => setCategory(e.target.value)}
-                                            className="w-full px-3 py-2.5 text-xs border border-[#D0D0D0] rounded-xl bg-white transition-all outline-none font-normal text-black cursor-pointer hover:border-[#999999] focus:border-[#BFFF00] focus:ring-2 focus:ring-[#BFFF00]/10"
-                                        >
-                                            <option value="">Semua Kategori</option>
-                                            {categories.map(cat => (
-                                                <option key={cat} value={cat}>{cat}</option>
-                                            ))}
-                                        </select>
+                                            onChange={(val) => setCategory(val)}
+                                            options={[
+                                                { value: '', label: 'Semua Kategori' },
+                                                ...categories.map(cat => ({ value: cat, label: cat }))
+                                            ]}
+                                            placeholder="Semua Kategori"
+                                            className="w-full"
+                                        />
                                     </div>
                                     <div className="flex items-end gap-2">
                                         <button
                                             onClick={handleFilterApply}
-                                            className="flex-1 px-4 py-2.5 text-xs font-semibold text-black bg-[#BFFF00] hover:bg-[#C8FF5E] rounded-xl transition-all duration-200 active:scale-[0.97]"
+                                            className="flex-1 px-4 py-2.5 text-sm font-semibold text-black bg-[#BFFF00] hover:bg-[#C8FF5E] rounded-xl transition-all duration-200 active:scale-[0.97]"
                                         >
                                             Terapkan
                                         </button>
                                         <button
                                             onClick={handleFilterReset}
-                                            className="px-4 py-2.5 text-xs font-semibold text-black bg-white border border-[#D0D0D0] hover:bg-[#E6E6E6] rounded-xl transition-all duration-200 active:scale-[0.97]"
+                                            className="px-4 py-2.5 text-sm font-semibold text-black bg-white border border-[#D0D0D0] hover:bg-[#E6E6E6] rounded-xl transition-all duration-200 active:scale-[0.97]"
                                         >
                                             Reset
                                         </button>
