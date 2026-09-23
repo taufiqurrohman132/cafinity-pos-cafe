@@ -32,7 +32,7 @@ Saat Anda mengimpor proyek Anda di Vercel Dashboard, masuk ke menu **Environment
 
 | Key | Value | Keterangan |
 | :--- | :--- | :--- |
-| `APP_KEY` | `base64:8mscshfxvTYKaWeaAvFVgsenbSLBP9aVXlm/DvOZono=` | Key lokal Anda |
+| `APP_KEY` | `base64:<APP_KEY_ANDA>` | Hasilkan dengan `php artisan key:generate --show` di mesin lokal Anda. **Jangan pernah menaruh key asli di dokumen/repo.** |
 | `APP_ENV` | `production` | **Sangat penting!** Mengubah status ke `production` otomatis mematikan fitur reset harian di Vercel agar database cloud Anda tidak di-*wipe* terus-menerus. |
 | `DB_CONNECTION` | `mysql` | Tipe database |
 | `DB_HOST` | *(Host database cloud Anda)* | Alamat host cloud |
