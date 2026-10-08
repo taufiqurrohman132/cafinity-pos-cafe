@@ -1,20 +1,10 @@
-I will create the necessary configuration files (`vercel.json` and a server bridge script `api/index.php`) so you can easily deploy this Laravel application to Vercel for testing and demo access.
+# 🚀 Deploy ke Vercel (Demo & Testing)
 
-Edited index.php
+Panduan ini menjelaskan cara deploy aplikasi Laravel **Cafinity POS** ke Vercel untuk keperluan testing/demo akses gratis.
 
-I will create the `vercel.json` file in the root directory to configure Vercel's routing rules and compile scripts for building the project assets.
-
-Edited vercel.json
-
-I will view the `package.json` file to make sure the build script is configured correctly for Vercel's automated build step.
-
-Viewed package.json:1-33
-
-Saya mengerti, jika **hanya untuk sekadar testing/demo akses** agar bisa diakses oleh orang lain, dideploy ke Vercel sangatlah praktis dan gratis!
-
-Untuk mempermudah proses deploy Anda, saya telah membuat 2 berkas konfigurasi penting langsung di folder proyek Anda:
-1. **[vercel.json](file:///c:/laragon/www/cafinity-app-laravel/vercel.json):** Mengatur agar Vercel mengkompilasi file statis (Vite) dan mengalihkan seluruh lalu lintas server ke *engine* PHP Serverless.
-2. **[api/index.php](file:///c:/laragon/www/cafinity-app-laravel/api/index.php):** Bertindak sebagai jembatan (*bridge*) untuk meneruskan request serverless Vercel ke file index Laravel.
+Dua berkas konfigurasi penting sudah tersedia di folder proyek:
+1. **`vercel.json`** — mengatur agar Vercel mengkompilasi file statis (Vite) dan mengalihkan seluruh lalu lintas server ke *engine* PHP Serverless.
+2. **`api/index.php`** — bertindak sebagai jembatan (*bridge*) untuk meneruskan request serverless Vercel ke file index Laravel.
 
 Berikut adalah langkah-langkah yang perlu Anda lakukan untuk mendeploy proyek ke Vercel:
 

@@ -1,7 +1,3 @@
-Oke, langsung aku kerjakan. Ini versi lengkapnya:
-
----
-
 # 🎨 Cafinity POS — Design System & Style Guide v2.0
 
 *Diproduksi oleh Velion / Devora Studio & Cafinity Team — 2026*

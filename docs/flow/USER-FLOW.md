@@ -156,26 +156,26 @@ graph TD
 ### A. Fase 1: Inisialisasi & Konfigurasi (Owner & Admin)
 Fase ini merupakan pondasi operasional sistem yang diatur oleh **Owner** dan **Admin**:
 *   **User & RBAC (Role-Based Access Control)**:
-    *   Owner mendaftarkan staf baru di menu Pengguna ([UserController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/UserController.php)).
-    *   Owner mengatur matriks hak akses melalui Spatie GUI ([RolePermissionController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/RolePermissionController.php)) untuk membatasi fitur kasir, admin, dan owner.
+    *   Owner mendaftarkan staf baru di menu Pengguna ([UserController.php](../../app/Http/Controllers/UserController.php)).
+    *   Owner mengatur matriks hak akses melalui Spatie GUI ([RolePermissionController.php](../../app/Http/Controllers/RolePermissionController.php)) untuk membatasi fitur kasir, admin, dan owner.
 *   **Menu & Kategori**:
-    *   Admin menyusun kategori menu (seperti *Coffee*, *Non-Coffee*, *Pastry*) dan mengunggah gambar produk di katalog menu ([MenuController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/MenuController.php)).
+    *   Admin menyusun kategori menu (seperti *Coffee*, *Non-Coffee*, *Pastry*) dan mengunggah gambar produk di katalog menu ([MenuController.php](../../app/Http/Controllers/MenuController.php)).
 *   **Recipe Costing (HPP)**:
-    *   Setiap menu dihubungkan dengan resep ([RecipeController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/RecipeController.php)).
+    *   Setiap menu dihubungkan dengan resep ([RecipeController.php](../../app/Http/Controllers/RecipeController.php)).
     *   Admin memasukkan takaran bahan baku (misal: *Cappuccino* membutuhkan `15 gram` Biji Espresso dan `150 ml` Susu).
     *   Sistem menghitung Harga Pokok Penjualan (HPP) menu secara real-time dengan rumus:
         $$\text{HPP Menu} = \sum (\text{Takaran Bahan Baku} \times \text{Harga per Unit Bahan})$$
     *   Sistem menghitung margin keuntungan kotor menu secara otomatis:
         $$\text{Margin Kotor} = \frac{\text{Harga Jual} - \text{HPP}}{\text{Harga Jual}} \times 100\%$$
 *   **Promosi & Bundling**:
-    *   Admin mengelola kode promosi ([PromotionController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/PromotionController.php)) dan paket bundling menu ([BundleController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/BundleController.php)) untuk menarik pelanggan.
+    *   Admin mengelola kode promosi ([PromotionController.php](../../app/Http/Controllers/PromotionController.php)) dan paket bundling menu ([BundleController.php](../../app/Http/Controllers/BundleController.php)) untuk menarik pelanggan.
 
 ### B. Fase 2: Manajemen Persediaan & Purchase Order (Admin & Owner)
 Memastikan bahan baku selalu tersedia di gudang untuk menjaga kelancaran produksi:
 *   **Deteksi Stok Rendah**:
-    *   Sistem memantau tabel `inventories` secara real-time. Jika `stock` $\le$ `min_stock`, sistem memicu notifikasi stok kritis ([InventoryController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/InventoryController.php)).
+    *   Sistem memantau tabel `inventories` secara real-time. Jika `stock` $\le$ `min_stock`, sistem memicu notifikasi stok kritis ([InventoryController.php](../../app/Http/Controllers/InventoryController.php)).
 *   **Alur Pengadaan PO (Purchase Order)**:
-    *   Admin membuat draft PO ([PurchaseOrderController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/PurchaseOrderController.php)) dan menentukan Supplier ([SupplierController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/SupplierController.php)).
+    *   Admin membuat draft PO ([PurchaseOrderController.php](../../app/Http/Controllers/PurchaseOrderController.php)) dan menentukan Supplier ([SupplierController.php](../../app/Http/Controllers/SupplierController.php)).
     *   Owner melakukan verifikasi anggaran. Jika disetujui (`APPROVED`), PO dikirim ke Supplier.
     *   Saat barang fisik tiba, Admin memverifikasi kuantitas barang fisik dengan sistem. Jika sesuai, Admin menekan tombol "Terima Barang" (`RECEIVED`).
     *   Sistem secara otomatis menambah stok bahan baku di tabel `inventories` dan mencatat log masuk di `inventory_logs`.
@@ -183,7 +183,7 @@ Memastikan bahan baku selalu tersedia di gudang untuk menjaga kelancaran produks
 ### C. Fase 3: Operasional Transaksi Kasir (Kasir)
 Operasional harian pelayanan transaksi kasir menggunakan Point of Sale (POS):
 *   **Keranjang Belanja & Kustomisasi**:
-    *   Kasir memilih menu pada halaman POS ([TransactionController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/TransactionController.php)).
+    *   Kasir memilih menu pada halaman POS ([TransactionController.php](../../app/Http/Controllers/TransactionController.php)).
     *   Kasir dapat menambahkan catatan khusus (misal: *no sugar*, *extra ice*), yang nantinya akan dikirim ke dapur.
 *   **Hold & Resume (Transaksi Ditunda)**:
     *   Jika antrean kasir padat dan pelanggan ingin memesan menu tambahan nanti, Kasir menekan tombol "Hold" (`status = held`).
@@ -197,7 +197,7 @@ Operasional harian pelayanan transaksi kasir menggunakan Point of Sale (POS):
 ### D. Fase 4: Antrean Dapur (Kitchen Queue)
 Proses penyajian pesanan secara real-time untuk menjembatani kasir dan dapur:
 *   **Antrean Masuk**:
-    *   Setiap transaksi `COMPLETED` otomatis membuat baris antrean baru di kitchen queue ([KitchenOrderController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/KitchenOrderController.php)) dengan status `PENDING`.
+    *   Setiap transaksi `COMPLETED` otomatis membuat baris antrean baru di kitchen queue ([KitchenOrderController.php](../../app/Http/Controllers/KitchenOrderController.php)) dengan status `PENDING`.
 *   **Peringatan Pesanan Terlambat (Late Warning)**:
     *   Jika pesanan berstatus `PENDING` atau `PREPARING` lebih dari 15 menit, sistem memicu indikator visual "Late Order" pada layar dapur untuk mempercepat proses pembuatan.
 *   **Perubahan Status Dapur**:
@@ -212,6 +212,6 @@ Langkah penting untuk sinkronisasi inventaris dan analisis performa bisnis:
     *   Sistem memotong kuantitas stok bahan baku penyusunnya secara real-time pada tabel `inventories`.
     *   Perubahan stok dicatat secara resmi sebagai log pengeluaran (`type = out`) di `inventory_logs` beserta user kasir/staf dapur yang memprosesnya.
 *   **Laporan Keuangan & Evaluasi Owner**:
-    *   Seluruh transaksi diakumulasikan ke dalam database untuk diolah oleh [ReportController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/ReportController.php).
-    *   Owner mengakses dashboard analitik ([OwnerDashboardController.php](file:///c:/laragon/www/cafinity-app-laravel/app/Http/Controllers/Dashboard/OwnerDashboardController.php)) untuk melihat grafik omzet harian, laba bersih, jam sibuk (*busy hours*), dan target pencapaian (*targets & goals*).
+    *   Seluruh transaksi diakumulasikan ke dalam database untuk diolah oleh [ReportController.php](../../app/Http/Controllers/ReportController.php).
+    *   Owner mengakses dashboard analitik ([OwnerDashboardController.php](../../app/Http/Controllers/Dashboard/OwnerDashboardController.php)) untuk melihat grafik omzet harian, laba bersih, jam sibuk (*busy hours*), dan target pencapaian (*targets & goals*).
     *   Owner dapat mengekspor laporan keuangan lengkap dalam format Excel atau PDF untuk audit internal kafe.

@@ -149,7 +149,12 @@ cafinity-app-laravel/
 │           ├── UserManagement/     # Matriks permission & direktori staf
 │           └── Settings/           # Konfigurasi aplikasi
 └── docs/
-    └── DESIGN_SYSTEM_V-2.0.md      # Panduan style, token CSS, dan standar UI komponen
+    ├── README.md                  # Index daftar dokumen
+    ├── design/                    # Design system (token, style guide)
+    ├── flow/                      # Flowchart & user flow
+    ├── planning/                  # PRD, requirement, migrasi
+    ├── database/                  # ERD
+    └── deploy/                    # Panduan deployment
 ```
 
 ---
@@ -162,7 +167,7 @@ Semua elemen antarmuka diatur menggunakan token CSS terstandarisasi untuk konsis
 * **Tipografi**: Menggunakan font *Plus Jakarta Sans* untuk teks umum dan *JetBrains Mono* untuk kode, SKU, nomor invoice, dan nilai nominal uang.
 * **Modal Fixed Height**: Mengikuti aturan terbaru, seluruh modal interaktif utama menggunakan tinggi tetap berbasis viewport (misal: `h-[92vh]`, `h-[90vh]`, `h-[85vh]`, `h-[75vh]`) dengan area scrollable internal (`overflow-y-auto`) agar tetap rapi di segala ukuran layar tanpa pergeseran layout dinamis.
 
-*Detail token warna, tipografi, grid system, dan blueprint HTML button/form dapat diakses langsung pada berkas [DESIGN_SYSTEM_V-2.0.md](file:///c:/laragon/www/cafinity-app-laravel/docs/DESIGN_SYSTEM_V-2.0.md).*
+*Detail token warna, tipografi, grid system, dan blueprint HTML button/form dapat diakses langsung pada berkas [DESIGN_SYSTEM_V-2.0.md](docs/design/DESIGN_SYSTEM_V-2.0.md).*
 
 ---
 
