@@ -11,6 +11,18 @@ use Spatie\Permission\Models\Role;
 abstract class TestCase extends BaseTestCase
 {
     /**
+     * Vite tidak di-build di job CI PHPUnit (hanya di job E2E), sehingga
+     * public/build/manifest.json tidak ada. Nonaktifkan Vite saat testing
+     * supaya render view (Blade) tidak bergantung pada aset hasil build.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutVite();
+    }
+
+    /**
      * Seed permissions & roles (idempotent, dipanggil sekali per test saat perlu).
      */
     protected function seedRoles(): void
