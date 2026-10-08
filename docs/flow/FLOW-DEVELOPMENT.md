@@ -1,4 +1,6 @@
-Bagus, ini alur lengkap **vibe coding → production ready** untuk Cafinity:
+# Alur Development: Vibe Coding → Production Ready
+
+Dokumen ini menjelaskan alur kerja pengembangan Cafinity POS dari tahap development hingga production.
 
 ---
 
