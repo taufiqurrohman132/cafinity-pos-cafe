@@ -1,6 +1,8 @@
 *.log
 .DS_Store
 .env
+.env.*
+!.env.example
 .env.backup
 .env.production
 .phpactor.json
@@ -24,6 +26,7 @@
 /playwright-report
 /test-results
 _ide_helper.php
+_ide_helper_models.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
